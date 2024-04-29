@@ -1,0 +1,39 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/helper/add_acknowledge_helper.dart';
+
+part 'acknowledge_event.dart';
+part 'acknowledge_state.dart';
+
+class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
+
+  bool  isLoader =  false;
+  List<AcknowledgeModel> acknowledgeList = [];
+
+  AcknowledgeBloc() : super(AcknowledgeInitial()) {
+    on<AcknowledgePageLoadEvent>(_pageLoad);
+  }
+
+  _pageLoad(AcknowledgePageLoadEvent event, emit) async {
+    emit(AcknowledgePageLoadState());
+    isLoader =  false;
+    acknowledgeList = [];
+
+    var resAckow =  await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
+    if(resAckow != null){
+      acknowledgeList =  resAckow;
+    }
+    _eventComplete(emit);
+  }
+
+  _eventComplete(Emitter<AcknowledgeState> emit){
+    emit(FetchAcknowledgeDataState(
+        acknowledgeList: acknowledgeList,
+        isLoader: isLoader,
+    ));
+  }
+}

@@ -1,0 +1,83 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/snack_bar_success_widget.dart';
+import '../domain/models/login_model.dart';
+
+class LoginHelper {
+  static Future<dynamic> textFieldValidation({required String emilId, required String password, required BuildContext context}) async {
+    try {
+      if (emilId.isEmpty) {
+        SnackBarErrorWidget(context).show(message: "Please enter email id");
+        return false;
+      } else if (password.isEmpty) {
+        SnackBarErrorWidget(context).show(message: "Please enter password");
+        return false;
+      }
+      return true;
+    } catch (e) {
+      SnackBarErrorWidget(context).show(message: e.toString());
+      return false;
+    }
+  }
+
+  static getUniqueDeviceId() async {
+    var deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      var iosDeviceInfo = await deviceInfo.iosInfo;
+      return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    } else if (Platform.isAndroid) {
+      var androidDeviceInfo = await deviceInfo.androidInfo;
+      return androidDeviceInfo.id; // unique ID on Android
+    }
+    return null;
+  }
+
+  static Future<dynamic> getLoginData({required String emilId, required String password, required BuildContext context}) async {
+    var deviceId = await getUniqueDeviceId();
+/*    var firebaseToken = await FirebaseMessaging.instance.getToken();*/
+    var firebaseToken = "";
+    print(firebaseToken.toString());
+    try {
+      if (await isInternetConnected() == true) {
+        var json =  LoginScreenRequestModel(
+          userEmailId: emilId,
+          password: password,
+          firebaseId: firebaseToken,
+          deviceId: deviceId,
+        ).toJson();
+        String url = APIs.login;
+        var res = await ServerRequest.postData(urlEndPoint: url, body: jsonEncode(json));
+          if(res != null && res["status"] != null && res['status'] == 200 && res['user'] != null){
+            return res;
+        } else if (res != null && res["status"] != null && res['status'] == 401 && res['messages'] != null) {
+          SnackBarErrorWidget(context).show(message: res['messages']);
+          return null;
+        } else {
+          SnackBarErrorWidget(context).show(message:"Internal Server Error");
+          return null;
+        }
+      }
+      SnackBarErrorWidget(context).show(message: "No internet Connection");
+      return null;
+    } catch (e) {
+      SnackBarErrorWidget(context).show(message: "Internal server error");
+      return null;
+    }
+  }
+
+  static Future<bool> isInternetConnected() async {
+    bool isConnect = false;
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        isConnect = true;
+      }
+    } on SocketException catch (_) {}
+
+    return isConnect;
+  }
+}

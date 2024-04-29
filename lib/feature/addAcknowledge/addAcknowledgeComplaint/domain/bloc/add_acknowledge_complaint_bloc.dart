@@ -1,0 +1,243 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/helper/add_acknowledge_helper.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/bloc/dashboard_bloc.dart';
+import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
+
+part 'add_acknowledge_complaint_state.dart';
+
+class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, AddAcknowledgeComplaintState> {
+
+  List<ComplaintTypeModel> complaintTypeList = [];
+  ComplaintTypeModel complaintTypeData =  ComplaintTypeModel();
+  EquipmentTypeModel equipmentTypeData =  EquipmentTypeModel();
+  List<EquipmentTypeModel> equipmentTypeList = [];
+  TextEditingController descriptionController =  TextEditingController();
+  TextEditingController remarkController =  TextEditingController();
+  bool isLoader =  false;
+  File file =  File("");
+  List<DepartmentModel> departmentList = [];
+  DepartmentModel departmentData =  DepartmentModel();
+  List<ComplaintModel> complaintList = [];
+  ComplaintModel complaintData =  ComplaintModel();
+  List<AcknowledgeModel> acknowledgeList = [];
+  AcknowledgeModel acknowledgeData =  AcknowledgeModel();
+  List<ReviewComplaintModel> reviewComplaintList = [];
+  ReviewComplaintModel reviewComplaintData =  ReviewComplaintModel();
+  List<AcknowledgeUserModel> acknowledgeUserList = [];
+  AcknowledgeUserModel acknowledgeUserData =  AcknowledgeUserModel();
+
+  String breakDownvalue = "";
+
+  bool isComplaintLoader =  false;
+
+  AddAcknowledgeComplaintBloc() : super(AddAcknowledgeComplaintInitial()) {
+    on<AddAcknowledgeComplaintPageLoadEvent>(_pageLoad);
+    on<AddAcknowledgeComplaintSelectComplaintDataEvent>(_selectComplaintType);
+    on<AddAcknowledgeComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddAcknowledgeComplaintSelectUserEvent>(_selectUser);
+    on<AddAcknowledgeComplaintSelectDepartmentEvent>(_selectDepartment);
+    on<AddAcknowledgeComplaintSelectComplaintEvent>(_selectComplaint);
+    on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(_selectAcknowledget);
+    on<AddAcknowledgeComplaintAddImageEvent>(_selectFile);
+    on<AddAcknowledgeComplaintSelectBreakDownEvent>(_selectBreakdown);
+    on<AddAcknowledgeComplaintSelectReviewComplaintEvent>(_selectReviewComplaint);
+    on<AddAcknowledgeComplaintSubmitEvent>(_submit);
+  }
+
+  _pageLoad(AddAcknowledgeComplaintPageLoadEvent event, emit) async {
+    emit(AddAcknowledgeComplaintPageLoadState());
+    complaintTypeList = [];
+    complaintTypeData =  ComplaintTypeModel();
+    equipmentTypeData =  EquipmentTypeModel();
+    equipmentTypeList = [];
+    departmentList = [];
+    complaintList = [];
+    acknowledgeList =[];
+    reviewComplaintList = [];
+    acknowledgeUserList = [];
+    acknowledgeUserData =  AcknowledgeUserModel();
+    descriptionController.text = "";
+    remarkController.text = "";
+    isLoader =  false;
+    isComplaintLoader =  false;
+    file =  File("");
+    departmentData =  DepartmentModel();
+    complaintData =  ComplaintModel();
+    acknowledgeData =  AcknowledgeModel();
+    reviewComplaintData =  ReviewComplaintModel();
+    breakDownvalue = "";
+
+    var resComplaint =  await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    if(resComplaint !=  null){
+      complaintTypeList =  resComplaint;
+    }
+
+    var resEquipment =  await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+    if(resEquipment != null){
+      equipmentTypeList =  resEquipment;
+    }
+
+
+    var resDepartment =  await AddAcknowledgeComplaintHelper.fetchDepartmentData();
+    if(resDepartment != null){
+      departmentList =  resDepartment;
+    }
+
+    var resAckow =  await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
+    if(resAckow != null){
+      acknowledgeList =  resAckow;
+    }
+
+    var resReviewComplaint =  await ReviewComplaintHelper.fetchReviewComplaint(type:  "1");
+    if(resReviewComplaint != null){
+      reviewComplaintList =  resReviewComplaint;
+    }
+
+    var resUser =  await AddAcknowledgeComplaintHelper.fetchUserList();
+    if(resUser != null){
+      acknowledgeUserList =  resUser;
+    }
+
+    acknowledgeData =  event.acknowledgeData;
+
+    _eventComplete(emit);
+  }
+
+  _selectComplaintType(AddAcknowledgeComplaintSelectComplaintDataEvent event, emit) {
+    complaintTypeData =  event.complaintTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectEquipment(AddAcknowledgeComplaintSelectEquipmentDataEvent event, emit) {
+    equipmentTypeData = event.equipmentTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectUser(AddAcknowledgeComplaintSelectUserEvent event, emit) {
+    acknowledgeUserData =  event.acknowledgeUserData;
+    _eventComplete(emit);
+  }
+
+  _selectDepartment(AddAcknowledgeComplaintSelectDepartmentEvent event, emit) {
+    departmentData =  event.departmentData;
+    _eventComplete(emit);
+  }
+
+  _selectComplaint(AddAcknowledgeComplaintSelectComplaintEvent event, emit) {
+    complaintData =  event.complaintData;
+    _eventComplete(emit);
+  }
+
+  _selectAcknowledget(AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent event, emit) {
+    acknowledgeData =  event.acknowledgeData;
+    _eventComplete(emit);
+  }
+
+  _selectFile(AddAcknowledgeComplaintAddImageEvent event, emit) async {
+    if(event.mediaType == 1) {
+      var photo = await DashboardHelper.imagePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    } else{
+      var photo = await DashboardHelper.filePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    }
+    Navigator.pop(event.context.mounted ? event.context : event.context);
+    _eventComplete(emit);
+  }
+
+  _selectBreakdown(AddAcknowledgeComplaintSelectBreakDownEvent event, emit) {
+    breakDownvalue =  event.breakeDown;
+    _eventComplete(emit);
+  }
+
+  _selectReviewComplaint(AddAcknowledgeComplaintSelectReviewComplaintEvent event, emit) async {
+    reviewComplaintData =  event.reviewComplaintData;
+    complaintData =  ComplaintModel();
+    isComplaintLoader =  true;
+    complaintList = [];
+    _eventComplete(emit);
+    var resCompl =  await AddAcknowledgeComplaintHelper.fetchComplaintData(
+         reviewComplaintID: reviewComplaintData.id.toString());
+    if(resCompl != null){
+      complaintList.add(resCompl);
+      complaintData = resCompl;
+    }
+    isComplaintLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _submit(AddAcknowledgeComplaintSubmitEvent event, emit) async {
+    isLoader =  true;
+    _eventComplete(emit);
+
+    var res =  await AddAcknowledgeComplaintHelper.submitData(context: event.context,
+        complaintTypeData: complaintTypeData, equipmentTypeData: equipmentTypeData,
+        description: descriptionController.text.toString(), remark: remarkController.text.toString(),
+        complaintData: complaintData, departmentData: departmentData, acknowledgeData: acknowledgeData,
+        breakDownvalue: breakDownvalue,acknowledgeUserData: acknowledgeUserData,
+        file: file);
+    if(res != null){
+      complaintTypeData =  ComplaintTypeModel();
+      equipmentTypeData =  EquipmentTypeModel();
+      departmentData =  DepartmentModel();
+      complaintData =  ComplaintModel();
+      acknowledgeData =  AcknowledgeModel();
+      reviewComplaintData =  ReviewComplaintModel();
+      acknowledgeUserData =  AcknowledgeUserModel();
+      complaintList =  [];
+      complaintData =  ComplaintModel();
+      descriptionController.text = "";
+      remarkController.text = "";
+      isLoader =  false;
+      file =  File("");
+      breakDownvalue = "";
+      isComplaintLoader =  false;
+      if(!event.context.mounted) return;
+      Navigator.pop(event.context);
+    }
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _eventComplete(Emitter<AddAcknowledgeComplaintState> emit) {
+    emit(FetchAddAcknowledgeComplaintState(
+        file: file,
+        isLoader: isLoader,
+        descriptionController: descriptionController,
+        complaintTypeData: complaintTypeData,
+        complaintTypeList: complaintTypeList,
+        equipmentTypeData: equipmentTypeData,
+        equipmentTypeList: equipmentTypeList,
+        remarkController: remarkController,
+        acknowledgeData: acknowledgeData,
+        acknowledgeList: acknowledgeList,
+        departmentData: departmentData,
+        departmentList: departmentList,
+        complaintData: complaintData,
+        complaintList: complaintList,
+        breakDownvalue: breakDownvalue,
+        reviewComplaintData: reviewComplaintData,
+        reviewComplaintList: reviewComplaintList,
+        isComplaintLoader: isComplaintLoader,
+        acknowledgeUserData: acknowledgeUserData,
+        acknowledgeUserList: acknowledgeUserList,
+    ));
+  }
+}

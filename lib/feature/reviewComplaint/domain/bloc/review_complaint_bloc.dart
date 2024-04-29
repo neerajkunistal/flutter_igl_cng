@@ -1,0 +1,105 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
+
+part 'review_complaint_event.dart';
+part 'review_complaint_state.dart';
+
+class ReviewComplaintBloc extends Bloc<ReviewComplaintEvent, ReviewComplaintState> {
+
+  bool isLoader = false;
+  List<ReviewComplaintModel> reviewComplaintList = [];
+  ReviewComplaintModel reviewComplaintData =  ReviewComplaintModel();
+  String approvalValue = "";
+  TextEditingController observationController =  TextEditingController();
+  File file =  File("");
+
+  ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
+    on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
+    on<ReviewComplaintSelectComplaintEvent>(_selectComplaint);
+    on<ReviewComplaintSelectApprovalEvent>(_selectApproval);
+    on<ReviewComplaintAddImageEvent>(_selectFile);
+    on<ReviewComplaintSubmitEvent>(_submit);
+  }
+
+  _pageLoadEvent(ReviewComplaintPageLoadEvent event, emit) async {
+    emit(ReviewComplaintPageLoadState());
+    isLoader =  false;
+    reviewComplaintList = [];
+    reviewComplaintData =  ReviewComplaintModel();
+    approvalValue = "";
+    observationController.text = "";
+    file =  File("");
+    var res =  await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
+    if(res != null){
+      reviewComplaintList =  res;
+      for(var reviewData in reviewComplaintList){
+        if(event.reviewComplaintData.id.toString() == reviewData.id.toString()){
+          reviewComplaintData =  reviewData;
+        }
+      }
+    }
+    _eventComplete(emit);
+  }
+
+  _selectComplaint(ReviewComplaintSelectComplaintEvent event, emit) {
+    reviewComplaintData =  event.reviewComplaintData;
+    _eventComplete(emit);
+  }
+
+  _selectApproval(ReviewComplaintSelectApprovalEvent event, emit) {
+    approvalValue =  event.approvalValue;
+    _eventComplete(emit);
+  }
+
+  _selectFile(ReviewComplaintAddImageEvent event, emit) async {
+    if(event.mediaType == 1) {
+      var photo = await DashboardHelper.imagePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    } else{
+      var photo = await DashboardHelper.filePiker(context: event.context);
+      if(photo != null){
+        file  = photo;
+      }
+    }
+    Navigator.pop(event.context.mounted ? event.context : event.context);
+    _eventComplete(emit);
+  }
+
+  _submit(ReviewComplaintSubmitEvent event, emit) async {
+    isLoader =  true;
+    _eventComplete(emit);
+
+    var res =  await ReviewComplaintHelper.submit(context: event.context,
+        reviewComplaintData: reviewComplaintData,
+        approvalValue: approvalValue, observation: observationController.text.toString(), file: file);
+    if(res != null){
+      isLoader =  false;
+      reviewComplaintData =  ReviewComplaintModel();
+      approvalValue = "";
+      observationController.text = "";
+      file =  File("");
+    }
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _eventComplete(Emitter<ReviewComplaintState>emit){
+    emit(FetchReviewComplaintDataState(
+        isLoader: isLoader,
+        file: file,
+        observationController: observationController,
+        approvalValue: approvalValue,
+        reviewComplaintData: reviewComplaintData,
+        reviewComplaintList: reviewComplaintList,
+    ));
+  }
+}
