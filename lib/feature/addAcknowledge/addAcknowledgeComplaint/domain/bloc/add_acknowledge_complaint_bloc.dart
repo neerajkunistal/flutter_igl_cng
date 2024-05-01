@@ -144,7 +144,7 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     }
 
     breakDownvalue =  event.acknowledgeData.crBreakdown.toString();
-    descriptionController.text =  event.acknowledgeData.complaintDescription.toString();
+    descriptionController.text =   acknowledgeData.complaintDescription.toString();
 
     _eventComplete(emit);
   }

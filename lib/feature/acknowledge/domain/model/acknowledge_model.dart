@@ -46,6 +46,7 @@ class AcknowledgeModel {
   String? equipmentCode;
   dynamic assignUser;
   String? complaintDateTime;
+  dynamic ackStatus;
 
   AcknowledgeModel(
       {this.id,
@@ -91,6 +92,7 @@ class AcknowledgeModel {
         this.equipmentCode,
         this.assignUser,
         this.complaintDateTime,
+        this.ackStatus,
       });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -137,6 +139,7 @@ class AcknowledgeModel {
     equipmentCode = json['equipment_code'] ??  ""  ;
     assignUser = json['assign_user'] ??  ""  ;
     complaintDateTime = json['complain_date_time'] ??  ""  ;
+    ackStatus = json['ack_response'] ??  ""  ;
   }
 
   Map<String, dynamic> toJson() {

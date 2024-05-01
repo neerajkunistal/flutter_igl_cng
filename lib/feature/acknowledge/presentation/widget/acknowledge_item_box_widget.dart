@@ -23,7 +23,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
           children: [
             _rowHeaderWidget(name: "Complaint ID", value: acknowledgeData.tokenNo.toString()),
@@ -46,9 +46,13 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _rowWidget(name: "Status", value: acknowledgeData.complaintStatus.toString() == "0" ? "Pending"
+            _rowWidget(name: "Complaint Status", value: acknowledgeData.complaintStatus.toString() == "0" ? "New"
                 : acknowledgeData.complaintStatus.toString() == "1" ? "Completed"
                 : acknowledgeData.complaintStatus.toString() == "2" ? "Reject" : ""),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            _rowWidget(name: "Ack Status", value: acknowledgeData.ackStatus.toString() == "1" ? "Ack Done" : "New"),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),

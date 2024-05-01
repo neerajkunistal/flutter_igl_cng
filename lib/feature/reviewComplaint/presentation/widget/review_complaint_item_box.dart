@@ -50,9 +50,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
     maintenanceStatus = reviewComplaintData.action.toString() == "1" ? "Start"
         : reviewComplaintData.action.toString() == "2" ? "Hold"
         : reviewComplaintData.action.toString() == "3" ? "Closed"
-        : "Pending";
+        : "";
 
-    status = reviewComplaintData.complaintStatus.toString() ==  "0" ? "Pending"
+    status = reviewComplaintData.complaintStatus.toString() ==  "0" ? "New"
         : reviewComplaintData.complaintStatus.toString() ==  "1" ?  "Completed"
         : reviewComplaintData.complaintStatus.toString() ==  "2" ? "Reject" : "";
 
@@ -87,7 +87,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _rowWidget(name: "AMC Status", value: maintenanceStatus),
+            _rowWidget(name: "MI Status", value: maintenanceStatus),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
