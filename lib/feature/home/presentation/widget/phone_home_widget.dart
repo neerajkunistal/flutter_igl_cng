@@ -21,10 +21,10 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
               builder: (context, state) {
                 if(state is FetchHomeDataState){
                   return TextWidget(state.title,
-                    color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,);
+                    color: AppColor.white, fontSize: AppFont.font_14, fontWeight: FontWeight.w700,);
                 } else {
                   return TextWidget(AppString.appName,
-                    color: AppColor.white, fontSize: AppFont.font_16, fontWeight: FontWeight.w700,);
+                    color: AppColor.white, fontSize: AppFont.font_14, fontWeight: FontWeight.w700,);
                 }
               }
           ),
@@ -38,6 +38,7 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                   }
                 }
             ),
+            Image.asset(AppIcon.appLogoIgl),
           ],
         ),
         body: BlocBuilder<HomeBloc, HomeState>(

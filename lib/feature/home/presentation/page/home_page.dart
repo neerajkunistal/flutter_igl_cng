@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/home/presentation/widget/phone_home_widg
 import 'package:flutter_igl_cng/feature/home/presentation/widget/tablet_home_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
+import 'package:flutter_igl_cng/utils/res/app_font.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -39,10 +40,38 @@ class _HomePageState extends State<HomePage> {
           // User is still on the same page, do whatever you want
         }
       },
-      child: AppConfig.getDeviceType(context: context) == DeviceType.phone
-      ? const PhoneHomeWidget()
-      : const TabletHomeWidget(),
-    );
+      child: 
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppConfig.getDeviceType(context: context) == DeviceType.phone
+              ? const Expanded(child: PhoneHomeWidget())
+              : const Expanded( child: TabletHomeWidget()),
+          
+          Container(
+            color: AppColor.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                   Image.asset(AppIcon.appLogoUnistal,
+                   height: MediaQuery.of(context).size.width * 0.05,
+                   ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.03,
+                  ),
+                  TextWidget("Unistal Systems Pvt Ltd.",
+                    fontSize: AppFont.font_12,
+                    fontWeight: FontWeight.w700,),
+                ],
+              ),
+            ),
+          ),
+      ],
+    ));
   }
 
   Future<bool> _onWillPop() async {

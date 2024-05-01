@@ -66,7 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _bottomNavigationBarItemList = [];
     _restaurantMenu = [];
     _pageWidgetList = [];
-    _title =  "Dashboard";
+    _title =  "Complaint ( ${userData.name} )";
     _childWidget = const DashboardPage();
     _actionButtonWidget =  const SizedBox.shrink();
     _drawerList  =  await HomeHelper.fetchDrawerList(context: event.context);
