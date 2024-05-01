@@ -28,6 +28,12 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
   final bool isLoader;
   final List<ActionModel> actionList;
   final ActionModel actionData;
+  final TextEditingController dateController;
+  final TextEditingController timeController;
+  final TextEditingController qtyController;
+  final List<UomTypeModel> uomTypeList;
+  final UomTypeModel uomTypeData;
+  final List<SparesPartModel> sparesPartList;
 
   FetchMiComplaintDataState({
    required this.approvalValue,
@@ -42,6 +48,12 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
    required this.isLoader,
    required this.actionData,
    required this.actionList,
+   required this.timeController,
+   required this.dateController,
+   required this.uomTypeList,
+   required this.uomTypeData,
+   required this.qtyController,
+   required this.sparesPartList,
 });
 
   @override
@@ -58,5 +70,11 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
     isLoader,
     actionData,
     actionList,
+    timeController,
+    dateController,
+    uomTypeList,
+    uomTypeData,
+    qtyController,
+    sparesPartList,
   ];
 }

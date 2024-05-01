@@ -32,11 +32,11 @@ class HomeDrawerWidget extends StatelessWidget {
             const Divider(),
             _listBuilder(dataState: state),
 /*            _changePassword(context: context),*/
-            userData.roleType == RoleType.shiftEngineer
+/*            userData.roleType == RoleType.shiftEngineer
                 ? _acknowledge(context: context) : const SizedBox.shrink(),
             _viewEquipmentComplaint(context: context),
             userData.roleType == RoleType.mi
-            ? _miComplaint(context: context): const SizedBox.shrink(),
+            ? _miComplaint(context: context): const SizedBox.shrink(),*/
             _logout(context: context),
           ],
           ),

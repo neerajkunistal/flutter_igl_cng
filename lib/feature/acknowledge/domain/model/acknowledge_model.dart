@@ -42,7 +42,10 @@ class AcknowledgeModel {
   dynamic attachmentFileType;
   String? tokenNo;
   String? equipmentId;
+  String? equipmentName;
+  String? equipmentCode;
   dynamic assignUser;
+  String? complaintDateTime;
 
   AcknowledgeModel(
       {this.id,
@@ -84,7 +87,11 @@ class AcknowledgeModel {
         this.attachmentFileType,
         this.tokenNo,
         this.equipmentId,
-        this.assignUser});
+        this.equipmentName,
+        this.equipmentCode,
+        this.assignUser,
+        this.complaintDateTime,
+      });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ??  ""  ;
@@ -126,51 +133,54 @@ class AcknowledgeModel {
     attachmentFileType = json['attachment_file_type'] ??  ""  ;
     tokenNo = json['token_no'] ??  ""  ;
     equipmentId = json['equipment_id'] ??  ""  ;
+    equipmentName = json['equipment_name'] ??  ""  ;
+    equipmentCode = json['equipment_code'] ??  ""  ;
     assignUser = json['assign_user'] ??  ""  ;
+    complaintDateTime = json['complain_date_time'] ??  ""  ;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['serial_number'] = this.serialNumber;
-    data['complaint_description'] = this.complaintDescription;
-    data['logged_by'] = this.loggedBy;
-    data['incident_date_time'] = this.incidentDateTime;
-    data['report_by'] = this.reportBy;
-    data['report_date_time'] = this.reportDateTime;
-    data['system_id'] = this.systemId;
-    data['complaint_type_id'] = this.complaintTypeId;
-    data['attachment_file'] = this.attachmentFile;
-    data['station_person_name'] = this.stationPersonName;
-    data['station_person_sign'] = this.stationPersonSign;
-    data['station_person_date_time'] = this.stationPersonDateTime;
-    data['station_status'] = this.stationStatus;
-    data['station_status_close_by'] = this.stationStatusCloseBy;
-    data['cr_complaint_type_id'] = this.crComplaintTypeId;
-    data['cr_complaint_equipment_id'] = this.crComplaintEquipmentId;
-    data['cr_complaint_description'] = this.crComplaintDescription;
-    data['cr_complaint_date_time'] = this.crComplaintDateTime;
-    data['cr_person_name'] = this.crPersonName;
-    data['cr_person_sign'] = this.crPersonSign;
-    data['cr_breakdown'] = this.crBreakdown;
-    data['notification_no'] = this.notificationNo;
-    data['control_room_id'] = this.controlRoomId;
-    data['cng_station_id'] = this.cngStationId;
-    data['shift_incharge'] = this.shiftIncharge;
-    data['department_id'] = this.departmentId;
-    data['action_taken_date_time'] = this.actionTakenDateTime;
-    data['action_taken_works'] = this.actionTakenWorks;
-    data['action_taken_person_name'] = this.actionTakenPersonName;
-    data['action_taken_person_sign'] = this.actionTakenPersonSign;
-    data['complaint_status'] = this.complaintStatus;
-    data['complaint_status_close_by'] = this.complaintStatusCloseBy;
-    data['source'] = this.source;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['attachment_file_type'] = this.attachmentFileType;
-    data['token_no'] = this.tokenNo;
-    data['equipment_id'] = this.equipmentId;
-    data['assign_user'] = this.assignUser;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['serial_number'] = serialNumber;
+    data['complaint_description'] = complaintDescription;
+    data['logged_by'] = loggedBy;
+    data['incident_date_time'] = incidentDateTime;
+    data['report_by'] = reportBy;
+    data['report_date_time'] = reportDateTime;
+    data['system_id'] = systemId;
+    data['complaint_type_id'] = complaintTypeId;
+    data['attachment_file'] = attachmentFile;
+    data['station_person_name'] = stationPersonName;
+    data['station_person_sign'] = stationPersonSign;
+    data['station_person_date_time'] = stationPersonDateTime;
+    data['station_status'] = stationStatus;
+    data['station_status_close_by'] = stationStatusCloseBy;
+    data['cr_complaint_type_id'] = crComplaintTypeId;
+    data['cr_complaint_equipment_id'] = crComplaintEquipmentId;
+    data['cr_complaint_description'] = crComplaintDescription;
+    data['cr_complaint_date_time'] = crComplaintDateTime;
+    data['cr_person_name'] = crPersonName;
+    data['cr_person_sign'] = crPersonSign;
+    data['cr_breakdown'] = crBreakdown;
+    data['notification_no'] = notificationNo;
+    data['control_room_id'] = controlRoomId;
+    data['cng_station_id'] = cngStationId;
+    data['shift_incharge'] = shiftIncharge;
+    data['department_id'] = departmentId;
+    data['action_taken_date_time'] = actionTakenDateTime;
+    data['action_taken_works'] = actionTakenWorks;
+    data['action_taken_person_name'] = actionTakenPersonName;
+    data['action_taken_person_sign'] = actionTakenPersonSign;
+    data['complaint_status'] = complaintStatus;
+    data['complaint_status_close_by'] = complaintStatusCloseBy;
+    data['source'] = source;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['attachment_file_type'] = attachmentFileType;
+    data['token_no'] = tokenNo;
+    data['equipment_id'] = equipmentId;
+    data['assign_user'] = assignUser;
     return data;
   }
 }

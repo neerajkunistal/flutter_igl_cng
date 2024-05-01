@@ -4,10 +4,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
+import 'package:intl/intl.dart';
 
 part 'add_equipment_complaint_event.dart';
 part 'add_equipment_complaint_state.dart';
@@ -20,6 +23,8 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
   List<EquipmentTypeModel> equipmentTypeList = [];
   TextEditingController descriptionController =  TextEditingController();
   TextEditingController reportByController =  TextEditingController();
+  TextEditingController dateController =  TextEditingController();
+  TextEditingController timeController =  TextEditingController();
   bool isLoader =  false;
   File file =  File("");
 
@@ -27,6 +32,8 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
     on<AddEquipmentComplaintSelectComplaintDataEvent>(_selectComplaintType);
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddEquipmentComplaintSelectDateData>(_selectDate);
+    on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
     on<AddEquipmentComplaintSubmitEvent>(_submit);
   }
@@ -39,6 +46,8 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     equipmentTypeList = [];
     descriptionController.text = "";
     reportByController.text = "";
+    dateController.text = "";
+    timeController.text = "";
     isLoader =  false;
     file =  File("");
 
@@ -81,6 +90,43 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     _eventComplete(emit);
   }
 
+  _selectDate(AddEquipmentComplaintSelectDateData event, emit) async {
+    try{
+      final DateTime? picked = await showDatePicker(
+          context: event.context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime(2101));
+      if (picked != null) {
+        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        dateController.text = formattedDate;
+      }
+    }catch(e){
+      if(kDebugMode){
+        print(e.toString());
+      }
+    }
+
+  }
+
+  _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
+    try{
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime:TimeOfDay.now(),
+      );
+      if(time != null){
+        timeController.text = "${time.hour}:${time.minute}";
+        _eventComplete(emit);
+      }
+    }catch(e){
+      if(kDebugMode){
+        print(e.toString());
+      }
+    }
+
+  }
+
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
     isLoader =  true;
     _eventComplete(emit);
@@ -88,12 +134,15 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     var res =  await AddEquipmentComplaintHelper.submitData(context: event.context,
         complaintTypeData: complaintTypeData, equipmentTypeData: equipmentTypeData,
         description: descriptionController.text.toString(), name: reportByController.text.toString(),
+        date: dateController.text.toString(), time: timeController.text.toString(),
         file: file);
     if(res != null){
       complaintTypeData =  ComplaintTypeModel();
       equipmentTypeData =  EquipmentTypeModel();
       descriptionController.text = "";
       reportByController.text = "";
+      dateController.text = "";
+      timeController.text = "";
       isLoader =  false;
       file =  File("");
     }
@@ -110,7 +159,9 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
         complaintTypeList: complaintTypeList,
         equipmentTypeData: equipmentTypeData,
         equipmentTypeList: equipmentTypeList,
-        reportByController: reportByController
+        reportByController: reportByController,
+        dateController: dateController,
+        timeController: timeController,
     ));
   }
 }

@@ -28,8 +28,8 @@ class ReviewComplaintHelper {
        var json = {
          "description" : reviewComplaintData.complaintDescription != null ? reviewComplaintData.complaintDescription.toString() : "",
          "complaintId" : reviewComplaintData.id != null ? reviewComplaintData.id.toString() : "",
-         "startDateTime" : reviewComplaintData.startDateTime != null ? reviewComplaintData.startDateTime.toString() : "",
-         "closeDateTime" : reviewComplaintData.closeDateTime != null ? reviewComplaintData.closeDateTime.toString() : "",
+         "startDateTime" : reviewComplaintData.maintenanceStartDate != null ? reviewComplaintData.maintenanceStartDate.toString() : "",
+         "closeDateTime" : reviewComplaintData.maintenanceEndDate != null ? reviewComplaintData.maintenanceEndDate.toString() : "",
          "delayHours" : "1",
          "seApproval" : approvalValue,
          "seObservation" : observation,

@@ -73,7 +73,7 @@ class AddAcknowledgeComplaintHelper {
     required String description, required String remark, required File file,
     required ComplaintModel complaintData, required DepartmentModel departmentData,
     required AcknowledgeModel acknowledgeData, required String breakDownvalue,
-    required AcknowledgeUserModel acknowledgeUserData,
+    required AcknowledgeUserModel acknowledgeUserData, required String date, required String time,
   }) async {
 
     try{
@@ -82,6 +82,11 @@ class AddAcknowledgeComplaintHelper {
         "complaintId" : acknowledgeData.id.toString(),
         "ack_remarks" : remark,
         "assign_to" : acknowledgeUserData.id != null ? acknowledgeUserData.id.toString() : "0",
+        "complaintTypeId" : complaintTypeData.id != null ? complaintTypeData.id.toString() : "0",
+        "equipmentId" : equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
+        "description" : description,
+        "breakdown" : breakDownvalue,
+        "complaintDateTime" : "$date $time"
       };
       if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

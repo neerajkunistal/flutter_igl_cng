@@ -51,16 +51,29 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       child: SingleChildScrollView(
         child : Column(
           children: [
-            _verticalSpace(),
             AcknowledgeItemBoxWidget(acknowledgeData: dataState.acknowledgeData, index: 0),
             _verticalSpace(),
+            _complaintTypeDropDown(dataState: dataState),
+             _verticalSpace(),
+            dataState.complaintTypeData.id.toString() == "2"
+                ? _equipmentDropDown(dataState: dataState) : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "2"? _verticalSpace() : const SizedBox.shrink(),
+            Row(
+              children: [
+                Expanded(child: _dateController(dataState: dataState)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Expanded(child: _timeController(dataState: dataState)),
+              ],
+            ),
+            _verticalSpace(),
+            _descriptionRemark(dataState: dataState),
             _radioButton(dataState: dataState),
             _verticalSpace(),
             _userDropDown(dataState: dataState),
             _verticalSpace(),
             _remark(dataState: dataState),
-            _verticalSpace(),
-            _photo(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -72,7 +85,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
 
   Widget _complaintTypeDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectComplaint,
+      hint: AppString.editComplaintType,
       dropdownValue: dataState.complaintTypeData.id != null ? dataState.complaintTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
@@ -89,7 +102,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
 
   Widget _equipmentDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectEquipment,
+      hint: AppString.editEquipment,
       dropdownValue: dataState.equipmentTypeData.description != null ? dataState.equipmentTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
@@ -106,7 +119,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
 
   Widget _userDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
     return DropdownWidget(
-      hint: AppString.selectUserForAssign,
+      hint: AppString.assignUSer,
       dropdownValue: dataState.acknowledgeUserData.id != null ? dataState.acknowledgeUserData : null,
       onChanged: (value) {
         BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
@@ -225,10 +238,35 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
      );
 }
 
+  Widget _dateController({required FetchAddAcknowledgeComplaintState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: "Edit Date",
+      controller: dataState.dateController,
+      onTap:  () {
+        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+            AddAcknowledgeComplaintSelectDateData(context: context));
+      },
+    );
+  }
+
+  Widget _timeController({required FetchAddAcknowledgeComplaintState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: "Edit Time",
+      controller: dataState.timeController,
+      onTap: () {
+        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+            AddAcknowledgeComplaintSelectTimeData(context: context));
+      },
+    );
+  }
 
   Widget _descriptionRemark({required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.description,
+      labelText: AppString.editDescription,
       controller: dataState.descriptionController,
     );
   }

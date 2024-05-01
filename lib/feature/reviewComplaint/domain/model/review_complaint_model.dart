@@ -53,6 +53,12 @@ class ReviewComplaintModel {
   String? spareId;
   String? seApproval;
   String? seObservation;
+  String? equipmentName;
+  String? equipmentCode;
+  String? complaintDateTime;
+  String? maintenanceStartDate;
+  String? maintenanceEndDate;
+  String? maintenanceHoldDate;
 
   ReviewComplaintModel(
       {this.id,
@@ -104,7 +110,14 @@ class ReviewComplaintModel {
         this.closeDateTime,
         this.spareId,
         this.seApproval,
-        this.seObservation});
+        this.seObservation,
+        this.equipmentName,
+        this.equipmentCode,
+        this.complaintDateTime,
+        this.maintenanceEndDate,
+        this.maintenanceStartDate,
+        this.maintenanceHoldDate,
+      });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
@@ -157,6 +170,12 @@ class ReviewComplaintModel {
     spareId = json['spare_id'] ?? "";
     seApproval = json['se_approval'] ?? "";
     seObservation = json['se_observation'] ?? "";
+    equipmentName = json['equipment_name'] ?? "";
+    equipmentCode = json['equipment_code'] ?? "";
+    complaintDateTime = json['complain_date_time'] ?? "";
+    maintenanceEndDate = json['maintenance_end_date'] ?? "";
+    maintenanceStartDate = json['maintenance_start_date'] ?? "";
+    maintenanceHoldDate = json['maintenance_hold_date'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

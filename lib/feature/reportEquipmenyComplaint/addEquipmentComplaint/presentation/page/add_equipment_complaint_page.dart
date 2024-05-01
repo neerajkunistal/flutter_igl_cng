@@ -25,7 +25,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextWidget("Report Equipment Complaint", color: AppColor.white,),
+        title: TextWidget("Add Complaint", color: AppColor.white,),
       ),
       body: BlocBuilder<AddEquipmentComplaintBloc, AddEquipmentComplaintState>(
         builder: (context, state) {
@@ -52,6 +52,16 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           dataState.complaintTypeData.id.toString() == "2"
               ? _equipmentDropDown(dataState: dataState) : const SizedBox.shrink(),
           dataState.complaintTypeData.id.toString() == "2"? _verticalSpace() : const SizedBox.shrink(),
+          Row(
+            children: [
+              Expanded(child: _dateController(dataState: dataState)),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Expanded(child: _timeController(dataState: dataState)),
+            ],
+          ),
+          _verticalSpace(),
           _descriptionRemark(dataState: dataState),
           _verticalSpace(),
           _nameRemark(dataState: dataState),
@@ -97,6 +107,30 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           child: Text(equipmentTypeData.description.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _dateController({required FetchAddEquipmentComplaintState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText:  AppString.date,
+      controller: dataState.dateController,
+      onTap: () {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(AddEquipmentComplaintSelectDateData(context: context));
+      },
+    );
+  }
+
+  Widget _timeController({required FetchAddEquipmentComplaintState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.time,
+      controller: dataState.timeController,
+      onTap: () {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(AddEquipmentComplaintSelectTimeData(context: context));
+      },
     );
   }
 

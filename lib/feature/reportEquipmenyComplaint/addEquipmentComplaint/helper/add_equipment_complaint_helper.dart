@@ -41,6 +41,7 @@ class AddEquipmentComplaintHelper {
   required ComplaintTypeModel  complaintTypeData,
   required EquipmentTypeModel equipmentTypeData,
   required String description, required String name, required File file,
+  required String date, required String time,
   }) async {
 
        try{
@@ -50,6 +51,7 @@ class AddEquipmentComplaintHelper {
              "equipmentId" : equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "",
              "description" : description,
              "reportBy" : name,
+             "complaintDateTime" : "$date $time",
          };
          if(!context.mounted) return null;
          var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

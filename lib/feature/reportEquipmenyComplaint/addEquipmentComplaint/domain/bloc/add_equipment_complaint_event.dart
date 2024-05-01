@@ -34,6 +34,20 @@ class AddEquipmentComplaintAddImageEvent extends AddEquipmentComplaintEvent {
   List<Object?> get props => [context, mediaType];
 }
 
+class AddEquipmentComplaintSelectTimeData extends AddEquipmentComplaintEvent {
+  final BuildContext context;
+  const AddEquipmentComplaintSelectTimeData({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddEquipmentComplaintSelectDateData extends AddEquipmentComplaintEvent {
+  final BuildContext context;
+  const AddEquipmentComplaintSelectDateData({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 class AddEquipmentComplaintSubmitEvent extends AddEquipmentComplaintEvent {
   final BuildContext context;
   const AddEquipmentComplaintSubmitEvent({required this.context});

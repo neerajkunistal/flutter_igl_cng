@@ -93,6 +93,20 @@ class AddAcknowledgeComplaintAddImageEvent extends AddAcknowledgeComplaintEvent 
   List<Object?> get props => [context, mediaType];
 }
 
+class AddAcknowledgeComplaintSelectTimeData extends AddAcknowledgeComplaintEvent {
+  final BuildContext context;
+  const AddAcknowledgeComplaintSelectTimeData({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddAcknowledgeComplaintSelectDateData extends AddAcknowledgeComplaintEvent {
+  final BuildContext context;
+  const AddAcknowledgeComplaintSelectDateData({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 class AddAcknowledgeComplaintSubmitEvent extends AddAcknowledgeComplaintEvent {
   final BuildContext context;
   const AddAcknowledgeComplaintSubmitEvent({required this.context});

@@ -4,9 +4,13 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'review_complaint_event.dart';
 part 'review_complaint_state.dart';
@@ -36,7 +40,8 @@ class ReviewComplaintBloc extends Bloc<ReviewComplaintEvent, ReviewComplaintStat
     approvalValue = "";
     observationController.text = "";
     file =  File("");
-    var res =  await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
+
+    var res =   await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
     if(res != null){
       reviewComplaintList =  res;
       for(var reviewData in reviewComplaintList){
@@ -87,6 +92,8 @@ class ReviewComplaintBloc extends Bloc<ReviewComplaintEvent, ReviewComplaintStat
       approvalValue = "";
       observationController.text = "";
       file =  File("");
+      if(!event.context.mounted) return;
+      Navigator.pop(event.context,"Completed");
     }
     isLoader =  false;
     _eventComplete(emit);

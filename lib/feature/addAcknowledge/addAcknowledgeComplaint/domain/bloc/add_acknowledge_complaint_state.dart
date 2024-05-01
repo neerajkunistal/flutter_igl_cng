@@ -35,6 +35,9 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final bool isComplaintLoader;
   final List<AcknowledgeUserModel> acknowledgeUserList;
   final AcknowledgeUserModel acknowledgeUserData;
+  final TextEditingController dateController;
+  final TextEditingController timeController;
+
 
   FetchAddAcknowledgeComplaintState({
     required this.file,
@@ -57,6 +60,8 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.isComplaintLoader,
     required this.acknowledgeUserData,
     required this.acknowledgeUserList,
+    required this.dateController,
+    required this.timeController,
   });
 
 
@@ -82,5 +87,7 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     isComplaintLoader,
     acknowledgeUserData,
     acknowledgeUserList,
+    dateController,
+    timeController,
   ];
 }

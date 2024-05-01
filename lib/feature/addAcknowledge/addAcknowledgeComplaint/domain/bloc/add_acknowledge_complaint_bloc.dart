@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
@@ -15,6 +18,7 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
+import 'package:intl/intl.dart';
 
 part 'add_acknowledge_complaint_state.dart';
 
@@ -39,6 +43,9 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
   List<AcknowledgeUserModel> acknowledgeUserList = [];
   AcknowledgeUserModel acknowledgeUserData =  AcknowledgeUserModel();
 
+  TextEditingController dateController =  TextEditingController();
+  TextEditingController timeController =  TextEditingController();
+
   String breakDownvalue = "";
 
   bool isComplaintLoader =  false;
@@ -51,6 +58,8 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     on<AddAcknowledgeComplaintSelectDepartmentEvent>(_selectDepartment);
     on<AddAcknowledgeComplaintSelectComplaintEvent>(_selectComplaint);
     on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(_selectAcknowledget);
+    on<AddAcknowledgeComplaintSelectDateData>(_selectDate);
+    on<AddAcknowledgeComplaintSelectTimeData>(_selectTime);
     on<AddAcknowledgeComplaintAddImageEvent>(_selectFile);
     on<AddAcknowledgeComplaintSelectBreakDownEvent>(_selectBreakdown);
     on<AddAcknowledgeComplaintSelectReviewComplaintEvent>(_selectReviewComplaint);
@@ -71,6 +80,8 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     acknowledgeUserData =  AcknowledgeUserModel();
     descriptionController.text = "";
     remarkController.text = "";
+    dateController.text = "";
+    timeController.text = "";
     isLoader =  false;
     isComplaintLoader =  false;
     file =  File("");
@@ -83,11 +94,21 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     var resComplaint =  await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if(resComplaint !=  null){
       complaintTypeList =  resComplaint;
+      for(var complaint in complaintTypeList){
+        if(complaint.id.toString() == event.acknowledgeData.complaintTypeId.toString()){
+          complaintTypeData =  complaint;
+        }
+      }
     }
 
     var resEquipment =  await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
     if(resEquipment != null){
       equipmentTypeList =  resEquipment;
+      for(var equipment in equipmentTypeList){
+        if(equipment.id.toString() == event.acknowledgeData.equipmentId.toString()){
+          equipmentTypeData  =  equipment;
+        }
+      }
     }
 
 
@@ -113,11 +134,24 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
 
     acknowledgeData =  event.acknowledgeData;
 
+    String complaintDate = "";
+    String complaintTime = "";
+    if(acknowledgeData.complaintDateTime.toString().isNotEmpty){
+      complaintTime = DateFormat('h:mm:ss').format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
+      complaintDate = DateFormat('dd-MMM-yyyy').format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
+      dateController.text =  complaintDate;
+      timeController.text =  complaintTime;
+    }
+
+    breakDownvalue =  event.acknowledgeData.crBreakdown.toString();
+    descriptionController.text =  event.acknowledgeData.complaintDescription.toString();
+
     _eventComplete(emit);
   }
 
   _selectComplaintType(AddAcknowledgeComplaintSelectComplaintDataEvent event, emit) {
     complaintTypeData =  event.complaintTypeData;
+    equipmentTypeData =  EquipmentTypeModel();
     _eventComplete(emit);
   }
 
@@ -146,6 +180,42 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     _eventComplete(emit);
   }
 
+  _selectDate(AddAcknowledgeComplaintSelectDateData event, emit) async {
+    try{
+      final DateTime? picked = await showDatePicker(
+          context: event.context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime(2101));
+      if (picked != null) {
+        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        dateController.text = formattedDate;
+      }
+    }catch(e){
+      if(kDebugMode){
+        print(e.toString());
+      }
+    }
+  }
+
+
+  _selectTime(AddAcknowledgeComplaintSelectTimeData event, emit) async {
+    try{
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime:TimeOfDay.now(),
+      );
+      if(time != null){
+        timeController.text = "${time.hour}:${time.minute}";
+        _eventComplete(emit);
+      }
+    }catch(e){
+      if(kDebugMode){
+        print(e.toString());
+      }
+    }
+  }
+
   _selectFile(AddAcknowledgeComplaintAddImageEvent event, emit) async {
     if(event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
@@ -158,7 +228,7 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         file  = photo;
       }
     }
-    Navigator.pop(event.context.mounted ? event.context : event.context);
+    Navigator.pop(event.context.mounted ? event.context : event.context,);
     _eventComplete(emit);
   }
 
@@ -192,25 +262,27 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         description: descriptionController.text.toString(), remark: remarkController.text.toString(),
         complaintData: complaintData, departmentData: departmentData, acknowledgeData: acknowledgeData,
         breakDownvalue: breakDownvalue,acknowledgeUserData: acknowledgeUserData,
+        date: dateController.text.toString(),time: timeController.text.toString(),
         file: file);
     if(res != null){
       complaintTypeData =  ComplaintTypeModel();
       equipmentTypeData =  EquipmentTypeModel();
       departmentData =  DepartmentModel();
       complaintData =  ComplaintModel();
-      acknowledgeData =  AcknowledgeModel();
       reviewComplaintData =  ReviewComplaintModel();
       acknowledgeUserData =  AcknowledgeUserModel();
       complaintList =  [];
       complaintData =  ComplaintModel();
       descriptionController.text = "";
       remarkController.text = "";
+      dateController.text = "";
+      timeController.text = "";
       isLoader =  false;
       file =  File("");
       breakDownvalue = "";
       isComplaintLoader =  false;
       if(!event.context.mounted) return;
-      Navigator.pop(event.context);
+      Navigator.pop(event.context, "Completed");
     }
     isLoader =  false;
     _eventComplete(emit);
@@ -238,6 +310,8 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         isComplaintLoader: isComplaintLoader,
         acknowledgeUserData: acknowledgeUserData,
         acknowledgeUserList: acknowledgeUserList,
+        dateController: dateController,
+        timeController: timeController,
     ));
   }
 }

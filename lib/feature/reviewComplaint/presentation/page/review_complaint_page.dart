@@ -40,9 +40,6 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       child: SingleChildScrollView(
         child : Column(
           children: [
-            _verticalSpace(),
-            _complaintTypeDropDown(dataState: dataState),
-            _verticalSpace(),
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
             _radioButton(dataState: dataState),
@@ -87,6 +84,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        const TextWidget("Action*"),
         Row(
           children: [
             Radio(
@@ -97,7 +95,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                     ReviewComplaintSelectApprovalEvent(approvalValue: val.toString()));
               },
             ),
-            const TextWidget("Yes"),
+            const TextWidget("Accept"),
           ],
         ),
         Row(
@@ -110,7 +108,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                     ReviewComplaintSelectApprovalEvent(approvalValue: val.toString()));
               },
             ),
-            const TextWidget("No"),
+            const TextWidget("Reject"),
           ],
         ),
       ],

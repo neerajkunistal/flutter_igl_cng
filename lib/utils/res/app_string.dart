@@ -43,6 +43,7 @@ class AppString {
   static get complaintReceivedMode => "Complaint received mode";
   static get customerEmailId => "Customer Email Id";
   static get date => "Date";
+  static get time => "Time";
   static get city => "City";
   static get contactPerson => "Contact Person";
   static get contactNumber => "Contact Number";
@@ -87,8 +88,12 @@ class AppString {
   static get selectComplaint => "Select Complaint";
   static get selectReviewComplaint => "Select Review Complaint";
   static get selectComplaintType => "Select Complaint Type";
+  static get editComplaintType => "Edit Complaint Type";
   static get selectEquipment => "Select Equipment";
+  static get editEquipment => "Edit Equipment";
   static get description => "Description";
+  static get qty => "Qty";
+  static get editDescription => "Edit Description";
   static get selectDepartment => "Select Department";
   static get selectAcknowledge => "Select Acknowledge";
   static get remark => "Remark";
@@ -98,7 +103,15 @@ class AppString {
   static get miComplaint => "MI Complaint";
   static get selectSpares => "Select Spares";
   static get selectAction => "Select Action";
+  static get selectUOM => "Select UOM";
   static get selectUserForAssign => "Select User For Assign";
+  static get assignUSer => "Assign user";
+  static get startDate => "Start Date";
+  static get startTime => "Start Time";
+  static get closedDate => "Closed Date";
+  static get closedTime => "Closed Time";
+  static get holdDate => "Hold Date";
+  static get holdTime => "Hold Time";
 
 
 
