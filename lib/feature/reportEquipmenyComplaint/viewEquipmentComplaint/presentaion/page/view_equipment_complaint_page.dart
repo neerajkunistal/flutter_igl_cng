@@ -60,7 +60,7 @@ class _ViewEquipmentComplaintPageState
           return GestureDetector(
               onTap: () async {
                   LoginDataModel userLogin =  UserInfo.instanceInit()!.userData!;
-                  if(userLogin.roleType == RoleType.shiftEngineer) {
+                  if(userLogin.roleType == RoleType.shiftEngineer && dataState.reviewComplaintList[index].complaintStatus.toString() != "1") {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(context: context, reviewComplaintData: dataState.reviewComplaintList[index]));
                         var result = await Navigator.push(

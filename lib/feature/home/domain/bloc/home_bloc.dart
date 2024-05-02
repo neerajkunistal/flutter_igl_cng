@@ -65,6 +65,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _childWidget = const DashboardPage();
     _actionButtonWidget =  const SizedBox.shrink();
     _drawerList  =  await HomeHelper.fetchDrawerList(context: event.context);
+    await AppConfig.instanceInit()!.getPackageInfo();
     _eventCompleted(emit);
   }
 
