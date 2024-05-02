@@ -52,7 +52,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _rowWidget(name: "Ack Status", value: acknowledgeData.ackStatus.toString() == "1" ? "Ack Done" : "New"),
+            _rowWidget(name: "Ack Status", value: acknowledgeData.ackStatus.toString() == "1" ? "Ack Done" : ""),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),

@@ -35,17 +35,16 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       body: BlocBuilder<AddAcknowledgeComplaintBloc, AddAcknowledgeComplaintState>(
         builder: (context, state) {
           if(state is FetchAddAcknowledgeComplaintState) {
-            return _itemWWidget(dataState: state);
+            return _itemWidget(dataState: state);
           } else {
             return const Center(child: CenterLoaderWidget(),);
           }
-          return Container();
         },
       ),
     );
   }
 
-  Widget _itemWWidget({required FetchAddAcknowledgeComplaintState dataState}) {
+  Widget _itemWidget({required FetchAddAcknowledgeComplaintState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -224,7 +223,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
          Row(
            children: [
              Radio(
-               value: "0",
+               value: "2",
                groupValue: dataState.breakDownvalue,
                onChanged: (val) {
                  BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(

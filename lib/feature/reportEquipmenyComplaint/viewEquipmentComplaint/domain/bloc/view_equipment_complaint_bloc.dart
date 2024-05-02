@@ -1,6 +1,3 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -27,7 +24,7 @@ class ViewEquipmentComplaintBloc extends Bloc<ViewEquipmentComplaintEvent, ViewE
     LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
     var res =   userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint()
-        : await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
+        : await ReviewComplaintHelper.fetchReviewComplaint(type: userData.roleType == RoleType.shiftEngineer ? "0" :  "1");
 
     if(res != null){
       reviewComplaintList = res;

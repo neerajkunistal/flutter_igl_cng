@@ -3,14 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/bloc/dashboard_bloc.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/card_backgound.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/phone_dashboard_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/profile_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/report_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/service_center_network_widget.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/tablet_dashboard_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/wave_backgorund.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/app_update_message_widget.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -37,7 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
         final dynamic result = await platform.invokeMethod('getAppUpdate');
         if(result.toString() == "success"){
           if(context.mounted){
-            AppUpdateMessage.showAlertDialog(context: context);
+            AppUpdateMessage.showAlertDialog(context: context.mounted ?  context : context);
           }
         }
       } else if (Platform.isIOS) {

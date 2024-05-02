@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/domain/bloc/home_bloc.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/widget/home_drawer_widget.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/phone_home_widget.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/tablet_home_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
-import 'package:flutter_igl_cng/utils/res/app_font.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -48,7 +45,6 @@ class _HomePageState extends State<HomePage> {
           AppConfig.getDeviceType(context: context) == DeviceType.phone
               ? const Expanded(child: PhoneHomeWidget())
               : const Expanded( child: TabletHomeWidget()),
-          
           Container(
             color: AppColor.white,
             child: Padding(
@@ -63,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.03,
                   ),
-                  TextWidget("Unistal Systems Pvt Ltd.",
+                  TextWidget("Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
                     fontSize: AppFont.font_12,
                     fontWeight: FontWeight.w700,),
                 ],

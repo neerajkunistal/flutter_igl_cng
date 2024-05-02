@@ -1,16 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/helper/add_acknowledge_helper.dart';
-import 'package:flutter_igl_cng/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
@@ -130,6 +126,11 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     var resUser =  await AddAcknowledgeComplaintHelper.fetchUserList();
     if(resUser != null){
       acknowledgeUserList =  resUser;
+      for(var user in acknowledgeUserList){
+        if(user.id.toString() == event.acknowledgeData.ackBy.toString()){
+          acknowledgeUserData =  user;
+        }
+      }
     }
 
     acknowledgeData =  event.acknowledgeData;
@@ -145,7 +146,7 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
 
     breakDownvalue =  event.acknowledgeData.crBreakdown.toString();
     descriptionController.text =   acknowledgeData.complaintDescription.toString();
-
+    remarkController.text =   acknowledgeData.ackRemark.toString();
     _eventComplete(emit);
   }
 

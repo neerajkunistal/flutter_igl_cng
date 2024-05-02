@@ -1,15 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/bloc/mi_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class MiComplaintPage extends StatefulWidget {
   const MiComplaintPage({super.key});
@@ -38,7 +34,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           } else {
             return const Center(child: CenterLoaderWidget(),);
           }
-          return Container();
         },
       ),
     );
@@ -52,9 +47,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           children: [
             ReviewComplaintItemBox(reviewComplaintData: dataState.reviewComplaintData),
             _verticalSpace(),
-            _amcStatusController(dataState: dataState),
-            _verticalSpace(),
-            _amcDateController(dataState: dataState),
+            _amcStatusDate(dataState: dataState),
             _verticalSpace(),
             _actionDropDown(dataState: dataState),
             _verticalSpace(),
@@ -87,6 +80,37 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _amcStatusDate({required FetchMiComplaintDataState dataState}) {
+    return Card(
+      shadowColor: AppColor.themeColor,
+      elevation: 2,
+      child: Padding(
+        padding : const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const TextWidget("AMC Status : "),
+                TextWidget(dataState.reviewComplaintData.id != null ? dataState.reviewComplaintData.amcStatus.toString() : ""),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                const TextWidget("AMC Date : "),
+                TextWidget(dataState.reviewComplaintData.id != null ? dataState.reviewComplaintData.amcDate.toString() : ""),
+              ],
+            ),
           ],
         ),
       ),
@@ -148,7 +172,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _sparesDropDown({required FetchMiComplaintDataState dataState,
     required SparesModel sparesData , required int index}) {
     return DropdownWidget(
-      isRequired: true,
+      isRequired: false,
       hint: AppString.selectSpares,
       dropdownValue: sparesData.id != null ? sparesData : null,
       onChanged: (value) {
@@ -168,7 +192,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       required UomTypeModel uomTypeData, required int index}) {
     return DropdownWidget(
       hint: AppString.selectUOM,
-      isRequired: true,
+      isRequired: false,
       dropdownValue: uomTypeData.id != null ? uomTypeData : null,
       onChanged: (value) {
         BlocProvider.of<MiComplaintBloc>(context).add(
@@ -187,7 +211,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
      required int index, required TextEditingController qtyController}) {
     return TextFieldWidget(
       textInputType:  TextInputType.number,
-      isRequired: true,
+      isRequired: false,
       labelText: AppString.qty,
       controller: qtyController,
     );

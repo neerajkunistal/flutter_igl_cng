@@ -54,7 +54,26 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 Padding(
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom * 0.4),
                   // padding: EdgeInsets.only(bottom: 100),
-                )
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(AppIcon.appLogoUnistal,
+                      height: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.03,
+                    ),
+                    TextWidget("Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
+                      fontSize: AppFont.font_12,
+                      fontWeight: FontWeight.w700,),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width * 0.02),
+                  // padding: EdgeInsets.only(bottom: 100),
+                ),
               ],
             ),
           ),

@@ -1,15 +1,10 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/page/home_page.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'home_event.dart';
@@ -66,7 +61,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _bottomNavigationBarItemList = [];
     _restaurantMenu = [];
     _pageWidgetList = [];
-    _title =  "Complaint ( ${userData.name} )";
+    _title =  "Complaint ( ${userData.name} - ${userData.role} )";
     _childWidget = const DashboardPage();
     _actionButtonWidget =  const SizedBox.shrink();
     _drawerList  =  await HomeHelper.fetchDrawerList(context: event.context);

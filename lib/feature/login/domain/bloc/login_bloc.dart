@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/page/home_page.dart';
 import 'package:flutter_igl_cng/feature/login/presentations/pages/login_screen_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/login/helper/login_helper.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_igl_cng/utils/commonClass/connectivity_helper.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import 'login_event.dart';
 import 'login_state.dart';
@@ -37,9 +34,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   String _appLogo = "";
   String get appLogo => _appLogo;
-
-  List<LoginDataModel> _loginScreenResponse = [];
-  List<LoginDataModel> get loginScreenResponse => _loginScreenResponse;
 
   LoginDataModel _loginData =  LoginDataModel();
   LoginDataModel get loginData => _loginData;
@@ -72,10 +66,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     _appLogo = "https://unistal.hrmmitra.in/uploads/logo/signin/signin_logo_1569825597.png";
     userNameTextFiledController.text = "";
     passwordTextFieldController.text = "";
-    try{
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      _appVersion = packageInfo.version;
-    }catch(e){}
+
+    await AppConfig.instanceInit()!.getPackageInfo();
+
+    _appVersion =  AppConfig.instanceInit()!.appVersion!;
 
     _eventCompleted(emit);
     _appLogoLoader =  false;
@@ -91,11 +85,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     _loginData =  LoginDataModel();
     var textFieldValidationCheck = await LoginHelper.textFieldValidation(emilId: email,
-        password: password, context: event.context);
+        password: password, context: event.context.mounted ?  event.context : event.context);
     if (textFieldValidationCheck == true) {
       _isLoader =  true;
       _eventCompleted(emit);
-      var res = await LoginHelper.getLoginData(emilId: email, password: password, context: event.context);
+      var res = await LoginHelper.getLoginData(emilId: email, password: password, context: event.context.mounted ? event.context : event.context);
       _isLoader =  false;
       _eventCompleted(emit);
       if(res != null){

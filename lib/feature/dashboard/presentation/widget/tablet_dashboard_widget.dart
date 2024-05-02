@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/profile_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/report_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/service_center_network_widget.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/table_report_widget.dart';
 import 'package:flutter_igl_cng/feature/home/domain/bloc/home_bloc.dart';
 
 class TabletDashboardWidget extends StatefulWidget {

@@ -7,7 +7,7 @@ class ProfileWidget extends StatelessWidget {
 
   ProfileWidget({super.key});
 
-  LoginDataModel _userData =  UserInfo.instance!.userData!;
+  final LoginDataModel _userData =  UserInfo.instance!.userData!;
   LoginDataModel get userData => _userData;
 
   @override
@@ -15,7 +15,7 @@ class ProfileWidget extends StatelessWidget {
     return  Card(
       elevation: 2,
       shadowColor: AppColor.themeColor,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Padding(
@@ -43,8 +43,8 @@ class ProfileWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextWidget("${userData.name.toString()}", color: AppColor.black, fontSize: AppFont.font_15, fontWeight: FontWeight.w700,),
-                  TextWidget("${userData.email.toString()}", color: AppColor.grey, fontSize: AppFont.font_13, fontWeight: FontWeight.w400,),
+                  TextWidget(userData.name.toString(), color: AppColor.black, fontSize: AppFont.font_15, fontWeight: FontWeight.w700,),
+                  TextWidget(userData.email.toString(), color: AppColor.grey, fontSize: AppFont.font_13, fontWeight: FontWeight.w400,),
                 ],
               ),
             )

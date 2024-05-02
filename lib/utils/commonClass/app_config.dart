@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppConfig {
 
   static AppConfig? instance;
   RoleType? roleType;
   Client? client;
+  String? appVersion;
 
   static AppConfig? instanceInit(){
     instance ??= AppConfig();
@@ -14,6 +16,17 @@ class AppConfig {
 
   setClient({required Client client}){
     this.client =  client;
+  }
+
+   Future<dynamic> getPackageInfo() async {
+      try{
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String version = packageInfo.version;
+        String code = packageInfo.buildNumber;
+        appVersion =  version;
+      }catch(e){
+        return null;
+      }
   }
 
   static DeviceType getDeviceType({BuildContext? context}) {

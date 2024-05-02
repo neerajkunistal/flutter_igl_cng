@@ -41,6 +41,7 @@ class ReviewComplaintBloc extends Bloc<ReviewComplaintEvent, ReviewComplaintStat
     observationController.text = "";
     file =  File("");
 
+    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
     var res =   await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
     if(res != null){
       reviewComplaintList =  res;

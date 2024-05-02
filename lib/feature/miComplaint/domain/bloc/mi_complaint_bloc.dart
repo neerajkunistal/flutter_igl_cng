@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -13,7 +9,6 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_mod
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
 import 'package:intl/intl.dart';
 
 part 'mi_complaint_event.dart';
@@ -137,6 +132,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       }
     }
 
+    description.text =  reviewComplaintData.complaintDescription.toString();
     _eventComplete(emit);
   }
 
@@ -280,6 +276,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       isLoader =  false;
       actionData =  ActionModel();
       uomTypeData =  UomTypeModel();
+      if(!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }
     isLoader = false;
