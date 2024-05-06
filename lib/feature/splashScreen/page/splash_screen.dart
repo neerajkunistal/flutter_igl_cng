@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   pageOpen() async {
+    await AppConfig.instanceInit()!.getPackageInfo();
     String userName = await SharedPreferencesUtils.getString(key: PreferencesName.userName);
     if(userName.isEmpty){
       await Future.delayed(const Duration(seconds: 2));
