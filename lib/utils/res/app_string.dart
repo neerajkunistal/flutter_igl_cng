@@ -90,8 +90,10 @@ class AppString {
   static get selectComplaintType => "Select Complaint Type";
   static get editComplaintType => "Edit Complaint Type";
   static get selectEquipment => "Select Equipment";
+  static get selectGeneral => "Select General";
   static get editEquipment => "Edit Equipment";
   static get description => "Description";
+  static get otherDescription => "Other Description";
   static get qty => "Qty";
   static get editDescription => "Edit Description";
   static get selectDepartment => "Select Department";

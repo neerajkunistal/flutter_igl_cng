@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 
 abstract class AddAcknowledgeComplaintEvent extends Equatable {
@@ -105,6 +106,20 @@ class AddAcknowledgeComplaintSelectDateData extends AddAcknowledgeComplaintEvent
   const AddAcknowledgeComplaintSelectDateData({required this.context});
   @override
   List<Object?> get props => [context];
+}
+
+class AddAcknowledgeComplaintSelectStatusData extends AddAcknowledgeComplaintEvent {
+  final String complaintStatus;
+  const AddAcknowledgeComplaintSelectStatusData({required this.complaintStatus});
+  @override
+  List<Object?> get props => [complaintStatus];
+}
+
+class AddAcknowledgeComplaintSelectGeneralDataEvent extends AddAcknowledgeComplaintEvent {
+  final GeneralComplaintModel generalComplaintData;
+  const AddAcknowledgeComplaintSelectGeneralDataEvent({required this.generalComplaintData});
+  @override
+  List<Object?> get props => [generalComplaintData];
 }
 
 class AddAcknowledgeComplaintSubmitEvent extends AddAcknowledgeComplaintEvent {

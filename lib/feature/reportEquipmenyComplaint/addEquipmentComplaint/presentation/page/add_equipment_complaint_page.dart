@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/bloc/add_equipment_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
   const AddEquipmentComplaintPage({super.key});
@@ -51,6 +52,13 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           dataState.complaintTypeData.id.toString() == "2"
               ? _equipmentDropDown(dataState: dataState) : const SizedBox.shrink(),
           dataState.complaintTypeData.id.toString() == "2"? _verticalSpace() : const SizedBox.shrink(),
+          _generalDropDown(dataState: dataState),
+          _verticalSpace(),
+
+          dataState.generalComplaintData.name != null && dataState.generalComplaintData.name.toString().toLowerCase() == "others" ?
+          _generalDescriptionController(dataState: dataState) : const SizedBox.shrink(),
+          dataState.generalComplaintData.name != null && dataState.generalComplaintData.name.toString().toLowerCase() == "others" ?
+          _verticalSpace() : const SizedBox.shrink(),
           Row(
             children: [
               Expanded(child: _dateController(dataState: dataState)),
@@ -87,6 +95,23 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
         return DropdownMenuItem<ComplaintTypeModel>(
           value: complaintTypeData,
           child: Text(complaintTypeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _generalDropDown({required FetchAddEquipmentComplaintState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectGeneral,
+      dropdownValue: dataState.generalComplaintData.name != null ? dataState.generalComplaintData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+            AddEquipmentComplaintSelectGeneralDataEvent(generalComplaintData: value));
+      },
+      items: dataState.generalComplaintList.map<DropdownMenuItem<GeneralComplaintModel>>((GeneralComplaintModel generalComplaintData) {
+        return DropdownMenuItem<GeneralComplaintModel>(
+          value: generalComplaintData,
+          child: Text(generalComplaintData.name.toString()),
         );
       }).toList(),
     );
@@ -130,6 +155,13 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       onTap: () {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(AddEquipmentComplaintSelectTimeData(context: context));
       },
+    );
+  }
+
+  Widget _generalDescriptionController({required FetchAddEquipmentComplaintState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.otherDescription,
+      controller: dataState.generalDescriptionController,
     );
   }
 

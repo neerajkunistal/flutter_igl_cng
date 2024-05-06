@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/snack_bar_error_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/snack_bar_success_widget.dart';
 
@@ -74,6 +75,7 @@ class AddAcknowledgeComplaintHelper {
     required ComplaintModel complaintData, required DepartmentModel departmentData,
     required AcknowledgeModel acknowledgeData, required String breakDownvalue,
     required AcknowledgeUserModel acknowledgeUserData, required String date, required String time,
+    required String generalDescription, required String complaintStatus, required GeneralComplaintModel generalComplaintData,
   }) async {
 
     try{
@@ -86,7 +88,11 @@ class AddAcknowledgeComplaintHelper {
         "equipmentId" : equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
         "description" : description,
         "breakdown" : breakDownvalue,
-        "complaintDateTime" : "$date $time"
+        "complaintDateTime" : "$date $time",
+        "generalComplaintId" :  generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
+        "generalComplaintDesc" : generalDescription,
+        "complainStatus" : complaintStatus,
+
       };
       if(!context.mounted) return null;
       var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

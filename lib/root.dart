@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/bloc/acknowledge_bloc.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/presentation/page/acknowledge_page.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/bloc/dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/home/domain/bloc/home_bloc.dart';
@@ -10,9 +11,9 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/domain/bloc/view_equipment_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/bloc/review_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/splashScreen/page/splash_screen.dart';
+import 'package:flutter_igl_cng/services/notification/notification_service.dart';
 import 'package:provider/provider.dart';
 import 'ExportFile/app_export_file.dart';
-
 
 class Root extends StatefulWidget {
   final Client client;
@@ -24,7 +25,6 @@ class Root extends StatefulWidget {
 
 class _RootState extends State<Root> {
 
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -82,7 +82,10 @@ class _RootState extends State<Root> {
         BlocProvider(create: (BuildContext context) => AddAcknowledgeComplaintBloc()),
       ],
       child: MaterialApp(
-        navigatorKey: navigatorKey,
+        navigatorKey: locator<NavigationService>().navigatorKey,
+        routes: <String, WidgetBuilder>{
+      '/AcknowledgePage': (BuildContext context) => new AcknowledgePage(),
+      },
         title: 'CNG',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

@@ -50,15 +50,17 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
           itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () async {
-              BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-                  AddAcknowledgeComplaintPageLoadEvent(context: context, acknowledgeData: dataState.acknowledgeList[index]));
-             final result =  await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AddAcknowledgePage()),
-              );
-              if (!context.mounted) return;
-              if(result.toString() == "Completed"){
-                BlocProvider.of<AcknowledgeBloc>(context).add(AcknowledgePageLoadEvent(context: context));
+              if(dataState.acknowledgeList[index].complaintStatus.toString() != "2"){
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintPageLoadEvent(context: context, acknowledgeData: dataState.acknowledgeList[index]));
+                final result =  await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddAcknowledgePage()),
+                );
+                if (!context.mounted) return;
+                if(result.toString() == "Completed"){
+                  BlocProvider.of<AcknowledgeBloc>(context).add(AcknowledgePageLoadEvent(context: context));
+                }
               }
             },
             child: AcknowledgeItemBoxWidget(

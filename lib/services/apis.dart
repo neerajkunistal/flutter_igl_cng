@@ -25,6 +25,7 @@ class APIs {
   static get addMiComplaintApi => "api/cr/mi-complaint";
   static get getAssignUserApi => "api/onm/assign-users";
   static get addAcknowlegeApi => "api/cr/si-ack-complaints";
+  static get getGeneralComplaintApi => "api/cr/general-complain";
   static get getUomApi => "api/onm/uom";
   static get forgotPasswordApi => "";
 }

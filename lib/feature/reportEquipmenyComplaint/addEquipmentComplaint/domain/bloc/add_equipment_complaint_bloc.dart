@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
 import 'package:intl/intl.dart';
 
@@ -22,13 +23,17 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
   TextEditingController reportByController =  TextEditingController();
   TextEditingController dateController =  TextEditingController();
   TextEditingController timeController =  TextEditingController();
+  TextEditingController generalDescriptionController =  TextEditingController();
   bool isLoader =  false;
   File file =  File("");
+  List<GeneralComplaintModel> generalComplaintList = [];
+  GeneralComplaintModel generalComplaintData =  GeneralComplaintModel();
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
     on<AddEquipmentComplaintSelectComplaintDataEvent>(_selectComplaintType);
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddEquipmentComplaintSelectGeneralDataEvent>(_selectGeneral);
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
@@ -41,10 +46,13 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     complaintTypeData =  ComplaintTypeModel();
     equipmentTypeData =  EquipmentTypeModel();
     equipmentTypeList = [];
+    generalComplaintList = [];
+    generalComplaintData  =  GeneralComplaintModel();
     descriptionController.text = "";
     reportByController.text = "";
     dateController.text = "";
     timeController.text = "";
+    generalDescriptionController.text = "";
     isLoader =  false;
     file =  File("");
 
@@ -57,17 +65,31 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
     if(resEquipment != null){
       equipmentTypeList =  resEquipment;
     }
+
+    var resGeneral =  await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    if(resGeneral != null){
+      generalComplaintList =  resGeneral;
+    }
+
     _eventComplete(emit);
   }
 
   _selectComplaintType(AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
     complaintTypeData =  event.complaintTypeData;
     equipmentTypeData = EquipmentTypeModel();
+    generalDescriptionController.text = "";
+    generalComplaintData =  GeneralComplaintModel();
     _eventComplete(emit);
   }
 
   _selectEquipment(AddEquipmentComplaintSelectEquipmentDataEvent event, emit) {
     equipmentTypeData = event.equipmentTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectGeneral(AddEquipmentComplaintSelectGeneralDataEvent event, emit) {
+    generalComplaintData =  event.generalComplaintData;
+    generalDescriptionController.text = "";
     _eventComplete(emit);
   }
 
@@ -132,14 +154,17 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
         complaintTypeData: complaintTypeData, equipmentTypeData: equipmentTypeData,
         description: descriptionController.text.toString(), name: reportByController.text.toString(),
         date: dateController.text.toString(), time: timeController.text.toString(),
+        generalComplaintData: generalComplaintData, generalDescription: generalDescriptionController.text.toString(),
         file: file);
     if(res != null){
       complaintTypeData =  ComplaintTypeModel();
       equipmentTypeData =  EquipmentTypeModel();
+      generalComplaintData =  GeneralComplaintModel();
       descriptionController.text = "";
       reportByController.text = "";
       dateController.text = "";
       timeController.text = "";
+      generalDescriptionController.text = "";
       isLoader =  false;
       file =  File("");
     }
@@ -159,6 +184,9 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
         reportByController: reportByController,
         dateController: dateController,
         timeController: timeController,
+        generalComplaintData: generalComplaintData,
+        generalComplaintList: generalComplaintList,
+        generalDescriptionController: generalDescriptionController,
     ));
   }
 }

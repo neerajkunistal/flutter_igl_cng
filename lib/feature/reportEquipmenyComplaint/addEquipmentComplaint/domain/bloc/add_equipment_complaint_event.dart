@@ -19,6 +19,14 @@ class AddEquipmentComplaintSelectComplaintDataEvent extends AddEquipmentComplain
   List<Object?> get props => [complaintTypeData];
 }
 
+class AddEquipmentComplaintSelectGeneralDataEvent extends AddEquipmentComplaintEvent {
+  final GeneralComplaintModel generalComplaintData;
+  const AddEquipmentComplaintSelectGeneralDataEvent({required this.generalComplaintData});
+  @override
+  List<Object?> get props => [generalComplaintData];
+}
+
+
 class AddEquipmentComplaintSelectEquipmentDataEvent extends AddEquipmentComplaintEvent {
   final EquipmentTypeModel equipmentTypeData;
   const AddEquipmentComplaintSelectEquipmentDataEvent({required this.equipmentTypeData});

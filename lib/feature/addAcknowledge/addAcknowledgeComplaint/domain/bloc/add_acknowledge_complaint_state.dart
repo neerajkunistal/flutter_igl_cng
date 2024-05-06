@@ -37,6 +37,10 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final AcknowledgeUserModel acknowledgeUserData;
   final TextEditingController dateController;
   final TextEditingController timeController;
+  final List<GeneralComplaintModel> generalComplaintList;
+  final GeneralComplaintModel generalComplaintData;
+  final TextEditingController generalDescriptionController;
+  final String complaintStatus;
 
 
   FetchAddAcknowledgeComplaintState({
@@ -62,6 +66,10 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.acknowledgeUserList,
     required this.dateController,
     required this.timeController,
+    required this.generalComplaintData,
+    required this.generalComplaintList,
+    required this.generalDescriptionController,
+    required this.complaintStatus,
   });
 
 
@@ -89,5 +97,9 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     acknowledgeUserList,
     dateController,
     timeController,
+    generalComplaintData,
+    generalComplaintList,
+    generalDescriptionController,
+    complaintStatus,
   ];
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/snack_bar_success_widget.dart';
 
 class AddEquipmentComplaintHelper {
@@ -35,21 +36,39 @@ class AddEquipmentComplaintHelper {
     }
   }
 
+  static Future<dynamic> fetchGeneralComplaintData() async {
+
+    try{
+      String url =  APIs.getGeneralComplaintApi;
+      var res   =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['status'] != null && res["status"] == true) {
+        return generalComplaintListResponse(res['data']);
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
   static Future<dynamic> submitData({required BuildContext context,
   required ComplaintTypeModel  complaintTypeData,
   required EquipmentTypeModel equipmentTypeData,
   required String description, required String name, required File file,
-  required String date, required String time,
+  required String date, required String time, required String generalDescription,
+  required GeneralComplaintModel generalComplaintData,
   }) async {
 
        try{
          String url =  APIs.addComplaintApi;
          var json = {
-             "complaintTypeId":  complaintTypeData.id != null ?  complaintTypeData.id.toString() : "",
-             "equipmentId" : equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "",
+             "complaintTypeId":  complaintTypeData.id != null ?  complaintTypeData.id.toString() : "0",
+             "equipmentId" : equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
              "description" : description,
              "reportBy" : name,
              "complaintDateTime" : "$date $time",
+             "generalComplaintDesc" : generalDescription,
+            "generalComplaintId" : generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
+
          };
          if(!context.mounted) return null;
          var res =  await ServerRequest.postDataWithFile(urlEndPoint: url, body: json, context: context,

@@ -10,6 +10,7 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 
 class AddAcknowledgePage extends StatefulWidget {
@@ -57,6 +58,14 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _equipmentDropDown(dataState: dataState) : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "2"? _verticalSpace() : const SizedBox.shrink(),
+            _generalDropDown(dataState: dataState),
+            _verticalSpace(),
+
+            dataState.generalComplaintData.name != null && dataState.generalComplaintData.name.toString().toLowerCase() == "others" ?
+            _generalDescriptionController(dataState: dataState) : const SizedBox.shrink(),
+            dataState.generalComplaintData.name != null && dataState.generalComplaintData.name.toString().toLowerCase() == "others" ?
+            _verticalSpace() : const SizedBox.shrink(),
+
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -71,6 +80,8 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _radioButton(dataState: dataState),
             _verticalSpace(),
             _userDropDown(dataState: dataState),
+            _verticalSpace(),
+            _complaintStatusRadioButton(dataState: dataState),
             _verticalSpace(),
             _remark(dataState: dataState),
             _verticalSpace(),
@@ -111,6 +122,23 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
         return DropdownMenuItem<EquipmentTypeModel>(
           value: equipmentTypeData,
           child: Text(equipmentTypeData.description.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _generalDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectGeneral,
+      dropdownValue: dataState.generalComplaintData.name != null ? dataState.generalComplaintData : null,
+      onChanged: (value) {
+        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+            AddAcknowledgeComplaintSelectGeneralDataEvent(generalComplaintData: value));
+      },
+      items: dataState.generalComplaintList.map<DropdownMenuItem<GeneralComplaintModel>>((GeneralComplaintModel generalComplaintData) {
+        return DropdownMenuItem<GeneralComplaintModel>(
+          value: generalComplaintData,
+          child: Text(generalComplaintData.name.toString()),
         );
       }).toList(),
     );
@@ -236,6 +264,49 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
        ],
      );
 }
+
+  Widget _complaintStatusRadioButton({required FetchAddAcknowledgeComplaintState dataState}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const TextWidget("Status*"),
+        Row(
+          children: [
+            Radio(
+              value: "0",
+              groupValue: dataState.complaintStatus,
+              onChanged: (val) {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectStatusData(complaintStatus: val.toString()));
+              },
+            ),
+            const TextWidget("Accept "),
+          ],
+        ),
+        Row(
+          children: [
+            Radio(
+              value: "2",
+              groupValue: dataState.complaintStatus,
+              onChanged: (val) {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectStatusData(complaintStatus: val.toString()));
+              },
+            ),
+            const TextWidget("Reject"),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _generalDescriptionController({required FetchAddAcknowledgeComplaintState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.otherDescription,
+      controller: dataState.generalDescriptionController,
+    );
+  }
 
   Widget _dateController({required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(

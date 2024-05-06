@@ -11,6 +11,7 @@ import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
@@ -46,10 +47,16 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
 
   bool isComplaintLoader =  false;
 
+  List<GeneralComplaintModel> generalComplaintList = [];
+  GeneralComplaintModel generalComplaintData =  GeneralComplaintModel();
+  TextEditingController generalDescriptionController =  TextEditingController();
+  String complaintStatus = "0";
+
   AddAcknowledgeComplaintBloc() : super(AddAcknowledgeComplaintInitial()) {
     on<AddAcknowledgeComplaintPageLoadEvent>(_pageLoad);
     on<AddAcknowledgeComplaintSelectComplaintDataEvent>(_selectComplaintType);
     on<AddAcknowledgeComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddAcknowledgeComplaintSelectStatusData>(_selectComplaintStatus);
     on<AddAcknowledgeComplaintSelectUserEvent>(_selectUser);
     on<AddAcknowledgeComplaintSelectDepartmentEvent>(_selectDepartment);
     on<AddAcknowledgeComplaintSelectComplaintEvent>(_selectComplaint);
@@ -86,6 +93,10 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     acknowledgeData =  AcknowledgeModel();
     reviewComplaintData =  ReviewComplaintModel();
     breakDownvalue = "";
+    generalDescriptionController.text = "";
+    generalComplaintList = [];
+    generalComplaintData  =  GeneralComplaintModel();
+    complaintStatus = "0";
 
     var resComplaint =  await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if(resComplaint !=  null){
@@ -116,6 +127,17 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     var resAckow =  await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
     if(resAckow != null){
       acknowledgeList =  resAckow;
+    }
+
+    var resGeneral =  await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    if(resGeneral != null){
+      generalComplaintList =  resGeneral;
+      for(var generalData in generalComplaintList){
+        if(generalData.id.toString() == event.acknowledgeData.generalComplaintId.toString()){
+          generalComplaintData =  generalData;
+          generalDescriptionController.text  =  event.acknowledgeData.generalComplaintRemark.toString();
+        }
+      }
     }
 
     var resReviewComplaint =  await ReviewComplaintHelper.fetchReviewComplaint(type:  "1");
@@ -158,6 +180,11 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
 
   _selectEquipment(AddAcknowledgeComplaintSelectEquipmentDataEvent event, emit) {
     equipmentTypeData = event.equipmentTypeData;
+    _eventComplete(emit);
+  }
+
+  _selectComplaintStatus(AddAcknowledgeComplaintSelectStatusData event, emit) {
+    complaintStatus =  event.complaintStatus;
     _eventComplete(emit);
   }
 
@@ -264,6 +291,9 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         complaintData: complaintData, departmentData: departmentData, acknowledgeData: acknowledgeData,
         breakDownvalue: breakDownvalue,acknowledgeUserData: acknowledgeUserData,
         date: dateController.text.toString(),time: timeController.text.toString(),
+        generalDescription: generalDescriptionController.text.toString(),
+        generalComplaintData: generalComplaintData,
+        complaintStatus: complaintStatus,
         file: file);
     if(res != null){
       complaintTypeData =  ComplaintTypeModel();
@@ -282,6 +312,9 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
       file =  File("");
       breakDownvalue = "";
       isComplaintLoader =  false;
+      generalDescriptionController.text = "";
+      generalComplaintData  =  GeneralComplaintModel();
+      complaintStatus =  "";
       if(!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }
@@ -313,6 +346,10 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         acknowledgeUserList: acknowledgeUserList,
         dateController: dateController,
         timeController: timeController,
+      generalComplaintData: generalComplaintData,
+      generalComplaintList: generalComplaintList,
+      generalDescriptionController: generalDescriptionController,
+      complaintStatus: complaintStatus,
     ));
   }
 }

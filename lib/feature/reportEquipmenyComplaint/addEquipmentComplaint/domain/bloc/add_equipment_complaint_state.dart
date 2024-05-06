@@ -26,6 +26,9 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
   final TextEditingController timeController;
   final bool isLoader;
   final File file;
+  final List<GeneralComplaintModel> generalComplaintList;
+  final GeneralComplaintModel generalComplaintData;
+  final TextEditingController generalDescriptionController;
 
   FetchAddEquipmentComplaintState({
    required this.file,
@@ -38,6 +41,9 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
    required this.reportByController,
    required this.dateController,
    required this.timeController,
+   required this.generalComplaintData,
+   required this.generalComplaintList,
+   required this.generalDescriptionController,
 });
 
 
@@ -53,5 +59,8 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
     reportByController,
     dateController,
     timeController,
+    generalComplaintData,
+    generalComplaintList,
+    generalDescriptionController,
   ];
 }

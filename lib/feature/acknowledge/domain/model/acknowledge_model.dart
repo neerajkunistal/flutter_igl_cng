@@ -49,6 +49,8 @@ class AcknowledgeModel {
   dynamic ackStatus;
   String? ackRemark;
   dynamic ackBy;
+  String? generalComplaintId;
+  String? generalComplaintRemark;
 
   AcknowledgeModel(
       {this.id,
@@ -97,6 +99,8 @@ class AcknowledgeModel {
         this.ackStatus,
         this.ackRemark,
         this.ackBy,
+        this.generalComplaintRemark,
+        this.generalComplaintId,
       });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -146,6 +150,8 @@ class AcknowledgeModel {
     ackStatus = json['ack_response'] ??  ""  ;
     ackRemark = json['ack_remarks'] ??  ""  ;
     ackBy = json['ack_by'] ??  ""  ;
+    generalComplaintId = json['general_complain_id'] ?? "";
+    generalComplaintRemark = json['general_complain_remarks'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
