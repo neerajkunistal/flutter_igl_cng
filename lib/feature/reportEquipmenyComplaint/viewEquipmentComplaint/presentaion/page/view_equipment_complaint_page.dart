@@ -60,7 +60,9 @@ class _ViewEquipmentComplaintPageState
           return GestureDetector(
               onTap: () async {
                   LoginDataModel userLogin =  UserInfo.instanceInit()!.userData!;
-                  if(userLogin.roleType == RoleType.shiftEngineer && dataState.reviewComplaintList[index].complaintStatus.toString() != "1") {
+                  if(userLogin.roleType == RoleType.shiftEngineer
+                      && dataState.reviewComplaintList[index].complaintStatus.toString() != "1"
+                      && dataState.reviewComplaintList[index].complaintStatus.toString() != "2") {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(context: context, reviewComplaintData: dataState.reviewComplaintList[index]));
                         var result = await Navigator.push(
@@ -72,7 +74,9 @@ class _ViewEquipmentComplaintPageState
                       BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
                           ViewEquipmentComplaintPageLoadEvent(context: context));
                     }
-                  }  else  if(userLogin.roleType == RoleType.mi && dataState.reviewComplaintList[index].action.toString() != "3"){
+                  }  else  if(userLogin.roleType == RoleType.mi
+                      && dataState.reviewComplaintList[index].action.toString() != "3"
+                      && dataState.reviewComplaintList[index].complaintStatus.toString() != "2"){
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintPageLoadEvent(context: context, reviewComplaintData: dataState.reviewComplaintList[index]));
                    final result =  await Navigator.push(
@@ -86,6 +90,8 @@ class _ViewEquipmentComplaintPageState
                    }
                   } else  if(userLogin.roleType == RoleType.mi && dataState.reviewComplaintList[index].action.toString() == "3"){
                      SnackBarErrorWidget(context).show(message: "Complaint already closed");
+                  } else  if(userLogin.roleType == RoleType.mi && dataState.reviewComplaintList[index].complaintStatus.toString() == "2"){
+                    SnackBarErrorWidget(context).show(message: "Complaint already Reject");
                   }
               },
               child: ReviewComplaintItemBox(reviewComplaintData: dataState.reviewComplaintList[index],));

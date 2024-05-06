@@ -151,11 +151,12 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     sparesData: dataState.sparesPartList[index].sparesData!,
                     index: index),
                 _verticalSpace(),
-                _uomDropDown(dataState: dataState,
-                    uomTypeData: dataState.sparesPartList[index].uomTypeData!, index: index),
-                _verticalSpace(),
+                // _uomDropDown(dataState: dataState,
+                //     uomTypeData: dataState.sparesPartList[index].uomTypeData!, index: index),
+                // _verticalSpace(),
                 _qtyController(dataState: dataState, index: index,
-                    qtyController: dataState.sparesPartList[index].qtyController!),
+                    qtyController: dataState.sparesPartList[index].qtyController!,
+                  sparesData: dataState.sparesPartList[index].sparesData!,),
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(onPressed: () {
@@ -208,11 +209,12 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   }
 
   Widget _qtyController({required FetchMiComplaintDataState dataState,
-     required int index, required TextEditingController qtyController}) {
+     required int index, required TextEditingController qtyController,
+     required SparesModel sparesData }) {
     return TextFieldWidget(
       textInputType:  TextInputType.number,
       isRequired: false,
-      labelText: AppString.qty,
+      labelText: sparesData.id != null ? sparesData.spareUom.toString() :  AppString.qty,
       controller: qtyController,
     );
   }
