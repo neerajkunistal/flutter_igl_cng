@@ -248,7 +248,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
   }
 
   _submit(MiComplaintSubmitData event, emit) async {
-    if(reviewComplaintData.startDateTime.toString().isEmpty && actionData.id != "1"){
+    if(reviewComplaintData.startDateTime.toString().isEmpty && reviewComplaintData.action == ""){
       SnackBarErrorWidget(event.context).show(message: "Please select start");
       return;
     }

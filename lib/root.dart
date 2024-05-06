@@ -84,7 +84,7 @@ class _RootState extends State<Root> {
       child: MaterialApp(
         navigatorKey: locator<NavigationService>().navigatorKey,
         routes: <String, WidgetBuilder>{
-      '/AcknowledgePage': (BuildContext context) => new AcknowledgePage(),
+        '/AcknowledgePage': (BuildContext context) => const AcknowledgePage(),
       },
         title: 'CNG',
         debugShowCheckedModeBanner: false,
