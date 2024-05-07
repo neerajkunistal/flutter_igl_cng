@@ -3,7 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class LogOutPopWidget extends StatelessWidget {
   final String? logOutMessage;
-  const LogOutPopWidget({this.logOutMessage});
+  const LogOutPopWidget({super.key, this.logOutMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -62,16 +62,6 @@ class LogOutPopWidget extends StatelessWidget {
 
   Widget _logOutButton({required BuildContext context}) {
     return TextButton(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: TextWidget(
-            "Log Out",
-            textAlign: TextAlign.center,
-            fontSize: AppFont.font_16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.themeColor,
-          ),
-        ),
         style: ButtonStyle(
             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
             foregroundColor: MaterialStateProperty.all<Color>(AppColor.themeColor),
@@ -89,7 +79,17 @@ class LogOutPopWidget extends StatelessWidget {
                   builder: (BuildContext context) =>
                       LoginScreenPage()),
                   (Route<dynamic> route) => false);*/
-        }
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.30,
+          child: TextWidget(
+            "Log Out",
+            textAlign: TextAlign.center,
+            fontSize: AppFont.font_16,
+            fontWeight: FontWeight.w500,
+            color: AppColor.themeColor,
+          ),
+        )
     );
   }
 

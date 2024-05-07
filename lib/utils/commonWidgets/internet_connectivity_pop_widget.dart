@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class InternetConnectivityPopWidget extends StatelessWidget {
-  const InternetConnectivityPopWidget();
+  const InternetConnectivityPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -63,7 +63,7 @@ class OTPTextFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatter;
 
   const OTPTextFieldWidget({
-    Key? key,
+    super.key,
     this.length = 4,
     this.width = 10,
     this.controller,
@@ -84,8 +84,7 @@ class OTPTextFieldWidget extends StatefulWidget {
     const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
     this.isDense = false,
     this.onCompleted,
-  })  : assert(length > 1),
-        super(key: key);
+  })  : assert(length > 1);
 
   @override
   _OTPTextFieldWidgetState createState() => _OTPTextFieldWidgetState();
@@ -123,7 +122,9 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 
   @override
   void dispose() {
-    _textControllers.forEach((controller) => controller?.dispose());
+    for (var controller in _textControllers) {
+      controller?.dispose();
+    }
     super.dispose();
   }
 
@@ -262,9 +263,9 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 
   String _getCurrentPin() {
     String currentPin = "";
-    _pin.forEach((String value) {
+    for (var value in _pin) {
       currentPin += value;
-    });
+    }
     return currentPin;
   }
 
@@ -310,11 +311,11 @@ class OtpFieldController {
     });
 
     final textControllers = _otpTextFieldState._textControllers;
-    textControllers.forEach((textController) {
+    for (var textController in textControllers) {
       if (textController != null) {
         textController.text = '';
       }
-    });
+    }
 
     final firstFocusNode = _otpTextFieldState._focusNodes[0];
     if (firstFocusNode != null) {
@@ -367,9 +368,9 @@ class OtpFieldController {
     }
 
     String newPin = "";
-    currentPin.forEach((item) {
+    for (var item in currentPin) {
       newPin += item;
-    });
+    }
 
     final widget = _otpTextFieldState.widget;
     if (widget.onChanged != null) {

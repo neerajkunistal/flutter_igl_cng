@@ -22,7 +22,7 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final TextEditingController observationController;
   final File file;
 
-  FetchReviewComplaintDataState({
+  const FetchReviewComplaintDataState({
    required this.isLoader,
    required this.file,
    required this.observationController,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
-import 'custom_styles.dart';
-
 class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final String message;
   final String? okButtonText;

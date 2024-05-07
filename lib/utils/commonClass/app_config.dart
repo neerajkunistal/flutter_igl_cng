@@ -22,7 +22,7 @@ class AppConfig {
       try{
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         String version = packageInfo.version;
-        String code = packageInfo.buildNumber;
+        // String code = packageInfo.buildNumber;
         appVersion =  version;
       }catch(e){
         return null;

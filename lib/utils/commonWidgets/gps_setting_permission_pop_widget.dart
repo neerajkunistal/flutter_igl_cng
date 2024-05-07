@@ -4,7 +4,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GPSSettingPermissionPopWidget extends StatelessWidget {
-  const GPSSettingPermissionPopWidget();
+  const GPSSettingPermissionPopWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,16 +60,6 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
 
   Widget _settingButton({required BuildContext context,}) {
     return TextButton(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.30,
-          child: TextWidget(
-            "Open Setting",
-            textAlign: TextAlign.center,
-            fontSize: AppFont.font_16,
-            fontWeight: FontWeight.w500,
-            color: AppColor.themeColor,
-          ),
-        ),
         style: ButtonStyle(
             padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(15)),
             foregroundColor: MaterialStateProperty.all<Color>(AppColor.themeColor),
@@ -83,7 +73,17 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
         onPressed: () async {
           await openAppSettings();
           Navigator.pop(context);
-        }
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.30,
+          child: TextWidget(
+            "Open Setting",
+            textAlign: TextAlign.center,
+            fontSize: AppFont.font_16,
+            fontWeight: FontWeight.w500,
+            color: AppColor.themeColor,
+          ),
+        )
     );
   }
 

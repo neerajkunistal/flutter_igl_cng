@@ -12,7 +12,7 @@ class ButtonWidget extends StatelessWidget {
   final bool? isLockIcon;
   final BoxDecoration? gradientDecorationColor;
 
-  const ButtonWidget({required this.text, required this.onPressed, this.fontSize,
+  const ButtonWidget({super.key, required this.text, required this.onPressed, this.fontSize,
     this.gradientDecorationColor, this.isSideBoard, this.backgroundColor, this.height, this.isLockIcon});
 
   @override

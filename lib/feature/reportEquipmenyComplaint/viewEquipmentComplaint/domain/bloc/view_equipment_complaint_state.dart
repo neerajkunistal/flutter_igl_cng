@@ -16,7 +16,7 @@ class ViewEquipmentComplaintPageLoadState extends ViewEquipmentComplaintInitial 
 
 class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final List<ReviewComplaintModel> reviewComplaintList;
-  FetchViewEquipmentComplaintDataState({required this.reviewComplaintList});
+  const FetchViewEquipmentComplaintDataState({required this.reviewComplaintList});
 
   @override
   List<Object> get props => [reviewComplaintList];
