@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import '../domain/models/login_model.dart';
@@ -37,7 +38,9 @@ class LoginHelper {
     var deviceId = await getUniqueDeviceId();
 /*    var firebaseToken = await FirebaseMessaging.instance.getToken();*/
     var firebaseToken = "";
-    print(firebaseToken.toString());
+    if(kDebugMode){
+      print(firebaseToken.toString());
+    }
     try {
       if (await isInternetConnected() == true) {
         var json =  LoginScreenRequestModel(

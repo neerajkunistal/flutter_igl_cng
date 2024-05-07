@@ -87,10 +87,10 @@ class OTPTextFieldWidget extends StatefulWidget {
   })  : assert(length > 1);
 
   @override
-  _OTPTextFieldWidgetState createState() => _OTPTextFieldWidgetState();
+  OTPTextFieldWidgetState createState() => OTPTextFieldWidgetState();
 }
 
-class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
+class OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
   late OtpFieldStyle _otpFieldStyle;
   late List<FocusNode?> _focusNodes;
   late List<TextEditingController?> _textControllers;
@@ -163,7 +163,7 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 
     final isLast = index == widget.length - 1;
 
-    InputBorder _getBorder(Color color) {
+    InputBorder getBorder(Color color) {
       final colorOrError =
       widget.hasError ? _otpFieldStyle.errorBorderColor : color;
 
@@ -196,12 +196,12 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
           fillColor: _otpFieldStyle.backgroundColor,
           counterText: "",
           contentPadding: widget.contentPadding,
-          border: _getBorder(_otpFieldStyle.borderColor),
-          focusedBorder: _getBorder(_otpFieldStyle.focusBorderColor),
-          enabledBorder: _getBorder(_otpFieldStyle.enabledBorderColor),
-          disabledBorder: _getBorder(_otpFieldStyle.disabledBorderColor),
-          errorBorder: _getBorder(_otpFieldStyle.errorBorderColor),
-          focusedErrorBorder: _getBorder(_otpFieldStyle.errorBorderColor),
+          border: getBorder(_otpFieldStyle.borderColor),
+          focusedBorder: getBorder(_otpFieldStyle.focusBorderColor),
+          enabledBorder: getBorder(_otpFieldStyle.enabledBorderColor),
+          disabledBorder: getBorder(_otpFieldStyle.disabledBorderColor),
+          errorBorder: getBorder(_otpFieldStyle.errorBorderColor),
+          focusedErrorBorder: getBorder(_otpFieldStyle.errorBorderColor),
           errorText: null,
           // to hide the error text
           errorStyle: const TextStyle(height: 0, fontSize: 0),
@@ -298,9 +298,9 @@ class _OTPTextFieldWidgetState extends State<OTPTextFieldWidget> {
 }
 
 class OtpFieldController {
-  late _OTPTextFieldWidgetState _otpTextFieldState;
+  late OTPTextFieldWidgetState _otpTextFieldState;
 
-  void setOtpTextFieldState(_OTPTextFieldWidgetState state) {
+  void setOtpTextFieldState(OTPTextFieldWidgetState state) {
     _otpTextFieldState = state;
   }
 

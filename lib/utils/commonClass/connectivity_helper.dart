@@ -1,8 +1,5 @@
-
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/gps_alert_pop_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/gps_setting_permission_pop_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/internet_connectivity_pop_widget.dart';
 import 'package:geolocator/geolocator.dart';
