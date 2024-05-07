@@ -1,15 +1,11 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
-import 'package:intl/intl.dart';
 
 part 'mi_complaint_event.dart';
 part 'mi_complaint_state.dart';

@@ -1,10 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'view_equipment_complaint_event.dart';

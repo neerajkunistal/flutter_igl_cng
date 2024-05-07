@@ -68,7 +68,7 @@ class LocationHelper {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission != LocationPermission.denied) {
           Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.best).timeout(Duration(seconds: 4));
+              desiredAccuracy: LocationAccuracy.best).timeout(const Duration(seconds: 4));
           Map<String, dynamic> location = {
             "lat": position.latitude,
             "long": position.longitude,
@@ -92,7 +92,7 @@ class LocationHelper {
       List<Placemark> placeMarker =
       await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMarker[0];
-      print("position.latitude" + position.latitude.toString());
+      print("position.latitude${position.latitude}");
       Map<String, dynamic> location = {
         "lat": position.latitude,
         "long": position.longitude,
@@ -133,14 +133,14 @@ class LocationHelper {
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
 
       }
       if (status == PermissionStatus.permanentlyDenied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
       }
     } else if (Platform.isIOS) {
@@ -148,7 +148,7 @@ class LocationHelper {
       if (permission == LocationPermission.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
       }
     }
@@ -161,30 +161,30 @@ class LocationHelper {
     ].request();
 
     final status = await Permission.camera.status;
-    print("Check Camera Permissin ---- ${status}");
+    print("Check Camera Permissin ---- $status");
     if (Platform.isAndroid) {
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => CameraPermissionPopWidget());
+            builder: (BuildContext context) => const CameraPermissionPopWidget());
         return false;
       }
       if (status == PermissionStatus.permanentlyDenied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => CameraPermissionPopWidget());
+            builder: (BuildContext context) => const CameraPermissionPopWidget());
         return false;
       }
     }else{
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => CameraPermissionPopWidget());
+            builder: (BuildContext context) => const CameraPermissionPopWidget());
         return false;
       } else if (status == PermissionStatus.permanentlyDenied) {
       showDialog(
             context: context,
-            builder: (BuildContext context) => CameraPermissionPopWidget());
+            builder: (BuildContext context) => const CameraPermissionPopWidget());
         return false;
       }
     }

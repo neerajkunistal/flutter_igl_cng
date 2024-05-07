@@ -25,7 +25,7 @@ class TextFieldPasswordWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Padding(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         child: TextFormField(
           onTap: onTap,
           enabled: enabled ?? true,
@@ -37,8 +37,8 @@ class TextFieldPasswordWidget extends StatelessWidget {
           decoration: InputDecoration(
               // labelText: labelText,
               label: Text.rich(TextSpan(children: [
-                TextSpan(text: "$labelText"),
-                TextSpan(text: isRequired != null && isRequired == true ? ' *' : "", style: TextStyle(color: Colors.red)),
+                TextSpan(text: labelText),
+                TextSpan(text: isRequired != null && isRequired == true ? ' *' : "", style: const TextStyle(color: Colors.red)),
               ])),
               labelStyle: TextStyle(fontSize: AppFont.font_14, color: AppColor.themeColor),
               fillColor: Colors.white,
@@ -50,7 +50,7 @@ class TextFieldPasswordWidget extends StatelessWidget {
                 ),
               ),
               filled: true,
-              contentPadding: EdgeInsets.all(15),
+              contentPadding: const EdgeInsets.all(15),
               suffixIcon: isPasswordIcon != null
                   ? IconButton(
                 onPressed: passwordOnPressed,

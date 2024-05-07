@@ -1,8 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class DropDownSearchWidget extends StatelessWidget {
 
@@ -99,7 +97,7 @@ class DropDownSearchWidget extends StatelessWidget {
 
   Widget _customPopupItemBuilderExample2(BuildContext context, dynamic item, bool isSelected) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       decoration: !isSelected
           ? null
           : BoxDecoration(

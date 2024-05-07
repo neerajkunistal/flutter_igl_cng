@@ -50,14 +50,14 @@ class ConnectivityHelper {
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
 
       }
       if (status == PermissionStatus.permanentlyDenied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
       }
     } else if (Platform.isIOS) {
@@ -65,7 +65,7 @@ class ConnectivityHelper {
       if (permission == LocationPermission.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
         return false;
       }
     }
@@ -81,7 +81,7 @@ class ConnectivityHelper {
     if(isConnected == false){
       showDialog(
           context: context,
-          builder: (BuildContext context) =>  InternetConnectivityPopWidget());
+          builder: (BuildContext context) =>  const InternetConnectivityPopWidget());
       return false;
     }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/miComplaint/domain/bloc/mi_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 
 class MiComplaintPage extends StatefulWidget {
@@ -226,40 +224,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
-  Widget _radioButton({required FetchMiComplaintDataState dataState}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const TextWidget("Approval"),
-        Row(
-          children: [
-            Radio(
-              value: "Yes",
-              groupValue: dataState.approvalValue,
-              onChanged: (val) {
-                BlocProvider.of<MiComplaintBloc>(context).add(
-                    MiComplaintSelectApprovalData(approvalValue: val.toString()));
-              },
-            ),
-            const TextWidget("Yes"),
-
-            Radio(
-              value: "No",
-              groupValue: dataState.approvalValue,
-              onChanged: (val) {
-                BlocProvider.of<MiComplaintBloc>(context).add(
-                    MiComplaintSelectApprovalData(approvalValue: val.toString()));
-              },
-            ),
-            const TextWidget("No"),
-
-          ],
-        ),
-      ],
-    );
-  }
-
   Widget _actionDropDown({required FetchMiComplaintDataState dataState}) {
     return DropdownWidget(
       hint: AppString.selectAction,
@@ -277,25 +241,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
-  Widget _amcStatusController({required FetchMiComplaintDataState dataState}) {
-    TextEditingController controller =  TextEditingController();
-    controller.text =  dataState.reviewComplaintData.id != null ? dataState.reviewComplaintData.amcStatus.toString() : "";
-    return TextFieldWidget(
-      enabled: false,
-      labelText: "AMC Status",
-      controller: controller,
-    );
-  }
-
-  Widget _amcDateController({required FetchMiComplaintDataState dataState}) {
-    TextEditingController controller =  TextEditingController();
-    controller.text =  dataState.reviewComplaintData.id != null ? dataState.reviewComplaintData.amcDate.toString() : "";
-    return TextFieldWidget(
-      enabled: false,
-      labelText: "AMC Date",
-      controller: controller,
-    );
-  }
 
   Widget _observationController({required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(

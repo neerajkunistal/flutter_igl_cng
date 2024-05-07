@@ -22,7 +22,7 @@ class TabletReportWidget extends StatelessWidget {
                   elevation: 3,
                   shadowColor: AppColor.themeLightColor,
                   color: AppColor.themeLightColor,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: CardBackground(
@@ -61,7 +61,7 @@ class TabletReportWidget extends StatelessWidget {
                   elevation: 3,
                   shadowColor: AppColor.cardBlue,
                   color: AppColor.cardBlue,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: CardBackground(
@@ -105,7 +105,7 @@ class TabletReportWidget extends StatelessWidget {
                   elevation: 3,
                   shadowColor: AppColor.cardGreen,
                   color: AppColor.cardGreen,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: CardBackground(
@@ -143,7 +143,7 @@ class TabletReportWidget extends StatelessWidget {
                   elevation: 3,
                   shadowColor: AppColor.cardLightGreen,
                   color: AppColor.cardLightGreen,
-                  shape: RoundedRectangleBorder(
+                  shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: CardBackground(

@@ -9,7 +9,7 @@ class ServiceCenterNetworkWidget extends StatelessWidget {
     return  Card(
         elevation: 3,
         shadowColor: Colors.purple[400],
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         child: Padding(

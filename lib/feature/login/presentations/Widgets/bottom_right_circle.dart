@@ -22,7 +22,7 @@ Widget bottomRightCircle(BuildContext context){
                 gradient: LinearGradient(begin: Alignment.bottomRight, end: Alignment.topLeft, colors: <Color>[AppColor.themeColor,
                   AppColor.themeLightColor]),
                 // color: Colors.pink,
-                borderRadius: BorderRadius.all(Radius.circular(80))),
+                borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
       ),
@@ -32,7 +32,7 @@ Widget bottomRightCircle(BuildContext context){
         child: Container(
           height: height * 0.16,
           width: width * 0.32,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             //  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[Color(0xFF4348bf), Color(0xFF7fd4f5)]),
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(80))),
@@ -53,7 +53,7 @@ Widget bottomRightCircle(BuildContext context){
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.bottomRight, end: Alignment.topLeft, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
                 // color: Colors.pink,
-                borderRadius: BorderRadius.all(Radius.circular(80))),
+                borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
       ),
@@ -72,7 +72,7 @@ Widget bottomRightCircle(BuildContext context){
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.bottomRight, end: Alignment.topLeft, colors: <Color>[AppColor.themeColor, AppColor.themeLightColor]),
                 // color: Colors.pink,
-                borderRadius: BorderRadius.all(Radius.circular(80))),
+                borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
       ),

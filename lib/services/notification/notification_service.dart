@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/page/acknowledge_page.dart';
-import 'package:flutter_igl_cng/root.dart';
 import 'package:flutter_igl_cng/services/notification/received_notification_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
@@ -13,7 +10,7 @@ final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = Flutter
 
 class NotificationService{
 
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Future<dynamic> navigateTo({String? newsId}) {
     return navigatorKey.currentState!.pushNamed('/AcknowledgePage',arguments: "");
   }
@@ -290,7 +287,7 @@ void setupLocator()
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   Future<dynamic> navigateTo({String? newsId}) {
     return navigatorKey.currentState!.pushNamed('/AcknowledgePage',arguments: newsId);
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
