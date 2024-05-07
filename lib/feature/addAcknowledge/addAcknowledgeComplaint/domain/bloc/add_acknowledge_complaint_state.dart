@@ -30,7 +30,6 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final List<AcknowledgeModel> acknowledgeList;
   final AcknowledgeModel acknowledgeData;
   final String breakDownvalue;
-  final List<ReviewComplaintModel> reviewComplaintList;
   final ReviewComplaintModel reviewComplaintData;
   final bool isComplaintLoader;
   final List<AcknowledgeUserModel> acknowledgeUserList;
@@ -60,7 +59,6 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.departmentList,
     required this.breakDownvalue,
     required this.reviewComplaintData,
-    required this.reviewComplaintList,
     required this.isComplaintLoader,
     required this.acknowledgeUserData,
     required this.acknowledgeUserList,
@@ -91,7 +89,6 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     departmentList,
     breakDownvalue,
     reviewComplaintData,
-    reviewComplaintList,
     isComplaintLoader,
     acknowledgeUserData,
     acknowledgeUserList,

@@ -19,9 +19,11 @@ class AppColor {
   static get lightGrey => Colors.black12;
   static get black => Colors.black;
   static get white => Colors.white;
-  static get red => Colors.red;
+  static get red =>const Color(0xFFD32F2F);
   static get cardBlue => const Color(0xFF48A9F8);
   static get cardGreen => const Color(0xFF1BD084);
+  static get green => const Color(0xFF43A047);
+  static get orange => const Color(0xFFea8e11);
   static get cardLightGreen => const Color(0xFF8BC740);
 
   static get themeSecondary => const Color(0xFFea8e11);

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/bloc/acknowledge_bloc.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/acknowledge_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/presentation/page/add_acknowledge_page.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -55,7 +52,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                     AddAcknowledgeComplaintPageLoadEvent(context: context, acknowledgeData: dataState.acknowledgeList[index]));
                 final result =  await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AddAcknowledgePage()),
+                  FadeRoute(page : const AddAcknowledgePage()),
                 );
                 if (!context.mounted) return;
                 if(result.toString() == "Completed"){

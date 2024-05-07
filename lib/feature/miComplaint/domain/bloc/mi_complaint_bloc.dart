@@ -57,7 +57,6 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
      reviewComplaintList = [];
      reviewComplaintData =  ReviewComplaintModel();
      sparesList = [];
-     actionList = ActionModel().fetchData();
      actionData =  ActionModel();
      sparesData =  SparesModel();
      approvalValue = "";
@@ -73,32 +72,26 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
      file =  File("");
      isLoader =  false;
 
+    reviewComplaintList =  BlocProvider.of<ViewEquipmentComplaintBloc>(event.context).reviewComplaintList;
+    for(var complaint in reviewComplaintList){
+      if(complaint.id.toString() == event.reviewComplaintData.id.toString()){
+        reviewComplaintData =  complaint;
+      }
+    }
+
      var res =  await MiComplaintHelper.fetchSpareData();
      if(res !=  null){
         sparesList =  res;
      }
-
-    var resReview =  await MiComplaintHelper.fetchMiComplaint();
-    if(resReview != null){
-      reviewComplaintList =  resReview;
-      for(var complaint in reviewComplaintList){
-        if(complaint.id.toString() == event.reviewComplaintData.id.toString()){
-          reviewComplaintData =  complaint;
-        }
-      }
-    }
-
-    var resUom =  await MiComplaintHelper.fetchUomData();
-    if(res !=  null){
-      uomTypeList =  resUom;
-    }
-
     sparesPartList.add(SparesPartModel(
       sparesData: SparesModel(),
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
     ));
 
+
+
+    actionList = ActionModel().fetchData();
     for(var actionValue in actionList){
       if(actionValue.id.toString() == event.reviewComplaintData.action.toString()){
         actionData =  actionValue;

@@ -1,22 +1,7 @@
-import 'package:equatable/equatable.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/helper/add_acknowledge_helper.dart';
-import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/helper/review_complaint_helper.dart';
-import 'package:intl/intl.dart';
-
 part 'add_acknowledge_complaint_state.dart';
 
 class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, AddAcknowledgeComplaintState> {
@@ -35,7 +20,6 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
   ComplaintModel complaintData =  ComplaintModel();
   List<AcknowledgeModel> acknowledgeList = [];
   AcknowledgeModel acknowledgeData =  AcknowledgeModel();
-  List<ReviewComplaintModel> reviewComplaintList = [];
   ReviewComplaintModel reviewComplaintData =  ReviewComplaintModel();
   List<AcknowledgeUserModel> acknowledgeUserList = [];
   AcknowledgeUserModel acknowledgeUserData =  AcknowledgeUserModel();
@@ -78,7 +62,6 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     departmentList = [];
     complaintList = [];
     acknowledgeList =[];
-    reviewComplaintList = [];
     acknowledgeUserList = [];
     acknowledgeUserData =  AcknowledgeUserModel();
     descriptionController.text = "";
@@ -97,6 +80,8 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
     generalComplaintList = [];
     generalComplaintData  =  GeneralComplaintModel();
     complaintStatus = "0";
+
+    acknowledgeList =  BlocProvider.of<AcknowledgeBloc>(event.context).acknowledgeList;
 
     var resComplaint =  await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if(resComplaint !=  null){
@@ -118,15 +103,9 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
       }
     }
 
-
     var resDepartment =  await AddAcknowledgeComplaintHelper.fetchDepartmentData();
     if(resDepartment != null){
       departmentList =  resDepartment;
-    }
-
-    var resAckow =  await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
-    if(resAckow != null){
-      acknowledgeList =  resAckow;
     }
 
     var resGeneral =  await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
@@ -140,10 +119,6 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
       }
     }
 
-    var resReviewComplaint =  await ReviewComplaintHelper.fetchReviewComplaint(type:  "1");
-    if(resReviewComplaint != null){
-      reviewComplaintList =  resReviewComplaint;
-    }
 
     var resUser =  await AddAcknowledgeComplaintHelper.fetchUserList();
     if(resUser != null){
@@ -340,16 +315,15 @@ class AddAcknowledgeComplaintBloc extends Bloc<AddAcknowledgeComplaintEvent, Add
         complaintList: complaintList,
         breakDownvalue: breakDownvalue,
         reviewComplaintData: reviewComplaintData,
-        reviewComplaintList: reviewComplaintList,
         isComplaintLoader: isComplaintLoader,
         acknowledgeUserData: acknowledgeUserData,
         acknowledgeUserList: acknowledgeUserList,
         dateController: dateController,
         timeController: timeController,
-      generalComplaintData: generalComplaintData,
-      generalComplaintList: generalComplaintList,
-      generalDescriptionController: generalDescriptionController,
-      complaintStatus: complaintStatus,
+        generalComplaintData: generalComplaintData,
+        generalComplaintList: generalComplaintList,
+        generalDescriptionController: generalDescriptionController,
+        complaintStatus: complaintStatus,
     ));
   }
 }

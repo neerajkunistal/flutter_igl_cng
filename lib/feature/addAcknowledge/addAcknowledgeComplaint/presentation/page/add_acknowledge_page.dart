@@ -1,17 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/acknowledge_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_event.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/review_complaint_model.dart';
 
 class AddAcknowledgePage extends StatefulWidget {
   const AddAcknowledgePage({super.key});
@@ -161,75 +149,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-  Widget _reviewComplaintDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectReviewComplaint,
-      dropdownValue: dataState.reviewComplaintData.id != null ? dataState.reviewComplaintData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-            AddAcknowledgeComplaintSelectReviewComplaintEvent(reviewComplaintData: value));
-      },
-      items: dataState.reviewComplaintList.map<DropdownMenuItem<ReviewComplaintModel>>((ReviewComplaintModel reviewComplaintData) {
-        return DropdownMenuItem<ReviewComplaintModel>(
-          value: reviewComplaintData,
-          child: Text(reviewComplaintData.complaintDescription.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _complaintDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
-    return dataState.isComplaintLoader == false ?
-    DropdownWidget(
-      hint: AppString.selectComplaint,
-      dropdownValue: dataState.complaintData.complaintTypeId != null ? dataState.complaintData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-            AddAcknowledgeComplaintSelectComplaintEvent(complaintData: value));
-      },
-      items: dataState.complaintList.map<DropdownMenuItem<ComplaintModel>>((ComplaintModel complaintData) {
-        return DropdownMenuItem<ComplaintModel>(
-          value: complaintData,
-          child: Text(complaintData.complaintDescription.toString()),
-        );
-      }).toList(),
-    ): const DottedLoaderWidget();
-  }
-
-  Widget _acknowledgeDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectAcknowledge,
-      dropdownValue: dataState.acknowledgeData.id != null ? dataState.acknowledgeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-            AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent(acknowledgeData: value));
-      },
-      items: dataState.acknowledgeList.map<DropdownMenuItem<AcknowledgeModel>>((AcknowledgeModel acknowledgeData) {
-        return DropdownMenuItem<AcknowledgeModel>(
-          value: acknowledgeData,
-          child: Text(acknowledgeData.complaintDescription.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _departmentDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectDepartment,
-      dropdownValue: dataState.departmentData.id != null ? dataState.departmentData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-            AddAcknowledgeComplaintSelectDepartmentEvent(departmentData: value));
-      },
-      items: dataState.departmentList.map<DropdownMenuItem<DepartmentModel>>((DepartmentModel departmentData) {
-        return DropdownMenuItem<DepartmentModel>(
-          value: departmentData,
-          child: Text(departmentData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _radioButton({required FetchAddAcknowledgeComplaintState dataState}) {
      return Column(
        crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,70 +260,10 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-
   Widget _remark({required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(
       labelText: AppString.remark,
       controller: dataState.remarkController,
-    );
-  }
-
-
-
-  Widget _photo({required FetchAddAcknowledgeComplaintState dataState}) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width/3,
-      height:MediaQuery.of(context).size.width/3,
-      child: InkWell(
-        onTap: () {
-          mediaType(context: context);
-        },
-        child: DottedBorder(
-          color: AppColor.grey,
-          strokeWidth: 1,
-          child: dataState.file.path.isEmpty ?
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(child: Icon(Icons.photo_camera_back_outlined),),
-              Padding(
-                padding:  EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget("Photo",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,),
-              ),
-            ],
-          ):Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  dataState.file.path.toString().toLowerCase().contains(".jpg")
-                      || dataState.file.path.toString().toLowerCase().contains(".png")
-                      || dataState.file.path.toString().toLowerCase().contains(".jpeg")
-                      ? Image.file(dataState.file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width/3,
-                    height: MediaQuery.of(context).size.width/4.5 ,)
-                      : dataState.file.path.toString().toLowerCase().contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      :  const Icon(Icons.document_scanner_outlined),
-                  TextWidget(dataState.file.path.split('/').last.toString(),
-                    color: AppColor.themeColor, fontSize: AppFont.font_12,),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width/3,
-                  height:MediaQuery.of(context).size.width/3,
-                  color : Colors.white.withOpacity(0.6),
-                  child: Center(child: Icon(Icons.refresh, color: AppColor.themeColor,))),
-
-            ],
-          ),
-        ),
-      ),
     );
   }
 
@@ -431,7 +290,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-
   Widget _button({required FetchAddAcknowledgeComplaintState dataState}) {
     return dataState.isLoader == false ?
     ButtonWidget(text: AppString.submit,
@@ -442,12 +300,10 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     ): const DottedLoaderWidget();
   }
 
-
   Widget _verticalSpace() {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );
   }
-
 
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
-import 'package:intl/intl.dart';
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
@@ -76,7 +74,10 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         color: AppColor.lightGrey,
         border: Border(
           left: BorderSide(
-            color: AppColor.themeColor,
+            color: acknowledgeData.complaintStatus.toString() == "1" ? AppColor.green
+                : acknowledgeData.complaintStatus.toString() == "2" ? AppColor.red
+                : acknowledgeData.ackStatus.toString() == "1" ? AppColor.orange
+                :  AppColor.themeColor,
             width: 3,
           ),
         ),
@@ -116,7 +117,10 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         color: AppColor.white,
         border: Border(
           right: BorderSide(
-            color: AppColor.themeColor,
+            color: acknowledgeData.complaintStatus.toString() == "1" ? AppColor.green
+                : acknowledgeData.complaintStatus.toString() == "2" ? AppColor.red
+                : acknowledgeData.ackStatus.toString() == "1" ? AppColor.orange
+                :  AppColor.themeColor,
             width: 3,
           ),
         ),

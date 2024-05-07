@@ -57,7 +57,6 @@ class ReviewComplaintItemBox extends StatelessWidget {
         : reviewComplaintData.complaintStatus.toString() ==  "2" ? "Reject" : "";
 
 
-
     return Card(
       shadowColor: AppColor.themeColor,
       elevation: 2,
@@ -121,7 +120,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
         color: AppColor.lightGrey,
         border: Border(
           left: BorderSide(
-            color: AppColor.themeColor,
+            color: reviewComplaintData.complaintStatus.toString() == "1" ? AppColor.green
+                : reviewComplaintData.complaintStatus.toString() == "2" ? AppColor.red
+                : reviewComplaintData.action.toString() == "3" ? AppColor.orange
+                :  AppColor.themeColor,
             width: 3,
           ),
         ),
@@ -161,7 +163,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
         color: AppColor.white,
         border: Border(
           right: BorderSide(
-            color: AppColor.themeColor,
+            color: reviewComplaintData.complaintStatus.toString() == "1" ? AppColor.green
+                : reviewComplaintData.complaintStatus.toString() == "2" ? AppColor.red
+                : reviewComplaintData.action.toString() == "3" ? AppColor.orange
+                : AppColor.themeColor,
             width: 3,
           ),
         ),

@@ -40,17 +40,15 @@ class ReviewComplaintBloc extends Bloc<ReviewComplaintEvent, ReviewComplaintStat
     approvalValue = "";
     observationController.text = "";
     file =  File("");
+    final LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
 
-    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
-    var res =   await ReviewComplaintHelper.fetchReviewComplaint(type: "1");
-    if(res != null){
-      reviewComplaintList =  res;
-      for(var reviewData in reviewComplaintList){
-        if(event.reviewComplaintData.id.toString() == reviewData.id.toString()){
-          reviewComplaintData =  reviewData;
-        }
+    reviewComplaintList =  BlocProvider.of<ViewEquipmentComplaintBloc>(event.context).reviewComplaintList;
+    for(var reviewData in reviewComplaintList){
+      if(event.reviewComplaintData.id.toString() == reviewData.id.toString()){
+        reviewComplaintData =  reviewData;
       }
     }
+
     _eventComplete(emit);
   }
 

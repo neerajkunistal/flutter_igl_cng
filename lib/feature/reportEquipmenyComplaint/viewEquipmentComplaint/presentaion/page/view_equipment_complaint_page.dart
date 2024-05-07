@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentCo
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/bloc/review_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
@@ -66,8 +67,7 @@ class _ViewEquipmentComplaintPageState
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(context: context, reviewComplaintData: dataState.reviewComplaintList[index]));
                         var result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const ReviewComaplintPage()),
+                          context, FadeRoute(page: const ReviewComaplintPage())
                         );
                     if(!context.mounted) result;
                     if(result.toString() == "Completed"){
