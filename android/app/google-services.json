@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812941224886",
+    "project_id": "igl-cng",
+    "storage_bucket": "igl-cng.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812941224886:android:c8af46dc8b106bc6072f17",
+        "android_client_info": {
+          "package_name": "com.unistaliglcng.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1C5oCjXFfe4__kreZkfwI3ch9PlB5PwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
