@@ -26,11 +26,11 @@ class _RootState extends State<Root> {
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return blocMultiProvider(
         child: MaterialApp(
-      navigatorKey: locator<NavigationService>().navigatorKey,
-      title: 'CNG',
-      debugShowCheckedModeBanner: false,
-      theme: appTheme(),
-      home: const SplashScreen(),
-    ));
+          navigatorKey: locator<NavigationService>().navigatorKey,
+          title: 'CNG',
+          debugShowCheckedModeBanner: false,
+          theme: appTheme(),
+          home: const SplashScreen(),
+        ));
   }
 }
