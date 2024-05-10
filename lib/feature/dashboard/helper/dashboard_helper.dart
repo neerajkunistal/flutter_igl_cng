@@ -4,8 +4,8 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 class DashboardHelper {
   static Future<dynamic> imagePiker({required BuildContext context}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? photo = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? photo = await picker.pickImage(
           source: ImageSource.camera,
           imageQuality: 60,
           maxHeight: 1200,

@@ -139,7 +139,7 @@ class LocationHelper {
   }
 
   static Future<bool> checkPermissions({required BuildContext context}) async {
-    Map<Permission, PermissionStatus> statuses = await [
+    await [
       Permission.location,
       Permission.locationAlways,
       Permission.locationWhenInUse
@@ -176,7 +176,7 @@ class LocationHelper {
 
   static Future<bool> checkImagePermission(
       {required BuildContext context}) async {
-    Map<Permission, PermissionStatus> statuses = await [
+    await [
       Permission.camera,
     ].request();
 
@@ -223,8 +223,7 @@ class LocationHelper {
   }
 
   static Future<bool> checkStoragePermission() async {
-    Map<Permission, PermissionStatus> statuses =
-        await [Permission.storage, Permission.accessMediaLocation].request();
+    await [Permission.storage, Permission.accessMediaLocation].request();
     final status = await Permission.locationWhenInUse.status;
     if (status == PermissionStatus.denied) {
       return false;

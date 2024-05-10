@@ -19,7 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   int get bottomTabIndex => _bottomTabIndex;
 
-  bool _isLoader = false;
+  final bool _isLoader = false;
 
   bool get isLoader => _isLoader;
 
