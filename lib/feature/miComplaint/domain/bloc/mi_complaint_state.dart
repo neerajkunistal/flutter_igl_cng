@@ -14,7 +14,6 @@ class MiComplaintPageLoadState extends MiComplaintInitial {
   List<Object> get props => [];
 }
 
-
 class FetchMiComplaintDataState extends MiComplaintInitial {
   final List<ReviewComplaintModel> reviewComplaintList;
   final ReviewComplaintModel reviewComplaintData;
@@ -36,45 +35,45 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
   final List<SparesPartModel> sparesPartList;
 
   FetchMiComplaintDataState({
-   required this.approvalValue,
-   required this.reviewComplaintData,
-   required this.reviewComplaintList,
-   required this.observationController,
-   required this.file,
-   required this.descriptionController,
-   required this.action,
-   required this.sparesData,
-   required this.sparesList,
-   required this.isLoader,
-   required this.actionData,
-   required this.actionList,
-   required this.timeController,
-   required this.dateController,
-   required this.uomTypeList,
-   required this.uomTypeData,
-   required this.qtyController,
-   required this.sparesPartList,
-});
+    required this.approvalValue,
+    required this.reviewComplaintData,
+    required this.reviewComplaintList,
+    required this.observationController,
+    required this.file,
+    required this.descriptionController,
+    required this.action,
+    required this.sparesData,
+    required this.sparesList,
+    required this.isLoader,
+    required this.actionData,
+    required this.actionList,
+    required this.timeController,
+    required this.dateController,
+    required this.uomTypeList,
+    required this.uomTypeData,
+    required this.qtyController,
+    required this.sparesPartList,
+  });
 
   @override
   List<Object> get props => [
-    approvalValue,
-    reviewComplaintData,
-    reviewComplaintList,
-    observationController,
-    file,
-    descriptionController,
-    action,
-    sparesData,
-    sparesList,
-    isLoader,
-    actionData,
-    actionList,
-    timeController,
-    dateController,
-    uomTypeList,
-    uomTypeData,
-    qtyController,
-    sparesPartList,
-  ];
+        approvalValue,
+        reviewComplaintData,
+        reviewComplaintList,
+        observationController,
+        file,
+        descriptionController,
+        action,
+        sparesData,
+        sparesList,
+        isLoader,
+        actionData,
+        actionList,
+        timeController,
+        dateController,
+        uomTypeList,
+        uomTypeData,
+        qtyController,
+        sparesPartList,
+      ];
 }

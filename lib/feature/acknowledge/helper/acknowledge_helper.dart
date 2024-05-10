@@ -1,3 +1,1 @@
-class AcknowledgeHelper {
-
-}
+class AcknowledgeHelper {}

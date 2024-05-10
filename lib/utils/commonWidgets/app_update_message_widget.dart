@@ -3,33 +3,45 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class AppUpdateMessage {
-
-  static showAlertDialog({required BuildContext context }) {
-
+  static showAlertDialog({required BuildContext context}) {
     Widget cancelButton = TextButton(
-      child: TextWidget("Update Later",fontSize: AppFont.font_14,),
-      onPressed:  () {
+      child: TextWidget(
+        "Update Later",
+        fontSize: AppFont.font_14,
+      ),
+      onPressed: () {
         Navigator.pop(context);
       },
     );
     Widget continueButton = TextButton(
-      child: TextWidget("Update Now",fontSize: AppFont.font_14,
-        color: AppColor.themeColor, fontWeight: FontWeight.w700,),
-      onPressed:  () async {
+      child: TextWidget(
+        "Update Now",
+        fontSize: AppFont.font_14,
+        color: AppColor.themeColor,
+        fontWeight: FontWeight.w700,
+      ),
+      onPressed: () async {
         if (!await launchUrl(
-          Uri.parse("https://play.google.com/store/apps/details?id=com.purvabhartisteel.app"),
-          mode: LaunchMode.externalApplication,)) {
+          Uri.parse(
+              "https://play.google.com/store/apps/details?id=com.purvabhartisteel.app"),
+          mode: LaunchMode.externalApplication,
+        )) {
           throw Exception('Could not launch ');
         }
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Builder(
-          builder: (context) {
-            return TextWidget("Update Available", fontSize: AppFont.font_16, fontWeight: FontWeight.w700,);
-          }
+      title: Builder(builder: (context) {
+        return TextWidget(
+          "Update Available",
+          fontSize: AppFont.font_16,
+          fontWeight: FontWeight.w700,
+        );
+      }),
+      content: TextWidget(
+        "Please update the app to continue",
+        fontSize: AppFont.font_14,
       ),
-      content: TextWidget("Please update the app to continue", fontSize: AppFont.font_14,),
       actions: [
         cancelButton,
         continueButton,

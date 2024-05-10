@@ -16,39 +16,42 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
         drawer: HomeDrawerWidget(),
         appBar: AppBar(
           elevation: 0,
-          title:BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
-                if(state is FetchHomeDataState){
-                  return TextWidget(state.title,
-                    color: AppColor.white, fontSize: AppFont.font_14, fontWeight: FontWeight.w700,);
-                } else {
-                  return TextWidget(AppString.appName,
-                    color: AppColor.white, fontSize: AppFont.font_14, fontWeight: FontWeight.w700,);
-                }
-              }
-          ),
+          title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+            if (state is FetchHomeDataState) {
+              return TextWidget(
+                state.title,
+                color: AppColor.white,
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w700,
+              );
+            } else {
+              return TextWidget(
+                AppString.appName,
+                color: AppColor.white,
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w700,
+              );
+            }
+          }),
           actions: [
-            BlocBuilder<HomeBloc, HomeState>(
-                builder: (context, state) {
-                  if(state is FetchHomeDataState){
-                    return state.actionButtonWidget;
-                  } else {
-                    return const SizedBox.shrink();
-                  }
-                }
-            ),
+            BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+              if (state is FetchHomeDataState) {
+                return state.actionButtonWidget;
+              } else {
+                return const SizedBox.shrink();
+              }
+            }),
             Image.asset(AppIcon.appLogoIgl),
           ],
         ),
-        body: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              if(state is FetchHomeDataState){
-                return state.childWidget;
-              } else {
-                return const Center(child: CenterLoaderWidget(),);
-              }
-            }
-        )
-    );
+        body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+          if (state is FetchHomeDataState) {
+            return state.childWidget;
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
+          }
+        }));
   }
 }

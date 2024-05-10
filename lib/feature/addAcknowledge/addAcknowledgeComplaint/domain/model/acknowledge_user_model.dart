@@ -1,7 +1,7 @@
 List<AcknowledgeUserModel> acknowledgeUserListResponse(var json) {
-  return List<AcknowledgeUserModel>.from(json.map((x) => AcknowledgeUserModel.fromJson(x)));
+  return List<AcknowledgeUserModel>.from(
+      json.map((x) => AcknowledgeUserModel.fromJson(x)));
 }
-
 
 class AcknowledgeUserModel {
   String? id;

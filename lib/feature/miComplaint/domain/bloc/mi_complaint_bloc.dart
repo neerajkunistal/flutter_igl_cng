@@ -8,28 +8,28 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 
 part 'mi_complaint_event.dart';
+
 part 'mi_complaint_state.dart';
 
 class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
-
   List<ReviewComplaintModel> reviewComplaintList = [];
-  ReviewComplaintModel reviewComplaintData =  ReviewComplaintModel();
+  ReviewComplaintModel reviewComplaintData = ReviewComplaintModel();
   List<SparesModel> sparesList = [];
-  SparesModel sparesData =  SparesModel();
+  SparesModel sparesData = SparesModel();
   String approvalValue = "";
-  String action =  "";
-  TextEditingController observation =  TextEditingController();
-  TextEditingController description =  TextEditingController();
-  File file =  File("");
-  bool isLoader =  false;
+  String action = "";
+  TextEditingController observation = TextEditingController();
+  TextEditingController description = TextEditingController();
+  File file = File("");
+  bool isLoader = false;
   List<ActionModel> actionList = [];
-  ActionModel actionData =  ActionModel();
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController timeController =  TextEditingController();
-  TextEditingController qtyController =  TextEditingController();
+  ActionModel actionData = ActionModel();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController qtyController = TextEditingController();
 
   List<UomTypeModel> uomTypeList = [];
-  UomTypeModel uomTypeData =  UomTypeModel();
+  UomTypeModel uomTypeData = UomTypeModel();
 
   List<SparesPartModel> sparesPartList = [];
 
@@ -50,92 +50,102 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
 
   _pageLoad(MiComplaintPageLoadEvent event, emit) async {
     emit(MiComplaintPageLoadState());
-     reviewComplaintList = [];
-     reviewComplaintData =  ReviewComplaintModel();
-     sparesList = [];
-     actionData =  ActionModel();
-     sparesData =  SparesModel();
-     approvalValue = "";
-     action =  "";
-     observation.text = "";
-     description.text = "";
-     timeController.text = "";
-     dateController.text = "";
+    reviewComplaintList = [];
+    reviewComplaintData = ReviewComplaintModel();
+    sparesList = [];
+    actionData = ActionModel();
+    sparesData = SparesModel();
+    approvalValue = "";
+    action = "";
+    observation.text = "";
+    description.text = "";
+    timeController.text = "";
+    dateController.text = "";
     qtyController.text = "";
     uomTypeList = [];
     sparesPartList = [];
-      uomTypeData =  UomTypeModel();
-     file =  File("");
-     isLoader =  false;
+    uomTypeData = UomTypeModel();
+    file = File("");
+    isLoader = false;
 
-    reviewComplaintList =  BlocProvider.of<ViewEquipmentComplaintBloc>(event.context).reviewComplaintList;
-    for(var complaint in reviewComplaintList){
-      if(complaint.id.toString() == event.reviewComplaintData.id.toString()){
-        reviewComplaintData =  complaint;
+    reviewComplaintList =
+        BlocProvider.of<ViewEquipmentComplaintBloc>(event.context)
+            .reviewComplaintList;
+    for (var complaint in reviewComplaintList) {
+      if (complaint.id.toString() == event.reviewComplaintData.id.toString()) {
+        reviewComplaintData = complaint;
       }
     }
 
-     var res =  await MiComplaintHelper.fetchSpareData();
-     if(res !=  null){
-        sparesList =  res;
-     }
+    var res = await MiComplaintHelper.fetchSpareData();
+    if (res != null) {
+      sparesList = res;
+    }
     sparesPartList.add(SparesPartModel(
       sparesData: SparesModel(),
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
     ));
 
-
-
     actionList = ActionModel().fetchData();
-    for(var actionValue in actionList){
-      if(actionValue.id.toString() == event.reviewComplaintData.action.toString()){
-        actionData =  actionValue;
+    for (var actionValue in actionList) {
+      if (actionValue.id.toString() ==
+          event.reviewComplaintData.action.toString()) {
+        actionData = actionValue;
       }
 
-      if(actionValue.id.toString() == "1"){
-        if(reviewComplaintData.maintenanceStartDate != null && reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
-          String startDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
-          String startTime = DateFormat('h:mm:ss').format(DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
+      if (actionValue.id.toString() == "1") {
+        if (reviewComplaintData.maintenanceStartDate != null &&
+            reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
+          String startDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
+              reviewComplaintData.maintenanceStartDate.toString()));
+          String startTime = DateFormat('h:mm:ss').format(DateTime.parse(
+              reviewComplaintData.maintenanceStartDate.toString()));
           dateController.text = startDate;
           timeController.text = startTime;
         }
       }
 
-      if(actionValue.id.toString() == "2"){
-        if(reviewComplaintData.maintenanceHoldDate != null && reviewComplaintData.maintenanceHoldDate.toString().isNotEmpty) {
-          String holdDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(reviewComplaintData.maintenanceHoldDate.toString()));
-          String holdTime = DateFormat('h:mm:ss').format(DateTime.parse(reviewComplaintData.maintenanceHoldDate.toString()));
+      if (actionValue.id.toString() == "2") {
+        if (reviewComplaintData.maintenanceHoldDate != null &&
+            reviewComplaintData.maintenanceHoldDate.toString().isNotEmpty) {
+          String holdDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
+              reviewComplaintData.maintenanceHoldDate.toString()));
+          String holdTime = DateFormat('h:mm:ss').format(DateTime.parse(
+              reviewComplaintData.maintenanceHoldDate.toString()));
           dateController.text = holdDate;
           timeController.text = holdTime;
         }
       }
 
-      if(actionValue.id.toString() == "3"){
-        if(reviewComplaintData.maintenanceEndDate != null && reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
-          String closedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(reviewComplaintData.maintenanceEndDate.toString()));
-          String closedTIme = DateFormat('h:mm:ss').format(DateTime.parse(reviewComplaintData.maintenanceEndDate.toString()));
+      if (actionValue.id.toString() == "3") {
+        if (reviewComplaintData.maintenanceEndDate != null &&
+            reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
+          String closedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
+              reviewComplaintData.maintenanceEndDate.toString()));
+          String closedTIme = DateFormat('h:mm:ss').format(DateTime.parse(
+              reviewComplaintData.maintenanceEndDate.toString()));
           dateController.text = closedDate;
           timeController.text = closedTIme;
         }
       }
     }
 
-    description.text =  reviewComplaintData.complaintDescription.toString();
+    description.text = reviewComplaintData.complaintDescription.toString();
     _eventComplete(emit);
   }
 
   _selectComplaint(MiComplaintSelectComplaintData event, emit) {
-    reviewComplaintData =  event.reviewComplaintData;
+    reviewComplaintData = event.reviewComplaintData;
     _eventComplete(emit);
   }
 
   _selectSpares(MiComplaintSelectSpareData event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    sparesData =  event.sparesData;
-    sparesPartList[event.index].sparesData =  sparesData;
-    isLoader =  false;
+    sparesData = event.sparesData;
+    sparesPartList[event.index].sparesData = sparesData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
@@ -145,8 +155,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
   }
 
   _selectAction(MiComplaintSelectActionData event, emit) {
-    actionData =  event.actionData;
-    sparesData =  SparesModel();
+    actionData = event.actionData;
+    sparesData = SparesModel();
 
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
@@ -156,23 +166,24 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
   }
 
   _selectFile(MiComplaintAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
-    Navigator.pop(event.context.mounted ? event.context : event.context, "complete");
+    Navigator.pop(
+        event.context.mounted ? event.context : event.context, "complete");
     _eventComplete(emit);
   }
 
   _selectDate(MiComplaintSelectDateData event, emit) async {
-    try{
+    try {
       final DateTime? picked = await showDatePicker(
           context: event.context,
           initialDate: DateTime.now(),
@@ -182,71 +193,74 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         dateController.text = formattedDate;
       }
-    }catch(e){
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         print(e.toString());
       }
     }
-
   }
 
   _selectTime(MiComplaintSelectTimeData event, emit) async {
-    try{
+    try {
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
-        initialTime:TimeOfDay.now(),
+        initialTime: TimeOfDay.now(),
       );
-      if(time != null){
+      if (time != null) {
         timeController.text = "${time.hour}:${time.minute}";
         _eventComplete(emit);
       }
-    }catch(e){
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         print(e.toString());
       }
     }
   }
 
   _addSparesPart(MiComplaintAddSparesPartData event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
     sparesPartList.add(SparesPartModel(
       sparesData: SparesModel(),
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
     ));
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _deleteSparesPart(MiComplaintDeleteSparesPartData event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
     sparesPartList.removeAt(event.index);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _selectUomType(MiComplaintSelectUomData event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    uomTypeData =  event.uomTypeData;
-    sparesPartList[event.index].uomTypeData =  uomTypeData;
-    isLoader =  false;
+    uomTypeData = event.uomTypeData;
+    sparesPartList[event.index].uomTypeData = uomTypeData;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _submit(MiComplaintSubmitData event, emit) async {
-    if(reviewComplaintData.startDateTime.toString().isEmpty && reviewComplaintData.action == ""){
+    if (reviewComplaintData.startDateTime.toString().isEmpty &&
+        reviewComplaintData.action == "") {
       SnackBarErrorWidget(event.context).show(message: "Please select start");
       return;
     }
     isLoader = true;
     _eventComplete(emit);
 
-    var res =  await MiComplaintHelper.submit(context: event.context,
-        reviewComplaintData: reviewComplaintData, approvalValue: approvalValue,
-        sparesData: sparesData, action: actionData,
+    var res = await MiComplaintHelper.submit(
+        context: event.context,
+        reviewComplaintData: reviewComplaintData,
+        approvalValue: approvalValue,
+        sparesData: sparesData,
+        action: actionData,
         description: description.text.toString(),
         date: dateController.text.toString(),
         time: timeController.text.toString(),
@@ -255,47 +269,47 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         qty: qtyController.text.toString(),
         sparesPartList: sparesPartList,
         file: file);
-    if(res != null){
-      reviewComplaintData =  ReviewComplaintModel();
-      sparesData =  SparesModel();
+    if (res != null) {
+      reviewComplaintData = ReviewComplaintModel();
+      sparesData = SparesModel();
       approvalValue = "";
-      action =  "";
+      action = "";
       observation.text = "";
       description.text = "";
       dateController.text = "";
       timeController.text = "";
       qtyController.text = "";
-      file =  File("");
-      isLoader =  false;
-      actionData =  ActionModel();
-      uomTypeData =  UomTypeModel();
-      if(!event.context.mounted) return;
+      file = File("");
+      isLoader = false;
+      actionData = ActionModel();
+      uomTypeData = UomTypeModel();
+      if (!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }
     isLoader = false;
     _eventComplete(emit);
   }
 
-  _eventComplete(Emitter<MiComplaintState>emit){
+  _eventComplete(Emitter<MiComplaintState> emit) {
     emit(FetchMiComplaintDataState(
-        approvalValue: approvalValue,
-        reviewComplaintData: reviewComplaintData,
-        reviewComplaintList: reviewComplaintList,
-        observationController: observation,
-        file: file,
-        descriptionController: description,
-        action: action,
-        sparesData: sparesData,
-        sparesList: sparesList,
-        isLoader: isLoader,
-        actionData: actionData,
-        actionList: actionList,
-        dateController: dateController,
-        timeController:  timeController,
-        uomTypeData:  uomTypeData,
-        uomTypeList: uomTypeList,
-        qtyController: qtyController,
-        sparesPartList: sparesPartList,
+      approvalValue: approvalValue,
+      reviewComplaintData: reviewComplaintData,
+      reviewComplaintList: reviewComplaintList,
+      observationController: observation,
+      file: file,
+      descriptionController: description,
+      action: action,
+      sparesData: sparesData,
+      sparesList: sparesList,
+      isLoader: isLoader,
+      actionData: actionData,
+      actionList: actionList,
+      dateController: dateController,
+      timeController: timeController,
+      uomTypeData: uomTypeData,
+      uomTypeList: uomTypeList,
+      qtyController: qtyController,
+      sparesPartList: sparesPartList,
     ));
   }
 }

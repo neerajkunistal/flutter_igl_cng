@@ -1,5 +1,6 @@
 List<DepartmentModel> departmentListResponse(var json) {
-  return List<DepartmentModel>.from(json.map((x) => DepartmentModel.fromJson(x)));
+  return List<DepartmentModel>.from(
+      json.map((x) => DepartmentModel.fromJson(x)));
 }
 
 class DepartmentModel {

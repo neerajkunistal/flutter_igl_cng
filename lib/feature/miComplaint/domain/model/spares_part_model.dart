@@ -3,8 +3,9 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.da
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 
 class SparesPartModel {
-   SparesModel? sparesData;
-   UomTypeModel? uomTypeData;
-   TextEditingController? qtyController;
-   SparesPartModel({this.qtyController, this.uomTypeData, this.sparesData});
+  SparesModel? sparesData;
+  UomTypeModel? uomTypeData;
+  TextEditingController? qtyController;
+
+  SparesPartModel({this.qtyController, this.uomTypeData, this.sparesData});
 }

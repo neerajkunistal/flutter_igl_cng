@@ -10,11 +10,11 @@ class ComplaintModel {
   String? equipmentId;
 
   ComplaintModel(
-      { this.id,
-        this.complaintDescription,
-        this.reportDateTime,
-        this.complaintTypeId,
-        this.equipmentId});
+      {this.id,
+      this.complaintDescription,
+      this.reportDateTime,
+      this.complaintTypeId,
+      this.equipmentId});
 
   ComplaintModel.fromJson(Map<String, dynamic> json) {
     complaintDescription = json['complaint_description'] ?? "";

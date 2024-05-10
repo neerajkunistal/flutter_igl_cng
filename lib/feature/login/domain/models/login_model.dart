@@ -9,7 +9,6 @@ LoginDataModel loginResponse(var json) {
 }
 
 class LoginDataModel {
-
   String? userId;
   String? email;
   String? moduleId;
@@ -25,22 +24,22 @@ class LoginDataModel {
   RoleType? roleType;
   String? role;
 
-  LoginDataModel(
-      {this.userId,
-        this.email,
-        this.moduleId,
-        this.name,
-        this.userStatus,
-        this.pwdChanged,
-        this.modules,
-        this.schema,
-        this.spreadId,
-        this.sectionId,
-        this.token,
-        this.roleType,
-        this.password,
-        this.role,
-      });
+  LoginDataModel({
+    this.userId,
+    this.email,
+    this.moduleId,
+    this.name,
+    this.userStatus,
+    this.pwdChanged,
+    this.modules,
+    this.schema,
+    this.spreadId,
+    this.sectionId,
+    this.token,
+    this.roleType,
+    this.password,
+    this.role,
+  });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
     userId = json['id'];
@@ -55,17 +54,18 @@ class LoginDataModel {
     spreadId = json['spread_id'];
     sectionId = json['section_id'];
     role = json['user_type'] ?? "";
-    roleType = json['user_type'] != null ?
-    getRole(role: json['user_type']) : RoleType.stationUser;
+    roleType = json['user_type'] != null
+        ? getRole(role: json['user_type'])
+        : RoleType.stationUser;
   }
 
   getRole({required String role}) {
-    switch(role) {
-      case "SU" :
+    switch (role) {
+      case "SU":
         return RoleType.stationUser;
-      case "SE" :
+      case "SE":
         return RoleType.shiftEngineer;
-      case "MI" :
+      case "MI":
         return RoleType.mi;
 /*      case "CRIC" :
         return RoleType.CRIC;*/
@@ -73,7 +73,6 @@ class LoginDataModel {
         return RoleType.noRole;
     }
   }
-
 }
 
 class LoginScreenRequestModel {
@@ -81,7 +80,13 @@ class LoginScreenRequestModel {
   final String password;
   final String firebaseId;
   final String deviceId;
-  LoginScreenRequestModel({required this.userEmailId, required this.password, required this.firebaseId, required this.deviceId});
+
+  LoginScreenRequestModel(
+      {required this.userEmailId,
+      required this.password,
+      required this.firebaseId,
+      required this.deviceId});
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       "email": userEmailId,

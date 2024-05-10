@@ -5,6 +5,7 @@ import 'package:flutter_igl_cng/feature/login/domain/bloc/login_state.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
+
   const PhoneLoginWidget({super.key, required this.dataState});
 
   @override
@@ -40,8 +41,11 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 _verticalSpace(),
                 _logo(),
                 _verticalSpace(),
-                TextWidget(AppString.appName,
-                  fontSize: AppFont.font_18, fontWeight: FontWeight.w700,),
+                TextWidget(
+                  AppString.appName,
+                  fontSize: AppFont.font_18,
+                  fontWeight: FontWeight.w700,
+                ),
                 _verticalSpace(),
                 _emailTextField(dataState: dataState),
                 _verticalSpace(),
@@ -51,26 +55,31 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
                 _loginButton(dataState: dataState),
                 _verticalSpace(),
                 Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom * 0.4),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).viewInsets.bottom * 0.4),
                   // padding: EdgeInsets.only(bottom: 100),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(AppIcon.appLogoUnistal,
+                    Image.asset(
+                      AppIcon.appLogoUnistal,
                       height: MediaQuery.of(context).size.width * 0.05,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.03,
                     ),
-                    TextWidget("Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
+                    TextWidget(
+                      "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
                       fontSize: AppFont.font_12,
-                      fontWeight: FontWeight.w700,),
+                      fontWeight: FontWeight.w700,
+                    ),
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.width * 0.02),
+                  padding: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.width * 0.02),
                   // padding: EdgeInsets.only(bottom: 100),
                 ),
               ],
@@ -81,7 +90,6 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
     );
   }
 
-
   Widget _logo() {
     return Hero(
       tag: 'logo',
@@ -91,11 +99,13 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           children: [
             Positioned(
               left: 00.0,
-              top:  00.0,
+              top: 00.0,
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.08,
-              child: Image.asset( AppConfig.instanceInit()!.client == Client.iglcng ?
-                    AppIcon.appLogoIgl : AppIcon.appLogoIgl,
+              child: Image.asset(
+                AppConfig.instanceInit()!.client == Client.iglcng
+                    ? AppIcon.appLogoIgl
+                    : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),
@@ -116,20 +126,27 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
 
   Widget _emailTextField({required FetchLoginStateData dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldWidget(
         isRequired: true,
         labelText: AppString.userName,
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
-        onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetEmailEvent(emailId: value)),
+        onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+            .add(LoginSetEmailEvent(emailId: value)),
       ),
     );
   }
 
   Widget _passwordTextField({required FetchLoginStateData dataState}) {
     return Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
+      padding: EdgeInsets.only(
+        left: MediaQuery.of(context).size.width * 0.05,
+        right: MediaQuery.of(context).size.width * 0.05,
+      ),
       child: TextFieldPasswordWidget(
         isRequired: true,
         labelText: AppString.password,
@@ -137,26 +154,31 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
         isPasswordIcon: true,
         textEditingController: dataState.passwordTextFieldController,
         passwordOnPressed: () {
-          BlocProvider.of<LoginBloc>(context).add(
-              LoginPasswordHideShowEvent(
-                  isPassword:  dataState.isPassword == true ? false : true));
+          BlocProvider.of<LoginBloc>(context).add(LoginPasswordHideShowEvent(
+              isPassword: dataState.isPassword == true ? false : true));
         },
-        onChanged: (value) => BlocProvider.of<LoginBloc>(context).add(LoginSetPasswordEvent(password: value)),
+        onChanged: (value) => BlocProvider.of<LoginBloc>(context)
+            .add(LoginSetPasswordEvent(password: value)),
       ),
     );
   }
 
   Widget _loginButton({required FetchLoginStateData dataState}) {
-    return dataState.isLoader == false ?
-    Padding(
-      padding:  EdgeInsets.only(left : MediaQuery.of(context).size.width * 0.05, right: MediaQuery.of(context).size.width * 0.05,),
-      child: ButtonWidget(
-          isLockIcon: true,
-          text: AppString.login,
-          onPressed: () {
-            BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(context: context, isLoginPage: true));
-          }),
-    ): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
+            ),
+            child: ButtonWidget(
+                isLockIcon: true,
+                text: AppString.login,
+                onPressed: () {
+                  BlocProvider.of<LoginBloc>(context).add(LoginSubmitDataEvent(
+                      context: context, isLoginPage: true));
+                }),
+          )
+        : const DottedLoaderWidget();
   }
 
   _verticalSpace() {

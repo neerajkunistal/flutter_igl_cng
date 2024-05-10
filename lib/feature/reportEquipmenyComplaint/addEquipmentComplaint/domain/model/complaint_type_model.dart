@@ -1,5 +1,6 @@
 List<ComplaintTypeModel> complaintTypeListResponse(var json) {
-  return List<ComplaintTypeModel>.from(json.map((x) => ComplaintTypeModel.fromJson(x)));
+  return List<ComplaintTypeModel>.from(
+      json.map((x) => ComplaintTypeModel.fromJson(x)));
 }
 
 class ComplaintTypeModel {

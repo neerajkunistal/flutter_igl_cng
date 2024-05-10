@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/wave_backg
 
 class CardBackground extends StatelessWidget {
   final Widget child;
+
   const CardBackground({super.key, required this.child});
 
   @override
@@ -17,7 +18,7 @@ class CardBackground extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.20,
-              color:Colors.white.withOpacity(0.1),
+              color: Colors.white.withOpacity(0.1),
             ),
           ),
         ),
@@ -29,7 +30,7 @@ class CardBackground extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.20,
-              color:Colors.white.withOpacity(0.1),
+              color: Colors.white.withOpacity(0.1),
             ),
           ),
         ),

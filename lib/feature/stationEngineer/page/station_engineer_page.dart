@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 
-
 class StationEngineerPage extends StatefulWidget {
   const StationEngineerPage({super.key});
 
@@ -15,7 +14,10 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextWidget("Station Engineer", color: AppColor.white,),
+        title: TextWidget(
+          "Station Engineer",
+          color: AppColor.white,
+        ),
       ),
       body: Container(
         margin: const EdgeInsets.all(10.0),
@@ -35,10 +37,14 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AcknowledgePage()),
+                        MaterialPageRoute(
+                            builder: (context) => const AcknowledgePage()),
                       );
                     },
-                    icon: Icon(Icons.report_gmailerrorred, color: AppColor.themeColor,),
+                    icon: Icon(
+                      Icons.report_gmailerrorred,
+                      color: AppColor.themeColor,
+                    ),
                     label: const TextWidget("Ack Complaint"),
                   ),
                 ),
@@ -54,17 +60,23 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ViewEquipmentComplaintPage()),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const ViewEquipmentComplaintPage()),
                       );
                     },
-                    icon: Icon(Icons.report_gmailerrorred, color: AppColor.themeColor,),
+                    icon: Icon(
+                      Icons.report_gmailerrorred,
+                      color: AppColor.themeColor,
+                    ),
                     label: const TextWidget("Review Complaint"),
                   ),
                 ),
               ),
-        ],),),
+            ],
+          ),
+        ),
       ),
     );
   }
-
 }

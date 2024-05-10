@@ -23,21 +23,21 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final File file;
 
   const FetchReviewComplaintDataState({
-   required this.isLoader,
-   required this.file,
-   required this.observationController,
-   required this.approvalValue,
-   required this.reviewComplaintData,
-   required this.reviewComplaintList,
- });
+    required this.isLoader,
+    required this.file,
+    required this.observationController,
+    required this.approvalValue,
+    required this.reviewComplaintData,
+    required this.reviewComplaintList,
+  });
 
   @override
   List<Object> get props => [
-    isLoader,
-    file,
-    observationController,
-    approvalValue,
-    reviewComplaintData,
-    reviewComplaintList,
-  ];
+        isLoader,
+        file,
+        observationController,
+        approvalValue,
+        reviewComplaintData,
+        reviewComplaintList,
+      ];
 }

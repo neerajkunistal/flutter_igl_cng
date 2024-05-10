@@ -1,5 +1,6 @@
 List<EquipmentTypeModel> equipmentTypeListResponse(var json) {
-  return List<EquipmentTypeModel>.from(json.map((x) => EquipmentTypeModel.fromJson(x)));
+  return List<EquipmentTypeModel>.from(
+      json.map((x) => EquipmentTypeModel.fromJson(x)));
 }
 
 class EquipmentTypeModel {
@@ -12,13 +13,13 @@ class EquipmentTypeModel {
   String? modelNo;
 
   EquipmentTypeModel(
-      { this.id,
-        this.equipmentCode,
-        this.equipmentSerial,
-        this.cngStationLocation,
-        this.description,
-        this.manufactureSerialNo,
-        this.modelNo});
+      {this.id,
+      this.equipmentCode,
+      this.equipmentSerial,
+      this.cngStationLocation,
+      this.description,
+      this.manufactureSerialNo,
+      this.modelNo});
 
   EquipmentTypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
@@ -27,7 +28,7 @@ class EquipmentTypeModel {
     cngStationLocation = json['cng_station_location'] ?? "";
     description = json['description'] ?? "";
     manufactureSerialNo = json['manufacture_serial_no'] ?? "";
-    modelNo = json['model_no']  ?? "";
+    modelNo = json['model_no'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

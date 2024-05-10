@@ -15,9 +15,11 @@ class AcknowledgePageLoadState extends AcknowledgeInitial {
 }
 
 class FetchAcknowledgeDataState extends AcknowledgeInitial {
-  final bool  isLoader;
+  final bool isLoader;
   final List<AcknowledgeModel> acknowledgeList;
-  FetchAcknowledgeDataState({required this.acknowledgeList, required this.isLoader});
+
+  FetchAcknowledgeDataState(
+      {required this.acknowledgeList, required this.isLoader});
 
   @override
   List<Object> get props => [acknowledgeList, isLoader];

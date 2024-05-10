@@ -10,21 +10,27 @@ class LoginPageLoadingEvent extends LoginEvent {
 
 class LoginSetEmailEvent extends LoginEvent {
   final String emailId;
+
   LoginSetEmailEvent({required this.emailId});
+
   @override
   List<Object?> get props => [emailId];
 }
 
 class LoginSetPasswordEvent extends LoginEvent {
   final String password;
+
   LoginSetPasswordEvent({required this.password});
+
   @override
   List<Object?> get props => [password];
 }
 
 class LoginPasswordHideShowEvent extends LoginEvent {
   final bool isPassword;
+
   LoginPasswordHideShowEvent({required this.isPassword});
+
   @override
   List<Object?> get props => [isPassword];
 }
@@ -32,7 +38,9 @@ class LoginPasswordHideShowEvent extends LoginEvent {
 class LoginSubmitDataEvent extends LoginEvent {
   final BuildContext context;
   final bool isLoginPage;
+
   LoginSubmitDataEvent({required this.context, required this.isLoginPage});
+
   @override
   List<Object?> get props => [context, isLoginPage];
 }

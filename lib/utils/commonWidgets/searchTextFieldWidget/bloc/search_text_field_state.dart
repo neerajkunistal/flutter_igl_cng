@@ -17,7 +17,10 @@ class SearchTextFieldPageLoadState extends SearchTextFieldInitial {
 class FetchSearchTextFieldDataState extends SearchTextFieldInitial {
   final List<dynamic> searchList;
   final TextEditingController searchController;
-  FetchSearchTextFieldDataState({required this.searchList, required this.searchController});
+
+  FetchSearchTextFieldDataState(
+      {required this.searchList, required this.searchController});
+
   @override
   List<Object> get props => [searchList, searchController];
 }

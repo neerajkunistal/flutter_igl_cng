@@ -9,7 +9,6 @@ class AddEquipmentComplaintInitial extends AddEquipmentComplaintState {
   List<Object> get props => [];
 }
 
-
 class AddEquipmentComplaintPageLoadState extends AddEquipmentComplaintInitial {
   @override
   List<Object> get props => [];
@@ -31,36 +30,35 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
   final TextEditingController generalDescriptionController;
 
   FetchAddEquipmentComplaintState({
-   required this.file,
-   required this.isLoader,
-   required this.descriptionController,
-   required this.complaintTypeData,
-   required this.complaintTypeList,
-   required this.equipmentTypeData,
-   required this.equipmentTypeList,
-   required this.reportByController,
-   required this.dateController,
-   required this.timeController,
-   required this.generalComplaintData,
-   required this.generalComplaintList,
-   required this.generalDescriptionController,
-});
-
+    required this.file,
+    required this.isLoader,
+    required this.descriptionController,
+    required this.complaintTypeData,
+    required this.complaintTypeList,
+    required this.equipmentTypeData,
+    required this.equipmentTypeList,
+    required this.reportByController,
+    required this.dateController,
+    required this.timeController,
+    required this.generalComplaintData,
+    required this.generalComplaintList,
+    required this.generalDescriptionController,
+  });
 
   @override
   List<Object> get props => [
-    file,
-    isLoader,
-    descriptionController,
-    complaintTypeData,
-    complaintTypeList,
-    equipmentTypeData,
-    equipmentTypeList,
-    reportByController,
-    dateController,
-    timeController,
-    generalComplaintData,
-    generalComplaintList,
-    generalDescriptionController,
-  ];
+        file,
+        isLoader,
+        descriptionController,
+        complaintTypeData,
+        complaintTypeList,
+        equipmentTypeData,
+        equipmentTypeList,
+        reportByController,
+        dateController,
+        timeController,
+        generalComplaintData,
+        generalComplaintList,
+        generalDescriptionController,
+      ];
 }

@@ -11,23 +11,24 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:intl/intl.dart';
 
 part 'add_equipment_complaint_event.dart';
+
 part 'add_equipment_complaint_state.dart';
 
-class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEquipmentComplaintState> {
-
+class AddEquipmentComplaintBloc
+    extends Bloc<AddEquipmentComplaintEvent, AddEquipmentComplaintState> {
   List<ComplaintTypeModel> complaintTypeList = [];
-  ComplaintTypeModel complaintTypeData =  ComplaintTypeModel();
-  EquipmentTypeModel equipmentTypeData =  EquipmentTypeModel();
+  ComplaintTypeModel complaintTypeData = ComplaintTypeModel();
+  EquipmentTypeModel equipmentTypeData = EquipmentTypeModel();
   List<EquipmentTypeModel> equipmentTypeList = [];
-  TextEditingController descriptionController =  TextEditingController();
-  TextEditingController reportByController =  TextEditingController();
-  TextEditingController dateController =  TextEditingController();
-  TextEditingController timeController =  TextEditingController();
-  TextEditingController generalDescriptionController =  TextEditingController();
-  bool isLoader =  false;
-  File file =  File("");
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController reportByController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController generalDescriptionController = TextEditingController();
+  bool isLoader = false;
+  File file = File("");
   List<GeneralComplaintModel> generalComplaintList = [];
-  GeneralComplaintModel generalComplaintData =  GeneralComplaintModel();
+  GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
@@ -43,42 +44,46 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
   _pageLoad(AddEquipmentComplaintPageLoadEvent event, emit) async {
     emit(AddEquipmentComplaintPageLoadState());
     complaintTypeList = [];
-    complaintTypeData =  ComplaintTypeModel();
-    equipmentTypeData =  EquipmentTypeModel();
+    complaintTypeData = ComplaintTypeModel();
+    equipmentTypeData = EquipmentTypeModel();
     equipmentTypeList = [];
     generalComplaintList = [];
-    generalComplaintData  =  GeneralComplaintModel();
+    generalComplaintData = GeneralComplaintModel();
     descriptionController.text = "";
     reportByController.text = "";
     dateController.text = "";
     timeController.text = "";
     generalDescriptionController.text = "";
-    isLoader =  false;
-    file =  File("");
+    isLoader = false;
+    file = File("");
 
-    var resComplaint =  await AddEquipmentComplaintHelper.fetchComplaintTypeData();
-    if(resComplaint !=  null){
-      complaintTypeList =  resComplaint;
+    var resComplaint =
+        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    if (resComplaint != null) {
+      complaintTypeList = resComplaint;
     }
 
-    var resEquipment =  await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
-    if(resEquipment != null){
-      equipmentTypeList =  resEquipment;
+    var resEquipment =
+        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+    if (resEquipment != null) {
+      equipmentTypeList = resEquipment;
     }
 
-    var resGeneral =  await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
-    if(resGeneral != null){
-      generalComplaintList =  resGeneral;
+    var resGeneral =
+        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    if (resGeneral != null) {
+      generalComplaintList = resGeneral;
     }
 
     _eventComplete(emit);
   }
 
-  _selectComplaintType(AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
-    complaintTypeData =  event.complaintTypeData;
+  _selectComplaintType(
+      AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
+    complaintTypeData = event.complaintTypeData;
     equipmentTypeData = EquipmentTypeModel();
     generalDescriptionController.text = "";
-    generalComplaintData =  GeneralComplaintModel();
+    generalComplaintData = GeneralComplaintModel();
     _eventComplete(emit);
   }
 
@@ -88,21 +93,21 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
   }
 
   _selectGeneral(AddEquipmentComplaintSelectGeneralDataEvent event, emit) {
-    generalComplaintData =  event.generalComplaintData;
+    generalComplaintData = event.generalComplaintData;
     generalDescriptionController.text = "";
     _eventComplete(emit);
   }
 
   _selectFile(AddEquipmentComplaintAddImageEvent event, emit) async {
-    if(event.mediaType == 1) {
+    if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
-    } else{
+    } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
-      if(photo != null){
-        file  = photo;
+      if (photo != null) {
+        file = photo;
       }
     }
     Navigator.pop(event.context.mounted ? event.context : event.context);
@@ -110,7 +115,7 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
   }
 
   _selectDate(AddEquipmentComplaintSelectDateData event, emit) async {
-    try{
+    try {
       final DateTime? picked = await showDatePicker(
           context: event.context,
           initialDate: DateTime.now(),
@@ -120,73 +125,76 @@ class AddEquipmentComplaintBloc extends Bloc<AddEquipmentComplaintEvent, AddEqui
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         dateController.text = formattedDate;
       }
-    }catch(e){
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         print(e.toString());
       }
     }
-
   }
 
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
-    try{
+    try {
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
-        initialTime:TimeOfDay.now(),
+        initialTime: TimeOfDay.now(),
       );
-      if(time != null){
+      if (time != null) {
         timeController.text = "${time.hour}:${time.minute}";
         _eventComplete(emit);
       }
-    }catch(e){
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         print(e.toString());
       }
     }
-
   }
 
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
 
-    var res =  await AddEquipmentComplaintHelper.submitData(context: event.context,
-        complaintTypeData: complaintTypeData, equipmentTypeData: equipmentTypeData,
-        description: descriptionController.text.toString(), name: reportByController.text.toString(),
-        date: dateController.text.toString(), time: timeController.text.toString(),
-        generalComplaintData: generalComplaintData, generalDescription: generalDescriptionController.text.toString(),
+    var res = await AddEquipmentComplaintHelper.submitData(
+        context: event.context,
+        complaintTypeData: complaintTypeData,
+        equipmentTypeData: equipmentTypeData,
+        description: descriptionController.text.toString(),
+        name: reportByController.text.toString(),
+        date: dateController.text.toString(),
+        time: timeController.text.toString(),
+        generalComplaintData: generalComplaintData,
+        generalDescription: generalDescriptionController.text.toString(),
         file: file);
-    if(res != null){
-      complaintTypeData =  ComplaintTypeModel();
-      equipmentTypeData =  EquipmentTypeModel();
-      generalComplaintData =  GeneralComplaintModel();
+    if (res != null) {
+      complaintTypeData = ComplaintTypeModel();
+      equipmentTypeData = EquipmentTypeModel();
+      generalComplaintData = GeneralComplaintModel();
       descriptionController.text = "";
       reportByController.text = "";
       dateController.text = "";
       timeController.text = "";
       generalDescriptionController.text = "";
-      isLoader =  false;
-      file =  File("");
+      isLoader = false;
+      file = File("");
     }
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _eventComplete(Emitter<AddEquipmentComplaintState> emit) {
     emit(FetchAddEquipmentComplaintState(
-        file: file,
-        isLoader: isLoader,
-        descriptionController: descriptionController,
-        complaintTypeData: complaintTypeData,
-        complaintTypeList: complaintTypeList,
-        equipmentTypeData: equipmentTypeData,
-        equipmentTypeList: equipmentTypeList,
-        reportByController: reportByController,
-        dateController: dateController,
-        timeController: timeController,
-        generalComplaintData: generalComplaintData,
-        generalComplaintList: generalComplaintList,
-        generalDescriptionController: generalDescriptionController,
+      file: file,
+      isLoader: isLoader,
+      descriptionController: descriptionController,
+      complaintTypeData: complaintTypeData,
+      complaintTypeList: complaintTypeList,
+      equipmentTypeData: equipmentTypeData,
+      equipmentTypeList: equipmentTypeList,
+      reportByController: reportByController,
+      dateController: dateController,
+      timeController: timeController,
+      generalComplaintData: generalComplaintData,
+      generalComplaintList: generalComplaintList,
+      generalDescriptionController: generalDescriptionController,
     ));
   }
 }

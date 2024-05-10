@@ -13,7 +13,9 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLine;
   final Widget? suffixIcon;
   final bool? isRequired;
-  const TextFieldWidget({super.key,
+
+  const TextFieldWidget({
+    super.key,
     required this.labelText,
     this.enabled,
     this.controller,
@@ -33,24 +35,46 @@ class TextFieldWidget extends StatelessWidget {
       child: TextFormField(
           enabled: enabled ?? true,
           controller: controller,
-          style:  TextStyle(fontSize: AppFont.font_14, color: AppColor.black,),
-          inputFormatters: textInputType != null ? textInputType == TextInputType.number ?
-          [FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,4}'))] : null : null,
-          keyboardType: textInputType == null ?  TextInputType.text
-              : Platform.isIOS ? textInputType == TextInputType.number
-              ? const TextInputType.numberWithOptions(signed: true, decimal: true)
-              : textInputType ?? TextInputType.text : textInputType ?? TextInputType.text ,
+          style: TextStyle(
+            fontSize: AppFont.font_14,
+            color: AppColor.black,
+          ),
+          inputFormatters: textInputType != null
+              ? textInputType == TextInputType.number
+                  ? [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,4}'))
+                    ]
+                  : null
+              : null,
+          keyboardType: textInputType == null
+              ? TextInputType.text
+              : Platform.isIOS
+                  ? textInputType == TextInputType.number
+                      ? const TextInputType.numberWithOptions(
+                          signed: true, decimal: true)
+                      : textInputType ?? TextInputType.text
+                  : textInputType ?? TextInputType.text,
           maxLength: maxLength,
           maxLines: maxLine ?? 1,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: maxLine != null ? 8 : 0),
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: 8, vertical: maxLine != null ? 8 : 0),
             suffixIcon: suffixIcon ?? const Text(""),
-              label: Text.rich(TextSpan(children: [
-                TextSpan(text: labelText),
-                TextSpan(text: isRequired != null && isRequired == true ? ' *' : "", style: const TextStyle(color: Colors.red)),
-              ])),
-            labelStyle: TextStyle(fontSize: AppFont.font_14, color: controller == null ?  AppColor.themeColor
-                : controller!.text.toString().isNotEmpty ? AppColor.themeColor : AppColor.themeColor,),
+            label: Text.rich(TextSpan(children: [
+              TextSpan(text: labelText),
+              TextSpan(
+                  text: isRequired != null && isRequired == true ? ' *' : "",
+                  style: const TextStyle(color: Colors.red)),
+            ])),
+            labelStyle: TextStyle(
+              fontSize: AppFont.font_14,
+              color: controller == null
+                  ? AppColor.themeColor
+                  : controller!.text.toString().isNotEmpty
+                      ? AppColor.themeColor
+                      : AppColor.themeColor,
+            ),
             fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

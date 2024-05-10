@@ -6,7 +6,10 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import '../domain/models/login_model.dart';
 
 class LoginHelper {
-  static Future<dynamic> textFieldValidation({required String emilId, required String password, required BuildContext context}) async {
+  static Future<dynamic> textFieldValidation(
+      {required String emilId,
+      required String password,
+      required BuildContext context}) async {
     try {
       if (emilId.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter email id");
@@ -34,40 +37,50 @@ class LoginHelper {
     return null;
   }
 
-  static Future<dynamic> getLoginData({required String emilId, required String password, required BuildContext context}) async {
+  static Future<dynamic> getLoginData(
+      {required String emilId,
+      required String password,
+      required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
 /*    var firebaseToken = await FirebaseMessaging.instance.getToken();*/
     var firebaseToken = "";
-    if(kDebugMode){
+    if (kDebugMode) {
       print(firebaseToken.toString());
     }
     try {
       if (await isInternetConnected() == true) {
-        var json =  LoginScreenRequestModel(
+        var json = LoginScreenRequestModel(
           userEmailId: emilId,
           password: password,
           firebaseId: firebaseToken,
           deviceId: deviceId,
         ).toJson();
         String url = APIs.login;
-        var res = await ServerRequest.postData(urlEndPoint: url, body: jsonEncode(json));
-          if(res != null && res["status"] != null && res['status'] == 200 && res['user'] != null){
-            return res;
-        } else if (res != null && res["status"] != null && res['status'] == 401 && res['messages'] != null) {
-          if(! context.mounted) return null;
+        var res = await ServerRequest.postData(
+            urlEndPoint: url, body: jsonEncode(json));
+        if (res != null &&
+            res["status"] != null &&
+            res['status'] == 200 &&
+            res['user'] != null) {
+          return res;
+        } else if (res != null &&
+            res["status"] != null &&
+            res['status'] == 401 &&
+            res['messages'] != null) {
+          if (!context.mounted) return null;
           SnackBarErrorWidget(context).show(message: res['messages']);
           return null;
         } else {
-            if(! context.mounted) return null;
-          SnackBarErrorWidget(context).show(message:"Internal Server Error");
+          if (!context.mounted) return null;
+          SnackBarErrorWidget(context).show(message: "Internal Server Error");
           return null;
         }
       }
-      if(! context.mounted) return null;
+      if (!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "No internet Connection");
       return null;
     } catch (e) {
-      if(! context.mounted) return null;
+      if (!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "Internal server error");
       return null;
     }
@@ -84,5 +97,4 @@ class LoginHelper {
 
     return isConnect;
   }
-
 }

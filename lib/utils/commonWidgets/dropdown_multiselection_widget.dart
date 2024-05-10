@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DropDownSearchMultiSelectWidget extends StatelessWidget {
-
   final List<dynamic> items;
   final ValueChanged<dynamic> onChanged;
-  final  DropdownSearchItemAsString<dynamic>? itemAsString;
+  final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
   final List<dynamic>? selectedItem;
-  const DropDownSearchMultiSelectWidget({super.key,
+
+  const DropDownSearchMultiSelectWidget({
+    super.key,
     required this.items,
     required this.onChanged,
     required this.itemAsString,
@@ -20,7 +21,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-    /*  height: MediaQuery.of(context).size.height * 0.07,*/
+      /*  height: MediaQuery.of(context).size.height * 0.07,*/
       child: DropdownSearch<dynamic>.multiSelection(
         selectedItems: selectedItem ?? [],
         dropdownDecoratorProps: DropDownDecoratorProps(
@@ -34,10 +35,12 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
                 style: BorderStyle.none,
               ),
             ),
-            hintStyle: TextStyle(fontSize: AppFont.font_14, color: AppColor.themeColor),
+            hintStyle: TextStyle(
+                fontSize: AppFont.font_14, color: AppColor.themeColor),
             contentPadding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.018,
-              left: MediaQuery.of(context).size.height * 0.01,),
+              left: MediaQuery.of(context).size.height * 0.01,
+            ),
             hintText: hint,
             filled: false,
           ),
@@ -50,14 +53,16 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
             return Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.30,
                   child: ButtonWidget(
                     onPressed: () {
                       onChanged.call(selectedItems);
                       Navigator.pop(context);
-                    }, text: AppString.ok,
+                    },
+                    text: AppString.ok,
                   ),
                 ),
               ),

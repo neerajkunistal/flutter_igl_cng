@@ -5,10 +5,11 @@ import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.d
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'view_equipment_complaint_event.dart';
+
 part 'view_equipment_complaint_state.dart';
 
-class ViewEquipmentComplaintBloc extends Bloc<ViewEquipmentComplaintEvent, ViewEquipmentComplaintState> {
-
+class ViewEquipmentComplaintBloc
+    extends Bloc<ViewEquipmentComplaintEvent, ViewEquipmentComplaintState> {
   List<ReviewComplaintModel> reviewComplaintList = [];
 
   ViewEquipmentComplaintBloc() : super(ViewEquipmentComplaintInitial()) {
@@ -18,18 +19,20 @@ class ViewEquipmentComplaintBloc extends Bloc<ViewEquipmentComplaintEvent, ViewE
   _pageLoad(ViewEquipmentComplaintPageLoadEvent event, emit) async {
     emit(ViewEquipmentComplaintPageLoadState());
     reviewComplaintList = [];
-    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
-    var res =   userData.roleType == RoleType.mi
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+    var res = userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint()
-        : await ReviewComplaintHelper.fetchReviewComplaint(type: userData.roleType == RoleType.shiftEngineer ? "0" :  "1");
+        : await ReviewComplaintHelper.fetchReviewComplaint(
+            type: userData.roleType == RoleType.shiftEngineer ? "0" : "1");
 
-    if(res != null){
+    if (res != null) {
       reviewComplaintList = res;
     }
     _eventComplete(emit);
   }
 
-  _eventComplete(Emitter<ViewEquipmentComplaintState>emit) {
-    emit(FetchViewEquipmentComplaintDataState(reviewComplaintList: reviewComplaintList));
+  _eventComplete(Emitter<ViewEquipmentComplaintState> emit) {
+    emit(FetchViewEquipmentComplaintDataState(
+        reviewComplaintList: reviewComplaintList));
   }
 }

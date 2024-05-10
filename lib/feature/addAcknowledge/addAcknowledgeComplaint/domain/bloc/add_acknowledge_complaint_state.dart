@@ -9,7 +9,8 @@ class AddAcknowledgeComplaintInitial extends AddAcknowledgeComplaintState {
   List<Object> get props => [];
 }
 
-class AddAcknowledgeComplaintPageLoadState extends AddAcknowledgeComplaintInitial {
+class AddAcknowledgeComplaintPageLoadState
+    extends AddAcknowledgeComplaintInitial {
   @override
   List<Object> get props => [];
 }
@@ -41,7 +42,6 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final TextEditingController generalDescriptionController;
   final String complaintStatus;
 
-
   FetchAddAcknowledgeComplaintState({
     required this.file,
     required this.isLoader,
@@ -70,33 +70,32 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.complaintStatus,
   });
 
-
   @override
   List<Object> get props => [
-    file,
-    isLoader,
-    descriptionController,
-    complaintTypeData,
-    complaintTypeList,
-    equipmentTypeData,
-    equipmentTypeList,
-    remarkController,
-    complaintList,
-    acknowledgeData,
-    acknowledgeList,
-    complaintData,
-    departmentData,
-    departmentList,
-    breakDownvalue,
-    reviewComplaintData,
-    isComplaintLoader,
-    acknowledgeUserData,
-    acknowledgeUserList,
-    dateController,
-    timeController,
-    generalComplaintData,
-    generalComplaintList,
-    generalDescriptionController,
-    complaintStatus,
-  ];
+        file,
+        isLoader,
+        descriptionController,
+        complaintTypeData,
+        complaintTypeList,
+        equipmentTypeData,
+        equipmentTypeList,
+        remarkController,
+        complaintList,
+        acknowledgeData,
+        acknowledgeList,
+        complaintData,
+        departmentData,
+        departmentList,
+        breakDownvalue,
+        reviewComplaintData,
+        isComplaintLoader,
+        acknowledgeUserData,
+        acknowledgeUserList,
+        dateController,
+        timeController,
+        generalComplaintData,
+        generalComplaintList,
+        generalDescriptionController,
+        complaintStatus,
+      ];
 }

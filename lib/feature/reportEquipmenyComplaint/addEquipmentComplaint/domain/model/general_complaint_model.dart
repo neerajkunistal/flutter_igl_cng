@@ -1,5 +1,6 @@
 List<GeneralComplaintModel> generalComplaintListResponse(var json) {
-  return List<GeneralComplaintModel>.from(json.map((x) => GeneralComplaintModel.fromJson(x)));
+  return List<GeneralComplaintModel>.from(
+      json.map((x) => GeneralComplaintModel.fromJson(x)));
 }
 
 class GeneralComplaintModel {
@@ -13,12 +14,12 @@ class GeneralComplaintModel {
 
   GeneralComplaintModel(
       {this.id,
-        this.name,
-        this.description,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.sortOrder});
+      this.name,
+      this.description,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.sortOrder});
 
   GeneralComplaintModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";

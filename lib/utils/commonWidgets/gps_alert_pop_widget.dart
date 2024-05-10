@@ -6,12 +6,12 @@ class GPSAlertPopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  WillPopScope(
+    return WillPopScope(
       onWillPop: () async => false,
       child: Center(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.30,
-          width: MediaQuery.of(context).size.width/1.7,
+          width: MediaQuery.of(context).size.width / 1.7,
           margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
           child: Card(
             shape: RoundedRectangleBorder(
@@ -39,7 +39,11 @@ class GPSAlertPopWidget extends StatelessWidget {
   Widget _centerImage({required BuildContext context}) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.09,
-      child: Icon(Icons.gps_off, size: MediaQuery.of(context).size.height * 0.09, color: AppColor.red,),
+      child: Icon(
+        Icons.gps_off,
+        size: MediaQuery.of(context).size.height * 0.09,
+        color: AppColor.red,
+      ),
     );
   }
 
@@ -56,13 +60,15 @@ class GPSAlertPopWidget extends StatelessWidget {
     );
   }
 
-
   Widget _closeButton({required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: IconButton(
-        icon: Icon(Icons.close, color: AppColor.grey,),
-        onPressed:  () {
+        icon: Icon(
+          Icons.close,
+          color: AppColor.grey,
+        ),
+        onPressed: () {
           Navigator.pop(context);
         },
       ),

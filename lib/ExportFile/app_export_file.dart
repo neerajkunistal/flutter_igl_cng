@@ -67,4 +67,3 @@ export 'package:flutter_igl_cng/feature/dashboard/presentation/widget/tablet_das
 export 'package:flutter_igl_cng/utils/commonWidgets/app_update_message_widget.dart';
 export 'package:flutter_igl_cng/utils/res/app_theme.dart';
 export 'package:flutter_igl_cng/utils/res/bloc_multi_provider.dart';
-

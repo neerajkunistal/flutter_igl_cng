@@ -6,7 +6,7 @@ class ServiceCenterNetworkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Card(
+    return Card(
         elevation: 3,
         shadowColor: Colors.purple[400],
         shape: const RoundedRectangleBorder(
@@ -17,9 +17,12 @@ class ServiceCenterNetworkWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextWidget("Service Center Network Beetel",
-                color: AppColor.black, fontSize: AppFont.font_14,
-                fontWeight: FontWeight.w700,),
+              TextWidget(
+                "Service Center Network Beetel",
+                color: AppColor.black,
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w700,
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),

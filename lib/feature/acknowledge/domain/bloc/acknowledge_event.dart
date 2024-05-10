@@ -6,6 +6,7 @@ abstract class AcknowledgeEvent extends Equatable {
 
 class AcknowledgePageLoadEvent extends AcknowledgeEvent {
   final BuildContext context;
+
   const AcknowledgePageLoadEvent({required this.context});
 
   @override

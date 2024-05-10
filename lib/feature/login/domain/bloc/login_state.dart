@@ -16,7 +16,9 @@ class FetchLoginStateData extends LoginStateInit {
   final TextEditingController passwordTextFieldController;
   final String appLogo;
   final String appVersion;
-  FetchLoginStateData({required this.isLoader,
+
+  FetchLoginStateData({
+    required this.isLoader,
     required this.isPassword,
     required this.appLogoLoader,
     required this.appLogo,
@@ -24,7 +26,15 @@ class FetchLoginStateData extends LoginStateInit {
     required this.passwordTextFieldController,
     required this.appVersion,
   });
+
   @override
-  List<Object?> get props => [isLoader, isPassword, appLogoLoader, appLogo,
-    userNameTextFiledController, passwordTextFieldController, appVersion];
+  List<Object?> get props => [
+        isLoader,
+        isPassword,
+        appLogoLoader,
+        appLogo,
+        userNameTextFiledController,
+        passwordTextFieldController,
+        appVersion
+      ];
 }

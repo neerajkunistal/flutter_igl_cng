@@ -5,8 +5,9 @@ class NetworkImageWidget extends StatelessWidget {
   final double? height;
   final double? width;
   final BoxFit? fit;
-  const NetworkImageWidget({super.key,
-    required this.imageUrl, this.height, this.width, this.fit});
+
+  const NetworkImageWidget(
+      {super.key, required this.imageUrl, this.height, this.width, this.fit});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +23,11 @@ class NetworkImageWidget extends StatelessWidget {
           child: CircularProgressIndicator(
             value: loadingProgress.expectedTotalBytes != null
                 ? loadingProgress.cumulativeBytesLoaded /
-                loadingProgress.expectedTotalBytes!
+                    loadingProgress.expectedTotalBytes!
                 : null,
           ),
         );
       },
     );
   }
-
 }

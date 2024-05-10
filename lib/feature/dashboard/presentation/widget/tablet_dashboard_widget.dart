@@ -9,24 +9,21 @@ class TabletDashboardWidget extends StatefulWidget {
 }
 
 class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if(state is FetchHomeDataState){
-            return _listBuilder(dataState: state);
-          } else {
-            return const SizedBox.shrink();
-          }
-        }
-    );
+    return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+      if (state is FetchHomeDataState) {
+        return _listBuilder(dataState: state);
+      } else {
+        return const SizedBox.shrink();
+      }
+    });
   }
 
   Widget _listBuilder({required FetchHomeDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10.0),
-      child:  Center(
+      child: Center(
         child: Column(
           children: [
             SizedBox(
@@ -37,10 +34,11 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
-                  onPressed: () {
-
-                  },
-                  icon: Icon(Icons.comment_bank_outlined, color: AppColor.themeColor,),
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.comment_bank_outlined,
+                    color: AppColor.themeColor,
+                  ),
                   label: const TextWidget("Report Equipment Complaint"),
                 ),
               ),
@@ -53,10 +51,11 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                   ),
-                  onPressed: () {
-
-                  },
-                  icon: Icon(Icons.report_gmailerrorred, color: AppColor.themeColor,),
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.report_gmailerrorred,
+                    color: AppColor.themeColor,
+                  ),
                   label: const TextWidget("Report Civil Complaint"),
                 ),
               ),

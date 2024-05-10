@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class WaveShape extends CustomClipper<Path> {
@@ -13,9 +12,11 @@ class WaveShape extends CustomClipper<Path> {
     p.close();
     return p;
   }
+
   @override
   bool shouldReclip(CustomClipper oldClipper) => true;
 }
+
 class BottomWaveShape extends CustomClipper<Path> {
   @override
   getClip(Size size) {
@@ -28,6 +29,7 @@ class BottomWaveShape extends CustomClipper<Path> {
     p.close();
     return p;
   }
+
   @override
   bool shouldReclip(CustomClipper oldClipper) => true;
 }

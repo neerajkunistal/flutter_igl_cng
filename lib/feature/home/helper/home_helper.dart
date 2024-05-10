@@ -4,26 +4,26 @@ import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_pa
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 
 class HomeHelper {
+  static Future<dynamic> fetchDrawerList(
+      {required BuildContext context}) async {
+    try {
+      List<DrawerModel> drawerList = [];
+      drawerList.add(DrawerModel(
+          widget: const DashboardPage(),
+          icon: Icons.home_outlined,
+          label: AppString.dashboard,
+          sublist: [],
+          isSelected: true));
 
-
-  static Future<dynamic> fetchDrawerList({required BuildContext context}) async {
-
-    try{
-       List<DrawerModel> drawerList = [];
-       drawerList.add(DrawerModel(widget: const DashboardPage(), icon: Icons.home_outlined,
-           label: AppString.dashboard, sublist: [], isSelected: true));
-
-       List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
-       return drawerList;
-    }catch(e){
+      List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
+      return drawerList;
+    } catch (e) {
       return null;
     }
   }
 
-
   static Future<dynamic> fetchSystemAdminSubList() async {
-
-    try{
+    try {
       List<DrawerSubModel> drawerSubList = [];
       drawerSubList.add(DrawerSubModel(
         label: 'Add User',
@@ -43,15 +43,15 @@ class HomeHelper {
         isSelected: false,
       ));
       return drawerSubList;
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchAppBottomBarItems({required BuildContext context, 
-            required RoleType appModule}) async {
-     try{
-       List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
+  static Future<dynamic> fetchAppBottomBarItems(
+      {required BuildContext context, required RoleType appModule}) async {
+    try {
+      List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
 
 /*         if (appModule == RoleType.serviceCenter){
             bottomNavigationBarItemList.add(BottomNavigationBarItem(
@@ -69,22 +69,21 @@ class HomeHelper {
             ));
           }*/
 
-          return bottomNavigationBarItemList;
-     }catch(e){
-       SnackBarErrorWidget(context).show(message: "Bottom Bar Error");
-       return null;
-     }
-  }
-
-  static Future<dynamic> fetchPageWidgets({required BuildContext context,
-    required RoleType appModule}) async {
-    try{
-      List<Widget> pageWidgetList = [];
-      return pageWidgetList;
-    }catch(e){
-      SnackBarErrorWidget(context).show(message: "Page Widget Error");
+      return bottomNavigationBarItemList;
+    } catch (e) {
+      SnackBarErrorWidget(context).show(message: "Bottom Bar Error");
       return null;
     }
   }
 
+  static Future<dynamic> fetchPageWidgets(
+      {required BuildContext context, required RoleType appModule}) async {
+    try {
+      List<Widget> pageWidgetList = [];
+      return pageWidgetList;
+    } catch (e) {
+      SnackBarErrorWidget(context).show(message: "Page Widget Error");
+      return null;
+    }
+  }
 }

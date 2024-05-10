@@ -7,11 +7,16 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final double? width;
 
-  const MessageBoxTwoButtonPopWidget({super.key, required this.message, required this.onPressed, this.okButtonText, this.width});
+  const MessageBoxTwoButtonPopWidget(
+      {super.key,
+      required this.message,
+      required this.onPressed,
+      this.okButtonText,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Wrap(
         children: [
           SizedBox(
@@ -29,9 +34,9 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.01,
                   ),
-
                   Padding(
-                    padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05,
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.05,
                         right: MediaQuery.of(context).size.width * 0.05),
                     child: TextWidget(
                       message,
@@ -43,7 +48,6 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
-
                   Container(
                     height: 1.0,
                     width: MediaQuery.of(context).size.width,
@@ -55,11 +59,14 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                       children: [
                         Expanded(
                           child: TextButton(
-                            onPressed:  () {
+                            onPressed: () {
                               Navigator.pop(context);
-                            }, child: TextWidget("Cancel",
-                            color: AppColor.themeLightColor,
-                            fontSize: AppFont.font_16,),
+                            },
+                            child: TextWidget(
+                              "Cancel",
+                              color: AppColor.themeLightColor,
+                              fontSize: AppFont.font_16,
+                            ),
                           ),
                         ),
                         Container(
@@ -69,10 +76,13 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                         ),
                         Expanded(
                           child: TextButton(
-                            onPressed:  onPressed,
-                            child: TextWidget(okButtonText ?? "OK",
+                            onPressed: onPressed,
+                            child: TextWidget(
+                              okButtonText ?? "OK",
                               fontWeight: FontWeight.w700,
-                              color: AppColor.themeColor,fontSize: AppFont.font_16,),
+                              color: AppColor.themeColor,
+                              fontSize: AppFont.font_16,
+                            ),
                           ),
                         ),
                       ],
@@ -87,17 +97,20 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
     );
   }
 
-
   Widget _closeButton({required BuildContext context}) {
     return Row(
       children: [
         Expanded(
           flex: 1,
           child: Padding(
-            padding:  EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05,
-                right: MediaQuery.of(context).size.width * 0.05, top: MediaQuery.of(context).size.width * 0.05,),
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * 0.05,
+              right: MediaQuery.of(context).size.width * 0.05,
+              top: MediaQuery.of(context).size.width * 0.05,
+            ),
             child: TextWidget(
-              "Alert !", fontSize: AppFont.font_18,
+              "Alert !",
+              fontSize: AppFont.font_18,
               fontWeight: FontWeight.w700,
               textAlign: TextAlign.center,
               color: AppColor.black,

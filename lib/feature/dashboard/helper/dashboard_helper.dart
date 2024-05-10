@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DashboardHelper {
-
   static Future<dynamic> imagePiker({required BuildContext context}) async {
-    try{
+    try {
       final ImagePicker _picker = ImagePicker();
       final XFile? photo = await _picker.pickImage(
           source: ImageSource.camera,
@@ -12,29 +11,29 @@ class DashboardHelper {
           maxHeight: 1200,
           maxWidth: 950,
           preferredCameraDevice: CameraDevice.rear);
-      if(photo != null){
+      if (photo != null) {
         return File(photo.path);
-      } else{
+      } else {
         return null;
       }
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
 
   static Future<dynamic> filePiker({required BuildContext context}) async {
-    try{
+    try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['jpg', 'pdf', 'doc'],
       );
-      if(result != null){
+      if (result != null) {
         List<File> files = result.paths.map((path) => File(path!)).toList();
         return files[0];
-      } else{
+      } else {
         return null;
       }
-    }catch(e){
+    } catch (e) {
       return null;
     }
   }
@@ -48,13 +47,19 @@ class DashboardHelper {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
-              TextButton(onPressed: () {
-
-              }, child: TextWidget("Camera", fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {},
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
               const Divider(),
-              TextButton(onPressed: () {
-
-              }, child: TextWidget("Gallery",fontSize: AppFont.font_16,)),
+              TextButton(
+                  onPressed: () {},
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
             ],
           ),
         );

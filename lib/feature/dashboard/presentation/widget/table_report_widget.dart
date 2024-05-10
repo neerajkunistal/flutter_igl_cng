@@ -30,18 +30,27 @@ class TabletReportWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        TextWidget("All Orders", color: AppColor.white,
-                          fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
+                        TextWidget(
+                          "All Orders",
+                          color: AppColor.white,
+                          fontSize: AppFont.font_16,
+                          fontWeight: FontWeight.w700,
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Icon(Icons.calendar_today_outlined,
+                            Icon(
+                              Icons.calendar_today_outlined,
                               color: AppColor.white,
-                              size: MediaQuery.of(context).size.height * 0.05,),
-
-                            TextWidget("86", color: AppColor.white,
-                              fontSize: AppFont.font_22, fontWeight: FontWeight.w700,),
+                              size: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            TextWidget(
+                              "86",
+                              color: AppColor.white,
+                              fontSize: AppFont.font_22,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ],
                         )
                       ],
@@ -53,7 +62,6 @@ class TabletReportWidget extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.01,
             ),
-
             Expanded(
               child: SizedBox(
                 height: boxHeight,
@@ -69,18 +77,27 @@ class TabletReportWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        TextWidget("Daily average", color: AppColor.white,
-                          fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
+                        TextWidget(
+                          "Daily average",
+                          color: AppColor.white,
+                          fontSize: AppFont.font_16,
+                          fontWeight: FontWeight.w700,
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Icon(Icons.card_travel,
+                            Icon(
+                              Icons.card_travel,
                               color: AppColor.white,
-                              size: MediaQuery.of(context).size.height * 0.05,),
-
-                            TextWidget("75", color: AppColor.white,
-                              fontSize: AppFont.font_22, fontWeight: FontWeight.w700,),
+                              size: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            TextWidget(
+                              "75",
+                              color: AppColor.white,
+                              fontSize: AppFont.font_22,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ],
                         )
                       ],
@@ -113,18 +130,27 @@ class TabletReportWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        TextWidget("Lead", color: AppColor.white,
-                          fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
+                        TextWidget(
+                          "Lead",
+                          color: AppColor.white,
+                          fontSize: AppFont.font_16,
+                          fontWeight: FontWeight.w700,
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Icon(Icons.person,
+                            Icon(
+                              Icons.person,
                               color: AppColor.white,
-                              size: MediaQuery.of(context).size.height * 0.05,),
-
-                            TextWidget("45", color: AppColor.white,
-                              fontSize: AppFont.font_22, fontWeight: FontWeight.w700,),
+                              size: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            TextWidget(
+                              "45",
+                              color: AppColor.white,
+                              fontSize: AppFont.font_22,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ],
                         )
                       ],
@@ -151,18 +177,27 @@ class TabletReportWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        TextWidget("Annual Deals", color: AppColor.white,
-                          fontSize: AppFont.font_16, fontWeight: FontWeight.w700,),
+                        TextWidget(
+                          "Annual Deals",
+                          color: AppColor.white,
+                          fontSize: AppFont.font_16,
+                          fontWeight: FontWeight.w700,
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Icon(Icons.email_outlined,
+                            Icon(
+                              Icons.email_outlined,
                               color: AppColor.white,
-                              size: MediaQuery.of(context).size.height * 0.05,),
-
-                            TextWidget("93", color: AppColor.white,
-                              fontSize: AppFont.font_22, fontWeight: FontWeight.w700,),
+                              size: MediaQuery.of(context).size.height * 0.05,
+                            ),
+                            TextWidget(
+                              "93",
+                              color: AppColor.white,
+                              fontSize: AppFont.font_22,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ],
                         )
                       ],
@@ -173,7 +208,6 @@ class TabletReportWidget extends StatelessWidget {
             ),
           ],
         ),
-
       ],
     );
   }

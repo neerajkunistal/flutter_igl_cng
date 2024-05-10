@@ -6,7 +6,9 @@ abstract class ViewEquipmentComplaintEvent extends Equatable {
 
 class ViewEquipmentComplaintPageLoadEvent extends ViewEquipmentComplaintEvent {
   final BuildContext context;
+
   const ViewEquipmentComplaintPageLoadEvent({required this.context});
+
   @override
   List<Object?> get props => [context];
 }

@@ -7,12 +7,14 @@ class CenterLoaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double size  =  AppConfig.getDeviceType(context: context) == DeviceType.phone
+    double size = AppConfig.getDeviceType(context: context) == DeviceType.phone
         ? MediaQuery.of(context).size.width * 0.10
         : MediaQuery.of(context).size.width * 0.05;
-    return Center(child:
-    SpinKitCubeGrid(
-      color: AppColor.themeColor,
-      size: size,),);
+    return Center(
+      child: SpinKitCubeGrid(
+        color: AppColor.themeColor,
+        size: size,
+      ),
+    );
   }
 }

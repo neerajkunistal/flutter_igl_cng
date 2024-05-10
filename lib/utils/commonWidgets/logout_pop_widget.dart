@@ -3,11 +3,12 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class LogOutPopWidget extends StatelessWidget {
   final String? logOutMessage;
+
   const LogOutPopWidget({super.key, this.logOutMessage});
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
+    return Center(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.43,
         margin: EdgeInsets.all(MediaQuery.of(context).size.height * 0.03),
@@ -23,16 +24,13 @@ class LogOutPopWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
               _text(context: context),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
               _logOutButton(context: context),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-
               _cancelButton(context: context)
             ],
           ),
@@ -44,15 +42,17 @@ class LogOutPopWidget extends StatelessWidget {
   Widget _centerImage({required BuildContext context}) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.09,
-      child: Icon(Icons.lock_open, color: AppColor.themeLightColor,
-        size: MediaQuery.of(context).size.height * 0.09,),
+      child: Icon(
+        Icons.lock_open,
+        color: AppColor.themeLightColor,
+        size: MediaQuery.of(context).size.height * 0.09,
+      ),
     );
   }
 
   Widget _text({required BuildContext context}) {
     return TextWidget(
-      logOutMessage == null ?
-      "Do you want logout?" : logOutMessage.toString(),
+      logOutMessage == null ? "Do you want logout?" : logOutMessage.toString(),
       textAlign: TextAlign.center,
       color: AppColor.black,
       fontWeight: FontWeight.w500,
@@ -63,15 +63,14 @@ class LogOutPopWidget extends StatelessWidget {
   Widget _logOutButton({required BuildContext context}) {
     return TextButton(
         style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
-            foregroundColor: MaterialStateProperty.all<Color>(AppColor.themeColor),
+            padding:
+                MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
+            foregroundColor:
+                MaterialStateProperty.all<Color>(AppColor.themeColor),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: AppColor.themeColor)
-                )
-            )
-        ),
+                    side: BorderSide(color: AppColor.themeColor)))),
         onPressed: () async {
 /*          Navigator.pushAndRemoveUntil(
               context,
@@ -89,12 +88,11 @@ class LogOutPopWidget extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: AppColor.themeColor,
           ),
-        )
-    );
+        ));
   }
 
   Widget _cancelButton({required BuildContext context}) {
-    return  TextButton(
+    return TextButton(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.30,
           child: TextWidget(
@@ -105,16 +103,18 @@ class LogOutPopWidget extends StatelessWidget {
             color: AppColor.grey,
           ),
         ),
-        onPressed: () => Navigator.pop(context)
-    );
+        onPressed: () => Navigator.pop(context));
   }
 
   Widget _closeButton({required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: IconButton(
-        icon: Icon(Icons.close, color: AppColor.grey,),
-        onPressed:  () {
+        icon: Icon(
+          Icons.close,
+          color: AppColor.grey,
+        ),
+        onPressed: () {
           Navigator.pop(context);
         },
       ),

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'dashboard_event.dart';
+
 part 'dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
@@ -12,11 +13,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
 
   _pageLoad(DashboardPageLoadEvent event, emit) async {
     emit(DashboardPageLoadState());
-    if(!event.context.mounted) return ;
-    _eventCompleted(emit);
+    if (!event.context.mounted) return;
   }
 
-  _eventCompleted(Emitter<DashboardState>emit) {
+  _eventCompleted(Emitter<DashboardState> emit) {
     emit(FetchDashboardDataState());
   }
 }

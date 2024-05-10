@@ -13,13 +13,11 @@ class LoginScreenPage extends StatefulWidget {
 }
 
 class _LoginScreenPageState extends State<LoginScreenPage> {
-
-   @override
+  @override
   void initState() {
-     BlocProvider.of<LoginBloc>(context).add(LoginPageLoadingEvent());
+    BlocProvider.of<LoginBloc>(context).add(LoginPageLoadingEvent());
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +26,19 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
       resizeToAvoidBottomInset: true,
       body: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
-          if(state is FetchLoginStateData){
+          if (state is FetchLoginStateData) {
             return Center(
-              child: AppConfig.getDeviceType(context: context) == DeviceType.phone
-                  ? PhoneLoginWidget(dataState: state)
-                  : TabletLoginWidget(dataState: state,) ,
+              child:
+                  AppConfig.getDeviceType(context: context) == DeviceType.phone
+                      ? PhoneLoginWidget(dataState: state)
+                      : TabletLoginWidget(
+                          dataState: state,
+                        ),
             );
-          } else{
-            return const Center(child: CenterLoaderWidget(),);
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
           }
         },
       ),
