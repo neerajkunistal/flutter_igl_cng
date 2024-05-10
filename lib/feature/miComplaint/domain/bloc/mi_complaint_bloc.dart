@@ -8,7 +8,6 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 
 part 'mi_complaint_event.dart';
-
 part 'mi_complaint_state.dart';
 
 class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {

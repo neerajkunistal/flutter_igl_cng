@@ -1,13 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class ServerRequest {
   static BuildContext? context = Singleton.instanceInit()?.context;

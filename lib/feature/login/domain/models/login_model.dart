@@ -67,8 +67,6 @@ class LoginDataModel {
         return RoleType.shiftEngineer;
       case "MI":
         return RoleType.mi;
-/*      case "CRIC" :
-        return RoleType.CRIC;*/
       default:
         return RoleType.noRole;
     }
