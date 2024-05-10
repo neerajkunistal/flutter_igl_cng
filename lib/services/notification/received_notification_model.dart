@@ -1,4 +1,4 @@
-class ReceivedNotification  {
+class ReceivedNotification {
   ReceivedNotification({
     required this.id,
     required this.title,

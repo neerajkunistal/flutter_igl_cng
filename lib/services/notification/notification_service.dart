@@ -6,13 +6,15 @@ import 'package:flutter_igl_cng/services/notification/received_notification_mode
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 
-final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-class NotificationService{
-
+class NotificationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   Future<dynamic> navigateTo({String? newsId}) {
-    return navigatorKey.currentState!.pushNamed('/AcknowledgePage',arguments: "");
+    return navigatorKey.currentState!
+        .pushNamed('/AcknowledgePage', arguments: "");
   }
 
   String? selectedNotificationPayload;
@@ -29,26 +31,26 @@ class NotificationService{
   /// Defines a iOS/MacOS notification category for plain actions.
   String darwinNotificationCategoryPlain = 'plainCategory';
 
-
   /// Streams are created so that app can respond to notification-related events
   /// since the plugin is initialised in the `main` function
-  final StreamController<ReceivedNotification> didReceiveLocalNotificationStream =
-  StreamController<ReceivedNotification>.broadcast();
+  final StreamController<ReceivedNotification>
+      didReceiveLocalNotificationStream =
+      StreamController<ReceivedNotification>.broadcast();
 
   final StreamController<String?> selectNotificationStream =
-  StreamController<String?>.broadcast();
+      StreamController<String?>.broadcast();
 
 /*  MethodChannel platform =
   MethodChannel('dexterx.dev/flutter_local_notifications_example');*/
 
   String portName = 'notification_send_port';
 
-
   Future<void> initializePlatformNotifications() async {
-    final NotificationAppLaunchDetails? notificationAppLaunchDetails = !kIsWeb &&
-        Platform.isLinux
-        ? null
-        : await _flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        !kIsWeb && Platform.isLinux
+            ? null
+            : await _flutterLocalNotificationsPlugin
+                .getNotificationAppLaunchDetails();
 
     String initialRoute = "Home Page";
     if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
@@ -58,10 +60,10 @@ class NotificationService{
     }
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher_igl');
+        AndroidInitializationSettings('@mipmap/ic_launcher_igl');
 
     final List<DarwinNotificationCategory> darwinNotificationCategories =
-    <DarwinNotificationCategory>[
+        <DarwinNotificationCategory>[
       DarwinNotificationCategory(
         darwinNotificationCategoryText,
         actions: <DarwinNotificationAction>[
@@ -107,7 +109,7 @@ class NotificationService{
 
     /// done later
     final DarwinInitializationSettings initializationSettingsDarwin =
-    DarwinInitializationSettings(
+        DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
@@ -125,13 +127,15 @@ class NotificationService{
       notificationCategories: darwinNotificationCategories,
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
       macOS: initializationSettingsDarwin,
     );
 
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
       onDidReceiveNotificationResponse: notificationTapBackground,
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
@@ -140,15 +144,14 @@ class NotificationService{
     _requestPermissions();
     _configureDidReceiveLocalNotificationSubject();
     _configureSelectNotificationSubject();
-
   }
 
   Future<void> _isAndroidPermissionGranted() async {
     if (Platform.isAndroid) {
       final bool granted = await _flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-          ?.areNotificationsEnabled() ??
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>()
+              ?.areNotificationsEnabled() ??
           false;
     }
   }
@@ -157,24 +160,25 @@ class NotificationService{
     if (Platform.isIOS || Platform.isMacOS) {
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
+              IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+            alert: true,
+            badge: true,
+            sound: true,
+          );
       await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
-          MacOSFlutterLocalNotificationsPlugin>()
+              MacOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
+            alert: true,
+            badge: true,
+            sound: true,
+          );
     } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-      _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+          _flutterLocalNotificationsPlugin
+              .resolvePlatformSpecificImplementation<
+                  AndroidFlutterLocalNotificationsPlugin>();
       await androidImplementation?.requestPermission();
     }
   }
@@ -182,7 +186,7 @@ class NotificationService{
   void _configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationStream.stream
         .listen((ReceivedNotification receivedNotification) async {
-      BuildContext? context =  Singleton.instanceInit()?.context;
+      BuildContext? context = Singleton.instanceInit()?.context;
       await showDialog(
         context: context!,
         builder: (BuildContext context) => CupertinoAlertDialog(
@@ -197,7 +201,7 @@ class NotificationService{
               isDefaultAction: true,
               onPressed: () async {
                 // Navigator.of(context, rootNavigator: true).pop();
-                 // "Open Pages"
+                // "Open Pages"
               },
               child: const Text('Ok'),
             )
@@ -210,13 +214,13 @@ class NotificationService{
   void _configureSelectNotificationSubject() {
     selectNotificationStream.stream.listen((String? payload) async {
       // BuildContext? context =  Singleton.instanceInit()?.context;
-        /// Open Pafe
+      /// Open Pafe
     });
   }
 
-  Future<void> showNotification () async {
+  Future<void> showNotification() async {
     const AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'your channel id',
       'your channel name',
       channelDescription: 'your channel description',
@@ -248,47 +252,46 @@ class NotificationService{
       ],
     );
 
-
     const NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
     );
     await _flutterLocalNotificationsPlugin.show(
         1, 'plain title', 'plain body', notificationDetails,
         payload: 'item z');
-
   }
 }
 
 void notificationTapBackground(NotificationResponse notificationResponse) {
   // ignore: avoid_print
-    print('notification(${notificationResponse.id}) action tapped: '
-        '${notificationResponse.actionId} with'
-        ' payload: ${notificationResponse.payload}');
+  print('notification(${notificationResponse.id}) action tapped: '
+      '${notificationResponse.actionId} with'
+      ' payload: ${notificationResponse.payload}');
 
-    if(notificationResponse.actionId != null
-         && notificationResponse.payload != null){
-      Future(() async {
-        final NavigationService _navigationService = locator<NavigationService>();
-        _navigationService.navigateTo(newsId: "");
-      });
-    }
-    if (notificationResponse.input?.isNotEmpty ?? false) {
-      // ignore: avoid_print
-      print(
-          'notification action tapped with input: ${notificationResponse.input}');
-    }
+  if (notificationResponse.actionId != null &&
+      notificationResponse.payload != null) {
+    Future(() async {
+      final NavigationService _navigationService = locator<NavigationService>();
+      _navigationService.navigateTo(newsId: "");
+    });
+  }
+  if (notificationResponse.input?.isNotEmpty ?? false) {
+    // ignore: avoid_print
+    print(
+        'notification action tapped with input: ${notificationResponse.input}');
+  }
 }
 
-
 final GetIt locator = GetIt.instance;
-void setupLocator()
-{
+
+void setupLocator() {
   locator.registerLazySingleton(() => NavigationService());
 }
 
 class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   Future<dynamic> navigateTo({String? newsId}) {
-    return navigatorKey.currentState!.pushNamed('/AcknowledgePage',arguments: newsId);
+    return navigatorKey.currentState!
+        .pushNamed('/AcknowledgePage', arguments: newsId);
   }
 }

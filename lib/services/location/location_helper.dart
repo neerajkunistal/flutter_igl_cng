@@ -22,12 +22,12 @@ class LocationHelper {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          if(kDebugMode){
+          if (kDebugMode) {
             print('Location permissions are denied');
           }
           return false;
         } else if (permission == LocationPermission.deniedForever) {
-          if(kDebugMode){
+          if (kDebugMode) {
             print("'Location permissions are permanently denied");
           }
           return false;
@@ -41,7 +41,7 @@ class LocationHelper {
       showDialog(
           context: context,
           builder: (BuildContext mContext) => const GPSAlertPopWidget());
-      if(kDebugMode){
+      if (kDebugMode) {
         print("GPS Service is not enabled, turn on GPS location");
       }
       return false;
@@ -67,7 +67,8 @@ class LocationHelper {
     }
   }
 
-  static Future<dynamic> getLocationOfflineMode({required BuildContext context}) async {
+  static Future<dynamic> getLocationOfflineMode(
+      {required BuildContext context}) async {
     if (await checkGps(context: context) == false) {
       return null;
     } else {
@@ -75,15 +76,16 @@ class LocationHelper {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission != LocationPermission.denied) {
           Position position = await Geolocator.getCurrentPosition(
-              desiredAccuracy: LocationAccuracy.best).timeout(const Duration(seconds: 4));
+                  desiredAccuracy: LocationAccuracy.best)
+              .timeout(const Duration(seconds: 4));
           Map<String, dynamic> location = {
             "lat": position.latitude,
             "long": position.longitude,
             "city": "",
-            "accuracy" : position.accuracy.toString(),
+            "accuracy": position.accuracy.toString(),
             "address": '',
           };
-          if(kDebugMode){
+          if (kDebugMode) {
             print(location.toString());
           }
           return responseLocationData(location);
@@ -99,20 +101,20 @@ class LocationHelper {
   static Future<dynamic> _getAddressFromLatLng(Position position) async {
     try {
       List<Placemark> placeMarker =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placeMarker[0];
-      if(kDebugMode){
+      if (kDebugMode) {
         print("position.latitude${position.latitude}");
       }
       Map<String, dynamic> location = {
         "lat": position.latitude,
         "long": position.longitude,
         "city": place.locality.toString(),
-        "accuracy" : position.accuracy.toString(),
+        "accuracy": position.accuracy.toString(),
         "address":
-        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
+            '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}',
       };
-      if(kDebugMode){
+      if (kDebugMode) {
         print(location.toString());
       }
       return responseLocationData(location);
@@ -121,18 +123,19 @@ class LocationHelper {
     }
   }
 
-  static Future<String> getAddress({required String lat, required String log}) async {
+  static Future<String> getAddress(
+      {required String lat, required String log}) async {
     try {
       List<Placemark> placeMarker =
-      await placemarkFromCoordinates(double.parse(lat), double.parse(log));
+          await placemarkFromCoordinates(double.parse(lat), double.parse(log));
       Placemark place = placeMarker[0];
-      String address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}';
+      String address =
+          '${place.street}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea} ${place.country}, ${place.postalCode}';
       return address;
     } catch (e) {
       return "";
     }
   }
-
 
   static Future<bool> checkPermissions({required BuildContext context}) async {
     Map<Permission, PermissionStatus> statuses = await [
@@ -146,14 +149,15 @@ class LocationHelper {
       if (status == PermissionStatus.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const GPSSettingPermissionPopWidget());
         return false;
-
       }
       if (status == PermissionStatus.permanentlyDenied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const GPSSettingPermissionPopWidget());
         return false;
       }
     } else if (Platform.isIOS) {
@@ -161,49 +165,55 @@ class LocationHelper {
       if (permission == LocationPermission.denied) {
         showDialog(
             context: context,
-            builder: (BuildContext context) => const GPSSettingPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const GPSSettingPermissionPopWidget());
         return false;
       }
     }
     return true;
   }
 
-  static Future<bool> checkImagePermission({required BuildContext context}) async {
+  static Future<bool> checkImagePermission(
+      {required BuildContext context}) async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.camera,
     ].request();
 
     final status = await Permission.camera.status;
-    if(kDebugMode){
+    if (kDebugMode) {
       print("Check Camera Permissin ---- $status");
     }
     if (Platform.isAndroid) {
       if (status == PermissionStatus.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
-            builder: (BuildContext context) => const CameraPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const CameraPermissionPopWidget());
         return false;
       }
       if (status == PermissionStatus.permanentlyDenied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
-            builder: (BuildContext context) => const CameraPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const CameraPermissionPopWidget());
         return false;
       }
-    }else{
+    } else {
       if (status == PermissionStatus.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
-            builder: (BuildContext context) => const CameraPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const CameraPermissionPopWidget());
         return false;
       } else if (status == PermissionStatus.permanentlyDenied) {
-        if(!context.mounted) return false;
-      showDialog(
+        if (!context.mounted) return false;
+        showDialog(
             context: context,
-            builder: (BuildContext context) => const CameraPermissionPopWidget());
+            builder: (BuildContext context) =>
+                const CameraPermissionPopWidget());
         return false;
       }
     }
@@ -212,14 +222,11 @@ class LocationHelper {
   }
 
   static Future<bool> checkStoragePermission() async {
-    Map<Permission, PermissionStatus> statuses = await [
-      Permission.storage,
-      Permission.accessMediaLocation
-    ].request();
+    Map<Permission, PermissionStatus> statuses =
+        await [Permission.storage, Permission.accessMediaLocation].request();
     final status = await Permission.locationWhenInUse.status;
     if (status == PermissionStatus.denied) {
       return false;
-
     }
     if (status == PermissionStatus.permanentlyDenied) {
       return false;
