@@ -58,17 +58,17 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _generalDropDown(dataState: dataState),
             _verticalSpace(),
             dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
+                dataState.generalComplaintData.name
+                    .toString()
+                    .toLowerCase() ==
+                    "others"
                 ? _generalDescriptionController(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
+                dataState.generalComplaintData.name
+                    .toString()
+                    .toLowerCase() ==
+                    "others"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             Row(
@@ -113,11 +113,11 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       items: dataState.complaintTypeList
           .map<DropdownMenuItem<ComplaintTypeModel>>(
               (ComplaintTypeModel complaintTypeData) {
-        return DropdownMenuItem<ComplaintTypeModel>(
-          value: complaintTypeData,
-          child: Text(complaintTypeData.name.toString()),
-        );
-      }).toList(),
+            return DropdownMenuItem<ComplaintTypeModel>(
+              value: complaintTypeData,
+              child: Text(complaintTypeData.name.toString()),
+            );
+          }).toList(),
     );
   }
 
@@ -136,11 +136,11 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       items: dataState.equipmentTypeList
           .map<DropdownMenuItem<EquipmentTypeModel>>(
               (EquipmentTypeModel equipmentTypeData) {
-        return DropdownMenuItem<EquipmentTypeModel>(
-          value: equipmentTypeData,
-          child: Text(equipmentTypeData.description.toString()),
-        );
-      }).toList(),
+            return DropdownMenuItem<EquipmentTypeModel>(
+              value: equipmentTypeData,
+              child: Text(equipmentTypeData.description.toString()),
+            );
+          }).toList(),
     );
   }
 
@@ -159,11 +159,11 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       items: dataState.generalComplaintList
           .map<DropdownMenuItem<GeneralComplaintModel>>(
               (GeneralComplaintModel generalComplaintData) {
-        return DropdownMenuItem<GeneralComplaintModel>(
-          value: generalComplaintData,
-          child: Text(generalComplaintData.name.toString()),
-        );
-      }).toList(),
+            return DropdownMenuItem<GeneralComplaintModel>(
+              value: generalComplaintData,
+              child: Text(generalComplaintData.name.toString()),
+            );
+          }).toList(),
     );
   }
 
@@ -180,11 +180,11 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       items: dataState.acknowledgeUserList
           .map<DropdownMenuItem<AcknowledgeUserModel>>(
               (AcknowledgeUserModel acknowledgeUserData) {
-        return DropdownMenuItem<AcknowledgeUserModel>(
-          value: acknowledgeUserData,
-          child: Text(acknowledgeUserData.name.toString()),
-        );
-      }).toList(),
+            return DropdownMenuItem<AcknowledgeUserModel>(
+              value: acknowledgeUserData,
+              child: Text(acknowledgeUserData.name.toString()),
+            );
+          }).toList(),
     );
   }
 
@@ -355,15 +355,15 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
   Widget _button({required FetchAddAcknowledgeComplaintState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
-            text: AppString.submit,
-            height:
-                AppConfig.getDeviceType(context: context) == DeviceType.tablet
-                    ? MediaQuery.of(context).size.height * 0.13
-                    : null,
-            onPressed: () {
-              BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
-                  .add(AddAcknowledgeComplaintSubmitEvent(context: context));
-            })
+        text: AppString.submit,
+        height:
+        AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13
+            : null,
+        onPressed: () {
+          BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
+              .add(AddAcknowledgeComplaintSubmitEvent(context: context));
+        })
         : const DottedLoaderWidget();
   }
 

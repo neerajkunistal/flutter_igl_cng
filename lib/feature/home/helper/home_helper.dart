@@ -15,7 +15,6 @@ class HomeHelper {
           sublist: [],
           isSelected: true));
 
-      List<DrawerSubModel> systemAdminList = await fetchSystemAdminSubList();
       return drawerList;
     } catch (e) {
       return null;
