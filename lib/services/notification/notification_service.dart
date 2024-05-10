@@ -270,8 +270,8 @@ void notificationTapBackground(NotificationResponse notificationResponse) {
   if (notificationResponse.actionId != null &&
       notificationResponse.payload != null) {
     Future(() async {
-      final NavigationService _navigationService = locator<NavigationService>();
-      _navigationService.navigateTo(newsId: "");
+      final NavigationService navigationService = locator<NavigationService>();
+      navigationService.navigateTo(newsId: "");
     });
   }
   if (notificationResponse.input?.isNotEmpty ?? false) {

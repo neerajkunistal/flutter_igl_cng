@@ -74,6 +74,7 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
                     side: BorderSide(color: AppColor.themeColor)))),
         onPressed: () async {
           await openAppSettings();
+          if(!context.mounted) return;
           Navigator.pop(context);
         },
         child: SizedBox(

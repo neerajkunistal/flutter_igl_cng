@@ -6,8 +6,9 @@ class GPSAlertPopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: true, //When false, blocks the current route from being popped.
+      onPopInvoked: (didPop) {},
       child: Center(
         child: Container(
           height: MediaQuery.of(context).size.height * 0.30,

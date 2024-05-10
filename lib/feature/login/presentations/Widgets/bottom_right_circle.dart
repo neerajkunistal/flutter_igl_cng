@@ -38,7 +38,6 @@ Widget bottomRightCircle(BuildContext context) {
           height: height * 0.16,
           width: width * 0.32,
           decoration: const BoxDecoration(
-              //  gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: <Color>[Color(0xFF4348bf), Color(0xFF7fd4f5)]),
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(80))),
         ),
@@ -63,7 +62,6 @@ Widget bottomRightCircle(BuildContext context) {
                       AppColor.themeColor,
                       AppColor.themeLightColor
                     ]),
-                // color: Colors.pink,
                 borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),
@@ -88,7 +86,6 @@ Widget bottomRightCircle(BuildContext context) {
                       AppColor.themeColor,
                       AppColor.themeLightColor
                     ]),
-                // color: Colors.pink,
                 borderRadius: const BorderRadius.all(Radius.circular(80))),
           ),
         ),

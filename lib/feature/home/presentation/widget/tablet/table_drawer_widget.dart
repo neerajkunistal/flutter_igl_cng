@@ -242,6 +242,7 @@ class TabletDrawerWidget extends StatelessWidget {
                 false;
 
             if (isLogout == true) {
+              if(!context.mounted) return;
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
