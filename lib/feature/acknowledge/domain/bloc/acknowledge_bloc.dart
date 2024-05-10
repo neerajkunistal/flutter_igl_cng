@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 part 'acknowledge_event.dart';
+
 part 'acknowledge_state.dart';
 
 class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {

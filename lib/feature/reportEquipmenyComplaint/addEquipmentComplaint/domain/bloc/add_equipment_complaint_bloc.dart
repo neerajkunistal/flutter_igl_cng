@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +11,7 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:intl/intl.dart';
 
 part 'add_equipment_complaint_event.dart';
+
 part 'add_equipment_complaint_state.dart';
 
 class AddEquipmentComplaintBloc
