@@ -77,24 +77,24 @@ class AddAcknowledgeComplaintHelper {
       String url = APIs.addAcknowlegeApi;
       var json = {
         "complaintId": acknowledgeData.id.toString(),
-        "ack_remarks": remark,
-        "assign_to": acknowledgeUserData.id != null
-            ? acknowledgeUserData.id.toString()
-            : "0",
         "complaintTypeId": complaintTypeData.id != null
             ? complaintTypeData.id.toString()
             : "0",
-        "equipmentId": equipmentTypeData.id != null
-            ? equipmentTypeData.id.toString()
-            : "0",
-        "description": description,
-        "breakdown": breakDownvalue,
-        "complaintDateTime": "$date $time",
         "generalComplaintId": generalComplaintData.id != null
             ? generalComplaintData.id.toString()
             : "0",
         "generalComplaintDesc": generalDescription,
-        "complainStatus": complaintStatus,
+        "equipmentId": equipmentTypeData.id != null
+            ? equipmentTypeData.id.toString()
+            : "0",
+        "description": description,
+        "complaintDateTime": "$date $time",
+        "departmentId": departmentData.id != null
+            ? departmentData.id.toString()
+            : "0",
+        "breakdown": breakDownvalue,
+        "isAcknowledge": complaintStatus,
+        "ackRemarks": remark,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

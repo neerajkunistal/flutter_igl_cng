@@ -9,6 +9,7 @@ class ActionModel {
     list.add(ActionModel(id: "1", value: "Start"));
     list.add(ActionModel(id: "2", value: "Hold"));
     list.add(ActionModel(id: "3", value: "Closed"));
+    list.add(ActionModel(id: "4", value: "Assign"));
     return list;
   }
 }

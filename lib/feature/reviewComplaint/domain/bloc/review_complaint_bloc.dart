@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'review_complaint_event.dart';
+
 part 'review_complaint_state.dart';
 
 class ReviewComplaintBloc
@@ -72,12 +75,20 @@ class ReviewComplaintBloc
     isLoader = true;
     _eventComplete(emit);
 
-    var res = await ReviewComplaintHelper.submit(
-        context: event.context,
-        reviewComplaintData: reviewComplaintData,
-        approvalValue: approvalValue,
-        observation: observationController.text.toString(),
-        file: file);
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+    var res = userData.roleType == RoleType.shiftEngineer
+        ? await ReviewComplaintHelper.submit(
+            context: event.context,
+            reviewComplaintData: reviewComplaintData,
+            approvalValue: approvalValue,
+            observation: observationController.text.toString(),
+            file: file)
+        : await ReviewComplaintHelper.reviewComplaint(
+            context: event.context,
+            reviewComplaintData: reviewComplaintData,
+            approvalValue: approvalValue,
+            observation: observationController.text.toString(),
+            file: file);
     if (res != null) {
       isLoader = false;
       reviewComplaintData = ReviewComplaintModel();

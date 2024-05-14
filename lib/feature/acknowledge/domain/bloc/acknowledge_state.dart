@@ -17,10 +17,39 @@ class AcknowledgePageLoadState extends AcknowledgeInitial {
 class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final bool isLoader;
   final List<AcknowledgeModel> acknowledgeList;
+  final List<AcknowledgeUserModel> acknowledgeUserList;
+  final AcknowledgeUserModel acknowledgeUserData;
+  final bool isUserLoader;
+  final TextEditingController remarkController;
+  final List<VendorModel> vendorList;
+  final VendorModel vendorData;
+  final List<AssignTypeModel> assignTypeList;
+  final AssignTypeModel assignTypeData;
 
   FetchAcknowledgeDataState(
-      {required this.acknowledgeList, required this.isLoader});
+      {required this.acknowledgeList,
+        required this.isLoader,
+        required this.acknowledgeUserList,
+        required this.isUserLoader,
+        required this.acknowledgeUserData,
+        required this.remarkController,
+        required this.vendorList,
+        required this.vendorData,
+        required this.assignTypeList,
+        required this.assignTypeData,
+      });
 
   @override
-  List<Object> get props => [acknowledgeList, isLoader];
+  List<Object> get props => [
+    acknowledgeList,
+    isLoader,
+    acknowledgeUserList,
+    isUserLoader,
+    acknowledgeUserData,
+    remarkController,
+    vendorList,
+    vendorData,
+    assignTypeList,
+    assignTypeData,
+  ];
 }

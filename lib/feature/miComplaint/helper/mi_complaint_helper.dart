@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
@@ -62,64 +65,37 @@ class MiComplaintHelper {
     required UomTypeModel uomTypeData,
     required String qty,
     required List<SparesPartModel> sparesPartList,
+    required VendorModel vendorData,
   }) async {
     try {
-      List<String> sparesId = [];
-      List<String> uomTypeId = [];
-      List<String> qty = [];
-
-      for (var spartData in sparesPartList) {
-        if (spartData.sparesData!.id != null) {
-          sparesId.add(spartData.sparesData!.id.toString());
-          uomTypeId.add(spartData.uomTypeData!.id != null
-              ? spartData.uomTypeData!.id.toString()
-              : "0");
-          qty.add(spartData.qtyController!.text.toString().isNotEmpty
-              ? spartData.qtyController!.text.toString()
-              : "0");
-        }
-      }
-
       String url = APIs.addMiComplaintApi;
       var json = {
-        "description": description,
+        "complaintId": reviewComplaintData.id != null
+            ? reviewComplaintData.id.toString()
+            : "0",
         "action": action.id != null ? action.id.toString() : "0",
         "amcStatus": reviewComplaintData.amcStatus != null
             ? reviewComplaintData.amcStatus.toString()
             : "",
-        "amcDate": reviewComplaintData.amcDate != null
+        "amcTillDate": reviewComplaintData.amcDate != null
             ? reviewComplaintData.amcDate.toString()
             : "",
-        "complaintId": reviewComplaintData.id != null
-            ? reviewComplaintData.id.toString()
-            : "0",
-        "spareId": sparesData.id != null ? sparesData.id.toString() : "0",
-        "seApproval": approvalValue.isEmpty ? "0" : approvalValue,
-        "seObservation": observation,
-        "spares_arr": sparesId.isNotEmpty
-            ? sparesId
-                .toString()
-                .replaceAll("[", "")
-                .toString()
-                .replaceAll("]", "")
-            : "0",
-        "qty_arr": qty.isNotEmpty
-            ? qty.toString().replaceAll("[", "").toString().replaceAll("]", "")
-            : "0",
-        "uom_arr": uomTypeId.isNotEmpty
-            ? uomTypeId
-                .toString()
-                .replaceAll("[", "")
-                .toString()
-                .replaceAll("]", "")
-            : "0",
-        "maintenanceStartDateTime": action.id.toString() == "1"
+        "assignTo" : vendorData.id != null
+            ? vendorData.id.toString()
+            : reviewComplaintData.assignTo.toString(),
+        "approval": approvalValue.isEmpty ? "0" : approvalValue,
+        "observation": observation,
+        "startDateTime": action.id.toString() == "1"
             ? "$date $time"
             : reviewComplaintData.maintenanceStartDate.toString(),
-        "maintenanceEndtDateTime":
-            action.id.toString() == "3" ? "$date $time" : "",
+        "endDateTime":
+        action.id.toString() == "3" ? "$date $time" : "",
         "maintenanceHoldDateTime":
-            action.id.toString() == "2" ? "$date $time" : "",
+        action.id.toString() == "2" ? "$date $time" : "",
+        "remarks": description,
+        "spares": sparesPartList.isNotEmpty
+            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList()).toString()
+            : "0",
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

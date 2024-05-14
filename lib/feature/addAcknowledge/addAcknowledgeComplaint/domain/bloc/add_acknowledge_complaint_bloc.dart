@@ -147,7 +147,7 @@ class AddAcknowledgeComplaintBloc
     if (acknowledgeData.complaintDateTime.toString().isNotEmpty) {
       complaintTime = DateFormat('h:mm:ss')
           .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
-      complaintDate = DateFormat('dd-MMM-yyyy')
+      complaintDate = DateFormat('dd-MM-yyyy')
           .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
       dateController.text = complaintDate;
       timeController.text = complaintTime;
@@ -157,6 +157,8 @@ class AddAcknowledgeComplaintBloc
     descriptionController.text =
         acknowledgeData.complaintDescription.toString();
     remarkController.text = acknowledgeData.ackRemark.toString();
+
+    complaintStatus = acknowledgeData.ackStatus.toString();
     _eventComplete(emit);
   }
 
@@ -201,9 +203,14 @@ class AddAcknowledgeComplaintBloc
 
   _selectDate(AddAcknowledgeComplaintSelectDateData event, emit) async {
     try {
+
+      DateTime initialDate =  dateController.text.toString().isNotEmpty ?
+       DateFormat('dd-MM-yyyy').parse(dateController.text.toString())
+          : DateTime.now();
+
       final DateTime? picked = await showDatePicker(
           context: event.context,
-          initialDate: DateTime.now(),
+          initialDate: initialDate,
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
       if (picked != null) {
@@ -219,9 +226,15 @@ class AddAcknowledgeComplaintBloc
 
   _selectTime(AddAcknowledgeComplaintSelectTimeData event, emit) async {
     try {
+       // h:mm
+      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
+      DateFormat('h:mm').parse(timeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initialTime,
       );
       if (time != null) {
         timeController.text = "${time.hour}:${time.minute}";

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ReviewComaplintPage extends StatefulWidget {
   const ReviewComaplintPage({super.key});
@@ -34,6 +36,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   }
 
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
+    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -41,12 +44,16 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           children: [
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
-            _radioButton(dataState: dataState),
-            _verticalSpace(),
+            userData.roleType == RoleType.shiftEngineer ?
+            _radioButton(dataState: dataState) : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer ?
+            _verticalSpace() : const SizedBox.shrink(),
             _observationController(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
-            _verticalSpace(),
+            userData.roleType == RoleType.shiftEngineer ?
+            _photo(dataState: dataState) : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer ?
+            _verticalSpace() : const SizedBox.shrink(),
             _verticalSpace(),
             _button(dataState: dataState),
           ],
@@ -95,7 +102,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         Row(
           children: [
             Radio(
-              value: "Yes",
+              value: "1",
               groupValue: dataState.approvalValue,
               onChanged: (val) {
                 BlocProvider.of<ReviewComplaintBloc>(context).add(
@@ -109,7 +116,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         Row(
           children: [
             Radio(
-              value: "No",
+              value: "0",
               groupValue: dataState.approvalValue,
               onChanged: (val) {
                 BlocProvider.of<ReviewComplaintBloc>(context).add(
@@ -127,7 +134,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget _observationController(
       {required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.observation,
+      labelText: AppString.remark,
       controller: dataState.observationController,
     );
   }

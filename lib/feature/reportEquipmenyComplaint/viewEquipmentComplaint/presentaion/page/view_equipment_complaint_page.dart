@@ -66,7 +66,23 @@ class _ViewEquipmentComplaintPageState
                     onTap: () async {
                       LoginDataModel userLogin =
                           UserInfo.instanceInit()!.userData!;
-                      if (userLogin.roleType == RoleType.shiftEngineer &&
+                      if (userLogin.roleType == RoleType.stationUser &&
+                          dataState.reviewComplaintList[index].action
+                              .toString() == "3") {
+                        BlocProvider.of<ReviewComplaintBloc>(context).add(
+                            ReviewComplaintPageLoadEvent(
+                                context: context,
+                                reviewComplaintData:
+                                dataState.reviewComplaintList[index]));
+                        var result = await Navigator.push(context,
+                            FadeRoute(page: const ReviewComaplintPage()));
+                        if (!context.mounted) result;
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                              context: context));
+                        }
+                      } else if (userLogin.roleType == RoleType.shiftEngineer &&
                           dataState.reviewComplaintList[index].complaintStatus
                                   .toString() !=
                               "1" &&

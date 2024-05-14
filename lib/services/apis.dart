@@ -24,7 +24,7 @@ class APIs {
 
   static get addCivilComplaintApi => "api/cr/shift-eng-complaint";
 
-  static get getReviewComplaintApi => "api/cr/review-complaints";
+  static get getReviewComplaintApi => "api/cng/review-complaints";
 
   static get addReviewComplaintApi => "api/cr/review-complaints";
 
@@ -36,11 +36,15 @@ class APIs {
 
   static get getAssignUserApi => "api/onm/assign-users";
 
-  static get addAcknowlegeApi => "api/cr/si-ack-complaints";
+  static get addAcknowlegeApi => "api/cr/se-ack-complaints";
 
   static get getGeneralComplaintApi => "api/cr/general-complain";
 
   static get getUomApi => "api/onm/uom";
+
+  static get getVendorApi => "api/onm/vendors";
+
+  static get assignComplaintApi => "api/cr/shift-eng-complaint";
 
   static get forgotPasswordApi => "";
 }

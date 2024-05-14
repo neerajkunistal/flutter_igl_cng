@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/miComplaint/domain/bloc/mi_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
@@ -66,6 +68,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             dataState.actionData.id.toString() == "3"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
+            dataState.actionData.id.toString() != "4" ?
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -74,8 +77,16 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                 ),
                 Expanded(child: _timeController(dataState: dataState)),
               ],
-            ),
-            _verticalSpace(),
+            ): const SizedBox.shrink(),
+
+            dataState.actionData.id.toString() != "4"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+
+            dataState.actionData.id.toString() == "4" ?
+            _vendorDropDown(dataState: dataState) : const SizedBox.shrink(),
+            dataState.actionData.id.toString() == "4" ?
+            _verticalSpace() : const SizedBox.shrink(),
             _descriptionController(dataState: dataState),
             _verticalSpace(),
             _observationController(dataState: dataState),
@@ -320,6 +331,25 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         BlocProvider.of<MiComplaintBloc>(context)
             .add(MiComplaintSelectTimeData(context: context));
       },
+    );
+  }
+
+  Widget _vendorDropDown({required FetchMiComplaintDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.vendor,
+      dropdownValue:
+      dataState.vendorData.id != null ? dataState.vendorData : null,
+      onChanged: (value) {
+        BlocProvider.of<MiComplaintBloc>(context)
+            .add(MiComplaintSelectVendorData(vendorData: value));
+      },
+      items: dataState.vendorList
+          .map<DropdownMenuItem<VendorModel>>((VendorModel vendorData) {
+        return DropdownMenuItem<VendorModel>(
+          value: vendorData,
+          child: TextWidget("${vendorData.name.toString()}-(${vendorData.code.toString()})"),
+        );
+      }).toList(),
     );
   }
 

@@ -111,19 +111,13 @@ class ReviewComplaintItemBox extends StatelessWidget {
             ),
             _rowWidget(
                 name: "Start Date Time",
-                value: userData.roleType == RoleType.mi ||
-                        userData.roleType == RoleType.shiftEngineer
-                    ? maintinaceStartDate
-                    : startDate),
+                value: maintinaceStartDate),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
             _rowWidget(
                 name: "Closed Date Time",
-                value: userData.roleType == RoleType.mi ||
-                        userData.roleType == RoleType.shiftEngineer
-                    ? maintinaceEndDate
-                    : closedDate),
+                value:  maintinaceEndDate),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),

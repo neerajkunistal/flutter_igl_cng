@@ -24,6 +24,15 @@ class MiComplaintSelectComplaintData extends MiComplaintEvent {
   List<Object?> get props => [reviewComplaintData];
 }
 
+class MiComplaintSelectVendorData extends MiComplaintEvent {
+  final VendorModel vendorData;
+
+  const MiComplaintSelectVendorData({required this.vendorData});
+
+  @override
+  List<Object?> get props => [vendorData];
+}
+
 class MiComplaintSelectSpareData extends MiComplaintEvent {
   final SparesModel sparesData;
   final int index;

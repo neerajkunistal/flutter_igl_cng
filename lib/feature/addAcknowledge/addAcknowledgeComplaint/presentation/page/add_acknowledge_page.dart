@@ -84,8 +84,8 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _descriptionRemark(dataState: dataState),
             _radioButton(dataState: dataState),
             _verticalSpace(),
-            _userDropDown(dataState: dataState),
-            _verticalSpace(),
+/*            _userDropDown(dataState: dataState),
+            _verticalSpace(),*/
             _complaintStatusRadioButton(dataState: dataState),
             _verticalSpace(),
             _remark(dataState: dataState),
@@ -115,7 +115,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
               (ComplaintTypeModel complaintTypeData) {
         return DropdownMenuItem<ComplaintTypeModel>(
           value: complaintTypeData,
-          child: Text(complaintTypeData.name.toString()),
+          child: TextWidget("${complaintTypeData.name.toString()} - (${complaintTypeData.alias.toString()})"),
         );
       }).toList(),
     );
@@ -235,6 +235,20 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
         Row(
           children: [
             Radio(
+              value: "1",
+              groupValue: dataState.complaintStatus,
+              onChanged: (val) {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectStatusData(
+                        complaintStatus: val.toString()));
+              },
+            ),
+            const TextWidget("Acknowledge"),
+          ],
+        ),
+        Row(
+          children: [
+            Radio(
               value: "0",
               groupValue: dataState.complaintStatus,
               onChanged: (val) {
@@ -243,21 +257,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                         complaintStatus: val.toString()));
               },
             ),
-            const TextWidget("Accept "),
-          ],
-        ),
-        Row(
-          children: [
-            Radio(
-              value: "2",
-              groupValue: dataState.complaintStatus,
-              onChanged: (val) {
-                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-                    AddAcknowledgeComplaintSelectStatusData(
-                        complaintStatus: val.toString()));
-              },
-            ),
-            const TextWidget("Reject"),
+            const TextWidget("Not Acknowledge"),
           ],
         ),
       ],

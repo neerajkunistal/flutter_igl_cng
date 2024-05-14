@@ -21,8 +21,7 @@ class ViewEquipmentComplaintBloc
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     var res = userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint()
-        : await ReviewComplaintHelper.fetchReviewComplaint(
-            type: userData.roleType == RoleType.shiftEngineer ? "0" : "1");
+        : await ReviewComplaintHelper.fetchReviewComplaint();
 
     if (res != null) {
       reviewComplaintList = res;

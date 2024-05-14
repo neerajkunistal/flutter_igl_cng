@@ -217,6 +217,8 @@ class AppString {
 
   static get assignUSer => "Assign user";
 
+  static get assignType => "Assign Type";
+
   static get startDate => "Start Date";
 
   static get startTime => "Start Time";
@@ -228,6 +230,12 @@ class AppString {
   static get holdDate => "Hold Date";
 
   static get holdTime => "Hold Time";
+
+  static get assign => "Assign";
+
+  static get reAssign => "Re Assign";
+
+  static get vendor => "Vendor";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

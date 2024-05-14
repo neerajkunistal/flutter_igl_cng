@@ -33,6 +33,8 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
   final List<UomTypeModel> uomTypeList;
   final UomTypeModel uomTypeData;
   final List<SparesPartModel> sparesPartList;
+  final List<VendorModel> vendorList;
+  final VendorModel vendorData;
 
   FetchMiComplaintDataState({
     required this.approvalValue,
@@ -53,6 +55,8 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
     required this.uomTypeData,
     required this.qtyController,
     required this.sparesPartList,
+    required this.vendorList,
+    required this.vendorData,
   });
 
   @override
@@ -75,5 +79,7 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
         uomTypeData,
         qtyController,
         sparesPartList,
+        vendorList,
+        vendorData,
       ];
 }

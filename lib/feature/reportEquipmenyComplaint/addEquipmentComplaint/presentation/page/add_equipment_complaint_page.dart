@@ -55,8 +55,12 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            _generalDropDown(dataState: dataState),
-            _verticalSpace(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _generalDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             dataState.generalComplaintData.name != null &&
                     dataState.generalComplaintData.name
                             .toString()
@@ -112,7 +116,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
               (ComplaintTypeModel complaintTypeData) {
         return DropdownMenuItem<ComplaintTypeModel>(
           value: complaintTypeData,
-          child: Text(complaintTypeData.name.toString()),
+          child: TextWidget("${complaintTypeData.name.toString()} - (${complaintTypeData.alias.toString()})"),
         );
       }).toList(),
     );

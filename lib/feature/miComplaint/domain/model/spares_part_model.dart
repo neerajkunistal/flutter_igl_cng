@@ -8,4 +8,12 @@ class SparesPartModel {
   TextEditingController? qtyController;
 
   SparesPartModel({this.qtyController, this.uomTypeData, this.sparesData});
+
+  Map<String, String> toJson() {
+    final Map<String, String> data = <String, String>{};
+    data['spareId'] = sparesData!.id != null ? sparesData!.id.toString() : "0";
+    data['quantity'] = qtyController!.text.toString();
+    return data;
+  }
 }
+

@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class ReviewComplaintHelper {
-  static Future<dynamic> fetchReviewComplaint({required String type}) async {
+  static Future<dynamic> fetchReviewComplaint() async {
     try {
-      String url = APIs.getReviewComplaintApi + "?type=$type";
+      String url = APIs.getReviewComplaintApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
@@ -24,21 +24,68 @@ class ReviewComplaintHelper {
     try {
       String url = APIs.addReviewComplaintApi;
       var json = {
-        "description": reviewComplaintData.complaintDescription != null
-            ? reviewComplaintData.complaintDescription.toString()
-            : "",
         "complaintId": reviewComplaintData.id != null
             ? reviewComplaintData.id.toString()
             : "",
-        "startDateTime": reviewComplaintData.maintenanceStartDate != null
-            ? reviewComplaintData.maintenanceStartDate.toString()
+        "remarks":observation.toString(),
+        "finalStatus": approvalValue,
+      };
+      if (!context.mounted) return null;
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          context: context,
+          keyWord: "attachFile",
+          filePath: file.path.toString());
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
+        if (!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message: res['message'].toString());
+        return res;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['error'] != null) {
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['error'].toString());
+        return null;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['errors'] != null) {
+        String response = res['errors'].toString();
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(
+            message: response.replaceAll("[{", "").toString()
+              ..replaceAll("}]", ""));
+        return null;
+      } else {
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> reviewComplaint(
+      {required BuildContext context,
+        required ReviewComplaintModel reviewComplaintData,
+        required String approvalValue,
+        required String observation,
+        required File file}) async {
+    try {
+      String url = APIs.getReviewComplaintApi;
+      var json = {
+        "complaintId": reviewComplaintData.id != null
+            ? reviewComplaintData.id.toString()
             : "",
-        "closeDateTime": reviewComplaintData.maintenanceEndDate != null
-            ? reviewComplaintData.maintenanceEndDate.toString()
-            : "",
-        "delayHours": "1",
-        "seApproval": approvalValue,
-        "seObservation": observation,
+        "stationStatus": "1",
+        "stationPerson" : "",
+        "stationRemarks":observation.toString(),
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

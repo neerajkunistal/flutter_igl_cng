@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
@@ -32,12 +34,16 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
 
   List<SparesPartModel> sparesPartList = [];
 
+  List<VendorModel> vendorList = [];
+  VendorModel vendorData =  VendorModel();
+
   MiComplaintBloc() : super(MiComplaintInitial()) {
     on<MiComplaintPageLoadEvent>(_pageLoad);
     on<MiComplaintSelectComplaintData>(_selectComplaint);
     on<MiComplaintSelectSpareData>(_selectSpares);
     on<MiComplaintSelectApprovalData>(_selectApproval);
     on<MiComplaintSelectActionData>(_selectAction);
+    on<MiComplaintSelectVendorData>(_selectVendor);
     on<MiComplaintAddImageEvent>(_selectFile);
     on<MiComplaintSelectDateData>(_selectDate);
     on<MiComplaintSelectTimeData>(_selectTime);
@@ -63,6 +69,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     qtyController.text = "";
     uomTypeList = [];
     sparesPartList = [];
+    vendorList = [];
+    vendorData =  VendorModel();
     uomTypeData = UomTypeModel();
     file = File("");
     isLoader = false;
@@ -80,6 +88,20 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     if (res != null) {
       sparesList = res;
     }
+
+    if(vendorList.isEmpty){
+      var resVendor = await AcknowledgeHelper.fetchVendorData();
+      if (resVendor != null) {
+        vendorList = resVendor;
+        for(var vendor in vendorList){
+          if(event.reviewComplaintData.assignType.toString() == "3" &&
+            vendor.id.toString() == event.reviewComplaintData.assignTo.toString()){
+             vendorData =  vendor;
+          }
+        }
+      }
+    }
+
     sparesPartList.add(SparesPartModel(
       sparesData: SparesModel(),
       uomTypeData: UomTypeModel(),
@@ -160,7 +182,16 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
     TimeOfDay time = TimeOfDay.now();
-    timeController.text = "${time.hour}:${time.minute}";
+    if(actionData.id.toString() == "4"){
+      timeController.text = "";
+    } else {
+      timeController.text = "${time.hour}:${time.minute}";
+    }
+    _eventComplete(emit);
+  }
+
+  _selectVendor(MiComplaintSelectVendorData event, emit) {
+    vendorData =  event.vendorData;
     _eventComplete(emit);
   }
 
@@ -267,6 +298,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         uomTypeData: uomTypeData,
         qty: qtyController.text.toString(),
         sparesPartList: sparesPartList,
+        vendorData: vendorData,
         file: file);
     if (res != null) {
       reviewComplaintData = ReviewComplaintModel();
@@ -309,6 +341,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       uomTypeList: uomTypeList,
       qtyController: qtyController,
       sparesPartList: sparesPartList,
+      vendorList: vendorList,
+      vendorData: vendorData,
     ));
   }
 }
