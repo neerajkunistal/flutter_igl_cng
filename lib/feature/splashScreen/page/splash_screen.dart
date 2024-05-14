@@ -24,18 +24,18 @@ class _SplashScreenState extends State<SplashScreen> {
     if (userName.isEmpty) {
       await Future.delayed(const Duration(seconds: 2));
       Navigator.pushAndRemoveUntil(
-          context,
+          !context.mounted ? context : context,
           MaterialPageRoute(builder: (_) => const LoginScreenPage()),
           (route) => false);
     } else {
       String password =
           await SharedPreferencesUtils.getString(key: PreferencesName.password);
-      BlocProvider.of<LoginBloc>(context)
+      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
           .add(LoginSetPasswordEvent(password: password));
-      BlocProvider.of<LoginBloc>(context)
+      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
           .add(LoginSetEmailEvent(emailId: userName));
-      BlocProvider.of<LoginBloc>(context)
-          .add(LoginSubmitDataEvent(context: context, isLoginPage: false));
+      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
+          .add(LoginSubmitDataEvent(context: !context.mounted ? context : context, isLoginPage: false));
     }
   }
 

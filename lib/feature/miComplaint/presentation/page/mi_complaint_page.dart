@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
-import 'package:flutter_igl_cng/feature/miComplaint/domain/bloc/mi_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
-import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 
 class MiComplaintPage extends StatefulWidget {
@@ -68,25 +66,26 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             dataState.actionData.id.toString() == "3"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() != "4" ?
-            Row(
-              children: [
-                Expanded(child: _dateController(dataState: dataState)),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.02,
-                ),
-                Expanded(child: _timeController(dataState: dataState)),
-              ],
-            ): const SizedBox.shrink(),
-
+            dataState.actionData.id.toString() != "4"
+                ? Row(
+                    children: [
+                      Expanded(child: _dateController(dataState: dataState)),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.02,
+                      ),
+                      Expanded(child: _timeController(dataState: dataState)),
+                    ],
+                  )
+                : const SizedBox.shrink(),
             dataState.actionData.id.toString() != "4"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
-            dataState.actionData.id.toString() == "4" ?
-            _vendorDropDown(dataState: dataState) : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "4" ?
-            _verticalSpace() : const SizedBox.shrink(),
+            dataState.actionData.id.toString() == "4"
+                ? _vendorDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.actionData.id.toString() == "4"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             _descriptionController(dataState: dataState),
             _verticalSpace(),
             _observationController(dataState: dataState),
@@ -136,28 +135,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
-  Widget _complaintTypeDropDown(
-      {required FetchMiComplaintDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectComplaint,
-      dropdownValue: dataState.reviewComplaintData.id != null
-          ? dataState.reviewComplaintData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<MiComplaintBloc>(context)
-            .add(MiComplaintSelectComplaintData(reviewComplaintData: value));
-      },
-      items: dataState.reviewComplaintList
-          .map<DropdownMenuItem<ReviewComplaintModel>>(
-              (ReviewComplaintModel reviewComplaintData) {
-        return DropdownMenuItem<ReviewComplaintModel>(
-          value: reviewComplaintData,
-          child: Text(reviewComplaintData.complaintDescription.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _sparesPartList({required FetchMiComplaintDataState dataState}) {
     return ListView.builder(
         shrinkWrap: true,
@@ -176,9 +153,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                       sparesData: dataState.sparesPartList[index].sparesData!,
                       index: index),
                   _verticalSpace(),
-                  // _uomDropDown(dataState: dataState,
-                  //     uomTypeData: dataState.sparesPartList[index].uomTypeData!, index: index),
-                  // _verticalSpace(),
                   _qtyController(
                     dataState: dataState,
                     index: index,
@@ -219,28 +193,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         return DropdownMenuItem<SparesModel>(
           value: sparesData,
           child: Text(sparesData.spareName.toString()),
-        );
-      }).toList(),
-    );
-  }
-
-  Widget _uomDropDown(
-      {required FetchMiComplaintDataState dataState,
-      required UomTypeModel uomTypeData,
-      required int index}) {
-    return DropdownWidget(
-      hint: AppString.selectUOM,
-      isRequired: false,
-      dropdownValue: uomTypeData.id != null ? uomTypeData : null,
-      onChanged: (value) {
-        BlocProvider.of<MiComplaintBloc>(context)
-            .add(MiComplaintSelectUomData(uomTypeData: value, index: index));
-      },
-      items: dataState.uomTypeList
-          .map<DropdownMenuItem<UomTypeModel>>((UomTypeModel uomTypeData) {
-        return DropdownMenuItem<UomTypeModel>(
-          value: uomTypeData,
-          child: Text(uomTypeData.uom.toString()),
         );
       }).toList(),
     );
@@ -338,7 +290,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     return DropdownWidget(
       hint: AppString.vendor,
       dropdownValue:
-      dataState.vendorData.id != null ? dataState.vendorData : null,
+          dataState.vendorData.id != null ? dataState.vendorData : null,
       onChanged: (value) {
         BlocProvider.of<MiComplaintBloc>(context)
             .add(MiComplaintSelectVendorData(vendorData: value));
@@ -347,7 +299,8 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           .map<DropdownMenuItem<VendorModel>>((VendorModel vendorData) {
         return DropdownMenuItem<VendorModel>(
           value: vendorData,
-          child: TextWidget("${vendorData.name.toString()}-(${vendorData.code.toString()})"),
+          child: TextWidget(
+              "${vendorData.name.toString()}-(${vendorData.code.toString()})"),
         );
       }).toList(),
     );

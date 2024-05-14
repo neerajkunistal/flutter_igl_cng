@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
@@ -10,7 +8,6 @@ class ReviewComplaintItemBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
     String complaintDate = "";
     if (reviewComplaintData.complaintDateTime != null &&
@@ -25,19 +22,6 @@ class ReviewComplaintItemBox extends StatelessWidget {
           DateTime.parse(reviewComplaintData.reportDateTime.toString()));
     }
 
-    String startDate = "";
-    if (reviewComplaintData.startDateTime != null &&
-        reviewComplaintData.startDateTime.toString().isNotEmpty) {
-      startDate = DateFormat('dd-MMM-yyyy, h:mm:ss')
-          .format(DateTime.parse(reviewComplaintData.startDateTime.toString()));
-    }
-
-    String closedDate = "";
-    if (reviewComplaintData.closeDateTime != null &&
-        reviewComplaintData.closeDateTime.toString().isNotEmpty) {
-      closedDate = DateFormat('dd-MMM-yyyy, h:mm:ss')
-          .format(DateTime.parse(reviewComplaintData.closeDateTime.toString()));
-    }
 
     String maintinaceEndDate = "";
     if (reviewComplaintData.maintenanceEndDate != null &&

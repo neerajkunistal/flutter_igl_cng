@@ -100,7 +100,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
      isLoader = true;
      _eventComplete(emit);
-     var res =  await AcknowledgeHelper.assignUser(context: event.context,
+     var res =  await AcknowledgeHelper.assignUser(context: !event.context.mounted ? event.context : event.context,
          acknowledgeData: event.acknowledgeData,
          userModel: acknowledgeUserData,
          vendorData: vendorData, assignTypeData: assignTypeData,
@@ -108,7 +108,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
      isLoader = false;
      _eventComplete(emit);
      if(res != null){
-       Navigator.pop(event.context);
+       Navigator.pop(!event.context.mounted ? event.context : event.context,);
        emit(AcknowledgePageLoadState());
        isLoader = false;
        isUserLoader = false;

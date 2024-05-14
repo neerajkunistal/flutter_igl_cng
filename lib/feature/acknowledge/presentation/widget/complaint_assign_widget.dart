@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
@@ -65,30 +64,6 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
           }
         },
       ),
-    );
-  }
-
-  Widget _closeButton({required BuildContext context}) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.05,
-              right: MediaQuery.of(context).size.width * 0.05,
-              top: MediaQuery.of(context).size.width * 0.05,
-            ),
-            child: TextWidget(
-              "Complaint Assign",
-              fontSize: AppFont.font_16,
-              fontWeight: FontWeight.w700,
-              textAlign: TextAlign.center,
-              color: AppColor.black,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

@@ -109,7 +109,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _loginData.token = _token;
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         if (loginData.roleType == RoleType.noRole) {
-          SnackBarErrorWidget(event.context).show(message: "Invalid role");
+          SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
+              .show(message: "Invalid role");
           return;
         }
         UserInfo.instanceInit()?.userData = loginData;
@@ -118,13 +119,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         SharedPreferencesUtils.setString(
             key: PreferencesName.password, value: password.toString());
         Navigator.pushAndRemoveUntil(
-            event.context,
+            !event.context.mounted ? event.context : event.context,
             MaterialPageRoute(builder: (_) => const HomePage()),
             (route) => false);
       } else {
         if (event.isLoginPage == false) {
           Navigator.pushAndRemoveUntil(
-              event.context,
+              !event.context.mounted ? event.context : event.context,
               MaterialPageRoute(builder: (_) => const LoginScreenPage()),
               (route) => false);
         }

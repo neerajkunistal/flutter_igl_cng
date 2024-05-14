@@ -62,28 +62,6 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  Widget _complaintTypeDropDown(
-      {required FetchReviewComplaintDataState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectComplaint,
-      dropdownValue: dataState.reviewComplaintData.id != null
-          ? dataState.reviewComplaintData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<ReviewComplaintBloc>(context).add(
-            ReviewComplaintSelectComplaintEvent(reviewComplaintData: value));
-      },
-      items: dataState.reviewComplaintList
-          .map<DropdownMenuItem<ReviewComplaintModel>>(
-              (ReviewComplaintModel reviewComplaintData) {
-        return DropdownMenuItem<ReviewComplaintModel>(
-          value: reviewComplaintData,
-          child: Text(reviewComplaintData.complaintDescription.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _complaintItemBuilder(
       {required FetchReviewComplaintDataState dataState}) {
     return dataState.reviewComplaintData.id != null

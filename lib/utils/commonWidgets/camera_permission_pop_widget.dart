@@ -74,7 +74,7 @@ class CameraPermissionPopWidget extends StatelessWidget {
                     side: BorderSide(color: AppColor.themeColor)))),
         onPressed: () async {
           await openAppSettings();
-          Navigator.pop(context);
+          Navigator.pop(!context.mounted ? context : context);
         },
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.30,

@@ -97,22 +97,4 @@ class DropDownSearchWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget _customPopupItemBuilderExample2(
-      BuildContext context, dynamic item, bool isSelected) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: !isSelected
-          ? null
-          : BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.white,
-            ),
-      child: ListTile(
-        selected: isSelected,
-        title: Text(item.pipeNumber.toString()),
-      ),
-    );
-  }
 }

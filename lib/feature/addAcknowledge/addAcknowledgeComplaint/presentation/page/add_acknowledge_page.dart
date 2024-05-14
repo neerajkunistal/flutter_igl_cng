@@ -167,27 +167,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-  Widget _userDropDown({required FetchAddAcknowledgeComplaintState dataState}) {
-    return DropdownWidget(
-      hint: AppString.assignUSer,
-      dropdownValue: dataState.acknowledgeUserData.id != null
-          ? dataState.acknowledgeUserData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-            AddAcknowledgeComplaintSelectUserEvent(acknowledgeUserData: value));
-      },
-      items: dataState.acknowledgeUserList
-          .map<DropdownMenuItem<AcknowledgeUserModel>>(
-              (AcknowledgeUserModel acknowledgeUserData) {
-        return DropdownMenuItem<AcknowledgeUserModel>(
-          value: acknowledgeUserData,
-          child: Text(acknowledgeUserData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _radioButton({required FetchAddAcknowledgeComplaintState dataState}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

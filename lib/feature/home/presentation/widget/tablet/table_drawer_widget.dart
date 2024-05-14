@@ -191,34 +191,6 @@ class TabletDrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget _changePassword({required BuildContext context}) {
-    return Padding(
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width * 0.01,
-          bottom: MediaQuery.of(context).size.width * 0.01),
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.pop(context);
-        },
-        child: Row(
-          children: [
-            Icon(
-              Icons.password_rounded,
-              color: AppColor.black,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.01,
-            ),
-            TextWidget(
-              AppString.changePassword,
-              fontSize: AppFont.font_12,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _logout({required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.only(
