@@ -42,6 +42,9 @@ dependencies:
   path_provider: ^2.1.2
   flutter_image_compress: ^2.1.0
   get_it: ^7.7.0
+  firebase_auth: ^4.19.5
+  firebase_core: ^2.31.0
+  firebase_messaging: ^14.9.2
 
 dependency_overrides:
   meta: ^1.11.0

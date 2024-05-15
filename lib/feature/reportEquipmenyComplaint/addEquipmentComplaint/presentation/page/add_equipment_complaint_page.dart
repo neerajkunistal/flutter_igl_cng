@@ -116,7 +116,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
               (ComplaintTypeModel complaintTypeData) {
         return DropdownMenuItem<ComplaintTypeModel>(
           value: complaintTypeData,
-          child: TextWidget("${complaintTypeData.name.toString()} - (${complaintTypeData.alias.toString()})"),
+          child: TextWidget(complaintTypeData.alias.toString()),
         );
       }).toList(),
     );

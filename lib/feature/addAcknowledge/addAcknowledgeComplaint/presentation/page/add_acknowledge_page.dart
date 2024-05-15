@@ -55,8 +55,12 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            _generalDropDown(dataState: dataState),
-            _verticalSpace(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _generalDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             dataState.generalComplaintData.name != null &&
                     dataState.generalComplaintData.name
                             .toString()
@@ -84,8 +88,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _descriptionRemark(dataState: dataState),
             _radioButton(dataState: dataState),
             _verticalSpace(),
-/*            _userDropDown(dataState: dataState),
-            _verticalSpace(),*/
             _complaintStatusRadioButton(dataState: dataState),
             _verticalSpace(),
             _remark(dataState: dataState),
@@ -115,7 +117,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
               (ComplaintTypeModel complaintTypeData) {
         return DropdownMenuItem<ComplaintTypeModel>(
           value: complaintTypeData,
-          child: TextWidget("${complaintTypeData.name.toString()} - (${complaintTypeData.alias.toString()})"),
+          child: TextWidget(complaintTypeData.alias.toString()),
         );
       }).toList(),
     );

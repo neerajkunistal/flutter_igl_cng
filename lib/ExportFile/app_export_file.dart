@@ -39,7 +39,6 @@ export 'package:flutter_igl_cng/feature/splashScreen/page/splash_screen.dart';
 export 'package:flutter_igl_cng/localDataBase/preferences_name.dart';
 export 'package:flutter_igl_cng/localDataBase/shared_preferences_utils.dart';
 export 'package:flutter_igl_cng/services/apis.dart';
-export 'package:flutter_igl_cng/services/notification/notification_service.dart';
 export 'package:flutter_igl_cng/services/server_request.dart';
 export 'package:flutter_igl_cng/utils/commonClass/app_config.dart';
 export 'package:flutter_igl_cng/utils/commonClass/singleton.dart';

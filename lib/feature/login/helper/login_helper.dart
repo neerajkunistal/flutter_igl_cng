@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -44,8 +45,7 @@ class LoginHelper {
       required String password,
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
-/*    var firebaseToken = await FirebaseMessaging.instance.getToken();*/
-    var firebaseToken = "";
+    var firebaseToken = await FirebaseMessaging.instance.getToken();
     if (kDebugMode) {
       print(firebaseToken.toString());
     }
@@ -54,7 +54,7 @@ class LoginHelper {
         var json = LoginScreenRequestModel(
           userEmailId: emilId,
           password: password,
-          firebaseId: firebaseToken,
+          firebaseId: firebaseToken.toString(),
           deviceId: deviceId,
         ).toJson();
         String url = APIs.login;
