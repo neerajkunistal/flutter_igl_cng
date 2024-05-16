@@ -79,7 +79,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
-    // _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems();
+    _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems(context: event.context);
     _eventCompleted(emit);
 
     var resFirebaseDevice =  await HomeHelper.fetchFirebaseDeviceData();
@@ -147,6 +147,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   _changeBottomNavigationBarIndex(
       HomeChangeBottomNavigationItemEvent event, emit) async {
     _bottomTabIndex = event.index;
+    List<Widget> pageList =  await HomeHelper.fetchPageList();
+    _childWidget =  pageList[bottomTabIndex];
     _eventCompleted(emit);
   }
 

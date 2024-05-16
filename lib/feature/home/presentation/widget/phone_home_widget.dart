@@ -13,13 +13,15 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: HomeDrawerWidget(),
+        // drawer: HomeDrawerWidget(),
         bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
           if (state is FetchHomeDataState) {
             return state.bottomNavigationBarItemList.isNotEmpty ?
             BottomNavigationBar(
+              currentIndex: state.bottomTabIndex,
               onTap: (index) {
-
+                BlocProvider.of<HomeBloc>(context)
+                    .add(HomeChangeBottomNavigationItemEvent(index: index, context: context));
               },
               items: state.bottomNavigationBarItemList,
             ): const SizedBox.shrink();

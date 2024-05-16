@@ -203,6 +203,8 @@ class AppString {
 
   static get reviewComplaint => "Review Complaint";
 
+  static get review => "Review";
+
   static get viewEquipmentComplaint => "View Equipment Complaint";
 
   static get miComplaint => "MI Complaint";
@@ -242,6 +244,8 @@ class AppString {
   static get sapCode => "Sap Code";
 
   static get reportedByName => "Reported By Name";
+
+  static get search => "Search...";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

@@ -28,7 +28,7 @@ class _ViewEquipmentComplaintPageState
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return Scaffold(
-      appBar: userData.roleType != RoleType.mi
+/*      appBar: userData.roleType != RoleType.mi
           ? AppBar(
               title: TextWidget(
                 userData.roleType == RoleType.shiftEngineer
@@ -37,7 +37,7 @@ class _ViewEquipmentComplaintPageState
                 color: AppColor.white,
               ),
             )
-          : null,
+          : null,*/
       body:
           BlocBuilder<ViewEquipmentComplaintBloc, ViewEquipmentComplaintState>(
         builder: (context, state) {

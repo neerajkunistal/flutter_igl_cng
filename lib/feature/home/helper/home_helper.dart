@@ -1,8 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/presentation/page/add_equipment_complaint_page.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class HomeHelper {
   static Future<dynamic> fetchDrawerList(
@@ -22,52 +28,51 @@ class HomeHelper {
     }
   }
 
-  static Future<dynamic> fetchSystemAdminSubList() async {
+  static Future<dynamic> fetchAppBottomBarItems({required BuildContext context}) async {
+    List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
     try {
-      List<DrawerSubModel> drawerSubList = [];
-      drawerSubList.add(DrawerSubModel(
-        label: 'Add User',
-        widget: Container(),
-        isSelected: false,
-      ));
 
-      drawerSubList.add(DrawerSubModel(
-        label: 'Update User',
-        widget: Container(),
-        isSelected: false,
-      ));
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+      if (userData.roleType == RoleType.shiftEngineer) {
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: Image.asset(
+            AppIcon.equipmentIcon,
+            height: 20.0,
+          ),
+          label: AppString.acknowledge,
+        ));
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: Image.asset(
+            AppIcon.reviewIcon,
+            height: 20.0,
+          ),
+          label: AppString.review,
+        ));
+      }
+    } catch (_) {}
 
-      drawerSubList.add(DrawerSubModel(
-        label: 'Update Company',
-        widget: Container(),
-        isSelected: false,
-      ));
-      return drawerSubList;
-    } catch (e) {
-      return null;
-    }
+    return bottomNavigationBarItemList;
   }
 
-  static Future<dynamic> fetchAppBottomBarItems() async {
-    try {
-      List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
+  static Future<dynamic> fetchPageList() async {
 
-            bottomNavigationBarItemList.add(BottomNavigationBarItem(
-              icon: const Icon(Icons.fire_truck_outlined,),
-              label: AppString.running,
-            ));
-            bottomNavigationBarItemList.add(BottomNavigationBarItem(
-              icon: const Icon(Icons.assignment_outlined,),
-              label: AppString.assign,
-            ));
+    List<Widget> pageList = [];
+    try{
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+      if (userData.roleType == RoleType.shiftEngineer) {
+        pageList.add(const AcknowledgePage());
+        pageList.add(const ViewEquipmentComplaintPage());
+      }
+      else if (userData.roleType == RoleType.stationUser) {
+        pageList.add(const AddEquipmentComplaintPage());
+        pageList.add(const ReviewComaplintPage());
+      }
+      else if (userData.roleType == RoleType.mi) {
+        pageList.add(const ReviewComaplintPage());
+      }
 
-            bottomNavigationBarItemList.add(BottomNavigationBarItem(
-              icon: const Icon(Icons.person_pin,),
-              label: AppString.date,
-            ));
-
-      return bottomNavigationBarItemList;
-    } catch (_) {}
+    }catch(_){}
+    return pageList;
   }
 
   static Future<dynamic> fetchPageWidgets(
@@ -83,11 +88,13 @@ class HomeHelper {
 
   static Future<dynamic> fetchFirebaseDeviceData() async {
     try {
-      String url =  APIs.getFirebaseDeviceApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['status'] != null
-           && res['status'] == true && res['data'] != null){
-         return firebaseDeviceListResponse(res['data']);
+      String url = APIs.getFirebaseDeviceApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return firebaseDeviceListResponse(res['data']);
       }
     } catch (_) {}
     return null;
