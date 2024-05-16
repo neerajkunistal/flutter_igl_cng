@@ -143,14 +143,19 @@ class AddAcknowledgeComplaintBloc
     acknowledgeData = event.acknowledgeData;
 
     String complaintDate = "";
-    String complaintTime = "";
     if (acknowledgeData.complaintDateTime.toString().isNotEmpty) {
-      complaintTime = DateFormat('h:mm:ss')
-          .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
       complaintDate = DateFormat('dd-MM-yyyy')
           .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
       dateController.text = complaintDate;
-      timeController.text = complaintTime;
+
+
+      DateTime initialDate =  acknowledgeData.complaintDateTime.toString().isNotEmpty ?
+      DateFormat('yyyy-dd-MM h:mm:ss').parse(acknowledgeData.complaintDateTime.toString())
+          : DateTime.now();
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(
+          !event.context.mounted ? event.context : event.context);
+      timeController.text = timeFormat;
     }
 
     breakDownvalue = event.acknowledgeData.crBreakdown.toString();
@@ -226,7 +231,6 @@ class AddAcknowledgeComplaintBloc
 
   _selectTime(AddAcknowledgeComplaintSelectTimeData event, emit) async {
     try {
-       // h:mm
       DateTime initialDate =  timeController.text.toString().isNotEmpty ?
       DateFormat('h:mm').parse(timeController.text.toString())
           : DateTime.now();
@@ -237,7 +241,9 @@ class AddAcknowledgeComplaintBloc
         initialTime: initialTime,
       );
       if (time != null) {
-        timeController.text = "${time.hour}:${time.minute}";
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
+            event.context);
+        timeController.text = timeFormat;
         _eventComplete(emit);
       }
     } catch (e) {
@@ -291,6 +297,10 @@ class AddAcknowledgeComplaintBloc
     isLoader = true;
     _eventComplete(emit);
 
+    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
+    DateFormat('h:mm a').parse(timeController.text.toString())
+        : DateTime.now();
+    String time = "${initialDate1.hour}:${initialDate1.minute}:00";
     var res = await AddAcknowledgeComplaintHelper.submitData(
         context: event.context,
         complaintTypeData: complaintTypeData,
@@ -303,7 +313,7 @@ class AddAcknowledgeComplaintBloc
         breakDownvalue: breakDownvalue,
         acknowledgeUserData: acknowledgeUserData,
         date: dateController.text.toString(),
-        time: timeController.text.toString(),
+        time: time,
         generalDescription: generalDescriptionController.text.toString(),
         generalComplaintData: generalComplaintData,
         complaintStatus: complaintStatus,

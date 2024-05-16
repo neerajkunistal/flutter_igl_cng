@@ -14,6 +14,19 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: HomeDrawerWidget(),
+        bottomNavigationBar: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+          if (state is FetchHomeDataState) {
+            return state.bottomNavigationBarItemList.isNotEmpty ?
+            BottomNavigationBar(
+              onTap: (index) {
+
+              },
+              items: state.bottomNavigationBarItemList,
+            ): const SizedBox.shrink();
+          } else {
+            return const SizedBox.shrink();
+          }
+        }),
         appBar: AppBar(
           elevation: 0,
           title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/bloc/acknowledge_bloc.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 
 class ComplaintAssignWidget extends StatefulWidget {
   final AcknowledgeModel acknowledgeData;
@@ -45,7 +47,18 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
+                          _departmentDropDown(dataState: state, context: context),
+
+                          state.assignTypeData.id == "2" ? SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ): const SizedBox.shrink(),
                           _userDropDown(dataState: state, context: context),
+
+                          state.assignTypeData.id == "2" ? SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ): const SizedBox.shrink(),
+
+                          _sapCodeDropDown(dataState: state, context: context),
                           _vendorDropDown(dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
@@ -90,6 +103,30 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
+  Widget _departmentDropDown(
+      {required FetchAcknowledgeDataState dataState,
+        required BuildContext context}) {
+    return dataState.assignTypeData.id == "2" ?
+    DropdownWidget(
+      hint: AppString.department,
+      dropdownValue: dataState.departmentData.id != null
+          ? dataState.departmentData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectDepartmentEvent(departmentData: value));
+      },
+      items: dataState.departmentList
+          .map<DropdownMenuItem<DepartmentModel>>(
+              (DepartmentModel departmentData) {
+            return DropdownMenuItem<DepartmentModel>(
+              value: departmentData,
+              child: TextWidget(departmentData.name.toString()),
+            );
+          }).toList(),
+    ): const SizedBox.shrink();
+  }
+
   Widget _userDropDown(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
@@ -111,6 +148,30 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
           child: TextWidget(acknowledgeUserData.name.toString()),
         );
       }).toList(),
+    ): const SizedBox.shrink();
+  }
+
+  Widget _sapCodeDropDown(
+      {required FetchAcknowledgeDataState dataState,
+        required BuildContext context}) {
+    return dataState.assignTypeData.id == "2" ?
+    DropdownWidget(
+      hint: AppString.sapCode,
+      dropdownValue: dataState.sapCodeData.id != null
+          ? dataState.sapCodeData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
+      },
+      items: dataState.sapCodeList
+          .map<DropdownMenuItem<SapCodeModel>>(
+              (SapCodeModel sapCodeData) {
+            return DropdownMenuItem<SapCodeModel>(
+              value: sapCodeData,
+              child: TextWidget(sapCodeData.name.toString()),
+            );
+          }).toList(),
     ): const SizedBox.shrink();
   }
 

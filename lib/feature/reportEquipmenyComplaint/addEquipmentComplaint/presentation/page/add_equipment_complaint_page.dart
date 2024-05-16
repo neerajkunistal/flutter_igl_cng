@@ -212,7 +212,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   Widget _nameRemark({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.name,
+      labelText: AppString.reportedByName,
       controller: dataState.reportByController,
     );
   }

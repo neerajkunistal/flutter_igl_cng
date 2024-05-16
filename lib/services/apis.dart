@@ -8,6 +8,8 @@ class APIs {
   static final String baseUrl =
       EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
 
+  static get sendNotificationApi => "https://fcm.googleapis.com/fcm/send";
+
   static get login => "api/auth";
 
   static get getComplaintTypeApi => "api/onm/complaint-types";
@@ -45,6 +47,10 @@ class APIs {
   static get getVendorApi => "api/onm/vendors";
 
   static get assignComplaintApi => "api/cr/shift-eng-complaint";
+
+  static get getFirebaseDeviceApi => "api/onm/device-lists";
+
+  static get getSapCodeApi => "api/cr/sap-codes";
 
   static get forgotPasswordApi => "";
 }

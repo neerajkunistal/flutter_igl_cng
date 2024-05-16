@@ -41,30 +41,6 @@ class _HomePageState extends State<HomePage> {
             AppConfig.getDeviceType(context: context) == DeviceType.phone
                 ? const Expanded(child: PhoneHomeWidget())
                 : const Expanded(child: TabletHomeWidget()),
-            Container(
-              color: AppColor.white,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppIcon.appLogoUnistal,
-                      height: MediaQuery.of(context).size.width * 0.05,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.03,
-                    ),
-                    TextWidget(
-                      "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-                      fontSize: AppFont.font_12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ],
         ));
   }

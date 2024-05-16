@@ -25,6 +25,10 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final VendorModel vendorData;
   final List<AssignTypeModel> assignTypeList;
   final AssignTypeModel assignTypeData;
+  final List<DepartmentModel> departmentList;
+  final DepartmentModel departmentData;
+  final List<SapCodeModel>  sapCodeList;
+  final SapCodeModel sapCodeData;
 
   FetchAcknowledgeDataState(
       {required this.acknowledgeList,
@@ -37,6 +41,10 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         required this.vendorData,
         required this.assignTypeList,
         required this.assignTypeData,
+        required this.departmentData,
+        required this.departmentList,
+        required this.sapCodeData,
+        required this.sapCodeList,
       });
 
   @override
@@ -51,5 +59,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     vendorData,
     assignTypeList,
     assignTypeData,
+    departmentData,
+    departmentList,
+    sapCodeData,
+    sapCodeList,
   ];
 }

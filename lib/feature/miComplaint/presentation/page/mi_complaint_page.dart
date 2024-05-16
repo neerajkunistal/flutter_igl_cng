@@ -216,7 +216,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _descriptionController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.description,
+      labelText: "Description",
       controller: dataState.descriptionController,
     );
   }
@@ -228,7 +228,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           dataState.actionData.id != null ? dataState.actionData : null,
       onChanged: (value) {
         BlocProvider.of<MiComplaintBloc>(context)
-            .add(MiComplaintSelectActionData(actionData: value));
+            .add(MiComplaintSelectActionData(actionData: value, context: context));
       },
       items: dataState.actionList
           .map<DropdownMenuItem<ActionModel>>((ActionModel actionData) {
@@ -243,7 +243,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _observationController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
-      labelText: AppString.observation,
+      labelText: dataState.actionData.id == "1" ? "Description of Job Start"
+          : dataState.actionData.id == "2" ? "Description of Job Hold"
+          : dataState.actionData.id == "3" ? "Description of Job Done" : "Description",
       controller: dataState.observationController,
     );
   }

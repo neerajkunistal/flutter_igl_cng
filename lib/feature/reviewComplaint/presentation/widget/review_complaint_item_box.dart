@@ -22,20 +22,36 @@ class ReviewComplaintItemBox extends StatelessWidget {
           DateTime.parse(reviewComplaintData.reportDateTime.toString()));
     }
 
+    String maintinaceStartDate = "";
+    if (reviewComplaintData.maintenanceStartDate != null &&
+        reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
+      String date  = DateFormat('dd-MMM-yyyy').format(
+          DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
+
+      DateTime initialDate =  reviewComplaintData.maintenanceStartDate.toString().isNotEmpty ?
+      DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceStartDate.toString())
+          : DateTime.now();
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(context);
+
+      maintinaceStartDate = "$date $timeFormat";
+    }
 
     String maintinaceEndDate = "";
     if (reviewComplaintData.maintenanceEndDate != null &&
         reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
-      maintinaceEndDate = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
+      String date  = DateFormat('dd-MMM-yyyy').format(
           DateTime.parse(reviewComplaintData.maintenanceEndDate.toString()));
+
+      DateTime initialDate =  reviewComplaintData.maintenanceEndDate.toString().isNotEmpty ?
+      DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceEndDate.toString())
+          : DateTime.now();
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(context);
+
+      maintinaceEndDate = "$date $timeFormat";
     }
 
-    String maintinaceStartDate = "";
-    if (reviewComplaintData.maintenanceStartDate != null &&
-        reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
-      maintinaceStartDate = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
-          DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
-    }
 
     String maintenanceStatus = "";
     String status = "";
@@ -68,6 +84,12 @@ class ReviewComplaintItemBox extends StatelessWidget {
             _rowHeaderWidget(
                 name: "Complaint Id",
                 value: reviewComplaintData.tokenNo.toString()),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            _rowWidget(
+                name: "Station User",
+                value: reviewComplaintData.createdByUser.toString()),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
+import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 
 class AddEquipmentComplaintHelper {
   static Future<dynamic> fetchComplaintTypeData() async {
@@ -81,6 +83,13 @@ class AddEquipmentComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
+        await NotificationHelper.sendNotification(
+            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
+            title: "Create new complaint.",
+            body: description,
+            pageId: PageId.addComplaint,
+            complaintId: "",
+            dateTime: DateTime.now().toString());
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

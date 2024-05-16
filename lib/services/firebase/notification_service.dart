@@ -1,22 +1,24 @@
 import 'dart:convert';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_igl_cng/testing_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:vibration/vibration.dart';
 
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
+    'notifications_priority', // id
     'High Importance Notifications',
     importance: Importance.high,
-    playSound: true);
+    playSound: true,
+    sound: RawResourceAndroidNotificationSound("mario"),
+);
+
+int notificationId = 1;
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 FlutterLocalNotificationsPlugin();
@@ -25,10 +27,14 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
   log("Notification ${message.data}");
   List<String> notificationList = [];
   notificationList.add(jsonEncode(message.data));
+  if (await Vibration.hasAmplitudeControl() != null) {
+    Vibration.vibrate(duration: 10000);
+  }
+  final player = AudioPlayer();
+  player.play(AssetSource('siren_alert.mp3'));
 }
 
 class FirebaseService {
@@ -37,6 +43,10 @@ class FirebaseService {
   }
 
   initializeService() async {
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
     const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('@mipmap/ic_launcher_igl');
     final DarwinInitializationSettings initializationSettingsDarwin =
@@ -101,12 +111,7 @@ class FirebaseService {
         print("Notification permission ====== ${granted.toString()}");
       }
     }
-/*    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onDidReceiveNotificationResponse: notificationTapBackground,
-      onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
-    );*/
-    setupInteractedMessage();
+    // setupInteractedMessage();
   }
 
   Future<void> _isAndroidPermissionGranted() async {
@@ -117,7 +122,6 @@ class FirebaseService {
           ?.areNotificationsEnabled() ??
           false;
     }
-    try {} on PlatformException {}
   }
 
   Future<void> setupInteractedMessage() async {
@@ -128,6 +132,7 @@ class FirebaseService {
     }
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
     FirebaseMessaging.onMessage.listen(_inAppNotification);
+
   }
 
   void _handleMessage(RemoteMessage message) async {
@@ -135,7 +140,7 @@ class FirebaseService {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null) {
-      Navigator.pushNamed(navigatorKey.currentState!.context, '/second');
+      navigatorKey.currentState!.pushNamed('/second');
     }
   }
 
@@ -143,36 +148,24 @@ class FirebaseService {
     log('Got a message whilst in the foreground!');
     log('Message data --- App Open: ${message.toMap()}');
     log('Message data --- App Open: ${message.data}');
+
+
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null) {
+      notificationId++;
       const AndroidNotificationDetails androidNotificationDetails =
       AndroidNotificationDetails(
-        'your channel id',
-        'your channel name',
-        channelDescription: 'your channel description',
+        'notifications_priority', // id
+        'High Importance Notifications',
         importance: Importance.max,
         priority: Priority.high,
-        ticker: 'ticker',
         actions: <AndroidNotificationAction>[
           AndroidNotificationAction(
-            "id_1",
-            'Action 1',
+            "id",
+            'View',
             icon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher_igl'),
             contextual: true,
-          ),
-          AndroidNotificationAction(
-            'id_2',
-            'Action 2',
-            titleColor: Color.fromARGB(255, 255, 0, 0),
-            icon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher_igl'),
-          ),
-          AndroidNotificationAction(
-            "id_3",
-            'Action 3',
-            icon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher_igl'),
-            showsUserInterface: true,
-            cancelNotification: false,
           ),
         ],
       );
@@ -181,28 +174,11 @@ class FirebaseService {
         android: androidNotificationDetails,
       );
       await flutterLocalNotificationsPlugin.show(
-          1, 'plain title', 'plain body', notificationDetails,
+          notificationId,
+          notification.title.toString(),
+          notification.body.toString(),
+          notificationDetails,
           payload: 'item z');
     }
-  }
-}
-void notificationTapBackground(NotificationResponse notificationResponse) {
-  // ignore: avoid_print
-  print('notification(${notificationResponse.id}) action tapped: '
-      '${notificationResponse.actionId} with'
-      ' payload: ${notificationResponse.payload}');
-  navigatorKey.currentState?.push(
-      MaterialPageRoute(builder: (_) => TestPage())
-  );
-  if (notificationResponse.actionId != null &&
-      notificationResponse.payload != null) {
-    Future(() async {
-
-    });
-  }
-  if (notificationResponse.input?.isNotEmpty ?? false) {
-    // ignore: avoid_print
-    print(
-        'notification action tapped with input: ${notificationResponse.input}');
   }
 }

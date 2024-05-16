@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 
 part 'acknowledge_event.dart';
 part 'acknowledge_state.dart';
@@ -21,12 +22,20 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   List<AssignTypeModel> assignTypeList =  [];
   AssignTypeModel assignTypeData =  AssignTypeModel();
 
+  List<DepartmentModel> departmentList = [];
+  DepartmentModel departmentData =  DepartmentModel();
+
+  List<SapCodeModel>  sapCodeList = [];
+  SapCodeModel sapCodeData =  SapCodeModel();
+
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
     on<AcknowledgeUserListLoadEvent>(_userList);
     on<AcknowledgeSelectUserEvent>(_selectUser);
     on<AcknowledgeSelectVendorEvent>(_selectVendor);
     on<AcknowledgeSelectAssignTypeEvent>(_selectAssignType);
+    on<AcknowledgeSelectDepartmentEvent>(_selectDepartment);
+    on<AcknowledgeSelectSapCodeEvent>(_selectSapCode);
     on<AcknowledgeUserSubmitEvent>(_submit);
   }
 
@@ -70,6 +79,23 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         acknowledgeUserList=  res;
       }
     }
+
+    if(departmentList.isEmpty){
+      var resDepartment =
+      await AddAcknowledgeComplaintHelper.fetchDepartmentData();
+      if (resDepartment != null) {
+        departmentList = resDepartment;
+      }
+    }
+
+    if(sapCodeList.isEmpty){
+      var res =
+      await AddAcknowledgeComplaintHelper.fetchSapCodeData();
+      if (res != null) {
+        sapCodeList = res;
+      }
+    }
+
     isUserLoader =  false;
     _eventComplete(emit);
   }
@@ -88,6 +114,18 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     assignTypeData =  event.assignTypeData;
     acknowledgeUserData  =  AcknowledgeUserModel();
     vendorData =  VendorModel();
+    sapCodeData =  SapCodeModel();
+    departmentData =  DepartmentModel();
+    _eventComplete(emit);
+  }
+
+  _selectDepartment(AcknowledgeSelectDepartmentEvent event, emit) {
+    departmentData =  event.departmentData;
+    _eventComplete(emit);
+  }
+
+  _selectSapCode(AcknowledgeSelectSapCodeEvent event, emit) {
+    sapCodeData = event.sapCodeData;
     _eventComplete(emit);
   }
 
@@ -103,8 +141,11 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
      var res =  await AcknowledgeHelper.assignUser(context: !event.context.mounted ? event.context : event.context,
          acknowledgeData: event.acknowledgeData,
          userModel: acknowledgeUserData,
-         vendorData: vendorData, assignTypeData: assignTypeData,
-         remark: remarkController.text.toString());
+         vendorData: vendorData,
+         assignTypeData: assignTypeData,
+         sapCodeData: sapCodeData,
+         departmentData: departmentData,
+         remark: remarkController.text.toString(),);
      isLoader = false;
      _eventComplete(emit);
      if(res != null){
@@ -116,6 +157,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
        acknowledgeUserList = [];
        acknowledgeUserData = AcknowledgeUserModel();
        remarkController.text = "";
+       departmentData =  DepartmentModel();
+       sapCodeData =  SapCodeModel();
 
        var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
        if (resAckow != null) {
@@ -137,6 +180,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       vendorList: vendorList,
       assignTypeData: assignTypeData,
       assignTypeList: assignTypeList,
+      departmentData: departmentData,
+      departmentList: departmentList,
+      sapCodeData: sapCodeData,
+      sapCodeList: sapCodeList,
     ));
   }
 }

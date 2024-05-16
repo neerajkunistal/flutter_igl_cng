@@ -31,6 +31,24 @@ class AcknowledgeSelectUserEvent extends AcknowledgeEvent {
   List<Object?> get props => [acknowledgeUserData];
 }
 
+class AcknowledgeSelectDepartmentEvent extends AcknowledgeEvent {
+  final DepartmentModel departmentData;
+
+  const AcknowledgeSelectDepartmentEvent({required this.departmentData});
+
+  @override
+  List<Object?> get props => [departmentData];
+}
+
+class AcknowledgeSelectSapCodeEvent extends AcknowledgeEvent {
+  final SapCodeModel sapCodeData;
+
+  const AcknowledgeSelectSapCodeEvent({required this.sapCodeData});
+
+  @override
+  List<Object?> get props => [sapCodeData];
+}
+
 class AcknowledgeSelectVendorEvent extends AcknowledgeEvent {
   final VendorModel vendorData;
 

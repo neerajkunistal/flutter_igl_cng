@@ -64,6 +64,7 @@ class ReviewComplaintModel {
   String? generalComplaintRemark;
   String? assignTo;
   String? assignType;
+  String? createdByUser;
 
   ReviewComplaintModel({
     this.id,
@@ -126,6 +127,7 @@ class ReviewComplaintModel {
     this.generalComplaintRemark,
     this.assignTo,
     this.assignType,
+    this.createdByUser,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -189,6 +191,7 @@ class ReviewComplaintModel {
     generalComplaintRemark = json['general_complain_remarks'] ?? "";
     assignTo = json['se_assign_to'] ?? "";
     assignType = json['se_assign_type'] ?? "";
+    createdByUser = json['created_by_user'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

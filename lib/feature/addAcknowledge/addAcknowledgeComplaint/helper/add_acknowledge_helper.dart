@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
+import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 
 class AddAcknowledgeComplaintHelper {
   static Future<dynamic> fetchComplaintData(
@@ -35,6 +38,19 @@ class AddAcknowledgeComplaintHelper {
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return departmentListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchSapCodeData() async {
+    try {
+      String url = APIs.getSapCodeApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res['status'] != null && res["status"] == true) {
+        return sapCodeListResponse(res['data']);
       }
       return null;
     } catch (e) {
@@ -107,6 +123,13 @@ class AddAcknowledgeComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
+        await NotificationHelper.sendNotification(
+            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
+            title: "${complaintStatus == "1" ? "Acknowledge" : "Not acknowledge"} complaint.",
+            body: description,
+            pageId: PageId.ackComplaint,
+            complaintId: acknowledgeData.id.toString(),
+            dateTime: DateTime.now().toString());
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

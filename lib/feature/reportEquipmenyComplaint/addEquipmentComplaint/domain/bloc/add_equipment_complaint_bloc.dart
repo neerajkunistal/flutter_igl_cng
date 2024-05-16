@@ -120,7 +120,7 @@ class AddEquipmentComplaintBloc
           context: event.context,
           initialDate: DateTime.now(),
           firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
+          lastDate: DateTime.now());
       if (picked != null) {
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         dateController.text = formattedDate;
@@ -134,12 +134,19 @@ class AddEquipmentComplaintBloc
 
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
     try {
+      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
+      DateFormat('h:mm').parse(timeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initialTime,
       );
       if (time != null) {
-        timeController.text = "${time.hour}:${time.minute}";
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
+            event.context);
+        timeController.text = timeFormat;
         _eventComplete(emit);
       }
     } catch (e) {
@@ -153,6 +160,10 @@ class AddEquipmentComplaintBloc
     isLoader = true;
     _eventComplete(emit);
 
+    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
+    DateFormat('h:mm a').parse(timeController.text.toString())
+        : DateTime.now();
+    String time = "${initialDate1.hour}:${initialDate1.minute}";
     var res = await AddEquipmentComplaintHelper.submitData(
         context: event.context,
         complaintTypeData: complaintTypeData,
@@ -160,7 +171,7 @@ class AddEquipmentComplaintBloc
         description: descriptionController.text.toString(),
         name: reportByController.text.toString(),
         date: dateController.text.toString(),
-        time: timeController.text.toString(),
+        time: time,
         generalComplaintData: generalComplaintData,
         generalDescription: generalDescriptionController.text.toString(),
         file: file);
@@ -175,6 +186,8 @@ class AddEquipmentComplaintBloc
       generalDescriptionController.text = "";
       isLoader = false;
       file = File("");
+      if(!event.context.mounted) return;
+      Navigator.of(event.context).pop();
     }
     isLoader = false;
     _eventComplete(emit);

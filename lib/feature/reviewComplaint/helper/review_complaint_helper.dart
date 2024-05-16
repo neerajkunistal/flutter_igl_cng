@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
+import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 
 class ReviewComplaintHelper {
   static Future<dynamic> fetchReviewComplaint() async {
@@ -41,6 +43,13 @@ class ReviewComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
+        await NotificationHelper.sendNotification(
+            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
+            title: "Shift engineer ${approvalValue == "1" ? "Completed" : "Reject"} Complaint",
+            body: observation,
+            pageId: PageId.reviewComplaint,
+            complaintId: reviewComplaintData.id.toString(),
+            dateTime: DateTime.now().toString());
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

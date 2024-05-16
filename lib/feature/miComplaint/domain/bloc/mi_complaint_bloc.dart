@@ -120,10 +120,15 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
             reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
           String startDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
               reviewComplaintData.maintenanceStartDate.toString()));
-          String startTime = DateFormat('h:mm:ss').format(DateTime.parse(
-              reviewComplaintData.maintenanceStartDate.toString()));
           dateController.text = startDate;
-          timeController.text = startTime;
+
+          DateTime initialDate =  reviewComplaintData.maintenanceStartDate.toString().isNotEmpty ?
+          DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceStartDate.toString())
+              : DateTime.now();
+          TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+          var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(
+              !event.context.mounted ? event.context : event.context);
+          timeController.text = timeFormat;
         }
       }
 
@@ -132,10 +137,16 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
             reviewComplaintData.maintenanceHoldDate.toString().isNotEmpty) {
           String holdDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
               reviewComplaintData.maintenanceHoldDate.toString()));
-          String holdTime = DateFormat('h:mm:ss').format(DateTime.parse(
-              reviewComplaintData.maintenanceHoldDate.toString()));
           dateController.text = holdDate;
-          timeController.text = holdTime;
+
+
+          DateTime initialDate =  reviewComplaintData.maintenanceHoldDate.toString().isNotEmpty ?
+          DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceHoldDate.toString())
+              : DateTime.now();
+          TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+          var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(
+              !event.context.mounted ? event.context : event.context);
+          timeController.text = timeFormat;
         }
       }
 
@@ -144,10 +155,16 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
             reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
           String closedDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(
               reviewComplaintData.maintenanceEndDate.toString()));
-          String closedTIme = DateFormat('h:mm:ss').format(DateTime.parse(
-              reviewComplaintData.maintenanceEndDate.toString()));
           dateController.text = closedDate;
-          timeController.text = closedTIme;
+
+          DateTime initialDate =  reviewComplaintData.maintenanceEndDate.toString().isNotEmpty ?
+          DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceEndDate.toString())
+              : DateTime.now();
+          TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+          var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(
+              !event.context.mounted ? event.context : event.context);
+          timeController.text = timeFormat;
+
         }
       }
     }
@@ -182,10 +199,11 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
     TimeOfDay time = TimeOfDay.now();
+    var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(event.context);
     if(actionData.id.toString() == "4"){
       timeController.text = "";
     } else {
-      timeController.text = "${time.hour}:${time.minute}";
+      timeController.text = timeFormat;
     }
     _eventComplete(emit);
   }
@@ -214,9 +232,14 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
 
   _selectDate(MiComplaintSelectDateData event, emit) async {
     try {
+
+      DateTime initialDate =  dateController.text.toString().isNotEmpty ?
+      DateFormat('dd-MM-yyyy').parse(dateController.text.toString())
+          : DateTime.now();
+
       final DateTime? picked = await showDatePicker(
           context: event.context,
-          initialDate: DateTime.now(),
+          initialDate: initialDate,
           firstDate: DateTime(2015, 8),
           lastDate: DateTime(2101));
       if (picked != null) {
@@ -232,12 +255,19 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
 
   _selectTime(MiComplaintSelectTimeData event, emit) async {
     try {
+      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
+      DateFormat('h:mm').parse(timeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initialTime,
       );
       if (time != null) {
-        timeController.text = "${time.hour}:${time.minute}";
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
+            event.context);
+        timeController.text = timeFormat;
         _eventComplete(emit);
       }
     } catch (e) {
@@ -284,7 +314,11 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     }
     isLoader = true;
     _eventComplete(emit);
-
+    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
+    DateFormat('h:mm a').parse(timeController.text.toString())
+        : DateTime.now();
+    String time = "${initialDate1.hour}:${initialDate1.minute}:00";
+    print("Time Print ${time}");
     var res = await MiComplaintHelper.submit(
         context: event.context,
         reviewComplaintData: reviewComplaintData,
@@ -293,7 +327,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         action: actionData,
         description: description.text.toString(),
         date: dateController.text.toString(),
-        time: timeController.text.toString(),
+        time: time,
         observation: observation.text.toString(),
         uomTypeData: uomTypeData,
         qty: qtyController.text.toString(),

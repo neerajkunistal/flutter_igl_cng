@@ -23,6 +23,7 @@ class LoginDataModel {
   String? token;
   RoleType? roleType;
   String? role;
+  String? roleName;
 
   LoginDataModel({
     this.userId,
@@ -39,6 +40,7 @@ class LoginDataModel {
     this.roleType,
     this.password,
     this.role,
+    this.roleName,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class LoginDataModel {
     spreadId = json['spread_id'];
     sectionId = json['section_id'];
     role = json['user_type'] ?? "";
+    roleName = json['role'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
@@ -89,8 +92,8 @@ class LoginScreenRequestModel {
     Map<String, dynamic> map = {
       "email": userEmailId,
       "password": password,
-      "firebase_id": firebaseId,
-      "device_id": deviceId,
+      "firebaseId": firebaseId,
+      "deviceId": deviceId,
     };
     return map;
   }

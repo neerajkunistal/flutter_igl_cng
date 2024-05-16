@@ -237,6 +237,12 @@ class AppString {
 
   static get vendor => "Vendor";
 
+  static get department => "Department";
+
+  static get sapCode => "Sap Code";
+
+  static get reportedByName => "Reported By Name";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

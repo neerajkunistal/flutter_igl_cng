@@ -8,6 +8,8 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.da
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
+import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class MiComplaintHelper {
@@ -108,6 +110,13 @@ class MiComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
+        await NotificationHelper.sendNotification(
+            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
+            title: "MI ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} Complaint",
+            body: description.isNotEmpty ? description : observation,
+            pageId: PageId.miComplaint,
+            complaintId: reviewComplaintData.id.toString(),
+            dateTime: DateTime.now().toString());
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

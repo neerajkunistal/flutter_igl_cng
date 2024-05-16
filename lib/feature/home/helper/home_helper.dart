@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
+import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 
 class HomeHelper {
   static Future<dynamic> fetchDrawerList(
@@ -47,12 +48,10 @@ class HomeHelper {
     }
   }
 
-  static Future<dynamic> fetchAppBottomBarItems(
-      {required BuildContext context, required RoleType appModule}) async {
+  static Future<dynamic> fetchAppBottomBarItems() async {
     try {
       List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
 
-/*         if (appModule == RoleType.serviceCenter){
             bottomNavigationBarItemList.add(BottomNavigationBarItem(
               icon: const Icon(Icons.fire_truck_outlined,),
               label: AppString.running,
@@ -64,15 +63,11 @@ class HomeHelper {
 
             bottomNavigationBarItemList.add(BottomNavigationBarItem(
               icon: const Icon(Icons.person_pin,),
-              label: AppString.profile,
+              label: AppString.date,
             ));
-          }*/
 
       return bottomNavigationBarItemList;
-    } catch (e) {
-      SnackBarErrorWidget(context).show(message: "Bottom Bar Error");
-      return null;
-    }
+    } catch (_) {}
   }
 
   static Future<dynamic> fetchPageWidgets(
@@ -84,5 +79,17 @@ class HomeHelper {
       SnackBarErrorWidget(context).show(message: "Page Widget Error");
       return null;
     }
+  }
+
+  static Future<dynamic> fetchFirebaseDeviceData() async {
+    try {
+      String url =  APIs.getFirebaseDeviceApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['status'] != null
+           && res['status'] == true && res['data'] != null){
+         return firebaseDeviceListResponse(res['data']);
+      }
+    } catch (_) {}
+    return null;
   }
 }
