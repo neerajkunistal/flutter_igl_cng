@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static dynamic theme_Color = 0xFF165dA7;
-  static dynamic theme_LightColor = 0xFF3688DD;
+  static dynamic theme_Color = 0xFF1976D2;
+  static dynamic theme_LightColor = 0xFF1976D2;
+  static dynamic theme_NormalLightColor = 0xFFE3F2FD;
 
   AppColor({required dynamic themeColor, required dynamic themeLightColor}) {
     theme_Color = themeColor;
@@ -12,6 +13,8 @@ class AppColor {
   static get themeColor => Color(theme_Color);
 
   static get themeLightColor => Color(theme_LightColor);
+
+  static get themeNormalLightColor => Color(theme_NormalLightColor);
 
   static get grey => Colors.grey;
 
@@ -34,4 +37,6 @@ class AppColor {
   static get cardLightGreen => const Color(0xFF8BC740);
 
   static get themeSecondary => const Color(0xFFea8e11);
+
+   // static get themeSecondary => const Color(0xff60af62);
 }

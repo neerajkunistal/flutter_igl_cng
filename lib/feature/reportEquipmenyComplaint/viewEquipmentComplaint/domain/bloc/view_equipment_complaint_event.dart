@@ -12,3 +12,35 @@ class ViewEquipmentComplaintPageLoadEvent extends ViewEquipmentComplaintEvent {
   @override
   List<Object?> get props => [context];
 }
+
+class ViewEquipmentComplaintSearchEvent extends ViewEquipmentComplaintEvent {
+  final String keyword;
+
+  const ViewEquipmentComplaintSearchEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
+class ViewEquipmentComplaintSelectedTabIndexEvent extends ViewEquipmentComplaintEvent {
+  final int selectedTabIndex;
+
+  const ViewEquipmentComplaintSelectedTabIndexEvent({required this.selectedTabIndex});
+
+  @override
+  List<Object?> get props => [selectedTabIndex];
+}
+
+class ViewEquipmentComplaintSelectedDateRangeEvent extends ViewEquipmentComplaintEvent {
+  final BuildContext context;
+  final String fromDate;
+  final String toDate;
+
+  const ViewEquipmentComplaintSelectedDateRangeEvent({
+    required this.context,
+    required this.fromDate,
+    required this.toDate});
+
+  @override
+  List<Object?> get props => [context];
+}

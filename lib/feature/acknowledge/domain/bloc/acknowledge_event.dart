@@ -67,6 +67,39 @@ class AcknowledgeSelectAssignTypeEvent extends AcknowledgeEvent {
   List<Object?> get props => [assignTypeData];
 }
 
+class AcknowledgeComplaintSearchEvent extends AcknowledgeEvent {
+  final String keyword;
+
+  const AcknowledgeComplaintSearchEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
+class AcknowledgeComplaintSelectedTabIndexEvent extends AcknowledgeEvent {
+  final int selectedTabIndex;
+
+  const AcknowledgeComplaintSelectedTabIndexEvent({required this.selectedTabIndex});
+
+  @override
+  List<Object?> get props => [selectedTabIndex];
+}
+
+class AcknowledgeSelectDateRangeEvent extends AcknowledgeEvent {
+  final BuildContext context;
+  final String fromDate;
+  final String toDate;
+
+  const AcknowledgeSelectDateRangeEvent({
+    required this.context,
+    required this.fromDate,
+    required this.toDate,
+  });
+
+  @override
+  List<Object?> get props => [context];
+}
+
 class AcknowledgeUserSubmitEvent extends AcknowledgeEvent {
   final BuildContext context;
   final AcknowledgeModel acknowledgeData;

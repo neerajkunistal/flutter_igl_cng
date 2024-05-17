@@ -17,10 +17,13 @@ class ViewEquipmentComplaintPageLoadState
 
 class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final List<ReviewComplaintModel> reviewComplaintList;
+  final int selectedTabIndex;
 
   const FetchViewEquipmentComplaintDataState(
-      {required this.reviewComplaintList});
+      {required this.reviewComplaintList,
+       required this.selectedTabIndex,
+      });
 
   @override
-  List<Object> get props => [reviewComplaintList];
+  List<Object> get props => [reviewComplaintList, selectedTabIndex];
 }

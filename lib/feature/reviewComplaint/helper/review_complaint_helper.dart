@@ -4,9 +4,10 @@ import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 
 class ReviewComplaintHelper {
-  static Future<dynamic> fetchReviewComplaint() async {
+  static Future<dynamic> fetchReviewComplaint({
+    String? fromDate, String? toDate}) async {
     try {
-      String url = APIs.getReviewComplaintApi;
+      String url = APIs.getReviewComplaintApi+"?sort=&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);

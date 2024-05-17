@@ -39,10 +39,11 @@ class MiComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchMiComplaint() async {
+  static Future<dynamic> fetchMiComplaint({
+    String? fromDate, String? toDate}) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-      String url = APIs.getMiComplaintApi + "?userId=${userData.userId}";
+      String url = APIs.getMiComplaintApi + "?userId=${userData.userId}&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);

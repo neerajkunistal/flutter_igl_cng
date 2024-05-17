@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:vibration/vibration.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -79,7 +80,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
-    _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems(context: event.context);
+    _bottomNavigationBarItemList = await HomeHelper
+           .fetchAppBottomBarItems(context: !event.context.mounted ? event.context :event.context);
+
+    List<Widget> pageList =  await HomeHelper.fetchPageList();
+    if(pageList.isNotEmpty){
+      _childWidget =  pageList[bottomTabIndex];
+    }
+
     _eventCompleted(emit);
 
     var resFirebaseDevice =  await HomeHelper.fetchFirebaseDeviceData();
@@ -146,6 +154,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _changeBottomNavigationBarIndex(
       HomeChangeBottomNavigationItemEvent event, emit) async {
+    if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 100);
+    }
     _bottomTabIndex = event.index;
     List<Widget> pageList =  await HomeHelper.fetchPageList();
     _childWidget =  pageList[bottomTabIndex];

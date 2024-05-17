@@ -187,7 +187,7 @@ class AddEquipmentComplaintBloc
       isLoader = false;
       file = File("");
       if(!event.context.mounted) return;
-      Navigator.of(event.context).pop();
+      Navigator.of(event.context).pop("complete");
     }
     isLoader = false;
     _eventComplete(emit);

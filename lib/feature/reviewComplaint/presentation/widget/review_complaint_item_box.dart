@@ -145,7 +145,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-        color: AppColor.lightGrey,
+        color: AppColor.themeNormalLightColor,
         border: Border(
           left: BorderSide(
             color: reviewComplaintData.complaintStatus.toString() == "1"

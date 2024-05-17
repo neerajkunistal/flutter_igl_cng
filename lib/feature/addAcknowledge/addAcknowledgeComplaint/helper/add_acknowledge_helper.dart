@@ -58,9 +58,10 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchAcknowledgeData() async {
+  static Future<dynamic> fetchAcknowledgeData({
+    String? fromDate, String? toDate}) async {
     try {
-      String url = APIs.getAcknolegeApi;
+      String url = APIs.getAcknolegeApi+"?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return acknowledgeListResponse(res['data']);

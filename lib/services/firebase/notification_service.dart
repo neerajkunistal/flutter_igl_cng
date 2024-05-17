@@ -140,7 +140,7 @@ class FirebaseService {
     RemoteNotification? notification = message.notification;
     AndroidNotification? android = message.notification?.android;
     if (notification != null && android != null) {
-      navigatorKey.currentState!.pushNamed('/second');
+      // navigatorKey.currentState!.pushNamed('/second');
     }
   }
 

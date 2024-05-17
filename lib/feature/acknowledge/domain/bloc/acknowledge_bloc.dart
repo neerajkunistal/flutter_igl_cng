@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_mod
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:vibration/vibration.dart';
 
 part 'acknowledge_event.dart';
 part 'acknowledge_state.dart';
@@ -28,8 +29,16 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   List<SapCodeModel>  sapCodeList = [];
   SapCodeModel sapCodeData =  SapCodeModel();
 
+  List<AcknowledgeModel> acknowledgeWithOutFilterList = [];
+
+  int _selectTabIndex = 0;
+  int get selectTabIndex => _selectTabIndex;
+
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
+    on<AcknowledgeComplaintSearchEvent>(_search);
+    on<AcknowledgeComplaintSelectedTabIndexEvent>(_selectTab);
+    on<AcknowledgeSelectDateRangeEvent>(_selectDateRange);
     on<AcknowledgeUserListLoadEvent>(_userList);
     on<AcknowledgeSelectUserEvent>(_selectUser);
     on<AcknowledgeSelectVendorEvent>(_selectVendor);
@@ -51,10 +60,126 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     remarkController.text = "";
     assignTypeData =  AssignTypeModel();
     assignTypeList = AssignTypeModel().fetchData();
+    _selectTabIndex = 0;
 
-    var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
+
+    DateTime fromDate   = DateTime.now().subtract(const Duration(days: 4));
+    DateTime toDate   = DateTime.now();
+    var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
+      fromDate: fromDate.toString(),
+      toDate: toDate.toString(),
+    );
     if (resAckow != null) {
       acknowledgeList = resAckow;
+      acknowledgeWithOutFilterList = resAckow;
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString().isEmpty).toList();
+    }
+    _eventComplete(emit);
+  }
+
+  _search(AcknowledgeComplaintSearchEvent event, emit) async {
+    await Future.delayed(const Duration(milliseconds: 600));
+    String keyword =  event.keyword;
+
+    List<AcknowledgeModel> tempList = acknowledgeWithOutFilterList;
+
+    if(selectTabIndex == 0){
+      tempList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString().isEmpty).toList();
+    }
+    else if(selectTabIndex == 1) {
+      tempList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString() == "1"
+          && element.assignType.toString().isEmpty).toList();
+    }
+    else if(selectTabIndex == 2) {
+      tempList =  acknowledgeWithOutFilterList.where((element)
+      => element.assignType.toString().isNotEmpty
+          && element.complaintStatus.toString() != "1").toList();
+    }
+
+    if(keyword.isNotEmpty){
+      acknowledgeList =  tempList.where((element)
+      => element.tokenNo.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+
+      if(acknowledgeList.isEmpty){
+        acknowledgeList =  tempList.where((element)
+        => element.createdByUser.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      }
+
+      if(acknowledgeList.isEmpty){
+        acknowledgeList =  tempList.where((element)
+        => element.complaintDateTime.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      }
+
+      if(acknowledgeList.isEmpty){
+        acknowledgeList =  tempList.where((element)
+        => element.complaintDescription.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      }
+
+      if(acknowledgeList.isEmpty){
+        acknowledgeList =  tempList.where((element)
+        => element.equipmentName.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      }
+    } else {
+      acknowledgeList =  tempList;
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectTab(AcknowledgeComplaintSelectedTabIndexEvent event, emit) async {
+    if (await Vibration.hasAmplitudeControl() != null) {
+    Vibration.vibrate(duration: 100);
+    }
+    _selectTabIndex =  event.selectedTabIndex;
+    if(selectTabIndex == 0){
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString().isEmpty).toList();
+    }
+    else if(selectTabIndex == 1) {
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString() == "1"
+          && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList();
+    }
+    else if(selectTabIndex == 2) {
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.assignType.toString().isNotEmpty
+          && element.assignType.toString() != "0").toList();
+    }
+    _eventComplete(emit);
+  }
+
+  _selectDateRange(AcknowledgeSelectDateRangeEvent event, emit) async {
+    acknowledgeList = [];
+    acknowledgeWithOutFilterList = [];
+    _eventComplete(emit);
+    emit(AcknowledgePageLoadState());
+
+    var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
+      fromDate: event.fromDate.toString(),
+      toDate: event.toDate.toString(),
+    );
+    if (resAckow != null) {
+      acknowledgeList = resAckow;
+      acknowledgeWithOutFilterList = resAckow;
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString().isEmpty).toList();
+    }
+    if(selectTabIndex == 0){
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString().isEmpty).toList();
+    }
+    else if(selectTabIndex == 1) {
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.ackStatus.toString() == "1"
+          && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList();
+    }
+    else if(selectTabIndex == 2) {
+      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+      => element.assignType.toString().isNotEmpty
+          && element.assignType.toString() != "0").toList();
     }
     _eventComplete(emit);
   }
@@ -159,10 +284,29 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
        remarkController.text = "";
        departmentData =  DepartmentModel();
        sapCodeData =  SapCodeModel();
-
-       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData();
+       DateTime fromDate   = DateTime.now().subtract(const Duration(days: 4));
+       DateTime toDate   = DateTime.now();
+       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
+         fromDate: fromDate.toString(),
+         toDate: toDate.toString(),
+       );
        if (resAckow != null) {
          acknowledgeList = resAckow;
+         acknowledgeWithOutFilterList = resAckow;
+       }
+       if(selectTabIndex == 0){
+         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+         => element.ackStatus.toString().isEmpty).toList();
+       }
+       else if(selectTabIndex == 1) {
+         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+         => element.ackStatus.toString() == "1"
+             && element.assignType.toString().isEmpty).toList();
+       }
+       else if(selectTabIndex == 2) {
+         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
+         => element.assignType.toString().isNotEmpty
+             && element.complaintStatus.toString() != "1").toList();
        }
        _eventComplete(emit);
      }
@@ -184,6 +328,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       departmentList: departmentList,
       sapCodeData: sapCodeData,
       sapCodeList: sapCodeList,
+      selectTabIndex: selectTabIndex,
     ));
   }
 }

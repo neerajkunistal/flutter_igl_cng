@@ -47,6 +47,7 @@ dependencies:
   firebase_messaging: ^14.9.2
   vibration: ^1.7.7
   audioplayers: ^6.0.0
+  syncfusion_flutter_datepicker: ^25.2.4
 
 dependency_overrides:
   meta: ^1.11.0

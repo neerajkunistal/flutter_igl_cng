@@ -64,26 +64,14 @@ class HomeHelper {
         pageList.add(const ViewEquipmentComplaintPage());
       }
       else if (userData.roleType == RoleType.stationUser) {
-        pageList.add(const AddEquipmentComplaintPage());
-        pageList.add(const ReviewComaplintPage());
+        pageList.add(const ViewEquipmentComplaintPage());
       }
       else if (userData.roleType == RoleType.mi) {
-        pageList.add(const ReviewComaplintPage());
+        pageList.add(const ViewEquipmentComplaintPage());
       }
 
     }catch(_){}
     return pageList;
-  }
-
-  static Future<dynamic> fetchPageWidgets(
-      {required BuildContext context, required RoleType appModule}) async {
-    try {
-      List<Widget> pageWidgetList = [];
-      return pageWidgetList;
-    } catch (e) {
-      SnackBarErrorWidget(context).show(message: "Page Widget Error");
-      return null;
-    }
   }
 
   static Future<dynamic> fetchFirebaseDeviceData() async {
