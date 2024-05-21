@@ -4,8 +4,13 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DateRangePopWidget extends StatelessWidget {
   final Function(Object?) onSubmit;
+  final DateTime? startDate;
+  final DateTime? endDate;
   const DateRangePopWidget({super.key,
-    required this.onSubmit});
+    required this.onSubmit,
+    this.endDate,
+    this.startDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +34,8 @@ class DateRangePopWidget extends StatelessWidget {
               backgroundColor: AppColor.themeNormalLightColor),
           selectionMode: DateRangePickerSelectionMode.range,
           initialSelectedRange: PickerDateRange(
-              DateTime.now().subtract(const Duration(days: 4)),
-              DateTime.now()),
+              startDate ?? DateTime.now().subtract(const Duration(days: 4)),
+              endDate ?? DateTime.now()),
         ),
       ),
     );

@@ -38,11 +38,13 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                       onSubmit: (value) {
                         Navigator.pop(context);
                         PickerDateRange? date = value as PickerDateRange?;
-                        BlocProvider.of<AcknowledgeBloc>(context)
-                            .add(AcknowledgeSelectDateRangeEvent(
-                            fromDate: date!.startDate.toString(),
-                            toDate: date.endDate.toString(),
-                            context: context));
+                        if(date != null){
+                          BlocProvider.of<AcknowledgeBloc>(context)
+                              .add(AcknowledgeSelectDateRangeEvent(
+                              fromDate: date.startDate!,
+                              toDate: date.endDate!,
+                              context: context));
+                        }
                       },
                     );
                   });
@@ -53,11 +55,14 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
       body: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
         builder: (context, state) {
           if (state is FetchAcknowledgeDataState) {
-            return Column(
-              children: [
-                _tabWidget(dataState: state),
-                Expanded (child: _itemBuilder(dataState: state)),
-              ],
+            return RefreshIndicator(
+              onRefresh: _handleRefresh,
+              child: Column(
+                children: [
+                  _tabWidget(dataState: state),
+                  Expanded (child: _itemBuilder(dataState: state)),
+                ],
+              ),
             );
           } else {
             return const Center(
@@ -67,6 +72,17 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
         },
       ),
     );
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    DateTime startDate = BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).startDate;
+    DateTime endDate = BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).endDate;
+    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+        .add(AcknowledgeSelectDateRangeEvent(
+        fromDate: startDate,
+        toDate: endDate,
+        context: !context.mounted ? context : context));
   }
   
   Widget _searchController() {
@@ -133,12 +149,12 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                   BlocProvider.of<AcknowledgeBloc>(context)
                       .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 0));
                 }, child:  TextWidget(
-              "New",
+              "New-${dataState.complaintCount[0]}",
               color: dataState.selectTabIndex == 0 ? AppColor.white : AppColor.black,
               fontWeight: dataState.selectTabIndex == 0
                   ? FontWeight.w700
                   : FontWeight.w400,
-              fontSize: AppFont.font_13,)),
+              fontSize: AppFont.font_11,)),
           ),
 
           Expanded(
@@ -158,12 +174,12 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                   BlocProvider.of<AcknowledgeBloc>(context)
                       .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 1));
                 }, child:  TextWidget(
-              "Ack",
+              "Ack-${dataState.complaintCount[1]}",
               color: dataState.selectTabIndex == 1 ? AppColor.white : AppColor.black,
               fontWeight: dataState.selectTabIndex == 1
                   ? FontWeight.w700
                   : FontWeight.w400,
-              fontSize: AppFont.font_13,)),
+              fontSize: AppFont.font_11,)),
           ),
 
           Expanded(
@@ -183,14 +199,14 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                   BlocProvider.of<AcknowledgeBloc>(context)
                       .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 2));
                 }, child:  TextWidget(
-              "Assign",
+              "Assign-${dataState.complaintCount[2]}",
               color: dataState.selectTabIndex == 2
                   ? AppColor.white
                   : AppColor.black,
               fontWeight: dataState.selectTabIndex == 2
                   ? FontWeight.w700
                   : FontWeight.w400,
-              fontSize: AppFont.font_13,)),
+              fontSize: AppFont.font_11,)),
           ),
         ],
       ),
@@ -232,7 +248,28 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                   ),
                 );
               })
-          : const Center(child: TextWidget("No Data")),
+          : Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: GestureDetector(
+              onTap: () async {
+                BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+                    .add(AcknowledgeSelectDateRangeEvent(
+                    fromDate: dataState.startDate,
+                    toDate:  dataState.endDate,
+                    context: !context.mounted ? context : context));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.refresh, color: AppColor.grey,),
+                  const TextWidget("No Data\nTab to refresh",
+                    textAlign: TextAlign.center,),
+                ],
+              )),
+        ),
+      ),
     );
   }
 }

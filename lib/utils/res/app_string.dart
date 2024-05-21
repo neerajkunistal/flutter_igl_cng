@@ -87,6 +87,8 @@ class AppString {
 
   static get date => "Date";
 
+  static get vendorCode => "Vendor Code";
+
   static get time => "Time";
 
   static get city => "City";

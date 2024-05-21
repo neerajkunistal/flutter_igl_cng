@@ -87,8 +87,8 @@ class AcknowledgeComplaintSelectedTabIndexEvent extends AcknowledgeEvent {
 
 class AcknowledgeSelectDateRangeEvent extends AcknowledgeEvent {
   final BuildContext context;
-  final String fromDate;
-  final String toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
 
   const AcknowledgeSelectDateRangeEvent({
     required this.context,

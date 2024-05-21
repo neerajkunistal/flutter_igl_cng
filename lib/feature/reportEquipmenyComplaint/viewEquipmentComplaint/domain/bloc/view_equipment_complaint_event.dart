@@ -33,8 +33,8 @@ class ViewEquipmentComplaintSelectedTabIndexEvent extends ViewEquipmentComplaint
 
 class ViewEquipmentComplaintSelectedDateRangeEvent extends ViewEquipmentComplaintEvent {
   final BuildContext context;
-  final String fromDate;
-  final String toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
 
   const ViewEquipmentComplaintSelectedDateRangeEvent({
     required this.context,

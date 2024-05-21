@@ -34,6 +34,11 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   int _selectTabIndex = 0;
   int get selectTabIndex => _selectTabIndex;
 
+  DateTime startDate   = DateTime.now().subtract(const Duration(days: 4));
+  DateTime endDate   = DateTime.now();
+
+  List<int> complaintCount = [];
+
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
     on<AcknowledgeComplaintSearchEvent>(_search);
@@ -55,6 +60,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     acknowledgeList = [];
     acknowledgeUserList = [];
     vendorList = [];
+    complaintCount = [];
     vendorData =  VendorModel();
     acknowledgeUserData = AcknowledgeUserModel();
     remarkController.text = "";
@@ -63,11 +69,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     _selectTabIndex = 0;
 
 
-    DateTime fromDate   = DateTime.now().subtract(const Duration(days: 4));
-    DateTime toDate   = DateTime.now();
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
-      fromDate: fromDate.toString(),
-      toDate: toDate.toString(),
+      fromDate: startDate.toString(),
+      toDate: endDate.toString(),
     );
     if (resAckow != null) {
       acknowledgeList = resAckow;
@@ -75,6 +79,19 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       acknowledgeList =  acknowledgeWithOutFilterList.where((element)
       => element.ackStatus.toString().isEmpty).toList();
     }
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString().isEmpty).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString() == "1"
+        && element.assignType.toString().isEmpty).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.assignType.toString()  != "0"
+        && element.complaintStatus.toString() != "1").toList().length);
+
+
     _eventComplete(emit);
   }
 
@@ -95,7 +112,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
     else if(selectTabIndex == 2) {
       tempList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString().isNotEmpty
+      => element.assignType.toString()  != "0"
           && element.complaintStatus.toString() != "1").toList();
     }
 
@@ -134,6 +151,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     Vibration.vibrate(duration: 100);
     }
     _selectTabIndex =  event.selectedTabIndex;
+    complaintCount = [];
     if(selectTabIndex == 0){
       acknowledgeList =  acknowledgeWithOutFilterList.where((element)
       => element.ackStatus.toString().isEmpty).toList();
@@ -145,15 +163,29 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
     else if(selectTabIndex == 2) {
       acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString().isNotEmpty
+      => element.assignType.toString()  != "0"
           && element.assignType.toString() != "0").toList();
     }
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString().isEmpty).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString() == "1"
+        && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.assignType.toString()  != "0"
+        && element.complaintStatus.toString() != "1").toList().length);
     _eventComplete(emit);
   }
 
   _selectDateRange(AcknowledgeSelectDateRangeEvent event, emit) async {
     acknowledgeList = [];
     acknowledgeWithOutFilterList = [];
+    startDate = event.fromDate;
+    endDate =  event.toDate;
+    complaintCount = [];
     _eventComplete(emit);
     emit(AcknowledgePageLoadState());
 
@@ -178,9 +210,21 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
     else if(selectTabIndex == 2) {
       acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString().isNotEmpty
+      => element.assignType.toString() != "0"
           && element.assignType.toString() != "0").toList();
     }
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString().isEmpty).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.ackStatus.toString() == "1"
+        && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+
+    complaintCount.add(acknowledgeWithOutFilterList.where((element)
+    => element.assignType.toString() != "0"
+        && element.complaintStatus.toString() != "1").toList().length);
+
     _eventComplete(emit);
   }
 
@@ -280,6 +324,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
        isUserLoader = false;
        acknowledgeList = [];
        acknowledgeUserList = [];
+       complaintCount = [];
        acknowledgeUserData = AcknowledgeUserModel();
        remarkController.text = "";
        departmentData =  DepartmentModel();
@@ -308,6 +353,17 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
          => element.assignType.toString().isNotEmpty
              && element.complaintStatus.toString() != "1").toList();
        }
+
+       complaintCount.add(acknowledgeWithOutFilterList.where((element)
+       => element.ackStatus.toString().isEmpty).toList().length);
+
+       complaintCount.add(acknowledgeWithOutFilterList.where((element)
+       => element.ackStatus.toString() == "1"
+           && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+
+       complaintCount.add(acknowledgeWithOutFilterList.where((element)
+       => element.assignType.toString() !=  "0"
+           && element.complaintStatus.toString() != "1").toList().length);
        _eventComplete(emit);
      }
   }
@@ -329,6 +385,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       sapCodeData: sapCodeData,
       sapCodeList: sapCodeList,
       selectTabIndex: selectTabIndex,
+      startDate: startDate,
+      endDate: endDate,
+      complaintCount:complaintCount
     ));
   }
 }

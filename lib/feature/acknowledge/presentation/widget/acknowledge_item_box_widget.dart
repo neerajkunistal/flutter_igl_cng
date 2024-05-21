@@ -40,8 +40,26 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.02,
             ),
             _rowWidget(
-                name: "Equipment",
-                value: acknowledgeData.equipmentCode.toString()),
+                name: acknowledgeData.equipmentCode.toString().isNotEmpty
+                    ? "Equipment"
+                    : "General",
+                value: acknowledgeData.equipmentCode.toString().isNotEmpty
+                    ? acknowledgeData.equipmentCode.toString()
+                    : acknowledgeData.generalComplaintName.toString()),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            acknowledgeData.equipmentCode.toString().isNotEmpty ?
+            _rowWidget(
+                name:  "vendor Code",
+                value: acknowledgeData.vendorCode.toString())
+                : const SizedBox.shrink(),
+
+            acknowledgeData.equipmentCode.toString().isNotEmpty ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
@@ -198,11 +216,12 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.35,
         child: ButtonWidget(
             backgroundColor:
-                acknowledgeData.assignTo.toString().isNotEmpty
+                  acknowledgeData.assignTo.toString() != "0"
                 ? AppColor.orange
                 : AppColor.themeColor,
             fontSize: AppFont.font_11,
-            text: acknowledgeData.assignTo.toString().isEmpty
+            text: acknowledgeData.assignTo.toString().isEmpty ||
+                acknowledgeData.assignTo.toString() == "0"
                 ? AppString.assign
                 : AppString.reAssign,
             onPressed: () {

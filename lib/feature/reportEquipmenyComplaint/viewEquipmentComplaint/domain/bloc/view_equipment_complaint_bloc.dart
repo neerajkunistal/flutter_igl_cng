@@ -20,6 +20,10 @@ class ViewEquipmentComplaintBloc
 
   LoginDataModel userData =  LoginDataModel();
 
+  DateTime startDate = DateTime.now();
+  DateTime endDate =  DateTime.now();
+
+  List<int> complaintCount = [];
 
   ViewEquipmentComplaintBloc() : super(ViewEquipmentComplaintInitial()) {
     on<ViewEquipmentComplaintPageLoadEvent>(_pageLoad);
@@ -31,31 +35,59 @@ class ViewEquipmentComplaintBloc
   _pageLoad(ViewEquipmentComplaintPageLoadEvent event, emit) async {
     emit(ViewEquipmentComplaintPageLoadState());
     reviewComplaintList = [];
+    complaintCount = [];
     userData = UserInfo.instanceInit()!.userData!;
 
-    DateTime fromDate   = DateTime.now().subtract(const Duration(days: 4));
-    DateTime toDate   = DateTime.now();
+    startDate   = DateTime.now().subtract(const Duration(days: 4));
+    endDate   = DateTime.now();
 
     var res = userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint(
-        fromDate: fromDate.toString(),
-        toDate: toDate.toString())
+        fromDate: startDate.toString(),
+        toDate: endDate.toString())
         : await ReviewComplaintHelper.fetchReviewComplaint(
-        fromDate: fromDate.toString(),
-        toDate: toDate.toString());
+        fromDate: startDate.toString(),
+        toDate: endDate.toString());
 
-    _selectTabIndex =  0;
+    _selectTabIndex =  userData.roleType == RoleType.mi ?  1 : 0;
 
     if (res != null) {
       reviewComplaintList = res;
       reviewComplaintWithOutFilterList = res;
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
       => userData.roleType == RoleType.mi
-          ? element.assignType.toString() == "1"
-          : userData.roleType == RoleType.stationUser
-          ? element.action.toString() == "0"
-          : element.assignType.toString() == "2" ).toList();
+          ? element.assignType.toString() != "0"
+          && element.complaintStatus.toString() == "0"
+          && element.assignType.toString() != "3"
+          :  element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList();
     }
+
+    if(userData.roleType == RoleType.mi){
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      =>  element.assignType.toString() != "0"
+          && element.complaintStatus.toString() == "0"
+          && element.assignType.toString() != "3" ).toList().length);
+    } else {
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      => element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList().length);
+    }
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "2"
+        && element.complaintStatus.toString() != "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "3").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.complaintStatus.toString() == "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.action.toString() != "0" &&
+        element.assignType.toString() == "0").toList().length);
+
     _eventComplete(emit);
   }
 
@@ -110,7 +142,6 @@ class ViewEquipmentComplaintBloc
     } else {
       reviewComplaintList =  tempList;
     }
-
     _eventComplete(emit);
   }
 
@@ -118,10 +149,12 @@ class ViewEquipmentComplaintBloc
     if (await Vibration.hasAmplitudeControl() != null) {
     Vibration.vibrate(duration: 100);
     }
+    complaintCount = [];
     _selectTabIndex =  event.selectedTabIndex;
     if(selectTabIndex == 0){
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
-      => element.action.toString() == "0" ).toList();
+      => element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList();
     }
     else if(selectTabIndex == 1) {
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
@@ -136,12 +169,48 @@ class ViewEquipmentComplaintBloc
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
       => element.complaintStatus.toString() == "1").toList();
     }
+
+    else if(selectTabIndex == 4) {
+      reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
+      => element.action.toString() != "0" &&
+          element.assignType.toString() == "0").toList();
+    }
+
+    if(userData.roleType == RoleType.mi){
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      =>  element.assignType.toString() == "1").toList().length);
+    } else {
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      => element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList().length);
+    }
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "2"
+        && element.complaintStatus.toString() != "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "3").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.complaintStatus.toString() == "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.action.toString() != "0" &&
+        element.assignType.toString().isEmpty).toList().length);
+
     _eventComplete(emit);
   }
 
   _selectDateRangeFilter(ViewEquipmentComplaintSelectedDateRangeEvent event, emit) async {
+    if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 100);
+    }
+    complaintCount = [];
     reviewComplaintList = [];
     reviewComplaintWithOutFilterList = [];
+    startDate =  event.fromDate;
+    endDate =  event.toDate;
     _eventComplete(emit);
     emit(ViewEquipmentComplaintPageLoadState());
     var res = userData.roleType == RoleType.mi
@@ -156,7 +225,9 @@ class ViewEquipmentComplaintBloc
       reviewComplaintWithOutFilterList = res;
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
       => userData.roleType == RoleType.mi
-          ? element.assignType.toString() == "1"
+          ? element.assignType.toString() != "0"
+          && element.complaintStatus.toString() == "0"
+          && element.assignType.toString() != "3"
           : userData.roleType == RoleType.stationUser
           ? element.action.toString() == "0"
           : element.assignType.toString() == "2" ).toList();
@@ -164,7 +235,8 @@ class ViewEquipmentComplaintBloc
 
     if(selectTabIndex == 0){
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
-      => element.action.toString() == "0" ).toList();
+      => element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList();
     }
     else if(selectTabIndex == 1) {
       reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
@@ -180,12 +252,47 @@ class ViewEquipmentComplaintBloc
       => element.complaintStatus.toString() == "1").toList();
     }
 
+    else if(selectTabIndex == 4) {
+      reviewComplaintList =  reviewComplaintWithOutFilterList.where((element)
+      => element.action.toString() != "0" &&
+          element.assignType.toString() == "0").toList();
+    }
+
+    if(userData.roleType == RoleType.mi){
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      =>  element.assignType.toString() != "0"
+          && element.complaintStatus.toString() == "0"
+          && element.assignType.toString() != "3" ).toList().length);
+    } else {
+      complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+      => element.action.toString() == "0"
+          && element.assignType.toString() == "0" ).toList().length);
+    }
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "2"
+        && element.complaintStatus.toString() != "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.assignType.toString() == "3").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.complaintStatus.toString() == "1").toList().length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList.where((element)
+    => element.action.toString() != "0" &&
+        element.assignType.toString() == "0").toList().length);
+
     _eventComplete(emit);
   }
 
   _eventComplete(Emitter<ViewEquipmentComplaintState> emit) {
     emit(FetchViewEquipmentComplaintDataState(
         reviewComplaintList: reviewComplaintList,
-        selectedTabIndex: selectTabIndex));
+        selectedTabIndex: selectTabIndex,
+        startDate: startDate,
+        endDate: endDate,
+        complaintCount: complaintCount
+    ));
   }
 }

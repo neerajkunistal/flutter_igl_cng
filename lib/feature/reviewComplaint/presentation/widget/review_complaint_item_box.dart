@@ -94,11 +94,27 @@ class ReviewComplaintItemBox extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.02,
             ),
             _rowWidget(
-                name: "Equipment",
-                value: reviewComplaintData.equipmentCode.toString()),
+                name: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                    ? "Equipment"
+                    : "General",
+                value: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                    ? reviewComplaintData.equipmentCode.toString()
+                    : reviewComplaintData.generalComplaintName.toString()),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
+
+            reviewComplaintData.equipmentCode.toString().isNotEmpty ?
+            _rowWidget(
+                name:  "vendor Code",
+                value: reviewComplaintData.vendorCode.toString())
+                : const SizedBox.shrink(),
+
+            reviewComplaintData.equipmentCode.toString().isNotEmpty ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
             _rowWidget(name: "Complaint Status", value: status),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,

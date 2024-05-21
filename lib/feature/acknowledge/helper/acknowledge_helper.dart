@@ -74,7 +74,7 @@ class AcknowledgeHelper {
             firebaseDeviceList:
                 BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
                     .firebaseDeviceList,
-            title: "Assign Complaint - ${userModel.name}",
+            title: "Complaint Assign",
             body: remark,
             pageId: PageId.assignComplaint,
             complaintId: acknowledgeData.id.toString(),

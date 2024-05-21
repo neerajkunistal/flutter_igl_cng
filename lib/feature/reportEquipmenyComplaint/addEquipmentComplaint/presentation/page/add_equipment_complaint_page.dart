@@ -55,6 +55,14 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
+
+            dataState.equipmentTypeData.description != null
+                ? _vendorCodeController(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.equipmentTypeData.description != null
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -165,6 +173,17 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           child: Text(equipmentTypeData.description.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _vendorCodeController({required FetchAddEquipmentComplaintState dataState}) {
+    TextEditingController controller =  TextEditingController(
+        text: dataState.equipmentTypeData.vendorCode.toString());
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.vendorCode,
+      controller: controller,
     );
   }
 

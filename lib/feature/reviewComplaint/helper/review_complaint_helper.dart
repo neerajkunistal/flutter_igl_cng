@@ -44,13 +44,13 @@ class ReviewComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
+/*        await NotificationHelper.sendNotification(
             firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
             title: "Shift engineer ${approvalValue == "1" ? "Completed" : "Reject"} Complaint",
             body: observation,
             pageId: PageId.reviewComplaint,
             complaintId: reviewComplaintData.id.toString(),
-            dateTime: DateTime.now().toString());
+            dateTime: DateTime.now().toString());*/
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

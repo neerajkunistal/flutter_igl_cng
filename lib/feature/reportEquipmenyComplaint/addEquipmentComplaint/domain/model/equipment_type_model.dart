@@ -11,6 +11,9 @@ class EquipmentTypeModel {
   String? description;
   String? manufactureSerialNo;
   String? modelNo;
+  String? vendorId;
+  String? companyName;
+  String? vendorCode;
 
   EquipmentTypeModel(
       {this.id,
@@ -19,7 +22,11 @@ class EquipmentTypeModel {
       this.cngStationLocation,
       this.description,
       this.manufactureSerialNo,
-      this.modelNo});
+      this.modelNo,
+      this.vendorId,
+      this.companyName,
+      this.vendorCode,
+      });
 
   EquipmentTypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
@@ -29,6 +36,9 @@ class EquipmentTypeModel {
     description = json['description'] ?? "";
     manufactureSerialNo = json['manufacture_serial_no'] ?? "";
     modelNo = json['model_no'] ?? "";
+    vendorId = json['vendor_id'] ?? "";
+    companyName = json['company_name'] ?? "";
+    vendorCode = json['vendor_code'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

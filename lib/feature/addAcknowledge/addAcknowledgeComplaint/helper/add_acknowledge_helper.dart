@@ -124,13 +124,13 @@ class AddAcknowledgeComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
+/*        await NotificationHelper.sendNotification(
             firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
             title: "${complaintStatus == "1" ? "Acknowledge" : "Not acknowledge"} complaint.",
             body: description,
             pageId: PageId.ackComplaint,
             complaintId: acknowledgeData.id.toString(),
-            dateTime: DateTime.now().toString());
+            dateTime: DateTime.now().toString());*/
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

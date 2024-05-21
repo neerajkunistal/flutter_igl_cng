@@ -111,13 +111,13 @@ class MiComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
+/*        await NotificationHelper.sendNotification(
             firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
             title: "MI ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} Complaint",
             body: description.isNotEmpty ? description : observation,
             pageId: PageId.miComplaint,
             complaintId: reviewComplaintData.id.toString(),
-            dateTime: DateTime.now().toString());
+            dateTime: DateTime.now().toString());*/
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;

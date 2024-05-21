@@ -30,6 +30,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final List<SapCodeModel>  sapCodeList;
   final SapCodeModel sapCodeData;
   final int selectTabIndex;
+  final DateTime startDate;
+  final DateTime endDate;
+  final List<int> complaintCount;
 
   FetchAcknowledgeDataState(
       {required this.acknowledgeList,
@@ -47,6 +50,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         required this.sapCodeData,
         required this.sapCodeList,
         required this.selectTabIndex,
+        required this.startDate,
+        required this.endDate,
+        required this.complaintCount,
       });
 
   @override
@@ -66,5 +72,8 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     sapCodeData,
     sapCodeList,
     selectTabIndex,
+    startDate,
+    endDate,
+    complaintCount,
   ];
 }
