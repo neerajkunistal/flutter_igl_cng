@@ -335,7 +335,7 @@ class _ViewEquipmentComplaintPageState
                           dataState.reviewComplaintList[index].complaintStatus
                                   .toString() ==
                               "0" &&
-                          dataState.reviewComplaintList[index].action
+                          dataState.reviewComplaintList[index].assignType
                                   .toString() ==
                               "3") {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
@@ -354,8 +354,8 @@ class _ViewEquipmentComplaintPageState
                                       !context.mounted ? context : context));
                         }
                       } else if (userLogin.roleType == RoleType.shiftEngineer &&
-                          dataState.reviewComplaintList[index].action
-                                  .toString() == "4" ) {
+                          dataState.reviewComplaintList[index].assignType
+                                  .toString() == "3" ) {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
                             ReviewComplaintPageLoadEvent(
                                 context: context,
@@ -377,7 +377,7 @@ class _ViewEquipmentComplaintPageState
                               "3" &&
                           dataState.reviewComplaintList[index].complaintStatus
                                   .toString() !=
-                              "2") {
+                              "1") {
                         BlocProvider.of<MiComplaintBloc>(context).add(
                             MiComplaintPageLoadEvent(
                                 context: context,

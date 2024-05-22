@@ -106,8 +106,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget _departmentDropDown(
       {required FetchAcknowledgeDataState dataState,
         required BuildContext context}) {
-    return dataState.assignTypeData.id == "2" ?
-    DropdownWidget(
+    return  DropdownWidget(
       hint: AppString.department,
       dropdownValue: dataState.departmentData.id != null
           ? dataState.departmentData
@@ -124,7 +123,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
               child: TextWidget(departmentData.name.toString()),
             );
           }).toList(),
-    ): const SizedBox.shrink();
+    );
   }
 
   Widget _userDropDown(

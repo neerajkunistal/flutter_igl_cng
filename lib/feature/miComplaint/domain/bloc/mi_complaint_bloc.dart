@@ -167,6 +167,10 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
 
         }
       }
+
+      if (actionValue.id.toString() == "4") {
+        actionData =  actionValue;
+      }
     }
 
     description.text = reviewComplaintData.complaintDescription.toString();
