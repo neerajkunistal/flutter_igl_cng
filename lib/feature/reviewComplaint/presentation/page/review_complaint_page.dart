@@ -50,10 +50,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _verticalSpace() : const SizedBox.shrink(),
             _observationController(dataState: dataState),
             _verticalSpace(),
-            userData.roleType == RoleType.shiftEngineer ?
-            _photo(dataState: dataState) : const SizedBox.shrink(),
-            userData.roleType == RoleType.shiftEngineer ?
-            _verticalSpace() : const SizedBox.shrink(),
+            _photo(dataState: dataState) ,
+            _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
           ],

@@ -26,7 +26,7 @@ class AddEquipmentComplaintBloc
   TextEditingController timeController = TextEditingController();
   TextEditingController generalDescriptionController = TextEditingController();
   bool isLoader = false;
-  File file = File("");
+  List<File> files = [];
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
 
@@ -55,7 +55,10 @@ class AddEquipmentComplaintBloc
     timeController.text = "";
     generalDescriptionController.text = "";
     isLoader = false;
-    file = File("");
+    files = [];
+    files.add(File(""));
+    files.add(File(""));
+    files.add(File(""));
 
     var resComplaint =
         await AddEquipmentComplaintHelper.fetchComplaintTypeData();
@@ -102,15 +105,20 @@ class AddEquipmentComplaintBloc
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader =  true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader =  true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     }
     Navigator.pop(event.context.mounted ? event.context : event.context);
+    isLoader =  false;
     _eventComplete(emit);
   }
 
@@ -174,7 +182,7 @@ class AddEquipmentComplaintBloc
         time: time,
         generalComplaintData: generalComplaintData,
         generalDescription: generalDescriptionController.text.toString(),
-        file: file);
+        file: files);
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
       equipmentTypeData = EquipmentTypeModel();
@@ -185,7 +193,9 @@ class AddEquipmentComplaintBloc
       timeController.text = "";
       generalDescriptionController.text = "";
       isLoader = false;
-      file = File("");
+      files.add(File(""));
+      files.add(File(""));
+      files.add(File(""));
       if(!event.context.mounted) return;
       Navigator.of(event.context).pop("complete");
     }
@@ -195,7 +205,7 @@ class AddEquipmentComplaintBloc
 
   _eventComplete(Emitter<AddEquipmentComplaintState> emit) {
     emit(FetchAddEquipmentComplaintState(
-      file: file,
+      files: files,
       isLoader: isLoader,
       descriptionController: descriptionController,
       complaintTypeData: complaintTypeData,

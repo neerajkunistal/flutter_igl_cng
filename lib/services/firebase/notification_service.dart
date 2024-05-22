@@ -173,12 +173,12 @@ class FirebaseService {
       const NotificationDetails notificationDetails = NotificationDetails(
         android: androidNotificationDetails,
       );
-      await flutterLocalNotificationsPlugin.show(
+/*      await flutterLocalNotificationsPlugin.show(
           notificationId,
           notification.title.toString(),
           notification.body.toString(),
           notificationDetails,
-          payload: 'item z');
+          payload: 'item z');*/
     }
   }
 }

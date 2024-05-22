@@ -1,5 +1,9 @@
+import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_bloc.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/videoRecord/video_record.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
   const AddEquipmentComplaintPage({super.key});
@@ -97,7 +101,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _nameRemark(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
+            _verticalSpace(),
+            _imageList(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -236,18 +241,41 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _photo({required FetchAddEquipmentComplaintState dataState}) {
+  Widget _imageList({required FetchAddEquipmentComplaintState dataState}) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 6,
+      child: GridView.builder(
+        itemCount: 1,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) => _photo(dataState: dataState, index: index),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+        ),
+      ),
+    );
+  }
+
+  Widget _photo({required FetchAddEquipmentComplaintState dataState, required int index}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
-        onTap: () {
-          mediaType(context: context);
+        onTap: () async {
+/*          camerasList = await availableCameras();
+          print("Camera List  ${camerasList.length}");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+              builder: (context) => const VideoRecord()));*/
+          mediaType(context: context, index: index);
         },
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file.path.isEmpty
+          child: dataState.files[index].path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -272,36 +300,36 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        dataState.file.path
+                        dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpg") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".png") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpeg")
                             ? Image.file(
-                                dataState.file,
+                                dataState.files[index],
                                 fit: BoxFit.fill,
                                 width: MediaQuery.of(context).size.width / 3,
                                 height: MediaQuery.of(context).size.width / 4.5,
                               )
-                            : dataState.file.path
+                            : dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
                                 ? const Icon(Icons.picture_as_pdf_outlined)
                                 : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
+                        dataState.files[index].path
                                 .toString()
                                 .toLowerCase()
                                 .contains(".pdf")
                             ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
+                                dataState.files[index].path.split('/').last.toString(),
                                 color: AppColor.themeColor,
                                 fontSize: AppFont.font_12,
                               )
@@ -324,7 +352,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  void mediaType({required BuildContext context}) {
+  void mediaType({required BuildContext context, required int index}) {
     showModalBottomSheet(
       context: context, // Also default
       builder: (context) {
@@ -337,7 +365,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                   onPressed: () {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
-                            context: context, mediaType: 1));
+                            context: context, mediaType: 1, index: index));
                   },
                   child: TextWidget(
                     "Camera",
@@ -348,7 +376,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                   onPressed: () {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
-                            context: context, mediaType: 2));
+                            context: context, mediaType: 2,index: index));
                   },
                   child: TextWidget(
                     "Gallery",

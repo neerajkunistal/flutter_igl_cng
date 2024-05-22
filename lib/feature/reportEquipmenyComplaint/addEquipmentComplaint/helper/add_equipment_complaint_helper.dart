@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AddEquipmentComplaintHelper {
   static Future<dynamic> fetchComplaintTypeData() async {
@@ -49,13 +51,14 @@ class AddEquipmentComplaintHelper {
     required EquipmentTypeModel equipmentTypeData,
     required String description,
     required String name,
-    required File file,
+    required List<File> file,
     required String date,
     required String time,
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
   }) async {
     try {
+      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
       var json = {
         "complaintTypeId": complaintTypeData.id != null
@@ -78,15 +81,15 @@ class AddEquipmentComplaintHelper {
           body: json,
           context: context,
           keyWord: "attachFile",
-          filePath: file.path.toString());
+          filePath: file[0].path.toString());
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
         await NotificationHelper.sendNotification(
             firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
-            title: "Create new complaint.",
-            body: description,
+            title: "Complain new ${userData.name}",
+            body: name,
             pageId: PageId.addComplaint,
             complaintId: "",
             dateTime: DateTime.now().toString());
