@@ -21,6 +21,23 @@ class DashboardHelper {
     }
   }
 
+  static Future<dynamic> videoPiker({required BuildContext context}) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? photo = await picker.pickVideo(
+          source: ImageSource.camera,
+          maxDuration: const Duration(seconds: 30),
+          preferredCameraDevice: CameraDevice.rear);
+      if (photo != null) {
+        return File(photo.path);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<dynamic> filePiker({required BuildContext context}) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(

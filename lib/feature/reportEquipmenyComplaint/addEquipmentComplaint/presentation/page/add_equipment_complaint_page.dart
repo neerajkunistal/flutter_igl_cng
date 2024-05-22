@@ -1,9 +1,5 @@
-import 'package:camera/camera.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/bloc/add_acknowledge_complaint_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/videoRecord/video_record.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
   const AddEquipmentComplaintPage({super.key});
@@ -264,12 +260,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
         onTap: () async {
-/*          camerasList = await availableCameras();
-          print("Camera List  ${camerasList.length}");
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) => const VideoRecord()));*/
           mediaType(context: context, index: index);
         },
         child: DottedBorder(
