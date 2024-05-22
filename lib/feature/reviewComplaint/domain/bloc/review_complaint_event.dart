@@ -6,10 +6,11 @@ abstract class ReviewComplaintEvent extends Equatable {
 
 class ReviewComplaintPageLoadEvent extends ReviewComplaintEvent {
   final BuildContext context;
+  final String? complaintId;
   final ReviewComplaintModel reviewComplaintData;
 
   const ReviewComplaintPageLoadEvent(
-      {required this.context, required this.reviewComplaintData});
+      {required this.context, required this.reviewComplaintData, this.complaintId});
 
   @override
   List<Object?> get props => [context, reviewComplaintData];

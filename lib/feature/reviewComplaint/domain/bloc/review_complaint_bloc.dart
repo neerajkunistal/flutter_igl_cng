@@ -15,6 +15,9 @@ class ReviewComplaintBloc
   TextEditingController observationController = TextEditingController();
   File file = File("");
 
+  String _complaintId = "";
+  String get complaintId => _complaintId;
+
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
     on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
     on<ReviewComplaintSelectComplaintEvent>(_selectComplaint);
@@ -30,8 +33,11 @@ class ReviewComplaintBloc
     reviewComplaintData = ReviewComplaintModel();
     approvalValue = "";
     observationController.text = "";
+    _complaintId = "";
     file = File("");
 
+
+    _complaintId =  event.complaintId ?? "";
     reviewComplaintList =
         BlocProvider.of<ViewEquipmentComplaintBloc>(event.context)
             .reviewComplaintList;
@@ -80,6 +86,7 @@ class ReviewComplaintBloc
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
             approvalValue: approvalValue,
+            complaintId: complaintId,
             observation: observationController.text.toString(),
             file: file)
         : await ReviewComplaintHelper.reviewComplaint(

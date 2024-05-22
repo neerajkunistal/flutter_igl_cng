@@ -23,11 +23,14 @@ class ReviewComplaintHelper {
       required ReviewComplaintModel reviewComplaintData,
       required String approvalValue,
       required String observation,
+      required String complaintId,
       required File file}) async {
     try {
       String url = APIs.addReviewComplaintApi;
       var json = {
-        "complaintId": reviewComplaintData.id != null
+        "complaintId": complaintId.isNotEmpty
+            ? complaintId
+            : reviewComplaintData.id != null
             ? reviewComplaintData.id.toString()
             : "",
         "remarks":observation.toString(),

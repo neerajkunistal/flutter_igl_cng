@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/complaint_assign_widget.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
@@ -216,21 +218,41 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.35,
         child: ButtonWidget(
             backgroundColor:
-                  acknowledgeData.assignTo.toString() != "0"
+            acknowledgeData.assignType.toString() == "1"
+                ? AppColor.themeColor
+                : acknowledgeData.assignTo.toString() != "0"
                 ? AppColor.orange
                 : AppColor.themeColor,
             fontSize: AppFont.font_11,
-            text: acknowledgeData.assignTo.toString().isEmpty ||
-                acknowledgeData.assignTo.toString() == "0"
+            text: acknowledgeData.assignType.toString() == "1" ?
+                 AppString.status
+                : (acknowledgeData.assignTo.toString().isEmpty ||
+                acknowledgeData.assignTo.toString() == "0")
                 ? AppString.assign
                 : AppString.reAssign,
-            onPressed: () {
-              BlocProvider.of<AcknowledgeBloc>(context)
-                  .add(AcknowledgeUserListLoadEvent(context: context));
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => ComplaintAssignWidget(
-                    acknowledgeData: acknowledgeData)));
+            onPressed: () async {
+              if( acknowledgeData.assignType.toString() == "1") {
+                BlocProvider.of<ReviewComplaintBloc>(context).add(
+                    ReviewComplaintPageLoadEvent(
+                        context: context,
+                        complaintId: acknowledgeData.id.toString(),
+                        reviewComplaintData: ReviewComplaintModel()));
+                 var result = await Navigator.push(context,
+                  FadeRoute(page: const ReviewComaplintPage()));
+                  if (!context.mounted) result;
+                  if (result.toString() == "Completed") {
+                    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+                        .add(AcknowledgePageLoadEvent(context: !context.mounted ? context : context));
+                    }
+              } else {
+                BlocProvider.of<AcknowledgeBloc>(context)
+                    .add(AcknowledgeUserListLoadEvent(context: context));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ComplaintAssignWidget(
+                        acknowledgeData: acknowledgeData)));
+              }
+
             }),
       ),
     );

@@ -237,6 +237,10 @@ class AppString {
 
   static get assign => "Assign";
 
+  static get changeStatus => "Change Status";
+
+  static get status => "Status";
+
   static get reAssign => "Re Assign";
 
   static get vendor => "Vendor";
