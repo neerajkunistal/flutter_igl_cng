@@ -239,6 +239,7 @@ class AddEquipmentComplaintBloc
       files.add(File(""));
       files.add(File(""));
       files.add(File(""));
+      videoFiles = [];
       videoFiles.add(File(""));
       if (!event.context.mounted) return;
       Navigator.of(event.context).pop("complete");

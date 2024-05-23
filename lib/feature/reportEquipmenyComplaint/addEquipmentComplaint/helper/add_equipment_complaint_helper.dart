@@ -89,15 +89,12 @@ class AddEquipmentComplaintHelper {
         }
       }
 
-      if (videoFiles.isNotEmpty) {
         for (var fileData in videoFiles) {
-          fileList.add(
-              FileModel(name: "file", file: fileData, keyName: "videoFile"));
+          if(fileData.path.isNotEmpty){
+            fileList.add(
+                FileModel(name: "file", file: fileData, keyName: "videoFile"));
+          }
         }
-      } else {
-        fileList
-            .add(FileModel(name: "file", file: File(""), keyName: "videoFile"));
-      }
 
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
@@ -141,6 +138,7 @@ class AddEquipmentComplaintHelper {
         return null;
       }
     } catch (e) {
+      print(e.toString());
       return null;
     }
   }

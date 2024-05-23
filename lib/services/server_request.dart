@@ -235,15 +235,22 @@ class ServerRequest {
       var request = MultipartRequest("POST", uri);
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
-          String fileExtention = fileData.file.path.split(".").last;
-          String filePath0 = (fileExtention.toString().toLowerCase() == "pdf" ||
-                  fileExtention.toString().toLowerCase() == "mp4")
-              ? fileData.file.path.toString()
-              : await fileCompress(file: fileData.file);
-          if (fileData.file.toString().isNotEmpty) {
+          if(fileData.file.path.isNotEmpty) {
+            String fileExtention = fileData.file.path.split(".").last;
+            String filePath0 = (fileExtention.toString().toLowerCase() == "pdf" ||
+                fileExtention.toString().toLowerCase() == "mp4")
+                ? fileData.file.path.toString()
+                : await fileCompress(file: fileData.file);
+            if (fileData.file.toString().isNotEmpty) {
+              var uploadFile = await MultipartFile.fromPath(
+                  fileData.keyName, filePath0,
+                  contentType: MediaType("file", fileExtention));
+              request.files.add(uploadFile);
+            }
+          } else if(fileData.keyName.isNotEmpty) {
             var uploadFile = await MultipartFile.fromPath(
-                fileData.keyName, filePath0,
-                contentType: MediaType("file", fileExtention));
+                fileData.keyName, "",
+                contentType: MediaType("file", ""));
             request.files.add(uploadFile);
           }
         }
