@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 
 class ReviewComplaintHelper {
-  static Future<dynamic> fetchReviewComplaint({
-    String? fromDate, String? toDate}) async {
+  static Future<dynamic> fetchReviewComplaint(
+      {String? fromDate, String? toDate}) async {
     try {
-      String url = APIs.getReviewComplaintApi+"?sort=&order=&fromDate=$fromDate&toDate=$toDate";
+      String url = APIs.getReviewComplaintApi +
+          "?sort=&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
@@ -22,16 +24,16 @@ class ReviewComplaintHelper {
       required String approvalValue,
       required String observation,
       required String complaintId,
-      required File file}) async {
+      required List<File> files}) async {
     try {
       String url = APIs.addReviewComplaintApi;
       var json = {
         "complaintId": complaintId.isNotEmpty
             ? complaintId
             : reviewComplaintData.id != null
-            ? reviewComplaintData.id.toString()
-            : "",
-        "remarks":observation.toString(),
+                ? reviewComplaintData.id.toString()
+                : "",
+        "remarks": observation.toString(),
         "finalStatus": approvalValue,
       };
       if (!context.mounted) return null;
@@ -40,7 +42,7 @@ class ReviewComplaintHelper {
           body: json,
           context: context,
           keyWord: "attachFile",
-          filePath: file.path.toString());
+          filePath: files[0].path.toString());
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
@@ -84,27 +86,31 @@ class ReviewComplaintHelper {
 
   static Future<dynamic> reviewComplaint(
       {required BuildContext context,
-        required ReviewComplaintModel reviewComplaintData,
-        required String approvalValue,
-        required String observation,
-        required File file}) async {
+      required ReviewComplaintModel reviewComplaintData,
+      required String approvalValue,
+      required String observation,
+      required List<File> files}) async {
     try {
+      List<FileModel> fileList = [];
+      int i = 0;
+      for (var fileData in files) {
+        fileList.add(
+            FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
+        i++;
+      }
+
       String url = APIs.getReviewComplaintApi;
       var json = {
         "complaintId": reviewComplaintData.id != null
             ? reviewComplaintData.id.toString()
             : "",
         "stationStatus": "1",
-        "stationPerson" : "",
-        "stationRemarks":observation.toString(),
+        "stationPerson": "",
+        "stationRemarks": observation.toString(),
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-          context: context,
-          keyWord: "attachFile",
-          filePath: file.path.toString());
+          urlEndPoint: url, body: json, context: context, fileList: fileList);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

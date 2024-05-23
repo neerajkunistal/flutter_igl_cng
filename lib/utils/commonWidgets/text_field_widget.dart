@@ -42,22 +42,22 @@ class TextFieldWidget extends StatelessWidget {
           ),
           inputFormatters: textInputType != null
               ? textInputType == TextInputType.number
-              ? [
-            FilteringTextInputFormatter.allow(
-                RegExp(r'^\d+\.?\d{0,4}'))
-          ]
-              : null
+                  ? [
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,4}'))
+                    ]
+                  : null
               : null,
           keyboardType: textInputType == null
               ? TextInputType.text
               : kIsWeb
-              ? textInputType ?? TextInputType.text
-              : Platform.isIOS
-              ? textInputType == TextInputType.number
-              ? const TextInputType.numberWithOptions(
-              signed: true, decimal: true)
-              : textInputType ?? TextInputType.text
-              : textInputType ?? TextInputType.text,
+                  ? textInputType ?? TextInputType.text
+                  : Platform.isIOS
+                      ? textInputType == TextInputType.number
+                          ? const TextInputType.numberWithOptions(
+                              signed: true, decimal: true)
+                          : textInputType ?? TextInputType.text
+                      : textInputType ?? TextInputType.text,
           maxLength: maxLength,
           maxLines: maxLine ?? 1,
           decoration: InputDecoration(
@@ -75,8 +75,8 @@ class TextFieldWidget extends StatelessWidget {
               color: controller == null
                   ? AppColor.themeColor
                   : controller!.text.toString().isNotEmpty
-                  ? AppColor.themeColor
-                  : AppColor.themeColor,
+                      ? AppColor.themeColor
+                      : AppColor.themeColor,
             ),
             fillColor: Colors.white,
             border: OutlineInputBorder(

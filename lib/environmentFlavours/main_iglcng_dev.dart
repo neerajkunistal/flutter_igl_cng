@@ -5,7 +5,6 @@ import 'package:flutter_igl_cng/root.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FirebaseService.instance.initializeService();

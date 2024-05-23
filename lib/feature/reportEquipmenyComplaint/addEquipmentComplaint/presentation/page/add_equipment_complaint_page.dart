@@ -55,14 +55,12 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
             dataState.equipmentTypeData.description != null
                 ? _vendorCodeController(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.equipmentTypeData.description != null
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -99,6 +97,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _verticalSpace(),
             _imageList(dataState: dataState),
+            _verticalSpace(),
+            _video(dataState: dataState, index: 0),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -177,8 +177,9 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _vendorCodeController({required FetchAddEquipmentComplaintState dataState}) {
-    TextEditingController controller =  TextEditingController(
+  Widget _vendorCodeController(
+      {required FetchAddEquipmentComplaintState dataState}) {
+    TextEditingController controller = TextEditingController(
         text: dataState.equipmentTypeData.vendorCode.toString());
     return TextFieldWidget(
       enabled: false,
@@ -241,10 +242,11 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 6,
       child: GridView.builder(
-        itemCount: 1,
+        itemCount: dataState.files.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => _photo(dataState: dataState, index: index),
+        itemBuilder: (context, index) =>
+            _photo(dataState: dataState, index: index),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 8,
@@ -254,7 +256,9 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _photo({required FetchAddEquipmentComplaintState dataState, required int index}) {
+  Widget _photo(
+      {required FetchAddEquipmentComplaintState dataState,
+      required int index}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: MediaQuery.of(context).size.width / 3,
@@ -277,7 +281,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
                       child: TextWidget(
-                        "Photo",
+                        "Photo ${1 + index}",
                         fontSize: AppFont.font_12,
                         color: AppColor.grey,
                       ),
@@ -319,7 +323,10 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                                 .toLowerCase()
                                 .contains(".pdf")
                             ? TextWidget(
-                                dataState.files[index].path.split('/').last.toString(),
+                                dataState.files[index].path
+                                    .split('/')
+                                    .last
+                                    .toString(),
                                 color: AppColor.themeColor,
                                 fontSize: AppFont.font_12,
                               )
@@ -366,7 +373,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                   onPressed: () {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
-                            context: context, mediaType: 2,index: index));
+                            context: context, mediaType: 2, index: index));
                   },
                   child: TextWidget(
                     "Gallery",
@@ -376,6 +383,79 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _video(
+      {required FetchAddEquipmentComplaintState dataState,
+      required int index}) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
+      child: dataState.isFileLoader == false
+          ? InkWell(
+              onTap: () async {
+                BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+                    AddEquipmentComplaintAddVideoEvent(
+                        context: context, mediaType: 1, index: index));
+              },
+              child: DottedBorder(
+                color: AppColor.grey,
+                strokeWidth: 1,
+                child: dataState.videoFiles[index].path.isEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Icon(Icons.photo_camera_back_outlined),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
+                            child: TextWidget(
+                              "Video",
+                              fontSize: AppFont.font_12,
+                              color: AppColor.grey,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Stack(
+                        children: [
+                          Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.video_collection_outlined,
+                                  color: AppColor.themeColor,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.20,
+                                ),
+                                TextWidget(
+                                  "video.${dataState.videoFiles[index].path.toString().split(".").last}",
+                                  maxLines: 1,
+                                  fontSize: AppFont.font_11,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: MediaQuery.of(context).size.width / 3,
+                              color: Colors.white.withOpacity(0.6),
+                              child: Center(
+                                  child: Icon(
+                                Icons.refresh,
+                                color: AppColor.themeColor,
+                              ))),
+                        ],
+                      ),
+              ),
+            )
+          : const DottedLoaderWidget(),
     );
   }
 

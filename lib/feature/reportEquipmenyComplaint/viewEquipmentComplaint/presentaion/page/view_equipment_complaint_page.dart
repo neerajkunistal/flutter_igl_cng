@@ -18,10 +18,8 @@ class ViewEquipmentComplaintPage extends StatefulWidget {
       _ViewEquipmentComplaintPageState();
 }
 
-class _ViewEquipmentComplaintPageState
-    extends State<ViewEquipmentComplaintPage> with SingleTickerProviderStateMixin  {
-
-
+class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
+    with SingleTickerProviderStateMixin {
   @override
   void initState() {
     BlocProvider.of<ViewEquipmentComplaintBloc>(context)
@@ -43,23 +41,31 @@ class _ViewEquipmentComplaintPageState
             Expanded(child: _searchController()),
             IconButton(
                 onPressed: () {
-                  DateTime startDate = BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context).startDate;
-                  DateTime endDate = BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context).endDate;
+                  DateTime startDate =
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                              !context.mounted ? context : context)
+                          .startDate;
+                  DateTime endDate =
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                              !context.mounted ? context : context)
+                          .endDate;
                   showDialog(
                       context: context,
                       builder: (mContext) {
-                        return  DateRangePopWidget(
+                        return DateRangePopWidget(
                           startDate: startDate,
                           endDate: endDate,
                           onSubmit: (value) {
                             Navigator.pop(context);
                             PickerDateRange? date = value as PickerDateRange?;
-                            if( date != null){
-                              BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                                  .add(ViewEquipmentComplaintSelectedDateRangeEvent(
-                                  fromDate: date.startDate!,
-                                  toDate: date.endDate!,
-                                  context: context));
+                            if (date != null) {
+                              BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                      context)
+                                  .add(
+                                      ViewEquipmentComplaintSelectedDateRangeEvent(
+                                          fromDate: date.startDate!,
+                                          toDate: date.endDate!,
+                                          context: context));
                             }
                           },
                         );
@@ -81,8 +87,7 @@ class _ViewEquipmentComplaintPageState
               child: Column(
                 children: [
                   _tabWidget(dataState: state),
-                  Expanded(
-                      child: _listBuilder(dataState: state)),
+                  Expanded(child: _listBuilder(dataState: state)),
                 ],
               ),
             );
@@ -95,15 +100,21 @@ class _ViewEquipmentComplaintPageState
       ),
     );
   }
+
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
-    DateTime startDate = BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context).startDate;
-    DateTime endDate = BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context).endDate;
-    BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context)
+    DateTime startDate = BlocProvider.of<ViewEquipmentComplaintBloc>(
+            !context.mounted ? context : context)
+        .startDate;
+    DateTime endDate = BlocProvider.of<ViewEquipmentComplaintBloc>(
+            !context.mounted ? context : context)
+        .endDate;
+    BlocProvider.of<ViewEquipmentComplaintBloc>(
+            !context.mounted ? context : context)
         .add(ViewEquipmentComplaintSelectedDateRangeEvent(
-        fromDate: startDate,
-        toDate: endDate,
-        context: !context.mounted ? context : context));
+            fromDate: startDate,
+            toDate: endDate,
+            context: !context.mounted ? context : context));
   }
 
   Widget _floatingActionButton() {
@@ -119,8 +130,10 @@ class _ViewEquipmentComplaintPageState
         );
         if (res != null && res.toString() == "complete") {
           if (!context.mounted) return;
-          BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context : context)
-              .add(ViewEquipmentComplaintPageLoadEvent(context: !context.mounted ? context : context));
+          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                  !context.mounted ? context : context)
+              .add(ViewEquipmentComplaintPageLoadEvent(
+                  context: !context.mounted ? context : context));
         }
       },
       child: Icon(
@@ -180,127 +193,132 @@ class _ViewEquipmentComplaintPageState
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         children: [
-          userData.roleType == RoleType.shiftEngineer
-         || userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.shiftEngineer ||
+                  userData.roleType == RoleType.stationUser
               ? TextButton(
-                  style: dataState.selectedTabIndex == 0 ?
-                  ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          AppColor.themeColor ),
+                  style: dataState.selectedTabIndex == 0
+                      ? ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              AppColor.themeColor),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                          color: AppColor.themeColor))))
+                      : null,
+                  onPressed: () {
+                    BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                        const ViewEquipmentComplaintSelectedTabIndexEvent(
+                            selectedTabIndex: 0));
+                  },
+                  child: TextWidget(
+                    "New-${dataState.complaintCount[0]}",
+                    color: dataState.selectedTabIndex == 0
+                        ? AppColor.white
+                        : AppColor.black,
+                    fontWeight: dataState.selectedTabIndex == 0
+                        ? FontWeight.w700
+                        : FontWeight.w400,
+                    fontSize: AppFont.font_11,
+                  ))
+              : const SizedBox.shrink(),
+          userData.roleType == RoleType.shiftEngineer ||
+                  userData.roleType == RoleType.stationUser
+              ? TextButton(
+                  style: dataState.selectedTabIndex == 4
+                      ? ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              AppColor.themeColor),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      side: BorderSide(
+                                          color: AppColor.themeColor))))
+                      : null,
+                  onPressed: () {
+                    BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                        const ViewEquipmentComplaintSelectedTabIndexEvent(
+                            selectedTabIndex: 4));
+                  },
+                  child: TextWidget(
+                    "Ack-${dataState.complaintCount[4]}",
+                    color: dataState.selectedTabIndex == 4
+                        ? AppColor.white
+                        : AppColor.black,
+                    fontWeight: dataState.selectedTabIndex == 4
+                        ? FontWeight.w700
+                        : FontWeight.w400,
+                    fontSize: AppFont.font_11,
+                  ))
+              : const SizedBox.shrink(),
+          TextButton(
+              style: dataState.selectedTabIndex == 1
+                  ? ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(AppColor.themeColor),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              side:  BorderSide(color: AppColor.themeColor )
-                          )
-                      )
-                  ) : null,
-                  onPressed: () {
-                    BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                        .add(const ViewEquipmentComplaintSelectedTabIndexEvent(selectedTabIndex: 0));
-                  }, child:  TextWidget(
-                "New-${dataState.complaintCount[0]}",
-                color: dataState.selectedTabIndex == 0
+                              side: BorderSide(color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 1));
+              },
+              child: TextWidget(
+                "MI-${dataState.complaintCount[1]}",
+                color: dataState.selectedTabIndex == 1
                     ? AppColor.white
                     : AppColor.black,
-                fontWeight: dataState.selectedTabIndex == 0
+                fontWeight: dataState.selectedTabIndex == 1
                     ? FontWeight.w700
                     : FontWeight.w400,
-                fontSize: AppFont.font_11,)) : const SizedBox.shrink(),
-
-
-          userData.roleType == RoleType.shiftEngineer
-              || userData.roleType == RoleType.stationUser
-          ? TextButton(
-              style: dataState.selectedTabIndex == 4 ?
-              ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      AppColor.themeColor ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side:  BorderSide(color: AppColor.themeColor )
-                      )
-                  )
-              ) : null,
-              onPressed: () {
-                BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                    .add(const ViewEquipmentComplaintSelectedTabIndexEvent(selectedTabIndex: 4));
-              }, child:  TextWidget(
-            "Ack-${dataState.complaintCount[4]}",
-            color: dataState.selectedTabIndex == 4
-                ? AppColor.white
-                : AppColor.black,
-            fontWeight: dataState.selectedTabIndex == 4
-                ? FontWeight.w700
-                : FontWeight.w400,
-            fontSize: AppFont.font_11,)) : const SizedBox.shrink(),
-
+                fontSize: AppFont.font_11,
+              )),
           TextButton(
-              style: dataState.selectedTabIndex == 1 ?
-              ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      AppColor.themeColor ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side:  BorderSide(color: AppColor.themeColor )
-                      )
-                  )
-              ) : null,
-              onPressed: () {
-                BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                    .add(const ViewEquipmentComplaintSelectedTabIndexEvent(selectedTabIndex: 1));
-              }, child:  TextWidget(
-            "MI-${dataState.complaintCount[1]}",
-            color: dataState.selectedTabIndex == 1
-                ? AppColor.white
-                : AppColor.black,
-            fontWeight: dataState.selectedTabIndex == 1
-                ? FontWeight.w700
-                : FontWeight.w400,
-            fontSize: AppFont.font_11,)),
-
-          TextButton(
-              style: dataState.selectedTabIndex == 2 ?
-              ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      AppColor.themeColor ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side:  BorderSide(color: AppColor.themeColor )
-                      )
-                  )
-              ) : null,
-              onPressed: () {
-                BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                    .add(const ViewEquipmentComplaintSelectedTabIndexEvent(selectedTabIndex: 2));
-              }, child:  TextWidget(
-            "Vendor-${dataState.complaintCount[2]}",
-            color: dataState.selectedTabIndex == 2
-                ? AppColor.white
-                : AppColor.black,
-            fontWeight: dataState.selectedTabIndex == 2
-                ? FontWeight.w700
-                : FontWeight.w400,
-            fontSize: AppFont.font_11,)),
-
-           TextButton(
-                  style: dataState.selectedTabIndex == 3 ?
-                  ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          AppColor.themeColor ),
+              style: dataState.selectedTabIndex == 2
+                  ? ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(AppColor.themeColor),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              side:  BorderSide(color: AppColor.themeColor )
-                          )
-                      )
-                  ) : null,
-                  onPressed: () {
-                    BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                        .add(const ViewEquipmentComplaintSelectedTabIndexEvent(selectedTabIndex: 3));
-                  }, child:  TextWidget(
+                              side: BorderSide(color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 2));
+              },
+              child: TextWidget(
+                "Vendor-${dataState.complaintCount[2]}",
+                color: dataState.selectedTabIndex == 2
+                    ? AppColor.white
+                    : AppColor.black,
+                fontWeight: dataState.selectedTabIndex == 2
+                    ? FontWeight.w700
+                    : FontWeight.w400,
+                fontSize: AppFont.font_11,
+              )),
+          TextButton(
+              style: dataState.selectedTabIndex == 3
+                  ? ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(AppColor.themeColor),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              side: BorderSide(color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 3));
+              },
+              child: TextWidget(
                 "Complete-${dataState.complaintCount[3]}",
                 color: dataState.selectedTabIndex == 3
                     ? AppColor.white
@@ -308,8 +326,8 @@ class _ViewEquipmentComplaintPageState
                 fontWeight: dataState.selectedTabIndex == 3
                     ? FontWeight.w700
                     : FontWeight.w400,
-                fontSize: AppFont.font_11,)),
-
+                fontSize: AppFont.font_11,
+              )),
         ],
       ),
     );
@@ -352,7 +370,8 @@ class _ViewEquipmentComplaintPageState
                         }
                       } else if (userLogin.roleType == RoleType.shiftEngineer &&
                           dataState.reviewComplaintList[index].assignType
-                                  .toString() == "3" ) {
+                                  .toString() ==
+                              "3") {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
                             ReviewComplaintPageLoadEvent(
                                 context: context,
@@ -416,19 +435,24 @@ class _ViewEquipmentComplaintPageState
                 height: MediaQuery.of(context).size.height * 0.10,
                 child: GestureDetector(
                     onTap: () async {
-                      BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                          .add(ViewEquipmentComplaintSelectedDateRangeEvent(
-                          fromDate: dataState.startDate,
-                          toDate: dataState.endDate,
-                          context: context));
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                          ViewEquipmentComplaintSelectedDateRangeEvent(
+                              fromDate: dataState.startDate,
+                              toDate: dataState.endDate,
+                              context: context));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                         Icon(Icons.refresh, color: AppColor.grey,),
-                        const TextWidget("No Data\nTab to refresh",
-                          textAlign: TextAlign.center,),
+                        Icon(
+                          Icons.refresh,
+                          color: AppColor.grey,
+                        ),
+                        const TextWidget(
+                          "No Data\nTab to refresh",
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     )),
               ),

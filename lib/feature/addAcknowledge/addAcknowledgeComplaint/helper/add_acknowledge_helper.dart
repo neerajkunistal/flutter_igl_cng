@@ -60,10 +60,11 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchAcknowledgeData({
-    String? fromDate, String? toDate}) async {
+  static Future<dynamic> fetchAcknowledgeData(
+      {String? fromDate, String? toDate}) async {
     try {
-      String url = APIs.getAcknolegeApi+"?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
+      String url = APIs.getAcknolegeApi +
+          "?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return acknowledgeListResponse(res['data']);
@@ -93,8 +94,7 @@ class AddAcknowledgeComplaintHelper {
     required GeneralComplaintModel generalComplaintData,
   }) async {
     try {
-
-      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
       String url = APIs.addAcknowlegeApi;
       var json = {
@@ -111,9 +111,8 @@ class AddAcknowledgeComplaintHelper {
             : "0",
         "description": description,
         "complaintDateTime": "$date $time",
-        "departmentId": departmentData.id != null
-            ? departmentData.id.toString()
-            : "0",
+        "departmentId":
+            departmentData.id != null ? departmentData.id.toString() : "0",
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
         "ackRemarks": remark,
@@ -130,8 +129,11 @@ class AddAcknowledgeComplaintHelper {
           res['status'] == true &&
           res['message'] != null) {
         await NotificationHelper.sendNotification(
-            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
-            title: "Complain ${breakDownvalue == "1" ? "Breakdown" : "NoBreakdown"} ${userData.name}",
+            firebaseDeviceList:
+                BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                    .firebaseDeviceList,
+            title:
+                "Complain ${breakDownvalue == "1" ? "Breakdown" : "NoBreakdown"} ${userData.name}",
             body: description,
             pageId: PageId.ackComplaint,
             complaintId: acknowledgeData.id.toString(),

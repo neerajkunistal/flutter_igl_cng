@@ -10,8 +10,10 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
 import 'package:intl/intl.dart';
+import 'package:video_compress_plus/video_compress_plus.dart';
 
 part 'add_equipment_complaint_event.dart';
+
 part 'add_equipment_complaint_state.dart';
 
 class AddEquipmentComplaintBloc
@@ -26,9 +28,11 @@ class AddEquipmentComplaintBloc
   TextEditingController timeController = TextEditingController();
   TextEditingController generalDescriptionController = TextEditingController();
   bool isLoader = false;
+  bool isFileLoader = false;
   List<File> files = [];
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
+  List<File> videoFiles = [];
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
@@ -38,6 +42,7 @@ class AddEquipmentComplaintBloc
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
+    on<AddEquipmentComplaintAddVideoEvent>(_selectVideo);
     on<AddEquipmentComplaintSubmitEvent>(_submit);
   }
 
@@ -48,6 +53,7 @@ class AddEquipmentComplaintBloc
     equipmentTypeData = EquipmentTypeModel();
     equipmentTypeList = [];
     generalComplaintList = [];
+    videoFiles = [];
     generalComplaintData = GeneralComplaintModel();
     descriptionController.text = "";
     reportByController.text = "";
@@ -55,10 +61,12 @@ class AddEquipmentComplaintBloc
     timeController.text = "";
     generalDescriptionController.text = "";
     isLoader = false;
+    isFileLoader = false;
     files = [];
     files.add(File(""));
     files.add(File(""));
     files.add(File(""));
+    videoFiles.add(File(""));
 
     var resComplaint =
         await AddEquipmentComplaintHelper.fetchComplaintTypeData();
@@ -105,20 +113,53 @@ class AddEquipmentComplaintBloc
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
-        isLoader =  true;
+        isLoader = true;
         _eventComplete(emit);
         files[event.index] = photo;
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
-        isLoader =  true;
+        isLoader = true;
         _eventComplete(emit);
         files[event.index] = photo;
       }
     }
     Navigator.pop(event.context.mounted ? event.context : event.context);
-    isLoader =  false;
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectVideo(AddEquipmentComplaintAddVideoEvent event, emit) async {
+    if (event.mediaType == 1) {
+      var video = await DashboardHelper.videoPiker(context: event.context);
+      if (video != null) {
+        isLoader = true;
+        isFileLoader = true;
+        _eventComplete(emit);
+        videoFiles[event.index] = video;
+        print(
+            "File Size -----------  ${DashboardHelper.getFileSize(videoFiles[event.index])}");
+        MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+          videoFiles[event.index].path.toString(),
+          quality: VideoQuality.Res640x480Quality,
+          deleteOrigin: false, // It's false by default
+        );
+        videoFiles[event.index] = mediaInfo!.file!;
+        print(
+            "File Compress Size ----  ${DashboardHelper.getFileSize(videoFiles[event.index])}");
+      }
+    } else {
+      var video = await DashboardHelper.filePiker(context: event.context);
+      if (video != null) {
+        isLoader = true;
+        isFileLoader = true;
+        _eventComplete(emit);
+        videoFiles[event.index] = video;
+      }
+    }
+    isLoader = false;
+    isFileLoader = false;
     _eventComplete(emit);
   }
 
@@ -142,18 +183,18 @@ class AddEquipmentComplaintBloc
 
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
     try {
-      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
-      DateFormat('h:mm').parse(timeController.text.toString())
+      DateTime initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(timeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
         initialTime: initialTime,
       );
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
-            event.context);
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(event.context);
         timeController.text = timeFormat;
         _eventComplete(emit);
       }
@@ -168,21 +209,23 @@ class AddEquipmentComplaintBloc
     isLoader = true;
     _eventComplete(emit);
 
-    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
-    DateFormat('h:mm a').parse(timeController.text.toString())
+    DateTime initialDate1 = timeController.text.toString().isNotEmpty
+        ? DateFormat('h:mm a').parse(timeController.text.toString())
         : DateTime.now();
     String time = "${initialDate1.hour}:${initialDate1.minute}";
     var res = await AddEquipmentComplaintHelper.submitData(
-        context: event.context,
-        complaintTypeData: complaintTypeData,
-        equipmentTypeData: equipmentTypeData,
-        description: descriptionController.text.toString(),
-        name: reportByController.text.toString(),
-        date: dateController.text.toString(),
-        time: time,
-        generalComplaintData: generalComplaintData,
-        generalDescription: generalDescriptionController.text.toString(),
-        file: files);
+      context: event.context,
+      complaintTypeData: complaintTypeData,
+      equipmentTypeData: equipmentTypeData,
+      description: descriptionController.text.toString(),
+      name: reportByController.text.toString(),
+      date: dateController.text.toString(),
+      time: time,
+      generalComplaintData: generalComplaintData,
+      generalDescription: generalDescriptionController.text.toString(),
+      file: files,
+      videoFiles: videoFiles,
+    );
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
       equipmentTypeData = EquipmentTypeModel();
@@ -196,7 +239,8 @@ class AddEquipmentComplaintBloc
       files.add(File(""));
       files.add(File(""));
       files.add(File(""));
-      if(!event.context.mounted) return;
+      videoFiles.add(File(""));
+      if (!event.context.mounted) return;
       Navigator.of(event.context).pop("complete");
     }
     isLoader = false;
@@ -218,6 +262,8 @@ class AddEquipmentComplaintBloc
       generalComplaintData: generalComplaintData,
       generalComplaintList: generalComplaintList,
       generalDescriptionController: generalDescriptionController,
+      videoFiles: videoFiles,
+      isFileLoader: isFileLoader,
     ));
   }
 }

@@ -25,10 +25,10 @@ class HomeHelper {
     }
   }
 
-  static Future<dynamic> fetchAppBottomBarItems({required BuildContext context}) async {
+  static Future<dynamic> fetchAppBottomBarItems(
+      {required BuildContext context}) async {
     List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
     try {
-
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       if (userData.roleType == RoleType.shiftEngineer) {
         bottomNavigationBarItemList.add(BottomNavigationBarItem(
@@ -52,22 +52,18 @@ class HomeHelper {
   }
 
   static Future<dynamic> fetchPageList() async {
-
     List<Widget> pageList = [];
-    try{
+    try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       if (userData.roleType == RoleType.shiftEngineer) {
         pageList.add(const AcknowledgePage());
         pageList.add(const ViewEquipmentComplaintPage());
-      }
-      else if (userData.roleType == RoleType.stationUser) {
+      } else if (userData.roleType == RoleType.stationUser) {
+        pageList.add(const ViewEquipmentComplaintPage());
+      } else if (userData.roleType == RoleType.mi) {
         pageList.add(const ViewEquipmentComplaintPage());
       }
-      else if (userData.roleType == RoleType.mi) {
-        pageList.add(const ViewEquipmentComplaintPage());
-      }
-
-    }catch(_){}
+    } catch (_) {}
     return pageList;
   }
 

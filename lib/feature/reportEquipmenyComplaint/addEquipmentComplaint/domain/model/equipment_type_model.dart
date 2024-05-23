@@ -15,18 +15,18 @@ class EquipmentTypeModel {
   String? companyName;
   String? vendorCode;
 
-  EquipmentTypeModel(
-      {this.id,
-      this.equipmentCode,
-      this.equipmentSerial,
-      this.cngStationLocation,
-      this.description,
-      this.manufactureSerialNo,
-      this.modelNo,
-      this.vendorId,
-      this.companyName,
-      this.vendorCode,
-      });
+  EquipmentTypeModel({
+    this.id,
+    this.equipmentCode,
+    this.equipmentSerial,
+    this.cngStationLocation,
+    this.description,
+    this.manufactureSerialNo,
+    this.modelNo,
+    this.vendorId,
+    this.companyName,
+    this.vendorCode,
+  });
 
   EquipmentTypeModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";

@@ -20,11 +20,11 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final ReviewComplaintModel reviewComplaintData;
   final String approvalValue;
   final TextEditingController observationController;
-  final File file;
+  final List<File> files;
 
   const FetchReviewComplaintDataState({
     required this.isLoader,
-    required this.file,
+    required this.files,
     required this.observationController,
     required this.approvalValue,
     required this.reviewComplaintData,
@@ -34,7 +34,7 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   @override
   List<Object> get props => [
         isLoader,
-        file,
+        files,
         observationController,
         approvalValue,
         reviewComplaintData,

@@ -52,9 +52,19 @@ class AddEquipmentComplaintAddImageEvent extends AddEquipmentComplaintEvent {
   final int index;
 
   const AddEquipmentComplaintAddImageEvent(
-      {required this.context,
-        required this.mediaType,
-       required this.index});
+      {required this.context, required this.mediaType, required this.index});
+
+  @override
+  List<Object?> get props => [context, mediaType, index];
+}
+
+class AddEquipmentComplaintAddVideoEvent extends AddEquipmentComplaintEvent {
+  final BuildContext context;
+  final int mediaType;
+  final int index;
+
+  const AddEquipmentComplaintAddVideoEvent(
+      {required this.context, required this.mediaType, required this.index});
 
   @override
   List<Object?> get props => [context, mediaType, index];

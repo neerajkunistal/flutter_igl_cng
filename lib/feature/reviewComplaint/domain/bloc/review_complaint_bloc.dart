@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'review_complaint_event.dart';
+
 part 'review_complaint_state.dart';
 
 class ReviewComplaintBloc
@@ -13,9 +14,10 @@ class ReviewComplaintBloc
   ReviewComplaintModel reviewComplaintData = ReviewComplaintModel();
   String approvalValue = "";
   TextEditingController observationController = TextEditingController();
-  File file = File("");
+  List<File> files = [];
 
   String _complaintId = "";
+
   String get complaintId => _complaintId;
 
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
@@ -34,10 +36,12 @@ class ReviewComplaintBloc
     approvalValue = "";
     observationController.text = "";
     _complaintId = "";
-    file = File("");
+    files = [];
+    files.add(File(""));
+    files.add(File(""));
+    files.add(File(""));
 
-
-    _complaintId =  event.complaintId ?? "";
+    _complaintId = event.complaintId ?? "";
     reviewComplaintList =
         BlocProvider.of<ViewEquipmentComplaintBloc>(event.context)
             .reviewComplaintList;
@@ -64,14 +68,20 @@ class ReviewComplaintBloc
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader = true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader = true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     }
+    isLoader = false;
+    _eventComplete(emit);
     Navigator.pop(event.context.mounted ? event.context : event.context);
     _eventComplete(emit);
   }
@@ -88,19 +98,22 @@ class ReviewComplaintBloc
             approvalValue: approvalValue,
             complaintId: complaintId,
             observation: observationController.text.toString(),
-            file: file)
+            files: files)
         : await ReviewComplaintHelper.reviewComplaint(
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
             approvalValue: approvalValue,
             observation: observationController.text.toString(),
-            file: file);
+            files: files);
     if (res != null) {
       isLoader = false;
       reviewComplaintData = ReviewComplaintModel();
       approvalValue = "";
       observationController.text = "";
-      file = File("");
+      files = [];
+      files.add(File(""));
+      files.add(File(""));
+      files.add(File(""));
       if (!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }
@@ -111,7 +124,7 @@ class ReviewComplaintBloc
   _eventComplete(Emitter<ReviewComplaintState> emit) {
     emit(FetchReviewComplaintDataState(
       isLoader: isLoader,
-      file: file,
+      files: files,
       observationController: observationController,
       approvalValue: approvalValue,
       reviewComplaintData: reviewComplaintData,

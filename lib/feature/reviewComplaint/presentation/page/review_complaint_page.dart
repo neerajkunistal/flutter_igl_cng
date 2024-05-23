@@ -36,7 +36,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   }
 
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
-    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -44,13 +44,15 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           children: [
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
-            userData.roleType == RoleType.shiftEngineer ?
-            _radioButton(dataState: dataState) : const SizedBox.shrink(),
-            userData.roleType == RoleType.shiftEngineer ?
-            _verticalSpace() : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer
+                ? _radioButton(dataState: dataState)
+                : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             _observationController(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState) ,
+            _imageList(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -115,18 +117,37 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  Widget _photo({required FetchReviewComplaintDataState dataState}) {
+  Widget _imageList({required FetchReviewComplaintDataState dataState}) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height / 6,
+      child: GridView.builder(
+        itemCount: dataState.files.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) =>
+            _photo(dataState: dataState, index: index),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 8,
+          crossAxisSpacing: 8,
+        ),
+      ),
+    );
+  }
+
+  Widget _photo(
+      {required FetchReviewComplaintDataState dataState, required int index}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
-        onTap: () {
-          mediaType(context: context);
+        onTap: () async {
+          mediaType(context: context, index: index);
         },
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file.path.isEmpty
+          child: dataState.files[index].path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +159,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
                       child: TextWidget(
-                        "Photo",
+                        "Photo ${1 + index}",
                         fontSize: AppFont.font_12,
                         color: AppColor.grey,
                       ),
@@ -151,36 +172,39 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        dataState.file.path
+                        dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpg") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".png") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpeg")
                             ? Image.file(
-                                dataState.file,
+                                dataState.files[index],
                                 fit: BoxFit.fill,
                                 width: MediaQuery.of(context).size.width / 3,
                                 height: MediaQuery.of(context).size.width / 4.5,
                               )
-                            : dataState.file.path
+                            : dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
                                 ? const Icon(Icons.picture_as_pdf_outlined)
                                 : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
+                        dataState.files[index].path
                                 .toString()
                                 .toLowerCase()
                                 .contains(".pdf")
                             ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
+                                dataState.files[index].path
+                                    .split('/')
+                                    .last
+                                    .toString(),
                                 color: AppColor.themeColor,
                                 fontSize: AppFont.font_12,
                               )
@@ -203,7 +227,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  void mediaType({required BuildContext context}) {
+  void mediaType({required BuildContext context, required int index}) {
     showModalBottomSheet(
       context: context, // Also default
       builder: (context) {
@@ -216,7 +240,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                   onPressed: () {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintAddImageEvent(
-                            context: context, mediaType: 1));
+                            context: context, mediaType: 1, index: index));
                   },
                   child: TextWidget(
                     "Camera",
@@ -227,7 +251,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                   onPressed: () {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintAddImageEvent(
-                            context: context, mediaType: 2));
+                            context: context, mediaType: 2, index: index));
                   },
                   child: TextWidget(
                     "Gallery",

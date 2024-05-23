@@ -6,7 +6,9 @@ class DateRangePopWidget extends StatelessWidget {
   final Function(Object?) onSubmit;
   final DateTime? startDate;
   final DateTime? endDate;
-  const DateRangePopWidget({super.key,
+
+  const DateRangePopWidget({
+    super.key,
     required this.onSubmit,
     this.endDate,
     this.startDate,
@@ -17,11 +19,12 @@ class DateRangePopWidget extends StatelessWidget {
     return CupertinoAlertDialog(
       title: Center(
           child: TextWidget(
-            "Date Picker",
-            fontSize: AppFont.font_16,
-            color: AppColor.themeColor,)),
+        "Date Picker",
+        fontSize: AppFont.font_16,
+        color: AppColor.themeColor,
+      )),
       content: SizedBox(
-        height: MediaQuery.of(context).size.height/2,
+        height: MediaQuery.of(context).size.height / 2,
         width: MediaQuery.of(context).size.width,
         child: SfDateRangePicker(
           onSubmit: onSubmit,

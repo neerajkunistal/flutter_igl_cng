@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
@@ -52,14 +53,16 @@ class AddEquipmentComplaintHelper {
     required String description,
     required String name,
     required List<File> file,
+    required List<File> videoFiles,
     required String date,
     required String time,
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
   }) async {
     try {
-      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
+
       var json = {
         "complaintTypeId": complaintTypeData.id != null
             ? complaintTypeData.id.toString()
@@ -75,19 +78,36 @@ class AddEquipmentComplaintHelper {
             ? generalComplaintData.id.toString()
             : "0",
       };
+
+      List<FileModel> fileList = [];
+      int i = 0;
+      for (var fileData in file) {
+        fileList.add(
+            FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
+        i++;
+      }
+
+      if (videoFiles.isNotEmpty) {
+        for (var fileData in videoFiles) {
+          fileList.add(
+              FileModel(name: "file", file: fileData, keyName: "videoFile"));
+        }
+      } else {
+        fileList
+            .add(FileModel(name: "file", file: File(""), keyName: "videoFile"));
+      }
+
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url,
-          body: json,
-          context: context,
-          keyWord: "attachFile",
-          filePath: file[0].path.toString());
+          urlEndPoint: url, body: json, fileList: fileList, context: context);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
         await NotificationHelper.sendNotification(
-            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
+            firebaseDeviceList:
+                BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                    .firebaseDeviceList,
             title: "Complain new ${userData.name}",
             body: name,
             pageId: PageId.addComplaint,

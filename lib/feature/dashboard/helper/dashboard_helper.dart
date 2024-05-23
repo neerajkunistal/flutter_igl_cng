@@ -26,7 +26,7 @@ class DashboardHelper {
       final ImagePicker picker = ImagePicker();
       final XFile? photo = await picker.pickVideo(
           source: ImageSource.camera,
-          maxDuration: const Duration(seconds: 30),
+          maxDuration: const Duration(seconds: 10),
           preferredCameraDevice: CameraDevice.rear);
       if (photo != null) {
         return File(photo.path);
@@ -82,5 +82,11 @@ class DashboardHelper {
         );
       },
     );
+  }
+
+  static getFileSize(File file) {
+    int sizeInBytes = file.lengthSync();
+    double sizeInMb = sizeInBytes / (1024 * 1024);
+    return sizeInMb;
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:vibration/vibration.dart';
 
 part 'acknowledge_event.dart';
+
 part 'acknowledge_state.dart';
 
 class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
@@ -15,27 +16,28 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   List<AcknowledgeUserModel> acknowledgeUserList = [];
   AcknowledgeUserModel acknowledgeUserData = AcknowledgeUserModel();
   bool isUserLoader = false;
-  TextEditingController remarkController =  TextEditingController();
+  TextEditingController remarkController = TextEditingController();
 
   List<VendorModel> vendorList = [];
-  VendorModel vendorData =  VendorModel();
+  VendorModel vendorData = VendorModel();
 
-  List<AssignTypeModel> assignTypeList =  [];
-  AssignTypeModel assignTypeData =  AssignTypeModel();
+  List<AssignTypeModel> assignTypeList = [];
+  AssignTypeModel assignTypeData = AssignTypeModel();
 
   List<DepartmentModel> departmentList = [];
-  DepartmentModel departmentData =  DepartmentModel();
+  DepartmentModel departmentData = DepartmentModel();
 
-  List<SapCodeModel>  sapCodeList = [];
-  SapCodeModel sapCodeData =  SapCodeModel();
+  List<SapCodeModel> sapCodeList = [];
+  SapCodeModel sapCodeData = SapCodeModel();
 
   List<AcknowledgeModel> acknowledgeWithOutFilterList = [];
 
   int _selectTabIndex = 0;
+
   int get selectTabIndex => _selectTabIndex;
 
-  DateTime startDate   = DateTime.now().subtract(const Duration(days: 4));
-  DateTime endDate   = DateTime.now();
+  DateTime startDate = DateTime.now().subtract(const Duration(days: 4));
+  DateTime endDate = DateTime.now();
 
   List<int> complaintCount = [];
 
@@ -61,13 +63,12 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     acknowledgeUserList = [];
     vendorList = [];
     complaintCount = [];
-    vendorData =  VendorModel();
+    vendorData = VendorModel();
     acknowledgeUserData = AcknowledgeUserModel();
     remarkController.text = "";
-    assignTypeData =  AssignTypeModel();
+    assignTypeData = AssignTypeModel();
     assignTypeList = AssignTypeModel().fetchData();
     _selectTabIndex = 0;
-
 
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
       fromDate: startDate.toString(),
@@ -76,71 +77,102 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     if (resAckow != null) {
       acknowledgeList = resAckow;
       acknowledgeWithOutFilterList = resAckow;
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString().isEmpty).toList();
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList();
     }
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString().isEmpty).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) => element.ackStatus.toString().isEmpty)
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString() == "1"
-        && element.assignType.toString().isEmpty).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.ackStatus.toString() == "1" &&
+            element.assignType.toString().isEmpty)
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.assignType.toString()  != "0"
-        && element.complaintStatus.toString() != "1").toList().length);
-
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.assignType.toString() != "0" &&
+            element.complaintStatus.toString() != "1")
+        .toList()
+        .length);
 
     _eventComplete(emit);
   }
 
   _search(AcknowledgeComplaintSearchEvent event, emit) async {
     await Future.delayed(const Duration(milliseconds: 600));
-    String keyword =  event.keyword;
+    String keyword = event.keyword;
 
     List<AcknowledgeModel> tempList = acknowledgeWithOutFilterList;
 
-    if(selectTabIndex == 0){
-      tempList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString().isEmpty).toList();
-    }
-    else if(selectTabIndex == 1) {
-      tempList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString() == "1"
-          && element.assignType.toString().isEmpty).toList();
-    }
-    else if(selectTabIndex == 2) {
-      tempList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString()  != "0"
-          && element.complaintStatus.toString() != "1").toList();
+    if (selectTabIndex == 0) {
+      tempList = acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList();
+    } else if (selectTabIndex == 1) {
+      tempList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.ackStatus.toString() == "1" &&
+              element.assignType.toString().isEmpty)
+          .toList();
+    } else if (selectTabIndex == 2) {
+      tempList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.assignType.toString() != "0" &&
+              element.complaintStatus.toString() != "1")
+          .toList();
     }
 
-    if(keyword.isNotEmpty){
-      acknowledgeList =  tempList.where((element)
-      => element.tokenNo.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+    if (keyword.isNotEmpty) {
+      acknowledgeList = tempList
+          .where((element) => element.tokenNo
+              .toString()
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
+          .toList();
 
-      if(acknowledgeList.isEmpty){
-        acknowledgeList =  tempList.where((element)
-        => element.createdByUser.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      if (acknowledgeList.isEmpty) {
+        acknowledgeList = tempList
+            .where((element) => element.createdByUser
+                .toString()
+                .toLowerCase()
+                .contains(keyword.toLowerCase()))
+            .toList();
       }
 
-      if(acknowledgeList.isEmpty){
-        acknowledgeList =  tempList.where((element)
-        => element.complaintDateTime.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      if (acknowledgeList.isEmpty) {
+        acknowledgeList = tempList
+            .where((element) => element.complaintDateTime
+                .toString()
+                .toLowerCase()
+                .contains(keyword.toLowerCase()))
+            .toList();
       }
 
-      if(acknowledgeList.isEmpty){
-        acknowledgeList =  tempList.where((element)
-        => element.complaintDescription.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      if (acknowledgeList.isEmpty) {
+        acknowledgeList = tempList
+            .where((element) => element.complaintDescription
+                .toString()
+                .toLowerCase()
+                .contains(keyword.toLowerCase()))
+            .toList();
       }
 
-      if(acknowledgeList.isEmpty){
-        acknowledgeList =  tempList.where((element)
-        => element.equipmentName.toString().toLowerCase().contains(keyword.toLowerCase())).toList();
+      if (acknowledgeList.isEmpty) {
+        acknowledgeList = tempList
+            .where((element) => element.equipmentName
+                .toString()
+                .toLowerCase()
+                .contains(keyword.toLowerCase()))
+            .toList();
       }
     } else {
-      acknowledgeList =  tempList;
+      acknowledgeList = tempList;
     }
 
     _eventComplete(emit);
@@ -148,35 +180,48 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
   _selectTab(AcknowledgeComplaintSelectedTabIndexEvent event, emit) async {
     if (await Vibration.hasAmplitudeControl() != null) {
-    Vibration.vibrate(duration: 100);
+      Vibration.vibrate(duration: 100);
     }
-    _selectTabIndex =  event.selectedTabIndex;
+    _selectTabIndex = event.selectedTabIndex;
     complaintCount = [];
-    if(selectTabIndex == 0){
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString().isEmpty).toList();
-    }
-    else if(selectTabIndex == 1) {
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString() == "1"
-          && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList();
-    }
-    else if(selectTabIndex == 2) {
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString()  != "0"
-          && element.assignType.toString() != "0").toList();
+    if (selectTabIndex == 0) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList();
+    } else if (selectTabIndex == 1) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.ackStatus.toString() == "1" &&
+              (element.assignType.toString() == "0" ||
+                  element.assignType.toString().isEmpty))
+          .toList();
+    } else if (selectTabIndex == 2) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.assignType.toString() != "0" &&
+              element.assignType.toString() != "0")
+          .toList();
     }
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString().isEmpty).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) => element.ackStatus.toString().isEmpty)
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString() == "1"
-        && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.ackStatus.toString() == "1" &&
+            (element.assignType.toString() == "0" ||
+                element.assignType.toString().isEmpty))
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.assignType.toString()  != "0"
-        && element.complaintStatus.toString() != "1").toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.assignType.toString() != "0" &&
+            element.complaintStatus.toString() != "1")
+        .toList()
+        .length);
     _eventComplete(emit);
   }
 
@@ -184,7 +229,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     acknowledgeList = [];
     acknowledgeWithOutFilterList = [];
     startDate = event.fromDate;
-    endDate =  event.toDate;
+    endDate = event.toDate;
     complaintCount = [];
     _eventComplete(emit);
     emit(AcknowledgePageLoadState());
@@ -196,100 +241,113 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     if (resAckow != null) {
       acknowledgeList = resAckow;
       acknowledgeWithOutFilterList = resAckow;
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString().isEmpty).toList();
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList();
     }
-    if(selectTabIndex == 0){
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString().isEmpty).toList();
-    }
-    else if(selectTabIndex == 1) {
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.ackStatus.toString() == "1"
-          && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList();
-    }
-    else if(selectTabIndex == 2) {
-      acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-      => element.assignType.toString() != "0"
-          && element.assignType.toString() != "0").toList();
+    if (selectTabIndex == 0) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList();
+    } else if (selectTabIndex == 1) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.ackStatus.toString() == "1" &&
+              (element.assignType.toString() == "0" ||
+                  element.assignType.toString().isEmpty))
+          .toList();
+    } else if (selectTabIndex == 2) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+              element.assignType.toString() != "0" &&
+              element.assignType.toString() != "0")
+          .toList();
     }
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString().isEmpty).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) => element.ackStatus.toString().isEmpty)
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.ackStatus.toString() == "1"
-        && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.ackStatus.toString() == "1" &&
+            (element.assignType.toString() == "0" ||
+                element.assignType.toString().isEmpty))
+        .toList()
+        .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList.where((element)
-    => element.assignType.toString() != "0"
-        && element.complaintStatus.toString() != "1").toList().length);
+    complaintCount.add(acknowledgeWithOutFilterList
+        .where((element) =>
+            element.assignType.toString() != "0" &&
+            element.complaintStatus.toString() != "1")
+        .toList()
+        .length);
 
     _eventComplete(emit);
   }
 
   _userList(AcknowledgeUserListLoadEvent event, emit) async {
-    isUserLoader =  true;
-    acknowledgeUserData =  AcknowledgeUserModel();
-    vendorData =  VendorModel();
+    isUserLoader = true;
+    acknowledgeUserData = AcknowledgeUserModel();
+    vendorData = VendorModel();
     assignTypeData = AssignTypeModel();
     _eventComplete(emit);
 
-    if(vendorList.isEmpty){
-      var resVendor =  await AcknowledgeHelper.fetchVendorData();
-      if(resVendor != null){
-        vendorList =  resVendor;
+    if (vendorList.isEmpty) {
+      var resVendor = await AcknowledgeHelper.fetchVendorData();
+      if (resVendor != null) {
+        vendorList = resVendor;
       }
     }
 
-    if(acknowledgeUserList.isEmpty){
-      var res =  await AddAcknowledgeComplaintHelper.fetchUserList();
-      if(res != null){
-        acknowledgeUserList=  res;
+    if (acknowledgeUserList.isEmpty) {
+      var res = await AddAcknowledgeComplaintHelper.fetchUserList();
+      if (res != null) {
+        acknowledgeUserList = res;
       }
     }
 
-    if(departmentList.isEmpty){
+    if (departmentList.isEmpty) {
       var resDepartment =
-      await AddAcknowledgeComplaintHelper.fetchDepartmentData();
+          await AddAcknowledgeComplaintHelper.fetchDepartmentData();
       if (resDepartment != null) {
         departmentList = resDepartment;
       }
     }
 
-    if(sapCodeList.isEmpty){
-      var res =
-      await AddAcknowledgeComplaintHelper.fetchSapCodeData();
+    if (sapCodeList.isEmpty) {
+      var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData();
       if (res != null) {
         sapCodeList = res;
       }
     }
 
-    isUserLoader =  false;
+    isUserLoader = false;
     _eventComplete(emit);
   }
 
   _selectUser(AcknowledgeSelectUserEvent event, emit) {
-    acknowledgeUserData =  event.acknowledgeUserData;
+    acknowledgeUserData = event.acknowledgeUserData;
     _eventComplete(emit);
   }
 
   _selectVendor(AcknowledgeSelectVendorEvent event, emit) {
-    vendorData =  event.vendorData;
+    vendorData = event.vendorData;
     _eventComplete(emit);
   }
 
   _selectAssignType(AcknowledgeSelectAssignTypeEvent event, emit) {
-    assignTypeData =  event.assignTypeData;
-    acknowledgeUserData  =  AcknowledgeUserModel();
-    vendorData =  VendorModel();
-    sapCodeData =  SapCodeModel();
-    departmentData =  DepartmentModel();
+    assignTypeData = event.assignTypeData;
+    acknowledgeUserData = AcknowledgeUserModel();
+    vendorData = VendorModel();
+    sapCodeData = SapCodeModel();
+    departmentData = DepartmentModel();
     _eventComplete(emit);
   }
 
   _selectDepartment(AcknowledgeSelectDepartmentEvent event, emit) {
-    departmentData =  event.departmentData;
+    departmentData = event.departmentData;
     _eventComplete(emit);
   }
 
@@ -299,93 +357,112 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   }
 
   _submit(AcknowledgeUserSubmitEvent event, emit) async {
-
-    var textFiledValidation =  await AcknowledgeHelper.textFieldValidationCheck(context: event.context,
-        vendorData: vendorData, userData: acknowledgeUserData, assignTypeData: assignTypeData);
-    if(textFiledValidation == false){
+    var textFiledValidation = await AcknowledgeHelper.textFieldValidationCheck(
+        context: event.context,
+        vendorData: vendorData,
+        userData: acknowledgeUserData,
+        assignTypeData: assignTypeData);
+    if (textFiledValidation == false) {
       return;
     }
-     isLoader = true;
-     _eventComplete(emit);
-     var res =  await AcknowledgeHelper.assignUser(context: !event.context.mounted ? event.context : event.context,
-         acknowledgeData: event.acknowledgeData,
-         userModel: acknowledgeUserData,
-         vendorData: vendorData,
-         assignTypeData: assignTypeData,
-         sapCodeData: sapCodeData,
-         departmentData: departmentData,
-         remark: remarkController.text.toString(),);
-     isLoader = false;
-     _eventComplete(emit);
-     if(res != null){
-       Navigator.pop(!event.context.mounted ? event.context : event.context,);
-       emit(AcknowledgePageLoadState());
-       isLoader = false;
-       acknowledgeList = [];
-       acknowledgeWithOutFilterList = [];
-       startDate = startDate;
-       endDate =  endDate;
-       complaintCount = [];
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await AcknowledgeHelper.assignUser(
+      context: !event.context.mounted ? event.context : event.context,
+      acknowledgeData: event.acknowledgeData,
+      userModel: acknowledgeUserData,
+      vendorData: vendorData,
+      assignTypeData: assignTypeData,
+      sapCodeData: sapCodeData,
+      departmentData: departmentData,
+      remark: remarkController.text.toString(),
+    );
+    isLoader = false;
+    _eventComplete(emit);
+    if (res != null) {
+      Navigator.pop(
+        !event.context.mounted ? event.context : event.context,
+      );
+      emit(AcknowledgePageLoadState());
+      isLoader = false;
+      acknowledgeList = [];
+      acknowledgeWithOutFilterList = [];
+      startDate = startDate;
+      endDate = endDate;
+      complaintCount = [];
 
-       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
-         fromDate: startDate.toString(),
-         toDate: endDate.toString(),
-       );
-       if (resAckow != null) {
-         acknowledgeList = resAckow;
-         acknowledgeWithOutFilterList = resAckow;
-         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-         => element.ackStatus.toString().isEmpty).toList();
-       }
-       if(selectTabIndex == 0){
-         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-         => element.ackStatus.toString().isEmpty).toList();
-       }
-       else if(selectTabIndex == 1) {
-         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-         => element.ackStatus.toString() == "1"
-             && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList();
-       }
-       else if(selectTabIndex == 2) {
-         acknowledgeList =  acknowledgeWithOutFilterList.where((element)
-         => element.assignType.toString() != "0"
-             && element.assignType.toString() != "0").toList();
-       }
+      var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
+        fromDate: startDate.toString(),
+        toDate: endDate.toString(),
+      );
+      if (resAckow != null) {
+        acknowledgeList = resAckow;
+        acknowledgeWithOutFilterList = resAckow;
+        acknowledgeList = acknowledgeWithOutFilterList
+            .where((element) => element.ackStatus.toString().isEmpty)
+            .toList();
+      }
+      if (selectTabIndex == 0) {
+        acknowledgeList = acknowledgeWithOutFilterList
+            .where((element) => element.ackStatus.toString().isEmpty)
+            .toList();
+      } else if (selectTabIndex == 1) {
+        acknowledgeList = acknowledgeWithOutFilterList
+            .where((element) =>
+                element.ackStatus.toString() == "1" &&
+                (element.assignType.toString() == "0" ||
+                    element.assignType.toString().isEmpty))
+            .toList();
+      } else if (selectTabIndex == 2) {
+        acknowledgeList = acknowledgeWithOutFilterList
+            .where((element) =>
+                element.assignType.toString() != "0" &&
+                element.assignType.toString() != "0")
+            .toList();
+      }
 
-       complaintCount.add(acknowledgeWithOutFilterList.where((element)
-       => element.ackStatus.toString().isEmpty).toList().length);
+      complaintCount.add(acknowledgeWithOutFilterList
+          .where((element) => element.ackStatus.toString().isEmpty)
+          .toList()
+          .length);
 
-       complaintCount.add(acknowledgeWithOutFilterList.where((element)
-       => element.ackStatus.toString() == "1"
-           && (element.assignType.toString() == "0" || element.assignType.toString().isEmpty)).toList().length);
+      complaintCount.add(acknowledgeWithOutFilterList
+          .where((element) =>
+              element.ackStatus.toString() == "1" &&
+              (element.assignType.toString() == "0" ||
+                  element.assignType.toString().isEmpty))
+          .toList()
+          .length);
 
-       complaintCount.add(acknowledgeWithOutFilterList.where((element)
-       => element.assignType.toString() != "0"
-           && element.complaintStatus.toString() != "1").toList().length);
-       _eventComplete(emit);
-     }
+      complaintCount.add(acknowledgeWithOutFilterList
+          .where((element) =>
+              element.assignType.toString() != "0" &&
+              element.complaintStatus.toString() != "1")
+          .toList()
+          .length);
+      _eventComplete(emit);
+    }
   }
 
   _eventComplete(Emitter<AcknowledgeState> emit) {
     emit(FetchAcknowledgeDataState(
-      acknowledgeList: acknowledgeList,
-      isLoader: isLoader,
-      acknowledgeUserData: acknowledgeUserData,
-      acknowledgeUserList: acknowledgeUserList,
-      isUserLoader: isUserLoader,
-      remarkController: remarkController,
-      vendorData: vendorData,
-      vendorList: vendorList,
-      assignTypeData: assignTypeData,
-      assignTypeList: assignTypeList,
-      departmentData: departmentData,
-      departmentList: departmentList,
-      sapCodeData: sapCodeData,
-      sapCodeList: sapCodeList,
-      selectTabIndex: selectTabIndex,
-      startDate: startDate,
-      endDate: endDate,
-      complaintCount:complaintCount
-    ));
+        acknowledgeList: acknowledgeList,
+        isLoader: isLoader,
+        acknowledgeUserData: acknowledgeUserData,
+        acknowledgeUserList: acknowledgeUserList,
+        isUserLoader: isUserLoader,
+        remarkController: remarkController,
+        vendorData: vendorData,
+        vendorList: vendorList,
+        assignTypeData: assignTypeData,
+        assignTypeList: assignTypeList,
+        departmentData: departmentData,
+        departmentList: departmentList,
+        sapCodeData: sapCodeData,
+        sapCodeList: sapCodeList,
+        selectTabIndex: selectTabIndex,
+        startDate: startDate,
+        endDate: endDate,
+        complaintCount: complaintCount));
   }
 }

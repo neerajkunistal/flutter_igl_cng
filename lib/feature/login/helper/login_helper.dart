@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../domain/models/login_model.dart';
 
@@ -64,6 +65,8 @@ class LoginHelper {
             res["status"] != null &&
             res['status'] == 200 &&
             res['user'] != null) {
+          await deleteCacheDir();
+          await deleteAppDir();
           return res;
         } else if (res != null &&
             res["status"] != null &&
@@ -98,5 +101,19 @@ class LoginHelper {
     } on SocketException catch (_) {}
 
     return isConnect;
+  }
+
+  static Future<void> deleteCacheDir() async {
+    var tempDir = await getTemporaryDirectory();
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+  }
+
+  static Future<void> deleteAppDir() async {
+    var appDocDir = await getApplicationDocumentsDirectory();
+    if (appDocDir.existsSync()) {
+      appDocDir.deleteSync(recursive: true);
+    }
   }
 }

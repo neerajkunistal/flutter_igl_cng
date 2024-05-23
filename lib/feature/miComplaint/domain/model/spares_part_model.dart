@@ -16,4 +16,3 @@ class SparesPartModel {
     return data;
   }
 }
-

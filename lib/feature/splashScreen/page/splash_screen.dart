@@ -34,8 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
           .add(LoginSetPasswordEvent(password: password));
       BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
           .add(LoginSetEmailEvent(emailId: userName));
-      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
-          .add(LoginSubmitDataEvent(context: !context.mounted ? context : context, isLoginPage: false));
+      BlocProvider.of<LoginBloc>(!context.mounted ? context : context).add(
+          LoginSubmitDataEvent(
+              context: !context.mounted ? context : context,
+              isLoginPage: false));
     }
   }
 

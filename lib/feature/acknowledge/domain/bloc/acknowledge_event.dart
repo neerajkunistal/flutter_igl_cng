@@ -79,7 +79,8 @@ class AcknowledgeComplaintSearchEvent extends AcknowledgeEvent {
 class AcknowledgeComplaintSelectedTabIndexEvent extends AcknowledgeEvent {
   final int selectedTabIndex;
 
-  const AcknowledgeComplaintSelectedTabIndexEvent({required this.selectedTabIndex});
+  const AcknowledgeComplaintSelectedTabIndexEvent(
+      {required this.selectedTabIndex});
 
   @override
   List<Object?> get props => [selectedTabIndex];

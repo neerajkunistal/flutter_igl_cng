@@ -27,53 +27,53 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final AssignTypeModel assignTypeData;
   final List<DepartmentModel> departmentList;
   final DepartmentModel departmentData;
-  final List<SapCodeModel>  sapCodeList;
+  final List<SapCodeModel> sapCodeList;
   final SapCodeModel sapCodeData;
   final int selectTabIndex;
   final DateTime startDate;
   final DateTime endDate;
   final List<int> complaintCount;
 
-  FetchAcknowledgeDataState(
-      {required this.acknowledgeList,
-        required this.isLoader,
-        required this.acknowledgeUserList,
-        required this.isUserLoader,
-        required this.acknowledgeUserData,
-        required this.remarkController,
-        required this.vendorList,
-        required this.vendorData,
-        required this.assignTypeList,
-        required this.assignTypeData,
-        required this.departmentData,
-        required this.departmentList,
-        required this.sapCodeData,
-        required this.sapCodeList,
-        required this.selectTabIndex,
-        required this.startDate,
-        required this.endDate,
-        required this.complaintCount,
-      });
+  FetchAcknowledgeDataState({
+    required this.acknowledgeList,
+    required this.isLoader,
+    required this.acknowledgeUserList,
+    required this.isUserLoader,
+    required this.acknowledgeUserData,
+    required this.remarkController,
+    required this.vendorList,
+    required this.vendorData,
+    required this.assignTypeList,
+    required this.assignTypeData,
+    required this.departmentData,
+    required this.departmentList,
+    required this.sapCodeData,
+    required this.sapCodeList,
+    required this.selectTabIndex,
+    required this.startDate,
+    required this.endDate,
+    required this.complaintCount,
+  });
 
   @override
   List<Object> get props => [
-    acknowledgeList,
-    isLoader,
-    acknowledgeUserList,
-    isUserLoader,
-    acknowledgeUserData,
-    remarkController,
-    vendorList,
-    vendorData,
-    assignTypeList,
-    assignTypeData,
-    departmentData,
-    departmentList,
-    sapCodeData,
-    sapCodeList,
-    selectTabIndex,
-    startDate,
-    endDate,
-    complaintCount,
-  ];
+        acknowledgeList,
+        isLoader,
+        acknowledgeUserList,
+        isUserLoader,
+        acknowledgeUserData,
+        remarkController,
+        vendorList,
+        vendorData,
+        assignTypeList,
+        assignTypeData,
+        departmentData,
+        departmentList,
+        sapCodeData,
+        sapCodeList,
+        selectTabIndex,
+        startDate,
+        endDate,
+        complaintCount,
+      ];
 }

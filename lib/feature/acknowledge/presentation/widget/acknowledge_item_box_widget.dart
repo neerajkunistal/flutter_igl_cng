@@ -51,17 +51,16 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            acknowledgeData.equipmentCode.toString().isNotEmpty ?
-            _rowWidget(
-                name:  "vendor Code",
-                value: acknowledgeData.vendorCode.toString())
+            acknowledgeData.equipmentCode.toString().isNotEmpty
+                ? _rowWidget(
+                    name: "vendor Code",
+                    value: acknowledgeData.vendorCode.toString())
                 : const SizedBox.shrink(),
-
-            acknowledgeData.equipmentCode.toString().isNotEmpty ?
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ) : const SizedBox.shrink(),
-
+            acknowledgeData.equipmentCode.toString().isNotEmpty
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  )
+                : const SizedBox.shrink(),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
@@ -78,10 +77,10 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 value: acknowledgeData.complaintStatus.toString() == "0"
                     ? "New"
                     : acknowledgeData.complaintStatus.toString() == "1"
-                    ? "Completed"
-                    : acknowledgeData.complaintStatus.toString() == "2"
-                    ? "Reject"
-                    : ""),
+                        ? "Completed"
+                        : acknowledgeData.complaintStatus.toString() == "2"
+                            ? "Reject"
+                            : ""),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
@@ -98,16 +97,26 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 value: acknowledgeData.assignType.toString() == "1"
                     ? "Self"
                     : acknowledgeData.assignType.toString() == "2"
-                    ? "MI"
-                    : acknowledgeData.assignType.toString() == "3"
-                    ? "Vendor"
-                    : ""),
+                        ? "MI"
+                        : acknowledgeData.assignType.toString() == "3"
+                            ? "Vendor"
+                            : ""),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
+            acknowledgeData.miAssignToUser.toString().isNotEmpty
+                ? _rowWidget(
+                    name: "Assign By",
+                    value: acknowledgeData.miAssignToUser.toString())
+                : const SizedBox.shrink(),
+            acknowledgeData.miAssignToUser.toString().isNotEmpty
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  )
+                : const SizedBox.shrink(),
             acknowledgeData.complaintStatus.toString() != "2" &&
-                acknowledgeData.complaintStatus.toString() != "1" &&
-                acknowledgeData.ackStatus.toString() == "1"
+                    acknowledgeData.complaintStatus.toString() != "1" &&
+                    acknowledgeData.ackStatus.toString() == "1"
                 ? _assignButton(context: context)
                 : const SizedBox.shrink(),
             Container(
@@ -134,10 +143,10 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             color: acknowledgeData.complaintStatus.toString() == "1"
                 ? AppColor.green
                 : acknowledgeData.complaintStatus.toString() == "2"
-                ? AppColor.red
-                : acknowledgeData.ackStatus.toString() == "1"
-                ? AppColor.orange
-                : AppColor.themeColor,
+                    ? AppColor.red
+                    : acknowledgeData.ackStatus.toString() == "1"
+                        ? AppColor.orange
+                        : AppColor.themeColor,
             width: 3,
           ),
         ),
@@ -186,10 +195,10 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             color: acknowledgeData.complaintStatus.toString() == "1"
                 ? AppColor.green
                 : acknowledgeData.complaintStatus.toString() == "2"
-                ? AppColor.red
-                : acknowledgeData.ackStatus.toString() == "1"
-                ? AppColor.orange
-                : AppColor.themeColor,
+                    ? AppColor.red
+                    : acknowledgeData.ackStatus.toString() == "1"
+                        ? AppColor.orange
+                        : AppColor.themeColor,
             width: 3,
           ),
         ),
@@ -217,42 +226,43 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.35,
         child: ButtonWidget(
-            backgroundColor:
-            acknowledgeData.assignType.toString() == "1"
+            backgroundColor: acknowledgeData.assignType.toString() == "1"
                 ? AppColor.themeColor
                 : acknowledgeData.assignTo.toString() != "0"
-                ? AppColor.orange
-                : AppColor.themeColor,
+                    ? AppColor.orange
+                    : AppColor.themeColor,
             fontSize: AppFont.font_11,
-            text: acknowledgeData.assignType.toString() == "1" ?
-                 AppString.status
+            text: acknowledgeData.assignType.toString() == "1"
+                ? AppString.status
                 : (acknowledgeData.assignTo.toString().isEmpty ||
-                acknowledgeData.assignTo.toString() == "0")
-                ? AppString.assign
-                : AppString.reAssign,
+                        acknowledgeData.assignTo.toString() == "0")
+                    ? AppString.assign
+                    : AppString.reAssign,
             onPressed: () async {
-              if( acknowledgeData.assignType.toString() == "1") {
+              if (acknowledgeData.assignType.toString() == "1") {
                 BlocProvider.of<ReviewComplaintBloc>(context).add(
                     ReviewComplaintPageLoadEvent(
                         context: context,
                         complaintId: acknowledgeData.id.toString(),
                         reviewComplaintData: ReviewComplaintModel()));
-                 var result = await Navigator.push(context,
-                  FadeRoute(page: const ReviewComaplintPage()));
-                  if (!context.mounted) result;
-                  if (result.toString() == "Completed") {
-                    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
-                        .add(AcknowledgePageLoadEvent(context: !context.mounted ? context : context));
-                    }
+                var result = await Navigator.push(
+                    context, FadeRoute(page: const ReviewComaplintPage()));
+                if (!context.mounted) result;
+                if (result.toString() == "Completed") {
+                  BlocProvider.of<AcknowledgeBloc>(
+                          !context.mounted ? context : context)
+                      .add(AcknowledgePageLoadEvent(
+                          context: !context.mounted ? context : context));
+                }
               } else {
                 BlocProvider.of<AcknowledgeBloc>(context)
                     .add(AcknowledgeUserListLoadEvent(context: context));
                 Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => ComplaintAssignWidget(
-                        acknowledgeData: acknowledgeData)));
+                    MaterialPageRoute(
+                        builder: (_) => ComplaintAssignWidget(
+                            acknowledgeData: acknowledgeData)));
               }
-
             }),
       ),
     );

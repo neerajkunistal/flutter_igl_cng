@@ -57,6 +57,8 @@ class AcknowledgeModel {
   String? createdByUser;
   String? generalComplaintName;
   String? vendorCode;
+  String? miAssignType;
+  String? miAssignToUser;
 
   AcknowledgeModel({
     this.id,
@@ -112,6 +114,8 @@ class AcknowledgeModel {
     this.createdByUser,
     this.generalComplaintName,
     this.vendorCode,
+    this.miAssignType,
+    this.miAssignToUser,
   });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -168,6 +172,8 @@ class AcknowledgeModel {
     createdByUser = json['created_by_user'] ?? "";
     generalComplaintName = json['general_complain_name'] ?? "";
     vendorCode = json['vendor_code'] ?? "";
+    miAssignType = json['mi_assign_type'] ?? "";
+    miAssignToUser = json['vendor_name'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

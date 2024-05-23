@@ -31,7 +31,8 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
           if (state is FetchAcknowledgeDataState) {
             return state.isUserLoader == false
                 ? Container(
-                    margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+                    margin: EdgeInsets.all(
+                        MediaQuery.of(context).size.width * 0.03),
                     color: Colors.transparent,
                     child: SingleChildScrollView(
                       child: Column(
@@ -42,21 +43,26 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _assignTypeDropDown(dataState: state, context: context),
+                          _assignTypeDropDown(
+                              dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _departmentDropDown(dataState: state, context: context),
-
-                          state.assignTypeData.id == "2" ? SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ): const SizedBox.shrink(),
+                          _departmentDropDown(
+                              dataState: state, context: context),
+                          state.assignTypeData.id == "2"
+                              ? SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                )
+                              : const SizedBox.shrink(),
                           _userDropDown(dataState: state, context: context),
-
-                          state.assignTypeData.id == "2" ? SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ): const SizedBox.shrink(),
-
+                          state.assignTypeData.id == "2"
+                              ? SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                )
+                              : const SizedBox.shrink(),
                           _sapCodeDropDown(dataState: state, context: context),
                           _vendorDropDown(dataState: state, context: context),
                           SizedBox(
@@ -70,7 +76,9 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                         ],
                       ),
                     ))
-                : const Center(child: CenterLoaderWidget(),);
+                : const Center(
+                    child: CenterLoaderWidget(),
+                  );
           } else {
             return const Center(child: CenterLoaderWidget());
           }
@@ -81,120 +89,116 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
 
   Widget _assignTypeDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return DropdownWidget(
       hint: AppString.assignType,
-      dropdownValue: dataState.assignTypeData.id != null
-          ? dataState.assignTypeData
-          : null,
+      dropdownValue:
+          dataState.assignTypeData.id != null ? dataState.assignTypeData : null,
       onChanged: (value) {
         BlocProvider.of<AcknowledgeBloc>(context)
             .add(AcknowledgeSelectAssignTypeEvent(assignTypeData: value));
       },
-      items: dataState.assignTypeList
-          .map<DropdownMenuItem<AssignTypeModel>>(
-              (AssignTypeModel assignTypeData) {
-            return DropdownMenuItem<AssignTypeModel>(
-              value: assignTypeData,
-              child: Text(assignTypeData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.assignTypeList.map<DropdownMenuItem<AssignTypeModel>>(
+          (AssignTypeModel assignTypeData) {
+        return DropdownMenuItem<AssignTypeModel>(
+          value: assignTypeData,
+          child: Text(assignTypeData.name.toString()),
+        );
+      }).toList(),
     );
   }
 
   Widget _departmentDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
-    return  DropdownWidget(
+      required BuildContext context}) {
+    return DropdownWidget(
       hint: AppString.department,
-      dropdownValue: dataState.departmentData.id != null
-          ? dataState.departmentData
-          : null,
+      dropdownValue:
+          dataState.departmentData.id != null ? dataState.departmentData : null,
       onChanged: (value) {
         BlocProvider.of<AcknowledgeBloc>(context)
             .add(AcknowledgeSelectDepartmentEvent(departmentData: value));
       },
-      items: dataState.departmentList
-          .map<DropdownMenuItem<DepartmentModel>>(
-              (DepartmentModel departmentData) {
-            return DropdownMenuItem<DepartmentModel>(
-              value: departmentData,
-              child: TextWidget(departmentData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.departmentList.map<DropdownMenuItem<DepartmentModel>>(
+          (DepartmentModel departmentData) {
+        return DropdownMenuItem<DepartmentModel>(
+          value: departmentData,
+          child: TextWidget(departmentData.name.toString()),
+        );
+      }).toList(),
     );
   }
 
   Widget _userDropDown(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
-    return dataState.assignTypeData.id == "2" ?
-    DropdownWidget(
-      hint: AppString.assignUSer,
-      dropdownValue: dataState.acknowledgeUserData.id != null
-          ? dataState.acknowledgeUserData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectUserEvent(acknowledgeUserData: value));
-      },
-      items: dataState.acknowledgeUserList
-          .map<DropdownMenuItem<AcknowledgeUserModel>>(
-              (AcknowledgeUserModel acknowledgeUserData) {
-        return DropdownMenuItem<AcknowledgeUserModel>(
-          value: acknowledgeUserData,
-          child: TextWidget(acknowledgeUserData.name.toString()),
-        );
-      }).toList(),
-    ): const SizedBox.shrink();
+    return dataState.assignTypeData.id == "2"
+        ? DropdownWidget(
+            hint: AppString.assignUSer,
+            dropdownValue: dataState.acknowledgeUserData.id != null
+                ? dataState.acknowledgeUserData
+                : null,
+            onChanged: (value) {
+              BlocProvider.of<AcknowledgeBloc>(context)
+                  .add(AcknowledgeSelectUserEvent(acknowledgeUserData: value));
+            },
+            items: dataState.acknowledgeUserList
+                .map<DropdownMenuItem<AcknowledgeUserModel>>(
+                    (AcknowledgeUserModel acknowledgeUserData) {
+              return DropdownMenuItem<AcknowledgeUserModel>(
+                value: acknowledgeUserData,
+                child: TextWidget(acknowledgeUserData.name.toString()),
+              );
+            }).toList(),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _sapCodeDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
-    return dataState.assignTypeData.id == "2" ?
-    DropdownWidget(
-      hint: AppString.sapCode,
-      dropdownValue: dataState.sapCodeData.id != null
-          ? dataState.sapCodeData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
-      },
-      items: dataState.sapCodeList
-          .map<DropdownMenuItem<SapCodeModel>>(
-              (SapCodeModel sapCodeData) {
-            return DropdownMenuItem<SapCodeModel>(
-              value: sapCodeData,
-              child: TextWidget(sapCodeData.name.toString()),
-            );
-          }).toList(),
-    ): const SizedBox.shrink();
+      required BuildContext context}) {
+    return dataState.assignTypeData.id == "2"
+        ? DropdownWidget(
+            hint: AppString.sapCode,
+            dropdownValue:
+                dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
+            onChanged: (value) {
+              BlocProvider.of<AcknowledgeBloc>(context)
+                  .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
+            },
+            items: dataState.sapCodeList.map<DropdownMenuItem<SapCodeModel>>(
+                (SapCodeModel sapCodeData) {
+              return DropdownMenuItem<SapCodeModel>(
+                value: sapCodeData,
+                child: TextWidget(sapCodeData.name.toString()),
+              );
+            }).toList(),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _vendorDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
-    return dataState.assignTypeData.id == "3" ?
-    DropdownWidget(
-      hint: AppString.vendor,
-      dropdownValue: dataState.vendorData.id != null
-          ? dataState.vendorData
-          : null,
-      onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectVendorEvent(vendorData: value));
-      },
-      items: dataState.vendorList
-          .map<DropdownMenuItem<VendorModel>>(
-              (VendorModel vendorData) {
-            return DropdownMenuItem<VendorModel>(
-              value: vendorData,
-              child: TextWidget("${vendorData.name.toString()}-(${vendorData.code.toString()})"),
-            );
-          }).toList(),
-    ): const SizedBox.shrink();
+      required BuildContext context}) {
+    return dataState.assignTypeData.id == "3"
+        ? DropdownWidget(
+            hint: AppString.vendor,
+            dropdownValue:
+                dataState.vendorData.id != null ? dataState.vendorData : null,
+            onChanged: (value) {
+              BlocProvider.of<AcknowledgeBloc>(context)
+                  .add(AcknowledgeSelectVendorEvent(vendorData: value));
+            },
+            items: dataState.vendorList
+                .map<DropdownMenuItem<VendorModel>>((VendorModel vendorData) {
+              return DropdownMenuItem<VendorModel>(
+                value: vendorData,
+                child: TextWidget(
+                    "${vendorData.name.toString()}-(${vendorData.code.toString()})"),
+              );
+            }).toList(),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _remarkController({required FetchAcknowledgeDataState dataState}) {
@@ -210,11 +214,15 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget _actionButton(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(text: AppString.assign,
-        onPressed: () {
-         BlocProvider.of<AcknowledgeBloc>(context).add(
-             AcknowledgeUserSubmitEvent(context: context, acknowledgeData: widget.acknowledgeData));
-        }): const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.assign,
+            onPressed: () {
+              BlocProvider.of<AcknowledgeBloc>(context).add(
+                  AcknowledgeUserSubmitEvent(
+                      context: context,
+                      acknowledgeData: widget.acknowledgeData));
+            })
+        : const DottedLoaderWidget();
   }
 }

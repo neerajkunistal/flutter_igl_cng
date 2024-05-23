@@ -27,25 +27,30 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
         title: Row(
           children: [
             Expanded(child: _searchController()),
-            IconButton(onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (mContext) {
-                    return  DateRangePopWidget(
-                      onSubmit: (value) {
-                        Navigator.pop(context);
-                        PickerDateRange? date = value as PickerDateRange?;
-                        if(date != null){
-                          BlocProvider.of<AcknowledgeBloc>(context)
-                              .add(AcknowledgeSelectDateRangeEvent(
-                              fromDate: date.startDate!,
-                              toDate: date.endDate!,
-                              context: context));
-                        }
-                      },
-                    );
-                  });
-            }, icon:  Icon(Icons.filter_alt_outlined, color: AppColor.white,))
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (mContext) {
+                        return DateRangePopWidget(
+                          onSubmit: (value) {
+                            Navigator.pop(context);
+                            PickerDateRange? date = value as PickerDateRange?;
+                            if (date != null) {
+                              BlocProvider.of<AcknowledgeBloc>(context).add(
+                                  AcknowledgeSelectDateRangeEvent(
+                                      fromDate: date.startDate!,
+                                      toDate: date.endDate!,
+                                      context: context));
+                            }
+                          },
+                        );
+                      });
+                },
+                icon: Icon(
+                  Icons.filter_alt_outlined,
+                  color: AppColor.white,
+                ))
           ],
         ),
       ),
@@ -57,7 +62,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
               child: Column(
                 children: [
                   _tabWidget(dataState: state),
-                  Expanded (child: _itemBuilder(dataState: state)),
+                  Expanded(child: _itemBuilder(dataState: state)),
                 ],
               ),
             );
@@ -73,26 +78,30 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
 
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
-    DateTime startDate = BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).startDate;
-    DateTime endDate = BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).endDate;
-    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
-        .add(AcknowledgeSelectDateRangeEvent(
-        fromDate: startDate,
-        toDate: endDate,
-        context: !context.mounted ? context : context));
+    DateTime startDate =
+        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+            .startDate;
+    DateTime endDate =
+        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+            .endDate;
+    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).add(
+        AcknowledgeSelectDateRangeEvent(
+            fromDate: startDate,
+            toDate: endDate,
+            context: !context.mounted ? context : context));
   }
-  
+
   Widget _searchController() {
     return SizedBox(
       height: MediaQuery.of(context).size.width * 0.13,
       child: TextField(
         onChanged: (keyword) {
           BlocProvider.of<AcknowledgeBloc>(context)
-               .add(AcknowledgeComplaintSearchEvent(keyword: keyword));
+              .add(AcknowledgeComplaintSearchEvent(keyword: keyword));
         },
         style: TextStyle(
           color: const Color(0xff020202),
-          fontSize:  AppFont.font_12,
+          fontSize: AppFont.font_12,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.5,
         ),
@@ -110,7 +119,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
               fontWeight: FontWeight.w400,
               letterSpacing: 0.5,
               decorationThickness: 6),
-          prefixIcon: const Icon(Icons.search, ),
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
           prefixIconColor: AppColor.themeColor,
         ),
       ),
@@ -131,79 +142,84 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
         children: [
           Expanded(
             child: TextButton(
-                style: dataState.selectTabIndex == 0 ?
-                ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.themeColor ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side:  BorderSide(color: AppColor.themeColor )
-                        )
-                    )
-                ) : null,
+                style: dataState.selectTabIndex == 0
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor.themeColor),
+                        shape: MaterialStateProperty
+                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(color: AppColor.themeColor))))
+                    : null,
                 onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context)
-                      .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 0));
-                }, child:  TextWidget(
-              "New-${dataState.complaintCount[0]}",
-              color: dataState.selectTabIndex == 0 ? AppColor.white : AppColor.black,
-              fontWeight: dataState.selectTabIndex == 0
-                  ? FontWeight.w700
-                  : FontWeight.w400,
-              fontSize: AppFont.font_11,)),
+                  BlocProvider.of<AcknowledgeBloc>(context).add(
+                      const AcknowledgeComplaintSelectedTabIndexEvent(
+                          selectedTabIndex: 0));
+                },
+                child: TextWidget(
+                  "New-${dataState.complaintCount[0]}",
+                  color: dataState.selectTabIndex == 0
+                      ? AppColor.white
+                      : AppColor.black,
+                  fontWeight: dataState.selectTabIndex == 0
+                      ? FontWeight.w700
+                      : FontWeight.w400,
+                  fontSize: AppFont.font_11,
+                )),
           ),
-
           Expanded(
             child: TextButton(
-                style: dataState.selectTabIndex == 1 ?
-                ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                       AppColor.themeColor ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side:  BorderSide(color: AppColor.themeColor )
-                        )
-                    )
-                ) : null,
+                style: dataState.selectTabIndex == 1
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor.themeColor),
+                        shape: MaterialStateProperty
+                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(color: AppColor.themeColor))))
+                    : null,
                 onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context)
-                      .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 1));
-                }, child:  TextWidget(
-              "Ack-${dataState.complaintCount[1]}",
-              color: dataState.selectTabIndex == 1 ? AppColor.white : AppColor.black,
-              fontWeight: dataState.selectTabIndex == 1
-                  ? FontWeight.w700
-                  : FontWeight.w400,
-              fontSize: AppFont.font_11,)),
+                  BlocProvider.of<AcknowledgeBloc>(context).add(
+                      const AcknowledgeComplaintSelectedTabIndexEvent(
+                          selectedTabIndex: 1));
+                },
+                child: TextWidget(
+                  "Ack-${dataState.complaintCount[1]}",
+                  color: dataState.selectTabIndex == 1
+                      ? AppColor.white
+                      : AppColor.black,
+                  fontWeight: dataState.selectTabIndex == 1
+                      ? FontWeight.w700
+                      : FontWeight.w400,
+                  fontSize: AppFont.font_11,
+                )),
           ),
-
           Expanded(
             child: TextButton(
-                style: dataState.selectTabIndex == 2 ?
-                ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        AppColor.themeColor ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            side:  BorderSide(color: AppColor.themeColor )
-                        )
-                    )
-                ) : null,
+                style: dataState.selectTabIndex == 2
+                    ? ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            AppColor.themeColor),
+                        shape: MaterialStateProperty
+                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(color: AppColor.themeColor))))
+                    : null,
                 onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context)
-                      .add(const AcknowledgeComplaintSelectedTabIndexEvent(selectedTabIndex: 2));
-                }, child:  TextWidget(
-              "Assign-${dataState.complaintCount[2]}",
-              color: dataState.selectTabIndex == 2
-                  ? AppColor.white
-                  : AppColor.black,
-              fontWeight: dataState.selectTabIndex == 2
-                  ? FontWeight.w700
-                  : FontWeight.w400,
-              fontSize: AppFont.font_11,)),
+                  BlocProvider.of<AcknowledgeBloc>(context).add(
+                      const AcknowledgeComplaintSelectedTabIndexEvent(
+                          selectedTabIndex: 2));
+                },
+                child: TextWidget(
+                  "Assign-${dataState.complaintCount[2]}",
+                  color: dataState.selectTabIndex == 2
+                      ? AppColor.white
+                      : AppColor.black,
+                  fontWeight: dataState.selectTabIndex == 2
+                      ? FontWeight.w700
+                      : FontWeight.w400,
+                  fontSize: AppFont.font_11,
+                )),
           ),
         ],
       ),
@@ -246,27 +262,33 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                 );
               })
           : Center(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.10,
-          child: GestureDetector(
-              onTap: () async {
-                BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
-                    .add(AcknowledgeSelectDateRangeEvent(
-                    fromDate: dataState.startDate,
-                    toDate:  dataState.endDate,
-                    context: !context.mounted ? context : context));
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.refresh, color: AppColor.grey,),
-                  const TextWidget("No Data\nTab to refresh",
-                    textAlign: TextAlign.center,),
-                ],
-              )),
-        ),
-      ),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.10,
+                child: GestureDetector(
+                    onTap: () async {
+                      BlocProvider.of<AcknowledgeBloc>(
+                              !context.mounted ? context : context)
+                          .add(AcknowledgeSelectDateRangeEvent(
+                              fromDate: dataState.startDate,
+                              toDate: dataState.endDate,
+                              context: !context.mounted ? context : context));
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.refresh,
+                          color: AppColor.grey,
+                        ),
+                        const TextWidget(
+                          "No Data\nTab to refresh",
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )),
+              ),
+            ),
     );
   }
 }

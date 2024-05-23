@@ -236,9 +236,10 @@ class ServerRequest {
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
           String fileExtention = fileData.file.path.split(".").last;
-          String filePath0 = fileExtention.toString().toLowerCase() != "pdf"
-              ? await fileCompress(file: fileData.file)
-              : fileData.file.path.toString();
+          String filePath0 = (fileExtention.toString().toLowerCase() == "pdf" ||
+                  fileExtention.toString().toLowerCase() == "mp4")
+              ? fileData.file.path.toString()
+              : await fileCompress(file: fileData.file);
           if (fileData.file.toString().isNotEmpty) {
             var uploadFile = await MultipartFile.fromPath(
                 fileData.keyName, filePath0,

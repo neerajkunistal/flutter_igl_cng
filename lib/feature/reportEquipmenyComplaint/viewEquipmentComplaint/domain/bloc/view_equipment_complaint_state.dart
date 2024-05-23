@@ -22,20 +22,20 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final DateTime endDate;
   final List<int> complaintCount;
 
-  const FetchViewEquipmentComplaintDataState(
-      {required this.reviewComplaintList,
-       required this.selectedTabIndex,
-       required this.endDate,
-       required this.startDate,
-       required this.complaintCount,
-      });
+  const FetchViewEquipmentComplaintDataState({
+    required this.reviewComplaintList,
+    required this.selectedTabIndex,
+    required this.endDate,
+    required this.startDate,
+    required this.complaintCount,
+  });
 
   @override
   List<Object> get props => [
-    reviewComplaintList,
-    selectedTabIndex,
-    endDate,
-    startDate,
-    complaintCount,
-  ];
+        reviewComplaintList,
+        selectedTabIndex,
+        endDate,
+        startDate,
+        complaintCount,
+      ];
 }

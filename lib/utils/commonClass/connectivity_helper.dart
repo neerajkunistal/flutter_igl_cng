@@ -12,7 +12,7 @@ class ConnectivityHelper {
     try {
       bool isLocationEnable = await Geolocator.isLocationServiceEnabled();
       if (isLocationEnable == false) {
-        if(!context.mounted) return;
+        if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Location services are disabled. Please enable the services')));
@@ -23,14 +23,14 @@ class ConnectivityHelper {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          if(!context.mounted) return;
+          if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Location permissions are denied')));
           return false;
         }
       }
       if (permission == LocationPermission.deniedForever) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 'Location permissions are permanently denied, we cannot request permissions.')));
@@ -52,29 +52,29 @@ class ConnectivityHelper {
     if (Platform.isAndroid) {
       final status = await Permission.locationAlways.status;
       if (status == PermissionStatus.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>
-            const GPSSettingPermissionPopWidget());
+                const GPSSettingPermissionPopWidget());
         return false;
       }
       if (status == PermissionStatus.permanentlyDenied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>
-            const GPSSettingPermissionPopWidget());
+                const GPSSettingPermissionPopWidget());
         return false;
       }
     } else if (Platform.isIOS) {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>
-            const GPSSettingPermissionPopWidget());
+                const GPSSettingPermissionPopWidget());
         return false;
       }
     }
@@ -85,11 +85,11 @@ class ConnectivityHelper {
       {required BuildContext context}) async {
     bool isConnected = await checkInterNetConnect();
     if (isConnected == false) {
-      if(!context.mounted) return false;
+      if (!context.mounted) return false;
       showDialog(
           context: context,
           builder: (BuildContext context) =>
-          const InternetConnectivityPopWidget());
+              const InternetConnectivityPopWidget());
       return false;
     }
     return true;

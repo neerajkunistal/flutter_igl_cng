@@ -8,7 +8,6 @@ class ReviewComplaintItemBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String complaintDate = "";
     if (reviewComplaintData.complaintDateTime != null &&
         reviewComplaintData.complaintDateTime.toString().isNotEmpty) {
@@ -25,14 +24,18 @@ class ReviewComplaintItemBox extends StatelessWidget {
     String maintinaceStartDate = "";
     if (reviewComplaintData.maintenanceStartDate != null &&
         reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
-      String date  = DateFormat('dd-MMM-yyyy').format(
+      String date = DateFormat('dd-MMM-yyyy').format(
           DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
 
-      DateTime initialDate =  reviewComplaintData.maintenanceStartDate.toString().isNotEmpty ?
-      DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceStartDate.toString())
-          : DateTime.now();
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
-      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(context);
+      DateTime initialDate =
+          reviewComplaintData.maintenanceStartDate.toString().isNotEmpty
+              ? DateFormat('yyyy-dd-MM h:mm:ss')
+                  .parse(reviewComplaintData.maintenanceStartDate.toString())
+              : DateTime.now();
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      var timeFormat =
+          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
+              .format(context);
 
       maintinaceStartDate = "$date $timeFormat";
     }
@@ -40,18 +43,21 @@ class ReviewComplaintItemBox extends StatelessWidget {
     String maintinaceEndDate = "";
     if (reviewComplaintData.maintenanceEndDate != null &&
         reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
-      String date  = DateFormat('dd-MMM-yyyy').format(
+      String date = DateFormat('dd-MMM-yyyy').format(
           DateTime.parse(reviewComplaintData.maintenanceEndDate.toString()));
 
-      DateTime initialDate =  reviewComplaintData.maintenanceEndDate.toString().isNotEmpty ?
-      DateFormat('yyyy-dd-MM h:mm:ss').parse(reviewComplaintData.maintenanceEndDate.toString())
-          : DateTime.now();
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
-      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(context);
+      DateTime initialDate =
+          reviewComplaintData.maintenanceEndDate.toString().isNotEmpty
+              ? DateFormat('yyyy-dd-MM h:mm:ss')
+                  .parse(reviewComplaintData.maintenanceEndDate.toString())
+              : DateTime.now();
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      var timeFormat =
+          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
+              .format(context);
 
       maintinaceEndDate = "$date $timeFormat";
     }
-
 
     String maintenanceStatus = "";
     String status = "";
@@ -103,18 +109,16 @@ class ReviewComplaintItemBox extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-
-            reviewComplaintData.equipmentCode.toString().isNotEmpty ?
-            _rowWidget(
-                name:  "vendor Code",
-                value: reviewComplaintData.vendorCode.toString())
+            reviewComplaintData.equipmentCode.toString().isNotEmpty
+                ? _rowWidget(
+                    name: "vendor Code",
+                    value: reviewComplaintData.vendorCode.toString())
                 : const SizedBox.shrink(),
-
-            reviewComplaintData.equipmentCode.toString().isNotEmpty ?
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ) : const SizedBox.shrink(),
-
+            reviewComplaintData.equipmentCode.toString().isNotEmpty
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  )
+                : const SizedBox.shrink(),
             _rowWidget(name: "Complaint Status", value: status),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
@@ -127,19 +131,25 @@ class ReviewComplaintItemBox extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
+            reviewComplaintData.miAssignToUser.toString().isNotEmpty
+                ? _rowWidget(
+                    name: "Assign By",
+                    value: reviewComplaintData.miAssignToUser.toString())
+                : const SizedBox.shrink(),
+            reviewComplaintData.miAssignToUser.toString().isNotEmpty
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  )
+                : const SizedBox.shrink(),
             _rowWidget(name: "MI Status", value: maintenanceStatus),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _rowWidget(
-                name: "Start Date Time",
-                value: maintinaceStartDate),
+            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _rowWidget(
-                name: "Closed Date Time",
-                value:  maintinaceEndDate),
+            _rowWidget(name: "Closed Date Time", value: maintinaceEndDate),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),

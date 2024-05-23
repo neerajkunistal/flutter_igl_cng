@@ -38,5 +38,5 @@ class AppColor {
 
   static get themeSecondary => const Color(0xFFea8e11);
 
-   // static get themeSecondary => const Color(0xff60af62);
+// static get themeSecondary => const Color(0xff60af62);
 }

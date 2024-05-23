@@ -29,22 +29,22 @@ class _RootState extends State<Root> {
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return blocMultiProvider(
         child: MaterialApp(
-          navigatorKey: navigatorKey,
-          title: 'CNG',
-          debugShowCheckedModeBanner: false,
-          theme: appTheme(),
-          initialRoute: '/',
-          routes: {
-            '/second': (context) => const TestPage(),
-          },
-          builder: (context, child) {
-            return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: const TextScaler.linear(1.0)),
-              child: child!,
-            );
-          },
-          home: const SplashScreen(),
-        ));
-    }
+      navigatorKey: navigatorKey,
+      title: 'CNG',
+      debugShowCheckedModeBanner: false,
+      theme: appTheme(),
+      initialRoute: '/',
+      routes: {
+        '/second': (context) => const TestPage(),
+      },
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context)
+              .copyWith(textScaler: const TextScaler.linear(1.0)),
+          child: child!,
+        );
+      },
+      home: const SplashScreen(),
+    ));
+  }
 }

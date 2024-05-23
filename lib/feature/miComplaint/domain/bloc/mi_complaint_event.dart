@@ -57,12 +57,11 @@ class MiComplaintSelectActionData extends MiComplaintEvent {
   final ActionModel actionData;
   final BuildContext context;
 
-  const MiComplaintSelectActionData({
-    required this.actionData,
-    required this.context});
+  const MiComplaintSelectActionData(
+      {required this.actionData, required this.context});
 
   @override
-  List<Object?> get props => [actionData,context];
+  List<Object?> get props => [actionData, context];
 }
 
 class MiComplaintSelectUomData extends MiComplaintEvent {

@@ -11,6 +11,7 @@ import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
@@ -81,29 +82,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
-    _bottomNavigationBarItemList = await HomeHelper
-           .fetchAppBottomBarItems(context: !event.context.mounted ? event.context :event.context);
-    List<Widget> pageList =  await HomeHelper.fetchPageList();
-    if(pageList.isNotEmpty){
-      _childWidget =  pageList[bottomTabIndex];
+    _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems(
+        context: !event.context.mounted ? event.context : event.context);
+    List<Widget> pageList = await HomeHelper.fetchPageList();
+    if (pageList.isNotEmpty) {
+      _childWidget = pageList[bottomTabIndex];
     }
     _eventCompleted(emit);
 
-    var resFirebaseDevice =  await HomeHelper.fetchFirebaseDeviceData();
-    if(resFirebaseDevice != null){
-      firebaseDeviceList =  resFirebaseDevice;
+    var resFirebaseDevice = await HomeHelper.fetchFirebaseDeviceData();
+    if (resFirebaseDevice != null) {
+      firebaseDeviceList = resFirebaseDevice;
       var seen = <String>{};
-      List<FirebaseDeviceModel> _firebaseDeviceList = firebaseDeviceList.where((firebaseDeviceList)
-                                => seen.add(firebaseDeviceList.deviceId.toString())).toList();
+      List<FirebaseDeviceModel> _firebaseDeviceList = firebaseDeviceList
+          .where((firebaseDeviceList) =>
+              seen.add(firebaseDeviceList.deviceId.toString()))
+          .toList();
       firebaseDeviceList = [];
       var deviceId = await LoginHelper.getUniqueDeviceId();
-      for(var firebaseDevices in _firebaseDeviceList){
-        if(firebaseDevices.deviceId.toString() != deviceId
-             && firebaseDevices.firebaseId.toString().isNotEmpty){
-           firebaseDeviceList.add(firebaseDevices);
+      for (var firebaseDevices in _firebaseDeviceList) {
+        if (firebaseDevices.deviceId.toString() != deviceId &&
+            firebaseDevices.firebaseId.toString().isNotEmpty) {
+          firebaseDeviceList.add(firebaseDevices);
         }
       }
-   }
+    }
     _eventCompleted(emit);
   }
 
@@ -168,8 +171,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       Vibration.vibrate(duration: 100);
     }
     _bottomTabIndex = event.index;
-    List<Widget> pageList =  await HomeHelper.fetchPageList();
-    _childWidget =  pageList[bottomTabIndex];
+    List<Widget> pageList = await HomeHelper.fetchPageList();
+    _childWidget = pageList[bottomTabIndex];
     _eventCompleted(emit);
   }
 

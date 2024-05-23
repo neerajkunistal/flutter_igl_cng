@@ -148,13 +148,15 @@ class AddAcknowledgeComplaintBloc
           .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
       dateController.text = complaintDate;
 
-
-      DateTime initialDate =  acknowledgeData.complaintDateTime.toString().isNotEmpty ?
-      DateFormat('yyyy-dd-MM h:mm:ss').parse(acknowledgeData.complaintDateTime.toString())
-          : DateTime.now();
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
-      var timeFormat = TimeOfDay(hour: initialTime.hour, minute: initialTime.minute).format(
-          !event.context.mounted ? event.context : event.context);
+      DateTime initialDate =
+          acknowledgeData.complaintDateTime.toString().isNotEmpty
+              ? DateFormat('yyyy-dd-MM h:mm:ss')
+                  .parse(acknowledgeData.complaintDateTime.toString())
+              : DateTime.now();
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      var timeFormat =
+          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
+              .format(!event.context.mounted ? event.context : event.context);
       timeController.text = timeFormat;
     }
 
@@ -208,9 +210,8 @@ class AddAcknowledgeComplaintBloc
 
   _selectDate(AddAcknowledgeComplaintSelectDateData event, emit) async {
     try {
-
-      DateTime initialDate =  dateController.text.toString().isNotEmpty ?
-       DateFormat('dd-MM-yyyy').parse(dateController.text.toString())
+      DateTime initialDate = dateController.text.toString().isNotEmpty
+          ? DateFormat('dd-MM-yyyy').parse(dateController.text.toString())
           : DateTime.now();
 
       final DateTime? picked = await showDatePicker(
@@ -231,18 +232,18 @@ class AddAcknowledgeComplaintBloc
 
   _selectTime(AddAcknowledgeComplaintSelectTimeData event, emit) async {
     try {
-      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
-      DateFormat('h:mm').parse(timeController.text.toString())
+      DateTime initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(timeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
       final TimeOfDay? time = await showTimePicker(
         context: event.context,
         initialTime: initialTime,
       );
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
-            event.context);
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(event.context);
         timeController.text = timeFormat;
         _eventComplete(emit);
       }
@@ -297,8 +298,8 @@ class AddAcknowledgeComplaintBloc
     isLoader = true;
     _eventComplete(emit);
 
-    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
-    DateFormat('h:mm a').parse(timeController.text.toString())
+    DateTime initialDate1 = timeController.text.toString().isNotEmpty
+        ? DateFormat('h:mm a').parse(timeController.text.toString())
         : DateTime.now();
     String time = "${initialDate1.hour}:${initialDate1.minute}:00";
     var res = await AddAcknowledgeComplaintHelper.submitData(

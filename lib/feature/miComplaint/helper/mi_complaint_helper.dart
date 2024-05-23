@@ -39,11 +39,12 @@ class MiComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchMiComplaint({
-    String? fromDate, String? toDate}) async {
+  static Future<dynamic> fetchMiComplaint(
+      {String? fromDate, String? toDate}) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-      String url = APIs.getMiComplaintApi + "?userId=${userData.userId}&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
+      String url = APIs.getMiComplaintApi +
+          "?userId=${userData.userId}&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
@@ -71,8 +72,7 @@ class MiComplaintHelper {
     required VendorModel vendorData,
   }) async {
     try {
-
-      LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
       String url = APIs.addMiComplaintApi;
       var json = {
@@ -86,7 +86,7 @@ class MiComplaintHelper {
         "amcTillDate": reviewComplaintData.amcDate != null
             ? reviewComplaintData.amcDate.toString()
             : "",
-        "assignTo" : vendorData.id != null
+        "assignTo": vendorData.id != null
             ? vendorData.id.toString()
             : reviewComplaintData.assignTo.toString(),
         "approval": approvalValue.isEmpty ? "0" : approvalValue,
@@ -94,13 +94,13 @@ class MiComplaintHelper {
         "startDateTime": action.id.toString() == "1"
             ? "$date $time"
             : reviewComplaintData.maintenanceStartDate.toString(),
-        "endDateTime":
-        action.id.toString() == "3" ? "$date $time" : "",
+        "endDateTime": action.id.toString() == "3" ? "$date $time" : "",
         "maintenanceHoldDateTime":
-        action.id.toString() == "2" ? "$date $time" : "",
+            action.id.toString() == "2" ? "$date $time" : "",
         "remarks": description,
         "spares": sparesPartList.isNotEmpty
-            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList()).toString()
+            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList())
+                .toString()
             : "0",
       };
       if (!context.mounted) return null;
@@ -115,8 +115,11 @@ class MiComplaintHelper {
           res['status'] == true &&
           res['message'] != null) {
         await NotificationHelper.sendNotification(
-            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
-            title: "Complain ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} ${userData.name}",
+            firebaseDeviceList:
+                BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                    .firebaseDeviceList,
+            title:
+                "Complain ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} ${userData.name}",
             body: description.isNotEmpty ? description : observation,
             pageId: PageId.miComplaint,
             complaintId: reviewComplaintData.id.toString(),

@@ -10,7 +10,9 @@ class ReviewComplaintPageLoadEvent extends ReviewComplaintEvent {
   final ReviewComplaintModel reviewComplaintData;
 
   const ReviewComplaintPageLoadEvent(
-      {required this.context, required this.reviewComplaintData, this.complaintId});
+      {required this.context,
+      required this.reviewComplaintData,
+      this.complaintId});
 
   @override
   List<Object?> get props => [context, reviewComplaintData];
@@ -38,9 +40,10 @@ class ReviewComplaintSelectApprovalEvent extends ReviewComplaintEvent {
 class ReviewComplaintAddImageEvent extends ReviewComplaintEvent {
   final BuildContext context;
   final int mediaType;
+  final int index;
 
   const ReviewComplaintAddImageEvent(
-      {required this.context, required this.mediaType});
+      {required this.context, required this.mediaType, required this.index});
 
   @override
   List<Object?> get props => [context, mediaType];
