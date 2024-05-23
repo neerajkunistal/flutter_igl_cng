@@ -94,9 +94,11 @@ class ReviewComplaintHelper {
       List<FileModel> fileList = [];
       int i = 0;
       for (var fileData in files) {
-        fileList.add(
-            FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
-        i++;
+        if(fileData.path.isNotEmpty){
+          fileList.add(
+              FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
+          i++;
+        }
       }
 
       String url = APIs.getReviewComplaintApi;

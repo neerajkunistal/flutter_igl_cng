@@ -203,7 +203,15 @@ class ReviewComplaintModel {
     generalComplaintName = json['general_complain_name'] ?? "";
     vendorCode = json['vendor_code'] ?? "";
     miAssignType = json['mi_assign_type'] ?? "";
-    miAssignToUser = json['vendor_name'] ?? "";
+    miAssignToUser = json['vendor_name']  ?? "";
+
+     if(vendorCode.toString().isEmpty){
+       vendorCode = json['mi_assign_to_vendor_code'] ?? "";
+     }
+
+     if(miAssignToUser.toString().isEmpty){
+       miAssignToUser = json['mi_assign_to_vendor_name'] ?? "";
+     }
   }
 
   Map<String, dynamic> toJson() {
