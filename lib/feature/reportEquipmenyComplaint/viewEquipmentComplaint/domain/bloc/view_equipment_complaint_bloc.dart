@@ -97,9 +97,9 @@ class ViewEquipmentComplaintBloc
     count = count +
         reviewComplaintWithOutFilterList
             .where((element) =>
-        element.miAssignType.toString() == "3" &&
-            element.assignType.toString() == "3" &&
-            element.complaintStatus.toString() == "0")
+                element.miAssignType.toString() == "3" &&
+                element.assignType.toString() == "3" &&
+                element.complaintStatus.toString() == "0")
             .toList()
             .length;
     complaintCount.add(count);
@@ -254,9 +254,9 @@ class ViewEquipmentComplaintBloc
 
       reviewComplaintList.addAll(reviewComplaintWithOutFilterList
           .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
+              element.miAssignType.toString() == "3" &&
+              element.assignType.toString() == "3" &&
+              element.complaintStatus.toString() == "0")
           .toList());
 
       count = count +
@@ -271,9 +271,9 @@ class ViewEquipmentComplaintBloc
       count = count +
           reviewComplaintWithOutFilterList
               .where((element) =>
-          element.miAssignType.toString() == "3" &&
-              element.assignType.toString() == "3" &&
-              element.complaintStatus.toString() == "0")
+                  element.miAssignType.toString() == "3" &&
+                  element.assignType.toString() == "3" &&
+                  element.complaintStatus.toString() == "0")
               .toList()
               .length;
 
@@ -390,9 +390,9 @@ class ViewEquipmentComplaintBloc
 
       reviewComplaintList.addAll(reviewComplaintWithOutFilterList
           .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
+              element.miAssignType.toString() == "3" &&
+              element.assignType.toString() == "3" &&
+              element.complaintStatus.toString() == "0")
           .toList());
 
       count = count +
@@ -407,9 +407,9 @@ class ViewEquipmentComplaintBloc
       count = count +
           reviewComplaintWithOutFilterList
               .where((element) =>
-          element.miAssignType.toString() == "3" &&
-              element.assignType.toString() == "3" &&
-              element.complaintStatus.toString() == "0")
+                  element.miAssignType.toString() == "3" &&
+                  element.assignType.toString() == "3" &&
+                  element.complaintStatus.toString() == "0")
               .toList()
               .length;
       complaintCount[selectTabIndex] = count;

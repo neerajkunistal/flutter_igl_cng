@@ -193,7 +193,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         children: [
-           userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser
               ? TextButton(
                   style: dataState.selectedTabIndex == 0
                       ? ButtonStyle(
@@ -222,7 +222,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     fontSize: AppFont.font_11,
                   ))
               : const SizedBox.shrink(),
-           userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser
               ? TextButton(
                   style: dataState.selectedTabIndex == 4
                       ? ButtonStyle(
@@ -348,8 +348,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                           dataState.reviewComplaintList[index].complaintStatus
                                   .toString() ==
                               "0" &&
-                          dataState.reviewComplaintList[index].assignType
-                                  .toString() ==
+                          dataState.reviewComplaintList[index].assignType.toString() ==
                               "3") {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
                             ReviewComplaintPageLoadEvent(
@@ -368,29 +367,9 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                         }
                       } else if (userLogin.roleType == RoleType.stationUser &&
                           dataState.reviewComplaintList[index].complaintStatus
-                              .toString() ==
-                              "0" &&
-                          dataState.reviewComplaintList[index].miAssignType
-                              .toString() ==
-                              "3") {
-                        BlocProvider.of<ReviewComplaintBloc>(context).add(
-                            ReviewComplaintPageLoadEvent(
-                                context: context,
-                                reviewComplaintData:
-                                dataState.reviewComplaintList[index]));
-                        var result = await Navigator.push(context,
-                            FadeRoute(page: const ReviewComaplintPage()));
-                        if (!context.mounted) result;
-                        if (result.toString() == "Completed") {
-                          BlocProvider.of<ViewEquipmentComplaintBloc>(
-                              !context.mounted ? context : context)
-                              .add(ViewEquipmentComplaintPageLoadEvent(
-                              context:
-                              !context.mounted ? context : context));
-                        }
-                      } else if (userLogin.roleType == RoleType.shiftEngineer &&
-                          dataState.reviewComplaintList[index].assignType
                                   .toString() ==
+                              "0" &&
+                          dataState.reviewComplaintList[index].miAssignType.toString() ==
                               "3") {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
                             ReviewComplaintPageLoadEvent(
@@ -408,27 +387,43 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                       !context.mounted ? context : context));
                         }
                       } else if (userLogin.roleType == RoleType.shiftEngineer &&
-                          dataState.reviewComplaintList[index].miAssignType
-                              .toString() ==
+                          dataState.reviewComplaintList[index].assignType.toString() ==
                               "3") {
                         BlocProvider.of<ReviewComplaintBloc>(context).add(
                             ReviewComplaintPageLoadEvent(
                                 context: context,
                                 reviewComplaintData:
-                                dataState.reviewComplaintList[index]));
+                                    dataState.reviewComplaintList[index]));
                         var result = await Navigator.push(context,
                             FadeRoute(page: const ReviewComaplintPage()));
                         if (!context.mounted) result;
                         if (result.toString() == "Completed") {
                           BlocProvider.of<ViewEquipmentComplaintBloc>(
-                              !context.mounted ? context : context)
+                                  !context.mounted ? context : context)
                               .add(ViewEquipmentComplaintPageLoadEvent(
-                              context:
-                              !context.mounted ? context : context));
+                                  context:
+                                      !context.mounted ? context : context));
                         }
-                      }else if (userLogin.roleType == RoleType.mi &&
-                          dataState.reviewComplaintList[index].action
-                                  .toString() !=
+                      } else if (userLogin.roleType == RoleType.shiftEngineer &&
+                          dataState.reviewComplaintList[index].miAssignType.toString() ==
+                              "3") {
+                        BlocProvider.of<ReviewComplaintBloc>(context).add(
+                            ReviewComplaintPageLoadEvent(
+                                context: context,
+                                reviewComplaintData:
+                                    dataState.reviewComplaintList[index]));
+                        var result = await Navigator.push(context,
+                            FadeRoute(page: const ReviewComaplintPage()));
+                        if (!context.mounted) result;
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                  !context.mounted ? context : context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                                  context:
+                                      !context.mounted ? context : context));
+                        }
+                      } else if (userLogin.roleType == RoleType.mi &&
+                          dataState.reviewComplaintList[index].action.toString() !=
                               "3" &&
                           dataState.reviewComplaintList[index].complaintStatus
                                   .toString() !=
@@ -452,15 +447,12 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                       !context.mounted ? context : context));
                         }
                       } else if (userLogin.roleType == RoleType.mi &&
-                          dataState.reviewComplaintList[index].action
-                                  .toString() ==
+                          dataState.reviewComplaintList[index].action.toString() ==
                               "3") {
                         SnackBarErrorWidget(context)
                             .show(message: "Complaint already closed");
                       } else if (userLogin.roleType == RoleType.mi &&
-                          dataState.reviewComplaintList[index].complaintStatus
-                                  .toString() ==
-                              "2") {
+                          dataState.reviewComplaintList[index].complaintStatus.toString() == "2") {
                         SnackBarErrorWidget(context)
                             .show(message: "Complaint already Reject");
                       }
