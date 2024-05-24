@@ -193,8 +193,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         children: [
-          userData.roleType == RoleType.shiftEngineer ||
-                  userData.roleType == RoleType.stationUser
+           userData.roleType == RoleType.stationUser
               ? TextButton(
                   style: dataState.selectedTabIndex == 0
                       ? ButtonStyle(
@@ -223,8 +222,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     fontSize: AppFont.font_11,
                   ))
               : const SizedBox.shrink(),
-          userData.roleType == RoleType.shiftEngineer ||
-                  userData.roleType == RoleType.stationUser
+           userData.roleType == RoleType.stationUser
               ? TextButton(
                   style: dataState.selectedTabIndex == 4
                       ? ButtonStyle(

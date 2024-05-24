@@ -94,6 +94,14 @@ class ViewEquipmentComplaintBloc
                 element.complaintStatus.toString() == "0")
             .toList()
             .length;
+    count = count +
+        reviewComplaintWithOutFilterList
+            .where((element) =>
+        element.miAssignType.toString() == "3" &&
+            element.assignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
     complaintCount.add(count);
 
     complaintCount.add(reviewComplaintWithOutFilterList
@@ -244,6 +252,13 @@ class ViewEquipmentComplaintBloc
               element.complaintStatus.toString() == "0")
           .toList());
 
+      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
+          .where((element) =>
+      element.miAssignType.toString() == "3" &&
+          element.assignType.toString() == "3" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
+
       count = count +
           reviewComplaintWithOutFilterList
               .where((element) =>
@@ -252,6 +267,16 @@ class ViewEquipmentComplaintBloc
                   element.complaintStatus.toString() == "0")
               .toList()
               .length;
+
+      count = count +
+          reviewComplaintWithOutFilterList
+              .where((element) =>
+          element.miAssignType.toString() == "3" &&
+              element.assignType.toString() == "3" &&
+              element.complaintStatus.toString() == "0")
+              .toList()
+              .length;
+
       complaintCount[selectTabIndex] = count;
     } else if (selectTabIndex == 3) {
       reviewComplaintList = reviewComplaintWithOutFilterList
@@ -363,12 +388,28 @@ class ViewEquipmentComplaintBloc
               element.complaintStatus.toString() == "0")
           .toList());
 
+      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
+          .where((element) =>
+      element.miAssignType.toString() == "3" &&
+          element.assignType.toString() == "3" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
+
       count = count +
           reviewComplaintWithOutFilterList
               .where((element) =>
                   element.miAssignType.toString() == "0" &&
                   element.assignType.toString() == "3" &&
                   element.complaintStatus.toString() == "0")
+              .toList()
+              .length;
+
+      count = count +
+          reviewComplaintWithOutFilterList
+              .where((element) =>
+          element.miAssignType.toString() == "3" &&
+              element.assignType.toString() == "3" &&
+              element.complaintStatus.toString() == "0")
               .toList()
               .length;
       complaintCount[selectTabIndex] = count;

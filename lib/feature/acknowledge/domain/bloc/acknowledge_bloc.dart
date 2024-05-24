@@ -117,6 +117,18 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               element.miAssignType.toString() == "3" &&
               element.complaintStatus.toString() == "0")
           .toList());
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "1" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3" &&
+          element.miAssignType.toString() == "3" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
@@ -157,6 +169,21 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
                 element.assignType.toString() == "2" &&
                 element.miAssignType.toString() == "3" &&
                 element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "1" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "3" &&
+            element.miAssignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
             .toList()
             .length;
     complaintCount.add(count);
@@ -283,6 +310,19 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               element.miAssignType.toString() == "3" &&
               element.complaintStatus.toString() == "0")
           .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "1" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3" &&
+          element.miAssignType.toString() == "3" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
@@ -323,6 +363,21 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
                 element.assignType.toString() == "2" &&
                 element.miAssignType.toString() == "3" &&
                 element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "1" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "3" &&
+            element.miAssignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
             .toList()
             .length;
     complaintCount.add(count);
@@ -385,6 +440,19 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               element.miAssignType.toString() == "3" &&
               element.complaintStatus.toString() == "0")
           .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "1" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3" &&
+          element.miAssignType.toString() == "3" &&
+          element.complaintStatus.toString() == "0")
+          .toList());
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
@@ -427,8 +495,24 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
                 element.complaintStatus.toString() == "0")
             .toList()
             .length;
-    complaintCount.add(count);
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "1" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
 
+    count = count +
+        acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "3" &&
+            element.miAssignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+
+    complaintCount.add(count);
     _eventComplete(emit);
   }
 
