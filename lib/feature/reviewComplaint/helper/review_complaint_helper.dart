@@ -94,9 +94,9 @@ class ReviewComplaintHelper {
       List<FileModel> fileList = [];
       int i = 0;
       for (var fileData in files) {
-        if(fileData.path.isNotEmpty){
-          fileList.add(
-              FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
+        if (fileData.path.isNotEmpty) {
+          fileList.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
           i++;
         }
       }

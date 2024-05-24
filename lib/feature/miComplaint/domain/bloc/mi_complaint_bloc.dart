@@ -99,7 +99,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
               vendor.id.toString() ==
                   event.reviewComplaintData.assignTo.toString()) {
             vendorData = vendor;
-          } else  if (event.reviewComplaintData.miAssignType.toString() == "3" &&
+          } else if (event.reviewComplaintData.miAssignType.toString() == "3" &&
               vendor.code.toString() ==
                   event.reviewComplaintData.vendorCode.toString()) {
             vendorData = vendor;

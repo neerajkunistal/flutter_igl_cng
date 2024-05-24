@@ -82,19 +82,19 @@ class AddEquipmentComplaintHelper {
       List<FileModel> fileList = [];
       int i = 0;
       for (var fileData in file) {
-        if(fileData.path.isNotEmpty){
-          fileList.add(
-              FileModel(name: "file", file: fileData, keyName: "attachFile[$i]"));
+        if (fileData.path.isNotEmpty) {
+          fileList.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
           i++;
         }
       }
 
-        for (var fileData in videoFiles) {
-          if(fileData.path.isNotEmpty){
-            fileList.add(
-                FileModel(name: "file", file: fileData, keyName: "videoFile"));
-          }
+      for (var fileData in videoFiles) {
+        if (fileData.path.isNotEmpty) {
+          fileList.add(
+              FileModel(name: "file", file: fileData, keyName: "videoFile"));
         }
+      }
 
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
