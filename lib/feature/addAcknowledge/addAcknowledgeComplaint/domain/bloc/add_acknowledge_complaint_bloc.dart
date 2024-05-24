@@ -44,8 +44,8 @@ class AddAcknowledgeComplaintBloc
     on<AddAcknowledgeComplaintSelectUserEvent>(_selectUser);
     on<AddAcknowledgeComplaintSelectDepartmentEvent>(_selectDepartment);
     on<AddAcknowledgeComplaintSelectComplaintEvent>(_selectComplaint);
-    on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(
-        _selectAcknowledget);
+    on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(_selectAcknowledget);
+    on<AddAcknowledgeComplaintSelectGeneralDataEvent>(_selectGeneral);
     on<AddAcknowledgeComplaintSelectDateData>(_selectDate);
     on<AddAcknowledgeComplaintSelectTimeData>(_selectTime);
     on<AddAcknowledgeComplaintAddImageEvent>(_selectFile);
@@ -205,6 +205,11 @@ class AddAcknowledgeComplaintBloc
   _selectAcknowledget(
       AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent event, emit) {
     acknowledgeData = event.acknowledgeData;
+    _eventComplete(emit);
+  }
+
+  _selectGeneral(AddAcknowledgeComplaintSelectGeneralDataEvent event, emit) {
+    generalComplaintData =  event.generalComplaintData;
     _eventComplete(emit);
   }
 
