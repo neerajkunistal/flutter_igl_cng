@@ -82,24 +82,78 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
           .toList();
     }
 
+    if (selectTabIndex == 0) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+      ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+          && element.assignType.toString()  == "0"
+          && element.miAssignType.toString() == "0")
+          .toList();
+    } else if (selectTabIndex == 1) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+      element.ackStatus.toString() == "1" &&
+          (element.assignType.toString() == "0" ||
+              element.assignType.toString().isEmpty))
+          .toList();
+    } else if (selectTabIndex == 2) {
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "0"
+          && element.complaintStatus.toString() == "0")
+          .toList();
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
+    }
+
     complaintCount.add(acknowledgeWithOutFilterList
-        .where((element) => element.ackStatus.toString().isEmpty)
+        .where((element) =>
+    ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+        && element.assignType.toString()  == "0"
+        && element.miAssignType.toString() == "0")
         .toList()
         .length);
 
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
-            element.ackStatus.toString() == "1" &&
-            element.assignType.toString().isEmpty)
+    element.ackStatus.toString() == "1" &&
+        (element.assignType.toString() == "0" ||
+            element.assignType.toString().isEmpty))
         .toList()
         .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList
+
+    int count = 0;
+    count = acknowledgeWithOutFilterList
         .where((element) =>
-            element.assignType.toString() != "0" &&
-            element.complaintStatus.toString() != "1")
-        .toList()
-        .length);
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "0"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    complaintCount.add(count);
 
     _eventComplete(emit);
   }
@@ -111,8 +165,11 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     List<AcknowledgeModel> tempList = acknowledgeWithOutFilterList;
 
     if (selectTabIndex == 0) {
-      tempList = acknowledgeWithOutFilterList
-          .where((element) => element.ackStatus.toString().isEmpty)
+      acknowledgeList = acknowledgeWithOutFilterList
+          .where((element) =>
+      ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+          && element.assignType.toString()  == "0"
+          && element.miAssignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 1) {
       tempList = acknowledgeWithOutFilterList
@@ -186,42 +243,77 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     complaintCount = [];
     if (selectTabIndex == 0) {
       acknowledgeList = acknowledgeWithOutFilterList
-          .where((element) => element.ackStatus.toString().isEmpty)
+          .where((element) =>
+      ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+          && element.assignType.toString()  == "0"
+          && element.miAssignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 1) {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
-              element.ackStatus.toString() == "1" &&
-              (element.assignType.toString() == "0" ||
-                  element.assignType.toString().isEmpty))
+      element.ackStatus.toString() == "1" &&
+          (element.assignType.toString() == "0" ||
+              element.assignType.toString().isEmpty))
           .toList();
     } else if (selectTabIndex == 2) {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
-              element.assignType.toString() != "0" &&
-              element.assignType.toString() != "0")
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "0"
+          && element.complaintStatus.toString() == "0")
           .toList();
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
-        .where((element) => element.ackStatus.toString().isEmpty)
+        .where((element) =>
+    ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+        && element.assignType.toString()  == "0"
+        && element.miAssignType.toString() == "0")
         .toList()
         .length);
 
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
-            element.ackStatus.toString() == "1" &&
-            (element.assignType.toString() == "0" ||
-                element.assignType.toString().isEmpty))
+    element.ackStatus.toString() == "1" &&
+        (element.assignType.toString() == "0" ||
+            element.assignType.toString().isEmpty))
         .toList()
         .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList
+
+    int count = 0;
+    count = acknowledgeWithOutFilterList
         .where((element) =>
-            element.assignType.toString() != "0" &&
-            element.complaintStatus.toString() != "1")
-        .toList()
-        .length);
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "0"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    complaintCount.add(count);
+
     _eventComplete(emit);
   }
 
@@ -247,7 +339,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
     if (selectTabIndex == 0) {
       acknowledgeList = acknowledgeWithOutFilterList
-          .where((element) => element.ackStatus.toString().isEmpty)
+          .where((element) =>
+      ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+          && element.assignType.toString()  == "0"
+          && element.miAssignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 1) {
       acknowledgeList = acknowledgeWithOutFilterList
@@ -259,13 +354,30 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     } else if (selectTabIndex == 2) {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
-              element.assignType.toString() != "0" &&
-              element.assignType.toString() != "0")
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "0"
+          && element.complaintStatus.toString() == "0")
           .toList();
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
+
+      acknowledgeList.addAll(acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList());
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
-        .where((element) => element.ackStatus.toString().isEmpty)
+        .where((element) =>
+    ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+        && element.assignType.toString()  == "0"
+        && element.miAssignType.toString() == "0")
         .toList()
         .length);
 
@@ -277,12 +389,26 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         .toList()
         .length);
 
-    complaintCount.add(acknowledgeWithOutFilterList
+
+    int count = 0;
+    count = acknowledgeWithOutFilterList
         .where((element) =>
-            element.assignType.toString() != "0" &&
-            element.complaintStatus.toString() != "1")
-        .toList()
-        .length);
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "0"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    count = count+acknowledgeWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "2"
+        && element.miAssignType.toString() == "3"
+        && element.complaintStatus.toString() == "0")
+        .toList().length;
+    complaintCount.add(count);
 
     _eventComplete(emit);
   }
@@ -404,42 +530,76 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       }
       if (selectTabIndex == 0) {
         acknowledgeList = acknowledgeWithOutFilterList
-            .where((element) => element.ackStatus.toString().isEmpty)
+            .where((element) =>
+        ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+            && element.assignType.toString()  == "0"
+            && element.miAssignType.toString() == "0")
             .toList();
       } else if (selectTabIndex == 1) {
         acknowledgeList = acknowledgeWithOutFilterList
             .where((element) =>
-                element.ackStatus.toString() == "1" &&
-                (element.assignType.toString() == "0" ||
-                    element.assignType.toString().isEmpty))
+        element.ackStatus.toString() == "1" &&
+            (element.assignType.toString() == "0" ||
+                element.assignType.toString().isEmpty))
             .toList();
       } else if (selectTabIndex == 2) {
         acknowledgeList = acknowledgeWithOutFilterList
             .where((element) =>
-                element.assignType.toString() != "0" &&
-                element.assignType.toString() != "0")
+        element.assignType.toString() == "2"
+            && element.miAssignType.toString() == "0"
+            && element.complaintStatus.toString() == "0")
             .toList();
+
+        acknowledgeList.addAll(acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "3"
+            && element.complaintStatus.toString() == "0")
+            .toList());
+
+        acknowledgeList.addAll(acknowledgeWithOutFilterList
+            .where((element) =>
+        element.assignType.toString() == "2"
+            && element.miAssignType.toString() == "3"
+            && element.complaintStatus.toString() == "0")
+            .toList());
       }
 
       complaintCount.add(acknowledgeWithOutFilterList
-          .where((element) => element.ackStatus.toString().isEmpty)
+          .where((element) =>
+      ( element.ackStatus.toString() == "0" || element.ackStatus.toString().isEmpty)
+          && element.assignType.toString()  == "0"
+          && element.miAssignType.toString() == "0")
           .toList()
           .length);
 
       complaintCount.add(acknowledgeWithOutFilterList
           .where((element) =>
-              element.ackStatus.toString() == "1" &&
-              (element.assignType.toString() == "0" ||
-                  element.assignType.toString().isEmpty))
+      element.ackStatus.toString() == "1" &&
+          (element.assignType.toString() == "0" ||
+              element.assignType.toString().isEmpty))
           .toList()
           .length);
 
-      complaintCount.add(acknowledgeWithOutFilterList
+
+      int count = 0;
+      count = acknowledgeWithOutFilterList
           .where((element) =>
-              element.assignType.toString() != "0" &&
-              element.complaintStatus.toString() != "1")
-          .toList()
-          .length);
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "0"
+          && element.complaintStatus.toString() == "0")
+          .toList().length;
+      count = count+acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList().length;
+      count = count+acknowledgeWithOutFilterList
+          .where((element) =>
+      element.assignType.toString() == "2"
+          && element.miAssignType.toString() == "3"
+          && element.complaintStatus.toString() == "0")
+          .toList().length;
+      complaintCount.add(count);
       _eventComplete(emit);
     }
   }
