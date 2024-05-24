@@ -366,6 +366,28 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                   context:
                                       !context.mounted ? context : context));
                         }
+                      } else if (userLogin.roleType == RoleType.stationUser &&
+                          dataState.reviewComplaintList[index].complaintStatus
+                              .toString() ==
+                              "0" &&
+                          dataState.reviewComplaintList[index].miAssignType
+                              .toString() ==
+                              "3") {
+                        BlocProvider.of<ReviewComplaintBloc>(context).add(
+                            ReviewComplaintPageLoadEvent(
+                                context: context,
+                                reviewComplaintData:
+                                dataState.reviewComplaintList[index]));
+                        var result = await Navigator.push(context,
+                            FadeRoute(page: const ReviewComaplintPage()));
+                        if (!context.mounted) result;
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                              !context.mounted ? context : context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                              context:
+                              !context.mounted ? context : context));
+                        }
                       } else if (userLogin.roleType == RoleType.shiftEngineer &&
                           dataState.reviewComplaintList[index].assignType
                                   .toString() ==
@@ -385,7 +407,26 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                   context:
                                       !context.mounted ? context : context));
                         }
-                      } else if (userLogin.roleType == RoleType.mi &&
+                      } else if (userLogin.roleType == RoleType.shiftEngineer &&
+                          dataState.reviewComplaintList[index].miAssignType
+                              .toString() ==
+                              "3") {
+                        BlocProvider.of<ReviewComplaintBloc>(context).add(
+                            ReviewComplaintPageLoadEvent(
+                                context: context,
+                                reviewComplaintData:
+                                dataState.reviewComplaintList[index]));
+                        var result = await Navigator.push(context,
+                            FadeRoute(page: const ReviewComaplintPage()));
+                        if (!context.mounted) result;
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                              !context.mounted ? context : context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                              context:
+                              !context.mounted ? context : context));
+                        }
+                      }else if (userLogin.roleType == RoleType.mi &&
                           dataState.reviewComplaintList[index].action
                                   .toString() !=
                               "3" &&
