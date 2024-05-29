@@ -55,12 +55,14 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.equipmentTypeData.description != null
+
+/*            dataState.equipmentTypeData.description != null
                 ? _vendorCodeController(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.equipmentTypeData.description != null
                 ? _verticalSpace()
-                : const SizedBox.shrink(),
+                : const SizedBox.shrink(),*/
+
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -281,7 +283,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
                       child: TextWidget(
-                        "Photo ${1 + index}",
+                        "${AppString.photo} ${1 + index}",
                         fontSize: AppFont.font_12,
                         color: AppColor.grey,
                       ),
@@ -408,13 +410,13 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Center(
-                            child: Icon(Icons.photo_camera_back_outlined),
+                            child: Icon(Icons.video_collection_outlined),
                           ),
                           Padding(
                             padding: EdgeInsets.all(
                                 MediaQuery.of(context).size.width * 0.02),
                             child: TextWidget(
-                              "Video",
+                              AppString.video,
                               fontSize: AppFont.font_12,
                               color: AppColor.grey,
                             ),

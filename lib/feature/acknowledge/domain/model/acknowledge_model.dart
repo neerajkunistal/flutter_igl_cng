@@ -164,17 +164,17 @@ class AcknowledgeModel {
     equipmentCode = json['equipment_code'] ?? "";
     assignUser = json['assign_user'] ?? "";
     complaintDateTime = json['complain_date_time'] ?? "";
-    ackStatus = json['ack_response'] ?? "";
+    ackStatus = json['ack_status'] ?? "0";
     ackRemark = json['ack_remarks'] ?? "";
     ackBy = json['ack_by'] ?? "";
     generalComplaintId = json['general_complain_id'] ?? "";
     generalComplaintRemark = json['general_complain_remarks'] ?? "";
     assignTo = json['se_assign_to'] ?? "";
-    assignType = json['se_assign_type'] ?? "";
+    assignType = json['se_assign_type'] ?? "0";
     createdByUser = json['created_by_user'] ?? "";
     generalComplaintName = json['general_complain_name'] ?? "";
     vendorCode = json['vendor_code'] ?? "";
-    miAssignType = json['mi_assign_type'] ?? "";
+    miAssignType = json['mi_assign_type'] ?? "0";
     miAssignToUser = json['assigned_vendor_name'] ?? "";
   }
 

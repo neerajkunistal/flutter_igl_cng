@@ -253,6 +253,10 @@ class AppString {
 
   static get search => "Search...";
 
+  static get photo => "Photo";
+
+  static get video => "Video";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

@@ -11,7 +11,7 @@ import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
 class ServerRequest {
-  static BuildContext? context = Singleton.instanceInit()?.context;
+  static BuildContext? context = Singleton.instance.context;
   static var header = {"Content-Type": "application/x-www-form-urlencoded"};
 
   static Future<dynamic> getData({required var urlEndPoint}) async {

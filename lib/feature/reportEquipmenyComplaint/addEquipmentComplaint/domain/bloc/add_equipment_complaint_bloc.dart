@@ -138,16 +138,12 @@ class AddEquipmentComplaintBloc
         isFileLoader = true;
         _eventComplete(emit);
         videoFiles[event.index] = video;
-        print(
-            "File Size -----------  ${DashboardHelper.getFileSize(videoFiles[event.index])}");
         MediaInfo? mediaInfo = await VideoCompress.compressVideo(
           videoFiles[event.index].path.toString(),
           quality: VideoQuality.Res640x480Quality,
           deleteOrigin: false, // It's false by default
         );
         videoFiles[event.index] = mediaInfo!.file!;
-        print(
-            "File Compress Size ----  ${DashboardHelper.getFileSize(videoFiles[event.index])}");
       }
     } else {
       var video = await DashboardHelper.filePiker(context: event.context);
@@ -194,7 +190,7 @@ class AddEquipmentComplaintBloc
       );
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(event.context);
+            .format(!event.context.mounted ? event.context : event.context);
         timeController.text = timeFormat;
         _eventComplete(emit);
       }

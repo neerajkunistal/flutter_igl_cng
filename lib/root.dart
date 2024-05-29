@@ -23,7 +23,7 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    Singleton.instanceInit()?.context = context;
+    Singleton.instance.setContext(context);
     SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     AppConfig.instanceInit()!.setClient(client: widget.client);

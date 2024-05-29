@@ -284,7 +284,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       );
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(event.context);
+            .format(!event.context.mounted ? event.context : event.context);
         timeController.text = timeFormat;
         _eventComplete(emit);
       }
@@ -336,7 +336,6 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         ? DateFormat('h:mm a').parse(timeController.text.toString())
         : DateTime.now();
     String time = "${initialDate1.hour}:${initialDate1.minute}:00";
-    print("Time Print ${time}");
     var res = await MiComplaintHelper.submit(
         context: event.context,
         reviewComplaintData: reviewComplaintData,

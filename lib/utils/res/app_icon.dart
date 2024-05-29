@@ -17,7 +17,7 @@ class AppIcon {
 
   static get reviewIcon => "assets/review_icon.png";
 
-  static get maintinaceIcon => "assets/maintinace_icon.png";
+  static get maintenanceIcon => "assets/maintinace_icon.png";
 
   static get complaintBackground => "assets/complaint_background.png";
 }

@@ -220,7 +220,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset(AppIcon.maintinaceIcon,
+                                  Image.asset(AppIcon.maintenanceIcon,
                                       height:
                                           MediaQuery.of(context).size.width *
                                               0.20),

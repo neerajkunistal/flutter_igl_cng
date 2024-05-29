@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:vibration/vibration.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
   const ViewEquipmentComplaintPage({super.key});
@@ -20,6 +22,7 @@ class ViewEquipmentComplaintPage extends StatefulWidget {
 
 class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
     with SingleTickerProviderStateMixin {
+
   @override
   void initState() {
     BlocProvider.of<ViewEquipmentComplaintBloc>(context)
@@ -222,7 +225,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     fontSize: AppFont.font_11,
                   ))
               : const SizedBox.shrink(),
-          userData.roleType == RoleType.stationUser
+
+         userData.roleType == RoleType.stationUser
               ? TextButton(
                   style: dataState.selectedTabIndex == 4
                       ? ButtonStyle(
@@ -251,7 +255,9 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     fontSize: AppFont.font_11,
                   ))
               : const SizedBox.shrink(),
-          TextButton(
+
+          userData.roleType == RoleType.shiftEngineer
+           ? TextButton(
               style: dataState.selectedTabIndex == 1
                   ? ButtonStyle(
                       backgroundColor:
@@ -275,8 +281,10 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     ? FontWeight.w700
                     : FontWeight.w400,
                 fontSize: AppFont.font_11,
-              )),
-          TextButton(
+              )) : const SizedBox.shrink(),
+
+          userData.roleType == RoleType.shiftEngineer
+          ? TextButton(
               style: dataState.selectedTabIndex == 2
                   ? ButtonStyle(
                       backgroundColor:
@@ -300,7 +308,9 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     ? FontWeight.w700
                     : FontWeight.w400,
                 fontSize: AppFont.font_11,
-              )),
+              )) : const SizedBox.shrink(),
+
+
           TextButton(
               style: dataState.selectedTabIndex == 3
                   ? ButtonStyle(

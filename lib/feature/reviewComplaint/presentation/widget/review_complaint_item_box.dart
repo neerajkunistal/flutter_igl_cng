@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
@@ -8,6 +10,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginDataModel userData = UserInfo.instance!.userData!;
+
     String complaintDate = "";
     if (reviewComplaintData.complaintDateTime != null &&
         reviewComplaintData.complaintDateTime.toString().isNotEmpty) {
@@ -109,12 +113,14 @@ class ReviewComplaintItemBox extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            reviewComplaintData.equipmentCode.toString().isNotEmpty
+            reviewComplaintData.equipmentCode.toString().isNotEmpty &&
+                    userData.roleType != RoleType.stationUser
                 ? _rowWidget(
                     name: "vendor Code",
                     value: reviewComplaintData.vendorCode.toString())
                 : const SizedBox.shrink(),
-            reviewComplaintData.equipmentCode.toString().isNotEmpty
+            reviewComplaintData.equipmentCode.toString().isNotEmpty &&
+                    userData.roleType != RoleType.stationUser
                 ? SizedBox(
                     height: MediaQuery.of(context).size.width * 0.02,
                   )

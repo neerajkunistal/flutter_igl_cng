@@ -3,7 +3,7 @@ import 'package:flutter_igl_cng/utils/commonClass/singleton.dart';
 import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 
 class APIs {
-  static BuildContext? context = Singleton.instanceInit()?.context;
+  static BuildContext? context = Singleton.instance.context;
 
   static final String baseUrl =
       EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
