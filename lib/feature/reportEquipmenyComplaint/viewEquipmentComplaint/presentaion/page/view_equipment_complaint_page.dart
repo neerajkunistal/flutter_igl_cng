@@ -258,6 +258,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
               : const SizedBox.shrink(),
 
           userData.roleType == RoleType.shiftEngineer
+              || userData.roleType == RoleType.mi
            ? TextButton(
               style: dataState.selectedTabIndex == 1
                   ? ButtonStyle(
@@ -284,7 +285,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                 fontSize: AppFont.font_11,
               )) : const SizedBox.shrink(),
 
-          userData.roleType == RoleType.shiftEngineer
+          userData.roleType == RoleType.shiftEngineer ||
+              userData.roleType == RoleType.mi
           ? TextButton(
               style: dataState.selectedTabIndex == 2
                   ? ButtonStyle(
