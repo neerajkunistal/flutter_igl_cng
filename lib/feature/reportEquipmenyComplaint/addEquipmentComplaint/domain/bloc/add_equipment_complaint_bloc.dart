@@ -10,7 +10,7 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
 import 'package:intl/intl.dart';
-import 'package:video_compress_plus/video_compress_plus.dart';
+import 'package:video_compress/video_compress.dart';
 
 part 'add_equipment_complaint_event.dart';
 

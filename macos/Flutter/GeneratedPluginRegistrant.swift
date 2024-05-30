@@ -18,7 +18,7 @@ import package_info_plus
 import path_provider_foundation
 import shared_preferences_foundation
 import url_launcher_macos
-import video_compress_plus
+import video_compress
 import video_player_avfoundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
