@@ -1,4 +1,3 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -9,8 +8,6 @@ import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/revi
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:vibration/vibration.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
   const ViewEquipmentComplaintPage({super.key});
@@ -43,7 +40,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
           children: [
             Expanded(child: _searchController()),
             IconButton(
-                onPressed: () {
+                onPressed: () async {
                   DateTime startDate =
                       BlocProvider.of<ViewEquipmentComplaintBloc>(
                               !context.mounted ? context : context)
@@ -52,27 +49,17 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                       BlocProvider.of<ViewEquipmentComplaintBloc>(
                               !context.mounted ? context : context)
                           .endDate;
-                  showDialog(
-                      context: context,
-                      builder: (mContext) {
-                        return DateRangePopWidget(
-                          startDate: startDate,
-                          endDate: endDate,
-                          onSubmit: (value) {
-                            Navigator.pop(context);
-                            PickerDateRange? date = value as PickerDateRange?;
-                            if (date != null) {
-                              BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                      context)
-                                  .add(
-                                      ViewEquipmentComplaintSelectedDateRangeEvent(
-                                          fromDate: date.startDate!,
-                                          toDate: date.endDate!,
-                                          context: context));
-                            }
-                          },
-                        );
-                      });
+                  var selectedDate =  await DateRangeWidget.showDateRange(
+                      startDate: startDate, endDate: endDate, context : context);
+                    if(selectedDate != null){
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                          !context.mounted ? context : context)
+                          .add(
+                          ViewEquipmentComplaintSelectedDateRangeEvent(
+                              fromDate: selectedDate.start,
+                              toDate: selectedDate.end,
+                              context: !context.mounted ? context : context));
+                    }
                 },
                 icon: Icon(
                   Icons.filter_alt_outlined,
@@ -102,6 +89,20 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         },
       ),
     );
+  }
+
+  DateTimeRange? _initialDateTimeRange(Map<dynamic, dynamic> arguments) {
+    if (arguments['initialStartDate'] != null &&
+        arguments['initialEndDate'] != null) {
+      return DateTimeRange(
+        start: DateTime.fromMillisecondsSinceEpoch(
+            arguments['initialStartDate'] as int),
+        end: DateTime.fromMillisecondsSinceEpoch(
+            arguments['initialEndDate'] as int),
+      );
+    }
+
+    return null;
   }
 
   Future<void> _handleRefresh() async {

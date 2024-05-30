@@ -1,46 +1,28 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class DateRangePopWidget extends StatelessWidget {
-  final Function(Object?) onSubmit;
-  final DateTime? startDate;
-  final DateTime? endDate;
+class DateRangeWidget {
 
-  const DateRangePopWidget({
-    super.key,
-    required this.onSubmit,
-    this.endDate,
-    this.startDate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoAlertDialog(
-      title: Center(
-          child: TextWidget(
-        "Date Picker",
-        fontSize: AppFont.font_16,
-        color: AppColor.themeColor,
-      )),
-      content: SizedBox(
-        height: MediaQuery.of(context).size.height / 2,
-        width: MediaQuery.of(context).size.width,
-        child: SfDateRangePicker(
-          onSubmit: onSubmit,
-          onCancel: () {
-            Navigator.pop(context);
-          },
-          showActionButtons: true,
-          backgroundColor: AppColor.white,
-          headerStyle: DateRangePickerHeaderStyle(
-              backgroundColor: AppColor.themeNormalLightColor),
-          selectionMode: DateRangePickerSelectionMode.range,
-          initialSelectedRange: PickerDateRange(
-              startDate ?? DateTime.now().subtract(const Duration(days: 4)),
-              endDate ?? DateTime.now()),
-        ),
-      ),
+  static Future<DateTimeRange?> showDateRange({
+    required DateTime startDate, required DateTime endDate, required BuildContext context}) async {
+    final picked = await showDateRangePicker(
+      context: context,
+      saveText: "Done",
+      initialDateRange: DateTimeRange(start: startDate, end: endDate),
+      firstDate: DateTime(2000),
+      lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.fromSeed(seedColor: AppColor.themeColor),
+            //.dialogBackgroundColor:Colors.blue[900],
+          ),
+          child: child!,
+        );
+      },
     );
+    return picked;
   }
 }

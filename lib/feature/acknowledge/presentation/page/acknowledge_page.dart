@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -28,24 +27,17 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
           children: [
             Expanded(child: _searchController()),
             IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (mContext) {
-                        return DateRangePopWidget(
-                          onSubmit: (value) {
-                            Navigator.pop(context);
-                            PickerDateRange? date = value as PickerDateRange?;
-                            if (date != null) {
-                              BlocProvider.of<AcknowledgeBloc>(context).add(
-                                  AcknowledgeSelectDateRangeEvent(
-                                      fromDate: date.startDate!,
-                                      toDate: date.endDate!,
-                                      context: context));
-                            }
-                          },
-                        );
-                      });
+                onPressed: () async {
+
+                  var selectedDate =  await DateRangeWidget.showDateRange(
+                      startDate: DateTime.now(), endDate: DateTime.now(), context : context);
+                  if(selectedDate != null){
+                        BlocProvider.of<AcknowledgeBloc>(context).add(
+                            AcknowledgeSelectDateRangeEvent(
+                                fromDate: selectedDate.start!,
+                                toDate: selectedDate.end!,
+                                context: context));
+                  }
                 },
                 icon: Icon(
                   Icons.filter_alt_outlined,
