@@ -47,14 +47,15 @@ class LoginHelper {
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
     var firebaseToken;
-    if(Platform.isAndroid){
-      firebaseToken =  await FirebaseMessaging.instance.getToken();
-    } else {
-      firebaseToken =  await FirebaseMessaging.instance.getAPNSToken();
-    }
-    if (kDebugMode) {
-      print(firebaseToken.toString());
-    }
+     try {
+       firebaseToken =  await FirebaseMessaging.instance.getToken();
+       if (kDebugMode) {
+         print(firebaseToken.toString());
+       }
+     }catch(_){
+       firebaseToken = "";
+     }
+
     try {
       if (await isInternetConnected() == true) {
         var json = LoginScreenRequestModel(
