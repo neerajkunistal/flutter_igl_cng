@@ -46,7 +46,12 @@ class LoginHelper {
       required String password,
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
-    var firebaseToken = await FirebaseMessaging.instance.getToken();
+    var firebaseToken = "";
+    if(Platform.isAndroid){
+      firebaseToken =  FirebaseMessaging.instance.getToken().toString();
+    } else {
+      firebaseToken =  FirebaseMessaging.instance.getAPNSToken().toString();
+    }
     if (kDebugMode) {
       print(firebaseToken.toString());
     }
@@ -65,8 +70,10 @@ class LoginHelper {
             res["status"] != null &&
             res['status'] == 200 &&
             res['user'] != null) {
-          await deleteCacheDir();
-          await deleteAppDir();
+          if(Platform.isAndroid){
+            await deleteCacheDir();
+            await deleteAppDir();
+          }
           return res;
         } else if (res != null &&
             res["status"] != null &&
