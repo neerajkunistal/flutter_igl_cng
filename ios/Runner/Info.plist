@@ -49,5 +49,9 @@
     <string>This app requires to access your camera for complaints.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>This app requires to access your camera for complaints.</string>
+    <key>FirebaseScreenReportingEnabled</key>
+    <true/>
+    <key>FirebaseAppDelegateProxyEnabled</key>
+    <true/>
 </dict>
 </plist>
