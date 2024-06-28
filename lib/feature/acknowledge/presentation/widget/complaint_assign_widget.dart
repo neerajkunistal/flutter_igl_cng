@@ -68,6 +68,18 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
+                          Row(
+                            children: [
+                              Expanded(child: _dateController(dataState: state)),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              Expanded(child: _timeController(dataState: state)),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ),
                           _remarkController(dataState: state),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
@@ -177,35 +189,54 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         : const SizedBox.shrink();
   }
 
+  Widget _dateController({required FetchAcknowledgeDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.date,
+      controller: dataState.closeDateController,
+      onTap: () {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectClosedDateEvent(context: context));
+      },
+    );
+  }
+
+  Widget _timeController({required FetchAcknowledgeDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.time,
+      controller: dataState.closedTimeController,
+      onTap: () {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectClosedTimeEvent(context: context));
+      },
+    );
+  }
+
   Widget _vendorDropDown(
       {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
+        required BuildContext context}) {
     return dataState.assignTypeData.id == "3"
-        ? DropdownWidget(
-            hint: AppString.vendor,
-            dropdownValue:
-                dataState.vendorData.id != null ? dataState.vendorData : null,
-            onChanged: (value) {
-              BlocProvider.of<AcknowledgeBloc>(context)
-                  .add(AcknowledgeSelectVendorEvent(vendorData: value));
-            },
-            items: dataState.vendorList
-                .map<DropdownMenuItem<VendorModel>>((VendorModel vendorData) {
-              return DropdownMenuItem<VendorModel>(
-                value: vendorData,
-                child: TextWidget(
-                    "${vendorData.name.toString()}-(${vendorData.code.toString()})"),
-              );
-            }).toList(),
-          )
-        : const SizedBox.shrink();
+        ? DropDownSearchWidget(
+      selectedItem:
+      dataState.vendorData.id != null ? dataState.vendorData : null,
+      hint: AppString.vendor,
+      items: dataState.vendorList,
+      itemAsString: (vendorData) => "${vendorData.name.toString()}-(${vendorData.code.toString()})",
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectVendorEvent(vendorData: value));
+      },
+    ) : const SizedBox.shrink();
   }
 
   Widget _remarkController({required FetchAcknowledgeDataState dataState}) {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
-        labelText: AppString.remark,
+        labelText: AppString.workDescription,
         controller: dataState.remarkController,
       ),
     );

@@ -86,6 +86,24 @@ class AcknowledgeComplaintSelectedTabIndexEvent extends AcknowledgeEvent {
   List<Object?> get props => [selectedTabIndex];
 }
 
+class AcknowledgeSelectClosedDateEvent extends AcknowledgeEvent {
+  final BuildContext context;
+
+  const AcknowledgeSelectClosedDateEvent({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class AcknowledgeSelectClosedTimeEvent extends AcknowledgeEvent {
+  final BuildContext context;
+
+  const AcknowledgeSelectClosedTimeEvent({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
 class AcknowledgeSelectDateRangeEvent extends AcknowledgeEvent {
   final BuildContext context;
   final DateTime fromDate;

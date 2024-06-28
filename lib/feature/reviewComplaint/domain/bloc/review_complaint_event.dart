@@ -49,6 +49,24 @@ class ReviewComplaintAddImageEvent extends ReviewComplaintEvent {
   List<Object?> get props => [context, mediaType];
 }
 
+class ReviewComplaintSelectTimeData extends ReviewComplaintEvent {
+  final BuildContext context;
+
+  const ReviewComplaintSelectTimeData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class ReviewComplaintSelectDateData extends ReviewComplaintEvent {
+  final BuildContext context;
+
+  const ReviewComplaintSelectDateData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
 class ReviewComplaintSubmitEvent extends ReviewComplaintEvent {
   final BuildContext context;
 

@@ -98,7 +98,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.02,
             ),
             _rowWidget(
-                name: "Station User",
+                name: "Station Name",
                 value: reviewComplaintData.createdByUser.toString()),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,

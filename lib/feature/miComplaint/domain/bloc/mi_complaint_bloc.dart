@@ -29,6 +29,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController qtyController = TextEditingController();
+  TextEditingController rectifyByController = TextEditingController();
 
   List<UomTypeModel> uomTypeList = [];
   UomTypeModel uomTypeData = UomTypeModel();
@@ -68,6 +69,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     timeController.text = "";
     dateController.text = "";
     qtyController.text = "";
+    rectifyByController.text = "";
     uomTypeList = [];
     sparesPartList = [];
     vendorList = [];
@@ -221,6 +223,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         TimeOfDay(hour: time.hour, minute: time.minute).format(event.context);
     if (actionData.id.toString() == "4") {
       timeController.text = "";
+      dateController.text = "";
     } else {
       timeController.text = timeFormat;
     }
@@ -350,6 +353,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         qty: qtyController.text.toString(),
         sparesPartList: sparesPartList,
         vendorData: vendorData,
+        rectifyBy: rectifyByController.text.toString(),
         file: file);
     if (res != null) {
       reviewComplaintData = ReviewComplaintModel();
@@ -361,6 +365,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       dateController.text = "";
       timeController.text = "";
       qtyController.text = "";
+      rectifyByController.text = "";
       file = File("");
       isLoader = false;
       actionData = ActionModel();
@@ -394,6 +399,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       sparesPartList: sparesPartList,
       vendorList: vendorList,
       vendorData: vendorData,
+      rectifyByController: rectifyByController,
     ));
   }
 }

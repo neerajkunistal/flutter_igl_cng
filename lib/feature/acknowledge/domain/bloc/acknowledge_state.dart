@@ -21,6 +21,8 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final AcknowledgeUserModel acknowledgeUserData;
   final bool isUserLoader;
   final TextEditingController remarkController;
+  final TextEditingController closeDateController;
+  final TextEditingController closedTimeController;
   final List<VendorModel> vendorList;
   final VendorModel vendorData;
   final List<AssignTypeModel> assignTypeList;
@@ -53,10 +55,14 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     required this.startDate,
     required this.endDate,
     required this.complaintCount,
+    required this.closeDateController,
+    required this.closedTimeController,
   });
 
   @override
   List<Object> get props => [
+        closeDateController,
+        closedTimeController,
         acknowledgeList,
         isLoader,
         acknowledgeUserList,

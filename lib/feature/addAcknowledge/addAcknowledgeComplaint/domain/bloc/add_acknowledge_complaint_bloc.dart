@@ -301,6 +301,13 @@ class AddAcknowledgeComplaintBloc
   }
 
   _submit(AddAcknowledgeComplaintSubmitEvent event, emit) async {
+
+    if(complaintStatus.toString() == "0"
+         && remarkController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context).show(message: "Please enter remark");
+      return;
+    }
+
     isLoader = true;
     _eventComplete(emit);
 

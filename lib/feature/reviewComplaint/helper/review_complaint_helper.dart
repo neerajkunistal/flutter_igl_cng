@@ -24,6 +24,9 @@ class ReviewComplaintHelper {
       required String approvalValue,
       required String observation,
       required String complaintId,
+      required String rectifyBy,
+      required String closedDate,
+      required String closedTime,
       required List<File> files}) async {
     try {
       String url = APIs.addReviewComplaintApi;
@@ -35,6 +38,8 @@ class ReviewComplaintHelper {
                 : "",
         "remarks": observation.toString(),
         "finalStatus": approvalValue,
+        "rectifyPerson": approvalValue,
+        "closeDateTime": "$closedDate $closedTime",
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
@@ -89,6 +94,9 @@ class ReviewComplaintHelper {
       required ReviewComplaintModel reviewComplaintData,
       required String approvalValue,
       required String observation,
+      required String rectifyBy,
+      required String closedDate,
+      required String closedTime,
       required List<File> files}) async {
     try {
       List<FileModel> fileList = [];
@@ -109,6 +117,8 @@ class ReviewComplaintHelper {
         "stationStatus": "1",
         "stationPerson": "",
         "stationRemarks": observation.toString(),
+        "rectifyPerson": approvalValue,
+        "closeDateTime": "$closedDate $closedTime",
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

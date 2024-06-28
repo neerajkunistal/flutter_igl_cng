@@ -23,6 +23,7 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
   final String action;
   final TextEditingController observationController;
   final TextEditingController descriptionController;
+  final TextEditingController rectifyByController;
   final File file;
   final bool isLoader;
   final List<ActionModel> actionList;
@@ -57,6 +58,7 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
     required this.sparesPartList,
     required this.vendorList,
     required this.vendorData,
+    required this.rectifyByController,
   });
 
   @override
@@ -81,5 +83,6 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
         sparesPartList,
         vendorList,
         vendorData,
+        rectifyByController,
       ];
 }

@@ -50,7 +50,19 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
+            Row(
+              children: [
+                Expanded(child: _dateController(dataState: dataState)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Expanded(child: _timeController(dataState: dataState)),
+              ],
+            ),
+            _verticalSpace(),
             _observationController(dataState: dataState),
+            _verticalSpace(),
+            _rectifiedByController(dataState: dataState),
             _verticalSpace(),
             _imageList(dataState: dataState),
             _verticalSpace(),
@@ -109,11 +121,45 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
+  Widget _dateController({required FetchReviewComplaintDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.date,
+      controller: dataState.closeDateController,
+      onTap: () {
+        BlocProvider.of<ReviewComplaintBloc>(context)
+            .add(ReviewComplaintSelectDateData(context: context));
+      },
+    );
+  }
+
+  Widget _timeController({required FetchReviewComplaintDataState dataState}) {
+    return TextFieldWidget(
+      enabled: false,
+      isRequired: true,
+      labelText: AppString.time,
+      controller: dataState.closeTimeController,
+      onTap: () {
+        BlocProvider.of<ReviewComplaintBloc>(context)
+            .add(ReviewComplaintSelectTimeData(context: context));
+      },
+    );
+  }
+
   Widget _observationController(
       {required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.remark,
-      controller: dataState.observationController,
+      controller: dataState.rectifiedByController,
+    );
+  }
+
+  Widget _rectifiedByController(
+      {required FetchReviewComplaintDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.rectifiedBy,
+      controller: dataState.rectifiedByController,
     );
   }
 

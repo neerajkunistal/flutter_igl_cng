@@ -10,7 +10,8 @@ import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
-  const ViewEquipmentComplaintPage({super.key});
+  final String? title;
+  const ViewEquipmentComplaintPage({super.key, this.title});
 
   @override
   State<ViewEquipmentComplaintPage> createState() =>
@@ -35,37 +36,49 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
       floatingActionButton: userData.roleType == RoleType.stationUser
           ? _floatingActionButton()
           : const SizedBox.shrink(),
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Expanded(child: _searchController()),
-            IconButton(
-                onPressed: () async {
-                  DateTime startDate =
-                      BlocProvider.of<ViewEquipmentComplaintBloc>(
-                              !context.mounted ? context : context)
-                          .startDate;
-                  DateTime endDate =
-                      BlocProvider.of<ViewEquipmentComplaintBloc>(
-                              !context.mounted ? context : context)
-                          .endDate;
-                  var selectedDate =  await DateRangeWidget.showDateRange(
-                      startDate: startDate, endDate: endDate, context : context);
-                    if(selectedDate != null){
-                      BlocProvider.of<ViewEquipmentComplaintBloc>(
-                          !context.mounted ? context : context)
-                          .add(
-                          ViewEquipmentComplaintSelectedDateRangeEvent(
-                              fromDate: selectedDate.start,
-                              toDate: selectedDate.end,
-                              context: !context.mounted ? context : context));
-                    }
-                },
-                icon: Icon(
-                  Icons.filter_alt_outlined,
-                  color: AppColor.white,
-                ))
-          ],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight( widget.title != null
+            ? MediaQuery.of(context).size.height * 0.13 : MediaQuery.of(context).size.height * 0.07),
+        child: AppBar(
+          title: TextWidget(widget.title ?? "", color: AppColor.white,
+            fontSize: AppFont.font_15, fontWeight: FontWeight.w600,),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.13),
+            child: Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.08,
+                  ),
+                  Expanded(child: _searchController()),
+                  IconButton(
+                      onPressed: () async {
+                        DateTime startDate =
+                            BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                    !context.mounted ? context : context)
+                                .startDate;
+                        DateTime endDate =
+                            BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                    !context.mounted ? context : context)
+                                .endDate;
+                        var selectedDate =  await DateRangeWidget.showDateRange(
+                            startDate: startDate, endDate: endDate, context : context);
+                          if(selectedDate != null){
+                            BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                !context.mounted ? context : context)
+                                .add(
+                                ViewEquipmentComplaintSelectedDateRangeEvent(
+                                    fromDate: selectedDate.start,
+                                    toDate: selectedDate.end,
+                                    context: !context.mounted ? context : context));
+                          }
+                      },
+                      icon: Icon(
+                        Icons.filter_alt_outlined,
+                        color: AppColor.white,
+                      ))
+                ],
+              ),
+          ),
         ),
       ),
       body:
@@ -149,7 +162,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
 
   Widget _searchController() {
     return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.13,
+      height: MediaQuery.of(context).size.width * 0.10,
       child: TextField(
         onChanged: (keyword) {
           BlocProvider.of<ViewEquipmentComplaintBloc>(context)

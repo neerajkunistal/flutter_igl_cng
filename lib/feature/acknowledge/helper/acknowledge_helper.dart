@@ -12,6 +12,7 @@ class AcknowledgeHelper {
       {required BuildContext context,
       required VendorModel vendorData,
       required AcknowledgeUserModel userData,
+      required SapCodeModel sapCodeModel,
       required AssignTypeModel assignTypeData}) async {
     try {
       if (assignTypeData.id == null) {
@@ -22,6 +23,9 @@ class AcknowledgeHelper {
         return false;
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
+        return false;
+      } else if(sapCodeModel.code == null){
+        SnackBarErrorWidget(context).show(message: "Please select sap code");
         return false;
       }
       return true;
@@ -47,6 +51,8 @@ class AcknowledgeHelper {
       required SapCodeModel sapCodeData,
       required DepartmentModel departmentData,
       required AssignTypeModel assignTypeData,
+      required String closedDate,
+      required String closedTime,
       required String remark}) async {
     try {
       String url = APIs.assignComplaintApi;
@@ -64,6 +70,7 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
+        "vendorAssignDatetime" : "$closedDate $closedTime"
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&

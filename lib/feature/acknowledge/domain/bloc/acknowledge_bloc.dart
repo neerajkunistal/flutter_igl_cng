@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
@@ -17,6 +19,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   AcknowledgeUserModel acknowledgeUserData = AcknowledgeUserModel();
   bool isUserLoader = false;
   TextEditingController remarkController = TextEditingController();
+  TextEditingController closeDateController = TextEditingController();
+  TextEditingController closeTimeController = TextEditingController();
 
   List<VendorModel> vendorList = [];
   VendorModel vendorData = VendorModel();
@@ -52,6 +56,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     on<AcknowledgeSelectAssignTypeEvent>(_selectAssignType);
     on<AcknowledgeSelectDepartmentEvent>(_selectDepartment);
     on<AcknowledgeSelectSapCodeEvent>(_selectSapCode);
+    on<AcknowledgeSelectClosedDateEvent>(_selectDate);
+    on<AcknowledgeSelectClosedTimeEvent>(_selectTime);
     on<AcknowledgeUserSubmitEvent>(_submit);
   }
 
@@ -66,6 +72,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     vendorData = VendorModel();
     acknowledgeUserData = AcknowledgeUserModel();
     remarkController.text = "";
+    closeDateController.text = "";
+    closeTimeController.text = "";
     assignTypeData = AssignTypeModel();
     assignTypeList = AssignTypeModel().fetchData();
     _selectTabIndex = 0;
@@ -533,11 +541,54 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     _eventComplete(emit);
   }
 
+  _selectDate(AcknowledgeSelectClosedDateEvent event, emit) async {
+    try {
+      final DateTime? picked = await showDatePicker(
+          context: event.context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime.now());
+      if (picked != null) {
+        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        closeDateController.text = formattedDate;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  _selectTime(AcknowledgeSelectClosedTimeEvent event, emit) async {
+    try {
+      DateTime initialDate = closeTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(closeTimeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime: initialTime,
+      );
+      if (time != null) {
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+        closeTimeController.text = timeFormat;
+        _eventComplete(emit);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
   _submit(AcknowledgeUserSubmitEvent event, emit) async {
     var textFiledValidation = await AcknowledgeHelper.textFieldValidationCheck(
         context: event.context,
         vendorData: vendorData,
         userData: acknowledgeUserData,
+        sapCodeModel: sapCodeData,
         assignTypeData: assignTypeData);
     if (textFiledValidation == false) {
       return;
@@ -552,6 +603,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       assignTypeData: assignTypeData,
       sapCodeData: sapCodeData,
       departmentData: departmentData,
+      closedDate: closeDateController.text.toString(),
+      closedTime: closeTimeController.text.toString(),
       remark: remarkController.text.toString(),
     );
     isLoader = false;
@@ -566,6 +619,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       acknowledgeWithOutFilterList = [];
       startDate = startDate;
       endDate = endDate;
+      closeDateController.text = "";
+      closeTimeController.text = "";
       complaintCount = [];
 
       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
@@ -705,6 +760,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         selectTabIndex: selectTabIndex,
         startDate: startDate,
         endDate: endDate,
+        closeDateController: closeDateController,
+        closedTimeController: closeTimeController,
         complaintCount: complaintCount));
   }
 }

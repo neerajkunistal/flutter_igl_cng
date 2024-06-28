@@ -201,6 +201,8 @@ class AppString {
 
   static get remark => "Remark";
 
+  static get workDescription => "Work Description";
+
   static get observation => "Observation";
 
   static get reviewComplaint => "Review Complaint";
@@ -256,6 +258,8 @@ class AppString {
   static get photo => "Photo";
 
   static get video => "Video";
+
+  static get rectifiedBy => "Rectified By";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

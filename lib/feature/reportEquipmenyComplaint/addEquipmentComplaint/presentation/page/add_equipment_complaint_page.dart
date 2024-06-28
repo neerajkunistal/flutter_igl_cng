@@ -69,7 +69,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             dataState.complaintTypeData.id.toString() == "1"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.generalComplaintData.name != null &&
+
+/*            dataState.generalComplaintData.name != null &&
                     dataState.generalComplaintData.name
                             .toString()
                             .toLowerCase() ==
@@ -82,7 +83,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                             .toLowerCase() ==
                         "others"
                 ? _verticalSpace()
-                : const SizedBox.shrink(),
+                : const SizedBox.shrink(),*/
+
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -158,24 +160,19 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   Widget _equipmentDropDown(
       {required FetchAddEquipmentComplaintState dataState}) {
-    return DropdownWidget(
-      hint: AppString.selectEquipment,
-      dropdownValue: dataState.equipmentTypeData.description != null
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.equipmentTypeData.equipmentCode != null
           ? dataState.equipmentTypeData
           : null,
+      hint: AppString.selectEquipment,
+      items: dataState.equipmentTypeList,
+      itemAsString: (equipmentTypeData) => equipmentTypeData.equipmentCode.toString(),
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentDataEvent(
                 equipmentTypeData: value));
       },
-      items: dataState.equipmentTypeList
-          .map<DropdownMenuItem<EquipmentTypeModel>>(
-              (EquipmentTypeModel equipmentTypeData) {
-        return DropdownMenuItem<EquipmentTypeModel>(
-          value: equipmentTypeData,
-          child: Text(equipmentTypeData.description.toString()),
-        );
-      }).toList(),
     );
   }
 

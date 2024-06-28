@@ -46,7 +46,7 @@ class LoginHelper {
       required String password,
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
-    var firebaseToken;
+    String? firebaseToken;
      try {
        firebaseToken =  await FirebaseMessaging.instance.getToken();
        if (kDebugMode) {

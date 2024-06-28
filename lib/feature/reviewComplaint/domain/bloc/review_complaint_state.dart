@@ -20,6 +20,9 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final ReviewComplaintModel reviewComplaintData;
   final String approvalValue;
   final TextEditingController observationController;
+  final TextEditingController closeDateController;
+  final TextEditingController closeTimeController;
+  final TextEditingController rectifiedByController;
   final List<File> files;
 
   const FetchReviewComplaintDataState({
@@ -29,6 +32,9 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
     required this.approvalValue,
     required this.reviewComplaintData,
     required this.reviewComplaintList,
+    required this.closeDateController,
+    required this.closeTimeController,
+    required this.rectifiedByController,
   });
 
   @override
@@ -39,5 +45,8 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
         approvalValue,
         reviewComplaintData,
         reviewComplaintList,
+        closeDateController,
+        closeTimeController,
+        rectifiedByController,
       ];
 }

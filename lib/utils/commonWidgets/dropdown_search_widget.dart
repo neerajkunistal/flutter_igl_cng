@@ -83,6 +83,7 @@ class DropDownSearchWidget extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.30,
                         child: ButtonWidget(
+                          fontSize: AppFont.font_12,
                           onPressed: () {
                             Navigator.pop(context);
                           },
