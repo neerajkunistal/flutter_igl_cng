@@ -54,5 +54,9 @@ class APIs {
 
   static get getReviewSelfComplaintApi => "api/cr/reviewed-self";
 
+  static get getCivilCategoryApi => "api/onm/civil-categories";
+
+  static get getCrStationApi => "api/cng/cr-station";
+
   static get forgotPasswordApi => "";
 }

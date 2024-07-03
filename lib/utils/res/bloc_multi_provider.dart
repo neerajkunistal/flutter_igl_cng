@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
+import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 
 MultiProvider blocMultiProvider({required Widget child}) {
   return MultiProvider(
@@ -17,6 +19,10 @@ MultiProvider blocMultiProvider({required Widget child}) {
           create: (BuildContext context) => ViewEquipmentComplaintBloc()),
       BlocProvider(
           create: (BuildContext context) => AddAcknowledgeComplaintBloc()),
+      BlocProvider(
+          create: (BuildContext context) => AddCngBloc()),
+      BlocProvider(
+          create: (BuildContext context) => ViewCngBloc()),
     ],
     child: child,
   );
