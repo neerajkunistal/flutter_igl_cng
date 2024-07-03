@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/helper/view_equipment_complaint.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
@@ -14,6 +15,9 @@ class ViewEquipmentComplaintBloc
     extends Bloc<ViewEquipmentComplaintEvent, ViewEquipmentComplaintState> {
   List<ReviewComplaintModel> reviewComplaintList = [];
   List<ReviewComplaintModel> reviewComplaintWithOutFilterList = [];
+
+  List<ReviewComplaintModel> reviewSelfComplaintList = [];
+  List<ReviewComplaintModel> reviewSelfComplaintWithOutFilterList = [];
 
   int _selectTabIndex = 0;
 
@@ -49,6 +53,16 @@ class ViewEquipmentComplaintBloc
             fromDate: startDate.toString(), toDate: endDate.toString());
 
     _selectTabIndex = userData.roleType == RoleType.stationUser ? 0 : 1;
+
+
+    if(userData.roleType == RoleType.shiftEngineer){
+      var reviewSelfComplaintRes =  await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
+      if(reviewSelfComplaintRes != null){
+        reviewSelfComplaintList = reviewSelfComplaintRes;
+        reviewSelfComplaintWithOutFilterList = reviewSelfComplaintRes;
+      }
+    }
+
 
     if (res != null) {
       reviewComplaintList = res;
@@ -115,6 +129,8 @@ class ViewEquipmentComplaintBloc
             element.ackStatus.toString() != "0")
         .toList()
         .length);
+
+    complaintCount.add(reviewSelfComplaintList.length);
 
     _eventComplete(emit);
   }
@@ -187,6 +203,52 @@ class ViewEquipmentComplaintBloc
                 .toLowerCase()
                 .contains(keyword.toLowerCase()))
             .toList();
+      }
+
+      else if (selectTabIndex == 5) {
+        reviewComplaintList = reviewComplaintWithOutFilterList
+            .where((element) => element.tokenNo
+            .toString()
+            .toLowerCase()
+            .contains(keyword.toLowerCase()))
+            .toList();
+
+        if (reviewComplaintList.isEmpty) {
+          reviewComplaintList = reviewComplaintWithOutFilterList
+              .where((element) => element.createdByUser
+              .toString()
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
+              .toList();
+        }
+
+        if (reviewComplaintList.isEmpty) {
+          reviewComplaintList = reviewComplaintWithOutFilterList
+              .where((element) => element.complaintDateTime
+              .toString()
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
+              .toList();
+        }
+
+        if (reviewComplaintList.isEmpty) {
+          reviewComplaintList = reviewComplaintWithOutFilterList
+              .where((element) => element.complaintDescription
+              .toString()
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
+              .toList();
+        }
+
+        if (reviewComplaintList.isEmpty) {
+          reviewComplaintList = reviewComplaintWithOutFilterList
+              .where((element) => element.equipmentName
+              .toString()
+              .toLowerCase()
+              .contains(keyword.toLowerCase()))
+              .toList();
+        }
+        complaintCount.add(reviewSelfComplaintList.length);
       }
     } else {
       reviewComplaintList = tempList;
@@ -300,7 +362,11 @@ class ViewEquipmentComplaintBloc
               element.ackStatus.toString() != "0")
           .toList()
           .length;
+    } else if (selectTabIndex == 5) {
+      reviewComplaintList = reviewSelfComplaintList;
+      complaintCount.add(reviewSelfComplaintList.length);
     }
+
     _eventComplete(emit);
   }
 
@@ -333,6 +399,14 @@ class ViewEquipmentComplaintBloc
                   element.miAssignType.toString() == "0" &&
                   element.complaintStatus.toString() == "0")
           .toList();
+    }
+
+    if(userData.roleType == RoleType.shiftEngineer){
+      var reviewSelfComplaintRes =  await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
+      if(reviewSelfComplaintRes != null){
+        reviewSelfComplaintList = reviewSelfComplaintRes;
+        reviewSelfComplaintWithOutFilterList = reviewSelfComplaintRes;
+      }
     }
 
     if (selectTabIndex == 0) {
@@ -434,6 +508,9 @@ class ViewEquipmentComplaintBloc
               element.ackStatus.toString() != "0")
           .toList()
           .length;
+    } else if (selectTabIndex == 5) {
+      reviewComplaintList = reviewSelfComplaintList;
+      complaintCount.add(reviewSelfComplaintList.length);
     }
 
     _eventComplete(emit);

@@ -352,6 +352,33 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                     : FontWeight.w400,
                 fontSize: AppFont.font_11,
               )),
+
+          userData.roleType == RoleType.shiftEngineer
+           ? TextButton(
+              style: dataState.selectedTabIndex == 5
+                  ? ButtonStyle(
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(AppColor.themeColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 5));
+              },
+              child: TextWidget(
+                "REV-${dataState.complaintCount[5]}",
+                color: dataState.selectedTabIndex == 5
+                    ? AppColor.white
+                    : AppColor.black,
+                fontWeight: dataState.selectedTabIndex == 5
+                    ? FontWeight.w700
+                    : FontWeight.w400,
+                fontSize: AppFont.font_11,
+              )) : const SizedBox.shrink(),
         ],
       ),
     );
@@ -448,7 +475,23 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                   context:
                                       !context.mounted ? context : context));
                         }
-                      } else if (userLogin.roleType == RoleType.mi &&
+                      } else if (userLogin.roleType == RoleType.shiftEngineer && dataState.selectedTabIndex == 5) {
+                        BlocProvider.of<ReviewComplaintBloc>(context).add(
+                            ReviewComplaintPageLoadEvent(
+                                context: context,
+                                reviewComplaintData:
+                                dataState.reviewComplaintList[index]));
+                        var result = await Navigator.push(context,
+                            FadeRoute(page: const ReviewComaplintPage()));
+                        if (!context.mounted) result;
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                              !context.mounted ? context : context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                              context:
+                              !context.mounted ? context : context));
+                        }
+                      }else if (userLogin.roleType == RoleType.mi &&
                           dataState.reviewComplaintList[index].action.toString() !=
                               "3" &&
                           dataState.reviewComplaintList[index].complaintStatus

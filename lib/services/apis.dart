@@ -52,5 +52,7 @@ class APIs {
 
   static get getSapCodeApi => "api/cr/sap-codes";
 
+  static get getReviewSelfComplaintApi => "api/cr/reviewed-self";
+
   static get forgotPasswordApi => "";
 }
