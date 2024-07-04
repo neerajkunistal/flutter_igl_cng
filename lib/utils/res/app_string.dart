@@ -261,6 +261,14 @@ class AppString {
 
   static get rectifiedBy => "Rectified By";
 
+  static get category => "Category";
+
+  static get cngStation => "Cng Station";
+
+  static get controlRoom => "Control Room";
+
+  static get reportedBy => "Reported By";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

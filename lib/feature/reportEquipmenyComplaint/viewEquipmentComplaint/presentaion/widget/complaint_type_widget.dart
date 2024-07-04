@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
@@ -26,7 +27,11 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
-
+                    Navigator.push(
+                      context,
+                      FadeRoute(
+                          page: const ViewCngPage()),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
