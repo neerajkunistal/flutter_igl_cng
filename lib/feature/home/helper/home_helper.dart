@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/page/view_amo_complaint_page.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/page/view_ci_complaint_page.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
@@ -63,6 +66,12 @@ class HomeHelper {
         pageList.add(const ComplaintTypeWidget());
       } else if (userData.roleType == RoleType.mi) {
         pageList.add(const ViewEquipmentComplaintPage());
+      } else if (userData.roleType == RoleType.amo) {
+        pageList.add(const ViewAmoComplaintPage());
+      } else if (userData.roleType == RoleType.ci) {
+        pageList.add(const ViewCiComplaintPage());
+      } else if (userData.roleType == RoleType.cv) {
+        pageList.add(const ViewCvComplaintPage());
       }
     } catch (_) {}
     return pageList;

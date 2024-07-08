@@ -24,8 +24,6 @@ class APIs {
 
   static get getAcknolegeApi => "api/cr/acknowledge";
 
-  static get addCivilComplaintApi => "api/cr/shift-eng-complaint";
-
   static get getReviewComplaintApi => "api/cng/review-complaints";
 
   static get addReviewComplaintApi => "api/cr/review-complaints";
@@ -57,6 +55,21 @@ class APIs {
   static get getCivilCategoryApi => "api/onm/civil-categories";
 
   static get getCrStationApi => "api/cng/cr-station";
+
+  static get addCivilComplaintApi => "api/cng/civil-complaints";
+
+  static get getVendorListApi => "api/cr/vendors";
+
+  static get assignVendorApi => "api/cr/civil-assign";
+
+  static get civilComplaintApproveApi => "api/cr/civil-approve";
+
+  static get estimateComplaintApproveApi => "api/cr/estimate";
+
+  static get civilFinalComplaintApproveApi => "api/cr/final-status";
+
+  static get addEstimateApi => "api/cv/estimate";
+
 
   static get forgotPasswordApi => "";
 }

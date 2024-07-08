@@ -153,6 +153,8 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       return;
     }
 
+    isLoader =  true;
+    _eventCompleted(emit);
     LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
     var res =  await AddCngHelper.submitData(context: event.context,
         categoryData: categoryData,
@@ -160,12 +162,20 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
         time: timeController.text.toString(),
         description: descriptionController.text.toString(),
         reportedBy: reportedByController.text.toString(),
+        crStationData: crStationData,
         fileList: fileList, userData: userData);
-
-
-    isLoader =  true;
+    if(res != null){
+      isLoader =  false;
+      descriptionController =  TextEditingController();
+      dateController =  TextEditingController();
+      timeController = TextEditingController();
+      reportedByController =  TextEditingController();
+      categoryData =  CategoryModel();
+      fileList = [];
+      Navigator.of(!event.context.mounted ? event.context : event.context).pop();
+    }
+    isLoader =  false;
     _eventCompleted(emit);
-
   }
 
   _eventCompleted(Emitter<AddCngState> emit)  {

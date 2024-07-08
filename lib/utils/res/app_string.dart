@@ -241,6 +241,8 @@ class AppString {
 
   static get changeStatus => "Change Status";
 
+  static get change => "Change";
+
   static get status => "Status";
 
   static get reAssign => "Re Assign";
@@ -268,6 +270,12 @@ class AppString {
   static get controlRoom => "Control Room";
 
   static get reportedBy => "Reported By";
+
+  static get estimateApprove => "Reported By";
+
+  static get update => "Update";
+
+  static get amount => "Amount";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

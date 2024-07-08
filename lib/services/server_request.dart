@@ -23,6 +23,7 @@ class ServerRequest {
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
       log(Uri.parse(url.toString()).toString());
+      log(header.toString());
       final response = await get(Uri.parse(url.toString()), headers: header)
           .timeout(const Duration(minutes: 1));
       log(response.body);

@@ -1,15 +1,20 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/amo_update_status_widget.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
 
-class ViewCngItemBoxWidget extends StatelessWidget {
+class ViewCvComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
   final int index;
 
-  const ViewCngItemBoxWidget(
+  const ViewCvComplaintItemBoxWidget(
       {super.key, required this.index, required this.cngData});
 
   @override
@@ -57,14 +62,23 @@ class ViewCngItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget("Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintStatus.toString() == "0" ? "Pending" :
-                cngData.complaintStatus.toString() == "1" ?  "Approved" : "Reject" ,
+                Expanded(child: TextWidget(cngData.approveStatus.toString() == "0" ? "Pending" :
+                cngData.approveStatus.toString() == "1" ?  "Approved" : "Reject" ,
                   fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
-                  color: cngData.complaintStatus.toString() == "0" ? AppColor.orange :
-                  cngData.complaintStatus.toString() == "1" ?  AppColor.green : AppColor.red,
+                  color: cngData.approveStatus.toString() == "0" ? AppColor.orange :
+                  cngData.approveStatus.toString() == "1" ?  AppColor.green : AppColor.red,
                 )),
               ],
             ),
+
+            cngData.estimateCost.toString() == "0" ?
+            Row(
+              children: [
+                TextWidget("Update Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                Expanded(child: _updateStatusButton(cngData: cngData, index: index, context: context)),
+              ],
+            ) : const SizedBox.shrink(),
+
             Divider(color: AppColor.lightGrey,),
             Row(
               children: [
@@ -75,6 +89,28 @@ class ViewCngItemBoxWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _updateStatusButton({required CngModel cngData, required int index, required BuildContext context})  {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.34,
+        height: MediaQuery.of(context).size.height * 0.07,
+        child: ButtonWidget(
+            fontSize: AppFont.font_12,
+            text: AppString.update,
+            onPressed: () async {
+              var res =  await showDialog(
+                  context: !context.mounted ? context : context,
+                  builder: (BuildContext mContext) => ViewCvUpdateStatusWidget(cngData: cngData));
+              if(res.toString() == "Complete"){
+                BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCvComplaintPageLoadEvent());
+              }
+            }),
+        ),
     );
   }
 }

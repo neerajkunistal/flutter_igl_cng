@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/model/category_model.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/model/cr_stattion_model.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 
 class AddCngHelper {
@@ -72,6 +73,7 @@ class AddCngHelper {
 
   static Future<dynamic> submitData({required BuildContext context,
     required CategoryModel categoryData,
+    required CrStationModel crStationData,
     required String date,
     required String time,
     required String description,
@@ -81,8 +83,56 @@ class AddCngHelper {
   }) async {
     try{
 
-      return null;
+
+      String url =  APIs.addCivilComplaintApi;
+      List<FileModel> files = [];
+      int i = 0;
+      for (var fileData in fileList) {
+        if (fileData.path.isNotEmpty) {
+          files.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
+          i++;
+        }
+      }
+      var json = {
+        "controlRoomId" : crStationData.controlRoomId.toString(),
+        "cngStationId" : crStationData.cngStationId.toString(),
+        "categoryId" : categoryData.id.toString(),
+        "description" : description,
+        "incidentDateTime" : "$date $time",
+        "reportBy" : reportedBy,
+      };
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url, body: json, fileList: files, context: context);
+      if(res != null && res['status'] != null
+           && res['status'] == true && res['message'] != null){
+        if (!context.mounted) return res;
+        SnackBarSuccessWidget(context).show(message:  res['message']);
+        return res;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['error'] != null) {
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['error'].toString());
+        return null;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['errors'] != null) {
+        String response = res['errors'].toString();
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(
+            message: response.replaceAll("[{", "").toString()
+              ..replaceAll("}]", ""));
+        return null;
+      } else {
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
+      }
     }catch(e){
+      if (!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: e.toString());
       return null;
     }

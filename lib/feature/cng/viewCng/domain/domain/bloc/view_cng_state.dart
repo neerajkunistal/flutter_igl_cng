@@ -8,3 +8,17 @@ final class ViewCngInitial extends ViewCngState {
   @override
   List<Object> get props => [];
 }
+
+final class ViewCngPageLoadState extends ViewCngInitial {
+  @override
+  List<Object> get props => [];
+}
+
+final class FetchViewCngDataState extends ViewCngInitial {
+  final List<CngModel> cngList;
+  FetchViewCngDataState({required this.cngList});
+  @override
+  List<Object> get props => [
+    cngList
+  ];
+}
