@@ -11,8 +11,8 @@ class CenterLoaderWidget extends StatelessWidget {
         ? MediaQuery.of(context).size.width * 0.10
         : MediaQuery.of(context).size.width * 0.05;
     return Center(
-      child: SpinKitCubeGrid(
-        color: AppColor.themeColor,
+      child: SpinKitFadingCube(
+        color: Colors.yellow,
         size: size,
       ),
     );

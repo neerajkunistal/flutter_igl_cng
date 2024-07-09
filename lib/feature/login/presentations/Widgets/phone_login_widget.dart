@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_state.dart';
+import 'package:flutter_igl_cng/utils/res/app_font.dart';
+import 'package:flutter_igl_cng/utils/res/app_icon.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
@@ -15,111 +19,104 @@ class PhoneLoginWidget extends StatefulWidget {
 class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
   @override
   Widget build(BuildContext context) {
-    return _itemBuilder(dataState: widget.dataState);
+    return appBackGround(
+      context: context,
+      child: Column(
+        children: [
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _logo(),
+              TextWidget("IGL CNG!\nLogin",
+                fontSize: AppFont.font_20,
+                color: AppColor.white,
+                fontWeight: FontWeight.w700,
+                textAlign: TextAlign.center,),
+            ],
+          )),
+          Expanded(
+            child: SingleChildScrollView(
+              // reverse: true,
+              physics: const AlwaysScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.5,
+                decoration:  BoxDecoration(
+                  color: AppColor.white,
+                  image: DecorationImage(
+                    opacity: 0.080,
+                    image: AssetImage(AppIcon.loginBackground),
+                    fit: BoxFit.cover,
+                  ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                    )
+                ),
+                child: Center(
+                  child: _itemBuilder(dataState: widget.dataState),
+                ),
+              ),
+          ))],
+      ),
+    );
   }
 
   Widget _itemBuilder({required FetchLoginStateData dataState}) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          reverse: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          scrollDirection: Axis.vertical,
-          child: Card(
-            elevation: 2,
-            shadowColor: AppColor.themeLightColor,
-            color: AppColor.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _verticalSpace(),
-                _logo(),
-                _verticalSpace(),
-                TextWidget(
-                  AppString.appName,
-                  fontSize: AppFont.font_18,
-                  fontWeight: FontWeight.w700,
-                ),
-                _verticalSpace(),
-                _emailTextField(dataState: dataState),
-                _verticalSpace(),
-                _passwordTextField(dataState: dataState),
-                _verticalSpace(),
-                // _forgotPassword(dataState: dataState),
-                _loginButton(dataState: dataState),
-                _verticalSpace(),
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).viewInsets.bottom * 0.4),
-                  // padding: EdgeInsets.only(bottom: 100),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      AppIcon.appLogoUnistal,
-                      height: MediaQuery.of(context).size.width * 0.05,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.03,
-                    ),
-                    TextWidget(
-                      "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-                      fontSize: AppFont.font_12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.width * 0.02),
-                  // padding: EdgeInsets.only(bottom: 100),
-                ),
-              ],
-            ),
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _verticalSpace(),
+        _emailTextField(dataState: dataState),
+        _verticalSpace(),
+        _passwordTextField(dataState: dataState),
+        _verticalSpace(),
+        _loginButton(dataState: dataState),
+        _verticalSpace(),
+        Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom * 0.4),
+          // padding: EdgeInsets.only(bottom: 100),
         ),
-      ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              AppIcon.appLogoUnistal,
+              height: MediaQuery.of(context).size.width * 0.05,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.03,
+            ),
+            TextWidget(
+              "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
+              fontSize: AppFont.font_12,
+              fontWeight: FontWeight.w700,
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).size.width * 0.02),
+          // padding: EdgeInsets.only(bottom: 100),
+        ),
+      ],
     );
   }
 
   Widget _logo() {
     return Hero(
       tag: 'logo',
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.27,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 00.0,
-              top: 00.0,
-              right: 00.0,
-              bottom: MediaQuery.of(context).size.height * 0.08,
-              child: Image.asset(
-                AppConfig.instanceInit()!.client == Client.iglcng
-                    ? AppIcon.appLogoIgl
-                    : AppIcon.appLogoIgl,
-                width: MediaQuery.of(context).size.width * 0.30,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                AppIcon.colourStrip,
-                color: AppColor.themeColor,
-                fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-          ],
-        ),
+      child: Image.asset(
+        AppConfig.instanceInit()!.client == Client.iglcng
+            ? AppIcon.appLogoIgl
+            : AppIcon.appLogoIgl,
+        width: MediaQuery.of(context).size.width * 0.30,
       ),
     );
   }
@@ -132,6 +129,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       ),
       child: TextFieldWidget(
         isRequired: true,
+        isBoardRemove: true,
         labelText: AppString.userName,
         textInputType: TextInputType.emailAddress,
         controller: dataState.userNameTextFiledController,
@@ -149,6 +147,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       ),
       child: TextFieldPasswordWidget(
         isRequired: true,
+        isBoardRemove: true,
         labelText: AppString.password,
         obscureText: dataState.isPassword,
         isPasswordIcon: true,
@@ -167,10 +166,11 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
     return dataState.isLoader == false
         ? Padding(
             padding: EdgeInsets.only(
-              left: MediaQuery.of(context).size.width * 0.05,
-              right: MediaQuery.of(context).size.width * 0.05,
+              left: MediaQuery.of(context).size.width * 0.20,
+              right: MediaQuery.of(context).size.width * 0.20,
             ),
             child: ButtonWidget(
+                backgroundColor: AppColor.themeColor,
                 isLockIcon: true,
                 text: AppString.login,
                 onPressed: () {
@@ -183,7 +183,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
 
   _verticalSpace() {
     return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.07,
+      height: MediaQuery.of(context).size.height * 0.05,
     );
   }
 }

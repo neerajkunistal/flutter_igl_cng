@@ -19,21 +19,35 @@ class HomeDrawerWidget extends StatelessWidget {
         if (state is FetchHomeDataState) {
           return Container(
             color: AppColor.white,
-            width: MediaQuery.of(context).size.width / 1.5,
-            padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
-            child: ListView(
-              children: [
-                _header(context: context),
-                const Divider(),
-                _listBuilder(dataState: state),
-/*            _changePassword(context: context),*/
-/*            userData.roleType == RoleType.shiftEngineer
-                ? _acknowledge(context: context) : const SizedBox.shrink(),
-            _viewEquipmentComplaint(context: context),
-            userData.roleType == RoleType.mi
-            ? _miComplaint(context: context): const SizedBox.shrink(),*/
-                _logout(context: context),
-              ],
+            child: Container(
+              // color: AppColor.white,
+              width: MediaQuery.of(context).size.width / 1.5,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromARGB(255, 85, 124, 18),
+                    Color.fromRGBO(200, 169, 20, 18),
+                    Color.fromARGB(255, 85, 124, 18),
+                  ],
+                ),
+              ),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+              child: ListView(
+                children: [
+                  _header(context: context),
+                  SizedBox(height: MediaQuery.of(context).size.width * 0.10,),
+                  _listBuilder(dataState: state),
+            /*            _changePassword(context: context),*/
+            /*            userData.roleType == RoleType.shiftEngineer
+                  ? _acknowledge(context: context) : const SizedBox.shrink(),
+              _viewEquipmentComplaint(context: context),
+              userData.roleType == RoleType.mi
+              ? _miComplaint(context: context): const SizedBox.shrink(),*/
+                  _logout(context: context),
+                ],
+              ),
             ),
           );
         } else {
@@ -54,8 +68,8 @@ class HomeDrawerWidget extends StatelessWidget {
             AppConfig.instanceInit()!.client == Client.iglcng
                 ? AppIcon.appLogoIgl
                 : AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.12,
-            width: MediaQuery.of(context).size.width * 0.12,
+            height: MediaQuery.of(context).size.width * 0.15,
+            width: MediaQuery.of(context).size.width * 0.15,
           ),
         ),
         SizedBox(
@@ -68,10 +82,11 @@ class HomeDrawerWidget extends StatelessWidget {
               TextWidget(
                 userData.name.toString(),
                 fontSize: AppFont.font_14,
+                color: AppColor.white,
               ),
               TextWidget(
                 userData.email.toString(),
-                color: AppColor.grey,
+                color: AppColor.white,
                 fontSize: AppFont.font_12,
               ),
             ],
@@ -116,11 +131,20 @@ class HomeDrawerWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  drawerData.icon,
-                  color: drawerData.isSelected == true
-                      ? AppColor.themeColor
-                      : AppColor.black,
+                Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                      color: Colors.white.withOpacity(.2),
+                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Icon(
+                      drawerData.icon,
+                      color: drawerData.isSelected == true
+                          ? AppColor.white
+                          : AppColor.white,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.03,
@@ -130,8 +154,8 @@ class HomeDrawerWidget extends StatelessWidget {
                     drawerData.label,
                     fontSize: AppFont.font_13,
                     color: drawerData.isSelected == true
-                        ? AppColor.themeColor
-                        : AppColor.black,
+                        ? AppColor.white
+                        : AppColor.white,
                     fontWeight: drawerData.isSelected == true
                         ? FontWeight.w700
                         : FontWeight.w400,
@@ -141,7 +165,7 @@ class HomeDrawerWidget extends StatelessWidget {
                   drawerData.isSelected == true && drawerData.sublist.isNotEmpty
                       ? Icons.keyboard_arrow_down_sharp
                       : Icons.keyboard_arrow_right_sharp,
-                  color: AppColor.black,
+                  color: AppColor.white,
                 ),
               ],
             ),
@@ -189,7 +213,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       size: MediaQuery.of(context).size.width * 0.03,
                       color: drawerData.sublist[index].isSelected == true
                           ? AppColor.themeColor
-                          : AppColor.black,
+                          : AppColor.white,
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.03,
@@ -200,12 +224,12 @@ class HomeDrawerWidget extends StatelessWidget {
                         fontSize: AppFont.font_12,
                         color: drawerData.sublist[index].isSelected == true
                             ? AppColor.themeColor
-                            : AppColor.black,
+                            : AppColor.white,
                       ),
                     ),
                     Icon(
                       Icons.keyboard_arrow_right_sharp,
-                      color: AppColor.black,
+                      color: AppColor.white,
                     ),
                   ],
                 ),
@@ -227,16 +251,26 @@ class HomeDrawerWidget extends StatelessWidget {
         },
         child: Row(
           children: [
-            Icon(
-              Icons.logout,
-              color: AppColor.black,
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                // color: Colors.white.withOpacity(.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Icon(
+                  Icons.logout,
+                  color: AppColor.white,
+                ),
+              ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.03,
+              width: MediaQuery.of(context).size.width * 0.02,
             ),
             TextWidget(
               AppString.logout,
-              fontSize: AppFont.font_12,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
             ),
           ],
         ),

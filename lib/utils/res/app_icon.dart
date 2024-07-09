@@ -20,4 +20,12 @@ class AppIcon {
   static get maintenanceIcon => "assets/maintinace_icon.png";
 
   static get complaintBackground => "assets/complaint_background.png";
+
+  static get transperentBackground => "assets/transperent_background.png";
+
+  static get loginBackground => "assets/login_background.png";
+
+  static get menuIcon => "assets/menu.png";
+
+  static get pumpIcon => "assets/pump.png";
 }

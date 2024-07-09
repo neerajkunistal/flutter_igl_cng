@@ -14,6 +14,7 @@ class TextFieldWidget extends StatelessWidget {
   final int? maxLine;
   final Widget? suffixIcon;
   final bool? isRequired;
+  final bool? isBoardRemove;
 
   const TextFieldWidget({
     super.key,
@@ -27,6 +28,7 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIcon,
     this.maxLine,
     this.isRequired,
+    this.isBoardRemove,
   });
 
   @override
@@ -62,7 +64,7 @@ class TextFieldWidget extends StatelessWidget {
           maxLines: maxLine ?? 1,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-                horizontal: 8, vertical: maxLine != null ? 8 : 0),
+                horizontal: isBoardRemove == true ? 0 : 8, vertical: maxLine != null && isBoardRemove != true  ? 8 : 0),
             suffixIcon: suffixIcon ?? const Text(""),
             label: Text.rich(TextSpan(children: [
               TextSpan(text: labelText),
@@ -72,17 +74,22 @@ class TextFieldWidget extends StatelessWidget {
             ])),
             labelStyle: TextStyle(
               fontSize: AppFont.font_14,
+              fontWeight: FontWeight.w700,
               color: controller == null
-                  ? AppColor.themeColor
+                  ? AppColor.black
                   : controller!.text.toString().isNotEmpty
-                      ? AppColor.themeColor
-                      : AppColor.themeColor,
+                      ? AppColor.black
+                      : AppColor.black,
             ),
             fillColor: Colors.white,
-            border: OutlineInputBorder(
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey, width: 1.0),
+            ),
+            border: isBoardRemove == true ? null :
+            OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
-                width: 1,
+                width: 1 ,
                 style: BorderStyle.none,
               ),
             ),

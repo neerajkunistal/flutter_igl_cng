@@ -31,7 +31,7 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
             return Center(
               child:
                   AppConfig.getDeviceType(context: context) == DeviceType.phone
-                      ? PhoneLoginWidget(dataState: state)
+                       ? PhoneLoginWidget(dataState: state)
                       : TabletLoginWidget(
                           dataState: state,
                         ),
@@ -45,4 +45,5 @@ class _LoginScreenPageState extends State<LoginScreenPage> {
       ),
     );
   }
+
 }

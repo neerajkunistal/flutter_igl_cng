@@ -23,7 +23,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
     }
 
     return Card(
-      elevation: 2,
+      elevation: 7,
       shadowColor: AppColor.themeColor,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
