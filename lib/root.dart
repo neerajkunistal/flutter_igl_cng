@@ -28,7 +28,7 @@ class _RootState extends State<Root> {
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return blocMultiProvider(
-        child: MaterialApp(
+      child: MaterialApp(
       navigatorKey: navigatorKey,
       title: 'CNG',
       debugShowCheckedModeBanner: false,
