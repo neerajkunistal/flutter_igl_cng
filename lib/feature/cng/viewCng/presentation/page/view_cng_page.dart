@@ -100,10 +100,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
                         }),
                   ),
                 ),
-              )
-              : const Center(
-                  child: TextWidget("No Data"),
-                ),
+              ) : const Center( child: TextWidget("No Data") ),
         ],
       ),
     );

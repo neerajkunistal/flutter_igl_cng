@@ -77,6 +77,19 @@ Widget appBackGround({required Widget child, required BuildContext context, bool
     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
     child: Stack(
       children: [
+        Positioned(
+          top: 20.0,
+          left: MediaQuery.of(context).size.width * 0.18,
+          right: 0.0,
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height/2.5,
+            child: Image.asset(
+              AppIcon.pumpIcon,
+              opacity: const AlwaysStoppedAnimation(.9),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
         Image.asset(AppIcon.transperentBackground,
           fit: BoxFit.fill,
           width: MediaQuery.of(context).size.width,),

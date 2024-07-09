@@ -28,4 +28,6 @@ class AppIcon {
   static get menuIcon => "assets/menu.png";
 
   static get pumpIcon => "assets/pump.png";
+
+  static get ghungaruIcon => "assets/ghungaru.png";
 }

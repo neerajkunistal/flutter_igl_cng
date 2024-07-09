@@ -82,25 +82,28 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         ),
       ),
       body:
-          BlocBuilder<ViewEquipmentComplaintBloc, ViewEquipmentComplaintState>(
-        builder: (context, state) {
-          if (state is FetchViewEquipmentComplaintDataState) {
-            return RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: Column(
-                children: [
-                  _tabWidget(dataState: state),
-                  Expanded(child: _listBuilder(dataState: state)),
-                ],
-              ),
-            );
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
+          appBackGround(
+            context: context,
+            child: BlocBuilder<ViewEquipmentComplaintBloc, ViewEquipmentComplaintState>(
+                    builder: (context, state) {
+            if (state is FetchViewEquipmentComplaintDataState) {
+              return RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: Column(
+                  children: [
+                    _tabWidget(dataState: state),
+                    Expanded(child: _listBuilder(dataState: state)),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: CenterLoaderWidget(),
+              );
+            }
+                    },
+                  ),
+          ),
     );
   }
 

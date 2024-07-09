@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddCngPage extends StatefulWidget {
   const AddCngPage({super.key});
@@ -24,20 +25,64 @@ class _AddCngPageState extends State<AddCngPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget("Add Civil Complaint", color: AppColor.white,
-          fontSize: AppFont.font_15, fontWeight: FontWeight.w600,),
-      ),
-      body: BlocBuilder<AddCngBloc, AddCngState>(
-        builder: (context, state) {
-          if(state is FetchAddCngDataState){
-            return _itemBuilder(dataState: state);
-          } else  {
-            return const CenterLoaderWidget();
-          }
-        },
+      body: appBackGround(
+        context: context,
+        child: Column(
+          children: [
+            _header(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.white.withOpacity(0.9),
+                ),
+                child: BlocBuilder<AddCngBloc, AddCngState>(
+                  builder: (context, state) {
+                    if(state is FetchAddCngDataState){
+                      return _itemBuilder(dataState: state);
+                    } else  {
+                      return const CenterLoaderWidget();
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _header() {
+    return Row(children: [
+      IconButton(onPressed: () {
+        Navigator.pop(context);
+      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
+
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      Expanded(
+        child: TextWidget(
+          "Add Civil Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Image.asset(
+        AppConfig.instanceInit()!.client == Client.iglcng
+            ? AppIcon.appLogoIgl
+            : AppIcon.appLogoIgl,
+        height: MediaQuery.of(context).size.width * 0.13,
+        width: MediaQuery.of(context).size.width * 0.13,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+    ]);
   }
 
   Widget _itemBuilder({required FetchAddCngDataState dataState}) {
