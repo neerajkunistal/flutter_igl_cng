@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/testing_page.dart';
+
 import 'ExportFile/app_export_file.dart';
 
 class Root extends StatefulWidget {
@@ -24,8 +25,9 @@ class _RootState extends State<Root> {
   @override
   Widget build(BuildContext context) {
     Singleton.instance.setContext(context);
-    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+/*    SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));*/
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return blocMultiProvider(
       child: MaterialApp(

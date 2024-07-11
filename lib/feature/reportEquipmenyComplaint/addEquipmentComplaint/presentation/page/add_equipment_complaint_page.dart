@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
   const AddEquipmentComplaintPage({super.key});
@@ -20,25 +21,73 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+/*      appBar: AppBar(
         title: TextWidget(
           "Add Complaint",
           color: AppColor.white,
         ),
-      ),
-      body: BlocBuilder<AddEquipmentComplaintBloc, AddEquipmentComplaintState>(
-        builder: (context, state) {
-          if (state is FetchAddEquipmentComplaintState) {
-            return _itemWWidget(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
+      ),*/
+      body: appBackGround(
+        context: context,
+        child: Column(
+          children: [
+            _header(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: BlocBuilder<AddEquipmentComplaintBloc, AddEquipmentComplaintState>(
+                builder: (context, state) {
+                  if (state is FetchAddEquipmentComplaintState) {
+                    return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        child: _itemWWidget(dataState: state));
+                  } else {
+                    return const Center(
+                      child: CenterLoaderWidget(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _header() {
+    return Row(children: [
+      IconButton(onPressed: () {
+        Navigator.pop(context);
+      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
+
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      Expanded(
+        child: TextWidget(
+          "Add Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Image.asset(
+        AppConfig.instanceInit()!.client == Client.iglcng
+            ? AppIcon.appLogoIgl
+            : AppIcon.appLogoIgl,
+        height: MediaQuery.of(context).size.width * 0.13,
+        width: MediaQuery.of(context).size.width * 0.13,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+    ]);
+  }
+
 
   Widget _itemWWidget({required FetchAddEquipmentComplaintState dataState}) {
     return Container(

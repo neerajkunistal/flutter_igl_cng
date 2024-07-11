@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/revi
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
   final String? title;
@@ -32,36 +35,37 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return Scaffold(
+      backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: userData.roleType == RoleType.stationUser
           ? _floatingActionButton()
           : const SizedBox.shrink(),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight( widget.title != null
-            ? MediaQuery.of(context).size.height * 0.13 : MediaQuery.of(context).size.height * 0.07),
-        child: AppBar(
-          title: TextWidget(widget.title ?? "", color: AppColor.white,
-            fontSize: AppFont.font_15, fontWeight: FontWeight.w600,),
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.13),
-            child: Row(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.08,
-                  ),
-                  Expanded(child: _searchController()),
-                  IconButton(
-                      onPressed: () async {
-                        DateTime startDate =
-                            BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                    !context.mounted ? context : context)
-                                .startDate;
-                        DateTime endDate =
-                            BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                    !context.mounted ? context : context)
-                                .endDate;
-                        var selectedDate =  await DateRangeWidget.showDateRange(
-                            startDate: startDate, endDate: endDate, context : context);
+      body: appBackGround(
+            context: context,
+            isRemoveBackground: userData.roleType == RoleType.shiftEngineer ? true : false,
+            child: Column(
+              children: [
+                userData.roleType == RoleType.shiftEngineer
+                    ? const SizedBox.shrink()
+                    : _header(),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.08,
+                    ),
+                    Expanded(child: _searchController()),
+                    IconButton(
+                        onPressed: () async {
+                          DateTime startDate =
+                              BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                  !context.mounted ? context : context)
+                                  .startDate;
+                          DateTime endDate =
+                              BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                  !context.mounted ? context : context)
+                                  .endDate;
+                          var selectedDate =  await DateRangeWidget.showDateRange(
+                              startDate: startDate, endDate: endDate, context : context);
                           if(selectedDate != null){
                             BlocProvider.of<ViewEquipmentComplaintBloc>(
                                 !context.mounted ? context : context)
@@ -71,40 +75,79 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                     toDate: selectedDate.end,
                                     context: !context.mounted ? context : context));
                           }
-                      },
-                      icon: Icon(
-                        Icons.filter_alt_outlined,
-                        color: AppColor.white,
-                      ))
-                ],
-              ),
-          ),
-        ),
-      ),
-      body:
-          appBackGround(
-            context: context,
-            child: BlocBuilder<ViewEquipmentComplaintBloc, ViewEquipmentComplaintState>(
-                    builder: (context, state) {
-            if (state is FetchViewEquipmentComplaintDataState) {
-              return RefreshIndicator(
-                onRefresh: _handleRefresh,
-                child: Column(
-                  children: [
-                    _tabWidget(dataState: state),
-                    Expanded(child: _listBuilder(dataState: state)),
+                        },
+                        icon: Icon(
+                          Icons.calendar_month_outlined,
+                          color: AppColor.white,
+                        ))
                   ],
                 ),
-              );
-            } else {
-              return const Center(
-                child: CenterLoaderWidget(),
-              );
-            }
-                    },
+                const DottedDividerLine(color: Colors.white),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                      color: Colors.white.withOpacity(.4),
+                    ),
+                    child: BlocBuilder<ViewEquipmentComplaintBloc, ViewEquipmentComplaintState>(
+                            builder: (context, state) {
+                    if (state is FetchViewEquipmentComplaintDataState) {
+                      return RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            _tabWidget(dataState: state),
+                            Expanded(child: _listBuilder(dataState: state)),
+                          ],
+                        ),
+                      );
+                    } else {
+                      return const Center(
+                        child: CenterLoaderWidget(),
+                      );
+                    }
+                            },
+                          ),
                   ),
+                ),
+              ],
+            ),
           ),
     );
+  }
+
+  Widget _header() {
+    return Row(children: [
+      IconButton(onPressed: () {
+        Navigator.pop(context);
+      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
+
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      Expanded(
+        child: TextWidget(
+          widget.title ?? "",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Image.asset(
+        AppConfig.instanceInit()!.client == Client.iglcng
+            ? AppIcon.appLogoIgl
+            : AppIcon.appLogoIgl,
+        height: MediaQuery.of(context).size.width * 0.13,
+        width: MediaQuery.of(context).size.width * 0.13,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+    ]);
   }
 
   DateTimeRange? _initialDateTimeRange(Map<dynamic, dynamic> arguments) {
@@ -207,7 +250,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
       margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColor.themeNormalLightColor,
+        color: AppColor.white,
       ),
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -224,8 +267,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10.0),
                                       side: BorderSide(
-                                          color: AppColor.themeColor))))
-                      : null,
+                                          color: AppColor.themeColor)))
+                  ) : null,
                   onPressed: () {
                     BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
                         const ViewEquipmentComplaintSelectedTabIndexEvent(
@@ -550,10 +593,11 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                       children: [
                         Icon(
                           Icons.refresh,
-                          color: AppColor.grey,
+                          color: AppColor.white,
                         ),
-                        const TextWidget(
+                        TextWidget(
                           "No Data\nTab to refresh",
+                          color: AppColor.white,
                           textAlign: TextAlign.center,
                         ),
                       ],

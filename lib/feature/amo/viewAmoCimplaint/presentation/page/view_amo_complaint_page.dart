@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_complaint_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/addCng/presentation/pages/add_cng_page.dart';
 
 class ViewAmoComplaintPage extends StatefulWidget {
   const ViewAmoComplaintPage({super.key});
@@ -22,13 +21,23 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ViewAmoComplaintBloc, ViewAmoComplaintState>(
-        builder: (context, state) {
-          if (state is FetchViewAmoComplaintDataState) {
-            return _listBuilder(dataState: state);
-          }
-          return const CenterLoaderWidget();
-        },
+      body: appBackGround(
+        context: context,
+        child: BlocBuilder<ViewAmoComplaintBloc, ViewAmoComplaintState>(
+          builder: (context, state) {
+            if (state is FetchViewAmoComplaintDataState) {
+              return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                    color: Colors.white.withOpacity(.4),
+                  ),
+                  child: _listBuilder(dataState: state));
+            }
+            return const CenterLoaderWidget();
+          },
+        ),
       ),
     );
   }

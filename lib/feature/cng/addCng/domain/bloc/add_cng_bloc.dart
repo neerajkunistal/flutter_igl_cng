@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -156,7 +152,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     isLoader =  true;
     _eventCompleted(emit);
     LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
-    var res =  await AddCngHelper.submitData(context: event.context,
+    var res =  await AddCngHelper.submitData(context: !event.context.mounted ?  event.context : event.context,
         categoryData: categoryData,
         date: dateController.text.toString(),
         time: timeController.text.toString(),

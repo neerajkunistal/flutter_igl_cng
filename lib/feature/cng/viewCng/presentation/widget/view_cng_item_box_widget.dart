@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
-import 'package:geolocator/geolocator.dart';
 
 class ViewCngItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -15,14 +11,12 @@ class ViewCngItemBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
       incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
           DateTime.parse(cngData.incidentDateTime.toString()));
     }
-
     return Card(
       elevation: 7,
       shadowColor: AppColor.themeColor,

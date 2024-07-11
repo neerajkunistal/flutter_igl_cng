@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -21,49 +23,73 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: AppColor.white,
-        title: Row(
-          children: [
-            Expanded(child: _searchController()),
-            IconButton(
-                onPressed: () async {
-
-                  var selectedDate =  await DateRangeWidget.showDateRange(
-                      startDate: DateTime.now(), endDate: DateTime.now(), context : context);
-                  if(selectedDate != null){
-                        BlocProvider.of<AcknowledgeBloc>(context).add(
-                            AcknowledgeSelectDateRangeEvent(
-                                fromDate: selectedDate.start!,
-                                toDate: selectedDate.end!,
-                                context: context));
+      backgroundColor: Colors.transparent,
+      body: Column(
+        children: [
+          _searchWidget(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                color: Colors.white.withOpacity(.4),
+              ),
+              child: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
+                builder: (context, state) {
+                  if (state is FetchAcknowledgeDataState) {
+                    return RefreshIndicator(
+                      onRefresh: _handleRefresh,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          _tabWidget(dataState: state),
+                          Expanded(child: _itemBuilder(dataState: state)),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const Center(
+                      child: CenterLoaderWidget(),
+                    );
                   }
                 },
-                icon: Icon(
-                  Icons.filter_alt_outlined,
-                  color: AppColor.white,
-                ))
-          ],
-        ),
-      ),
-      body: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
-        builder: (context, state) {
-          if (state is FetchAcknowledgeDataState) {
-            return RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: Column(
-                children: [
-                  _tabWidget(dataState: state),
-                  Expanded(child: _itemBuilder(dataState: state)),
-                ],
               ),
-            );
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _searchWidget() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(child: _searchController()),
+          IconButton(
+              onPressed: () async {
+                var selectedDate =  await DateRangeWidget.showDateRange(
+                    startDate: DateTime.now(), endDate: DateTime.now(), context : context);
+                if(selectedDate != null){
+                  BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).add(
+                      AcknowledgeSelectDateRangeEvent(
+                          fromDate: selectedDate.start,
+                          toDate: selectedDate.end,
+                          context: !context.mounted ?  context : context));
+                }
+              },
+              icon: Icon(
+                Icons.calendar_month_outlined,
+                color: AppColor.white,
+              ))
+        ],
       ),
     );
   }
@@ -271,10 +297,11 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                       children: [
                         Icon(
                           Icons.refresh,
-                          color: AppColor.grey,
+                          color: AppColor.white,
                         ),
-                        const TextWidget(
+                         TextWidget(
                           "No Data\nTab to refresh",
+                          color: AppColor.white,
                           textAlign: TextAlign.center,
                         ),
                       ],

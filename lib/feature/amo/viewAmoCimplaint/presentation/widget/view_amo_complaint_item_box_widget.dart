@@ -1,11 +1,8 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/amo_update_status_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
@@ -28,65 +25,92 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
     return Card(
       elevation: 2,
       shadowColor: AppColor.themeColor,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Row(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
               children: [
-                TextWidget("Complaint Id : ", fontWeight: FontWeight.w700, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintNumber, fontWeight: FontWeight.w700, fontSize: AppFont.font_13,)),
-              ],
-            ),
-            Divider(color: AppColor.lightGrey,),
-            Row(
-              children: [
-                TextWidget("DateTime : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(incidentDateTime, fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            Row(
-              children: [
-                TextWidget("Reported By : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.reportBy.toString(), fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            Row(
-              children: [
-                TextWidget("Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.approveStatus.toString() == "0" ? "Pending" :
-                cngData.approveStatus.toString() == "1" ?  "Approved" : "Reject" ,
-                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
-                 color: cngData.approveStatus.toString() == "0" ? AppColor.orange :
-                 cngData.approveStatus.toString() == "1" ?  AppColor.green : AppColor.red,
-                )),
-              ],
-            ),
+                Row(
+                  children: [
+                    TextWidget("Complaint Id : ", fontWeight: FontWeight.w700,
+                      fontSize: AppFont.font_13, color: AppColor.themeColor,),
+                    Expanded(child: TextWidget(cngData.complaintNumber,
+                      textAlign: TextAlign.right,
+                      fontSize: AppFont.font_13,)),
+                  ],
+                ),
+                Divider(color: AppColor.lightGrey,),
+                Row(
+                  children: [
+                    TextWidget("DateTime : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                    Expanded(child: TextWidget(incidentDateTime,
+                      textAlign: TextAlign.right,
+                      fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Row(
+                  children: [
+                    TextWidget("Reported By : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                    Expanded(child: TextWidget(cngData.reportBy.toString(),
+                      textAlign: TextAlign.right,
+                      fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Row(
+                  children: [
+                    TextWidget("Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                    Expanded(child: TextWidget(cngData.approveStatus.toString() == "0" ? "Pending" :
+                    cngData.approveStatus.toString() == "1" ?  "Approved" : "Rejected" ,
+                      fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
+                      textAlign: TextAlign.right,
+                     color: cngData.approveStatus.toString() == "0" ? AppColor.orange :
+                     cngData.approveStatus.toString() == "1" ?  AppColor.green : AppColor.red,
+                    )),
+                  ],
+                ),
 
-            cngData.approveStatus.toString() == "0" ?
-            Row(
-              children: [
-                TextWidget("Update Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: _updateStatusButton(cngData: cngData, index: index, context: context)),
-              ],
-            )
-                : const SizedBox.shrink(),
+                cngData.approveStatus.toString() == "0" ?
+                Row(
+                  children: [
+                    TextWidget("Update Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                    Expanded(child: _updateStatusButton(cngData: cngData, index: index, context: context)),
+                  ],
+                )
+                    : const SizedBox.shrink(),
 
-            Divider(color: AppColor.lightGrey,),
-            Row(
-              children: [
-                TextWidget("Description : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintDescription.toString(), fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                Divider(color: AppColor.lightGrey,),
+                Row(
+                  children: [
+                    TextWidget("Description : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
+                    Expanded(child: TextWidget(cngData.complaintDescription.toString(),
+                      textAlign: TextAlign.right,
+                      fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            bottom: -8.0,
+            left: 0.09,
+            right: 0.09,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7.0, right: 7.0),
+              child: Image.asset(AppIcon.ghungaruIcon,
+                height: MediaQuery.of(context).size.width * 0.06,
+                color: Colors.grey[200],
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

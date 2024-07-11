@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 ThemeData appTheme() {
@@ -61,10 +59,12 @@ ThemeData appTheme() {
   );
 }
 
-Widget appBackGround({required Widget child, required BuildContext context, bool? isGradientChange}) {
+Widget appBackGround({required Widget child,
+  required BuildContext context,
+  bool? isGradientChange, bool? isRemoveBackground}) {
   return Container(
     decoration:  BoxDecoration(
-      gradient: LinearGradient(
+      gradient: isRemoveBackground == true ? null : LinearGradient(
         begin: isGradientChange == null ?  Alignment.topLeft : Alignment.topRight,
         end: isGradientChange == null ? Alignment.centerRight : Alignment.centerLeft,
         colors: const [
@@ -77,7 +77,8 @@ Widget appBackGround({required Widget child, required BuildContext context, bool
     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
     child: Stack(
       children: [
-        Positioned(
+        isRemoveBackground == true ? const SizedBox.shrink()
+            :Positioned(
           top: 20.0,
           left: MediaQuery.of(context).size.width * 0.18,
           right: 0.0,
@@ -90,7 +91,7 @@ Widget appBackGround({required Widget child, required BuildContext context, bool
             ),
           ),
         ),
-        Image.asset(AppIcon.transperentBackground,
+        isRemoveBackground == true ? const SizedBox.shrink() :Image.asset(AppIcon.transperentBackground,
           fit: BoxFit.fill,
           width: MediaQuery.of(context).size.width,),
         child,

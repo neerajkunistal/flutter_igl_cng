@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
@@ -35,22 +31,21 @@ class _AddCngPageState extends State<AddCngPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20)),
-                  color: Colors.white.withOpacity(0.9),
-                ),
-                child: BlocBuilder<AddCngBloc, AddCngState>(
-                  builder: (context, state) {
-                    if(state is FetchAddCngDataState){
-                      return _itemBuilder(dataState: state);
-                    } else  {
-                      return const CenterLoaderWidget();
-                    }
-                  },
-                ),
+              child: BlocBuilder<AddCngBloc, AddCngState>(
+                builder: (context, state) {
+                  if(state is FetchAddCngDataState){
+                    return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        child: _itemBuilder(dataState: state));
+                  } else  {
+                    return const CenterLoaderWidget();
+                  }
+                },
               ),
             ),
           ],

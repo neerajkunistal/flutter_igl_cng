@@ -4,8 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_state.dart';
-import 'package:flutter_igl_cng/utils/res/app_font.dart';
-import 'package:flutter_igl_cng/utils/res/app_icon.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
@@ -85,123 +86,127 @@ class ReviewComplaintItemBox extends StatelessWidget {
     return Card(
       shadowColor: AppColor.themeColor,
       elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            _rowHeaderWidget(
-                name: "Complaint Id",
-                value: reviewComplaintData.tokenNo.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                _rowHeaderWidget(
+                    name: "Complaint Id",
+                    value: reviewComplaintData.tokenNo.toString()),
+                Divider(color: AppColor.lightGrey,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: "Station Name",
+                    value: reviewComplaintData.createdByUser.toString()),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                        ? "Equipment"
+                        : "General",
+                    value: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                        ? reviewComplaintData.equipmentCode.toString()
+                        : reviewComplaintData.generalComplaintName.toString()),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                reviewComplaintData.equipmentCode.toString().isNotEmpty &&
+                        userData.roleType != RoleType.stationUser
+                    ? _rowWidget(
+                        name: "vendor Code",
+                        value: reviewComplaintData.vendorCode.toString())
+                    : const SizedBox.shrink(),
+                reviewComplaintData.equipmentCode.toString().isNotEmpty &&
+                        userData.roleType != RoleType.stationUser
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
+                    : const SizedBox.shrink(),
+                _rowWidget(name: "Complaint Status", value: status),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Complaint Date", value: complaintDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Report Date Time", value: reportDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                reviewComplaintData.miAssignToUser.toString().isNotEmpty
+                    ? _rowWidget(
+                        name: "Assign By",
+                        value: reviewComplaintData.miAssignToUser.toString())
+                    : const SizedBox.shrink(),
+                reviewComplaintData.miAssignToUser.toString().isNotEmpty
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
+                    : const SizedBox.shrink(),
+                _rowWidget(name: "MI Status", value: maintenanceStatus),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Closed Date Time", value: maintinaceEndDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Container(
+                    height: 1,
+                    color: AppColor.lightGrey,
+                    width: MediaQuery.of(context).size.width),
+                _rowBottomWidget(
+                    name: "Description",
+                    value: reviewComplaintData.complaintDescription.toString()),
+              ],
             ),
-            _rowWidget(
-                name: "Station Name",
-                value: reviewComplaintData.createdByUser.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
+          ),
+          Positioned(
+            bottom: -8.0,
+            left: 0.09,
+            right: 0.09,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7.0, right: 7.0),
+              child: Image.asset(AppIcon.ghungaruIcon,
+                height: MediaQuery.of(context).size.width * 0.06,
+                color: Colors.grey[200],
+                width: MediaQuery.of(context).size.width,
+              ),
             ),
-            _rowWidget(
-                name: reviewComplaintData.equipmentCode.toString().isNotEmpty
-                    ? "Equipment"
-                    : "General",
-                value: reviewComplaintData.equipmentCode.toString().isNotEmpty
-                    ? reviewComplaintData.equipmentCode.toString()
-                    : reviewComplaintData.generalComplaintName.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                    userData.roleType != RoleType.stationUser
-                ? _rowWidget(
-                    name: "vendor Code",
-                    value: reviewComplaintData.vendorCode.toString())
-                : const SizedBox.shrink(),
-            reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                    userData.roleType != RoleType.stationUser
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.02,
-                  )
-                : const SizedBox.shrink(),
-            _rowWidget(name: "Complaint Status", value: status),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Complaint Date", value: complaintDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Report Date Time", value: reportDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            reviewComplaintData.miAssignToUser.toString().isNotEmpty
-                ? _rowWidget(
-                    name: "Assign By",
-                    value: reviewComplaintData.miAssignToUser.toString())
-                : const SizedBox.shrink(),
-            reviewComplaintData.miAssignToUser.toString().isNotEmpty
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.02,
-                  )
-                : const SizedBox.shrink(),
-            _rowWidget(name: "MI Status", value: maintenanceStatus),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Closed Date Time", value: maintinaceEndDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            Container(
-                height: 1,
-                color: AppColor.lightGrey,
-                width: MediaQuery.of(context).size.width),
-            _rowBottomWidget(
-                name: "Description",
-                value: reviewComplaintData.complaintDescription.toString()),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
 
   Widget _rowHeaderWidget({required String name, required String value}) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-        color: AppColor.themeNormalLightColor,
-        border: Border(
-          left: BorderSide(
-            color: reviewComplaintData.complaintStatus.toString() == "1"
-                ? AppColor.green
-                : reviewComplaintData.complaintStatus.toString() == "2"
-                    ? AppColor.red
-                    : reviewComplaintData.action.toString() == "3"
-                        ? AppColor.orange
-                        : AppColor.themeColor,
-            width: 3,
-          ),
-        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             TextWidget("$name ",
-                fontWeight: FontWeight.w700, fontSize: AppFont.font_13),
+                fontWeight: FontWeight.w700, fontSize: AppFont.font_13,
+                color: AppColor.themeColor,),
             Expanded(
                 child: TextWidget(value,
                     textAlign: TextAlign.end,
-                    color: AppColor.themeColor,
-                    fontWeight: FontWeight.w700,
                     fontSize: AppFont.font_13)),
           ],
         ),
@@ -230,18 +235,6 @@ class ReviewComplaintItemBox extends StatelessWidget {
             bottomLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0)),
         color: AppColor.white,
-        border: Border(
-          right: BorderSide(
-            color: reviewComplaintData.complaintStatus.toString() == "1"
-                ? AppColor.green
-                : reviewComplaintData.complaintStatus.toString() == "2"
-                    ? AppColor.red
-                    : reviewComplaintData.action.toString() == "3"
-                        ? AppColor.orange
-                        : AppColor.themeColor,
-            width: 3,
-          ),
-        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

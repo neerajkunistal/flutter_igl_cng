@@ -90,8 +90,9 @@ class TextFieldWidget extends StatelessWidget {
             border: isBoardRemove == true ? null :
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(
-                width: 1,
+              borderSide: BorderSide(
+                width: 1.0,
+                color: AppColor.grey,
                 style: BorderStyle.none,
               ),
             ),

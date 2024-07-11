@@ -25,109 +25,130 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
     }
 
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Column(
-          children: [
-            _rowHeaderWidget(
-                name: "Complaint ID",
-                value: acknowledgeData.tokenNo.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Column(
+              children: [
+                _rowHeaderWidget(
+                    name: "Complaint ID",
+                    value: acknowledgeData.tokenNo.toString()),
+                Container(
+                    height: 1,
+                    color: AppColor.lightGrey,
+                    width: MediaQuery.of(context).size.width),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: "Station Name",
+                    value: acknowledgeData.createdByUser.toString()),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: acknowledgeData.equipmentCode.toString().isNotEmpty
+                        ? "Equipment"
+                        : "General",
+                    value: acknowledgeData.equipmentCode.toString().isNotEmpty
+                        ? acknowledgeData.equipmentCode.toString()
+                        : acknowledgeData.generalComplaintName.toString()),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                acknowledgeData.equipmentCode.toString().isNotEmpty
+                    ? _rowWidget(
+                        name: "vendor Code",
+                        value: acknowledgeData.vendorCode.toString())
+                    : const SizedBox.shrink(),
+                acknowledgeData.equipmentCode.toString().isNotEmpty
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
+                    : const SizedBox.shrink(),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Complaint Date Time", value: complaintDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(name: "Report Date Time", value: reportDate),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: "Complaint Status",
+                    value: acknowledgeData.complaintStatus.toString() == "0"
+                        ? "New"
+                        : acknowledgeData.complaintStatus.toString() == "1"
+                            ? "Completed"
+                            : acknowledgeData.complaintStatus.toString() == "2"
+                                ? "Reject"
+                                : ""),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: "Ack Status",
+                    value: acknowledgeData.ackStatus.toString() == "1"
+                        ? "Ack Done"
+                        : ""),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                    name: "Assign Type",
+                    value: acknowledgeData.assignType.toString() == "1"
+                        ? "Self"
+                        : acknowledgeData.assignType.toString() == "2"
+                            ? "MI"
+                            : acknowledgeData.assignType.toString() == "3"
+                                ? "Vendor"
+                                : ""),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                acknowledgeData.miAssignToUser.toString().isNotEmpty
+                    ? _rowWidget(
+                        name: "Assign By",
+                        value: acknowledgeData.miAssignToUser.toString())
+                    : const SizedBox.shrink(),
+                acknowledgeData.miAssignToUser.toString().isNotEmpty
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
+                    : const SizedBox.shrink(),
+                acknowledgeData.complaintStatus.toString() != "2" &&
+                        acknowledgeData.complaintStatus.toString() != "1" &&
+                        acknowledgeData.ackStatus.toString() == "1"
+                    ? _assignButton(context: context)
+                    : const SizedBox.shrink(),
+                Container(
+                    height: 1,
+                    color: AppColor.lightGrey,
+                    width: MediaQuery.of(context).size.width),
+                _rowBottomWidget(
+                    name: "Description",
+                    value: acknowledgeData.complaintDescription.toString()),
+              ],
             ),
-            _rowWidget(
-                name: "Station Name",
-                value: acknowledgeData.createdByUser.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
+          ),
+          Positioned(
+            bottom: -8.0,
+            left: 0.09,
+            right: 0.09,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7.0, right: 7.0),
+              child: Image.asset(AppIcon.ghungaruIcon,
+                height: MediaQuery.of(context).size.width * 0.06,
+                color: Colors.grey[200],
+                width: MediaQuery.of(context).size.width,
+              ),
             ),
-            _rowWidget(
-                name: acknowledgeData.equipmentCode.toString().isNotEmpty
-                    ? "Equipment"
-                    : "General",
-                value: acknowledgeData.equipmentCode.toString().isNotEmpty
-                    ? acknowledgeData.equipmentCode.toString()
-                    : acknowledgeData.generalComplaintName.toString()),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            acknowledgeData.equipmentCode.toString().isNotEmpty
-                ? _rowWidget(
-                    name: "vendor Code",
-                    value: acknowledgeData.vendorCode.toString())
-                : const SizedBox.shrink(),
-            acknowledgeData.equipmentCode.toString().isNotEmpty
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.02,
-                  )
-                : const SizedBox.shrink(),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Complaint Date Time", value: complaintDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(name: "Report Date Time", value: reportDate),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(
-                name: "Complaint Status",
-                value: acknowledgeData.complaintStatus.toString() == "0"
-                    ? "New"
-                    : acknowledgeData.complaintStatus.toString() == "1"
-                        ? "Completed"
-                        : acknowledgeData.complaintStatus.toString() == "2"
-                            ? "Reject"
-                            : ""),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(
-                name: "Ack Status",
-                value: acknowledgeData.ackStatus.toString() == "1"
-                    ? "Ack Done"
-                    : ""),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            _rowWidget(
-                name: "Assign Type",
-                value: acknowledgeData.assignType.toString() == "1"
-                    ? "Self"
-                    : acknowledgeData.assignType.toString() == "2"
-                        ? "MI"
-                        : acknowledgeData.assignType.toString() == "3"
-                            ? "Vendor"
-                            : ""),
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.02,
-            ),
-            acknowledgeData.miAssignToUser.toString().isNotEmpty
-                ? _rowWidget(
-                    name: "Assign By",
-                    value: acknowledgeData.miAssignToUser.toString())
-                : const SizedBox.shrink(),
-            acknowledgeData.miAssignToUser.toString().isNotEmpty
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.02,
-                  )
-                : const SizedBox.shrink(),
-            acknowledgeData.complaintStatus.toString() != "2" &&
-                    acknowledgeData.complaintStatus.toString() != "1" &&
-                    acknowledgeData.ackStatus.toString() == "1"
-                ? _assignButton(context: context)
-                : const SizedBox.shrink(),
-            Container(
-                height: 1,
-                color: AppColor.lightGrey,
-                width: MediaQuery.of(context).size.width),
-            _rowBottomWidget(
-                name: "Description",
-                value: acknowledgeData.complaintDescription.toString()),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
@@ -137,31 +158,18 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-        color: AppColor.themeNormalLightColor,
-        border: Border(
-          left: BorderSide(
-            color: acknowledgeData.complaintStatus.toString() == "1"
-                ? AppColor.green
-                : acknowledgeData.complaintStatus.toString() == "2"
-                    ? AppColor.red
-                    : acknowledgeData.ackStatus.toString() == "1"
-                        ? AppColor.orange
-                        : AppColor.themeColor,
-            width: 3,
-          ),
-        ),
+        color: AppColor.white,
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             TextWidget("$name ",
+                color: AppColor.themeColor,
                 fontWeight: FontWeight.w700, fontSize: AppFont.font_13),
             Expanded(
                 child: TextWidget(value,
                     textAlign: TextAlign.end,
-                    color: AppColor.themeColor,
-                    fontWeight: FontWeight.w700,
                     fontSize: AppFont.font_13)),
           ],
         ),
@@ -190,18 +198,6 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             bottomLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0)),
         color: AppColor.white,
-        border: Border(
-          right: BorderSide(
-            color: acknowledgeData.complaintStatus.toString() == "1"
-                ? AppColor.green
-                : acknowledgeData.complaintStatus.toString() == "2"
-                    ? AppColor.red
-                    : acknowledgeData.ackStatus.toString() == "1"
-                        ? AppColor.orange
-                        : AppColor.themeColor,
-            width: 3,
-          ),
-        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

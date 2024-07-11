@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ReviewComaplintPage extends StatefulWidget {
   const ReviewComaplintPage({super.key});
@@ -15,24 +16,65 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          "Review Complaint",
-          color: AppColor.white,
+      body: appBackGround(
+        context: context,
+        child: Column(
+          children: [
+            _header(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: BlocBuilder<ReviewComplaintBloc, ReviewComplaintState>(
+                builder: (context, state) {
+                  if (state is FetchReviewComplaintDataState) {
+                    return Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white,
+                        ),
+                        child: _itemBuilder(dataState: state));
+                  } else {
+                    return const Center(
+                      child: CenterLoaderWidget(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      body: BlocBuilder<ReviewComplaintBloc, ReviewComplaintState>(
-        builder: (context, state) {
-          if (state is FetchReviewComplaintDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
     );
+  }
+
+  Widget _header() {
+    return Row(children: [
+      IconButton(onPressed: () {
+        Navigator.pop(context);
+      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
+
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      Expanded(
+        child: TextWidget(
+          "Review Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      Image.asset(
+        AppConfig.instanceInit()!.client == Client.iglcng
+            ? AppIcon.appLogoIgl
+            : AppIcon.appLogoIgl,
+        height: MediaQuery.of(context).size.width * 0.13,
+        width: MediaQuery.of(context).size.width * 0.13,
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+    ]);
   }
 
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
