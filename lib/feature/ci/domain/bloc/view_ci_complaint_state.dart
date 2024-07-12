@@ -23,6 +23,10 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final bool isVendorListLoader;
   final bool isVendorAssignLoader;
   final TextEditingController remarkController;
+  final TextEditingController searchController;
+  final TextEditingController fromDateController;
+  final TextEditingController toDateController;
+  final bool isFilterLoader;
 
   FetchViewCiComplaintDataState({
     required this.cngList,
@@ -33,6 +37,10 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.isVendorListLoader,
     required this.isVendorAssignLoader,
     required this.remarkController,
+    required this.searchController,
+    required this.fromDateController,
+    required this.toDateController,
+    required this.isFilterLoader,
   });
   @override
   List<Object> get props => [
@@ -44,5 +52,9 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     isVendorListLoader,
     isVendorAssignLoader,
     remarkController,
+    searchController,
+    fromDateController,
+    toDateController,
+    isFilterLoader,
   ];
 }

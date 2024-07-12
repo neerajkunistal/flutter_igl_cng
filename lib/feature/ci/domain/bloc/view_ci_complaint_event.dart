@@ -37,6 +37,26 @@ class ViewCiComplaintStatusDataEvent extends ViewCiComplaintEvent {
   @override
   List<Object?> get props => [complaintStatusData];
 }
+
+class ViewCiComplaintSearchDataEvent extends ViewCiComplaintEvent {
+  final String keyword;
+  const ViewCiComplaintSearchDataEvent({required this.keyword});
+  @override
+  List<Object?> get props => [keyword];
+}
+
+class ViewCiComplaintSelectedDateRangeEvent
+    extends ViewCiComplaintEvent {
+  final BuildContext context;
+  final DateTime fromDate;
+  final DateTime toDate;
+
+  const ViewCiComplaintSelectedDateRangeEvent(
+      {required this.context, required this.fromDate, required this.toDate});
+
+  @override
+  List<Object?> get props => [context];
+}
 class ViewCiComplaintEstimateApproveEvent extends ViewCiComplaintEvent {
   final BuildContext context;
   final CngModel cngData;

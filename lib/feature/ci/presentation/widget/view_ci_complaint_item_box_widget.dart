@@ -33,15 +33,19 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                TextWidget("Complaint Id : ", fontWeight: FontWeight.w700, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintNumber, fontWeight: FontWeight.w700, fontSize: AppFont.font_13,)),
+                TextWidget("Complaint ID : ", color: AppColor.green, fontSize: AppFont.font_13,),
+                Expanded(child: TextWidget(cngData.complaintNumber,
+                  textAlign: TextAlign.end,
+                  fontWeight: FontWeight.w700, fontSize: AppFont.font_13,)),
               ],
             ),
             Divider(color: AppColor.lightGrey,),
             Row(
               children: [
                 TextWidget("DateTime : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(incidentDateTime, fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                Expanded(child: TextWidget(incidentDateTime,
+                  textAlign: TextAlign.end,
+                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
               ],
             ),
             SizedBox(
@@ -50,7 +54,9 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget("Reported By : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.reportBy.toString(), fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                Expanded(child: TextWidget(cngData.reportBy.toString(),
+                  textAlign: TextAlign.end,
+                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
               ],
             ),
             SizedBox(
@@ -64,6 +70,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
                   color: cngData.complaintStatus.toString() == "0" ? AppColor.orange :
                   cngData.complaintStatus.toString() == "1" ?  AppColor.green : AppColor.red,
+                  textAlign: TextAlign.end,
                 )),
               ],
             ),
@@ -71,9 +78,12 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             cngData.assignTo.toString() == "0" &&
             cngData.complaintStatus.toString() == "0"
                 ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextWidget("Assign : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: _assignButton(cngData: cngData, index: index, context: context)),
+                Expanded(child: Align(
+                    alignment: Alignment.centerRight,
+                    child: _assignButton(cngData: cngData, index: index, context: context))),
               ],
             ) : const SizedBox.shrink(),
 
@@ -102,7 +112,9 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget("Description : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintDescription.toString(), fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                Expanded(child: TextWidget(cngData.complaintDescription.toString(),
+                  textAlign: TextAlign.end,
+                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
               ],
             ),
           ],

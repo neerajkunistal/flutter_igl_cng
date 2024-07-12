@@ -19,11 +19,13 @@ final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
   final List<ComplaintStatus> complaintStatusList;
   final ComplaintStatus complaintStatusData;
   final bool isLoader;
+  final bool isFilterLoader;
   FetchViewAmoComplaintDataState({
     required this.cngList,
     required this.complaintStatusData,
     required this.complaintStatusList,
-    required this.isLoader
+    required this.isLoader,
+    required this.isFilterLoader,
   });
   @override
   List<Object> get props => [
@@ -31,5 +33,6 @@ final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
     complaintStatusData,
     complaintStatusList,
     isLoader,
+    isFilterLoader,
   ];
 }

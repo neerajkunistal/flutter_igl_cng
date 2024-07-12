@@ -12,6 +12,7 @@ part 'view_ci_complaint_state.dart';
 
 class ViewCiComplaintBloc extends Bloc<ViewCiComplaintEvent, ViewCiComplaintState> {
   List<CngModel> cngList =  [];
+  List<CngModel> cngSearchList =  [];
   List<VendorModel> vendorList  = [];
   VendorModel vendorData = VendorModel();
   List<ComplaintStatus> complaintStatusList = [];
@@ -19,9 +20,17 @@ class ViewCiComplaintBloc extends Bloc<ViewCiComplaintEvent, ViewCiComplaintStat
   bool isVendorListLoader =  false;
   bool isVendorAssignLoader =  false;
   TextEditingController remarkController =  TextEditingController();
+  TextEditingController searchController =  TextEditingController();
+  TextEditingController toDateController =  TextEditingController();
+  TextEditingController fromDateController =  TextEditingController();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  bool isFilterLoader =  false;
 
   ViewCiComplaintBloc() : super(ViewCiComplaintInitial()) {
     on<ViewCiComplaintPageLoadEvent>(_pageLoad);
+    on<ViewCiComplaintSearchDataEvent>(_search);
+    on<ViewCiComplaintSelectedDateRangeEvent>(_selectDate);
     on<ViewCiComplaintFetchVendorEvent>(_fetchVendor);
     on<ViewCiComplaintVendorAssignEvent>(_assignVendor);
     on<ViewCiComplaintSelectVendorEvent>(_selectVendor);
@@ -32,6 +41,7 @@ class ViewCiComplaintBloc extends Bloc<ViewCiComplaintEvent, ViewCiComplaintStat
   _pageLoad(ViewCiComplaintPageLoadEvent event, emit) async {
     emit(ViewCiComplaintPageLoadState());
     cngList =  [];
+    cngSearchList =  [];
     vendorList  = [];
     complaintStatusList = ComplaintStatus.getComplaintData();
     vendorData = VendorModel();
@@ -39,10 +49,64 @@ class ViewCiComplaintBloc extends Bloc<ViewCiComplaintEvent, ViewCiComplaintStat
     isVendorAssignLoader =  false;
     complaintStatusData =  ComplaintStatus();
     remarkController.text = "";
-    var res =  await ViewCngHelper.fetchCngCivilData();
+    searchController.text = "";
+    fromDateController.text = "";
+    toDateController.text  =  "";
+    isFilterLoader =  false;
+    startDate = DateTime.now().subtract(const Duration(days: 4));
+    endDate = DateTime.now();
+    var res =  await ViewCngHelper.fetchCngCivilData(
+        fromDate: startDate.toString(), toDate: endDate.toString());
     if(res != null){
       cngList =  res;
+      cngSearchList =  res;
     }
+    _eventComplete(emit);
+  }
+
+  _search(ViewCiComplaintSearchDataEvent event, emit) async {
+     cngList = [];
+     _eventComplete(emit);
+     if(event.keyword.isNotEmpty){
+       cngList =  cngSearchList.where((element) => element.complaintNumber.toString().toLowerCase().contains(
+           event.keyword.toUpperCase().toLowerCase())).toList();
+       if(cngList.isEmpty){
+         cngList =  cngSearchList.where((element) => element.incidentDateTime.toString().toLowerCase().contains(
+             event.keyword.toUpperCase().toLowerCase())).toList();
+       }
+       if(cngList.isEmpty){
+         cngList =  cngSearchList.where((element) => element.reportBy.toString().toLowerCase().contains(
+             event.keyword.toUpperCase().toLowerCase())).toList();
+       }
+       if(cngList.isEmpty){
+         cngList =  cngSearchList.where((element) => element.complaintStatus.toString().toLowerCase().contains(
+             event.keyword.toUpperCase().toLowerCase())).toList();
+       }
+       if(cngList.isEmpty){
+         cngList =  cngSearchList.where((element) => element.complaintDescription.toString().toLowerCase().contains(
+             event.keyword.toUpperCase().toLowerCase())).toList();
+       }
+     } else {
+       cngList =  cngSearchList;
+     }
+
+     _eventComplete(emit);
+  }
+
+  _selectDate(ViewCiComplaintSelectedDateRangeEvent event, emit) async {
+    cngList =  [];
+    cngSearchList =  [];
+    isFilterLoader =  true;
+    _eventComplete(emit);
+    startDate =  event.fromDate;
+    endDate =  event.toDate;
+    var res =  await ViewCngHelper.fetchCngCivilData(
+        fromDate: event.fromDate.toString(), toDate: event.toDate.toString());
+    if(res != null){
+      cngList =  res;
+      cngSearchList =  res;
+    }
+    isFilterLoader =  false;
     _eventComplete(emit);
   }
 
@@ -103,6 +167,10 @@ class ViewCiComplaintBloc extends Bloc<ViewCiComplaintEvent, ViewCiComplaintStat
         isVendorListLoader: isVendorListLoader,
         isVendorAssignLoader: isVendorAssignLoader,
         remarkController: remarkController,
+        searchController: searchController,
+        fromDateController: fromDateController,
+        toDateController: toDateController,
+        isFilterLoader: isFilterLoader,
     ));
   }
 }

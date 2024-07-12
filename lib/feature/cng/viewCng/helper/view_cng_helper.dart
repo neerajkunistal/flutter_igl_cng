@@ -3,10 +3,10 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 
 class ViewCngHelper {
 
-  static Future<dynamic> fetchCngCivilData() async {
+  static Future<dynamic> fetchCngCivilData({String? fromDate, String? toDate}) async {
 
     try{
-       String url =  APIs.addCivilComplaintApi;
+       String url =  APIs.addCivilComplaintApi+"?fromDate=${fromDate ?? ""}&toDate=${toDate ?? ""}";
        var res =  await ServerRequest.getData(urlEndPoint: url);
        if(res !=  null && res['status'] != null
             && res['status'] == true && res['data'] != null) {

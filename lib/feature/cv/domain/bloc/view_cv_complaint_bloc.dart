@@ -10,14 +10,21 @@ part 'view_cv_complaint_state.dart';
 
 class ViewCvComplaintBloc extends Bloc<ViewCvComplaintEvent, ViewCvComplaintState> {
   List<CngModel> cngList =  [];
+  List<CngModel> cngSearchList =  [];
   List<ComplaintStatus> complaintStatusList = [];
   ComplaintStatus complaintStatusData =  ComplaintStatus();
   bool isLoader =  false;
+  bool isFilterLoader =  false;
   TextEditingController amountController =  TextEditingController();
   File files =  File("");
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+
 
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
+    on<ViewCvComplaintSearchDataEvent>(_search);
+    on<ViewCvComplaintSelectedDateRangeEvent>(_selectDate);
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
     on<ViewCvComplaintSubmitEvent>(_submit);
@@ -26,15 +33,67 @@ class ViewCvComplaintBloc extends Bloc<ViewCvComplaintEvent, ViewCvComplaintStat
   _pageLoad(ViewCvComplaintPageLoadEvent event, emit) async {
     emit(ViewCvComplaintPageLoadState());
     cngList =  [];
+    cngSearchList =  [];
     complaintStatusList =  ComplaintStatus.getComplaintData();
     complaintStatusData =  ComplaintStatus();
     isLoader =  false;
+    isFilterLoader =  false;
     files =  File("");
     amountController.text = "";
-    var res =  await ViewCngHelper.fetchCngCivilData();
+    startDate = DateTime.now().subtract(const Duration(days: 4));
+    endDate = DateTime.now();
+    var res =  await ViewCngHelper.fetchCngCivilData(
+        fromDate: startDate.toString(), toDate: endDate.toString());
     if(res != null){
       cngList =  res;
+      cngSearchList =  res;
     }
+    _eventComplete(emit);
+  }
+
+  _search(ViewCvComplaintSearchDataEvent event, emit) async {
+    cngList = [];
+    _eventComplete(emit);
+    if(event.keyword.isNotEmpty){
+      cngList =  cngSearchList.where((element) => element.complaintNumber.toString().toLowerCase().contains(
+          event.keyword.toUpperCase().toLowerCase())).toList();
+      if(cngList.isEmpty){
+        cngList =  cngSearchList.where((element) => element.incidentDateTime.toString().toLowerCase().contains(
+            event.keyword.toUpperCase().toLowerCase())).toList();
+      }
+      if(cngList.isEmpty){
+        cngList =  cngSearchList.where((element) => element.reportBy.toString().toLowerCase().contains(
+            event.keyword.toUpperCase().toLowerCase())).toList();
+      }
+      if(cngList.isEmpty){
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString().toLowerCase().contains(
+            event.keyword.toUpperCase().toLowerCase())).toList();
+      }
+      if(cngList.isEmpty){
+        cngList =  cngSearchList.where((element) => element.complaintDescription.toString().toLowerCase().contains(
+            event.keyword.toUpperCase().toLowerCase())).toList();
+      }
+    } else {
+      cngList =  cngSearchList;
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectDate(ViewCvComplaintSelectedDateRangeEvent event, emit) async {
+    cngList =  [];
+    cngSearchList =  [];
+    isFilterLoader =  true;
+    _eventComplete(emit);
+    startDate =  event.fromDate;
+    endDate =  event.toDate;
+    var res =  await ViewCngHelper.fetchCngCivilData(
+        fromDate: event.fromDate.toString(), toDate: event.toDate.toString());
+    if(res != null){
+      cngList =  res;
+      cngSearchList =  res;
+    }
+    isFilterLoader =  false;
     _eventComplete(emit);
   }
 
@@ -84,6 +143,7 @@ class ViewCvComplaintBloc extends Bloc<ViewCvComplaintEvent, ViewCvComplaintStat
         isLoader: isLoader,
         amountController: amountController,
         file: files,
+        isFilterLoader: isFilterLoader,
     ));
   }
 }
