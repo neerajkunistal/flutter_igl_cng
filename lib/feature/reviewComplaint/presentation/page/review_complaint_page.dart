@@ -193,7 +193,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       {required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.remark,
-      controller: dataState.rectifiedByController,
+      controller: dataState.observationController,
     );
   }
 

@@ -137,12 +137,15 @@ class AddEquipmentComplaintBloc
         isFileLoader = true;
         _eventComplete(emit);
         videoFiles[event.index] = video;
+/*        print("Get Video Player ${videoFiles[event.index].path.toString()}");
         MediaInfo? mediaInfo = await VideoCompress.compressVideo(
           videoFiles[event.index].path.toString(),
           quality: VideoQuality.Res640x480Quality,
           deleteOrigin: false, // It's false by default
         );
-        videoFiles[event.index] = mediaInfo!.file!;
+        if(mediaInfo != null){
+          videoFiles[event.index] = mediaInfo.file!;
+        }*/
       }
     } else {
       var video = await DashboardHelper.filePiker(context: event.context);
