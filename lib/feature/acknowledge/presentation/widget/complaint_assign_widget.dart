@@ -56,12 +56,10 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                                 )
                               : const SizedBox.shrink(),
                           _userDropDown(dataState: state, context: context),
-                          state.assignTypeData.id == "2"
-                              ? SizedBox(
+                          SizedBox(
                                   height:
                                       MediaQuery.of(context).size.width * 0.04,
-                                )
-                              : const SizedBox.shrink(),
+                          ),
                           _sapCodeDropDown(dataState: state, context: context),
                           _vendorDropDown(dataState: state, context: context),
                           SizedBox(
@@ -168,8 +166,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget _sapCodeDropDown(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
-    return dataState.assignTypeData.id == "2"
-        ? DropdownWidget(
+    return DropdownWidget(
             hint: AppString.sapCode,
             dropdownValue:
                 dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
@@ -184,8 +181,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                 child: TextWidget(sapCodeData.name.toString()),
               );
             }).toList(),
-          )
-        : const SizedBox.shrink();
+          );
   }
 
   Widget _dateController({required FetchAcknowledgeDataState dataState}) {
