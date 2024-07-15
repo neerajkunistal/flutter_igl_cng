@@ -1,4 +1,3 @@
-
 CrStationModel crStationData(var json) {
   return CrStationModel.fromJson(json);
 }
@@ -13,11 +12,11 @@ class CrStationModel {
 
   CrStationModel(
       {this.controlRoomId,
-        this.controlRoomName,
-        this.controlRoomCode,
-        this.cngStationId,
-        this.cngStationName,
-        this.functionLocation});
+      this.controlRoomName,
+      this.controlRoomCode,
+      this.cngStationId,
+      this.cngStationName,
+      this.functionLocation});
 
   CrStationModel.fromJson(Map<String, dynamic> json) {
     controlRoomId = json['control_room_id'] ?? "";

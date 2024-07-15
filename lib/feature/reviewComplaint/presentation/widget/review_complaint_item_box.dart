@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
@@ -97,7 +96,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 _rowHeaderWidget(
                     name: "Complaint Id",
                     value: reviewComplaintData.tokenNo.toString()),
-                Divider(color: AppColor.lightGrey,),
+                Divider(
+                  color: AppColor.lightGrey,
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
@@ -108,10 +109,13 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
-                    name: reviewComplaintData.equipmentCode.toString().isNotEmpty
-                        ? "Equipment"
-                        : "General",
-                    value: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                    name:
+                        reviewComplaintData.equipmentCode.toString().isNotEmpty
+                            ? "Equipment"
+                            : "General",
+                    value: reviewComplaintData.equipmentCode
+                            .toString()
+                            .isNotEmpty
                         ? reviewComplaintData.equipmentCode.toString()
                         : reviewComplaintData.generalComplaintName.toString()),
                 SizedBox(
@@ -179,7 +183,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
             right: 0.09,
             child: Padding(
               padding: const EdgeInsets.only(left: 7.0, right: 7.0),
-              child: Image.asset(AppIcon.ghungaruIcon,
+              child: Image.asset(
+                AppIcon.ghungaruIcon,
                 height: MediaQuery.of(context).size.width * 0.06,
                 color: Colors.grey[200],
                 width: MediaQuery.of(context).size.width,
@@ -201,13 +206,15 @@ class ReviewComplaintItemBox extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
-            TextWidget("$name ",
-                fontWeight: FontWeight.w700, fontSize: AppFont.font_13,
-                color: AppColor.themeColor,),
+            TextWidget(
+              "$name ",
+              fontWeight: FontWeight.w700,
+              fontSize: AppFont.font_13,
+              color: AppColor.themeColor,
+            ),
             Expanded(
                 child: TextWidget(value,
-                    textAlign: TextAlign.end,
-                    fontSize: AppFont.font_13)),
+                    textAlign: TextAlign.end, fontSize: AppFont.font_13)),
           ],
         ),
       ),

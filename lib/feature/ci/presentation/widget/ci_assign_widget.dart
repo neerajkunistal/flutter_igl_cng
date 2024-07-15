@@ -5,6 +5,7 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 
 class CiAssignWidget extends StatelessWidget {
   final CngModel cngData;
+
   const CiAssignWidget({super.key, required this.cngData});
 
   @override
@@ -12,7 +13,7 @@ class CiAssignWidget extends StatelessWidget {
     return BlocBuilder<ViewCiComplaintBloc, ViewCiComplaintState>(
       builder: (context, state) {
         if (state is FetchViewCiComplaintDataState) {
-         return _itemBuilder(dataState: state, context: context);
+          return _itemBuilder(dataState: state, context: context);
         } else {
           return _centerLoader();
         }
@@ -34,54 +35,68 @@ class CiAssignWidget extends StatelessWidget {
         child: Card(
           color: AppColor.white,
           margin: const EdgeInsets.all(10.0),
-          child: dataState.isVendorListLoader == false ?
-          Column(children: [
-             SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-               TextWidget("Assign Vendor", fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
-               SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-               _vendorDropDown(dataState: dataState, context: context),
-               SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-              _submitButton(dataState: dataState, context: context),
-              SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-          ]):_centerLoader(),
+          child: dataState.isVendorListLoader == false
+              ? Column(children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                  TextWidget(
+                    "Assign Vendor",
+                    fontSize: AppFont.font_14,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                  _vendorDropDown(dataState: dataState, context: context),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                  _submitButton(dataState: dataState, context: context),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                ])
+              : _centerLoader(),
         ),
       ),
     );
   }
 
-  Widget _vendorDropDown({required FetchViewCiComplaintDataState dataState,
-  required BuildContext context}) {
-     return Padding(
-       padding: const EdgeInsets.only(left: 15, right: 15),
-       child: DropDownSearchWidget(
-         isRequired: true,
-         selectedItem:
-         dataState.vendorData.name != null
-             ? dataState.vendorData
-             : null,
-         hint: AppString.vendor,
-         items: dataState.vendorList,
-         itemAsString: (vendorData) => vendorData.name.toString(),
-         onChanged: (value) {
-           BlocProvider.of<ViewCiComplaintBloc>(context).add(
-               ViewCiComplaintSelectVendorEvent(
-                   vendorData: value));
-         },
-       ),
-     );
+  Widget _vendorDropDown(
+      {required FetchViewCiComplaintDataState dataState,
+      required BuildContext context}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: DropDownSearchWidget(
+        isRequired: true,
+        selectedItem:
+            dataState.vendorData.name != null ? dataState.vendorData : null,
+        hint: AppString.vendor,
+        items: dataState.vendorList,
+        itemAsString: (vendorData) => vendorData.name.toString(),
+        onChanged: (value) {
+          BlocProvider.of<ViewCiComplaintBloc>(context)
+              .add(ViewCiComplaintSelectVendorEvent(vendorData: value));
+        },
+      ),
+    );
   }
 
-  Widget _submitButton({required FetchViewCiComplaintDataState dataState,
-    required BuildContext context}) {
-    return dataState.isVendorAssignLoader == false  ?
-    SizedBox(
-      width: MediaQuery.of(context).size.width * 0.40,
-      child: ButtonWidget(
-          text: AppString.assign,
-          onPressed: () {
-            BlocProvider.of<ViewCiComplaintBloc>(context).add(
-                ViewCiComplaintVendorAssignEvent(context: context, cngData: cngData));
-          }),
-    ):const DottedLoaderWidget();
-   }
+  Widget _submitButton(
+      {required FetchViewCiComplaintDataState dataState,
+      required BuildContext context}) {
+    return dataState.isVendorAssignLoader == false
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width * 0.40,
+            child: ButtonWidget(
+                text: AppString.assign,
+                onPressed: () {
+                  BlocProvider.of<ViewCiComplaintBloc>(context).add(
+                      ViewCiComplaintVendorAssignEvent(
+                          context: context, cngData: cngData));
+                }),
+          )
+        : const DottedLoaderWidget();
+  }
 }

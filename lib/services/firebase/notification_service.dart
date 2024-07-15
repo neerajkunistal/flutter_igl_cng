@@ -65,15 +65,15 @@ class FirebaseService {
     );
 
     _isAndroidPermissionGranted();
-    if(Platform.isAndroid){
+    if (Platform.isAndroid) {
       await Firebase.initializeApp(
           options: const FirebaseOptions(
-            apiKey: 'AIzaSyA1C5oCjXFfe4__kreZkfwI3ch9PlB5PwI',
-            appId: '1:812941224886:android:c8af46dc8b106bc6072f17',
-            messagingSenderId: '812941224886',
-            projectId: 'igl-cng',
-            storageBucket: 'igl-cng.appspot.com',
-          ));
+        apiKey: 'AIzaSyA1C5oCjXFfe4__kreZkfwI3ch9PlB5PwI',
+        appId: '1:812941224886:android:c8af46dc8b106bc6072f17',
+        messagingSenderId: '812941224886',
+        projectId: 'igl-cng',
+        storageBucket: 'igl-cng.appspot.com',
+      ));
     } else {
       await Firebase.initializeApp();
     }

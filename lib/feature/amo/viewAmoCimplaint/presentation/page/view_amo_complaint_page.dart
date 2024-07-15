@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
@@ -35,16 +34,19 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
                   Expanded(
-                    child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          color: Colors.white.withOpacity(.4),
-                        ),
-                        child: state.isFilterLoader == false
-                            ? _listBuilder(dataState: state)
-                            : const CenterLoaderWidget()),
+                    child: RefreshIndicator(
+                      onRefresh: _handleRefresh,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            color: Colors.white.withOpacity(.4),
+                          ),
+                          child: state.isFilterLoader == false
+                              ? _listBuilder(dataState: state)
+                              : const CenterLoaderWidget()),
+                    ),
                   ),
                 ],
               );
@@ -58,24 +60,39 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
 
   Widget _listBuilder({required FetchViewAmoComplaintDataState dataState}) {
     return Container(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top:  20.0),
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
       child: dataState.cngList.isNotEmpty
           ? ListView.builder(
-          itemCount: dataState.cngList.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: ViewAmoComplaintItemBoxWidget(
-                index: index,
-                cngData: dataState.cngList[index],
-              ),
-            );
-          })
+              itemCount: dataState.cngList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: ViewAmoComplaintItemBoxWidget(
+                    index: index,
+                    cngData: dataState.cngList[index],
+                  ),
+                );
+              })
           : const Center(
-        child: TextWidget("No Data"),
-      ),
+              child: TextWidget("No Data"),
+            ),
     );
+  }
+
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
+            !context.mounted ? context : context)
+        .startDate;
+    DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
+            !context.mounted ? context : context)
+        .endDate;
+    BlocProvider.of<ViewAmoComplaintBloc>(!context.mounted ? context : context)
+        .add(ViewAmoComplaintSelectedDateRangeEvent(
+            fromDate: startDate,
+            toDate: endDate,
+            context: !context.mounted ? context : context));
   }
 
   Widget _searchWidget({required FetchViewAmoComplaintDataState dataState}) {
@@ -88,20 +105,20 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
         IconButton(
             onPressed: () async {
               DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
-                  !context.mounted ? context : context)
+                      !context.mounted ? context : context)
                   .startDate;
               DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
-                  !context.mounted ? context : context)
+                      !context.mounted ? context : context)
                   .endDate;
               var selectedDate = await DateRangeWidget.showDateRange(
                   startDate: startDate, endDate: endDate, context: context);
               if (selectedDate != null) {
                 BlocProvider.of<ViewAmoComplaintBloc>(
-                    !context.mounted ? context : context)
+                        !context.mounted ? context : context)
                     .add(ViewAmoComplaintSelectedDateRangeEvent(
-                    fromDate: selectedDate.start,
-                    toDate: selectedDate.end,
-                    context: !context.mounted ? context : context));
+                        fromDate: selectedDate.start,
+                        toDate: selectedDate.end,
+                        context: !context.mounted ? context : context));
               }
             },
             icon: Icon(

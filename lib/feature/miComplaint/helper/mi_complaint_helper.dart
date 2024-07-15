@@ -103,9 +103,9 @@ class MiComplaintHelper {
             ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList())
                 .toString()
             : "0",
-        "vendorAssignDatetime" : action.id.toString() == "4"
-            ? "$date $time" : "",
-        "rectifyPerson" : rectifyBy,
+        "vendorAssignDatetime":
+            action.id.toString() == "4" ? "$date $time" : "",
+        "rectifyPerson": rectifyBy,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

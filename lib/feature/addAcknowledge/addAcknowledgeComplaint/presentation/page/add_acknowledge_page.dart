@@ -112,13 +112,15 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       dropdownValue: dataState.complaintTypeData.id != null
           ? dataState.complaintTypeData
           : null,
-      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0" ? (value) {
-        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
-          BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-              AddAcknowledgeComplaintSelectComplaintDataEvent(
-                  complaintTypeData: value));
-        }
-      } : null ,
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+              if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectComplaintDataEvent(
+                        complaintTypeData: value));
+              }
+            }
+          : null,
       items: dataState.complaintTypeList
           .map<DropdownMenuItem<ComplaintTypeModel>>(
               (ComplaintTypeModel complaintTypeData) {
@@ -137,13 +139,15 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       dropdownValue: dataState.equipmentTypeData.description != null
           ? dataState.equipmentTypeData
           : null,
-      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0" ? (value) {
-        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
-          BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-              AddAcknowledgeComplaintSelectEquipmentDataEvent(
-                  equipmentTypeData: value));
-        }
-      } : null ,
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+              if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectEquipmentDataEvent(
+                        equipmentTypeData: value));
+              }
+            }
+          : null,
       items: dataState.equipmentTypeList
           .map<DropdownMenuItem<EquipmentTypeModel>>(
               (EquipmentTypeModel equipmentTypeData) {
@@ -162,13 +166,15 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       dropdownValue: dataState.generalComplaintData.name != null
           ? dataState.generalComplaintData
           : null,
-      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0" ? (value) {
-        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
-          BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
-              AddAcknowledgeComplaintSelectGeneralDataEvent(
-                  generalComplaintData: value));
-        }
-      } : null ,
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+              if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectGeneralDataEvent(
+                        generalComplaintData: value));
+              }
+            }
+          : null,
       items: dataState.generalComplaintList
           .map<DropdownMenuItem<GeneralComplaintModel>>(
               (GeneralComplaintModel generalComplaintData) {

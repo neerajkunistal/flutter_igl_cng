@@ -11,7 +11,10 @@ class ViewAmoComplaintPageLoadEvent extends ViewAmoComplaintEvent {
 
 class ViewAmoComplaintSelectComplaintStatusEvent extends ViewAmoComplaintEvent {
   final ComplaintStatus complaintStatusData;
-  const ViewAmoComplaintSelectComplaintStatusEvent({required this.complaintStatusData});
+
+  const ViewAmoComplaintSelectComplaintStatusEvent(
+      {required this.complaintStatusData});
+
   @override
   List<Object?> get props => [complaintStatusData];
 }
@@ -19,21 +22,24 @@ class ViewAmoComplaintSelectComplaintStatusEvent extends ViewAmoComplaintEvent {
 class ViewAmoComplaintSubmitEvent extends ViewAmoComplaintEvent {
   final BuildContext context;
   final CngModel cngData;
-  const ViewAmoComplaintSubmitEvent({
-    required this.context, required this.cngData});
+
+  const ViewAmoComplaintSubmitEvent(
+      {required this.context, required this.cngData});
+
   @override
   List<Object?> get props => [context, cngData];
 }
 
-class  ViewAmoComplaintSearchDataEvent extends ViewAmoComplaintEvent {
+class ViewAmoComplaintSearchDataEvent extends ViewAmoComplaintEvent {
   final String keyword;
+
   const ViewAmoComplaintSearchDataEvent({required this.keyword});
+
   @override
   List<Object?> get props => [keyword];
 }
 
-class  ViewAmoComplaintSelectedDateRangeEvent
-    extends ViewAmoComplaintEvent {
+class ViewAmoComplaintSelectedDateRangeEvent extends ViewAmoComplaintEvent {
   final BuildContext context;
   final DateTime fromDate;
   final DateTime toDate;

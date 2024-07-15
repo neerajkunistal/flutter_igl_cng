@@ -11,7 +11,6 @@ class AddCngPage extends StatefulWidget {
 }
 
 class _AddCngPageState extends State<AddCngPage> {
-
   @override
   void initState() {
     BlocProvider.of<AddCngBloc>(context).add(AddCngPageLoadEvent());
@@ -33,7 +32,7 @@ class _AddCngPageState extends State<AddCngPage> {
             Expanded(
               child: BlocBuilder<AddCngBloc, AddCngState>(
                 builder: (context, state) {
-                  if(state is FetchAddCngDataState){
+                  if (state is FetchAddCngDataState) {
                     return Container(
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(
@@ -42,7 +41,7 @@ class _AddCngPageState extends State<AddCngPage> {
                           color: Colors.white.withOpacity(0.9),
                         ),
                         child: _itemBuilder(dataState: state));
-                  } else  {
+                  } else {
                     return const CenterLoaderWidget();
                   }
                 },
@@ -56,11 +55,17 @@ class _AddCngPageState extends State<AddCngPage> {
 
   Widget _header() {
     return Row(children: [
-      IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
-
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          )),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
       Expanded(
         child: TextWidget(
           "Add Civil Complaint",
@@ -76,99 +81,98 @@ class _AddCngPageState extends State<AddCngPage> {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.13,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
     ]);
   }
 
   Widget _itemBuilder({required FetchAddCngDataState dataState}) {
     return Container(
-       margin: const EdgeInsets.all(10.0),
-       child: SingleChildScrollView(
-         child: Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-           mainAxisAlignment: MainAxisAlignment.start,
-           children: [
-             _verticalSpace(),
-             _controlRoomController(dataState: dataState),
-             _verticalSpace(),
-             _cngStationController(dataState: dataState),
-             _verticalSpace(),
-             _categoryDropDown(dataState: dataState),
-             _verticalSpace(),
-             Row(
-               children: [
-                 Expanded(child: _dateController(dataState: dataState)),
-                 SizedBox(
-                   width: MediaQuery.of(context).size.width * 0.02,
-                 ),
-                 Expanded(child: _timeController(dataState: dataState)),
-               ],
-             ),
-             _verticalSpace(),
-             _descriptionController(dataState: dataState),
-             _verticalSpace(),
-             _reportedByController(dataState: dataState),
-             _verticalSpace(),
-             _photo(dataState: dataState, index: 0, file: File("")),
-             _verticalSpace(),
-             _imageList(dataState: dataState),
-             _verticalSpace(),
-             _submit(dataState: dataState),
-             _verticalSpace(),
-             _verticalSpace(),
-           ],
-         ),
-       ),
+      margin: const EdgeInsets.all(10.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _verticalSpace(),
+            _controlRoomController(dataState: dataState),
+            _verticalSpace(),
+            _cngStationController(dataState: dataState),
+            _verticalSpace(),
+            _categoryDropDown(dataState: dataState),
+            _verticalSpace(),
+            Row(
+              children: [
+                Expanded(child: _dateController(dataState: dataState)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Expanded(child: _timeController(dataState: dataState)),
+              ],
+            ),
+            _verticalSpace(),
+            _descriptionController(dataState: dataState),
+            _verticalSpace(),
+            _reportedByController(dataState: dataState),
+            _verticalSpace(),
+            _photo(dataState: dataState, index: 0, file: File("")),
+            _verticalSpace(),
+            _imageList(dataState: dataState),
+            _verticalSpace(),
+            _submit(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _controlRoomController({required FetchAddCngDataState dataState}) {
-    TextEditingController controller =  TextEditingController(
+    TextEditingController controller = TextEditingController(
         text: dataState.crStationData.controlRoomName ?? "");
     return TextFieldWidget(
         controller: controller,
-        isRequired:  true,
+        isRequired: true,
         enabled: false,
         labelText: AppString.controlRoom);
   }
 
   Widget _cngStationController({required FetchAddCngDataState dataState}) {
-    TextEditingController controller =  TextEditingController(
+    TextEditingController controller = TextEditingController(
         text: dataState.crStationData.cngStationName ?? "");
     return TextFieldWidget(
         controller: controller,
-        isRequired:  true,
+        isRequired: true,
         enabled: false,
         labelText: AppString.cngStation);
   }
 
-  Widget _categoryDropDown(
-      {required FetchAddCngDataState dataState}) {
+  Widget _categoryDropDown({required FetchAddCngDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
-      dataState.categoryData.name != null
-          ? dataState.categoryData
-          : null,
+          dataState.categoryData.name != null ? dataState.categoryData : null,
       hint: AppString.category,
       items: dataState.categoryList,
       itemAsString: (categoryData) => categoryData.name.toString(),
       onChanged: (value) {
-        BlocProvider.of<AddCngBloc>(context).add(
-            AddCngSelectCategoryDataEvent(
-                categoryData: value));
+        BlocProvider.of<AddCngBloc>(context)
+            .add(AddCngSelectCategoryDataEvent(categoryData: value));
       },
     );
   }
 
   Widget _dateController({required FetchAddCngDataState dataState}) {
     return TextFieldWidget(
-        controller: dataState.dateController,
-        isRequired:  true,
-        enabled: false,
-        labelText: AppString.date,
+      controller: dataState.dateController,
+      isRequired: true,
+      enabled: false,
+      labelText: AppString.date,
       onTap: () {
-          BlocProvider.of<AddCngBloc>(context).add(AddCngSelectDateEvent(context: context));
+        BlocProvider.of<AddCngBloc>(context)
+            .add(AddCngSelectDateEvent(context: context));
       },
     );
   }
@@ -176,11 +180,12 @@ class _AddCngPageState extends State<AddCngPage> {
   Widget _timeController({required FetchAddCngDataState dataState}) {
     return TextFieldWidget(
       controller: dataState.timeController,
-      isRequired:  true,
+      isRequired: true,
       enabled: false,
       labelText: AppString.time,
       onTap: () {
-        BlocProvider.of<AddCngBloc>(context).add(AddCngSelectTimeEvent(context: context));
+        BlocProvider.of<AddCngBloc>(context)
+            .add(AddCngSelectTimeEvent(context: context));
       },
     );
   }
@@ -188,7 +193,7 @@ class _AddCngPageState extends State<AddCngPage> {
   Widget _descriptionController({required FetchAddCngDataState dataState}) {
     return TextFieldWidget(
       controller: dataState.descriptionController,
-      isRequired:  true,
+      isRequired: true,
       labelText: AppString.description,
     );
   }
@@ -196,42 +201,48 @@ class _AddCngPageState extends State<AddCngPage> {
   Widget _reportedByController({required FetchAddCngDataState dataState}) {
     return TextFieldWidget(
       controller: dataState.reportedByController,
-      isRequired:  true,
+      isRequired: true,
       labelText: AppString.reportedBy,
     );
   }
 
   Widget _submit({required FetchAddCngDataState dataState}) {
-    return dataState.isLoader == false ?
-    ButtonWidget(
-        text: AppString.submit,
-        onPressed: () {
-        BlocProvider.of<AddCngBloc>(context).add(AddCngSubmitEvent(context: context));
-    }) : const DottedLoaderWidget();
+    return dataState.isLoader == false
+        ? ButtonWidget(
+            text: AppString.submit,
+            onPressed: () {
+              BlocProvider.of<AddCngBloc>(context)
+                  .add(AddCngSubmitEvent(context: context));
+            })
+        : const DottedLoaderWidget();
   }
 
   Widget _imageList({required FetchAddCngDataState dataState}) {
-    return dataState.fileList.isNotEmpty ?
-    SizedBox(
-      // height: MediaQuery.of(context).size.height / 6,
-      child: GridView.builder(
-        itemCount: dataState.fileList.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) =>
-            _photo(dataState: dataState, index: index, file: dataState.fileList[index]),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-        ),
-      ),
-    ): const SizedBox.shrink();
+    return dataState.fileList.isNotEmpty
+        ? SizedBox(
+            // height: MediaQuery.of(context).size.height / 6,
+            child: GridView.builder(
+              itemCount: dataState.fileList.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => _photo(
+                  dataState: dataState,
+                  index: index,
+                  file: dataState.fileList[index]),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _photo(
       {required FetchAddCngDataState dataState,
-        required int index, required File file}) {
+      required int index,
+      required File file}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 4,
       height: MediaQuery.of(context).size.width / 4,
@@ -244,91 +255,83 @@ class _AddCngPageState extends State<AddCngPage> {
           strokeWidth: 1,
           child: file.path.isEmpty
               ? Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Center(
-                child: Icon(Icons.photo_camera_back_outlined),
-              ),
-              Padding(
-                padding: EdgeInsets.all(
-                    MediaQuery.of(context).size.width * 0.02),
-                child: TextWidget(
-                  "Add ${AppString.photo}",
-                  fontSize: AppFont.font_12,
-                  color: AppColor.grey,
-                ),
-              ),
-            ],
-          )
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Center(
+                      child: Icon(Icons.photo_camera_back_outlined),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.02),
+                      child: TextWidget(
+                        "Add ${AppString.photo}",
+                        fontSize: AppFont.font_12,
+                        color: AppColor.grey,
+                      ),
+                    ),
+                  ],
+                )
               : Stack(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".jpg") ||
-                      file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".png") ||
-                      file.path
-                          .toString()
-                          .toLowerCase()
-                          .contains(".jpeg")
-                      ? Image.file(
-                    file,
-                    fit: BoxFit.fill,
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: MediaQuery.of(context).size.width / 4.5,
-                  )
-                      : file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? const Icon(Icons.picture_as_pdf_outlined)
-                      : const Icon(Icons.document_scanner_outlined),
-                  file.path
-                      .toString()
-                      .toLowerCase()
-                      .contains(".pdf")
-                      ? TextWidget(
-                    file.path
-                        .split('/')
-                        .last
-                        .toString(),
-                    color: AppColor.themeColor,
-                    fontSize: AppFont.font_12,
-                  )
-                      : const SizedBox.shrink(),
-                ],
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.width / 3,
-                  color: Colors.white.withOpacity(0.6),
-                  child: Center(
-                      child: Icon(
-                        Icons.refresh,
-                        color: AppColor.themeColor,
-                      ))),
-              Align (
-                alignment: Alignment.topRight,
-                child: InkWell(
-                  onTap: () {
-                    BlocProvider.of<AddCngBloc>(context).add(AddCngFileDeleteEvent(index: index));
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: AppColor.red,
-                  ),
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        file.path.toString().toLowerCase().contains(".jpg") ||
+                                file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".png") ||
+                                file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".jpeg")
+                            ? Image.file(
+                                file,
+                                fit: BoxFit.fill,
+                                width: MediaQuery.of(context).size.width / 3,
+                                height: MediaQuery.of(context).size.width / 4.5,
+                              )
+                            : file.path
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(".pdf")
+                                ? const Icon(Icons.picture_as_pdf_outlined)
+                                : const Icon(Icons.document_scanner_outlined),
+                        file.path.toString().toLowerCase().contains(".pdf")
+                            ? TextWidget(
+                                file.path.split('/').last.toString(),
+                                color: AppColor.themeColor,
+                                fontSize: AppFont.font_12,
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                    Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3,
+                        color: Colors.white.withOpacity(0.6),
+                        child: Center(
+                            child: Icon(
+                          Icons.refresh,
+                          color: AppColor.themeColor,
+                        ))),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<AddCngBloc>(context)
+                              .add(AddCngFileDeleteEvent(index: index));
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColor.red,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
@@ -345,9 +348,11 @@ class _AddCngPageState extends State<AddCngPage> {
             children: [
               TextButton(
                   onPressed: () {
-                    BlocProvider.of<AddCngBloc>(context).add(
-                        AddCngSelectFileEvent(
-                            context: context, mediaType: 1,));
+                    BlocProvider.of<AddCngBloc>(context)
+                        .add(AddCngSelectFileEvent(
+                      context: context,
+                      mediaType: 1,
+                    ));
                   },
                   child: TextWidget(
                     "Camera",
@@ -356,9 +361,11 @@ class _AddCngPageState extends State<AddCngPage> {
               const Divider(),
               TextButton(
                   onPressed: () {
-                    BlocProvider.of<AddCngBloc>(context).add(
-                        AddCngSelectFileEvent(
-                          context: context, mediaType: 2,));
+                    BlocProvider.of<AddCngBloc>(context)
+                        .add(AddCngSelectFileEvent(
+                      context: context,
+                      mediaType: 2,
+                    ));
                   },
                   child: TextWidget(
                     "Gallery",

@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
 part 'view_equipment_complaint_event.dart';
+
 part 'view_equipment_complaint_state.dart';
 
 class ViewEquipmentComplaintBloc
@@ -53,15 +54,14 @@ class ViewEquipmentComplaintBloc
 
     _selectTabIndex = userData.roleType == RoleType.stationUser ? 0 : 1;
 
-
-    if(userData.roleType == RoleType.shiftEngineer){
-      var reviewSelfComplaintRes =  await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
-      if(reviewSelfComplaintRes != null){
+    if (userData.roleType == RoleType.shiftEngineer) {
+      var reviewSelfComplaintRes =
+          await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
+      if (reviewSelfComplaintRes != null) {
         reviewSelfComplaintList = reviewSelfComplaintRes;
         reviewSelfComplaintWithOutFilterList = reviewSelfComplaintRes;
       }
     }
-
 
     if (res != null) {
       reviewComplaintList = res;
@@ -202,49 +202,47 @@ class ViewEquipmentComplaintBloc
                 .toLowerCase()
                 .contains(keyword.toLowerCase()))
             .toList();
-      }
-
-      else if (selectTabIndex == 5) {
+      } else if (selectTabIndex == 5) {
         reviewComplaintList = reviewComplaintWithOutFilterList
             .where((element) => element.tokenNo
-            .toString()
-            .toLowerCase()
-            .contains(keyword.toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(keyword.toLowerCase()))
             .toList();
 
         if (reviewComplaintList.isEmpty) {
           reviewComplaintList = reviewComplaintWithOutFilterList
               .where((element) => element.createdByUser
-              .toString()
-              .toLowerCase()
-              .contains(keyword.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(keyword.toLowerCase()))
               .toList();
         }
 
         if (reviewComplaintList.isEmpty) {
           reviewComplaintList = reviewComplaintWithOutFilterList
               .where((element) => element.complaintDateTime
-              .toString()
-              .toLowerCase()
-              .contains(keyword.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(keyword.toLowerCase()))
               .toList();
         }
 
         if (reviewComplaintList.isEmpty) {
           reviewComplaintList = reviewComplaintWithOutFilterList
               .where((element) => element.complaintDescription
-              .toString()
-              .toLowerCase()
-              .contains(keyword.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(keyword.toLowerCase()))
               .toList();
         }
 
         if (reviewComplaintList.isEmpty) {
           reviewComplaintList = reviewComplaintWithOutFilterList
               .where((element) => element.equipmentName
-              .toString()
-              .toLowerCase()
-              .contains(keyword.toLowerCase()))
+                  .toString()
+                  .toLowerCase()
+                  .contains(keyword.toLowerCase()))
               .toList();
         }
         complaintCount.add(reviewSelfComplaintList.length);
@@ -400,9 +398,10 @@ class ViewEquipmentComplaintBloc
           .toList();
     }
 
-    if(userData.roleType == RoleType.shiftEngineer){
-      var reviewSelfComplaintRes =  await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
-      if(reviewSelfComplaintRes != null){
+    if (userData.roleType == RoleType.shiftEngineer) {
+      var reviewSelfComplaintRes =
+          await ViewEquipmentComplaintHelper.fetchReviewAndSelfComplaint();
+      if (reviewSelfComplaintRes != null) {
         reviewSelfComplaintList = reviewSelfComplaintRes;
         reviewSelfComplaintWithOutFilterList = reviewSelfComplaintRes;
       }

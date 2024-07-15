@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:vibration/vibration.dart';
 
 class ComplaintTypeWidget extends StatefulWidget {
   const ComplaintTypeWidget({super.key});
@@ -25,11 +26,13 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                 shadowColor: AppColor.themeColor,
                 elevation: 2,
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    if (await Vibration.hasAmplitudeControl() != null) {
+                      Vibration.vibrate(duration: 100);
+                    }
                     Navigator.push(
-                      context,
-                      FadeRoute(
-                          page: const ViewCngPage()),
+                      !context.mounted ? context : context,
+                      FadeRoute(page: const ViewCngPage()),
                     );
                   },
                   child: Padding(
@@ -39,12 +42,9 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(AppIcon.maintenanceIcon,
-                            height:
-                            MediaQuery.of(context).size.width *
-                                0.20),
+                            height: MediaQuery.of(context).size.width * 0.20),
                         SizedBox(
-                          height: MediaQuery.of(context).size.width *
-                              0.02,
+                          height: MediaQuery.of(context).size.width * 0.02,
                         ),
                         TextWidget(
                           "Civil Complaint",
@@ -56,18 +56,22 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                   ),
                 ),
               )),
-
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 shadowColor: AppColor.themeColor,
                 elevation: 2,
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    if (await Vibration.hasAmplitudeControl() != null) {
+                      Vibration.vibrate(duration: 100);
+                    }
                     Navigator.push(
-                      context,
+                      !context.mounted ? context : context,
                       FadeRoute(
-                          page: const ViewEquipmentComplaintPage(title: "Other Complaint",)),
+                          page: const ViewEquipmentComplaintPage(
+                        title: "Other Complaint",
+                      )),
                     );
                   },
                   child: Padding(
@@ -77,12 +81,9 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(AppIcon.equipmentIcon,
-                            height:
-                            MediaQuery.of(context).size.width *
-                                0.20),
+                            height: MediaQuery.of(context).size.width * 0.20),
                         SizedBox(
-                          height: MediaQuery.of(context).size.width *
-                              0.02,
+                          height: MediaQuery.of(context).size.width * 0.02,
                         ),
                         TextWidget(
                           "Other Complaint",

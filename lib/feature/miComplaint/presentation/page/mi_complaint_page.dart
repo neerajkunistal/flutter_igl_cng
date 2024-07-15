@@ -66,18 +66,16 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             dataState.actionData.id.toString() == "3"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-              Row(
-                    children: [
-                      Expanded(child: _dateController(dataState: dataState)),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      Expanded(child: _timeController(dataState: dataState)),
-                    ],
-                  ),
-
+            Row(
+              children: [
+                Expanded(child: _dateController(dataState: dataState)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Expanded(child: _timeController(dataState: dataState)),
+              ],
+            ),
             _verticalSpace(),
-
             dataState.actionData.id.toString() == "4"
                 ? _vendorDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -213,8 +211,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
-  Widget _rectifyByController(
-      {required FetchMiComplaintDataState dataState}) {
+  Widget _rectifyByController({required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.rectifiedBy,
       controller: dataState.rectifyByController,

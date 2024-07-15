@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-     pageOpen();
+    pageOpen();
     super.initState();
   }
 
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
               left: MediaQuery.of(context).size.width * 0.18,
               right: 0.0,
               child: SizedBox(
-                height: MediaQuery.of(context).size.height/2.5,
+                height: MediaQuery.of(context).size.height / 2.5,
                 child: Image.asset(
                   AppIcon.pumpIcon,
                   opacity: const AlwaysStoppedAnimation(.9),
@@ -78,9 +78,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
-                    child: TextWidget("CNG is a fossil fuel substitute for other auto fuels such as petrol, diesel, Auto LPG etc. For use in Automobiles as fuel, Natural Gas is compressed & dispensed to vehicles at high pressure of 200-250 Kg/cm² enhance the vehicle on board storage capacity.", color: AppColor.white,
+                    child: TextWidget(
+                      "CNG is a fossil fuel substitute for other auto fuels such as petrol, diesel, Auto LPG etc. For use in Automobiles as fuel, Natural Gas is compressed & dispensed to vehicles at high pressure of 200-250 Kg/cm² enhance the vehicle on board storage capacity.",
+                      color: AppColor.white,
                       textAlign: TextAlign.center,
-                      fontSize: AppFont.font_13,),
+                      fontSize: AppFont.font_13,
+                    ),
                   ),
                 ],
               ),

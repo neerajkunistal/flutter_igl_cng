@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/presentation/pages/add_cng_page.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_item_box_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewCngPage extends StatefulWidget {
@@ -72,44 +73,83 @@ class _ViewCngPageState extends State<ViewCngPage> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-          dataState.cngList.isNotEmpty
-              ? Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                    color: Colors.white.withOpacity(.4),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-                    child: ListView.builder(
-                        itemCount: dataState.cngList.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0,),
-                            child: ViewCngItemBoxWidget(
-                              index: index,
-                              cngData: dataState.cngList[index],
-                            ),
-                          );
-                        }),
-                  ),
-                ),
-              ) : const Center( child: TextWidget("No Data") ),
+          _searchWidget(dataState: dataState),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          Expanded(
+            child: dataState.isFilterLoader == false
+                ? dataState.cngList.isNotEmpty
+                    ? RefreshIndicator(
+                        onRefresh: _handleRefresh,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                            color: Colors.white.withOpacity(.4),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 20, left: 10, right: 10),
+                            child: ListView.builder(
+                                itemCount: dataState.cngList.length,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      bottom: 8.0,
+                                    ),
+                                    child: ViewCngItemBoxWidget(
+                                      index: index,
+                                      cngData: dataState.cngList[index],
+                                    ),
+                                  );
+                                }),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: TextWidget(
+                        "No Data",
+                        color: AppColor.white,
+                      ))
+                : const CenterLoaderWidget(),
+          ),
         ],
       ),
     );
   }
 
+  Future<void> _handleRefresh() async {
+    await Future.delayed(const Duration(seconds: 1));
+    DateTime startDate =
+        BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+            .startDate;
+    DateTime endDate =
+        BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+            .endDate;
+    BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context).add(
+        ViewCngSelectedDateRangeEvent(
+            fromDate: startDate,
+            toDate: endDate,
+            context: !context.mounted ? context : context));
+  }
+
   Widget _header() {
     return Row(children: [
-      IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
-
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          )),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
       Expanded(
         child: TextWidget(
           "View Civil Complaint",
@@ -125,9 +165,80 @@ class _ViewCngPageState extends State<ViewCngPage> {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.13,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
     ]);
   }
+
+  Widget _searchWidget({required FetchViewCngDataState dataState}) {
+    return Row(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.08,
+        ),
+        Expanded(child: _searchController()),
+        IconButton(
+            onPressed: () async {
+              DateTime startDate = BlocProvider.of<ViewCngBloc>(
+                      !context.mounted ? context : context)
+                  .startDate;
+              DateTime endDate = BlocProvider.of<ViewCngBloc>(
+                      !context.mounted ? context : context)
+                  .endDate;
+              var selectedDate = await DateRangeWidget.showDateRange(
+                  startDate: startDate, endDate: endDate, context: context);
+              if (selectedDate != null) {
+                BlocProvider.of<ViewCngBloc>(
+                        !context.mounted ? context : context)
+                    .add(ViewCngSelectedDateRangeEvent(
+                        fromDate: selectedDate.start,
+                        toDate: selectedDate.end,
+                        context: !context.mounted ? context : context));
+              }
+            },
+            icon: Icon(
+              Icons.calendar_month_outlined,
+              color: AppColor.white,
+            ))
+      ],
+    );
+  }
+
+  Widget _searchController() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.width * 0.10,
+      child: TextField(
+        onChanged: (keyword) {
+          BlocProvider.of<ViewCngBloc>(context)
+              .add(ViewCngSearchEvent(keyword: keyword));
+        },
+        style: TextStyle(
+          color: const Color(0xff020202),
+          fontSize: AppFont.font_12,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.5,
+        ),
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color(0xfff1f1f1),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: BorderSide.none,
+          ),
+          hintText: "Search...",
+          hintStyle: TextStyle(
+              color: const Color(0xffb2b2b2),
+              fontSize: AppFont.font_12,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.5,
+              decorationThickness: 6),
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
+          prefixIconColor: AppColor.themeColor,
+        ),
+      ),
+    );
+  }
 }
-
-

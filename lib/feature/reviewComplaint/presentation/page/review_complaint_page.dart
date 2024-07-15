@@ -53,11 +53,17 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
 
   Widget _header() {
     return Row(children: [
-      IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
-
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          )),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
       Expanded(
         child: TextWidget(
           "Review Complaint",
@@ -73,7 +79,9 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.13,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
     ]);
   }
 

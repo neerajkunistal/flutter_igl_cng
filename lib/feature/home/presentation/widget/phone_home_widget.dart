@@ -11,13 +11,12 @@ class PhoneHomeWidget extends StatefulWidget {
 }
 
 class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
-
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+        key: scaffoldKey,
         drawer: HomeDrawerWidget(),
         bottomNavigationBar:
             BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
@@ -47,7 +46,8 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
               Expanded(
-                child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+                child:
+                    BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
                   if (state is FetchHomeDataState) {
                     return state.childWidget;
                   } else {
@@ -64,15 +64,20 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
 
   Widget _header() {
     return Row(children: [
-      IconButton(onPressed: () {
-        scaffoldKey.currentState!.openDrawer();
-      }, icon:  Image.asset( AppIcon.menuIcon,
-        color: AppColor.white,
-        height: MediaQuery.of(context).size.width * 0.07,
-        width: MediaQuery.of(context).size.width * 0.07,
-      ),),
-
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      IconButton(
+        onPressed: () {
+          scaffoldKey.currentState!.openDrawer();
+        },
+        icon: Image.asset(
+          AppIcon.menuIcon,
+          color: AppColor.white,
+          height: MediaQuery.of(context).size.width * 0.07,
+          width: MediaQuery.of(context).size.width * 0.07,
+        ),
+      ),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
       Expanded(
         child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
           if (state is FetchHomeDataState) {
@@ -99,7 +104,9 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.13,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
     ]);
   }
 }

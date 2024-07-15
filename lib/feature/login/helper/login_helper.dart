@@ -47,14 +47,14 @@ class LoginHelper {
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
     String? firebaseToken;
-     try {
-       firebaseToken =  await FirebaseMessaging.instance.getToken();
-       if (kDebugMode) {
-         print(firebaseToken.toString());
-       }
-     }catch(_){
-       firebaseToken = "";
-     }
+    try {
+      firebaseToken = await FirebaseMessaging.instance.getToken();
+      if (kDebugMode) {
+        print(firebaseToken.toString());
+      }
+    } catch (_) {
+      firebaseToken = "";
+    }
 
     try {
       if (await isInternetConnected() == true) {
@@ -71,7 +71,7 @@ class LoginHelper {
             res["status"] != null &&
             res['status'] == 200 &&
             res['user'] != null) {
-          if(Platform.isAndroid){
+          if (Platform.isAndroid) {
             await deleteCacheDir();
             await deleteAppDir();
           }

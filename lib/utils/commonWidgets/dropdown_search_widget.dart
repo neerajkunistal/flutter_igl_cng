@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DropDownSearchWidget extends StatelessWidget {
-
   final List<dynamic> items;
   final ValueChanged<dynamic>? onChanged;
-  final  DropdownSearchItemAsString<dynamic>? itemAsString;
+  final DropdownSearchItemAsString<dynamic>? itemAsString;
   final String hint;
   final dynamic selectedItem;
   final bool? isRequired;
-  const DropDownSearchWidget({super.key,
+
+  const DropDownSearchWidget({
+    super.key,
     required this.items,
     this.onChanged,
     required this.itemAsString,
@@ -38,17 +39,21 @@ class DropDownSearchWidget extends StatelessWidget {
                 style: BorderStyle.none,
               ),
             ),
-            label:  TextWidget("$hint${isRequired == false ? "" :' *'}", color: AppColor.themeColor,),
-            hintStyle: TextStyle(fontSize: AppFont.font_14, color: AppColor.themeColor),
+            label: TextWidget(
+              "$hint${isRequired == false ? "" : ' *'}",
+              color: AppColor.themeColor,
+            ),
+            hintStyle: TextStyle(
+                fontSize: AppFont.font_14, color: AppColor.themeColor),
             contentPadding: EdgeInsets.only(
-                top: AppConfig.getDeviceType(context: context) == DeviceType.phone
+                top: AppConfig.getDeviceType(context: context) ==
+                        DeviceType.phone
                     ? MediaQuery.of(context).size.height * 0.018
                     : MediaQuery.of(context).size.height * 0.03,
-
-                left: AppConfig.getDeviceType(context: context) == DeviceType.phone
+                left: AppConfig.getDeviceType(context: context) ==
+                        DeviceType.phone
                     ? MediaQuery.of(context).size.height * 0.01
-                    : MediaQuery.of(context).size.height * 0.02
-            ),
+                    : MediaQuery.of(context).size.height * 0.02),
             hintText: hint,
             filled: false,
           ),
@@ -56,9 +61,9 @@ class DropDownSearchWidget extends StatelessWidget {
         items: items,
         itemAsString: itemAsString,
         onChanged: onChanged,
-        popupProps:  PopupProps.dialog(
+        popupProps: PopupProps.dialog(
             searchFieldProps: TextFieldProps(
-              decoration:  InputDecoration(
+              decoration: InputDecoration(
                 hintText: hint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -77,23 +82,27 @@ class DropDownSearchWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.width * 0.03),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.30,
                         child: ButtonWidget(
                           fontSize: AppFont.font_12,
-                          height: AppConfig.getDeviceType(context: context) == DeviceType.tablet ? 50 : MediaQuery.of(context).size.height * 0.038,
+                          height: AppConfig.getDeviceType(context: context) ==
+                                  DeviceType.tablet
+                              ? 50
+                              : MediaQuery.of(context).size.height * 0.038,
                           onPressed: () {
                             Navigator.pop(context);
-                          }, text: AppString.cancel,
+                          },
+                          text: AppString.cancel,
                         ),
                       ),
                     ),
                   ),
                 ],
               );
-            }
-        ),
+            }),
       ),
     );
   }

@@ -11,7 +11,10 @@ class ViewCvComplaintPageLoadEvent extends ViewCvComplaintEvent {
 
 class ViewCvComplaintSelectComplaintStatusEvent extends ViewCvComplaintEvent {
   final ComplaintStatus complaintStatusData;
-  const ViewCvComplaintSelectComplaintStatusEvent({required this.complaintStatusData});
+
+  const ViewCvComplaintSelectComplaintStatusEvent(
+      {required this.complaintStatusData});
+
   @override
   List<Object?> get props => [complaintStatusData];
 }
@@ -19,10 +22,10 @@ class ViewCvComplaintSelectComplaintStatusEvent extends ViewCvComplaintEvent {
 class ViewCvComplaintSelectFileEvent extends ViewCvComplaintEvent {
   final BuildContext context;
   final int mediaType;
-  const ViewCvComplaintSelectFileEvent({
-    required this.context,
-    required this.mediaType
-  });
+
+  const ViewCvComplaintSelectFileEvent(
+      {required this.context, required this.mediaType});
+
   @override
   List<Object?> get props => [context, mediaType];
 }
@@ -30,21 +33,24 @@ class ViewCvComplaintSelectFileEvent extends ViewCvComplaintEvent {
 class ViewCvComplaintSubmitEvent extends ViewCvComplaintEvent {
   final BuildContext context;
   final CngModel cngData;
-  const ViewCvComplaintSubmitEvent({
-    required this.context, required this.cngData});
+
+  const ViewCvComplaintSubmitEvent(
+      {required this.context, required this.cngData});
+
   @override
   List<Object?> get props => [context, cngData];
 }
 
 class ViewCvComplaintSearchDataEvent extends ViewCvComplaintEvent {
   final String keyword;
+
   const ViewCvComplaintSearchDataEvent({required this.keyword});
+
   @override
   List<Object?> get props => [keyword];
 }
 
-class ViewCvComplaintSelectedDateRangeEvent
-    extends ViewCvComplaintEvent {
+class ViewCvComplaintSelectedDateRangeEvent extends ViewCvComplaintEvent {
   final BuildContext context;
   final DateTime fromDate;
   final DateTime toDate;

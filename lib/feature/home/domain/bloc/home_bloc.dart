@@ -11,6 +11,7 @@ import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {

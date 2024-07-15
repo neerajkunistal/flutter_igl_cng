@@ -21,43 +21,46 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
       context: context,
       child: Column(
         children: [
-          Expanded(child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _logo(),
-              TextWidget("IGL CNG!\nLogin",
+              TextWidget(
+                "IGL CNG!\nLogin",
                 fontSize: AppFont.font_20,
                 color: AppColor.white,
                 fontWeight: FontWeight.w700,
-                textAlign: TextAlign.center,),
+                textAlign: TextAlign.center,
+              ),
             ],
           )),
           Expanded(
-            child: SingleChildScrollView(
-              // reverse: true,
-              physics: const AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height * 0.5,
-                decoration:  BoxDecoration(
+              child: SingleChildScrollView(
+            // reverse: true,
+            physics: const AlwaysScrollableScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            child: Container(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              decoration: BoxDecoration(
                   color: AppColor.white,
                   image: DecorationImage(
                     opacity: 0.080,
                     image: AssetImage(AppIcon.loginBackground),
                     fit: BoxFit.cover,
                   ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
-                    )
-                ),
-                child: Center(
-                  child: _itemBuilder(dataState: widget.dataState),
-                ),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  )),
+              child: Center(
+                child: _itemBuilder(dataState: widget.dataState),
               ),
-          ))],
+            ),
+          ))
+        ],
       ),
     );
   }
@@ -99,8 +102,8 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
           ],
         ),
         Padding(
-          padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.width * 0.02),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).size.width * 0.02),
           // padding: EdgeInsets.only(bottom: 100),
         ),
       ],

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -75,14 +73,17 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
           Expanded(child: _searchController()),
           IconButton(
               onPressed: () async {
-                var selectedDate =  await DateRangeWidget.showDateRange(
-                    startDate: DateTime.now(), endDate: DateTime.now(), context : context);
-                if(selectedDate != null){
-                  BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).add(
-                      AcknowledgeSelectDateRangeEvent(
+                var selectedDate = await DateRangeWidget.showDateRange(
+                    startDate: DateTime.now(),
+                    endDate: DateTime.now(),
+                    context: context);
+                if (selectedDate != null) {
+                  BlocProvider.of<AcknowledgeBloc>(
+                          !context.mounted ? context : context)
+                      .add(AcknowledgeSelectDateRangeEvent(
                           fromDate: selectedDate.start,
                           toDate: selectedDate.end,
-                          context: !context.mounted ?  context : context));
+                          context: !context.mounted ? context : context));
                 }
               },
               icon: Icon(
@@ -299,7 +300,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                           Icons.refresh,
                           color: AppColor.white,
                         ),
-                         TextWidget(
+                        TextWidget(
                           "No Data\nTab to refresh",
                           color: AppColor.white,
                           textAlign: TextAlign.center,

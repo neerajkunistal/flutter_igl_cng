@@ -42,19 +42,20 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.toDateController,
     required this.isFilterLoader,
   });
+
   @override
   List<Object> get props => [
-    cngList,
-    vendorData,
-    vendorList,
-    complaintStatusList,
-    complaintStatusData,
-    isVendorListLoader,
-    isVendorAssignLoader,
-    remarkController,
-    searchController,
-    fromDateController,
-    toDateController,
-    isFilterLoader,
-  ];
+        cngList,
+        vendorData,
+        vendorList,
+        complaintStatusList,
+        complaintStatusData,
+        isVendorListLoader,
+        isVendorAssignLoader,
+        remarkController,
+        searchController,
+        fromDateController,
+        toDateController,
+        isFilterLoader,
+      ];
 }

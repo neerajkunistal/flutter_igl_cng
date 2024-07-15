@@ -2,7 +2,6 @@ List<CategoryModel> categoryListResponse(var json) {
   return List<CategoryModel>.from(json.map((x) => CategoryModel.fromJson(x)));
 }
 
-
 class CategoryModel {
   String? id;
   String? name;

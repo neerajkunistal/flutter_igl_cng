@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
@@ -16,12 +15,11 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
-          DateTime.parse(cngData.incidentDateTime.toString()));
+      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
 
     return Card(
@@ -33,19 +31,37 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
           children: [
             Row(
               children: [
-                TextWidget("Complaint ID : ", color: AppColor.green, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintNumber,
+                TextWidget(
+                  "Complaint ID : ",
+                  color: AppColor.green,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                  cngData.complaintNumber,
                   textAlign: TextAlign.end,
-                  fontWeight: FontWeight.w700, fontSize: AppFont.font_13,)),
+                  fontWeight: FontWeight.w700,
+                  fontSize: AppFont.font_13,
+                )),
               ],
             ),
-            Divider(color: AppColor.lightGrey,),
+            Divider(
+              color: AppColor.lightGrey,
+            ),
             Row(
               children: [
-                TextWidget("DateTime : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(incidentDateTime,
+                TextWidget(
+                  "DateTime : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                  incidentDateTime,
                   textAlign: TextAlign.end,
-                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                )),
               ],
             ),
             SizedBox(
@@ -53,10 +69,18 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                TextWidget("Reported By : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.reportBy.toString(),
+                TextWidget(
+                  "Reported By : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                  cngData.reportBy.toString(),
                   textAlign: TextAlign.end,
-                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                )),
               ],
             ),
             SizedBox(
@@ -64,57 +88,103 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                TextWidget("Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintStatus.toString() == "0" ? "Pending" :
-                cngData.complaintStatus.toString() == "1" ?  "Approved" : "Reject" ,
-                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
-                  color: cngData.complaintStatus.toString() == "0" ? AppColor.orange :
-                  cngData.complaintStatus.toString() == "1" ?  AppColor.green : AppColor.red,
+                TextWidget(
+                  "Status : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                  cngData.complaintStatus.toString() == "0"
+                      ? "Pending"
+                      : cngData.complaintStatus.toString() == "1"
+                          ? "Approved"
+                          : "Reject",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                  color: cngData.complaintStatus.toString() == "0"
+                      ? AppColor.orange
+                      : cngData.complaintStatus.toString() == "1"
+                          ? AppColor.green
+                          : AppColor.red,
                   textAlign: TextAlign.end,
                 )),
               ],
             ),
-
             cngData.assignTo.toString() == "0" &&
-            cngData.complaintStatus.toString() == "0"
+                    cngData.complaintStatus.toString() == "0"
                 ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextWidget("Assign : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: Align(
-                    alignment: Alignment.centerRight,
-                    child: _assignButton(cngData: cngData, index: index, context: context))),
-              ],
-            ) : const SizedBox.shrink(),
-
-            cngData.assignTo.toString() != "0"
-                && cngData.estimateCost.toString() != "0" &&
-                cngData.measurementSheetBy.toString() == "0"
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextWidget(
+                        "Assign : ",
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      ),
+                      Expanded(
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: _assignButton(
+                                  cngData: cngData,
+                                  index: index,
+                                  context: context))),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+            cngData.assignTo.toString() != "0" &&
+                    cngData.estimateCost.toString() != "0" &&
+                    cngData.measurementSheetBy.toString() == "0"
                 ? Row(
-              children: [
-                TextWidget("Estimate Approve : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: _estimateApproveButton(cngData: cngData, index: index, context: context)),
-              ],
-            ) : const SizedBox.shrink(),
-
-            cngData.assignTo.toString() != "0"
-                && cngData.estimateCost.toString() != "0" &&
-                cngData.measurementSheetBy.toString() != "0" &&
-                cngData.complaintStatus.toString() == "0"
+                    children: [
+                      TextWidget(
+                        "Estimate Approve : ",
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      ),
+                      Expanded(
+                          child: _estimateApproveButton(
+                              cngData: cngData,
+                              index: index,
+                              context: context)),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+            cngData.assignTo.toString() != "0" &&
+                    cngData.estimateCost.toString() != "0" &&
+                    cngData.measurementSheetBy.toString() != "0" &&
+                    cngData.complaintStatus.toString() == "0"
                 ? Row(
-              children: [
-                TextWidget("Final Approve : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: _finalApproveButton(cngData: cngData, index: index, context: context)),
-              ],
-            ) : const SizedBox.shrink(),
-
-            Divider(color: AppColor.lightGrey,),
+                    children: [
+                      TextWidget(
+                        "Final Approve : ",
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      ),
+                      Expanded(
+                          child: _finalApproveButton(
+                              cngData: cngData,
+                              index: index,
+                              context: context)),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+            Divider(
+              color: AppColor.lightGrey,
+            ),
             Row(
               children: [
-                TextWidget("Description : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                Expanded(child: TextWidget(cngData.complaintDescription.toString(),
+                TextWidget(
+                  "Description : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                  cngData.complaintDescription.toString(),
                   textAlign: TextAlign.end,
-                  fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                )),
               ],
             ),
           ],
@@ -123,7 +193,10 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _assignButton({required CngModel cngData, required int index, required BuildContext context})  {
+  Widget _assignButton(
+      {required CngModel cngData,
+      required int index,
+      required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
@@ -131,23 +204,29 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text:  "Assign",
+            text: "Assign",
             backgroundColor: AppColor.orange,
             onPressed: () async {
-                BlocProvider.of<ViewCiComplaintBloc>(context).add(const ViewCiComplaintFetchVendorEvent());
-                var res =  await showDialog(
-                    context: context,
-                    builder: (BuildContext mContext) => CiAssignWidget(cngData: cngData));
-                if(res.toString() == "Complete"){
-                  BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
-                      .add(ViewCiComplaintPageLoadEvent());
-                }
+              BlocProvider.of<ViewCiComplaintBloc>(context)
+                  .add(const ViewCiComplaintFetchVendorEvent());
+              var res = await showDialog(
+                  context: context,
+                  builder: (BuildContext mContext) =>
+                      CiAssignWidget(cngData: cngData));
+              if (res.toString() == "Complete") {
+                BlocProvider.of<ViewCiComplaintBloc>(
+                        !context.mounted ? context : context)
+                    .add(ViewCiComplaintPageLoadEvent());
+              }
             }),
       ),
     );
   }
 
-  Widget _estimateApproveButton({required CngModel cngData, required int index, required BuildContext context})  {
+  Widget _estimateApproveButton(
+      {required CngModel cngData,
+      required int index,
+      required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
@@ -158,21 +237,24 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             text: AppString.estimateApprove,
             backgroundColor: AppColor.themeColor,
             onPressed: () async {
-              var res =  await showDialog(
+              var res = await showDialog(
                   context: !context.mounted ? context : context,
-                  builder: (BuildContext mContext) => CiUpdateStatusWidget(cngData: cngData));
-              if(res.toString() == "Complete"){
-                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                  builder: (BuildContext mContext) =>
+                      CiUpdateStatusWidget(cngData: cngData));
+              if (res.toString() == "Complete") {
+                BlocProvider.of<ViewCiComplaintBloc>(
+                        !context.mounted ? context : context)
                     .add(ViewCiComplaintPageLoadEvent());
               }
-
             }),
       ),
     );
   }
 
-
-  Widget _finalApproveButton({required CngModel cngData, required int index, required BuildContext context})  {
+  Widget _finalApproveButton(
+      {required CngModel cngData,
+      required int index,
+      required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
@@ -181,16 +263,17 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
         child: ButtonWidget(
             fontSize: AppFont.font_12,
             text: "Final Approve",
-            backgroundColor:  AppColor.themeColor,
+            backgroundColor: AppColor.themeColor,
             onPressed: () async {
-              var res =  await showDialog(
+              var res = await showDialog(
                   context: !context.mounted ? context : context,
-                  builder: (BuildContext mContext) => CiFinalApproveWidget(cngData: cngData));
-              if(res.toString() == "Complete"){
-                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                  builder: (BuildContext mContext) =>
+                      CiFinalApproveWidget(cngData: cngData));
+              if (res.toString() == "Complete") {
+                BlocProvider.of<ViewCiComplaintBloc>(
+                        !context.mounted ? context : context)
                     .add(ViewCiComplaintPageLoadEvent());
               }
-
             }),
       ),
     );

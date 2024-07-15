@@ -16,9 +16,10 @@ final class ViewCngPageLoadState extends ViewCngInitial {
 
 final class FetchViewCngDataState extends ViewCngInitial {
   final List<CngModel> cngList;
-  FetchViewCngDataState({required this.cngList});
+  final bool isFilterLoader;
+
+  FetchViewCngDataState({required this.cngList, required this.isFilterLoader});
+
   @override
-  List<Object> get props => [
-    cngList
-  ];
+  List<Object> get props => [cngList, isFilterLoader];
 }

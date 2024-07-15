@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 
 class AmoUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
+
   const AmoUpdateStatusWidget({super.key, required this.cngData});
 
   @override
@@ -27,7 +28,7 @@ class AmoUpdateStatusWidget extends StatelessWidget {
 
   Widget _itemBuilder(
       {required FetchViewAmoComplaintDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return Center(
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.35,
@@ -35,54 +36,76 @@ class AmoUpdateStatusWidget extends StatelessWidget {
         child: Card(
           color: AppColor.white,
           margin: const EdgeInsets.all(10.0),
-          child: Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            TextWidget("Update Status", fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            _complaintStatusDropDown(dataState: dataState, context: context),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            _submitButton(dataState: dataState, context: context),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-          ],),
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ),
+              TextWidget(
+                "Update Status",
+                fontSize: AppFont.font_14,
+                fontWeight: FontWeight.w700,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ),
+              _complaintStatusDropDown(dataState: dataState, context: context),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ),
+              _submitButton(dataState: dataState, context: context),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _complaintStatusDropDown({required FetchViewAmoComplaintDataState dataState, required BuildContext context}) {
+  Widget _complaintStatusDropDown(
+      {required FetchViewAmoComplaintDataState dataState,
+      required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: DropdownWidget(
         hint: AppString.selectComplaint,
-        dropdownValue:
-        dataState.complaintStatusData.id != null ? dataState.complaintStatusData : null,
+        dropdownValue: dataState.complaintStatusData.id != null
+            ? dataState.complaintStatusData
+            : null,
         onChanged: (value) {
-          BlocProvider.of<ViewAmoComplaintBloc>(context)
-              .add(ViewAmoComplaintSelectComplaintStatusEvent(complaintStatusData: value));
+          BlocProvider.of<ViewAmoComplaintBloc>(context).add(
+              ViewAmoComplaintSelectComplaintStatusEvent(
+                  complaintStatusData: value));
         },
-        items: dataState.complaintStatusList.map<DropdownMenuItem<ComplaintStatus>>(
+        items: dataState.complaintStatusList
+            .map<DropdownMenuItem<ComplaintStatus>>(
                 (ComplaintStatus complaintStatusData) {
-              return DropdownMenuItem<ComplaintStatus>(
-                value: complaintStatusData,
-                child: TextWidget(complaintStatusData.status.toString()),
-              );
-            }).toList(),
+          return DropdownMenuItem<ComplaintStatus>(
+            value: complaintStatusData,
+            child: TextWidget(complaintStatusData.status.toString()),
+          );
+        }).toList(),
       ),
     );
   }
 
-  Widget _submitButton({required FetchViewAmoComplaintDataState dataState,
-    required BuildContext context}) {
-    return dataState.isLoader == false  ?
-    SizedBox(
-      width: MediaQuery.of(context).size.width * 0.45,
-      child: ButtonWidget(
-          fontSize: AppFont.font_12,
-          text: AppString.changeStatus,
-          onPressed: () {
-            BlocProvider.of<ViewAmoComplaintBloc>(context)
-                .add(ViewAmoComplaintSubmitEvent(context: context, cngData: cngData));
-          }),
-    ):const DottedLoaderWidget();
+  Widget _submitButton(
+      {required FetchViewAmoComplaintDataState dataState,
+      required BuildContext context}) {
+    return dataState.isLoader == false
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: ButtonWidget(
+                fontSize: AppFont.font_12,
+                text: AppString.changeStatus,
+                onPressed: () {
+                  BlocProvider.of<ViewAmoComplaintBloc>(context).add(
+                      ViewAmoComplaintSubmitEvent(
+                          context: context, cngData: cngData));
+                }),
+          )
+        : const DottedLoaderWidget();
   }
 }

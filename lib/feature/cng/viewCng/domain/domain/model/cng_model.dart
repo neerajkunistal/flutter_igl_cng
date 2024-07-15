@@ -36,67 +36,67 @@ class CngModel {
 
   CngModel(
       {this.id,
-        this.controlRoomId,
-        this.cngStationId,
-        this.categoryId,
-        this.complaintDescription,
-        this.incidentDateTime,
-        this.reportDateTime,
-        this.reportBy,
-        this.approveBy,
-        this.approveStatus,
-        this.approveDataTime,
-        this.complaintNumber,
-        this.assignBy,
-        this.assignTo,
-        this.assignDataTime,
-        this.estimateCost,
-        this.estimateAttachment,
-        this.estimateCostDataTime,
-        this.estimateApproveBy,
-        this.estimateStatus,
-        this.estimateApproveDataTime,
-        this.measurementSheetBy,
-        this.measurementSheetDataTime,
-        this.complaintStatus,
-        this.complaintCloseBy,
-        this.complaintClosedOn,
-        this.anyRemarks,
-        this.createdBy,
-        this.createdAt,
-        this.updatedAt});
+      this.controlRoomId,
+      this.cngStationId,
+      this.categoryId,
+      this.complaintDescription,
+      this.incidentDateTime,
+      this.reportDateTime,
+      this.reportBy,
+      this.approveBy,
+      this.approveStatus,
+      this.approveDataTime,
+      this.complaintNumber,
+      this.assignBy,
+      this.assignTo,
+      this.assignDataTime,
+      this.estimateCost,
+      this.estimateAttachment,
+      this.estimateCostDataTime,
+      this.estimateApproveBy,
+      this.estimateStatus,
+      this.estimateApproveDataTime,
+      this.measurementSheetBy,
+      this.measurementSheetDataTime,
+      this.complaintStatus,
+      this.complaintCloseBy,
+      this.complaintClosedOn,
+      this.anyRemarks,
+      this.createdBy,
+      this.createdAt,
+      this.updatedAt});
 
   CngModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'] ?? "" ;
-    controlRoomId = json['control_room_id'] ?? "" ;
-    cngStationId = json['cng_station_id'] ?? "" ;
-    categoryId = json['category_id'] ?? "" ;
-    complaintDescription = json['complaint_description'] ?? "" ;
-    incidentDateTime = json['incident_date_time'] ?? "" ;
-    reportDateTime = json['report_date_time'] ?? "" ;
-    reportBy = json['report_by'] ?? "" ;
-    approveBy = json['approve_by'] ?? "" ;
-    approveStatus = json['approve_status'] ?? "" ;
-    approveDataTime = json['approve_data_time'] ?? "" ;
-    complaintNumber = json['complaint_number'] ?? "" ;
-    assignBy = json['assign_by'] ?? "" ;
-    assignTo = json['assign_to'] ?? "" ;
-    assignDataTime = json['assign_data_time'] ?? "" ;
-    estimateCost = json['estimate_cost'] ?? "0" ;
-    estimateAttachment = json['estimate_attachment'] ?? "0" ;
-    estimateCostDataTime = json['estimate_cost_data_time'] ?? "" ;
-    estimateApproveBy = json['estimate_approve_by'] ?? "" ;
-    estimateStatus = json['estimate_status'] ?? "" ;
-    estimateApproveDataTime = json['estimate_approve_data_time'] ?? "" ;
-    measurementSheetBy = json['measurement_sheet_by'] ?? "" ;
-    measurementSheetDataTime = json['measurement_sheet_data_time'] ?? "" ;
-    complaintStatus = json['complaint_status'] ?? "" ;
-    complaintCloseBy = json['complaint_close_by'] ?? "" ;
-    complaintClosedOn = json['complaint_closed_on'] ?? "" ;
-    anyRemarks = json['any_remarks'] ?? "" ;
-    createdBy = json['created_by'] ?? "" ;
-    createdAt = json['created_at'] ?? "" ;
-    updatedAt = json['updated_at'] ?? "" ;
+    id = json['id'] ?? "";
+    controlRoomId = json['control_room_id'] ?? "";
+    cngStationId = json['cng_station_id'] ?? "";
+    categoryId = json['category_id'] ?? "";
+    complaintDescription = json['complaint_description'] ?? "";
+    incidentDateTime = json['incident_date_time'] ?? "";
+    reportDateTime = json['report_date_time'] ?? "";
+    reportBy = json['report_by'] ?? "";
+    approveBy = json['approve_by'] ?? "";
+    approveStatus = json['approve_status'] ?? "";
+    approveDataTime = json['approve_data_time'] ?? "";
+    complaintNumber = json['complaint_number'] ?? "";
+    assignBy = json['assign_by'] ?? "";
+    assignTo = json['assign_to'] ?? "";
+    assignDataTime = json['assign_data_time'] ?? "";
+    estimateCost = json['estimate_cost'] ?? "0";
+    estimateAttachment = json['estimate_attachment'] ?? "0";
+    estimateCostDataTime = json['estimate_cost_data_time'] ?? "";
+    estimateApproveBy = json['estimate_approve_by'] ?? "";
+    estimateStatus = json['estimate_status'] ?? "";
+    estimateApproveDataTime = json['estimate_approve_data_time'] ?? "";
+    measurementSheetBy = json['measurement_sheet_by'] ?? "";
+    measurementSheetDataTime = json['measurement_sheet_data_time'] ?? "";
+    complaintStatus = json['complaint_status'] ?? "";
+    complaintCloseBy = json['complaint_close_by'] ?? "";
+    complaintClosedOn = json['complaint_closed_on'] ?? "";
+    anyRemarks = json['any_remarks'] ?? "";
+    createdBy = json['created_by'] ?? "";
+    createdAt = json['created_at'] ?? "";
+    updatedAt = json['updated_at'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

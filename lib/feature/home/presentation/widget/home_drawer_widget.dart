@@ -37,10 +37,12 @@ class HomeDrawerWidget extends StatelessWidget {
               child: ListView(
                 children: [
                   _header(context: context),
-                  SizedBox(height: MediaQuery.of(context).size.width * 0.10,),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.10,
+                  ),
                   _listBuilder(dataState: state),
-            /*            _changePassword(context: context),*/
-            /*            userData.roleType == RoleType.shiftEngineer
+                  /*            _changePassword(context: context),*/
+                  /*            userData.roleType == RoleType.shiftEngineer
                   ? _acknowledge(context: context) : const SizedBox.shrink(),
               _viewEquipmentComplaint(context: context),
               userData.roleType == RoleType.mi
@@ -132,10 +134,10 @@ class HomeDrawerWidget extends StatelessWidget {
             Row(
               children: [
                 Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                      color: Colors.white.withOpacity(.2),
-                      ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white.withOpacity(.2),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: Icon(

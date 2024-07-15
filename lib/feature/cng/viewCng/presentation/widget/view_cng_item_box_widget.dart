@@ -14,8 +14,8 @@ class ViewCngItemBoxWidget extends StatelessWidget {
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
-          DateTime.parse(cngData.incidentDateTime.toString()));
+      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
     return Card(
       elevation: 7,
@@ -28,66 +28,123 @@ class ViewCngItemBoxWidget extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    TextWidget("Complaint ID : ", fontWeight: FontWeight.w700, fontSize: AppFont.font_13,
-                      color: AppColor.themeColor,),
-                    Expanded(child: TextWidget(cngData.complaintNumber,
+                    TextWidget(
+                      "Complaint ID : ",
+                      fontWeight: FontWeight.w700,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.themeColor,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      cngData.complaintNumber,
                       textAlign: TextAlign.right,
-                      fontWeight: FontWeight.w700, fontSize: AppFont.font_13,)),
-                  ],
-                ),
-                Divider(color: AppColor.lightGrey,),
-                Row(
-                  children: [
-                    TextWidget("DateTime : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                    Expanded(child: TextWidget(incidentDateTime, fontWeight: FontWeight.w500,  textAlign: TextAlign.right,fontSize: AppFont.font_13,)),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                Row(
-                  children: [
-                    TextWidget("Reported By : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                    Expanded(child: TextWidget(cngData.reportBy.toString(), fontWeight: FontWeight.w500,  textAlign: TextAlign.right,fontSize: AppFont.font_13,)),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                Row(
-                  children: [
-                    TextWidget("Status : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                    Expanded(child: TextWidget(cngData.complaintStatus.toString() == "0" ? "Pending" :
-                    cngData.complaintStatus.toString() == "1" ?  "Approved" : "Reject" ,
-                      fontWeight: FontWeight.w500, fontSize: AppFont.font_13,
-                      color: cngData.complaintStatus.toString() == "0" ? AppColor.orange :
-                      cngData.complaintStatus.toString() == "1" ?  AppColor.green : AppColor.red, textAlign: TextAlign.right,
+                      fontWeight: FontWeight.w700,
+                      fontSize: AppFont.font_13,
                     )),
                   ],
                 ),
-                Divider(color: AppColor.lightGrey,),
+                Divider(
+                  color: AppColor.lightGrey,
+                ),
                 Row(
                   children: [
-                    TextWidget("Description : ", fontWeight: FontWeight.w500, fontSize: AppFont.font_13,),
-                    Expanded(child: TextWidget(cngData.complaintDescription.toString(),  textAlign: TextAlign.right,fontWeight: FontWeight.w500, fontSize: AppFont.font_13,)),
+                    TextWidget(
+                      "DateTime : ",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      incidentDateTime,
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.right,
+                      fontSize: AppFont.font_13,
+                    )),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Row(
+                  children: [
+                    TextWidget(
+                      "Reported By : ",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      cngData.reportBy.toString(),
+                      fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.right,
+                      fontSize: AppFont.font_13,
+                    )),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Row(
+                  children: [
+                    TextWidget(
+                      "Status : ",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      cngData.complaintStatus.toString() == "0"
+                          ? "Pending"
+                          : cngData.complaintStatus.toString() == "1"
+                              ? "Approved"
+                              : "Reject",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: cngData.complaintStatus.toString() == "0"
+                          ? AppColor.orange
+                          : cngData.complaintStatus.toString() == "1"
+                              ? AppColor.green
+                              : AppColor.red,
+                      textAlign: TextAlign.right,
+                    )),
+                  ],
+                ),
+                Divider(
+                  color: AppColor.lightGrey,
+                ),
+                Row(
+                  children: [
+                    TextWidget(
+                      "Description : ",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      cngData.complaintDescription.toString(),
+                      textAlign: TextAlign.right,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
                   ],
                 ),
               ],
             ),
           ),
           Positioned(
-           bottom: -8.0,
-           left: 0.09,
-           right: 0.09,
-           child: Padding(
-             padding: const EdgeInsets.only(left: 7.0, right: 7.0),
-             child: Image.asset(AppIcon.ghungaruIcon,
-               height: MediaQuery.of(context).size.width * 0.06,
-               color: Colors.grey[200],
-               width: MediaQuery.of(context).size.width,
-             ),
-           ),
-         )
+            bottom: -8.0,
+            left: 0.09,
+            right: 0.09,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 7.0, right: 7.0),
+              child: Image.asset(
+                AppIcon.ghungaruIcon,
+                height: MediaQuery.of(context).size.width * 0.06,
+                color: Colors.grey[200],
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          )
         ],
       ),
     );

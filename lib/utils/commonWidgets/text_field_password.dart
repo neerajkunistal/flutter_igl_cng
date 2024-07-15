@@ -16,22 +16,22 @@ class TextFieldPasswordWidget extends StatelessWidget {
   final bool? isRequired;
   final bool? isBoardRemove;
 
-  const TextFieldPasswordWidget(
-      {super.key,
-      required this.labelText,
-      this.hintText,
-      this.textEditingController,
-      this.obscureText,
-      this.onChanged,
-      this.inputType,
-      this.isPasswordIcon,
-      this.maxLength,
-      this.passwordOnPressed,
-      this.onTap,
-      this.enabled,
-      this.isRequired,
-      this.isBoardRemove,
-      });
+  const TextFieldPasswordWidget({
+    super.key,
+    required this.labelText,
+    this.hintText,
+    this.textEditingController,
+    this.obscureText,
+    this.onChanged,
+    this.inputType,
+    this.isPasswordIcon,
+    this.maxLength,
+    this.passwordOnPressed,
+    this.onTap,
+    this.enabled,
+    this.isRequired,
+    this.isBoardRemove,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,8 @@ class TextFieldPasswordWidget extends StatelessWidget {
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(
-              horizontal: isBoardRemove == true ? 0 : 8, vertical: isBoardRemove != true  ? 8 : 0),
+              horizontal: isBoardRemove == true ? 0 : 8,
+              vertical: isBoardRemove != true ? 8 : 0),
           label: Text.rich(TextSpan(children: [
             TextSpan(text: labelText),
             TextSpan(
@@ -60,25 +61,26 @@ class TextFieldPasswordWidget extends StatelessWidget {
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey, width: 1.0),
           ),
-          border: isBoardRemove == true ? null :
-          OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: const BorderSide(
-              width: 1 ,
-              style: BorderStyle.none,
-            ),
-          ),
+          border: isBoardRemove == true
+              ? null
+              : OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    width: 1,
+                    style: BorderStyle.none,
+                  ),
+                ),
           // filled: true,
           suffixIcon: isPasswordIcon != null
               ? IconButton(
-            onPressed: passwordOnPressed,
-            icon: Icon(
-              obscureText == true
-                  ? Icons.visibility_off
-                  : Icons.visibility,
-              color: AppColor.grey,
-            ),
-          )
+                  onPressed: passwordOnPressed,
+                  icon: Icon(
+                    obscureText == true
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                    color: AppColor.grey,
+                  ),
+                )
               : null),
     );
   }

@@ -8,19 +8,19 @@ import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'add_cng_event.dart';
+
 part 'add_cng_state.dart';
 
 class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
-
-  bool isLoader =  false;
+  bool isLoader = false;
   List<CategoryModel> categoryList = [];
-  CategoryModel categoryData =  CategoryModel();
+  CategoryModel categoryData = CategoryModel();
   List<CrStationModel> crStationList = [];
-  CrStationModel crStationData =  CrStationModel();
-  TextEditingController descriptionController =  TextEditingController();
-  TextEditingController dateController =  TextEditingController();
+  CrStationModel crStationData = CrStationModel();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  TextEditingController reportedByController =  TextEditingController();
+  TextEditingController reportedByController = TextEditingController();
   List<File> fileList = [];
 
   AddCngBloc() : super(AddCngInitial()) {
@@ -34,29 +34,29 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   }
 
   _pageLoad(AddCngPageLoadEvent event, emit) async {
-     emit(AddCngPageLoadState());
-     isLoader =  false;
-     categoryList = [];
-     categoryData =  CategoryModel();
-     crStationList = [];
-      crStationData =  CrStationModel();
-      descriptionController =  TextEditingController();
-      dateController =  TextEditingController();
-      timeController = TextEditingController();
-      reportedByController =  TextEditingController();
-      fileList = [];
+    emit(AddCngPageLoadState());
+    isLoader = false;
+    categoryList = [];
+    categoryData = CategoryModel();
+    crStationList = [];
+    crStationData = CrStationModel();
+    descriptionController = TextEditingController();
+    dateController = TextEditingController();
+    timeController = TextEditingController();
+    reportedByController = TextEditingController();
+    fileList = [];
 
-      var categoryRes =  await AddCngHelper.fetchCategory();
-      if(categoryRes != null){
-        categoryList =  categoryRes;
-      }
+    var categoryRes = await AddCngHelper.fetchCategory();
+    if (categoryRes != null) {
+      categoryList = categoryRes;
+    }
 
-      var crStationRes =  await AddCngHelper.fetchCrStation();
-      if(crStationRes != null){
-        crStationData =  crStationRes;
-      }
+    var crStationRes = await AddCngHelper.fetchCrStation();
+    if (crStationRes != null) {
+      crStationData = crStationRes;
+    }
 
-      _eventCompleted(emit);
+    _eventCompleted(emit);
   }
 
   _selectDate(AddCngSelectDateEvent event, emit) async {
@@ -102,8 +102,8 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     }
   }
 
-  _selectCategory(AddCngSelectCategoryDataEvent event, emit)  {
-    categoryData =  event.categoryData;
+  _selectCategory(AddCngSelectCategoryDataEvent event, emit) {
+    categoryData = event.categoryData;
     _eventCompleted(emit);
   }
 
@@ -137,56 +137,58 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   }
 
   _submit(AddCngSubmitEvent event, emit) async {
-
-    var textFiledValidation = await AddCngHelper.textFiledValidation(context: event.context,
+    var textFiledValidation = await AddCngHelper.textFiledValidation(
+        context: event.context,
         categoryData: categoryData,
         date: dateController.text.toString(),
         time: timeController.text.toString(),
         description: descriptionController.text.toString(),
         reportedBy: reportedByController.text.toString(),
         fileList: fileList);
-    if(textFiledValidation == false){
+    if (textFiledValidation == false) {
       return;
     }
 
-    isLoader =  true;
+    isLoader = true;
     _eventCompleted(emit);
-    LoginDataModel userData =  UserInfo.instanceInit()!.userData!;
-    var res =  await AddCngHelper.submitData(context: !event.context.mounted ?  event.context : event.context,
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+    var res = await AddCngHelper.submitData(
+        context: !event.context.mounted ? event.context : event.context,
         categoryData: categoryData,
         date: dateController.text.toString(),
         time: timeController.text.toString(),
         description: descriptionController.text.toString(),
         reportedBy: reportedByController.text.toString(),
         crStationData: crStationData,
-        fileList: fileList, userData: userData);
-    if(res != null){
-      isLoader =  false;
-      descriptionController =  TextEditingController();
-      dateController =  TextEditingController();
+        fileList: fileList,
+        userData: userData);
+    if (res != null) {
+      isLoader = false;
+      descriptionController = TextEditingController();
+      dateController = TextEditingController();
       timeController = TextEditingController();
-      reportedByController =  TextEditingController();
-      categoryData =  CategoryModel();
+      reportedByController = TextEditingController();
+      categoryData = CategoryModel();
       fileList = [];
-      Navigator.of(!event.context.mounted ? event.context : event.context).pop();
+      Navigator.of(!event.context.mounted ? event.context : event.context)
+          .pop();
     }
-    isLoader =  false;
+    isLoader = false;
     _eventCompleted(emit);
   }
 
-  _eventCompleted(Emitter<AddCngState> emit)  {
+  _eventCompleted(Emitter<AddCngState> emit) {
     emit(FetchAddCngDataState(
-        isLoader: isLoader,
-        categoryData: categoryData,
-        categoryList: categoryList,
-        crStationList: crStationList,
-        crStationData: crStationData,
-        dateController: dateController,
-        fileList: fileList,
-        descriptionController: descriptionController,
-        reportedByController: reportedByController,
-        timeController: timeController,
+      isLoader: isLoader,
+      categoryData: categoryData,
+      categoryList: categoryList,
+      crStationList: crStationList,
+      crStationData: crStationData,
+      dateController: dateController,
+      fileList: fileList,
+      descriptionController: descriptionController,
+      reportedByController: reportedByController,
+      timeController: timeController,
     ));
   }
-
 }

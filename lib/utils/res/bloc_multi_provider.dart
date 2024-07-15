@@ -22,16 +22,11 @@ MultiProvider blocMultiProvider({required Widget child}) {
           create: (BuildContext context) => ViewEquipmentComplaintBloc()),
       BlocProvider(
           create: (BuildContext context) => AddAcknowledgeComplaintBloc()),
-      BlocProvider(
-          create: (BuildContext context) => AddCngBloc()),
-      BlocProvider(
-          create: (BuildContext context) => ViewCngBloc()),
-      BlocProvider(
-          create: (BuildContext context) => ViewAmoComplaintBloc()),
-      BlocProvider(
-          create: (BuildContext context) => ViewCiComplaintBloc()),
-      BlocProvider(
-          create: (BuildContext context) => ViewCvComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => AddCngBloc()),
+      BlocProvider(create: (BuildContext context) => ViewCngBloc()),
+      BlocProvider(create: (BuildContext context) => ViewAmoComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => ViewCiComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => ViewCvComplaintBloc()),
     ],
     child: child,
   );

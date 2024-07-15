@@ -3,22 +3,29 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCvComplaintHelper {
-  static Future<dynamic> addEstimateData({
-    required CngModel cngData, required String amount,
-    required BuildContext context, required File file}) async {
-    try{
-      String url =  APIs.addEstimateApi;
-      var json =  {
-        "complaintId" : cngData.id.toString(),
-        "estimateCost" : amount.toString(),
+  static Future<dynamic> addEstimateData(
+      {required CngModel cngData,
+      required String amount,
+      required BuildContext context,
+      required File file}) async {
+    try {
+      String url = APIs.addEstimateApi;
+      var json = {
+        "complaintId": cngData.id.toString(),
+        "estimateCost": amount.toString(),
       };
-      var res =  await ServerRequest.postDataWithFile(
-          urlEndPoint: url, body: json, filePath: file.path, keyWord: "estimateFile",
+      var res = await ServerRequest.postDataWithFile(
+          urlEndPoint: url,
+          body: json,
+          filePath: file.path,
+          keyWord: "estimateFile",
           context: context);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null){
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         if (!context.mounted) return res;
-        SnackBarSuccessWidget(context).show(message:  res['message']);
+        SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -42,7 +49,7 @@ class ViewCvComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }

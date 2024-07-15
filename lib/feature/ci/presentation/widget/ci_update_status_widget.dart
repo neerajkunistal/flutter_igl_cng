@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 
 class CiUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
+
   const CiUpdateStatusWidget({super.key, required this.cngData});
 
   @override
@@ -27,7 +28,7 @@ class CiUpdateStatusWidget extends StatelessWidget {
 
   Widget _itemBuilder(
       {required FetchViewCiComplaintDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return Center(
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.33,
@@ -35,54 +36,74 @@ class CiUpdateStatusWidget extends StatelessWidget {
         child: Card(
           color: AppColor.white,
           margin: const EdgeInsets.all(10.0),
-          child: dataState.isVendorListLoader == false ?
-          Column(children: [
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            TextWidget("Estimate Approve", fontSize: AppFont.font_14, fontWeight: FontWeight.w700,),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            _complaintStatusDropDown(dataState: dataState, context: context),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-            _submitButton(dataState: dataState, context: context),
-            SizedBox(height: MediaQuery.of(context).size.width * 0.04,),
-          ],) : _centerLoader(),
+          child: dataState.isVendorListLoader == false
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    TextWidget(
+                      "Estimate Approve",
+                      fontSize: AppFont.font_14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    _complaintStatusDropDown(
+                        dataState: dataState, context: context),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                    _submitButton(dataState: dataState, context: context),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.04,
+                    ),
+                  ],
+                )
+              : _centerLoader(),
         ),
       ),
     );
   }
 
-  Widget _complaintStatusDropDown({required FetchViewCiComplaintDataState dataState, required BuildContext context}) {
+  Widget _complaintStatusDropDown(
+      {required FetchViewCiComplaintDataState dataState,
+      required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
       child: DropdownWidget(
         hint: AppString.selectComplaint,
-        dropdownValue:
-        dataState.complaintStatusData.id != null ? dataState.complaintStatusData : null,
+        dropdownValue: dataState.complaintStatusData.id != null
+            ? dataState.complaintStatusData
+            : null,
         onChanged: (value) {
           BlocProvider.of<ViewCiComplaintBloc>(context)
               .add(ViewCiComplaintStatusDataEvent(complaintStatusData: value));
         },
-        items: dataState.complaintStatusList.map<DropdownMenuItem<ComplaintStatus>>(
+        items: dataState.complaintStatusList
+            .map<DropdownMenuItem<ComplaintStatus>>(
                 (ComplaintStatus complaintStatusData) {
-              return DropdownMenuItem<ComplaintStatus>(
-                value: complaintStatusData,
-                child: TextWidget(complaintStatusData.status.toString()),
-              );
-            }).toList(),
+          return DropdownMenuItem<ComplaintStatus>(
+            value: complaintStatusData,
+            child: TextWidget(complaintStatusData.status.toString()),
+          );
+        }).toList(),
       ),
     );
   }
 
-  Widget _submitButton({required FetchViewCiComplaintDataState dataState,
-    required BuildContext context}) {
-    return dataState.isVendorAssignLoader == false  ?
-    SizedBox(
-      width: MediaQuery.of(context).size.width * 0.45,
-      child: ButtonWidget(
-          fontSize: AppFont.font_12,
-          text: AppString.changeStatus,
-          onPressed: () {
-
-          }),
-    ):const DottedLoaderWidget();
+  Widget _submitButton(
+      {required FetchViewCiComplaintDataState dataState,
+      required BuildContext context}) {
+    return dataState.isVendorAssignLoader == false
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: ButtonWidget(
+                fontSize: AppFont.font_12,
+                text: AppString.changeStatus,
+                onPressed: () {}),
+          )
+        : const DottedLoaderWidget();
   }
 }

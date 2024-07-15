@@ -5,34 +5,39 @@ import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCiComplaintHelper {
-
   static Future<dynamic> fetchVendor() async {
-    try{
-      String url =  APIs.getVendorListApi;
-      var res =  await ServerRequest.getData(urlEndPoint: url);
-      if(res != null && res['status']
-          && res['status'] == true && res['data'] != null) {
-         return vendorListResponse(res['data']);
+    try {
+      String url = APIs.getVendorListApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return vendorListResponse(res['data']);
       }
       return null;
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }
 
-  static Future<dynamic> assignVendor({
-    required CngModel cngData, required VendorModel vendorData, required BuildContext context}) async {
-    try{
-      String url =  APIs.assignVendorApi;
-      var json =  {
-        "complaintId" : cngData.id.toString(),
-        "assignTo" : vendorData.id.toString()
+  static Future<dynamic> assignVendor(
+      {required CngModel cngData,
+      required VendorModel vendorData,
+      required BuildContext context}) async {
+    try {
+      String url = APIs.assignVendorApi;
+      var json = {
+        "complaintId": cngData.id.toString(),
+        "assignTo": vendorData.id.toString()
       };
-      var res =  await ServerRequest.postData(urlEndPoint: url, body: json);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null){
+      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         if (!context.mounted) return res;
-        SnackBarSuccessWidget(context).show(message:  res['message']);
+        SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -56,24 +61,28 @@ class ViewCiComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }
 
-  static Future<dynamic> civilComplaintApprove({
-    required CngModel cngData, required ComplaintStatus complaintStatus, required BuildContext context}) async {
-    try{
-      String url =  APIs.civilComplaintApproveApi;
-      var json =  {
-        "complaintId" : cngData.id.toString(),
-        "statusType" : complaintStatus.id.toString()
+  static Future<dynamic> civilComplaintApprove(
+      {required CngModel cngData,
+      required ComplaintStatus complaintStatus,
+      required BuildContext context}) async {
+    try {
+      String url = APIs.civilComplaintApproveApi;
+      var json = {
+        "complaintId": cngData.id.toString(),
+        "statusType": complaintStatus.id.toString()
       };
-      var res =  await ServerRequest.putData(urlEndPoint: url, body: json);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null){
+      var res = await ServerRequest.putData(urlEndPoint: url, body: json);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         if (!context.mounted) return res;
-        SnackBarSuccessWidget(context).show(message:  res['message']);
+        SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -97,24 +106,28 @@ class ViewCiComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }
 
-  static Future<dynamic> estimateApprove({
-    required CngModel cngData, required ComplaintStatus complaintStatus, required BuildContext context}) async {
-    try{
-      String url =  APIs.estimateComplaintApproveApi;
-      var json =  {
-        "complaintId" : cngData.id.toString(),
-        "statusType" : complaintStatus.id.toString()
+  static Future<dynamic> estimateApprove(
+      {required CngModel cngData,
+      required ComplaintStatus complaintStatus,
+      required BuildContext context}) async {
+    try {
+      String url = APIs.estimateComplaintApproveApi;
+      var json = {
+        "complaintId": cngData.id.toString(),
+        "statusType": complaintStatus.id.toString()
       };
-      var res =  await ServerRequest.putData(urlEndPoint: url, body: json);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null){
+      var res = await ServerRequest.putData(urlEndPoint: url, body: json);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         if (!context.mounted) return res;
-        SnackBarSuccessWidget(context).show(message:  res['message']);
+        SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -138,27 +151,30 @@ class ViewCiComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }
 
-  static Future<dynamic> finalApproveComplaint({
-    required CngModel cngData, required ComplaintStatus complaintStatus,
-    required String remark,
-    required BuildContext context}) async {
-    try{
-      String url =  APIs.civilFinalComplaintApproveApi;
-      var json =  {
-        "complaintId" : cngData.id.toString(),
-        "statusType" : complaintStatus.id.toString(),
-        "remarks" : remark,
+  static Future<dynamic> finalApproveComplaint(
+      {required CngModel cngData,
+      required ComplaintStatus complaintStatus,
+      required String remark,
+      required BuildContext context}) async {
+    try {
+      String url = APIs.civilFinalComplaintApproveApi;
+      var json = {
+        "complaintId": cngData.id.toString(),
+        "statusType": complaintStatus.id.toString(),
+        "remarks": remark,
       };
-      var res =  await ServerRequest.putData(urlEndPoint: url, body: json);
-      if(res != null && res['status'] != null
-          && res['status'] == true && res['message'] != null){
+      var res = await ServerRequest.putData(urlEndPoint: url, body: json);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['message'] != null) {
         if (!context.mounted) return res;
-        SnackBarSuccessWidget(context).show(message:  res['message']);
+        SnackBarSuccessWidget(context).show(message: res['message']);
         return res;
       } else if (res != null &&
           res['status'] != null &&
@@ -182,7 +198,7 @@ class ViewCiComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    }catch(_){
+    } catch (_) {
       return null;
     }
   }

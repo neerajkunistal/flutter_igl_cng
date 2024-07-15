@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 part 'search_text_field_event.dart';
+
 part 'search_text_field_state.dart';
 
 class SearchTextFieldBloc

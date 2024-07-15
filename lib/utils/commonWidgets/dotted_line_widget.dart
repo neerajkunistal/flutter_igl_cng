@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DottedDividerLine extends StatelessWidget {
-  const DottedDividerLine({super.key, this.height = 1, this.color = Colors.black});
+  const DottedDividerLine(
+      {super.key, this.height = 1, this.color = Colors.black});
+
   final double height;
   final Color color;
 

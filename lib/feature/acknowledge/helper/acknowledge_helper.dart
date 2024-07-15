@@ -24,7 +24,7 @@ class AcknowledgeHelper {
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
         return false;
-      } else if(sapCodeModel.code == null){
+      } else if (sapCodeModel.code == null) {
         SnackBarErrorWidget(context).show(message: "Please select sap code");
         return false;
       }
@@ -70,7 +70,7 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
-        "vendorAssignDatetime" : "$closedDate $closedTime"
+        "vendorAssignDatetime": "$closedDate $closedTime"
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&

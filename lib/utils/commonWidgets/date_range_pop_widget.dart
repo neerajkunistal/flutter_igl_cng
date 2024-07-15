@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DateRangeWidget {
-
-  static Future<DateTimeRange?> showDateRange({
-    required DateTime startDate, required DateTime endDate, required BuildContext context}) async {
+  static Future<DateTimeRange?> showDateRange(
+      {required DateTime startDate,
+      required DateTime endDate,
+      required BuildContext context}) async {
     final picked = await showDateRangePicker(
       context: context,
       saveText: "Done",

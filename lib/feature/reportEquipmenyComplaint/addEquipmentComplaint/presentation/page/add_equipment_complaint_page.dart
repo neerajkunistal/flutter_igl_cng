@@ -37,7 +37,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Expanded(
-              child: BlocBuilder<AddEquipmentComplaintBloc, AddEquipmentComplaintState>(
+              child: BlocBuilder<AddEquipmentComplaintBloc,
+                  AddEquipmentComplaintState>(
                 builder: (context, state) {
                   if (state is FetchAddEquipmentComplaintState) {
                     return Container(
@@ -64,11 +65,17 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   Widget _header() {
     return Row(children: [
-      IconButton(onPressed: () {
-        Navigator.pop(context);
-      }, icon: const Icon(Icons.arrow_back, color: Colors.white,)),
-
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          )),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
       Expanded(
         child: TextWidget(
           "Add Complaint",
@@ -84,10 +91,11 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.13,
       ),
-      SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
+      SizedBox(
+        width: MediaQuery.of(context).size.width * 0.02,
+      ),
     ]);
   }
-
 
   Widget _itemWWidget({required FetchAddEquipmentComplaintState dataState}) {
     return Container(
@@ -210,13 +218,13 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   Widget _equipmentDropDown(
       {required FetchAddEquipmentComplaintState dataState}) {
     return DropDownSearchWidget(
-      selectedItem:
-      dataState.equipmentTypeData.equipmentCode != null
+      selectedItem: dataState.equipmentTypeData.equipmentCode != null
           ? dataState.equipmentTypeData
           : null,
       hint: AppString.selectEquipment,
       items: dataState.equipmentTypeList,
-      itemAsString: (equipmentTypeData) => equipmentTypeData.equipmentCode.toString(),
+      itemAsString: (equipmentTypeData) =>
+          equipmentTypeData.equipmentCode.toString(),
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentDataEvent(

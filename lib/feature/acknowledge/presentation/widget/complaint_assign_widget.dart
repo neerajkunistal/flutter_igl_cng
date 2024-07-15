@@ -57,8 +57,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                               : const SizedBox.shrink(),
                           _userDropDown(dataState: state, context: context),
                           SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.04,
+                            height: MediaQuery.of(context).size.width * 0.04,
                           ),
                           _sapCodeDropDown(dataState: state, context: context),
                           _vendorDropDown(dataState: state, context: context),
@@ -67,11 +66,13 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           ),
                           Row(
                             children: [
-                              Expanded(child: _dateController(dataState: state)),
+                              Expanded(
+                                  child: _dateController(dataState: state)),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.02,
                               ),
-                              Expanded(child: _timeController(dataState: state)),
+                              Expanded(
+                                  child: _timeController(dataState: state)),
                             ],
                           ),
                           SizedBox(
@@ -167,21 +168,21 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
     return DropdownWidget(
-            hint: AppString.sapCode,
-            dropdownValue:
-                dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
-            onChanged: (value) {
-              BlocProvider.of<AcknowledgeBloc>(context)
-                  .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
-            },
-            items: dataState.sapCodeList.map<DropdownMenuItem<SapCodeModel>>(
-                (SapCodeModel sapCodeData) {
-              return DropdownMenuItem<SapCodeModel>(
-                value: sapCodeData,
-                child: TextWidget(sapCodeData.name.toString()),
-              );
-            }).toList(),
-          );
+      hint: AppString.sapCode,
+      dropdownValue:
+          dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
+      },
+      items: dataState.sapCodeList
+          .map<DropdownMenuItem<SapCodeModel>>((SapCodeModel sapCodeData) {
+        return DropdownMenuItem<SapCodeModel>(
+          value: sapCodeData,
+          child: TextWidget(sapCodeData.name.toString()),
+        );
+      }).toList(),
+    );
   }
 
   Widget _dateController({required FetchAcknowledgeDataState dataState}) {
@@ -212,19 +213,21 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
 
   Widget _vendorDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return dataState.assignTypeData.id == "3"
         ? DropDownSearchWidget(
-      selectedItem:
-      dataState.vendorData.id != null ? dataState.vendorData : null,
-      hint: AppString.vendor,
-      items: dataState.vendorList,
-      itemAsString: (vendorData) => "${vendorData.name.toString()}-(${vendorData.code.toString()})",
-      onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectVendorEvent(vendorData: value));
-      },
-    ) : const SizedBox.shrink();
+            selectedItem:
+                dataState.vendorData.id != null ? dataState.vendorData : null,
+            hint: AppString.vendor,
+            items: dataState.vendorList,
+            itemAsString: (vendorData) =>
+                "${vendorData.name.toString()}-(${vendorData.code.toString()})",
+            onChanged: (value) {
+              BlocProvider.of<AcknowledgeBloc>(context)
+                  .add(AcknowledgeSelectVendorEvent(vendorData: value));
+            },
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _remarkController({required FetchAcknowledgeDataState dataState}) {

@@ -22,6 +22,7 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final TextEditingController amountController;
   final File file;
   final bool isFilterLoader;
+
   FetchViewCvComplaintDataState({
     required this.cngList,
     required this.complaintStatusData,
@@ -31,14 +32,15 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
     required this.file,
     required this.isFilterLoader,
   });
+
   @override
   List<Object> get props => [
-    cngList,
-    complaintStatusData,
-    complaintStatusList,
-    isLoader,
-    amountController,
-    file,
-    isFilterLoader,
-  ];
+        cngList,
+        complaintStatusData,
+        complaintStatusList,
+        isLoader,
+        amountController,
+        file,
+        isFilterLoader,
+      ];
 }

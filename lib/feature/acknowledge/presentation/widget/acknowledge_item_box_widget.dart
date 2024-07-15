@@ -141,7 +141,8 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             right: 0.09,
             child: Padding(
               padding: const EdgeInsets.only(left: 7.0, right: 7.0),
-              child: Image.asset(AppIcon.ghungaruIcon,
+              child: Image.asset(
+                AppIcon.ghungaruIcon,
                 height: MediaQuery.of(context).size.width * 0.06,
                 color: Colors.grey[200],
                 width: MediaQuery.of(context).size.width,
@@ -166,11 +167,11 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
           children: [
             TextWidget("$name ",
                 color: AppColor.themeColor,
-                fontWeight: FontWeight.w700, fontSize: AppFont.font_13),
+                fontWeight: FontWeight.w700,
+                fontSize: AppFont.font_13),
             Expanded(
                 child: TextWidget(value,
-                    textAlign: TextAlign.end,
-                    fontSize: AppFont.font_13)),
+                    textAlign: TextAlign.end, fontSize: AppFont.font_13)),
           ],
         ),
       ),

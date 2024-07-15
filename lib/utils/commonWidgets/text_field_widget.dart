@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -65,7 +64,8 @@ class TextFieldWidget extends StatelessWidget {
           maxLines: maxLine ?? 1,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(
-                horizontal: isBoardRemove == true ? 0 : 8, vertical: maxLine != null && isBoardRemove != true  ? 8 : 0),
+                horizontal: isBoardRemove == true ? 0 : 8,
+                vertical: maxLine != null && isBoardRemove != true ? 8 : 0),
             suffixIcon: suffixIcon ?? const Text(""),
             label: Text.rich(TextSpan(children: [
               TextSpan(text: labelText),
@@ -74,8 +74,10 @@ class TextFieldWidget extends StatelessWidget {
                   style: const TextStyle(color: Colors.red)),
             ])),
             labelStyle: TextStyle(
-              fontSize: isBoardRemove == true ? AppFont.font_14 : AppFont.font_13,
-              fontWeight: isBoardRemove == true ? FontWeight.w700 : FontWeight.w500,
+              fontSize:
+                  isBoardRemove == true ? AppFont.font_14 : AppFont.font_13,
+              fontWeight:
+                  isBoardRemove == true ? FontWeight.w700 : FontWeight.w500,
               color: controller == null
                   ? AppColor.black
                   : controller!.text.toString().isNotEmpty
@@ -84,18 +86,21 @@ class TextFieldWidget extends StatelessWidget {
             ),
             fillColor: Colors.white,
             // filled: true,
-            enabledBorder: isBoardRemove == true ? const UnderlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 1.0),
-            ) : null,
-            border: isBoardRemove == true ? null :
-            OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(
-                width: 1.0,
-                color: AppColor.grey,
-                style: BorderStyle.none,
-              ),
-            ),
+            enabledBorder: isBoardRemove == true
+                ? const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                  )
+                : null,
+            border: isBoardRemove == true
+                ? null
+                : OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: AppColor.grey,
+                      style: BorderStyle.none,
+                    ),
+                  ),
           ),
           onChanged: onChanged),
     );
