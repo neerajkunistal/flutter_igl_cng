@@ -70,6 +70,7 @@ class ReviewComplaintModel {
   String? miAssignType;
   String? miAssignToUser;
   String? ackStatus;
+  String? cngStationName;
 
   ReviewComplaintModel({
     this.id,
@@ -138,6 +139,7 @@ class ReviewComplaintModel {
     this.miAssignType,
     this.miAssignToUser,
     this.ackStatus,
+    this.cngStationName,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -207,6 +209,7 @@ class ReviewComplaintModel {
     miAssignType = json['mi_assign_type'] ?? "";
     miAssignToUser = json['assigned_vendor_name'] ?? "";
     ackStatus = json['ack_status'] ?? "";
+    cngStationName = json['ack_status'] ?? "";
 
     if (vendorCode.toString().isEmpty) {
       vendorCode = json['mi_assign_to_vendor_code'] ?? "";

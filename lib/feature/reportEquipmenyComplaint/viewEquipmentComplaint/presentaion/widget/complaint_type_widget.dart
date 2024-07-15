@@ -50,7 +50,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                           "Civil Complaint",
                           color: AppColor.themeColor,
                           fontWeight: FontWeight.w700,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -70,8 +70,8 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                       !context.mounted ? context : context,
                       FadeRoute(
                           page: const ViewEquipmentComplaintPage(
-                        title: "Other Complaint",
-                      )),
+                            title: "Other Complaint",
+                          )),
                     );
                   },
                   child: Padding(

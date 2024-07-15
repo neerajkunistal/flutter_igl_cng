@@ -58,6 +58,8 @@ class APIs {
 
   static get addCivilComplaintApi => "api/cng/civil-complaints";
 
+  static get getCivilApproveApi => "api/cr/civil-approve";
+
   static get getVendorListApi => "api/cr/vendors";
 
   static get assignVendorApi => "api/cr/civil-assign";

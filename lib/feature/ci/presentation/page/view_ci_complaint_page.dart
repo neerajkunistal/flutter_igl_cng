@@ -49,6 +49,7 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
 
   Widget _listBuilder({required FetchViewCiComplaintDataState dataState}) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(

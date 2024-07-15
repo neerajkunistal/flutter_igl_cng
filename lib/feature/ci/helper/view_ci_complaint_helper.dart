@@ -5,6 +5,25 @@ import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCiComplaintHelper {
+
+  static Future<dynamic> fetchCivilData(
+      {String? fromDate, String? toDate}) async {
+    try {
+      String url = APIs.getCivilApproveApi +
+          "?fromDate=${fromDate ?? ""}&toDate=${toDate ?? ""}";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return cngListResponse(res['data']);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   static Future<dynamic> fetchVendor() async {
     try {
       String url = APIs.getVendorListApi;
@@ -121,7 +140,7 @@ class ViewCiComplaintHelper {
         "complaintId": cngData.id.toString(),
         "statusType": complaintStatus.id.toString()
       };
-      var res = await ServerRequest.putData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

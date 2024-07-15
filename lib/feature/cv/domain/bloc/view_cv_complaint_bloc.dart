@@ -21,6 +21,9 @@ class ViewCvComplaintBloc
   File files = File("");
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  List<File> measurementFileList = [];
+  File measurementFileSheet = File("");
+  CngModel cngData =  CngModel();
 
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
@@ -28,19 +31,27 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintSelectedDateRangeEvent>(_selectDate);
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
+    on<ViewCvComplaintSelectCngDataEvent>(_selectCngData);
+    on<ViewCvComplaintMeasurementSelectFileEvent>(_selectMeasurementPhoto);
+    on<ViewCvComplaintMeasurementDeleteFileEvent>(_deleteMeasurementFilePhoto);
+    on<ViewCvComplaintMeasurementSheetSelectFileEvent>(_selectMeasurementSheet);
     on<ViewCvComplaintSubmitEvent>(_submit);
+    on<ViewCvComplaintSubmitMeasurementEvent>(_submitMeasurement);
   }
 
   _pageLoad(ViewCvComplaintPageLoadEvent event, emit) async {
     emit(ViewCvComplaintPageLoadState());
     cngList = [];
     cngSearchList = [];
+    measurementFileList = [];
+    measurementFileSheet = File("");
     complaintStatusList = ComplaintStatus.getComplaintData();
     complaintStatusData = ComplaintStatus();
     isLoader = false;
     isFilterLoader = false;
     files = File("");
     amountController.text = "";
+    cngData =  CngModel();
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
     var res = await ViewCngHelper.fetchCngCivilData(
@@ -124,6 +135,11 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectCngData(ViewCvComplaintSelectCngDataEvent event, emit) {
+    cngData =  event.cngData;
+    _eventComplete(emit);
+  }
+
   _selectFile(ViewCvComplaintSelectFileEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
@@ -145,6 +161,59 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectMeasurementPhoto(ViewCvComplaintMeasurementSelectFileEvent event, emit) async {
+
+    if (event.mediaType == 1) {
+      var photo = await DashboardHelper.imagePiker(context: event.context);
+      if (photo != null) {
+        isLoader = true;
+        _eventComplete(emit);
+        measurementFileList.add(photo);
+      }
+    } else {
+      var photo = await DashboardHelper.filePiker(context: event.context);
+      if (photo != null) {
+        isLoader = true;
+        _eventComplete(emit);
+        measurementFileList.add(photo);
+      }
+    }
+    Navigator.pop(event.context.mounted ? event.context : event.context);
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _deleteMeasurementFilePhoto(ViewCvComplaintMeasurementDeleteFileEvent event, emit) {
+    isLoader = true;
+    _eventComplete(emit);
+    measurementFileList.removeAt(event.index);
+
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectMeasurementSheet(ViewCvComplaintMeasurementSheetSelectFileEvent event, emit) async {
+    if (event.mediaType == 1) {
+      var photo = await DashboardHelper.imagePiker(context: event.context);
+      if (photo != null) {
+        isLoader = true;
+        _eventComplete(emit);
+        measurementFileSheet = photo;
+      }
+    } else {
+      var photo = await DashboardHelper.filePiker(context: event.context);
+      if (photo != null) {
+        isLoader = true;
+        _eventComplete(emit);
+        measurementFileSheet = photo;
+      }
+    }
+    Navigator.pop(event.context.mounted ? event.context : event.context);
+    isLoader = false;
+    _eventComplete(emit);
+
+  }
+
   _submit(ViewCvComplaintSubmitEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
@@ -161,6 +230,10 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
+  _submitMeasurement(ViewCvComplaintSubmitMeasurementEvent event, emit) async {
+
+  }
+
   _eventComplete(Emitter<ViewCvComplaintState> emit) {
     emit(FetchViewCvComplaintDataState(
       cngList: cngList,
@@ -170,6 +243,9 @@ class ViewCvComplaintBloc
       amountController: amountController,
       file: files,
       isFilterLoader: isFilterLoader,
+      cngData: cngData,
+      measurementFileList: measurementFileList,
+      measurementFileSheet: measurementFileSheet,
     ));
   }
 }

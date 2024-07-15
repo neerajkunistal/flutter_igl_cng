@@ -102,8 +102,10 @@ class CiUpdateStatusWidget extends StatelessWidget {
             child: ButtonWidget(
                 fontSize: AppFont.font_12,
                 text: AppString.changeStatus,
-                onPressed: () {}),
-          )
-        : const DottedLoaderWidget();
-  }
+                onPressed: () {
+                  BlocProvider.of<ViewCiComplaintBloc>(context).add(
+                      ViewCiComplaintEstimateApproveEvent(context: context, cngData: cngData));
+                }),
+          ) : const DottedLoaderWidget();
+     }
 }

@@ -22,6 +22,20 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
 
+    String assignDateTime = "";
+    if (cngData.assignDataTime != null &&
+        cngData.assignDataTime.toString().isNotEmpty) {
+      assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.assignDataTime.toString()));
+    }
+
+    String estimateDateTime = "";
+    if (cngData.estimateCostDataTime != null &&
+        cngData.estimateCostDataTime.toString().isNotEmpty) {
+      estimateDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
+    }
+
     return Card(
       elevation: 2,
       shadowColor: AppColor.themeColor,
@@ -111,6 +125,85 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 )),
               ],
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Assign vendor: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.assignToVendor.toString(),
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Assign Date: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      assignDateTime,
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Cost: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.estimateCost.toString(),
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Cost Date: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      estimateDateTime,
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
             cngData.assignTo.toString() == "0" &&
                     cngData.complaintStatus.toString() == "0"
                 ? Row(
@@ -133,7 +226,8 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 : const SizedBox.shrink(),
             cngData.assignTo.toString() != "0" &&
                     cngData.estimateCost.toString() != "0" &&
-                    cngData.measurementSheetBy.toString() == "0"
+                ( cngData.estimateStatus.toString() == "0"
+                    || cngData.estimateStatus.toString().isEmpty)
                 ? Row(
                     children: [
                       TextWidget(

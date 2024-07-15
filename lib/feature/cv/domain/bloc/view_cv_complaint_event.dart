@@ -41,6 +41,16 @@ class ViewCvComplaintSubmitEvent extends ViewCvComplaintEvent {
   List<Object?> get props => [context, cngData];
 }
 
+class ViewCvComplaintSelectCngDataEvent extends ViewCvComplaintEvent {
+  final CngModel cngData;
+
+  const ViewCvComplaintSelectCngDataEvent(
+      {required this.cngData});
+
+  @override
+  List<Object?> get props => [cngData];
+}
+
 class ViewCvComplaintSearchDataEvent extends ViewCvComplaintEvent {
   final String keyword;
 
@@ -60,4 +70,47 @@ class ViewCvComplaintSelectedDateRangeEvent extends ViewCvComplaintEvent {
 
   @override
   List<Object?> get props => [context];
+}
+
+class ViewCvComplaintMeasurementSelectFileEvent extends ViewCvComplaintEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const ViewCvComplaintMeasurementSelectFileEvent(
+      {required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class ViewCvComplaintMeasurementDeleteFileEvent extends ViewCvComplaintEvent {
+  final int index;
+
+  const ViewCvComplaintMeasurementDeleteFileEvent(
+      {required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class ViewCvComplaintMeasurementSheetSelectFileEvent extends ViewCvComplaintEvent {
+  final BuildContext context;
+  final int mediaType;
+
+  const ViewCvComplaintMeasurementSheetSelectFileEvent(
+      {required this.context, required this.mediaType});
+
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class ViewCvComplaintSubmitMeasurementEvent extends ViewCvComplaintEvent {
+  final BuildContext context;
+  final CngModel cngData;
+
+  const ViewCvComplaintSubmitMeasurementEvent(
+      {required this.context, required this.cngData});
+
+  @override
+  List<Object?> get props => [context, cngData];
 }

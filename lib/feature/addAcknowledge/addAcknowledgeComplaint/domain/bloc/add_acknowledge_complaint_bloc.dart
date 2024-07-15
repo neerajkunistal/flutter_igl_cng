@@ -84,6 +84,7 @@ class AddAcknowledgeComplaintBloc
     generalComplaintData = GeneralComplaintModel();
     complaintStatus = "0";
 
+    acknowledgeData = event.acknowledgeData;
     acknowledgeList =
         BlocProvider.of<AcknowledgeBloc>(event.context).acknowledgeList;
 
@@ -100,7 +101,8 @@ class AddAcknowledgeComplaintBloc
     }
 
     var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+        await AddEquipmentComplaintHelper.fetchEquipmentTypeData(
+            complaintId: acknowledgeData.id.toString());
     if (resEquipment != null) {
       equipmentTypeList = resEquipment;
       for (var equipment in equipmentTypeList) {
@@ -141,7 +143,6 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    acknowledgeData = event.acknowledgeData;
 
     String complaintDate = "";
     if (acknowledgeData.complaintDateTime.toString().isNotEmpty) {

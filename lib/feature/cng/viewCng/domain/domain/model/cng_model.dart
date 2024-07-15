@@ -33,6 +33,8 @@ class CngModel {
   String? createdBy;
   String? createdAt;
   String? updatedAt;
+  String? assignToVendor;
+  String? categoryName;
 
   CngModel(
       {this.id,
@@ -64,7 +66,10 @@ class CngModel {
       this.anyRemarks,
       this.createdBy,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.assignToVendor,
+      this.categoryName,
+      });
 
   CngModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
@@ -97,6 +102,8 @@ class CngModel {
     createdBy = json['created_by'] ?? "";
     createdAt = json['created_at'] ?? "";
     updatedAt = json['updated_at'] ?? "";
+    assignToVendor = json['assign_to_vendor'] ?? "";
+    categoryName = json['category_name'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

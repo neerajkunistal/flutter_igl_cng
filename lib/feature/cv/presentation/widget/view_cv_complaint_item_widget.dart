@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:vibration/vibration.dart';
 
 class ViewCvComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -18,6 +21,20 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
         cngData.incidentDateTime.toString().isNotEmpty) {
       incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
+    }
+
+    String assignDateTime = "";
+    if (cngData.assignDataTime != null &&
+        cngData.assignDataTime.toString().isNotEmpty) {
+      assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.assignDataTime.toString()));
+    }
+
+    String estimateDateTime = "";
+    if (cngData.estimateCostDataTime != null &&
+        cngData.estimateCostDataTime.toString().isNotEmpty) {
+      estimateDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+          .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
     }
 
     return Card(
@@ -109,6 +126,86 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 )),
               ],
             ),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Assign vendor: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.assignToVendor.toString(),
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Assign Date: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      assignDateTime,
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Cost: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.estimateCost.toString(),
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Cost Date: ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      estimateDateTime,
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
             cngData.estimateCost.toString() == "0"
                 ? Row(
                     children: [
@@ -126,6 +223,24 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                     ],
                   )
                 : const SizedBox.shrink(),
+
+            cngData.estimateCost.toString() != "0"
+                ? Row(
+              children: [
+                TextWidget(
+                  "Measurement : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: _addMeasurementButton(
+                      cngData: cngData,
+                      index: index,
+                      context: context,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
             Divider(
               color: AppColor.lightGrey,
             ),
@@ -173,6 +288,33 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                         !context.mounted ? context : context)
                     .add(ViewCvComplaintPageLoadEvent());
               }
+            }),
+      ),
+    );
+  }
+
+  Widget _addMeasurementButton(
+      {required CngModel cngData,
+        required int index,
+        required BuildContext context}) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.34,
+        height: MediaQuery.of(context).size.height * 0.07,
+        child: ButtonWidget(
+            fontSize: AppFont.font_12,
+            text: AppString.add,
+            onPressed: () async {
+              BlocProvider.of<ViewCvComplaintBloc>(context).add(
+                  ViewCvComplaintSelectCngDataEvent(cngData: cngData));
+              if (await Vibration.hasAmplitudeControl() != null) {
+                Vibration.vibrate(duration: 100);
+              }
+              Navigator.push(
+                !context.mounted ? context : context,
+                FadeRoute(page: const ViewCvAddMeasurementWidget()),
+              );
             }),
       ),
     );

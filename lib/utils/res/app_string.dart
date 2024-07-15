@@ -275,6 +275,8 @@ class AppString {
 
   static get update => "Update";
 
+  static get add => "Add";
+
   static get amount => "Amount";
 
   static get logoutMessage =>

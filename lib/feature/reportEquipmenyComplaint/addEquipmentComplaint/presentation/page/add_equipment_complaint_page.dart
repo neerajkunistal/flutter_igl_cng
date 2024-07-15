@@ -224,7 +224,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       hint: AppString.selectEquipment,
       items: dataState.equipmentTypeList,
       itemAsString: (equipmentTypeData) =>
-          equipmentTypeData.equipmentCode.toString(),
+          "${equipmentTypeData.description.toString()} (${equipmentTypeData.equipmentCode.toString()})",
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentDataEvent(
@@ -232,7 +232,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       },
     );
   }
-
+// description
   Widget _vendorCodeController(
       {required FetchAddEquipmentComplaintState dataState}) {
     TextEditingController controller = TextEditingController(

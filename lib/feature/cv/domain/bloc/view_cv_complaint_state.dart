@@ -22,6 +22,9 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final TextEditingController amountController;
   final File file;
   final bool isFilterLoader;
+  final CngModel cngData;
+  final List<File> measurementFileList;
+  final File measurementFileSheet;
 
   FetchViewCvComplaintDataState({
     required this.cngList,
@@ -31,6 +34,9 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
     required this.amountController,
     required this.file,
     required this.isFilterLoader,
+    required this.cngData,
+    required this.measurementFileList,
+    required this.measurementFileSheet,
   });
 
   @override
@@ -42,5 +48,8 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
         amountController,
         file,
         isFilterLoader,
+        cngData,
+        measurementFileList,
+        measurementFileSheet,
       ];
 }

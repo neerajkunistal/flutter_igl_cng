@@ -43,7 +43,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 ),
                 _rowWidget(
                     name: "Station Name",
-                    value: acknowledgeData.createdByUser.toString()),
+                    value: acknowledgeData.cngStationName.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),

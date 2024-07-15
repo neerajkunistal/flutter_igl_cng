@@ -57,7 +57,7 @@ class ViewCiComplaintBloc
     isFilterLoader = false;
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
-    var res = await ViewCngHelper.fetchCngCivilData(
+    var res = await ViewCiComplaintHelper.fetchCivilData(
         fromDate: startDate.toString(), toDate: endDate.toString());
     if (res != null) {
       cngList = res;
@@ -122,7 +122,7 @@ class ViewCiComplaintBloc
     _eventComplete(emit);
     startDate = event.fromDate;
     endDate = event.toDate;
-    var res = await ViewCngHelper.fetchCngCivilData(
+    var res = await ViewCiComplaintHelper.fetchCivilData(
         fromDate: event.fromDate.toString(), toDate: event.toDate.toString());
     if (res != null) {
       cngList = res;

@@ -20,9 +20,9 @@ class AddEquipmentComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchEquipmentTypeData() async {
+  static Future<dynamic> fetchEquipmentTypeData({String? complaintId}) async {
     try {
-      String url = APIs.getEquipmentApi;
+      String url = APIs.getEquipmentApi +"/$complaintId";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return equipmentTypeListResponse(res['data']);
