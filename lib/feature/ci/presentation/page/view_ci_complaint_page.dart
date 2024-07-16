@@ -69,9 +69,31 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
                   ),
                 );
               })
-          : const Center(
-              child: TextWidget("No Data"),
-            ),
+          :  Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: GestureDetector(
+              onTap: () async {
+                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCiComplaintPageLoadEvent());
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.refresh,
+                    color: AppColor.white,
+                  ),
+                  TextWidget(
+                    "No Data\nTab to refresh",
+                    color: AppColor.white,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 

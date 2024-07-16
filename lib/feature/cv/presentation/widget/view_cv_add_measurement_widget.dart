@@ -154,8 +154,7 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
     ) : const SizedBox.shrink();
   }
 
-  Widget _photo(
-      {required FetchViewCvComplaintDataState dataState,
+  Widget _photo({required FetchViewCvComplaintDataState dataState,
         required int index,
         required File file}) {
     return SizedBox(
@@ -186,8 +185,7 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
                 ),
               ),
             ],
-          )
-              : Stack(
+          ) : Stack(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

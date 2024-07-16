@@ -231,7 +231,21 @@ class ViewCvComplaintBloc
   }
 
   _submitMeasurement(ViewCvComplaintSubmitMeasurementEvent event, emit) async {
-
+    isLoader = true;
+    _eventComplete(emit);
+    var res = await ViewCvComplaintHelper.addMeasurementData(
+        cngData: event.cngData,
+        amount: amountController.text.toString(),
+        context: event.context,
+        measurementFileList: measurementFileList,
+        measurementSheetFile: measurementFileSheet,
+    );
+    if (res != null) {
+      Navigator.of(!event.context.mounted ? event.context : event.context)
+          .pop("Complete");
+    }
+    isLoader = false;
+    _eventComplete(emit);
   }
 
   _eventComplete(Emitter<ViewCvComplaintState> emit) {

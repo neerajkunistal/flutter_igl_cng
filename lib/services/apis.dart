@@ -72,5 +72,7 @@ class APIs {
 
   static get addEstimateApi => "api/cv/estimate";
 
+  static get addMeasurementApi => "api/cv/measurement";
+
   static get forgotPasswordApi => "";
 }

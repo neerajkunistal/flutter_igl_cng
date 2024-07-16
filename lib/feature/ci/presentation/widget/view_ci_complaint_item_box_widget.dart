@@ -356,7 +356,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text: "Final Approve",
+            text: "Approve",
             backgroundColor: AppColor.themeColor,
             onPressed: () async {
               var res = await showDialog(

@@ -38,6 +38,7 @@ class ViewCiComplaintBloc
     on<ViewCiComplaintSelectVendorEvent>(_selectVendor);
     on<ViewCiComplaintStatusDataEvent>(_selectComplaintStatus);
     on<ViewCiComplaintEstimateApproveEvent>(_estimateApprove);
+    on<ViewCiComplaintFinalApproveEvent>(_finalApprove);
   }
 
   _pageLoad(ViewCiComplaintPageLoadEvent event, emit) async {
@@ -173,6 +174,22 @@ class ViewCiComplaintBloc
     var res = await ViewCiComplaintHelper.estimateApprove(
         cngData: event.cngData,
         complaintStatus: complaintStatusData,
+        context: event.context);
+    if (res != null) {
+      Navigator.of(!event.context.mounted ? event.context : event.context)
+          .pop("Complete");
+    }
+    isVendorAssignLoader = false;
+    _eventComplete(emit);
+  }
+
+  _finalApprove(ViewCiComplaintFinalApproveEvent event, emit) async {
+    isVendorAssignLoader = true;
+    _eventComplete(emit);
+    var res = await ViewCiComplaintHelper.finalApproveComplaint(
+        cngData: event.cngData,
+        complaintStatus: complaintStatusData,
+        remark: remarkController.text.toString(),
         context: event.context);
     if (res != null) {
       Navigator.of(!event.context.mounted ? event.context : event.context)

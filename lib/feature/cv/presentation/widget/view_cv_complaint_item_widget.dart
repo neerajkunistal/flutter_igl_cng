@@ -224,7 +224,8 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                   )
                 : const SizedBox.shrink(),
 
-            cngData.estimateCost.toString() != "0"
+            cngData.estimateCost.toString() != "0" &&
+                cngData.estimateAttachment.toString().isEmpty
                 ? Row(
               children: [
                 TextWidget(
@@ -311,10 +312,15 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
               if (await Vibration.hasAmplitudeControl() != null) {
                 Vibration.vibrate(duration: 100);
               }
-              Navigator.push(
+             var res =  await Navigator.push(
                 !context.mounted ? context : context,
                 FadeRoute(page: const ViewCvAddMeasurementWidget()),
               );
+              if(res.toString() == "Complete"){
+                BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCvComplaintPageLoadEvent());
+              }
+
             }),
       ),
     );

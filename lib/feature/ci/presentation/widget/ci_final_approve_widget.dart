@@ -100,8 +100,11 @@ class CiFinalApproveWidget extends StatelessWidget {
   Widget _remarkController(
       {required FetchViewCiComplaintDataState dataState,
       required BuildContext context}) {
-    return TextFieldWidget(
-        controller: dataState.remarkController, labelText: AppString.remark);
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+      child: TextFieldWidget(
+          controller: dataState.remarkController, labelText: AppString.remark),
+    );
   }
 
   Widget _submitButton(
@@ -113,7 +116,10 @@ class CiFinalApproveWidget extends StatelessWidget {
             child: ButtonWidget(
                 fontSize: AppFont.font_12,
                 text: AppString.changeStatus,
-                onPressed: () {}),
+                onPressed: () {
+                  BlocProvider.of<ViewCiComplaintBloc>(context).add(
+                      ViewCiComplaintFinalApproveEvent(cngData: cngData, context: context));
+                }),
           )
         : const DottedLoaderWidget();
   }

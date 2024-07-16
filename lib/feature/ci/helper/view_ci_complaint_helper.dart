@@ -187,7 +187,7 @@ class ViewCiComplaintHelper {
         "statusType": complaintStatus.id.toString(),
         "remarks": remark,
       };
-      var res = await ServerRequest.putData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

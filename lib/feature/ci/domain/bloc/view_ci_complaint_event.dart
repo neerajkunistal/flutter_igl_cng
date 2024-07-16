@@ -76,3 +76,14 @@ class ViewCiComplaintEstimateApproveEvent extends ViewCiComplaintEvent {
   @override
   List<Object?> get props => [context, cngData];
 }
+
+class ViewCiComplaintFinalApproveEvent extends ViewCiComplaintEvent {
+  final BuildContext context;
+  final CngModel cngData;
+
+  const ViewCiComplaintFinalApproveEvent(
+      {required this.context, required this.cngData});
+
+  @override
+  List<Object?> get props => [context, cngData];
+}
