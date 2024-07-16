@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/presentation/pages/add_cng_page.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_item_box_widget.dart';
@@ -68,12 +70,12 @@ class _ViewCngPageState extends State<ViewCngPage> {
       margin: const EdgeInsets.all(0.0),
       child: Column(
         children: [
-          _header(),
+          const HeaderWidget(title: "View Civil Complaint"),
           const DottedDividerLine(color: Colors.white),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-          _searchWidget(dataState: dataState),
+          _searchWidget(),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
@@ -137,108 +139,30 @@ class _ViewCngPageState extends State<ViewCngPage> {
             context: !context.mounted ? context : context));
   }
 
-  Widget _header() {
-    return Row(children: [
-      IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-      Expanded(
-        child: TextWidget(
-          "View Civil Complaint",
-          color: AppColor.white,
-          fontSize: AppFont.font_15,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      Image.asset(
-        AppConfig.instanceInit()!.client == Client.iglcng
-            ? AppIcon.appLogoIgl
-            : AppIcon.appLogoIgl,
-        height: MediaQuery.of(context).size.width * 0.13,
-        width: MediaQuery.of(context).size.width * 0.13,
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-    ]);
-  }
-
-  Widget _searchWidget({required FetchViewCngDataState dataState}) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.08,
-        ),
-        Expanded(child: _searchController()),
-        IconButton(
-            onPressed: () async {
-              DateTime startDate = BlocProvider.of<ViewCngBloc>(
-                      !context.mounted ? context : context)
-                  .startDate;
-              DateTime endDate = BlocProvider.of<ViewCngBloc>(
-                      !context.mounted ? context : context)
-                  .endDate;
-              var selectedDate = await DateRangeWidget.showDateRange(
-                  startDate: startDate, endDate: endDate, context: context);
-              if (selectedDate != null) {
-                BlocProvider.of<ViewCngBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCngSelectedDateRangeEvent(
-                        fromDate: selectedDate.start,
-                        toDate: selectedDate.end,
-                        context: !context.mounted ? context : context));
-              }
-            },
-            icon: Icon(
-              Icons.calendar_month_outlined,
-              color: AppColor.white,
-            ))
-      ],
-    );
-  }
-
-  Widget _searchController() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.10,
-      child: TextField(
-        onChanged: (keyword) {
-          BlocProvider.of<ViewCngBloc>(context)
-              .add(ViewCngSearchEvent(keyword: keyword));
-        },
-        style: TextStyle(
-          color: const Color(0xff020202),
-          fontSize: AppFont.font_12,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.5,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide.none,
-          ),
-          hintText: "Search...",
-          hintStyle: TextStyle(
-              color: const Color(0xffb2b2b2),
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
-              decorationThickness: 6),
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          prefixIconColor: AppColor.themeColor,
-        ),
-      ),
+  Widget _searchWidget() {
+    return SearchBarWidget(
+      onPressed: () async {
+        DateTime startDate = BlocProvider.of<ViewCngBloc>(
+            !context.mounted ? context : context)
+            .startDate;
+        DateTime endDate = BlocProvider.of<ViewCngBloc>(
+            !context.mounted ? context : context)
+            .endDate;
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate: startDate, endDate: endDate, context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<ViewCngBloc>(
+              !context.mounted ? context : context)
+              .add(ViewCngSelectedDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<ViewCngBloc>(context)
+            .add(ViewCngSearchEvent(keyword: keyword));
+      },
     );
   }
 }

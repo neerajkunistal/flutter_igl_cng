@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/presentation/page/mi_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/presentation/page/add_equipment_complaint_page.dart';
@@ -46,42 +48,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
           children: [
             userData.roleType == RoleType.shiftEngineer
                 ? const SizedBox.shrink()
-                : _header(),
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.08,
-                ),
-                Expanded(child: _searchController()),
-                IconButton(
-                    onPressed: () async {
-                      DateTime startDate =
-                          BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                  !context.mounted ? context : context)
-                              .startDate;
-                      DateTime endDate =
-                          BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                  !context.mounted ? context : context)
-                              .endDate;
-                      var selectedDate = await DateRangeWidget.showDateRange(
-                          startDate: startDate,
-                          endDate: endDate,
-                          context: context);
-                      if (selectedDate != null) {
-                        BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                !context.mounted ? context : context)
-                            .add(ViewEquipmentComplaintSelectedDateRangeEvent(
-                                fromDate: selectedDate.start,
-                                toDate: selectedDate.end,
-                                context: !context.mounted ? context : context));
-                      }
-                    },
-                    icon: Icon(
-                      Icons.calendar_month_outlined,
-                      color: AppColor.white,
-                    ))
-              ],
-            ),
+                : HeaderWidget(title: widget.title ?? ""),
+            _searchWidget(),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -123,54 +91,6 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         ),
       ),
     );
-  }
-
-  Widget _header() {
-    return Row(children: [
-      IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-      Expanded(
-        child: TextWidget(
-          widget.title ?? "",
-          color: AppColor.white,
-          fontSize: AppFont.font_15,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      Image.asset(
-        AppConfig.instanceInit()!.client == Client.iglcng
-            ? AppIcon.appLogoIgl
-            : AppIcon.appLogoIgl,
-        height: MediaQuery.of(context).size.width * 0.13,
-        width: MediaQuery.of(context).size.width * 0.13,
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-    ]);
-  }
-
-  DateTimeRange? _initialDateTimeRange(Map<dynamic, dynamic> arguments) {
-    if (arguments['initialStartDate'] != null &&
-        arguments['initialEndDate'] != null) {
-      return DateTimeRange(
-        start: DateTime.fromMillisecondsSinceEpoch(
-            arguments['initialStartDate'] as int),
-        end: DateTime.fromMillisecondsSinceEpoch(
-            arguments['initialEndDate'] as int),
-      );
-    }
-
-    return null;
   }
 
   Future<void> _handleRefresh() async {
@@ -215,40 +135,34 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
     );
   }
 
-  Widget _searchController() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.10,
-      child: TextField(
-        onChanged: (keyword) {
-          BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-              .add(ViewEquipmentComplaintSearchEvent(keyword: keyword));
-        },
-        style: TextStyle(
-          color: const Color(0xff020202),
-          fontSize: AppFont.font_12,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.5,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide.none,
-          ),
-          hintText: "Search...",
-          hintStyle: TextStyle(
-              color: const Color(0xffb2b2b2),
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
-              decorationThickness: 6),
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          prefixIconColor: AppColor.themeColor,
-        ),
-      ),
+  Widget _searchWidget() {
+    return SearchBarWidget(
+      onPressed: () async {
+        DateTime startDate =
+            BlocProvider.of<ViewEquipmentComplaintBloc>(
+                !context.mounted ? context : context)
+                .startDate;
+        DateTime endDate =
+            BlocProvider.of<ViewEquipmentComplaintBloc>(
+                !context.mounted ? context : context)
+                .endDate;
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate: startDate,
+            endDate: endDate,
+            context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<ViewEquipmentComplaintBloc>(
+              !context.mounted ? context : context)
+              .add(ViewEquipmentComplaintSelectedDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<ViewEquipmentComplaintBloc>(context)
+            .add(ViewEquipmentComplaintSearchEvent(keyword: keyword));
+      },
     );
   }
 

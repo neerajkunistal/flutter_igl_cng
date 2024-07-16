@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/view_ci_complaint_item_box_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
@@ -28,7 +29,7 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
           if (state is FetchViewCiComplaintDataState) {
             return Column(
               children: [
-                _searchWidget(dataState: state),
+                _searchWidget(),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
@@ -112,74 +113,30 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
             context: !context.mounted ? context : context));
   }
 
-  Widget _searchWidget({required FetchViewCiComplaintDataState dataState}) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.08,
-        ),
-        Expanded(child: _searchController()),
-        IconButton(
-            onPressed: () async {
-              DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
-                      !context.mounted ? context : context)
-                  .startDate;
-              DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
-                      !context.mounted ? context : context)
-                  .endDate;
-              var selectedDate = await DateRangeWidget.showDateRange(
-                  startDate: startDate, endDate: endDate, context: context);
-              if (selectedDate != null) {
-                BlocProvider.of<ViewCiComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCiComplaintSelectedDateRangeEvent(
-                        fromDate: selectedDate.start,
-                        toDate: selectedDate.end,
-                        context: !context.mounted ? context : context));
-              }
-            },
-            icon: Icon(
-              Icons.calendar_month_outlined,
-              color: AppColor.white,
-            ))
-      ],
-    );
-  }
-
-  Widget _searchController() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.10,
-      child: TextField(
-        onChanged: (keyword) {
-          BlocProvider.of<ViewCiComplaintBloc>(context)
-              .add(ViewCiComplaintSearchDataEvent(keyword: keyword));
-        },
-        style: TextStyle(
-          color: const Color(0xff020202),
-          fontSize: AppFont.font_12,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.5,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide.none,
-          ),
-          hintText: "Search...",
-          hintStyle: TextStyle(
-              color: const Color(0xffb2b2b2),
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
-              decorationThickness: 6),
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          prefixIconColor: AppColor.themeColor,
-        ),
-      ),
+  Widget _searchWidget() {
+    return SearchBarWidget(
+      onPressed: () async {
+        DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
+            !context.mounted ? context : context)
+            .startDate;
+        DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
+            !context.mounted ? context : context)
+            .endDate;
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate: startDate, endDate: endDate, context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<ViewCiComplaintBloc>(
+              !context.mounted ? context : context)
+              .add(ViewCiComplaintSelectedDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<ViewCiComplaintBloc>(context)
+            .add(ViewCiComplaintSearchDataEvent(keyword: keyword));
+      },
     );
   }
 }

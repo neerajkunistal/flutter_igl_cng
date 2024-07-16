@@ -171,7 +171,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       categoryData = CategoryModel();
       fileList = [];
       Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop();
+          .pop("Complete");
     }
     isLoader = false;
     _eventCompleted(emit);

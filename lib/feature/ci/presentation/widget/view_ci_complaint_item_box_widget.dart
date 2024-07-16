@@ -243,10 +243,10 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                     ],
                   )
                 : const SizedBox.shrink(),
-            cngData.assignTo.toString() != "0" &&
-                    cngData.estimateCost.toString() != "0" &&
-                    cngData.measurementSheetBy.toString() != "0" &&
-                    cngData.complaintStatus.toString() == "0"
+
+            cngData.estimateCost.toString().isNotEmpty  &&
+                cngData.estimateCostDataTime.toString().isNotEmpty &&
+                cngData.measurementSheetDataTime.toString().isNotEmpty
                 ? Row(
                     children: [
                       TextWidget(
@@ -260,8 +260,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                               index: index,
                               context: context)),
                     ],
-                  )
-                : const SizedBox.shrink(),
+                  ) : const SizedBox.shrink(),
             Divider(
               color: AppColor.lightGrey,
             ),

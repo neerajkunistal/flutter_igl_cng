@@ -15,6 +15,7 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
+
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_complaint_item_box_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
@@ -29,7 +30,7 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
             if (state is FetchViewAmoComplaintDataState) {
               return Column(
                 children: [
-                  _searchWidget(dataState: state),
+                  _searchWidget(),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.02,
                   ),
@@ -95,74 +96,30 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
             context: !context.mounted ? context : context));
   }
 
-  Widget _searchWidget({required FetchViewAmoComplaintDataState dataState}) {
-    return Row(
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.08,
-        ),
-        Expanded(child: _searchController()),
-        IconButton(
-            onPressed: () async {
-              DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
-                      !context.mounted ? context : context)
-                  .startDate;
-              DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
-                      !context.mounted ? context : context)
-                  .endDate;
-              var selectedDate = await DateRangeWidget.showDateRange(
-                  startDate: startDate, endDate: endDate, context: context);
-              if (selectedDate != null) {
-                BlocProvider.of<ViewAmoComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewAmoComplaintSelectedDateRangeEvent(
-                        fromDate: selectedDate.start,
-                        toDate: selectedDate.end,
-                        context: !context.mounted ? context : context));
-              }
-            },
-            icon: Icon(
-              Icons.calendar_month_outlined,
-              color: AppColor.white,
-            ))
-      ],
-    );
-  }
-
-  Widget _searchController() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.10,
-      child: TextField(
-        onChanged: (keyword) {
-          BlocProvider.of<ViewAmoComplaintBloc>(context)
-              .add(ViewAmoComplaintSearchDataEvent(keyword: keyword));
-        },
-        style: TextStyle(
-          color: const Color(0xff020202),
-          fontSize: AppFont.font_12,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.5,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide.none,
-          ),
-          hintText: "Search...",
-          hintStyle: TextStyle(
-              color: const Color(0xffb2b2b2),
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
-              decorationThickness: 6),
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          prefixIconColor: AppColor.themeColor,
-        ),
-      ),
+  Widget _searchWidget() {
+    return SearchBarWidget(
+      onPressed: () async {
+        DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
+            !context.mounted ? context : context)
+            .startDate;
+        DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
+            !context.mounted ? context : context)
+            .endDate;
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate: startDate, endDate: endDate, context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<ViewAmoComplaintBloc>(
+              !context.mounted ? context : context)
+              .add(ViewAmoComplaintSelectedDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<ViewAmoComplaintBloc>(context)
+            .add(ViewAmoComplaintSearchDataEvent(keyword: keyword));
+      },
     );
   }
 }

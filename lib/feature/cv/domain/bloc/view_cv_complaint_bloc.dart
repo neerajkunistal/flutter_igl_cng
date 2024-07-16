@@ -215,6 +215,10 @@ class ViewCvComplaintBloc
   }
 
   _submit(ViewCvComplaintSubmitEvent event, emit) async {
+    if(amountController.text.toString().isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please enter estimate amount");
+      return;
+    }
     isLoader = true;
     _eventComplete(emit);
     var res = await ViewCvComplaintHelper.addEstimateData(

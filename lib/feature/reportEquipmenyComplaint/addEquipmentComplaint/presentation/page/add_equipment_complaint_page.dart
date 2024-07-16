@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
         context: context,
         child: Column(
           children: [
-            _header(),
+            const HeaderWidget(title: "Add Complaint"),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -63,39 +64,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _header() {
-    return Row(children: [
-      IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-      Expanded(
-        child: TextWidget(
-          "Add Complaint",
-          color: AppColor.white,
-          fontSize: AppFont.font_15,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      Image.asset(
-        AppConfig.instanceInit()!.client == Client.iglcng
-            ? AppIcon.appLogoIgl
-            : AppIcon.appLogoIgl,
-        height: MediaQuery.of(context).size.width * 0.13,
-        width: MediaQuery.of(context).size.width * 0.13,
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-    ]);
-  }
 
   Widget _itemWWidget({required FetchAddEquipmentComplaintState dataState}) {
     return Container(

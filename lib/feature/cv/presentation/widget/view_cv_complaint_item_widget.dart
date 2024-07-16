@@ -221,11 +221,10 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                         context: context,
                       )),
                     ],
-                  )
-                : const SizedBox.shrink(),
+                  ) : const SizedBox.shrink(),
 
-            cngData.estimateCost.toString() != "0" &&
-                cngData.estimateAttachment.toString().isEmpty
+            cngData.measurementSheetDataTime.toString().isEmpty &&
+            cngData.estimateCostDataTime.toString().isNotEmpty
                 ? Row(
               children: [
                 TextWidget(

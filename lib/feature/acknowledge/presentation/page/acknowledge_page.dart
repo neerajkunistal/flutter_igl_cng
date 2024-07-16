@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 
@@ -66,32 +67,25 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   }
 
   Widget _searchWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(child: _searchController()),
-          IconButton(
-              onPressed: () async {
-                var selectedDate = await DateRangeWidget.showDateRange(
-                    startDate: DateTime.now(),
-                    endDate: DateTime.now(),
-                    context: context);
-                if (selectedDate != null) {
-                  BlocProvider.of<AcknowledgeBloc>(
-                          !context.mounted ? context : context)
-                      .add(AcknowledgeSelectDateRangeEvent(
-                          fromDate: selectedDate.start,
-                          toDate: selectedDate.end,
-                          context: !context.mounted ? context : context));
-                }
-              },
-              icon: Icon(
-                Icons.calendar_month_outlined,
-                color: AppColor.white,
-              ))
-        ],
-      ),
+    return SearchBarWidget(
+      onPressed: () async {
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate: DateTime.now(),
+            endDate: DateTime.now(),
+            context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<AcknowledgeBloc>(
+              !context.mounted ? context : context)
+              .add(AcknowledgeSelectDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeComplaintSearchEvent(keyword: keyword));
+      },
     );
   }
 
@@ -108,43 +102,6 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
             fromDate: startDate,
             toDate: endDate,
             context: !context.mounted ? context : context));
-  }
-
-  Widget _searchController() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.13,
-      child: TextField(
-        onChanged: (keyword) {
-          BlocProvider.of<AcknowledgeBloc>(context)
-              .add(AcknowledgeComplaintSearchEvent(keyword: keyword));
-        },
-        style: TextStyle(
-          color: const Color(0xff020202),
-          fontSize: AppFont.font_12,
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0.5,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: const Color(0xfff1f1f1),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: BorderSide.none,
-          ),
-          hintText: "Search...",
-          hintStyle: TextStyle(
-              color: const Color(0xffb2b2b2),
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.5,
-              decorationThickness: 6),
-          prefixIcon: const Icon(
-            Icons.search,
-          ),
-          prefixIconColor: AppColor.themeColor,
-        ),
-      ),
-    );
   }
 
   Widget _tabWidget({required FetchAcknowledgeDataState dataState}) {
