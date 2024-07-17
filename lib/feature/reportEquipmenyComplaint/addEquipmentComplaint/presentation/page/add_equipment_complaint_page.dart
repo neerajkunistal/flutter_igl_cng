@@ -22,12 +22,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-/*      appBar: AppBar(
-        title: TextWidget(
-          "Add Complaint",
-          color: AppColor.white,
-        ),
-      ),*/
       body: appBackGround(
         context: context,
         child: Column(

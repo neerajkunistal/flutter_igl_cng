@@ -40,6 +40,9 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
           context: context,
           child: Column(
             children: [
+              Platform.isIOS ? SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ) : const SizedBox.shrink(),
               _header(),
               const DottedDividerLine(color: Colors.white),
               SizedBox(
