@@ -207,6 +207,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.02,
             ),
             cngData.estimateCost.toString() == "0"
+                || cngData.estimateStatus.toString() == "2"
                 ? Row(
                     children: [
                       TextWidget(
@@ -224,7 +225,8 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                   ) : const SizedBox.shrink(),
 
             cngData.measurementSheetDataTime.toString().isEmpty &&
-            cngData.estimateCostDataTime.toString().isNotEmpty
+            cngData.estimateCostDataTime.toString().isNotEmpty &&
+                cngData.estimateStatus.toString() == "1"
                 ? Row(
               children: [
                 TextWidget(
@@ -279,6 +281,8 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
             fontSize: AppFont.font_12,
             text: AppString.update,
             onPressed: () async {
+              BlocProvider.of<ViewCvComplaintBloc>(
+                  !context.mounted ? context : context).amountController.text = "";
               var res = await showDialog(
                   context: !context.mounted ? context : context,
                   builder: (BuildContext mContext) =>

@@ -209,7 +209,7 @@ class ReviewComplaintModel {
     miAssignType = json['mi_assign_type'] ?? "";
     miAssignToUser = json['assigned_vendor_name'] ?? "";
     ackStatus = json['ack_status'] ?? "";
-    cngStationName = json['ack_status'] ?? "";
+    cngStationName = json['cng_station_name'] ?? "";
 
     if (vendorCode.toString().isEmpty) {
       vendorCode = json['mi_assign_to_vendor_code'] ?? "";

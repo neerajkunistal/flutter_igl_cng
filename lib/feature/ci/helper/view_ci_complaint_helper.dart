@@ -73,7 +73,7 @@ class ViewCiComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;
@@ -118,7 +118,7 @@ class ViewCiComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;
@@ -163,7 +163,7 @@ class ViewCiComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;
@@ -210,7 +210,7 @@ class ViewCiComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

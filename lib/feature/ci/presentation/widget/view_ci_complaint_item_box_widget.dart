@@ -246,7 +246,8 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
 
             cngData.estimateCost.toString().isNotEmpty  &&
                 cngData.estimateCostDataTime.toString().isNotEmpty &&
-                cngData.measurementSheetDataTime.toString().isNotEmpty
+                cngData.measurementSheetDataTime.toString().isNotEmpty  &&
+                cngData.complaintStatus.toString() != "1"
                 ? Row(
                     children: [
                       TextWidget(

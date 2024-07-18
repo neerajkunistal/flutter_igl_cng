@@ -335,23 +335,26 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     }
     isLoader = true;
     _eventComplete(emit);
+    String time = "";
     DateTime initialDate1 = DateTime.now();
     if(timeController.text.toString().isNotEmpty
         && timeController.text.toString().toLowerCase().contains("am")){
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
     } else if (timeController.text.toString().isNotEmpty
         && timeController.text.toString().toLowerCase().contains("pm")){
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
     } else {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('HH:mm').parse(timeController.text.toString())
           : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
     }
-    String time = "${initialDate1.hour}:${initialDate1.minute}:00";
     var res = await MiComplaintHelper.submit(
         context: event.context,
         reviewComplaintData: reviewComplaintData,

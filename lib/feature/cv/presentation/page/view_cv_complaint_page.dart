@@ -50,6 +50,7 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
 
   Widget _listBuilder({required FetchViewCvComplaintDataState dataState}) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(

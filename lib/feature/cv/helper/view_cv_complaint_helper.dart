@@ -4,6 +4,25 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 
 class ViewCvComplaintHelper {
+
+  static Future<dynamic> addCivilVendorComplaintApi(
+      {String? fromDate, String? toDate}) async {
+    try {
+      String url = APIs.addCivilVendorComplaintApi +
+          "?fromDate=${fromDate ?? ""}&toDate=${toDate ?? ""}";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return cngListResponse(res['data']);
+      }
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   static Future<dynamic> addEstimateData(
       {required CngModel cngData,
       required String amount,
@@ -43,7 +62,7 @@ class ViewCvComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;
@@ -110,7 +129,7 @@ class ViewCvComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

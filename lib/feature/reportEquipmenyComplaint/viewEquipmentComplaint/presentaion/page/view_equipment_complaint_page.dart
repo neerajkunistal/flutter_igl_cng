@@ -46,7 +46,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
             userData.roleType == RoleType.shiftEngineer ? true : false,
         child: Column(
           children: [
-            userData.roleType == RoleType.shiftEngineer
+            userData.roleType == RoleType.shiftEngineer ||
+                userData.roleType == RoleType.mi
                 ? const SizedBox.shrink()
                 : HeaderWidget(title: widget.title ?? ""),
             _searchWidget(),
