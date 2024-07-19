@@ -9,6 +9,7 @@ class EquipmentTypeModel {
   String? equipmentSerial;
   String? cngStationLocation;
   String? description;
+  String? descriptionKva;
   String? manufactureSerialNo;
   String? modelNo;
   String? vendorId;
@@ -21,6 +22,7 @@ class EquipmentTypeModel {
     this.equipmentSerial,
     this.cngStationLocation,
     this.description,
+    this.descriptionKva,
     this.manufactureSerialNo,
     this.modelNo,
     this.vendorId,
@@ -34,6 +36,7 @@ class EquipmentTypeModel {
     equipmentSerial = json['equipment_serial'] ?? "";
     cngStationLocation = json['cng_station_location'] ?? "";
     description = json['description'] ?? "";
+    descriptionKva = json['description_kva'] ?? "";
     manufactureSerialNo = json['manufacture_serial_no'] ?? "";
     modelNo = json['model_no'] ?? "";
     vendorId = json['vendor_id'] ?? "";

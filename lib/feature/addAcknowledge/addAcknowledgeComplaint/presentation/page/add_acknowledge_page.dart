@@ -153,7 +153,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
               (EquipmentTypeModel equipmentTypeData) {
         return DropdownMenuItem<EquipmentTypeModel>(
           value: equipmentTypeData,
-          child: Text("${equipmentTypeData.description.toString()} (${equipmentTypeData.equipmentCode.toString()})",),
+          child: Text("${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",),
         );
       }).toList(),
     );
