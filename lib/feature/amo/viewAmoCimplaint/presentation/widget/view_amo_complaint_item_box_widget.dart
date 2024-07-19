@@ -89,7 +89,7 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
                 Row(
                   children: [
                     TextWidget(
-                      "Status : ",
+                      "Complaint Status : ",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                     ),
@@ -115,7 +115,7 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
                     ? Row(
                         children: [
                           TextWidget(
-                            "Update Status : ",
+                            "",
                             fontWeight: FontWeight.w500,
                             fontSize: AppFont.font_13,
                           ),
@@ -175,11 +175,11 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.34,
+        width: MediaQuery.of(context).size.width * 0.40,
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text: AppString.change,
+            text: AppString.updateStatus,
             onPressed: () async {
               var res = await showDialog(
                   context: !context.mounted ? context : context,

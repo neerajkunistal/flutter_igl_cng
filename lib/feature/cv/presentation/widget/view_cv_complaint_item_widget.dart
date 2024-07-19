@@ -104,7 +104,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  "Status : ",
+                  "Complaint Status : ",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                 ),
@@ -211,7 +211,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 ? Row(
                     children: [
                       TextWidget(
-                        "Update Status : ",
+                        "",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                       ),
@@ -230,7 +230,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 ? Row(
               children: [
                 TextWidget(
-                  "Measurement : ",
+                  "",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                 ),
@@ -279,7 +279,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text: AppString.update,
+            text: AppString.updateStatus,
             onPressed: () async {
               BlocProvider.of<ViewCvComplaintBloc>(
                   !context.mounted ? context : context).amountController.text = "";
@@ -308,7 +308,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text: AppString.add,
+            text: AppString.addMeasurement,
             onPressed: () async {
               BlocProvider.of<ViewCvComplaintBloc>(context).add(
                   ViewCvComplaintSelectCngDataEvent(cngData: cngData));

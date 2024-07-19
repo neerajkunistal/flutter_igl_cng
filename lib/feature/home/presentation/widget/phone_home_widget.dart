@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/home_drawer_widget.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class PhoneHomeWidget extends StatefulWidget {
@@ -66,6 +69,7 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
   }
 
   Widget _header() {
+    LoginDataModel userData  =  UserInfo.instanceInit()!.userData!;
     return Row(children: [
       IconButton(
         onPressed: () {
@@ -84,11 +88,27 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
       Expanded(
         child: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
           if (state is FetchHomeDataState) {
-            return TextWidget(
-              state.title,
-              color: AppColor.white,
-              fontSize: AppFont.font_14,
-              fontWeight: FontWeight.w700,
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: TextWidget(
+                    state.title,
+                    color: AppColor.white,
+                    fontSize: AppFont.font_10,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Expanded(
+                  child: TextWidget(
+                    "  ${userData.email}",
+                    color: AppColor.white,
+                    fontSize: AppFont.font_10,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
             );
           } else {
             return TextWidget(

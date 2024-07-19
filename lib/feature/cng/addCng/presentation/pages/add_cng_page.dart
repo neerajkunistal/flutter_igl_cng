@@ -83,8 +83,8 @@ class _AddCngPageState extends State<AddCngPage> {
             _verticalSpace(),
             _reportedByController(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState, index: 0, file: File("")),
-            _verticalSpace(),
+/*            _photo(dataState: dataState, index: 0, file: File("")),
+            _verticalSpace(),*/
             _imageList(dataState: dataState),
             _verticalSpace(),
             _submit(dataState: dataState),
@@ -221,7 +221,7 @@ class _AddCngPageState extends State<AddCngPage> {
           color: AppColor.grey,
           strokeWidth: 1,
           child: file.path.isEmpty
-              ? Column(
+              ?  Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -232,7 +232,7 @@ class _AddCngPageState extends State<AddCngPage> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
                       child: TextWidget(
-                        "Add ${AppString.photo}",
+                        "${AppString.photo} ${1 + index}",
                         fontSize: AppFont.font_12,
                         color: AppColor.grey,
                       ),
@@ -284,7 +284,7 @@ class _AddCngPageState extends State<AddCngPage> {
                           Icons.refresh,
                           color: AppColor.themeColor,
                         ))),
-                    Align(
+/*                    Align(
                       alignment: Alignment.topRight,
                       child: InkWell(
                         onTap: () {
@@ -296,7 +296,7 @@ class _AddCngPageState extends State<AddCngPage> {
                           color: AppColor.red,
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
         ),
@@ -319,6 +319,7 @@ class _AddCngPageState extends State<AddCngPage> {
                         .add(AddCngSelectFileEvent(
                       context: context,
                       mediaType: 1,
+                      index: index
                     ));
                   },
                   child: TextWidget(
@@ -332,6 +333,7 @@ class _AddCngPageState extends State<AddCngPage> {
                         .add(AddCngSelectFileEvent(
                       context: context,
                       mediaType: 2,
+                      index: index
                     ));
                   },
                   child: TextWidget(

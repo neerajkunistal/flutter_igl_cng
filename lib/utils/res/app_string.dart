@@ -271,11 +271,15 @@ class AppString {
 
   static get reportedBy => "Reported By";
 
-  static get estimateApprove => "Action";
+  static get estimateApprove => "Estimate Approve";
 
   static get update => "Update";
 
+  static get updateStatus => "Update Status";
+
   static get add => "Add";
+
+  static get addMeasurement => "Add Measurement";
 
   static get amount => "Amount";
 

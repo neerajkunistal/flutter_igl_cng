@@ -95,7 +95,7 @@ class ViewCvComplaintHelper {
         }
       }
 
-      if(measurementSheetFile.path.isEmpty){
+      if(measurementSheetFile.path.isNotEmpty){
         files.add(FileModel(
             name: "file", file: measurementSheetFile, keyName: "measurementSheet"));
       }
@@ -105,7 +105,7 @@ class ViewCvComplaintHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          keyWord: "estimateFile",
+          fileList: files,
           context: context);
       if (res != null &&
           res['status'] != null &&

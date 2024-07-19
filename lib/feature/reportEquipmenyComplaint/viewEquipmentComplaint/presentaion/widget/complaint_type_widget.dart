@@ -15,99 +15,127 @@ class ComplaintTypeWidget extends StatefulWidget {
 class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shadowColor: AppColor.themeColor,
-                elevation: 2,
-                child: InkWell(
-                  onTap: () async {
-                    if (await Vibration.hasAmplitudeControl() != null) {
-                      Vibration.vibrate(duration: 100);
-                    }
-                    Navigator.push(
-                      !context.mounted ? context : context,
-                      FadeRoute(page: const ViewCngPage()),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(AppIcon.maintenanceIcon,
-                            height: MediaQuery.of(context).size.width * 0.20),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.02,
-                        ),
-                        TextWidget(
-                          "Civil Complaint",
-                          color: AppColor.themeColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ],
-                    ),
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: [
+                  TextWidget(
+                    "IGL CNG Automation",
+                    fontSize: AppFont.font_18,
+                    color: AppColor.white,
+                    fontWeight: FontWeight.w700,
                   ),
-                ),
-              )),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shadowColor: AppColor.themeColor,
-                elevation: 2,
-                child: InkWell(
-                  onTap: () async {
-                    if (await Vibration.hasAmplitudeControl() != null) {
-                      Vibration.vibrate(duration: 100);
-                    }
-                    Navigator.push(
-                      !context.mounted ? context : context,
-                      FadeRoute(
-                          page: const ViewEquipmentComplaintPage(
-                            title: "Other Complaint",
-                          )),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(AppIcon.equipmentIcon,
-                            height: MediaQuery.of(context).size.width * 0.20),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.02,
-                        ),
-                        TextWidget(
-                          "Other Complaint",
-                          color: AppColor.themeColor,
-                          fontWeight: FontWeight.w700,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              )),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.10,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: TextWidget(
-              "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-              fontSize: AppFont.font_12,
-              color: AppColor.white,
-              fontWeight: FontWeight.w700,
+                  TextWidget(
+                    "Complaint App",
+                    fontSize: AppFont.font_16,
+                    color: AppColor.white,
+                    fontWeight: FontWeight.w700,
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+
+            Column(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shadowColor: AppColor.themeColor,
+                      elevation: 2,
+                      child: InkWell(
+                        onTap: () async {
+                          if (await Vibration.hasAmplitudeControl() != null) {
+                            Vibration.vibrate(duration: 100);
+                          }
+                          Navigator.push(
+                            !context.mounted ? context : context,
+                            FadeRoute(page: const ViewCngPage()),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(AppIcon.maintenanceIcon,
+                                  height: MediaQuery.of(context).size.width * 0.20),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              TextWidget(
+                                "Civil Complaint",
+                                color: AppColor.themeColor,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
+                Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shadowColor: AppColor.themeColor,
+                      elevation: 2,
+                      child: InkWell(
+                        onTap: () async {
+                          if (await Vibration.hasAmplitudeControl() != null) {
+                            Vibration.vibrate(duration: 100);
+                          }
+                          Navigator.push(
+                            !context.mounted ? context : context,
+                            FadeRoute(
+                                page: const ViewEquipmentComplaintPage(
+                                  title: "Other Complaint",
+                                )),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(AppIcon.equipmentIcon,
+                                  height: MediaQuery.of(context).size.width * 0.20),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              TextWidget(
+                                "Other Complaint",
+                                color: AppColor.themeColor,
+                                fontWeight: FontWeight.w700,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: TextWidget(
+                "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
+                fontSize: AppFont.font_12,
+                color: AppColor.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+            ),
+          ],
+        ),
       ),
     );
   }

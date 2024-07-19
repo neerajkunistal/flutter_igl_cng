@@ -38,6 +38,7 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
                     child: RefreshIndicator(
                       onRefresh: _handleRefresh,
                       child: Container(
+                          height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),

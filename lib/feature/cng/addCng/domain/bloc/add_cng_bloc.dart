@@ -45,6 +45,10 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     timeController = TextEditingController();
     reportedByController = TextEditingController();
     fileList = [];
+    fileList.add(File(""));
+    fileList.add(File(""));
+    fileList.add(File(""));
+    fileList.add(File(""));
 
     var categoryRes = await AddCngHelper.fetchCategory();
     if (categoryRes != null) {
@@ -113,14 +117,14 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       if (photo != null) {
         isLoader = true;
         _eventCompleted(emit);
-        fileList.add(photo);
+        fileList[event.index] =  photo;
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
         isLoader = true;
         _eventCompleted(emit);
-        fileList.add(photo);
+        fileList[event.index] =  photo;
       }
     }
     Navigator.pop(event.context.mounted ? event.context : event.context);
@@ -170,6 +174,10 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       reportedByController = TextEditingController();
       categoryData = CategoryModel();
       fileList = [];
+      fileList.add(File(""));
+      fileList.add(File(""));
+      fileList.add(File(""));
+      fileList.add(File(""));
       Navigator.of(!event.context.mounted ? event.context : event.context)
           .pop("Complete");
     }

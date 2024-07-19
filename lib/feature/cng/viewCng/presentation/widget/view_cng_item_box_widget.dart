@@ -87,7 +87,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                 Row(
                   children: [
                     TextWidget(
-                      "Status : ",
+                      "Complaint Status : ",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                     ),

@@ -30,8 +30,9 @@ class AddCngSelectTimeEvent extends AddCngEvent {
 class AddCngSelectFileEvent extends AddCngEvent {
   final BuildContext context;
   final int mediaType;
+  final int index;
 
-  const AddCngSelectFileEvent({required this.context, required this.mediaType});
+  const AddCngSelectFileEvent({required this.context, required this.mediaType, required this.index});
 
   @override
   List<Object?> get props => [context, mediaType];

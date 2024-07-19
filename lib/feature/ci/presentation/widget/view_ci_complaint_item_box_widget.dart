@@ -103,7 +103,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  "Status : ",
+                  "Complaint Status : ",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                 ),
@@ -210,7 +210,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWidget(
-                        "Assign : ",
+                        "",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                       ),
@@ -231,7 +231,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 ? Row(
                     children: [
                       TextWidget(
-                        "Estimate Approve : ",
+                        "",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                       ),
@@ -251,7 +251,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 ? Row(
                     children: [
                       TextWidget(
-                        "Final Approve : ",
+                        "",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                       ),
@@ -324,7 +324,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.45,
+        width: MediaQuery.of(context).size.width * 0.48,
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
@@ -352,11 +352,11 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.34,
+        width: MediaQuery.of(context).size.width * 0.40,
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
             fontSize: AppFont.font_12,
-            text: "Approve",
+            text: "Approve task",
             backgroundColor: AppColor.themeColor,
             onPressed: () async {
               var res = await showDialog(
