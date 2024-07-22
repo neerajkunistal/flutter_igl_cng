@@ -186,9 +186,17 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
                   builder: (BuildContext mContext) =>
                       AmoUpdateStatusWidget(cngData: cngData));
               if (res.toString() == "Complete") {
-                BlocProvider.of<ViewAmoComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewAmoComplaintPageLoadEvent());
+                DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewAmoComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewAmoComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
             }),
       ),

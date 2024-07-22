@@ -308,9 +308,17 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   builder: (BuildContext mContext) =>
                       CiAssignWidget(cngData: cngData));
               if (res.toString() == "Complete") {
-                BlocProvider.of<ViewCiComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCiComplaintPageLoadEvent());
+                DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCiComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
             }),
       ),
@@ -336,9 +344,17 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   builder: (BuildContext mContext) =>
                       CiUpdateStatusWidget(cngData: cngData));
               if (res.toString() == "Complete") {
-                BlocProvider.of<ViewCiComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCiComplaintPageLoadEvent());
+                DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCiComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
             }),
       ),
@@ -364,9 +380,17 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   builder: (BuildContext mContext) =>
                       CiFinalApproveWidget(cngData: cngData));
               if (res.toString() == "Complete") {
-                BlocProvider.of<ViewCiComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCiComplaintPageLoadEvent());
+                DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCiComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
             }),
       ),

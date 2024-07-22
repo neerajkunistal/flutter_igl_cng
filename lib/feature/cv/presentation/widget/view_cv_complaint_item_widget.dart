@@ -288,9 +288,17 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                   builder: (BuildContext mContext) =>
                       ViewCvUpdateStatusWidget(cngData: cngData));
               if (res.toString() == "Complete") {
-                BlocProvider.of<ViewCvComplaintBloc>(
-                        !context.mounted ? context : context)
-                    .add(ViewCvComplaintPageLoadEvent());
+                DateTime startDate = BlocProvider.of<ViewCvComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewCvComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCvComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
             }),
       ),
@@ -320,8 +328,17 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 FadeRoute(page: const ViewCvAddMeasurementWidget()),
               );
               if(res.toString() == "Complete"){
+                DateTime startDate = BlocProvider.of<ViewCvComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewCvComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
                 BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
-                    .add(ViewCvComplaintPageLoadEvent());
+                    .add(ViewCvComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
               }
 
             }),
