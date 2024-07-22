@@ -49,7 +49,7 @@ class AmoUpdateStatusWidget extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
-              _complaintStatusDropDown(dataState: dataState, context: context),
+              _radioButton(dataState: dataState, context: context),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
@@ -64,29 +64,31 @@ class AmoUpdateStatusWidget extends StatelessWidget {
     );
   }
 
-  Widget _complaintStatusDropDown(
-      {required FetchViewAmoComplaintDataState dataState,
-      required BuildContext context}) {
+  Widget _radioButton({required FetchViewAmoComplaintDataState dataState,
+    required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      child: DropdownWidget(
-        hint: AppString.selectComplaint,
-        dropdownValue: dataState.complaintStatusData.id != null
-            ? dataState.complaintStatusData
-            : null,
-        onChanged: (value) {
-          BlocProvider.of<ViewAmoComplaintBloc>(context).add(
-              ViewAmoComplaintSelectComplaintStatusEvent(
-                  complaintStatusData: value));
-        },
-        items: dataState.complaintStatusList
-            .map<DropdownMenuItem<ComplaintStatus>>(
-                (ComplaintStatus complaintStatusData) {
-          return DropdownMenuItem<ComplaintStatus>(
-            value: complaintStatusData,
-            child: TextWidget(complaintStatusData.status.toString()),
-          );
-        }).toList(),
+      child: Column(
+        children: [
+          RadioListTile<String>(
+            title: const TextWidget('Approve'),
+            value: '1',
+            groupValue: dataState.complaintStatusData.id,
+            onChanged: (value) {
+              BlocProvider.of<ViewAmoComplaintBloc>(context)
+                  .add(ViewAmoComplaintSelectComplaintStatusEvent(complaintStatusData: dataState.complaintStatusList[0]));
+            },
+          ),
+          RadioListTile<String>(
+            title:const TextWidget('Reject'),
+            value: '2',
+            groupValue: dataState.complaintStatusData.id,
+            onChanged: (value) {
+              BlocProvider.of<ViewAmoComplaintBloc>(context)
+                  .add(ViewAmoComplaintSelectComplaintStatusEvent(complaintStatusData: dataState.complaintStatusList[1]));
+            },
+          ),
+        ],
       ),
     );
   }
