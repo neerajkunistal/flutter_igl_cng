@@ -175,10 +175,10 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.40,
+        width: MediaQuery.of(context).size.width * 0.43,
         height: MediaQuery.of(context).size.height * 0.07,
         child: ButtonWidget(
-            fontSize: AppFont.font_12,
+            fontSize: AppFont.font_11,
             text: AppString.updateStatus,
             onPressed: () async {
               var res = await showDialog(
