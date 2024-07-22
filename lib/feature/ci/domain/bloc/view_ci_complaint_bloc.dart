@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
@@ -169,6 +170,10 @@ class ViewCiComplaintBloc
   }
 
   _estimateApprove(ViewCiComplaintEstimateApproveEvent event, emit) async {
+    if(complaintStatusData.id == null){
+      SnackBarErrorWidget(event.context).show(message: "Please select status");
+      return;
+    }
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.estimateApprove(
@@ -184,6 +189,10 @@ class ViewCiComplaintBloc
   }
 
   _finalApprove(ViewCiComplaintFinalApproveEvent event, emit) async {
+    if(complaintStatusData.id == null){
+      SnackBarErrorWidget(event.context).show(message: "Please select status");
+      return;
+    }
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.finalApproveComplaint(
