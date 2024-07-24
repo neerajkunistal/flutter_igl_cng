@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -167,6 +168,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
+
+                _closureButton(context: context, reviewComplaintData: reviewComplaintData),
+
                 Container(
                     height: 1,
                     color: AppColor.lightGrey,
@@ -257,5 +261,26 @@ class ReviewComplaintItemBox extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _closureButton({required BuildContext context,
+     required ReviewComplaintModel reviewComplaintData})  {
+    LoginDataModel userData =  UserInfo.instance!.userData!;
+    return reviewComplaintData.miAssignToUser.toString().isEmpty &&
+        reviewComplaintData.complaintStatus.toString() == "0" &&
+        userData.roleType == RoleType.stationUser  ?
+        Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width/3,
+            child: ButtonWidget(
+              text: "Closure",
+              fontSize: AppFont.font_12,
+              onPressed: () {
+
+              },
+            ),
+          ),
+        ) : const SizedBox.shrink();
   }
 }

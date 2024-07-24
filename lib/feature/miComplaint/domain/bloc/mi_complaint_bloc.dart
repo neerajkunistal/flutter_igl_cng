@@ -114,6 +114,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       sparesData: SparesModel(),
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
+      materialCodeController: TextEditingController(),
     ));
 
     actionList = ActionModel().fetchData();

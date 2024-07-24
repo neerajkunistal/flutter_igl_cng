@@ -31,7 +31,7 @@ class AmoUpdateStatusWidget extends StatelessWidget {
       required BuildContext context}) {
     return Center(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.35,
+        height: MediaQuery.of(context).size.height * 0.40,
         width: MediaQuery.of(context).size.width / 1.2,
         child: Card(
           color: AppColor.white,

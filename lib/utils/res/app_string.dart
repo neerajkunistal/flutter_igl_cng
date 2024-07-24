@@ -193,6 +193,8 @@ class AppString {
 
   static get qty => "Qty";
 
+  static get materialCode => "Material Code";
+
   static get editDescription => "Edit Description";
 
   static get selectDepartment => "Select Department";

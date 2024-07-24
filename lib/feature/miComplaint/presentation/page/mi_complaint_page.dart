@@ -158,6 +158,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                         dataState.sparesPartList[index].qtyController!,
                     sparesData: dataState.sparesPartList[index].sparesData!,
                   ),
+                  _vendorDropDown(dataState: dataState),
+                  _materialCodeController(dataState: dataState, index: index,
+                      materialCodeController: dataState.sparesPartList[index].materialCodeController!),
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
@@ -178,21 +181,15 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       {required FetchMiComplaintDataState dataState,
       required SparesModel sparesData,
       required int index}) {
-    return DropdownWidget(
-      isRequired: false,
+    return DropDownSearchWidget(
+      selectedItem: sparesData.id != null ? sparesData : null,
       hint: AppString.selectSpares,
-      dropdownValue: sparesData.id != null ? sparesData : null,
+      items:dataState.sparesList,
+      itemAsString: (sparesData) => sparesData.spareName.toString(),
       onChanged: (value) {
         BlocProvider.of<MiComplaintBloc>(context)
             .add(MiComplaintSelectSpareData(sparesData: value, index: index));
       },
-      items: dataState.sparesList
-          .map<DropdownMenuItem<SparesModel>>((SparesModel sparesData) {
-        return DropdownMenuItem<SparesModel>(
-          value: sparesData,
-          child: Text(sparesData.spareName.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -208,6 +205,18 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           ? sparesData.spareUom.toString()
           : AppString.qty,
       controller: qtyController,
+    );
+  }
+
+  Widget _materialCodeController(
+      {required FetchMiComplaintDataState dataState,
+        required int index,
+        required TextEditingController materialCodeController}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.text,
+      isRequired: false,
+      labelText: AppString.materialCode,
+      controller: materialCodeController,
     );
   }
 
