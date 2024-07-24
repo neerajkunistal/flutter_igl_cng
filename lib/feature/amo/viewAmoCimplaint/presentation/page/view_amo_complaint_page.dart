@@ -22,47 +22,42 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: appBackGround(
-        context: context,
-        child: BlocBuilder<ViewAmoComplaintBloc, ViewAmoComplaintState>(
-          builder: (context, state) {
-            if (state is FetchViewAmoComplaintDataState) {
-              return Column(
-                children: [
-                  _searchWidget(),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Expanded(
-                    child: RefreshIndicator(
-                      onRefresh: _handleRefresh,
-                      child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            color: Colors.white.withOpacity(.4),
-                          ),
-                          child: state.isFilterLoader == false
-                              ? _listBuilder(dataState: state)
-                              : const CenterLoaderWidget()),
-                    ),
-                  ),
-                ],
-              );
-            }
-            return const CenterLoaderWidget();
-          },
-        ),
-      ),
+    return BlocBuilder<ViewAmoComplaintBloc, ViewAmoComplaintState>(
+      builder: (context, state) {
+        if (state is FetchViewAmoComplaintDataState) {
+          return Column(
+            children: [
+              _searchWidget(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                        color: Colors.white.withOpacity(.4),
+                      ),
+                      child: state.isFilterLoader == false
+                          ? _listBuilder(dataState: state)
+                          : const CenterLoaderWidget()),
+                ),
+              ),
+            ],
+          );
+        }
+        return const CenterLoaderWidget();
+      },
     );
   }
 
   Widget _listBuilder({required FetchViewAmoComplaintDataState dataState}) {
     return Container(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
       child: dataState.cngList.isNotEmpty
           ? ListView.builder(
               itemCount: dataState.cngList.length,
