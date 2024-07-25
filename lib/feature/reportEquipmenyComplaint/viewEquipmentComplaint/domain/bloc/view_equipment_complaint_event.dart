@@ -45,3 +45,16 @@ class ViewEquipmentComplaintSelectedDateRangeEvent
   @override
   List<Object?> get props => [context];
 }
+
+class ViewEquipmentComplaintClosureEvent
+    extends ViewEquipmentComplaintEvent {
+  final BuildContext context;
+  final ReviewComplaintModel reviewComplaintData;
+  final int index;
+
+  const ViewEquipmentComplaintClosureEvent(
+      {required this.context, required this.reviewComplaintData, required this.index});
+
+  @override
+  List<Object?> get props => [context, reviewComplaintData, index];
+}

@@ -52,7 +52,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                         ? "Equipment"
                         : "General",
                     value: acknowledgeData.equipmentCode.toString().isNotEmpty
-                        ? acknowledgeData.equipmentCode.toString()
+                        ? acknowledgeData.descriptionKva.toString()
                         : acknowledgeData.generalComplaintName.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
@@ -223,35 +223,15 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         height: MediaQuery.of(context).size.width * 0.13,
         width: MediaQuery.of(context).size.width * 0.35,
         child: ButtonWidget(
-            backgroundColor: acknowledgeData.assignType.toString() == "1"
-                ? AppColor.themeColor
-                : acknowledgeData.assignTo.toString() != "0"
+            backgroundColor: acknowledgeData.assignTo.toString() != "0"
                     ? AppColor.orange
                     : AppColor.themeColor,
             fontSize: AppFont.font_11,
-            text: acknowledgeData.assignType.toString() == "1"
-                ? AppString.status
-                : (acknowledgeData.assignTo.toString().isEmpty ||
+            text:(acknowledgeData.assignTo.toString().isEmpty ||
                         acknowledgeData.assignTo.toString() == "0")
                     ? AppString.assign
                     : AppString.reAssign,
             onPressed: () async {
-              if (acknowledgeData.assignType.toString() == "1") {
-                BlocProvider.of<ReviewComplaintBloc>(context).add(
-                    ReviewComplaintPageLoadEvent(
-                        context: context,
-                        complaintId: acknowledgeData.id.toString(),
-                        reviewComplaintData: ReviewComplaintModel()));
-                var result = await Navigator.push(
-                    context, FadeRoute(page: const ReviewComaplintPage()));
-                if (!context.mounted) result;
-                if (result.toString() == "Completed") {
-                  BlocProvider.of<AcknowledgeBloc>(
-                          !context.mounted ? context : context)
-                      .add(AcknowledgePageLoadEvent(
-                          context: !context.mounted ? context : context));
-                }
-              } else {
                 BlocProvider.of<AcknowledgeBloc>(context)
                     .add(AcknowledgeUserListLoadEvent(context: context));
                 Navigator.push(
@@ -259,7 +239,6 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (_) => ComplaintAssignWidget(
                             acknowledgeData: acknowledgeData)));
-              }
             }),
       ),
     );

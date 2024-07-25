@@ -76,5 +76,7 @@ class APIs {
 
   static get addMeasurementApi => "api/cv/measurement";
 
+  static get closureComplaintApi => "api/cng/closure";
+
   static get forgotPasswordApi => "";
 }

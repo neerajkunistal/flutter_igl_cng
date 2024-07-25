@@ -48,6 +48,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         child: Column(
           children: [
             ReviewComplaintItemBox(
+                index: 0,
                 reviewComplaintData: dataState.reviewComplaintData),
             _verticalSpace(),
             _amcStatusDate(dataState: dataState),

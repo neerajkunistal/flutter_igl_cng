@@ -6,13 +6,16 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final String? okButtonText;
   final VoidCallback onPressed;
   final double? width;
+  final Color? okButtonColour;
 
   const MessageBoxTwoButtonPopWidget(
       {super.key,
       required this.message,
       required this.onPressed,
       this.okButtonText,
-      this.width});
+      this.width,
+      this.okButtonColour,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +67,8 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                             },
                             child: TextWidget(
                               "Cancel",
-                              color: AppColor.themeLightColor,
-                              fontSize: AppFont.font_16,
+                              color: AppColor.grey,
+                              fontSize: AppFont.font_14,
                             ),
                           ),
                         ),
@@ -80,8 +83,8 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                             child: TextWidget(
                               okButtonText ?? "OK",
                               fontWeight: FontWeight.w700,
-                              color: AppColor.themeColor,
-                              fontSize: AppFont.font_16,
+                              color: okButtonColour ?? AppColor.themeColor,
+                              fontSize: AppFont.font_14,
                             ),
                           ),
                         ),

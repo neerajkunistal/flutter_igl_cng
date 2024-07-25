@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
+  final int index;
 
-  const ReviewComplaintItemBox({super.key, required this.reviewComplaintData});
+  const ReviewComplaintItemBox({super.key, required this.reviewComplaintData, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +120,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                     value: reviewComplaintData.equipmentCode
                             .toString()
                             .isNotEmpty
-                        ? reviewComplaintData.equipmentCode.toString()
+                        ? reviewComplaintData.descriptionKva.toString()
                         : reviewComplaintData.generalComplaintName.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
@@ -168,6 +171,13 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
+
+                reviewComplaintData.complaintStatus.toString() == "3" ?
+                _rowWidget(name: "Closure Status", value: "Pending", color: AppColor.red) : const SizedBox.shrink(),
+                reviewComplaintData.complaintStatus.toString() == "3" ?
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ): const SizedBox.shrink(),
 
                 _closureButton(context: context, reviewComplaintData: reviewComplaintData),
 
@@ -225,7 +235,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
     );
   }
 
-  Widget _rowWidget({required String name, required String value}) {
+  Widget _rowWidget({required String name, required String value, Color? color}) {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Row(
@@ -233,7 +243,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
           TextWidget("$name : ", fontSize: AppFont.font_13),
           Expanded(
               child: TextWidget(value,
-                  textAlign: TextAlign.end, fontSize: AppFont.font_13)),
+                  textAlign: TextAlign.end, fontSize: AppFont.font_13,
+                color: color ?? AppColor.black,)),
         ],
       ),
     );
@@ -273,14 +284,32 @@ class ReviewComplaintItemBox extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: SizedBox(
             width: MediaQuery.of(context).size.width/3,
-            child: ButtonWidget(
+            child: reviewComplaintData.isSelected == false ?
+            ButtonWidget(
+              backgroundColor: AppColor.red,
               text: "Closure",
               fontSize: AppFont.font_12,
-              onPressed: () {
-
+              onPressed: () async {
+                if(await _onClosureComplaintPop(context: context) == true){
+                  BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
+                      ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,
+                      reviewComplaintData: reviewComplaintData, index: index));
+                }
               },
-            ),
+            ) : const DottedLoaderWidget(),
           ),
         ) : const SizedBox.shrink();
+   }
+
+  Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
+    return (await showDialog(
+        context: context,
+        builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+            message: "Do you want to closure complaint?",
+            okButtonText: "Closure",
+             okButtonColour: AppColor.red,
+            onPressed: () => Navigator.of(context).pop(true)))) ??
+        false;
   }
+
 }

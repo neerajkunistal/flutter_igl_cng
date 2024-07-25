@@ -21,6 +21,8 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final DateTime startDate;
   final DateTime endDate;
   final List<int> complaintCount;
+  final bool isLoader;
+  final TextEditingController remarkController;
 
   const FetchViewEquipmentComplaintDataState({
     required this.reviewComplaintList,
@@ -28,6 +30,8 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
     required this.endDate,
     required this.startDate,
     required this.complaintCount,
+    required this.isLoader,
+    required this.remarkController,
   });
 
   @override
@@ -37,5 +41,7 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
         endDate,
         startDate,
         complaintCount,
+        isLoader,
+        remarkController,
       ];
 }

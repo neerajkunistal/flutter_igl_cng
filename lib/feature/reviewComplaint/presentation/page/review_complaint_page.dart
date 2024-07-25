@@ -60,7 +60,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           children: [
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
-            userData.roleType == RoleType.shiftEngineer
+            userData.roleType == RoleType.shiftEngineer &&
+                dataState.reviewComplaintData.assignType.toString() != "1"
                 ? _radioButton(dataState: dataState)
                 : const SizedBox.shrink(),
             userData.roleType == RoleType.shiftEngineer
@@ -94,6 +95,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       {required FetchReviewComplaintDataState dataState}) {
     return dataState.reviewComplaintData.id != null
         ? ReviewComplaintItemBox(
+            index: 0,
             reviewComplaintData: dataState.reviewComplaintData,
           )
         : const SizedBox.shrink();

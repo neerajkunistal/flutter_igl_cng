@@ -30,17 +30,24 @@ class ViewEquipmentComplaintBloc
 
   List<int> complaintCount = [];
 
+  bool isLoader =  false;
+
+  TextEditingController remarkController = TextEditingController();
+
   ViewEquipmentComplaintBloc() : super(ViewEquipmentComplaintInitial()) {
     on<ViewEquipmentComplaintPageLoadEvent>(_pageLoad);
     on<ViewEquipmentComplaintSelectedTabIndexEvent>(_selectTab);
     on<ViewEquipmentComplaintSelectedDateRangeEvent>(_selectDateRangeFilter);
     on<ViewEquipmentComplaintSearchEvent>(_search);
+    on<ViewEquipmentComplaintClosureEvent>(_closureComplaint);
   }
 
   _pageLoad(ViewEquipmentComplaintPageLoadEvent event, emit) async {
     emit(ViewEquipmentComplaintPageLoadState());
     reviewComplaintList = [];
     complaintCount = [];
+    isLoader =  false;
+    remarkController.text = "";
     userData = UserInfo.instanceInit()!.userData!;
 
     startDate = DateTime.now().subtract(const Duration(days: 4));
@@ -124,7 +131,8 @@ class ViewEquipmentComplaintBloc
 
     complaintCount.add(reviewComplaintWithOutFilterList
         .where((element) =>
-            element.complaintStatus.toString() == "0" &&
+       (element.complaintStatus.toString() == "0" ||
+        element.complaintStatus.toString() == "3") &&
             element.ackStatus.toString() != "0")
         .toList()
         .length);
@@ -349,13 +357,15 @@ class ViewEquipmentComplaintBloc
     } else if (selectTabIndex == 4) {
       reviewComplaintList = reviewComplaintWithOutFilterList
           .where((element) =>
-              element.complaintStatus.toString() == "0" &&
+      (element.complaintStatus.toString() == "0" ||
+          element.complaintStatus.toString() == "3") &&
               element.ackStatus.toString() != "0")
           .toList();
 
       complaintCount[selectTabIndex] = reviewComplaintWithOutFilterList
           .where((element) =>
-              element.complaintStatus.toString() == "0" &&
+      (element.complaintStatus.toString() == "0" ||
+          element.complaintStatus.toString() == "3") &&
               element.ackStatus.toString() != "0")
           .toList()
           .length;
@@ -496,13 +506,15 @@ class ViewEquipmentComplaintBloc
     } else if (selectTabIndex == 4) {
       reviewComplaintList = reviewComplaintWithOutFilterList
           .where((element) =>
-              element.complaintStatus.toString() == "0" &&
+            (element.complaintStatus.toString() == "0" ||
+                element.complaintStatus.toString() == "3") &&
               element.ackStatus.toString() != "0")
           .toList();
 
       complaintCount[selectTabIndex] = reviewComplaintWithOutFilterList
           .where((element) =>
-              element.complaintStatus.toString() == "0" &&
+      (element.complaintStatus.toString() == "0" ||
+          element.complaintStatus.toString() == "3") &&
               element.ackStatus.toString() != "0")
           .toList()
           .length;
@@ -514,12 +526,35 @@ class ViewEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
+  _closureComplaint(ViewEquipmentComplaintClosureEvent event, emit) async {
+     isLoader =  true;
+     reviewComplaintList[event.index].isSelected =  true;
+     _eventComplete(emit);
+     var res =  await ViewEquipmentComplaintHelper.closureComplaint(context: event.context,
+         reviewComplaintData: event.reviewComplaintData, remark: remarkController.text.toString());
+     if(res != null){
+       BlocProvider.of<ViewEquipmentComplaintBloc>(
+           !event.context.mounted ? event.context : event.context)
+           .add(ViewEquipmentComplaintSelectedDateRangeEvent(
+           fromDate: startDate,
+           toDate: endDate,
+           context: !event.context.mounted ? event.context : event.context));
+     } else {
+       isLoader =  false;
+       reviewComplaintList[event.index].isSelected =  false;
+       _eventComplete(emit);
+     }
+  }
+
   _eventComplete(Emitter<ViewEquipmentComplaintState> emit) {
     emit(FetchViewEquipmentComplaintDataState(
         reviewComplaintList: reviewComplaintList,
         selectedTabIndex: selectTabIndex,
         startDate: startDate,
         endDate: endDate,
-        complaintCount: complaintCount));
+        isLoader:  isLoader,
+        complaintCount: complaintCount,
+        remarkController: remarkController
+    ));
   }
 }

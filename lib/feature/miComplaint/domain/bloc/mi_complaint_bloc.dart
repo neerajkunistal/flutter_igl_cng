@@ -359,7 +359,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     var res = await MiComplaintHelper.submit(
         context: event.context,
         reviewComplaintData: reviewComplaintData,
-        approvalValue: approvalValue,
+        approvalValue: reviewComplaintData.assignType.toString() == "1" ? "1" : approvalValue,
         sparesData: sparesData,
         action: actionData,
         description: description.text.toString(),

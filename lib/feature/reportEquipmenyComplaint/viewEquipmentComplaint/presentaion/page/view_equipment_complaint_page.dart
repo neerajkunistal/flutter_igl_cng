@@ -500,6 +500,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
                       }
                     },
                     child: ReviewComplaintItemBox(
+                      index: index,
                       reviewComplaintData: dataState.reviewComplaintList[index],
                     ));
               })
