@@ -14,7 +14,7 @@ class SparesPartModel {
     final Map<String, String> data = <String, String>{};
     data['spareId'] = sparesData!.id != null ? sparesData!.id.toString() : "0";
     data['quantity'] = qtyController!.text.toString();
-    data['material_code'] = materialCodeController!.text.toString();
+    data['materialCode'] = materialCodeController!.text.toString();
     return data;
   }
 }

@@ -15,6 +15,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instance!.userData!;
+    int tabIndex =  BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
 
     String complaintDate = "";
     if (reviewComplaintData.complaintDateTime != null &&
@@ -89,6 +90,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
     return Card(
       shadowColor: AppColor.themeColor,
       elevation: 2,
+      color: tabIndex == 5 && reviewComplaintData.assignType.toString() == "1"
+          ? Colors.grey[300]
+          : AppColor.white,
       child: Stack(
         children: [
           Padding(
@@ -252,11 +256,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
 
   Widget _rowBottomWidget({required String name, required String value}) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(10.0),
             bottomRight: Radius.circular(10.0)),
-        color: AppColor.white,
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),

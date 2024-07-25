@@ -29,11 +29,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   log("Notification ${message.data}");
   List<String> notificationList = [];
   notificationList.add(jsonEncode(message.data));
-  if (await Vibration.hasAmplitudeControl() != null) {
-    Vibration.vibrate(duration: 10000);
+
+  String notificationSilent = await SharedPreferencesUtils.getString(key: PreferencesName.notificationSilent);
+  if(notificationSilent.toString() != "1"){
+    if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 10000);
+    }
+    final player = AudioPlayer();
+    player.play(AssetSource('siren_alert.mp3'));
   }
-  final player = AudioPlayer();
-  player.play(AssetSource('siren_alert.mp3'));
+
 }
 
 class FirebaseService {

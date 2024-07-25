@@ -53,6 +53,8 @@ class AppString {
 
   static get logout => "Logout";
 
+  static get silentNotification => "Notification";
+
   static get acknowledge => "Acknowledge";
 
   static get dashboard => "Dashboard";

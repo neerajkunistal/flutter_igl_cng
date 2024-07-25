@@ -59,3 +59,12 @@ class HomeChangeBottomNavigationItemEvent extends HomeEvent {
   @override
   List<Object?> get props => [context, index];
 }
+
+class HomePageNotificationSilentEvent extends HomeEvent {
+  final BuildContext context;
+
+  const HomePageNotificationSilentEvent({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}

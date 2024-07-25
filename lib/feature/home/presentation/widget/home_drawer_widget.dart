@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/custome_switch.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
   HomeDrawerWidget({super.key});
@@ -47,6 +49,7 @@ class HomeDrawerWidget extends StatelessWidget {
               _viewEquipmentComplaint(context: context),
               userData.roleType == RoleType.mi
               ? _miComplaint(context: context): const SizedBox.shrink(),*/
+                  _notificationSetting(context: context, dataState: state),
                   _logout(context: context),
                 ],
               ),
@@ -238,6 +241,58 @@ class HomeDrawerWidget extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+
+  Widget _notificationSetting({required BuildContext context, required FetchHomeDataState dataState}) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.02,
+          bottom: MediaQuery.of(context).size.width * 0.02),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              // color: Colors.white.withOpacity(.2),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: Icon(
+                Icons.circle_notifications_outlined,
+                color: AppColor.white,
+              ),
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.02,
+          ),
+          Expanded(
+            child: TextWidget(
+              AppString.silentNotification,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
+            ),
+          ),
+          CustomSwitch(
+              // activeColor: AppColor.themeColor,
+              value: dataState.isNotificationSilent,
+              onChanged: (value) {
+                BlocProvider.of<HomeBloc>(context).add(
+                    HomePageNotificationSilentEvent(context: context));
+          })
+/*          IconButton(
+              onPressed: () {
+                BlocProvider.of<HomeBloc>(context).add(
+                    HomePageNotificationSilentEvent(context: context));
+              }, icon:  Icon(dataState.isNotificationSilent == false ?
+          Icons.toggle_off : Icons.toggle_on,
+            color: dataState.isNotificationSilent == false ? Colors.grey[800] : AppColor.white,
+            size: MediaQuery.of(context).size.width * 0.10,
+          )
+          )*/
+        ],
+      ),
     );
   }
 

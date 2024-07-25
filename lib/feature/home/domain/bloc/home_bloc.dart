@@ -62,11 +62,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<FirebaseDeviceModel> firebaseDeviceList = [];
 
+  bool isNotificationSilent =  false;
+
   HomeBloc() : super(HomeInitial()) {
     on<HomePageLoadEvent>(_pageLoad);
     on<HomeDrawerItemSelectedEvent>(_drawerItemSelected);
     on<HomeDrawerItemSubListSelectedEvent>(_drawerSublistSelected);
     on<HomeChangeBottomNavigationItemEvent>(_changeBottomNavigationBarIndex);
+    on<HomePageNotificationSilentEvent>(_notificationSilent);
   }
 
   _pageLoad(HomePageLoadEvent event, emit) async {
@@ -81,6 +84,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _title = "Complaint ( ${userData.roleName} )";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
+
+    String notificationSilent = await SharedPreferencesUtils.getString(key: PreferencesName.notificationSilent);
+    if(notificationSilent == "1"){
+      isNotificationSilent =  true;
+    } else {
+      isNotificationSilent =  false;
+    }
+
     _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
     _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems(
         context: !event.context.mounted ? event.context : event.context);
@@ -176,6 +187,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _eventCompleted(emit);
   }
 
+  _notificationSilent(HomePageNotificationSilentEvent event, emit) async {
+    String notificationSilent = await SharedPreferencesUtils.getString(key: PreferencesName.notificationSilent);
+    if(notificationSilent == "1"){
+      isNotificationSilent =  false;
+      SharedPreferencesUtils.setString(key: PreferencesName.notificationSilent, value: "0");
+    } else {
+      isNotificationSilent =  true;
+      SharedPreferencesUtils.setString(key: PreferencesName.notificationSilent, value: "1");
+    }
+    _eventCompleted(emit);
+  }
+
   _eventCompleted(Emitter<HomeState> emit) {
     emit(FetchHomeDataState(
       isLoader: isLoader,
@@ -187,6 +210,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       childWidget: childWidget,
       title: title,
       actionButtonWidget: actionButtonWidget,
+      isNotificationSilent: isNotificationSilent,
     ));
   }
 }
