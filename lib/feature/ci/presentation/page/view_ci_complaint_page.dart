@@ -59,6 +59,7 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
       ),
       child: dataState.cngList.isNotEmpty
           ? ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: dataState.cngList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {

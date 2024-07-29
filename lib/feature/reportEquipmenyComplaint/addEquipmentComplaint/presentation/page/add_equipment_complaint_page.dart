@@ -22,11 +22,35 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "Add Complaint",
+            color: AppColor.white,
+            fontSize: AppFont.font_15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Image.asset(
+            AppConfig.instanceInit()!.client == Client.iglcng
+                ? AppIcon.appLogoIgl
+                : AppIcon.appLogoIgl,
+            height: MediaQuery.of(context).size.width * 0.13,
+            width: MediaQuery.of(context).size.width * 0.13,
+          )
+        ],
+      ),
       body: appBackGround(
         context: context,
         child: Column(
           children: [
-            const HeaderWidget(title: "Add Complaint"),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
+            ),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -75,35 +99,12 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
 
-/*            dataState.equipmentTypeData.description != null
-                ? _vendorCodeController(dataState: dataState)
-                : const SizedBox.shrink(),
-            dataState.equipmentTypeData.description != null
-                ? _verticalSpace()
-                : const SizedBox.shrink(),*/
-
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "1"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
-/*            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
-                ? _generalDescriptionController(dataState: dataState)
-                : const SizedBox.shrink(),
-            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),*/
-
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -117,7 +118,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _descriptionRemark(dataState: dataState),
             _verticalSpace(),
             _nameRemark(dataState: dataState),
-            _verticalSpace(),
             _verticalSpace(),
             _imageList(dataState: dataState),
             _verticalSpace(),
@@ -238,19 +238,17 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   }
 
   Widget _imageList({required FetchAddEquipmentComplaintState dataState}) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 6,
-      child: GridView.builder(
-        itemCount: dataState.files.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) =>
-            _photo(dataState: dataState, index: index),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
-        ),
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: dataState.files.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) =>
+          _photo(dataState: dataState, index: index),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
       ),
     );
   }

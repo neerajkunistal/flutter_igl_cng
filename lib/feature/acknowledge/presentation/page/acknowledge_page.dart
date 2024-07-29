@@ -207,6 +207,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
       margin: const EdgeInsets.all(10.0),
       child: dataState.acknowledgeList.isNotEmpty
           ? ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: dataState.acknowledgeList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {

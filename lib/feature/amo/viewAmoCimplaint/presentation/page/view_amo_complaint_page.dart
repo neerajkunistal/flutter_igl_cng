@@ -60,6 +60,7 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
       padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
       child: dataState.cngList.isNotEmpty
           ? ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: dataState.cngList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {

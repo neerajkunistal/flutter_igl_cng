@@ -51,6 +51,28 @@ class _ViewCngPageState extends State<ViewCngPage> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _floatingActionButton(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "View Civil Complaint",
+            color: AppColor.white,
+            fontSize: AppFont.font_15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Image.asset(
+            AppConfig.instanceInit()!.client == Client.iglcng
+                ? AppIcon.appLogoIgl
+                : AppIcon.appLogoIgl,
+            height: MediaQuery.of(context).size.width * 0.13,
+            width: MediaQuery.of(context).size.width * 0.13,
+          )
+        ],
+      ),
       body: appBackGround(
         context: context,
         child: BlocBuilder<ViewCngBloc, ViewCngState>(
@@ -70,7 +92,9 @@ class _ViewCngPageState extends State<ViewCngPage> {
       margin: const EdgeInsets.all(0.0),
       child: Column(
         children: [
-          const HeaderWidget(title: "View Civil Complaint"),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.12,
+          ),
           const DottedDividerLine(color: Colors.white),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
@@ -85,7 +109,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
                     ? RefreshIndicator(
                         onRefresh: _handleRefresh,
                         child: Container(
-                          height: MediaQuery.of(context).size.height,
+                          // height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -96,6 +120,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
                             padding: const EdgeInsets.only(
                                 top: 20, left: 10, right: 10),
                             child: ListView.builder(
+                                padding: EdgeInsets.zero,
                                 itemCount: dataState.cngList.length,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {

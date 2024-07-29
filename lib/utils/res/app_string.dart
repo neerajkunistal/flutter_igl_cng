@@ -115,7 +115,7 @@ class AppString {
 
   static get phoneCall => "Phone Call";
 
-  static get walkin => "Walkin";
+  static get walking => "Walking";
 
   static get byPost => "By Post";
 

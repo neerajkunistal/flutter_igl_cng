@@ -16,11 +16,35 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "Add Measurement",
+            color: AppColor.white,
+            fontSize: AppFont.font_15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Image.asset(
+            AppConfig.instanceInit()!.client == Client.iglcng
+                ? AppIcon.appLogoIgl
+                : AppIcon.appLogoIgl,
+            height: MediaQuery.of(context).size.width * 0.13,
+            width: MediaQuery.of(context).size.width * 0.13,
+          )
+        ],
+      ),
       body: appBackGround(
           context: context,
           child: Column(
             children: [
-              const HeaderWidget(title: "Add Measurement"),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.12,
+              ),
               DottedDividerLine(color: AppColor.white),
               _verticalSpace(),
               _verticalSpace(),
