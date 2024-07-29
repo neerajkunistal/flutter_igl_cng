@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 import 'package:flutter_igl_cng/utils/res/app_color.dart';
@@ -22,7 +23,7 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
           context: context,
           child: Column(
             children: [
-              _header(),
+              const HeaderWidget(title: "Add Measurement"),
               DottedDividerLine(color: AppColor.white),
               _verticalSpace(),
               _verticalSpace(),
