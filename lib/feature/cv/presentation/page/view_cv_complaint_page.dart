@@ -22,29 +22,26 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
-        builder: (context, state) {
-          if (state is FetchViewCvComplaintDataState) {
-            return Column(
-              children: [
-                _searchWidget(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                Expanded(
-                    child: state.isFilterLoader == false
-                        ? RefreshIndicator(
-                            onRefresh: _handleRefresh,
-                            child: _listBuilder(dataState: state))
-                        : const CenterLoaderWidget()),
-              ],
-            );
-          }
-          return const CenterLoaderWidget();
-        },
-      ),
+    return BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
+      builder: (context, state) {
+        if (state is FetchViewCvComplaintDataState) {
+          return Column(
+            children: [
+              _searchWidget(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Expanded(
+                  child: state.isFilterLoader == false
+                      ? RefreshIndicator(
+                      onRefresh: _handleRefresh,
+                      child: _listBuilder(dataState: state))
+                      : const CenterLoaderWidget()),
+            ],
+          );
+        }
+        return const CenterLoaderWidget();
+      },
     );
   }
 
