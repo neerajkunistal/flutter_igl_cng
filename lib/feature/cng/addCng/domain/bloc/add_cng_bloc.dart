@@ -8,7 +8,6 @@ import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'add_cng_event.dart';
-
 part 'add_cng_state.dart';
 
 class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {

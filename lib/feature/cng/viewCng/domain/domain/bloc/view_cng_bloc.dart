@@ -5,7 +5,6 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 import 'package:flutter_igl_cng/feature/cng/viewCng/helper/view_cng_helper.dart';
 
 part 'view_cng_event.dart';
-
 part 'view_cng_state.dart';
 
 class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {

@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewCvAddMeasurementWidget extends StatefulWidget {
   const ViewCvAddMeasurementWidget({super.key});
@@ -80,37 +77,6 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
           )
       ),
     );
-  }
-
-  Widget _header() {
-    return Row(children: [
-      IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
-          )),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-      Expanded(
-        child: TextWidget(
-          "Add Measurement",
-          color: AppColor.white,
-          fontSize: AppFont.font_15,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      Image.asset(AppIcon.appLogoIgl,
-        height: MediaQuery.of(context).size.width * 0.13,
-        width: MediaQuery.of(context).size.width * 0.13,
-      ),
-      SizedBox(
-        width: MediaQuery.of(context).size.width * 0.02,
-      ),
-    ]);
   }
 
   Widget _measurementCostDateTimeEditField({required FetchViewCvComplaintDataState dataState}) {

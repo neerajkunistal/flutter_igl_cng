@@ -62,8 +62,7 @@ class FirebaseService {
           (int id, String? title, String? body, String? payload) async {},
     );
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
+    InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
       macOS: initializationSettingsDarwin,
@@ -176,15 +175,9 @@ class FirebaseService {
         ],
       );
 
-      const NotificationDetails notificationDetails = NotificationDetails(
+    const NotificationDetails(
         android: androidNotificationDetails,
       );
-/*      await flutterLocalNotificationsPlugin.show(
-          notificationId,
-          notification.title.toString(),
-          notification.body.toString(),
-          notificationDetails,
-          payload: 'item z');*/
     }
   }
 }

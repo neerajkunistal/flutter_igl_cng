@@ -12,7 +12,6 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:intl/intl.dart';
 
 part 'add_equipment_complaint_event.dart';
-
 part 'add_equipment_complaint_state.dart';
 
 class AddEquipmentComplaintBloc

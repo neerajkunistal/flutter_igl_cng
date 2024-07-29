@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class CiUpdateStatusWidget extends StatelessWidget {

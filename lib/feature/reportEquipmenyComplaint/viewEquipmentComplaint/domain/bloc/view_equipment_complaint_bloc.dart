@@ -8,7 +8,6 @@ import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
 part 'view_equipment_complaint_event.dart';
-
 part 'view_equipment_complaint_state.dart';
 
 class ViewEquipmentComplaintBloc

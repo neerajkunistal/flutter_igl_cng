@@ -4,8 +4,7 @@ class CustomSwitch extends StatefulWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  CustomSwitch({Key? key, required this.value, required this.onChanged})
-      : super(key: key);
+  const CustomSwitch({super.key, required this.value, required this.onChanged});
 
   @override
   _CustomSwitchState createState() => _CustomSwitchState();
@@ -20,7 +19,7 @@ class _CustomSwitchState extends State<CustomSwitch>
   void initState() {
     super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 60));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 60));
     _circleAnimation = AlignmentTween(
         begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
         end: widget.value ? Alignment.centerLeft : Alignment.centerRight)

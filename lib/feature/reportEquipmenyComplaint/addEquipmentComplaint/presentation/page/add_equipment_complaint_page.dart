@@ -194,18 +194,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       },
     );
   }
-// description
-  Widget _vendorCodeController(
-      {required FetchAddEquipmentComplaintState dataState}) {
-    TextEditingController controller = TextEditingController(
-        text: dataState.equipmentTypeData.vendorCode.toString());
-    return TextFieldWidget(
-      enabled: false,
-      isRequired: true,
-      labelText: AppString.vendorCode,
-      controller: controller,
-    );
-  }
 
   Widget _dateController({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
@@ -233,13 +221,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _generalDescriptionController(
-      {required FetchAddEquipmentComplaintState dataState}) {
-    return TextFieldWidget(
-      labelText: AppString.otherDescription,
-      controller: dataState.generalDescriptionController,
-    );
-  }
 
   Widget _descriptionRemark(
       {required FetchAddEquipmentComplaintState dataState}) {

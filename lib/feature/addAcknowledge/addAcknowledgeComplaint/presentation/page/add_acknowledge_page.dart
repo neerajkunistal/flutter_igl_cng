@@ -270,15 +270,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-  Widget _generalDescriptionController(
-      {required FetchAddAcknowledgeComplaintState dataState}) {
-    return TextFieldWidget(
-      enabled:
-          dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
-      labelText: AppString.otherDescription,
-      controller: dataState.generalDescriptionController,
-    );
-  }
 
   Widget _dateController(
       {required FetchAddAcknowledgeComplaintState dataState}) {
