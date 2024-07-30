@@ -69,7 +69,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
                 : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.13,
             width: MediaQuery.of(context).size.width * 0.13,
-          )
+          ),
         ],
       ),
       body: appBackGround(

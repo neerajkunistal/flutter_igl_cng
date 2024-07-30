@@ -122,6 +122,15 @@ class MiComplaintDeleteSparesPartData extends MiComplaintEvent {
   List<Object?> get props => [index];
 }
 
+class MiComplaintSelectScrapData extends MiComplaintEvent {
+  final bool isNoScrap;
+
+  const MiComplaintSelectScrapData({required this.isNoScrap});
+
+  @override
+  List<Object?> get props => [isNoScrap];
+}
+
 class MiComplaintSubmitData extends MiComplaintEvent {
   final BuildContext context;
 

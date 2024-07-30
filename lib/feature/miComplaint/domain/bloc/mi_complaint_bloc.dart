@@ -38,6 +38,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
   List<VendorModel> vendorList = [];
   VendorModel vendorData = VendorModel();
 
+  bool isNoScrap =  false;
+
   MiComplaintBloc() : super(MiComplaintInitial()) {
     on<MiComplaintPageLoadEvent>(_pageLoad);
     on<MiComplaintSelectComplaintData>(_selectComplaint);
@@ -51,6 +53,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     on<MiComplaintAddSparesPartData>(_addSparesPart);
     on<MiComplaintDeleteSparesPartData>(_deleteSparesPart);
     on<MiComplaintSelectUomData>(_selectUomType);
+    on<MiComplaintSelectScrapData>(_selectScrap);
     on<MiComplaintSubmitData>(_submit);
   }
 
@@ -76,6 +79,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     uomTypeData = UomTypeModel();
     file = File("");
     isLoader = false;
+    isNoScrap = true;
 
     reviewComplaintList =
         BlocProvider.of<ViewEquipmentComplaintBloc>(event.context)
@@ -327,6 +331,11 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     _eventComplete(emit);
   }
 
+  _selectScrap(MiComplaintSelectScrapData event, emit) {
+    isNoScrap =  event.isNoScrap;
+    _eventComplete(emit);
+  }
+
   _submit(MiComplaintSubmitData event, emit) async {
     if (reviewComplaintData.startDateTime.toString().isEmpty &&
         reviewComplaintData.action == "") {
@@ -386,6 +395,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       isLoader = false;
       actionData = ActionModel();
       uomTypeData = UomTypeModel();
+      isNoScrap =  true;
       if (!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }
@@ -416,6 +426,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       vendorList: vendorList,
       vendorData: vendorData,
       rectifyByController: rectifyByController,
+      isNoScrap: isNoScrap,
     ));
   }
 }

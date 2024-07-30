@@ -36,6 +36,7 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
   final List<SparesPartModel> sparesPartList;
   final List<VendorModel> vendorList;
   final VendorModel vendorData;
+  final bool isNoScrap;
 
   FetchMiComplaintDataState({
     required this.approvalValue,
@@ -59,6 +60,7 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
     required this.vendorList,
     required this.vendorData,
     required this.rectifyByController,
+    required this.isNoScrap,
   });
 
   @override
@@ -84,5 +86,6 @@ class FetchMiComplaintDataState extends MiComplaintInitial {
         vendorList,
         vendorData,
         rectifyByController,
+        isNoScrap,
       ];
 }
