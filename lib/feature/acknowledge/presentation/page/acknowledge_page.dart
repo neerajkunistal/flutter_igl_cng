@@ -21,48 +21,45 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Column(
-        children: [
-          _searchWidget(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                color: Colors.white.withOpacity(.4),
-              ),
-              child: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
-                builder: (context, state) {
-                  if (state is FetchAcknowledgeDataState) {
-                    return RefreshIndicator(
-                      onRefresh: _handleRefresh,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.02,
-                          ),
-                          _tabWidget(dataState: state),
-                          Expanded(child: _itemBuilder(dataState: state)),
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const Center(
-                      child: CenterLoaderWidget(),
-                    );
-                  }
-                },
-              ),
+    return Column(
+      children: [
+        _searchWidget(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20)),
+              color: Colors.white.withOpacity(.4),
+            ),
+            child: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
+              builder: (context, state) {
+                if (state is FetchAcknowledgeDataState) {
+                  return RefreshIndicator(
+                    onRefresh: _handleRefresh,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        _tabWidget(dataState: state),
+                        Expanded(child: _itemBuilder(dataState: state)),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CenterLoaderWidget(),
+                  );
+                }
+              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

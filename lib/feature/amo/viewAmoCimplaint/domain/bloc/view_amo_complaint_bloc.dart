@@ -7,7 +7,6 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 import 'package:flutter_igl_cng/feature/cng/viewCng/helper/view_cng_helper.dart';
 
 part 'view_amo_complaint_event.dart';
-
 part 'view_amo_complaint_state.dart';
 
 class ViewAmoComplaintBloc

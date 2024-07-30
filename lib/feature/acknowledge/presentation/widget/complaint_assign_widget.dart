@@ -20,10 +20,24 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextWidget(
-          "Complaint Assign",
-          color: AppColor.white,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "Complaint Assign",
+            color: AppColor.white,
+            fontSize: AppFont.font_15,
+            fontWeight: FontWeight.w600,
+          ),
         ),
+        actions: [
+          Image.asset(
+            AppConfig.instanceInit()!.client == Client.iglcng
+                ? AppIcon.appLogoIgl
+                : AppIcon.appLogoIgl,
+            height: MediaQuery.of(context).size.width * 0.13,
+            width: MediaQuery.of(context).size.width * 0.13,
+          )
+        ],
       ),
       body: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
         builder: (context, state) {

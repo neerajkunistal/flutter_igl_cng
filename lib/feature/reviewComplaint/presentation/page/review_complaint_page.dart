@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/commonWidget/header_widget.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -17,11 +16,35 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "Review Complaint",
+            color: AppColor.white,
+            fontSize: AppFont.font_15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        actions: [
+          Image.asset(
+            AppConfig.instanceInit()!.client == Client.iglcng
+                ? AppIcon.appLogoIgl
+                : AppIcon.appLogoIgl,
+            height: MediaQuery.of(context).size.width * 0.13,
+            width: MediaQuery.of(context).size.width * 0.13,
+          )
+        ],
+      ),
       body: appBackGround(
         context: context,
         child: Column(
           children: [
-            const HeaderWidget(title: "Review Complaint"),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.12,
+            ),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -185,6 +208,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     return SizedBox(
       height: MediaQuery.of(context).size.height / 6,
       child: GridView.builder(
+        padding: EdgeInsets.zero,
         itemCount: dataState.files.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
