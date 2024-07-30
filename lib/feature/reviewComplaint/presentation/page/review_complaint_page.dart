@@ -45,8 +45,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         context: context,
         child: Column(
           children: [
-            const SizedBox(
-              height: 55,
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.26,
             ),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
