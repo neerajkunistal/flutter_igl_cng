@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'review_complaint_event.dart';
@@ -22,11 +23,13 @@ class ReviewComplaintBloc
   String _complaintId = "";
 
   String get complaintId => _complaintId;
+  bool isNoScrap =  false;
 
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
     on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
     on<ReviewComplaintSelectComplaintEvent>(_selectComplaint);
     on<ReviewComplaintSelectApprovalEvent>(_selectApproval);
+    on<ReviewComplaintSelectScrapData>(_selectScrap);
     on<ReviewComplaintAddImageEvent>(_selectFile);
     on<ReviewComplaintSelectDateData>(_selectDate);
     on<ReviewComplaintSelectTimeData>(_selectTime);
@@ -48,6 +51,7 @@ class ReviewComplaintBloc
     files.add(File(""));
     files.add(File(""));
     files.add(File(""));
+    isNoScrap =  false;
 
     _complaintId = event.complaintId ?? "";
     reviewComplaintList =
@@ -58,7 +62,8 @@ class ReviewComplaintBloc
         reviewComplaintData = reviewData;
       }
     }
-
+    BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).add(
+        AddScrapClearScrapDataEvent(context: !event.context.mounted ? event.context : event.context));
     _eventComplete(emit);
   }
 
@@ -69,6 +74,16 @@ class ReviewComplaintBloc
 
   _selectApproval(ReviewComplaintSelectApprovalEvent event, emit) {
     approvalValue = event.approvalValue;
+    if(approvalValue == "1"){
+      isNoScrap =  true;
+    } else {
+      isNoScrap =  false;
+    }
+    _eventComplete(emit);
+  }
+
+  _selectScrap(ReviewComplaintSelectScrapData event, emit) {
+    isNoScrap =  event.isNoScrap;
     _eventComplete(emit);
   }
 
@@ -151,7 +166,10 @@ class ReviewComplaintBloc
             files: files,
             closedDate: closeDateController.text.toString(),
             closedTime: closeTimeController.text.toString(),
-            rectifyBy: rectifiedByController.text.toString())
+            rectifyBy: rectifiedByController.text.toString(),
+          isNoScrap: isNoScrap,
+          scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+    )
         : await ReviewComplaintHelper.reviewComplaint(
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
@@ -160,7 +178,11 @@ class ReviewComplaintBloc
             closedDate: closeDateController.text.toString(),
             closedTime: closeTimeController.text.toString(),
             rectifyBy: rectifiedByController.text.toString(),
-            files: files);
+            files: files,
+          isNoScrap: isNoScrap,
+          scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+
+    );
     if (res != null) {
       isLoader = false;
       reviewComplaintData = ReviewComplaintModel();
@@ -191,6 +213,7 @@ class ReviewComplaintBloc
       closeDateController: closeDateController,
       closeTimeController: closeTimeController,
       rectifiedByController: rectifiedByController,
+      isNoScrap: isNoScrap,
     ));
   }
 }

@@ -41,6 +41,8 @@ class AppString {
 
   static get addItem => "Add Item";
 
+  static get addScrap => "Add Scarp";
+
   static get ok => "Ok";
 
   static get request => "Request";
@@ -286,6 +288,12 @@ class AppString {
   static get addMeasurement => "Add Measurement";
 
   static get amount => "Amount";
+
+  static get srNumber => "SR.Number";
+
+  static get unitType => "Unit Type";
+
+  static get unit => "Unit";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

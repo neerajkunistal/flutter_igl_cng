@@ -8,6 +8,8 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.da
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 
 part 'mi_complaint_event.dart';
 part 'mi_complaint_state.dart';
@@ -194,6 +196,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
     }
 
     description.text = reviewComplaintData.complaintDescription.toString();
+    BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).add(
+        AddScrapClearScrapDataEvent(context: !event.context.mounted ? event.context : event.context));
     _eventComplete(emit);
   }
 
@@ -379,7 +383,10 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         sparesPartList: sparesPartList,
         vendorData: vendorData,
         rectifyBy: rectifyByController.text.toString(),
-        file: file);
+        file: file,
+        isNoScrap: isNoScrap,
+        scrapList: BlocProvider.of<AddScrapBloc>(event.context).scrapList,
+    );
     if (res != null) {
       reviewComplaintData = ReviewComplaintModel();
       sparesData = SparesModel();

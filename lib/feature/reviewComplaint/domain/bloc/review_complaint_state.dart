@@ -24,6 +24,7 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final TextEditingController closeTimeController;
   final TextEditingController rectifiedByController;
   final List<File> files;
+  final bool isNoScrap;
 
   const FetchReviewComplaintDataState({
     required this.isLoader,
@@ -35,6 +36,7 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
     required this.closeDateController,
     required this.closeTimeController,
     required this.rectifiedByController,
+    required this.isNoScrap,
   });
 
   @override
@@ -48,5 +50,6 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
         closeDateController,
         closeTimeController,
         rectifiedByController,
+        isNoScrap,
       ];
 }

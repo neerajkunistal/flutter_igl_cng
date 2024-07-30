@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -71,6 +73,8 @@ class MiComplaintHelper {
     required List<SparesPartModel> sparesPartList,
     required VendorModel vendorData,
     required String rectifyBy,
+    required bool isNoScrap,
+    required List<ScrapModel> scrapList,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
@@ -106,14 +110,41 @@ class MiComplaintHelper {
         "vendorAssignDatetime":
             action.id.toString() == "4" ? "$date $time" : "",
         "rectifyPerson": rectifyBy,
+        "scrap" : isNoScrap == true ? "0" : "1"
       };
+
+      Map<String, String> scrapData = {};
+      List<FileModel> filesList = [];
+      if(isNoScrap == false){
+        for(int i = 0;  i < scrapList.length; i++ ){
+          var jsonData = {
+            "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
+            "scrapDetails[$i][description]" : scrapList[i].description.toString(),
+            "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
+            "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+          };
+          if(scrapList[i].filesList != null){
+            for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
+              filesList.add(FileModel(
+                  name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+            }
+          }
+          scrapData.addAll(jsonData);
+        }
+      }
+
+      scrapData.addAll(json);
+      log(jsonEncode(scrapData).toString());
+
+      filesList.add(FileModel(
+          name: "file", file: file, keyName: "attachFile"));
+
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
-          body: json,
+          body: scrapData,
           context: context,
-          keyWord: "attachFile",
-          filePath: file.path.toString());
+          fileList: filesList,);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

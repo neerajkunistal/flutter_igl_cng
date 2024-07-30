@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.da
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 
 MultiProvider blocMultiProvider({required Widget child}) {
   return MultiProvider(
@@ -27,6 +28,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => ViewAmoComplaintBloc()),
       BlocProvider(create: (BuildContext context) => ViewCiComplaintBloc()),
       BlocProvider(create: (BuildContext context) => ViewCvComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => AddScrapBloc()),
     ],
     child: child,
   );

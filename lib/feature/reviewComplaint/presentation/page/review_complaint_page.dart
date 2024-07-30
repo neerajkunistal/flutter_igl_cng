@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -42,8 +45,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         context: context,
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
+            const SizedBox(
+              height: 55,
             ),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
@@ -105,6 +108,29 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _rectifiedByController(dataState: dataState),
             _verticalSpace(),
             _imageList(dataState: dataState),
+            _verticalSpace(),
+
+            dataState.approvalValue == "1"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.approvalValue == "1"
+                ?_scrapCheckBoxWidget(dataState: dataState)
+                : const SizedBox.shrink(),
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ? const ScrapItemWidget()
+                : const SizedBox.shrink(),
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ?_addScarpButton(dataState: dataState)
+                : const SizedBox.shrink(),
+
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -349,6 +375,56 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _scrapCheckBoxWidget({required FetchReviewComplaintDataState dataState}) {
+    return Row(
+      children: [
+        Checkbox(
+          value: dataState.isNoScrap,
+          onChanged: (bool? value) async {
+            BlocProvider.of<ReviewComplaintBloc>(context).add(
+                ReviewComplaintSelectScrapData(isNoScrap: value!)
+            );
+            if(value == false){
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
+            }
+          },
+          activeColor: Colors.green,
+          checkColor: Colors.white,
+        ),
+        const TextWidget("No Scrap"),
+      ],
+    );
+  }
+
+
+  Widget _addScarpButton({required FetchReviewComplaintDataState dataState}) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2.5,
+        child: ButtonWidget(
+            text: AppString.addScrap,
+            height:
+            AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                ? MediaQuery.of(context).size.height * 0.13
+                : null,
+            onPressed: () async {
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
+            }),
+      ),
     );
   }
 

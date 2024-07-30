@@ -26,8 +26,6 @@ class _RootState extends State<Root> {
   Widget build(BuildContext context) {
     Singleton.instance.setContext(context);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-/*    SystemChrome.setSystemUIOverlayStyle(
-        const SystemUiOverlayStyle(statusBarColor: Colors.transparent));*/
     AppConfig.instanceInit()!.setClient(client: widget.client);
     return blocMultiProvider(
       child: MaterialApp(

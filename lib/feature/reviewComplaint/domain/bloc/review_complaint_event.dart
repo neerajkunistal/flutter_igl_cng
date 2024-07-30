@@ -67,6 +67,15 @@ class ReviewComplaintSelectDateData extends ReviewComplaintEvent {
   List<Object?> get props => [context];
 }
 
+class ReviewComplaintSelectScrapData extends ReviewComplaintEvent {
+  final bool isNoScrap;
+
+  const ReviewComplaintSelectScrapData({required this.isNoScrap});
+
+  @override
+  List<Object?> get props => [isNoScrap];
+}
+
 class ReviewComplaintSubmitEvent extends ReviewComplaintEvent {
   final BuildContext context;
 

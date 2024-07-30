@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_box_widget.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class MiComplaintPage extends StatefulWidget {
   const MiComplaintPage({super.key});
@@ -90,6 +95,29 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             _observationController(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
+
+            dataState.actionData.id.toString() == "3"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.actionData.id.toString() == "3"
+                ?_scrapCheckBoxWidget(dataState: dataState)
+                : const SizedBox.shrink(),
+
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ? const ScrapItemWidget()
+                : const SizedBox.shrink(),
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ?_addScarpButton(dataState: dataState)
+                : const SizedBox.shrink(),
+
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -159,7 +187,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                         dataState.sparesPartList[index].qtyController!,
                     sparesData: dataState.sparesPartList[index].sparesData!,
                   ),
+                  _verticalSpace(),
                   _vendorDropDown(dataState: dataState),
+                  _verticalSpace(),
                   _materialCodeController(dataState: dataState, index: index,
                       materialCodeController: dataState.sparesPartList[index].materialCodeController!),
                   Align(
@@ -466,6 +496,56 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             onPressed: () {
               BlocProvider.of<MiComplaintBloc>(context)
                   .add(MiComplaintAddSparesPartData(context: context));
+            }),
+      ),
+    );
+  }
+
+  Widget _scrapCheckBoxWidget({required FetchMiComplaintDataState dataState}) {
+    return Row(
+      children: [
+        Checkbox(
+          value: dataState.isNoScrap,
+          onChanged: (bool? value) async {
+            BlocProvider.of<MiComplaintBloc>(context).add(
+              MiComplaintSelectScrapData(isNoScrap: value!)
+            );
+            if(value == false){
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
+            }
+          },
+          activeColor: Colors.green,
+          checkColor: Colors.white,
+        ),
+        const TextWidget("No Scrap"),
+      ],
+    );
+  }
+
+
+  Widget _addScarpButton({required FetchMiComplaintDataState dataState}) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2.5,
+        child: ButtonWidget(
+            text: AppString.addScrap,
+            height:
+            AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                ? MediaQuery.of(context).size.height * 0.13
+                : null,
+            onPressed: () async {
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
             }),
       ),
     );

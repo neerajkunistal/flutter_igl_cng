@@ -98,8 +98,8 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
           context: context,
           child: Column(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
+              const SizedBox(
+                height: 55,
               ),
               const DottedDividerLine(color: Colors.white),
               SizedBox(
