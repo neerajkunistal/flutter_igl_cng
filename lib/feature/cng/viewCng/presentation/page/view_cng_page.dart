@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
@@ -51,27 +52,6 @@ class _ViewCngPageState extends State<ViewCngPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _floatingActionButton(),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            "View Civil Complaint",
-            color: AppColor.white,
-            fontSize: AppFont.font_15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
-                ? AppIcon.appLogoIgl
-                : AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.13,
-            width: MediaQuery.of(context).size.width * 0.13,
-          ),
-        ],
-      ),
       body: appBackGround(
         context: context,
         child: BlocBuilder<ViewCngBloc, ViewCngState>(
@@ -86,14 +66,36 @@ class _ViewCngPageState extends State<ViewCngPage> {
     );
   }
 
+  Widget _appBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "View Civil Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        ),
+      ],
+    );
+  }
+
   Widget _listBuilder({required FetchViewCngDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(0.0),
       child: Column(
         children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.12,
-          ),
+          _appBar(),
           const DottedDividerLine(color: Colors.white),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -16,38 +17,16 @@ class ReviewComaplintPage extends StatefulWidget {
 }
 
 class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            "Review Complaint",
-            color: AppColor.white,
-            fontSize: AppFont.font_15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
-                ? AppIcon.appLogoIgl
-                : AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.13,
-            width: MediaQuery.of(context).size.width * 0.13,
-          )
-        ],
-      ),
       body: appBackGround(
         context: context,
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.width * 0.26,
-            ),
+            _appBar(),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -77,6 +56,31 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       ),
     );
   }
+
+  Widget _appBar() {
+    return  AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "Review Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        )
+      ],
+    );
+  }
+
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
@@ -26,12 +27,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          "MI Complaint",
-          color: AppColor.white,
-        ),
-      ),
       body: BlocBuilder<MiComplaintBloc, MiComplaintState>(
         builder: (context, state) {
           if (state is FetchMiComplaintDataState) {
@@ -46,12 +41,22 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
+  Widget _appBar() {
+    return AppBar(
+      title: TextWidget(
+        "MI Complaint",
+        color: AppColor.white,
+      ),
+    );
+  }
+
   Widget _itemBuilder({required FetchMiComplaintDataState dataState}) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            _appBar(),
             ReviewComplaintItemBox(
                 index: 0,
                 reviewComplaintData: dataState.reviewComplaintData),

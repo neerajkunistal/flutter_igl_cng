@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
@@ -21,35 +22,11 @@ class _AddCngPageState extends State<AddCngPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            "Add Civil Complaint",
-            color: AppColor.white,
-            fontSize: AppFont.font_15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
-                ? AppIcon.appLogoIgl
-                : AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.13,
-            width: MediaQuery.of(context).size.width * 0.13,
-          )
-
-        ],
-      ),
       body: appBackGround(
         context: context,
         child: Column(
           children: [
-            const SizedBox(
-              height: 55,
-            ),
+            _appBar(),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -75,6 +52,31 @@ class _AddCngPageState extends State<AddCngPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _appBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "Add Civil Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        )
+
+      ],
     );
   }
 

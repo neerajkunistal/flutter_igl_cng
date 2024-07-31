@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scarp_unit_type_model.dart';
@@ -26,32 +27,11 @@ class _AddScrapPageState extends State<AddScrapPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            "Add Scarp",
-            color: AppColor.white,
-            fontSize: AppFont.font_15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          Image.asset(
-            AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.13,
-            width: MediaQuery.of(context).size.width * 0.13,
-          )
-        ],
-      ),
       body:appBackGround(
         context: context,
         child: Column(
           children: [
-            const SizedBox(
-              height: 55,
-            ),
+            _appBar(),
             const DottedDividerLine(color: Colors.white),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -79,6 +59,28 @@ class _AddScrapPageState extends State<AddScrapPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _appBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "Add Scarp",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      actions: [
+        Image.asset(
+          AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        )
+      ],
     );
   }
 
