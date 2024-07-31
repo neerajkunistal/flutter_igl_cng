@@ -81,7 +81,7 @@ class LoginHelper {
             res['status'] == 401 &&
             res['messages'] != null) {
           if (!context.mounted) return null;
-          SnackBarErrorWidget(context).show(message: res['messages']);
+          SnackBarErrorWidget(context).show(message: res['messages'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
           return null;
         } else {
           if (!context.mounted) return null;
@@ -93,6 +93,7 @@ class LoginHelper {
       SnackBarErrorWidget(context).show(message: "No internet Connection");
       return null;
     } catch (e) {
+      print(e.toString());
       if (!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "Internal server error");
       return null;
