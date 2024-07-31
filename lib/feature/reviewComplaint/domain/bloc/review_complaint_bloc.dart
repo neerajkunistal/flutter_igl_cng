@@ -105,8 +105,6 @@ class ReviewComplaintBloc
     }
     isLoader = false;
     _eventComplete(emit);
-    Navigator.pop(event.context.mounted ? event.context : event.context);
-    _eventComplete(emit);
   }
 
   _selectDate(ReviewComplaintSelectDateData event, emit) async {

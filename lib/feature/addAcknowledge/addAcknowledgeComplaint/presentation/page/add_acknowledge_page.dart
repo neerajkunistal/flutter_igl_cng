@@ -337,6 +337,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                     BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
                         AddAcknowledgeComplaintAddImageEvent(
                             context: context, mediaType: 1));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -348,6 +349,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                     BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
                         AddAcknowledgeComplaintAddImageEvent(
                             context: context, mediaType: 2));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

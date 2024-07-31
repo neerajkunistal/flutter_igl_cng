@@ -123,7 +123,7 @@ class AddEquipmentComplaintBloc
         files[event.index] = photo;
       }
     }
-    Navigator.pop(event.context.mounted ? event.context : event.context);
+
     isLoader = false;
     _eventComplete(emit);
   }

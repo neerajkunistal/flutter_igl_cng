@@ -464,6 +464,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintAddImageEvent(
                             context: context, mediaType: 1));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -475,6 +476,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintAddImageEvent(
                             context: context, mediaType: 2));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

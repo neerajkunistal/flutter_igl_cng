@@ -361,6 +361,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintAddImageEvent(
                             context: context, mediaType: 1, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -372,6 +373,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintAddImageEvent(
                             context: context, mediaType: 2, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

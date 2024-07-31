@@ -347,6 +347,7 @@ class _AddCngPageState extends State<AddCngPage> {
                       mediaType: 1,
                       index: index
                     ));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -361,6 +362,7 @@ class _AddCngPageState extends State<AddCngPage> {
                       mediaType: 2,
                       index: index
                     ));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",
