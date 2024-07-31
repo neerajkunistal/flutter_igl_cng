@@ -1,3 +1,7 @@
+List<ScrapUnitTypeModel> scrapUnitListResponse(var json) {
+  return List<ScrapUnitTypeModel>.from(json.map((x) => ScrapUnitTypeModel.fromJson(x)));
+}
+
 class ScrapUnitTypeModel {
 
   String? id;
@@ -5,6 +9,13 @@ class ScrapUnitTypeModel {
   String? unit;
 
   ScrapUnitTypeModel({this.id, this.name, this.unit});
+
+  factory ScrapUnitTypeModel.fromJson(Map<String, dynamic> json) {
+    return ScrapUnitTypeModel(
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
+    );
+  }
 
   static getScrapUnitType() {
     List<ScrapUnitTypeModel> list = [];

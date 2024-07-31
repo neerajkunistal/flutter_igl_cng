@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scarp_unit_type_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/helper/add_scrap_helper.dart';
 
 part 'add_scrap_event.dart';
 part 'add_scrap_state.dart';
@@ -41,7 +42,12 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
     filesList.add(File(""));
     filesList.add(File(""));
     filesList.add(File(""));
-    scrapUnitTypeList = ScrapUnitTypeModel.getScrapUnitType();
+    if(scrapUnitTypeList.isEmpty){
+      var res =  await ScrapHelper.fetchUnitType();
+      if(res != null){
+        scrapUnitTypeList =  res;
+      }
+    }
     _eventCompleted(emit);
   }
 

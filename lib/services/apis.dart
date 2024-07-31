@@ -78,5 +78,7 @@ class APIs {
 
   static get closureComplaintApi => "api/cng/closure";
 
+  static get getUnitTypeApi => "api/onm/unit-type";
+
   static get forgotPasswordApi => "";
 }

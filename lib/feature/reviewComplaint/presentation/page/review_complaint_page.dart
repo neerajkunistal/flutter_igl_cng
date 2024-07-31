@@ -128,10 +128,12 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                 ? const ScrapItemWidget()
                 : const SizedBox.shrink(),
 
-            dataState.isNoScrap == false
+            dataState.isNoScrap == false &&
+                dataState.approvalValue == "1"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.isNoScrap == false
+            dataState.isNoScrap == false &&
+                dataState.approvalValue == "1"
                 ?_addScarpButton(dataState: dataState)
                 : const SizedBox.shrink(),
 
