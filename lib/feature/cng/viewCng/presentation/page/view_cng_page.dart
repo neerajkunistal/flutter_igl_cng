@@ -110,7 +110,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
                     ? RefreshIndicator(
                         onRefresh: _handleRefresh,
                         child: Container(
-                          // height: MediaQuery.of(context).size.height,
+                          height: MediaQuery.of(context).size.height,
                           decoration: BoxDecoration(
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
