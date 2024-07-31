@@ -21,60 +21,6 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         key: scaffoldKey,
-        appBar: AppBar(
-          elevation: 0,
-          title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-            if (state is FetchHomeDataState) {
-              return Align(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TextWidget(
-                      textAlign: TextAlign.start,
-                      state.title,
-                      color: AppColor.white,
-                      fontSize: AppFont.font_13,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    TextWidget(
-                      textAlign: TextAlign.start,
-                      "${userData.email}",
-                      color: AppColor.white,
-                      fontSize: AppFont.font_12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return TextWidget(
-                AppString.appName,
-                color: AppColor.white,
-                fontSize: AppFont.font_14,
-                fontWeight: FontWeight.w700,
-              );
-            }
-          }),
-          backgroundColor: Colors.transparent,
-          actions: [
-            Image.asset(
-              AppConfig.instanceInit()!.client == Client.iglcng
-                  ? AppIcon.appLogoIgl
-                  : AppIcon.appLogoIgl,
-              height: MediaQuery.of(context).size.width * 0.13,
-              width: MediaQuery.of(context).size.width * 0.13,
-            ),
-          ],
-          leading: IconButton(
-            icon: Image.asset(AppIcon.menuIcon,
-            color: Colors.white,
-            height: MediaQuery.of(context).size.width * 0.07,
-            width: MediaQuery.of(context).size.width * 0.07,),
-            onPressed: () => scaffoldKey.currentState!.openDrawer(),
-          ),
-        ),
         drawer: HomeDrawerWidget(),
         bottomNavigationBar:
             BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
@@ -98,9 +44,7 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
           context: context,
           child: Column(
             children: [
-              const SizedBox(
-                height: 55,
-              ),
+              _appBar(userData),
               const DottedDividerLine(color: Colors.white),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
@@ -120,5 +64,62 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
             ],
           ),
         ));
+  }
+
+  Widget _appBar(LoginDataModel userData) {
+    return AppBar(
+      elevation: 0,
+      title: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+        if (state is FetchHomeDataState) {
+          return Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextWidget(
+                  textAlign: TextAlign.start,
+                  state.title,
+                  color: AppColor.white,
+                  fontSize: AppFont.font_13,
+                  fontWeight: FontWeight.w700,
+                ),
+                TextWidget(
+                  textAlign: TextAlign.start,
+                  "${userData.email}",
+                  color: AppColor.white,
+                  fontSize: AppFont.font_12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
+            ),
+          );
+        } else {
+          return TextWidget(
+            AppString.appName,
+            color: AppColor.white,
+            fontSize: AppFont.font_14,
+            fontWeight: FontWeight.w700,
+          );
+        }
+      }),
+      backgroundColor: Colors.transparent,
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        ),
+      ],
+      leading: IconButton(
+        icon: Image.asset(AppIcon.menuIcon,
+          color: Colors.white,
+          height: MediaQuery.of(context).size.width * 0.07,
+          width: MediaQuery.of(context).size.width * 0.07,),
+        onPressed: () => scaffoldKey.currentState!.openDrawer(),
+      ),
+    );
   }
 }
