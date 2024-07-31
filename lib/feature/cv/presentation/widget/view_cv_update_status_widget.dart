@@ -188,6 +188,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
                       context: context,
                       mediaType: 1,
                     ));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -201,6 +202,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
                       context: context,
                       mediaType: 2,
                     ));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

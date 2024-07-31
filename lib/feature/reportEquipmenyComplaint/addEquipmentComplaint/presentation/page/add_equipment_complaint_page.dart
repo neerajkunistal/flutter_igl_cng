@@ -360,6 +360,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
                             context: context, mediaType: 1, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -371,6 +372,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
                             context: context, mediaType: 2, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

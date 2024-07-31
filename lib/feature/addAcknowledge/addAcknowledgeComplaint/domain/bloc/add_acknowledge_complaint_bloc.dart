@@ -273,9 +273,6 @@ class AddAcknowledgeComplaintBloc
         file = photo;
       }
     }
-    Navigator.pop(
-      event.context.mounted ? event.context : event.context,
-    );
     _eventComplete(emit);
   }
 

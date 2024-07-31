@@ -294,6 +294,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
                     BlocProvider.of<AddScrapBloc>(context).add(
                         AddScrapSelectFileEvent(
                             context: context, mediaType: 1, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -305,6 +306,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
                     BlocProvider.of<AddScrapBloc>(context).add(
                         AddScrapSelectFileEvent(
                             context: context, mediaType: 2, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",

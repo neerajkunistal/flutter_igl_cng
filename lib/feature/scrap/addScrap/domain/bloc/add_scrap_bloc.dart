@@ -66,9 +66,6 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
     }
     isLoader =  false;
     _eventCompleted(emit);
-    Navigator.pop(
-        event.context.mounted ? event.context : event.context, "complete");
-
   }
 
   _deleteScrap(AddScrapDeleteEvent event, emit) {

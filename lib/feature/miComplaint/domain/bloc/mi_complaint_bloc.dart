@@ -255,8 +255,6 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         file = photo;
       }
     }
-    Navigator.pop(
-        event.context.mounted ? event.context : event.context, "complete");
     _eventComplete(emit);
   }
 

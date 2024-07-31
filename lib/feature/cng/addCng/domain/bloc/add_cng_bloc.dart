@@ -126,7 +126,6 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
         fileList[event.index] =  photo;
       }
     }
-    Navigator.pop(!event.context.mounted ? event.context : event.context);
     isLoader = false;
     _eventCompleted(emit);
   }
