@@ -125,8 +125,10 @@ class MiComplaintHelper {
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-              filesList.add(FileModel(
-                  name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              if(scrapList[i].filesList![j].path.isNotEmpty){
+                filesList.add(FileModel(
+                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              }
             }
           }
           scrapData.addAll(jsonData);
@@ -136,8 +138,10 @@ class MiComplaintHelper {
       scrapData.addAll(json);
       log(jsonEncode(scrapData).toString());
 
-      filesList.add(FileModel(
-          name: "file", file: file, keyName: "attachFile"));
+      if(file.path.isNotEmpty){
+        filesList.add(FileModel(
+            name: "file", file: file, keyName: "attachFile"));
+      }
 
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
