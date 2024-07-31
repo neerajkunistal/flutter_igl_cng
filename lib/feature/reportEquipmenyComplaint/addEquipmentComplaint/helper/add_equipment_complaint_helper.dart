@@ -59,7 +59,7 @@ class AddEquipmentComplaintHelper {
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
   }) async {
-    try {
+    // try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
 
@@ -137,8 +137,8 @@ class AddEquipmentComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    } catch (e) {
-      return null;
-    }
+    // } catch (e) {
+    //   return null;
+    // }
   }
 }

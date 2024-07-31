@@ -239,8 +239,9 @@ class ServerRequest {
           if (fileData.file.path.isNotEmpty) {
             String fileExtention = fileData.file.path.split(".").last;
             String filePath0 =
-                (fileExtention.toString().toLowerCase() == "pdf" ||
-                        fileExtention.toString().toLowerCase() == "mp4")
+                (fileExtention.toString().toLowerCase() == "pdf"
+                    || fileExtention.toString().toLowerCase() == "mp4"
+                    || fileExtention.toString().toLowerCase() == "mov")
                     ? fileData.file.path.toString()
                     : await fileCompress(file: fileData.file);
             if (fileData.file.toString().isNotEmpty) {
