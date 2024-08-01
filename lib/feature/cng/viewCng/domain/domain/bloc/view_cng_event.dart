@@ -18,6 +18,21 @@ class ViewCngSearchEvent extends ViewCngEvent {
   List<Object?> get props => [keyword];
 }
 
+class ViewCngSelectTabEvent extends ViewCngEvent {
+  final int tabIndex;
+  const ViewCngSelectTabEvent({required this.tabIndex});
+  @override
+  List<Object?> get props => [tabIndex];
+}
+
+class ViewCngSelectIndexEvent extends ViewCngEvent {
+  final int listIndex;
+  const ViewCngSelectIndexEvent({required this.listIndex});
+  @override
+  List<Object?> get props => [listIndex];
+}
+
+
 class ViewCngSelectedDateRangeEvent extends ViewCngEvent {
   final BuildContext context;
   final DateTime fromDate;

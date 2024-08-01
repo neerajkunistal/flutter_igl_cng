@@ -13,17 +13,23 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   bool isFilterLoader = false;
+  int tabIndex =  0;
+  int listIndex = 0;
 
   ViewCngBloc() : super(ViewCngInitial()) {
     on<ViewCngPageLoadEvent>(_pageLoad);
     on<ViewCngSearchEvent>(_search);
     on<ViewCngSelectedDateRangeEvent>(_selectDate);
+    on<ViewCngSelectTabEvent>(_selectTab);
+    on<ViewCngSelectIndexEvent>(_selectList);
   }
 
   _pageLoad(ViewCngPageLoadEvent event, emit) async {
     emit(ViewCngPageLoadState());
     cngList = [];
     cngSearchList = [];
+    tabIndex = 0;
+    listIndex = 0;
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
     var res = await ViewCngHelper.fetchCngCivilData(
@@ -81,6 +87,12 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
       cngList = cngSearchList;
     }
 
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+
     _eventComplete(emit);
   }
 
@@ -97,14 +109,40 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
       cngList = res;
       cngSearchList = res;
     }
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
     isFilterLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectTab(ViewCngSelectTabEvent event, emit) {
+    tabIndex =  event.tabIndex;
+    isFilterLoader = true;
+    _eventComplete(emit);
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+    isFilterLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectList(ViewCngSelectIndexEvent event, emit) {
+    listIndex =  event.listIndex;
     _eventComplete(emit);
   }
 
   _eventComplete(Emitter<ViewCngState> emit) {
     emit(FetchViewCngDataState(
       cngList: cngList,
+      cngAllItemsList: cngSearchList,
       isFilterLoader: isFilterLoader,
+      tabIndex: tabIndex,
+      listIndex: listIndex,
     ));
   }
 }

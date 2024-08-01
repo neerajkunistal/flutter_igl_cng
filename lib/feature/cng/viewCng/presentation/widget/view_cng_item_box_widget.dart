@@ -14,7 +14,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      incidentDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
     return Card(
@@ -49,17 +49,17 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                 Row(
                   children: [
                     TextWidget(
-                      "DateTime : ",
+                      "Station Name : ",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                     ),
                     Expanded(
                         child: TextWidget(
-                      incidentDateTime,
-                      fontWeight: FontWeight.w500,
-                      textAlign: TextAlign.right,
-                      fontSize: AppFont.font_13,
-                    )),
+                          cngData.cngStation.toString(),
+                          fontWeight: FontWeight.w500,
+                          textAlign: TextAlign.right,
+                          fontSize: AppFont.font_13,
+                        )),
                   ],
                 ),
                 SizedBox(
@@ -68,13 +68,32 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                 Row(
                   children: [
                     TextWidget(
-                      "Reported By : ",
+                      "Category : ",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                     ),
                     Expanded(
                         child: TextWidget(
-                      cngData.reportBy.toString(),
+                          cngData.categoryName.toString(),
+                          fontWeight: FontWeight.w500,
+                          textAlign: TextAlign.right,
+                          fontSize: AppFont.font_13,
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Row(
+                  children: [
+                    TextWidget(
+                      "DateTime : ",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    ),
+                    Expanded(
+                        child: TextWidget(
+                      incidentDateTime,
                       fontWeight: FontWeight.w500,
                       textAlign: TextAlign.right,
                       fontSize: AppFont.font_13,
@@ -109,24 +128,27 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                     )),
                   ],
                 ),
-                Divider(
-                  color: AppColor.lightGrey,
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 Row(
                   children: [
                     TextWidget(
-                      "Description : ",
+                      "Reported By : ",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                     ),
                     Expanded(
                         child: TextWidget(
-                      cngData.complaintDescription.toString(),
-                      textAlign: TextAlign.right,
-                      fontWeight: FontWeight.w500,
-                      fontSize: AppFont.font_13,
-                    )),
+                          cngData.reportBy.toString(),
+                          fontWeight: FontWeight.w500,
+                          textAlign: TextAlign.right,
+                          fontSize: AppFont.font_13,
+                        )),
                   ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
                 ),
               ],
             ),

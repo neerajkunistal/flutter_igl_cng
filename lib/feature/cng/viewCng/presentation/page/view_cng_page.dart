@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/presentation/pages/add_cng_page.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_item_box_widget.dart';
+import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_tabBar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -105,45 +105,83 @@ class _ViewCngPageState extends State<ViewCngPage> {
             height: MediaQuery.of(context).size.height * 0.02,
           ),
           Expanded(
-            child: dataState.isFilterLoader == false
-                ? dataState.cngList.isNotEmpty
-                    ? RefreshIndicator(
-                        onRefresh: _handleRefresh,
-                        child: Container(
-                          height: MediaQuery.of(context).size.height,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            color: Colors.white.withOpacity(.4),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20, left: 10, right: 10),
-                            child: ListView.builder(
-                                padding: EdgeInsets.zero,
-                                itemCount: dataState.cngList.length,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 8.0,
-                                    ),
-                                    child: ViewCngItemBoxWidget(
-                                      index: index,
-                                      cngData: dataState.cngList[index],
-                                    ),
-                                  );
-                                }),
-                          ),
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.white.withOpacity(.4),
+                ),
+                child: RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 20, left: 10, right: 10),
+                    child: Column(
+                      children: [
+                        ViewCngTabBarWidget(dataState: dataState),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      )
-                    : Center(
-                        child: TextWidget(
-                        "No Data",
-                        color: AppColor.white,
-                      ))
-                : const CenterLoaderWidget(),
+                        Expanded(
+                          child: dataState.isFilterLoader == false
+                              ? dataState.cngList.isNotEmpty
+                                  ? ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      itemCount: dataState.cngList.length,
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                            bottom: 8.0,
+                                          ),
+                                          child: ViewCngItemBoxWidget(
+                                            index: index,
+                                            cngData: dataState.cngList[index],
+                                          ),
+                                        );
+                                      })
+                                  : Center(
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.10,
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    DateTime startDate =
+                                        BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+                                            .startDate;
+                                    DateTime endDate =
+                                        BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+                                            .endDate;
+                                    BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context).add(
+                                        ViewCngSelectedDateRangeEvent(
+                                            fromDate: startDate,
+                                            toDate: endDate,
+                                            context: !context.mounted ? context : context));
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.refresh,
+                                        color: AppColor.white,
+                                      ),
+                                      TextWidget(
+                                        "No Data\nTab to refresh",
+                                        color: AppColor.white,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          )
+                              : const CenterLoaderWidget(),
+                        )
+                      ],
+                    ),
+                  ),
+                )),
           ),
         ],
       ),
@@ -168,21 +206,20 @@ class _ViewCngPageState extends State<ViewCngPage> {
   Widget _searchWidget() {
     return SearchBarWidget(
       onPressed: () async {
-        DateTime startDate = BlocProvider.of<ViewCngBloc>(
-            !context.mounted ? context : context)
-            .startDate;
-        DateTime endDate = BlocProvider.of<ViewCngBloc>(
-            !context.mounted ? context : context)
-            .endDate;
+        DateTime startDate =
+            BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+                .startDate;
+        DateTime endDate =
+            BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+                .endDate;
         var selectedDate = await DateRangeWidget.showDateRange(
             startDate: startDate, endDate: endDate, context: context);
         if (selectedDate != null) {
-          BlocProvider.of<ViewCngBloc>(
-              !context.mounted ? context : context)
+          BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
               .add(ViewCngSelectedDateRangeEvent(
-              fromDate: selectedDate.start,
-              toDate: selectedDate.end,
-              context: !context.mounted ? context : context));
+                  fromDate: selectedDate.start,
+                  toDate: selectedDate.end,
+                  context: !context.mounted ? context : context));
         }
       },
       onChanged: (keyword) {

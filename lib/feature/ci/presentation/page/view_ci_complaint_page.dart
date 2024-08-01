@@ -70,8 +70,7 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
                     cngData: dataState.cngList[index],
                   ),
                 );
-              })
-          :  Center(
+              }) : Center(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.10,
           child: GestureDetector(

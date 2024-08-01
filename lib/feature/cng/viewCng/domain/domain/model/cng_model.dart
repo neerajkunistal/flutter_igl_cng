@@ -35,6 +35,7 @@ class CngModel {
   String? updatedAt;
   String? assignToVendor;
   String? categoryName;
+  String? cngStation;
 
   CngModel(
       {this.id,
@@ -69,6 +70,7 @@ class CngModel {
       this.updatedAt,
       this.assignToVendor,
       this.categoryName,
+      this.cngStation,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -104,6 +106,7 @@ class CngModel {
     updatedAt = json['updated_at'] ?? "";
     assignToVendor = json['assign_to_vendor'] ?? "";
     categoryName = json['category_name'] ?? "";
+    cngStation = json['cng_station'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
