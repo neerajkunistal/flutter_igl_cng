@@ -90,7 +90,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextWidget(
-                  cngData.reportBy.toString(),
+                  cngData.reportByName.toString(),
                   textAlign: TextAlign.end,
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,

@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_complaint_item_box_widget.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_tabBar_widget.dart';
+import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_tabBar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewAmoComplaintPage extends StatefulWidget {
   const ViewAmoComplaintPage({super.key});
@@ -42,9 +46,23 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
                             topRight: Radius.circular(20)),
                         color: Colors.white.withOpacity(.4),
                       ),
-                      child: state.isFilterLoader == false
-                          ? _listBuilder(dataState: state)
-                          : const CenterLoaderWidget()),
+                      child:Column(
+                            children: [
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.02,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(child: ViewAmoTabBarWidget(dataState: state)),
+                                  _filterButtonWidget(),
+                                ],
+                              ),
+                              state.isFilterLoader == false
+                              ? Expanded(child: _listBuilder(dataState: state))
+                                  : const Expanded(child: CenterLoaderWidget()),
+                            ],
+                          )
+                    ),
                 ),
               ),
             ],
@@ -72,9 +90,40 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
                   ),
                 );
               })
-          : const Center(
-              child: TextWidget("No Data"),
-            ),
+          : Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: GestureDetector(
+              onTap: () async {
+                DateTime startDate = BlocProvider.of<ViewAmoComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .startDate;
+                DateTime endDate = BlocProvider.of<ViewAmoComplaintBloc>(
+                    !context.mounted ? context : context)
+                    .endDate;
+                BlocProvider.of<ViewAmoComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewAmoComplaintSelectedDateRangeEvent(
+                    fromDate: startDate,
+                    toDate: endDate,
+                    context: !context.mounted ? context : context));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.refresh,
+                    color: AppColor.white,
+                  ),
+                  TextWidget(
+                    "No Data\nTab to refresh",
+                    color: AppColor.white,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 
@@ -118,5 +167,11 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
             .add(ViewAmoComplaintSearchDataEvent(keyword: keyword));
       },
     );
+  }
+
+  Widget _filterButtonWidget() {
+    return IconButton(onPressed: () {
+
+    }, icon:  Icon(Icons.filter_alt_outlined, color: AppColor.black,));
   }
 }

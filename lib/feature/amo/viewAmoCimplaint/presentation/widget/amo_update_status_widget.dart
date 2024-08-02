@@ -28,38 +28,20 @@ class AmoUpdateStatusWidget extends StatelessWidget {
   Widget _itemBuilder(
       {required FetchViewAmoComplaintDataState dataState,
       required BuildContext context}) {
-    return Center(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.40,
-        width: MediaQuery.of(context).size.width / 1.2,
-        child: Card(
-          color: AppColor.white,
-          margin: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-              TextWidget(
-                "Update Status",
-                fontSize: AppFont.font_14,
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-              _radioButton(dataState: dataState, context: context),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-              _submitButton(dataState: dataState, context: context),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-            ],
-          ),
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
         ),
-      ),
+        _radioButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _submitButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+      ],
     );
   }
 
@@ -100,7 +82,7 @@ class AmoUpdateStatusWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             child: ButtonWidget(
                 fontSize: AppFont.font_12,
-                text: AppString.changeStatus,
+                text: AppString.submit,
                 onPressed: () {
                   BlocProvider.of<ViewAmoComplaintBloc>(context).add(
                       ViewAmoComplaintSubmitEvent(

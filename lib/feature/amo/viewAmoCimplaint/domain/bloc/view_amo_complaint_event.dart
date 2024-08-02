@@ -39,6 +39,20 @@ class ViewAmoComplaintSearchDataEvent extends ViewAmoComplaintEvent {
   List<Object?> get props => [keyword];
 }
 
+class ViewAmoComplaintSelectIndexEvent extends ViewAmoComplaintEvent {
+  final int listIndex;
+  const ViewAmoComplaintSelectIndexEvent({required this.listIndex});
+  @override
+  List<Object?> get props => [listIndex];
+}
+
+class ViewAmoComplaintSelectTabEvent extends ViewAmoComplaintEvent {
+  final int tabIndex;
+  const ViewAmoComplaintSelectTabEvent({required this.tabIndex});
+  @override
+  List<Object?> get props => [tabIndex];
+}
+
 class ViewAmoComplaintSelectedDateRangeEvent extends ViewAmoComplaintEvent {
   final BuildContext context;
   final DateTime fromDate;

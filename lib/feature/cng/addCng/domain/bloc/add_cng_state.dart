@@ -24,6 +24,7 @@ final class FetchAddCngDataState extends AddCngInitial {
   final TextEditingController dateController;
   final TextEditingController timeController;
   final TextEditingController reportedByController;
+  final TextEditingController reportedByPhoneController;
   final List<File> fileList;
 
   FetchAddCngDataState({
@@ -36,6 +37,7 @@ final class FetchAddCngDataState extends AddCngInitial {
     required this.fileList,
     required this.descriptionController,
     required this.reportedByController,
+    required this.reportedByPhoneController,
     required this.timeController,
   });
 
@@ -50,6 +52,7 @@ final class FetchAddCngDataState extends AddCngInitial {
         fileList,
         descriptionController,
         reportedByController,
+        reportedByPhoneController,
         timeController,
       ];
 }

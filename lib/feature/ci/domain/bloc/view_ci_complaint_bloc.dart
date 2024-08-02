@@ -84,7 +84,7 @@ class ViewCiComplaintBloc
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
-            .where((element) => element.reportBy
+            .where((element) => element.reportByName
                 .toString()
                 .toLowerCase()
                 .contains(event.keyword.toUpperCase().toLowerCase()))

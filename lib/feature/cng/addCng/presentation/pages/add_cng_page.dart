@@ -101,7 +101,7 @@ class _AddCngPageState extends State<AddCngPage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.02,
                 ),
-                Expanded(child: _timeController(dataState: dataState)),
+                //Expanded(child: _timeController(dataState: dataState)),
               ],
             ),
             _verticalSpace(),
@@ -109,6 +109,8 @@ class _AddCngPageState extends State<AddCngPage> {
             _verticalSpace(),
             _reportedByController(dataState: dataState),
             _verticalSpace(),
+           _reportedPhoneController(dataState: dataState),
+           _verticalSpace(),
 /*            _photo(dataState: dataState, index: 0, file: File("")),
             _verticalSpace(),*/
             _imageList(dataState: dataState),
@@ -199,6 +201,14 @@ class _AddCngPageState extends State<AddCngPage> {
     );
   }
 
+  Widget _reportedPhoneController({required FetchAddCngDataState dataState}) {
+    return TextFieldWidget(
+      controller: dataState.reportedByPhoneController,
+      isRequired: true,
+      labelText: AppString.reportedPhone,
+    );
+  }
+
   Widget _submit({required FetchAddCngDataState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
@@ -257,10 +267,22 @@ class _AddCngPageState extends State<AddCngPage> {
                     Padding(
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
-                      child: TextWidget(
-                        "${AppString.photo} ${1 + index}",
-                        fontSize: AppFont.font_12,
-                        color: AppColor.grey,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          index == 0 ?
+                          TextWidget(
+                            "* ",
+                            fontSize: AppFont.font_12,
+                            color: AppColor.red,
+                          ): const SizedBox.shrink(),
+                          TextWidget(
+                            "${AppString.photo} ${1 + index}",
+                            fontSize: AppFont.font_12,
+                            color: AppColor.grey,
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -310,19 +332,6 @@ class _AddCngPageState extends State<AddCngPage> {
                           Icons.refresh,
                           color: AppColor.themeColor,
                         ))),
-/*                    Align(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: () {
-                          BlocProvider.of<AddCngBloc>(context)
-                              .add(AddCngFileDeleteEvent(index: index));
-                        },
-                        child: Icon(
-                          Icons.close,
-                          color: AppColor.red,
-                        ),
-                      ),
-                    ),*/
                   ],
                 ),
         ),

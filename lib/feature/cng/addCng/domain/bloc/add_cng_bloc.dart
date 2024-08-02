@@ -20,6 +20,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController reportedByController = TextEditingController();
+  TextEditingController reportedByPhoneController = TextEditingController();
   List<File> fileList = [];
 
   AddCngBloc() : super(AddCngInitial()) {
@@ -43,6 +44,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     dateController = TextEditingController();
     timeController = TextEditingController();
     reportedByController = TextEditingController();
+    reportedByPhoneController = TextEditingController();
     fileList = [];
     fileList.add(File(""));
     fileList.add(File(""));
@@ -161,6 +163,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
         time: timeController.text.toString(),
         description: descriptionController.text.toString(),
         reportedBy: reportedByController.text.toString(),
+        reportedByPhone: reportedByPhoneController.text.toString(),
         crStationData: crStationData,
         fileList: fileList,
         userData: userData);
@@ -170,6 +173,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       dateController = TextEditingController();
       timeController = TextEditingController();
       reportedByController = TextEditingController();
+      reportedByPhoneController = TextEditingController();
       categoryData = CategoryModel();
       fileList = [];
       fileList.add(File(""));
@@ -194,6 +198,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       fileList: fileList,
       descriptionController: descriptionController,
       reportedByController: reportedByController,
+      reportedByPhoneController: reportedByPhoneController,
       timeController: timeController,
     ));
   }

@@ -61,7 +61,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
-            .where((element) => element.reportBy
+            .where((element) => element.reportByName
                 .toString()
                 .toLowerCase()
                 .contains(event.keyword.toUpperCase().toLowerCase()))
@@ -81,6 +81,22 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
                 .toString()
                 .toLowerCase()
                 .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.cngStation
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.categoryName
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
     } else {

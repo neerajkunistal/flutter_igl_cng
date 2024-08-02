@@ -91,7 +91,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextWidget(
-                  cngData.reportBy.toString(),
+                  cngData.reportByName.toString(),
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                   textAlign: TextAlign.end,

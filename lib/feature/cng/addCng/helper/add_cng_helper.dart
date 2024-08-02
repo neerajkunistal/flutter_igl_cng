@@ -21,10 +21,12 @@ class AddCngHelper {
       } else if (date.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
-      } else if (time.isEmpty) {
+      }
+/*      else if (time.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please select time");
         return false;
-      } else if (description.isEmpty) {
+      } */
+      else if (description.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Enter description");
         return false;
       } else if (reportedBy.isEmpty) {
@@ -80,6 +82,7 @@ class AddCngHelper {
     required String time,
     required String description,
     required String reportedBy,
+    required String reportedByPhone,
     required List<File> fileList,
     required LoginDataModel userData,
   }) async {
@@ -101,6 +104,7 @@ class AddCngHelper {
         "description": description,
         "incidentDateTime": "$date $time",
         "reportBy": reportedBy,
+        "reportByPhone": reportedByPhone,
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url, body: json, fileList: files, context: context);

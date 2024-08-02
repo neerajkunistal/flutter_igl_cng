@@ -16,25 +16,34 @@ final class ViewAmoComplaintPageLoadState extends ViewAmoComplaintInitial {
 
 final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
   final List<CngModel> cngList;
+  final List<CngModel> cngAllItemsList;
   final List<ComplaintStatus> complaintStatusList;
   final ComplaintStatus complaintStatusData;
   final bool isLoader;
   final bool isFilterLoader;
+  final int listIndex;
+  final int tabIndex;
 
   FetchViewAmoComplaintDataState({
     required this.cngList,
+    required this.cngAllItemsList,
     required this.complaintStatusData,
     required this.complaintStatusList,
     required this.isLoader,
     required this.isFilterLoader,
+    required this.listIndex,
+    required this.tabIndex,
   });
 
   @override
   List<Object> get props => [
         cngList,
+    cngAllItemsList,
         complaintStatusData,
         complaintStatusList,
         isLoader,
         isFilterLoader,
+        listIndex,
+        tabIndex,
       ];
 }

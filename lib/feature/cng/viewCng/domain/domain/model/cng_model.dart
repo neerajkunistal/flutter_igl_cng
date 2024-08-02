@@ -10,7 +10,8 @@ class CngModel {
   String? complaintDescription;
   String? incidentDateTime;
   String? reportDateTime;
-  String? reportBy;
+  String? reportByName;
+  String? reportByPhone;
   String? approveBy;
   String? approveStatus;
   dynamic approveDataTime;
@@ -36,6 +37,7 @@ class CngModel {
   String? assignToVendor;
   String? categoryName;
   String? cngStation;
+  List<dynamic>? createdComplaintImagesList;
 
   CngModel(
       {this.id,
@@ -45,7 +47,8 @@ class CngModel {
       this.complaintDescription,
       this.incidentDateTime,
       this.reportDateTime,
-      this.reportBy,
+      this.reportByName,
+      this.reportByPhone,
       this.approveBy,
       this.approveStatus,
       this.approveDataTime,
@@ -71,6 +74,7 @@ class CngModel {
       this.assignToVendor,
       this.categoryName,
       this.cngStation,
+      this.createdComplaintImagesList,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -81,7 +85,8 @@ class CngModel {
     complaintDescription = json['complaint_description'] ?? "";
     incidentDateTime = json['incident_date_time'] ?? "";
     reportDateTime = json['report_date_time'] ?? "";
-    reportBy = json['report_by'] ?? "";
+    reportByName = json['report_by'] ?? "";
+    reportByPhone = json['report_by_phone'] ?? "";
     approveBy = json['approve_by'] ?? "";
     approveStatus = json['approve_status'] ?? "";
     approveDataTime = json['approve_data_time'] ?? "";
@@ -107,6 +112,8 @@ class CngModel {
     assignToVendor = json['assign_to_vendor'] ?? "";
     categoryName = json['category_name'] ?? "";
     cngStation = json['cng_station'] ?? "";
+    createdComplaintImagesList = json['created_time_images'] !=  null
+        ? json['created_time_images'].cast<dynamic>() : [];
   }
 
   Map<String, dynamic> toJson() {
@@ -118,7 +125,7 @@ class CngModel {
     data['complaint_description'] = complaintDescription;
     data['incident_date_time'] = incidentDateTime;
     data['report_date_time'] = reportDateTime;
-    data['report_by'] = reportBy;
+    data['report_by'] = reportByName;
     data['approve_by'] = approveBy;
     data['approve_status'] = approveStatus;
     data['approve_data_time'] = approveDataTime;

@@ -19,12 +19,16 @@ class ViewAmoComplaintBloc
   bool isFilterLoader = false;
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
+  int listIndex =  0;
+  int tabIndex =  0;
 
   ViewAmoComplaintBloc() : super(ViewAmoComplaintInitial()) {
     on<ViewAmoComplaintPageLoadEvent>(_pageLoad);
     on<ViewAmoComplaintSearchDataEvent>(_search);
     on<ViewAmoComplaintSelectedDateRangeEvent>(_selectDate);
     on<ViewAmoComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
+    on<ViewAmoComplaintSelectTabEvent>(_selectTab);
+    on<ViewAmoComplaintSelectIndexEvent>(_selectList);
     on<ViewAmoComplaintSubmitEvent>(_submit);
   }
 
@@ -36,6 +40,8 @@ class ViewAmoComplaintBloc
     complaintStatusData = ComplaintStatus();
     isLoader = false;
     isFilterLoader = false;
+    listIndex =  0;
+    tabIndex =  0;
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
     var res = await ViewCngHelper.fetchCngCivilData(
@@ -67,7 +73,7 @@ class ViewAmoComplaintBloc
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
-            .where((element) => element.reportBy
+            .where((element) => element.reportByName
                 .toString()
                 .toLowerCase()
                 .contains(event.keyword.toUpperCase().toLowerCase()))
@@ -87,6 +93,22 @@ class ViewAmoComplaintBloc
                 .toString()
                 .toLowerCase()
                 .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.cngStation
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.categoryName
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
     } else {
@@ -109,13 +131,40 @@ class ViewAmoComplaintBloc
       cngList = res;
       cngSearchList = res;
     }
+
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+
     isFilterLoader = false;
     _eventComplete(emit);
+
+
   }
 
   _selectComplaintStatus(
       ViewAmoComplaintSelectComplaintStatusEvent event, emit) {
     complaintStatusData = event.complaintStatusData;
+    _eventComplete(emit);
+  }
+
+  _selectTab(ViewAmoComplaintSelectTabEvent event, emit) {
+    tabIndex =  event.tabIndex;
+    isFilterLoader = true;
+    _eventComplete(emit);
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+    isFilterLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectList(ViewAmoComplaintSelectIndexEvent event, emit) {
+    listIndex =  event.listIndex;
     _eventComplete(emit);
   }
 
@@ -139,10 +188,13 @@ class ViewAmoComplaintBloc
   _eventComplete(Emitter<ViewAmoComplaintState> emit) {
     emit(FetchViewAmoComplaintDataState(
       cngList: cngList,
+      cngAllItemsList: cngSearchList,
       complaintStatusList: complaintStatusList,
       complaintStatusData: complaintStatusData,
       isLoader: isLoader,
       isFilterLoader: isFilterLoader,
+      listIndex: listIndex,
+      tabIndex: tabIndex,
     ));
   }
 }
