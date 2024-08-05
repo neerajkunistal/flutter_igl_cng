@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/model/station_model.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
@@ -42,6 +43,23 @@ class ViewAmoComplaintHelper {
       } else {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
+        return null;
+      }
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchStationData() async {
+    try {
+      String url = APIs.getCNGStationListApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return stationListResponse(res['data']);
+      } else {
         return null;
       }
     } catch (_) {

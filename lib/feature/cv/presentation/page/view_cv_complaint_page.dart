@@ -68,9 +68,31 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
                   ),
                 );
               })
-          : const Center(
-              child: TextWidget("No Data"),
-            ),
+          : Center(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.10,
+          child: GestureDetector(
+              onTap: () async {
+                BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
+                    .add(ViewCvComplaintPageLoadEvent());
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.refresh,
+                    color: AppColor.white,
+                  ),
+                  TextWidget(
+                    "No Data\nTab to refresh",
+                    color: AppColor.white,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              )),
+        ),
+      ),
     );
   }
 

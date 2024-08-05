@@ -53,7 +53,7 @@ class ComplaintImagesWidget extends StatelessWidget {
       ),
     ) : const Padding(
       padding: EdgeInsets.all(8.0),
-      child: TextWidget("No complaint images",),
+      child: TextWidget("No images",),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
@@ -28,42 +29,35 @@ class CiUpdateStatusWidget extends StatelessWidget {
   Widget _itemBuilder(
       {required FetchViewCiComplaintDataState dataState,
       required BuildContext context}) {
-    return Center(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.33,
-        width: MediaQuery.of(context).size.width / 1.2,
-        child: Card(
-          color: AppColor.white,
-          margin: const EdgeInsets.all(10.0),
-          child: dataState.isVendorListLoader == false
-              ? Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.04,
-                    ),
-                    TextWidget(
-                      "",
-                      fontSize: AppFont.font_14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.04,
-                    ),
-                    _radioButton(
-                        dataState: dataState, context: context),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.04,
-                    ),
-                    _submitButton(dataState: dataState, context: context),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.04,
-                    ),
-                  ],
-                )
-              : _centerLoader(),
+    return dataState.isVendorListLoader == false
+        ? Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.05,
         ),
-      ),
-    );
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextWidget(
+            "Estimate",
+            fontSize: AppFont.font_14,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _radioButton(
+            dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _submitButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+      ],
+    )
+        : _centerLoader() ;
   }
 
   Widget _radioButton({required FetchViewCiComplaintDataState dataState,

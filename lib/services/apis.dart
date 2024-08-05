@@ -80,5 +80,7 @@ class APIs {
 
   static get getUnitTypeApi => "api/onm/unit-type";
 
+  static get getCNGStationListApi => "api/onm/cng-stations";
+
   static get forgotPasswordApi => "";
 }

@@ -37,6 +37,7 @@ class CngModel {
   String? assignToVendor;
   String? categoryName;
   String? cngStation;
+  String? controlRoom;
   List<dynamic>? createdComplaintImagesList;
 
   CngModel(
@@ -74,6 +75,7 @@ class CngModel {
       this.assignToVendor,
       this.categoryName,
       this.cngStation,
+      this.controlRoom,
       this.createdComplaintImagesList,
       });
 
@@ -95,7 +97,7 @@ class CngModel {
     assignTo = json['assign_to'] ?? "";
     assignDataTime = json['assign_data_time'] ?? "";
     estimateCost = json['estimate_cost'] ?? "0";
-    estimateAttachment = json['estimate_attachment'] ?? "0";
+    estimateAttachment = json['estimate_attachment'] ?? "";
     estimateCostDataTime = json['estimate_cost_data_time'] ?? "";
     estimateApproveBy = json['estimate_approve_by'] ?? "";
     estimateStatus = json['estimate_status'] ?? "";
@@ -112,6 +114,7 @@ class CngModel {
     assignToVendor = json['assign_to_vendor'] ?? "";
     categoryName = json['category_name'] ?? "";
     cngStation = json['cng_station'] ?? "";
+    controlRoom = json['control_room'] ?? "";
     createdComplaintImagesList = json['created_time_images'] !=  null
         ? json['created_time_images'].cast<dynamic>() : [];
   }

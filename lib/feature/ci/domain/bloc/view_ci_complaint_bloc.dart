@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/model/station_model.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/helper/view_amo_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cng/viewCng/helper/view_cng_helper.dart';
 
 part 'view_ci_complaint_event.dart';
 part 'view_ci_complaint_state.dart';
@@ -25,17 +28,29 @@ class ViewCiComplaintBloc
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   bool isFilterLoader = false;
+  bool isStationLoader = false;
+  int listIndex = 0;
+  int tabIndex = 0;
+  List<StationModel> stationList = [];
+  List<StationModel> searchStationList = [];
+  StationModel stationData =  StationModel();
+  TextEditingController stationController = TextEditingController();
 
   ViewCiComplaintBloc() : super(ViewCiComplaintInitial()) {
     on<ViewCiComplaintPageLoadEvent>(_pageLoad);
     on<ViewCiComplaintSearchDataEvent>(_search);
     on<ViewCiComplaintSelectedDateRangeEvent>(_selectDate);
+    on<ViewCiComplaintSelectListDataEvent>(_selectList);
+    on<ViewCiComplaintSelectTabDataEvent>(_selectTab);
     on<ViewCiComplaintFetchVendorEvent>(_fetchVendor);
     on<ViewCiComplaintVendorAssignEvent>(_assignVendor);
     on<ViewCiComplaintSelectVendorEvent>(_selectVendor);
     on<ViewCiComplaintStatusDataEvent>(_selectComplaintStatus);
     on<ViewCiComplaintEstimateApproveEvent>(_estimateApprove);
     on<ViewCiComplaintFinalApproveEvent>(_finalApprove);
+    on<ViewCiComplaintSelectStationDataEvent>(_selectStation);
+    on<ViewCiComplaintFetchStationDataEvent>(_fetchStation);
+    on<ViewCiComplaintSearchStationEvent>(_searchStation);
   }
 
   _pageLoad(ViewCiComplaintPageLoadEvent event, emit) async {
@@ -43,16 +58,23 @@ class ViewCiComplaintBloc
     cngList = [];
     cngSearchList = [];
     vendorList = [];
+    stationList = [];
+    searchStationList = [];
+    stationData =  StationModel();
     complaintStatusList = ComplaintStatus.getComplaintData();
     vendorData = VendorModel();
     isVendorListLoader = false;
     isVendorAssignLoader = false;
+    isStationLoader = false;
     complaintStatusData = ComplaintStatus();
     remarkController.text = "";
     searchController.text = "";
     fromDateController.text = "";
     toDateController.text = "";
+    stationController.text = "";
     isFilterLoader = false;
+    listIndex = 0;
+    tabIndex = 0;
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
     var res = await ViewCiComplaintHelper.fetchCivilData(
@@ -60,6 +82,11 @@ class ViewCiComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+    }
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
     _eventComplete(emit);
   }
@@ -125,6 +152,29 @@ class ViewCiComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+    }
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+    isFilterLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectList(ViewCiComplaintSelectListDataEvent event, emit) {
+    listIndex =  event.listIndex;
+    _eventComplete(emit);
+  }
+
+  _selectTab(ViewCiComplaintSelectTabDataEvent event, emit) {
+    tabIndex =  event.tabIndex;
+    isFilterLoader = true;
+    _eventComplete(emit);
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
     isFilterLoader = false;
     _eventComplete(emit);
@@ -204,6 +254,49 @@ class ViewCiComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectStation(ViewCiComplaintSelectStationDataEvent event, emit) {
+    stationData =  event.stationData;
+
+    List<CngModel> searchList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
+        == stationData.name.toString().toLowerCase()).toList();
+    if(tabIndex== 0){
+      cngList =  searchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  searchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
+    _eventComplete(emit);
+  }
+
+  _searchStation(ViewCiComplaintSearchStationEvent event, emit) {
+    isStationLoader =  true;
+    _eventComplete(emit);
+    if(event.keyword.toString().isNotEmpty) {
+      stationList =  searchStationList.where((element) =>
+          element.name.toString().toLowerCase().contains(event.keyword.toLowerCase())).toList();
+    } else {
+      stationList =  searchStationList;
+    }
+    isStationLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _fetchStation(ViewCiComplaintFetchStationDataEvent event, emit) async {
+    isStationLoader =  true;
+    stationController.text = "";
+    _eventComplete(emit);
+    if(searchStationList.isEmpty){
+      var res =  await ViewAmoComplaintHelper.fetchStationData();
+      if(res != null) {
+        stationList =  res;
+        searchStationList =  res;
+      }
+    }else {
+      stationList =  searchStationList;
+    }
+    isStationLoader =  false;
+    _eventComplete(emit);
+  }
+
   _eventComplete(Emitter<ViewCiComplaintState> emit) {
     emit(FetchViewCiComplaintDataState(
       cngList: cngList,
@@ -218,6 +311,13 @@ class ViewCiComplaintBloc
       fromDateController: fromDateController,
       toDateController: toDateController,
       isFilterLoader: isFilterLoader,
+      listIndex: listIndex,
+      tabIndex: tabIndex,
+      cngAllItemsList: cngSearchList,
+      isStationLoader: isStationLoader,
+      stationList: stationList,
+      stationData: stationData,
+      stationController: stationController,
     ));
   }
 }

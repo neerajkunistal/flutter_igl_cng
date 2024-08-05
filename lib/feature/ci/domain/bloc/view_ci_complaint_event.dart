@@ -54,6 +54,51 @@ class ViewCiComplaintSearchDataEvent extends ViewCiComplaintEvent {
   List<Object?> get props => [keyword];
 }
 
+class ViewCiComplaintSearchStationEvent extends ViewCiComplaintEvent {
+  final String keyword;
+
+  const ViewCiComplaintSearchStationEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
+class ViewCiComplaintSelectStationDataEvent extends ViewCiComplaintEvent {
+  final StationModel stationData;
+
+  const ViewCiComplaintSelectStationDataEvent({required this.stationData});
+
+  @override
+  List<Object?> get props => [stationData];
+}
+
+class ViewCiComplaintSelectListDataEvent extends ViewCiComplaintEvent {
+  final int listIndex;
+
+  const ViewCiComplaintSelectListDataEvent({required this.listIndex});
+
+  @override
+  List<Object?> get props => [listIndex];
+}
+
+class ViewCiComplaintSelectTabDataEvent extends ViewCiComplaintEvent {
+  final int tabIndex;
+
+  const ViewCiComplaintSelectTabDataEvent({required this.tabIndex});
+
+  @override
+  List<Object?> get props => [tabIndex];
+}
+
+class ViewCiComplaintFetchStationDataEvent extends ViewCiComplaintEvent {
+  final BuildContext context;
+
+  const ViewCiComplaintFetchStationDataEvent({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
 class ViewCiComplaintSelectedDateRangeEvent extends ViewCiComplaintEvent {
   final BuildContext context;
   final DateTime fromDate;

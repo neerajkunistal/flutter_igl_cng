@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/amo_sttion_filter.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_complaint_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/view_amo_tabBar_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_tabBar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewAmoComplaintPage extends StatefulWidget {
   const ViewAmoComplaintPage({super.key});
@@ -170,8 +169,11 @@ class _ViewAmoComplaintPageState extends State<ViewAmoComplaintPage> {
   }
 
   Widget _filterButtonWidget() {
-    return IconButton(onPressed: () {
-
+    return IconButton(
+        onPressed: () {
+      BlocProvider.of<ViewAmoComplaintBloc>(context).add(
+          ViewAmoComplaintFetchStationEvent(context: context));
+      amoModalBottomSheetMenu(context: context);
     }, icon:  Icon(Icons.filter_alt_outlined, color: AppColor.black,));
   }
 }

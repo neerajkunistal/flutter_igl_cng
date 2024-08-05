@@ -16,6 +16,7 @@ final class ViewCiComplaintPageLoadState extends ViewCiComplaintInitial {
 
 final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final List<CngModel> cngList;
+  final List<CngModel> cngAllItemsList;
   final List<VendorModel> vendorList;
   final VendorModel vendorData;
   final List<ComplaintStatus> complaintStatusList;
@@ -27,9 +28,17 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final TextEditingController fromDateController;
   final TextEditingController toDateController;
   final bool isFilterLoader;
+  final int listIndex;
+  final int tabIndex;
+  final bool isStationLoader;
+  final List<StationModel> stationList;
+  final StationModel stationData;
+  final TextEditingController stationController;
+
 
   FetchViewCiComplaintDataState({
     required this.cngList,
+    required this.cngAllItemsList,
     required this.vendorData,
     required this.vendorList,
     required this.complaintStatusList,
@@ -41,11 +50,18 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.fromDateController,
     required this.toDateController,
     required this.isFilterLoader,
+    required this.listIndex,
+    required this.tabIndex,
+    required this.isStationLoader,
+    required this.stationData,
+    required this.stationList,
+    required this.stationController,
   });
 
   @override
   List<Object> get props => [
         cngList,
+        cngAllItemsList,
         vendorData,
         vendorList,
         complaintStatusList,
@@ -57,5 +73,11 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
         fromDateController,
         toDateController,
         isFilterLoader,
+        listIndex,
+        tabIndex,
+        isStationLoader,
+        stationData,
+        stationList,
+        stationController,
       ];
 }

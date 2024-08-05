@@ -46,6 +46,38 @@ class ViewAmoComplaintSelectIndexEvent extends ViewAmoComplaintEvent {
   List<Object?> get props => [listIndex];
 }
 
+class ViewAmoComplaintFetchStationEvent extends ViewAmoComplaintEvent {
+  final BuildContext context;
+  const ViewAmoComplaintFetchStationEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class ViewAmoComplaintSelectStationDataEvent extends ViewAmoComplaintEvent {
+  final StationModel stationData;
+
+  const ViewAmoComplaintSelectStationDataEvent({required this.stationData});
+
+  @override
+  List<Object?> get props => [stationData];
+}
+
+class ViewAmoComplaintSearchStationEvent extends ViewAmoComplaintEvent {
+  final String keyword;
+
+  const ViewAmoComplaintSearchStationEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
+class ViewAmoComplaintSelectStationEvent extends ViewAmoComplaintEvent {
+  final StationModel stationData;
+  const ViewAmoComplaintSelectStationEvent({required this.stationData});
+  @override
+  List<Object?> get props => [stationData];
+}
+
 class ViewAmoComplaintSelectTabEvent extends ViewAmoComplaintEvent {
   final int tabIndex;
   const ViewAmoComplaintSelectTabEvent({required this.tabIndex});

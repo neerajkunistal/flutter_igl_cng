@@ -23,6 +23,10 @@ final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
   final bool isFilterLoader;
   final int listIndex;
   final int tabIndex;
+  final List<StationModel> stationList;
+  final StationModel stationData;
+  final bool isStationLoader;
+  final TextEditingController stationController;
 
   FetchViewAmoComplaintDataState({
     required this.cngList,
@@ -33,6 +37,10 @@ final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
     required this.isFilterLoader,
     required this.listIndex,
     required this.tabIndex,
+    required this.stationList,
+    required this.stationData,
+    required this.isStationLoader,
+    required this.stationController,
   });
 
   @override
@@ -45,5 +53,9 @@ final class FetchViewAmoComplaintDataState extends ViewAmoComplaintInitial {
         isFilterLoader,
         listIndex,
         tabIndex,
+        stationList,
+        stationData,
+        isStationLoader,
+        stationController,
       ];
 }
