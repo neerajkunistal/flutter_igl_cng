@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scarp_unit_type_model.dart';
 
 class ScrapModel {

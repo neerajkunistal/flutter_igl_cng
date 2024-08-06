@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCiComplaintItemBoxWidget extends StatelessWidget {

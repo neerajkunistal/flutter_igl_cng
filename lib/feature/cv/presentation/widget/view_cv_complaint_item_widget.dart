@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
-import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:vibration/vibration.dart';
 
 class ViewCvComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;

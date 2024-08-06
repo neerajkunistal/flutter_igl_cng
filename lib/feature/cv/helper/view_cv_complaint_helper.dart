@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
-import 'package:flutter_igl_cng/utils/res/enums.dart';
 
 class ViewCvComplaintHelper {
 

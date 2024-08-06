@@ -6,7 +6,6 @@ import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/helper/view_amo_com
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/helper/view_cng_helper.dart';
 
 part 'view_ci_complaint_event.dart';
 part 'view_ci_complaint_state.dart';

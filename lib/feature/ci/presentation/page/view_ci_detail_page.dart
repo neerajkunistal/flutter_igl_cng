@@ -5,9 +5,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.da
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewCiDetailPage extends StatefulWidget {

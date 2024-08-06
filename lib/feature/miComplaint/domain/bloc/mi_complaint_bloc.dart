@@ -9,7 +9,6 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_mod
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 
 part 'mi_complaint_event.dart';
 part 'mi_complaint_state.dart';
