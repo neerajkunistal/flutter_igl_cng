@@ -28,45 +28,24 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
   Widget _itemBuilder(
       {required FetchViewCvComplaintDataState dataState,
       required BuildContext context}) {
-    return Center(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.60,
-        width: MediaQuery.of(context).size.width / 1.2,
-        child: Card(
-          color: AppColor.white,
-          margin: const EdgeInsets.all(10.0),
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.04,
-                ),
-                TextWidget(
-                  "Update Status",
-                  fontSize: AppFont.font_14,
-                  fontWeight: FontWeight.w700,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.04,
-                ),
-                _amountController(dataState: dataState, context: context),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.04,
-                ),
-                _photo(dataState: dataState, context: context),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.04,
-                ),
-                _submitButton(dataState: dataState, context: context),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.04,
-                ),
-              ],
-            ),
-          ),
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.08,
         ),
-      ),
+        _amountController(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _photo(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _submitButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+      ],
     );
   }
 
@@ -74,9 +53,10 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
       {required FetchViewCvComplaintDataState dataState,
       required BuildContext context}) {
     return TextFieldWidget(
+      isRequired: true,
       controller: dataState.amountController,
       textInputType: TextInputType.number,
-      labelText: AppString.amount,
+      labelText: "Approximate Estimated amount",
     );
   }
 
@@ -223,7 +203,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             child: ButtonWidget(
                 fontSize: AppFont.font_12,
-                text: AppString.changeStatus,
+                text: AppString.submit,
                 onPressed: () {
                   BlocProvider.of<ViewCvComplaintBloc>(context).add(
                       ViewCvComplaintSubmitEvent(

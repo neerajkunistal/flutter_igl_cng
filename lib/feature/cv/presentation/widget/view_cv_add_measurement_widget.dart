@@ -1,104 +1,56 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
-class ViewCvAddMeasurementWidget extends StatefulWidget {
+class ViewCvAddMeasurementWidget extends StatelessWidget {
   const ViewCvAddMeasurementWidget({super.key});
 
   @override
-  State<ViewCvAddMeasurementWidget> createState() => _ViewCvAddMeasurementWidgetState();
-}
-
-class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget> {
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: TextWidget(
-            "Add Measurement",
-            color: AppColor.white,
-            fontSize: AppFont.font_15,
-            fontWeight: FontWeight.w600,
-          ),
+    return  Column(
+      children: [
+        BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
+          builder: (context, state) {
+            if(state is FetchViewCvComplaintDataState){
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _verticalSpace(context: context),
+                  Row(
+                    children: [
+                      state.measurementType == MeasurementType.sheet ?
+                      _measurementSheet(
+                          dataState: state,
+                          index: 0,
+                          file: state.measurementFileSheet,
+                          context: context
+                      ) : const SizedBox.shrink(),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.03,),
+
+                      state.measurementType != MeasurementType.sheet ?
+                      _photo(
+                          dataState: state,
+                          index: 0,
+                          file: File(""),
+                          context: context) : const SizedBox.shrink(),
+                    ],
+                  ),
+                  _verticalSpace(context: context),
+                  _imageList(dataState: state),
+                  _verticalSpace(context: context),
+                  _submitButton(dataState: state, context: context),
+                  _verticalSpace(context: context),
+                ],);
+            } else {
+              return const CenterLoaderWidget();
+            }
+          },
         ),
-        actions: [
-          Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
-                ? AppIcon.appLogoIgl
-                : AppIcon.appLogoIgl,
-            height: MediaQuery.of(context).size.width * 0.13,
-            width: MediaQuery.of(context).size.width * 0.13,
-          )
-        ],
-      ),
-      body: appBackGround(
-          context: context,
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-              ),
-              DottedDividerLine(color: AppColor.white),
-              _verticalSpace(),
-              _verticalSpace(),
-              BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
-              builder: (context, state) {
-                if(state is FetchViewCvComplaintDataState){
-                  return Expanded(
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                            _verticalSpace(),
-                          _measurementCostDateTimeEditField(dataState: state),
-                            _verticalSpace(),
-                          _measurementCostEditField(dataState: state),
-                            _verticalSpace(),
-                          Row(
-                            children: [
-                              _measurementSheet(
-                                  dataState: state,
-                                  index: 0,
-                                  file: state.measurementFileSheet),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,),
-                              _photo(
-                                  dataState: state,
-                                  index: 0,
-                                  file: File("")),
-                            ],
-                          ),
-                           _verticalSpace(),
-                          _imageList(dataState: state),
-                              _verticalSpace(),
-                              _submitButton(dataState: state, context: context),
-                              _verticalSpace(),
-                            ],),
-                        ),
-                      ));
-                } else {
-                  return const CenterLoaderWidget();
-                }
-              },
-            ),
-            ],
-          )
-      ),
+      ],
     );
   }
 
@@ -122,8 +74,6 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
     );
   }
 
-
-
   Widget _imageList({required FetchViewCvComplaintDataState dataState}) {
     return dataState.measurementFileList.isNotEmpty
         ? SizedBox(
@@ -134,7 +84,8 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
         itemBuilder: (context, index) => _photo(
             dataState: dataState,
             index: index,
-            file: dataState.measurementFileList[index]),
+            file: dataState.measurementFileList[index],
+            context: context),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           mainAxisSpacing: 8,
@@ -146,13 +97,22 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
 
   Widget _photo({required FetchViewCvComplaintDataState dataState,
         required int index,
-        required File file}) {
+        required File file, required BuildContext context}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 4,
       height: MediaQuery.of(context).size.width / 4,
       child: InkWell(
         onTap: () async {
-          mediaType(context: context, index: index, isMeasurement: false);
+          if(dataState.measurementType == MeasurementType.sheet) {
+            mediaType(context: context, index: index, isMeasurement: false);
+          } else {
+            BlocProvider.of<ViewCvComplaintBloc>(context)
+                .add(ViewCvComplaintMeasurementSelectFileEvent(
+              context: context,
+              mediaType: 1,
+            ));
+          }
+
         },
         child: DottedBorder(
           color: AppColor.grey,
@@ -165,11 +125,13 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
               const Center(
                 child: Icon(Icons.photo_camera_back_outlined),
               ),
-              Padding(
+              Padding (
                 padding: EdgeInsets.all(
                     MediaQuery.of(context).size.width * 0.02),
                 child: TextWidget(
-                  "Add ${AppString.photo}",
+                  dataState.measurementType == MeasurementType.pre ? "Before"
+                      : dataState.measurementType == MeasurementType.post ? "After"
+                      : "Sheet",
                   fontSize: AppFont.font_12,
                   color: AppColor.grey,
                 ),
@@ -204,11 +166,11 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
                       : const Icon(Icons.document_scanner_outlined),
                   file.path.toString().toLowerCase().contains(".pdf")
                       ? TextWidget(
-                    file.path.split('/').last.toString(),
+                    file.path.split('.').last.toString(),
+                    maxLines: 1,
                     color: AppColor.themeColor,
                     fontSize: AppFont.font_12,
-                  )
-                      : const SizedBox.shrink(),
+                  ) : const SizedBox.shrink(),
                 ],
               ),
               Align(
@@ -234,7 +196,7 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
   Widget _measurementSheet(
       {required FetchViewCvComplaintDataState dataState,
         required int index,
-        required File file}) {
+        required File file, required BuildContext context}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 4,
       height: MediaQuery.of(context).size.width / 4,
@@ -294,6 +256,7 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
                   file.path.toString().toLowerCase().contains(".pdf")
                       ? TextWidget(
                     file.path.split('/').last.toString(),
+                    maxLines: 2,
                     color: AppColor.themeColor,
                     fontSize: AppFont.font_12,
                   )
@@ -393,12 +356,13 @@ class _ViewCvAddMeasurementWidgetState extends State<ViewCvAddMeasurementWidget>
         text: AppString.submit,
         onPressed: () {
            BlocProvider.of<ViewCvComplaintBloc>(context).add(
-               ViewCvComplaintSubmitMeasurementEvent(context: context, cngData: dataState.cngData));
+               ViewCvComplaintSubmitMeasurementEvent(context: context,
+                   cngData: dataState.cngData));
           }
         ) : const DottedLoaderWidget();
   }
 
-  Widget _verticalSpace() {
+  Widget _verticalSpace({required BuildContext context}) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.02,
     );

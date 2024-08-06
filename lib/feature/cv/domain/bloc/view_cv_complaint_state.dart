@@ -20,11 +20,17 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final ComplaintStatus complaintStatusData;
   final bool isLoader;
   final TextEditingController amountController;
+  final TextEditingController stationController;
   final File file;
   final bool isFilterLoader;
   final CngModel cngData;
   final List<File> measurementFileList;
   final File measurementFileSheet;
+  final int listIndex;
+  final MeasurementType measurementType;
+  final List<StationModel> stationList;
+  final StationModel stationData;
+  final bool isStationLoader;
 
   FetchViewCvComplaintDataState({
     required this.cngList,
@@ -37,6 +43,12 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
     required this.cngData,
     required this.measurementFileList,
     required this.measurementFileSheet,
+    required this.listIndex,
+    required this.measurementType,
+    required this.stationList,
+    required this.stationData,
+    required this.isStationLoader,
+    required this.stationController,
   });
 
   @override
@@ -51,5 +63,11 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
         cngData,
         measurementFileList,
         measurementFileSheet,
+        listIndex,
+        measurementType,
+        stationList,
+        stationData,
+        isStationLoader,
+       stationController,
       ];
 }

@@ -111,7 +111,7 @@ class ViewAmoComplaintBloc
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
-            .where((element) => element.cngStation
+            .where((element) => element.categoryName
             .toString()
             .toLowerCase()
             .contains(event.keyword.toUpperCase().toLowerCase()))
@@ -119,7 +119,15 @@ class ViewAmoComplaintBloc
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
-            .where((element) => element.categoryName
+            .where((element) => element.controlRoom
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.cngStation
             .toString()
             .toLowerCase()
             .contains(event.keyword.toUpperCase().toLowerCase()))

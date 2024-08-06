@@ -39,8 +39,8 @@ class ComplaintImagesWidget extends StatelessWidget {
                     imageList[index].toString().toLowerCase().contains("jpeg") ?
                    Image.network(imageList[index].toString(), fit: BoxFit.cover)
                     : imageList[index].toString().toLowerCase().contains("pdf") ?
-                    Icon(Icons.picture_as_pdf_outlined, color: AppColor.red,)
-                    : Icon(Icons.file_copy_outlined, color: Colors.lightBlue[800],),
+                DottedBorder(child: Center(child: Icon(Icons.picture_as_pdf_outlined, color: AppColor.red,)))
+                    : DottedBorder(child: Center(child: Icon(Icons.file_copy_outlined, color: Colors.lightBlue[800],))),
               ),
             ),
           ),

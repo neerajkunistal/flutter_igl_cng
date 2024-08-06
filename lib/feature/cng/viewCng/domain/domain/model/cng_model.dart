@@ -17,6 +17,7 @@ class CngModel {
   dynamic approveDataTime;
   dynamic complaintNumber;
   String? assignBy;
+  String? assignByUser;
   String? assignTo;
   dynamic assignDataTime;
   dynamic estimateCost;
@@ -39,6 +40,9 @@ class CngModel {
   String? cngStation;
   String? controlRoom;
   List<dynamic>? createdComplaintImagesList;
+  List<dynamic>? measurementPreImageList;
+  List<dynamic>? measurementPostImageList;
+  String? measurementSheet;
 
   CngModel(
       {this.id,
@@ -77,6 +81,10 @@ class CngModel {
       this.cngStation,
       this.controlRoom,
       this.createdComplaintImagesList,
+      this.assignByUser,
+      this.measurementPreImageList,
+      this.measurementPostImageList,
+      this.measurementSheet,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -115,8 +123,14 @@ class CngModel {
     categoryName = json['category_name'] ?? "";
     cngStation = json['cng_station'] ?? "";
     controlRoom = json['control_room'] ?? "";
+    assignByUser = json['assign_by_user'] ?? "";
+    measurementSheet = json['measurement_sheet'] ?? "";
     createdComplaintImagesList = json['created_time_images'] !=  null
         ? json['created_time_images'].cast<dynamic>() : [];
+    measurementPreImageList = json['measurement_sheet_pre'] !=  null
+        ? json['measurement_sheet_pre'].cast<dynamic>() : [];
+    measurementPostImageList = json['measurement_sheet_post'] !=  null
+        ? json['measurement_sheet_post'].cast<dynamic>() : [];
   }
 
   Map<String, dynamic> toJson() {

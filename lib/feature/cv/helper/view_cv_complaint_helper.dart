@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/utils/res/enums.dart';
 
 class ViewCvComplaintHelper {
 
@@ -81,6 +82,7 @@ class ViewCvComplaintHelper {
         required BuildContext context,
         required File measurementSheetFile,
         required List<File>  measurementFileList,
+        required MeasurementType measurementType,
       }) async {
     try {
       String url = APIs.addMeasurementApi;
@@ -101,6 +103,8 @@ class ViewCvComplaintHelper {
       }
       var json = {
         "complaintId": cngData.id.toString(),
+        "measurementSheetType" : measurementType == MeasurementType.pre ? "pre"
+            : measurementType == MeasurementType.post ? "post" : "sheet"
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,

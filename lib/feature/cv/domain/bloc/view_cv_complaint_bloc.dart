@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/model/station_model.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/helper/view_amo_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/helper/view_cv_complaint_helper.dart';
@@ -16,17 +18,27 @@ class ViewCvComplaintBloc
   bool isLoader = false;
   bool isFilterLoader = false;
   TextEditingController amountController = TextEditingController();
+  TextEditingController stationController = TextEditingController();
   File files = File("");
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   List<File> measurementFileList = [];
   File measurementFileSheet = File("");
   CngModel cngData =  CngModel();
+  int listIndex = 0;
+  MeasurementType measurementType =  MeasurementType.pre;
+  List<StationModel> stationList = [];
+  List<StationModel> searchStationList = [];
+  StationModel stationData =  StationModel();
+  bool isStationLoader =  false;
 
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
     on<ViewCvComplaintSearchDataEvent>(_search);
     on<ViewCvComplaintSelectedDateRangeEvent>(_selectDate);
+    on<ViewCvComplaintSearchStationEvent>(_searchStation);
+    on<ViewCvComplaintSelectStationEvent>(_selectStation);
+    on<ViewCvComplaintFetchStationEvent>(_fetchStation);
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
     on<ViewCvComplaintSelectCngDataEvent>(_selectCngData);
@@ -34,6 +46,7 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintMeasurementDeleteFileEvent>(_deleteMeasurementFilePhoto);
     on<ViewCvComplaintMeasurementSheetSelectFileEvent>(_selectMeasurementSheet);
     on<ViewCvComplaintSubmitEvent>(_submit);
+    on<ViewCvComplaintSelectListEvent>(_selectList);
     on<ViewCvComplaintSubmitMeasurementEvent>(_submitMeasurement);
   }
 
@@ -46,9 +59,14 @@ class ViewCvComplaintBloc
     complaintStatusList = ComplaintStatus.getComplaintData();
     complaintStatusData = ComplaintStatus();
     isLoader = false;
+    stationList = [];
+    stationData =  StationModel();
+    isStationLoader =  false;
     isFilterLoader = false;
+    listIndex = 0;
     files = File("");
     amountController.text = "";
+    stationController.text = "";
     cngData =  CngModel();
     startDate = DateTime.now().subtract(const Duration(days: 4));
     endDate = DateTime.now();
@@ -58,6 +76,8 @@ class ViewCvComplaintBloc
       cngList = res;
       cngSearchList = res;
     }
+
+    measurementType =  MeasurementType.pre;
     _eventComplete(emit);
   }
 
@@ -103,10 +123,72 @@ class ViewCvComplaintBloc
                 .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.categoryName
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.controlRoom
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
+      if (cngList.isEmpty) {
+        cngList = cngSearchList
+            .where((element) => element.cngStation
+            .toString()
+            .toLowerCase()
+            .contains(event.keyword.toUpperCase().toLowerCase()))
+            .toList();
+      }
     } else {
       cngList = cngSearchList;
     }
 
+    _eventComplete(emit);
+  }
+
+  _searchStation(ViewCvComplaintSearchStationEvent event, emit) {
+    isStationLoader =  true;
+    _eventComplete(emit);
+    if(event.keyword.toString().isNotEmpty) {
+      stationList =  searchStationList.where((element) =>
+          element.name.toString().toLowerCase().contains(event.keyword.toLowerCase())).toList();
+    } else {
+      stationList =  searchStationList;
+    }
+    isStationLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectStation(ViewCvComplaintSelectStationEvent event, emit) {
+    stationData =  event.stationData;
+    cngList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
+        == stationData.name.toString().toLowerCase()).toList();
+    _eventComplete(emit);
+  }
+
+  _fetchStation(ViewCvComplaintFetchStationEvent event, emit) async {
+    isStationLoader =  true;
+    stationController.text = "";
+    _eventComplete(emit);
+    if(searchStationList.isEmpty){
+      var res =  await ViewAmoComplaintHelper.fetchStationData();
+      if(res != null){
+        stationList =  res;
+        searchStationList =  res;
+      }
+    } else {
+      stationList =  searchStationList;
+    }
+
+    isStationLoader =  false;
     _eventComplete(emit);
   }
 
@@ -175,7 +257,9 @@ class ViewCvComplaintBloc
         measurementFileList.add(photo);
       }
     }
-    Navigator.pop(event.context.mounted ? event.context : event.context);
+    if(measurementType == MeasurementType.sheet){
+      Navigator.pop(event.context.mounted ? event.context : event.context);
+    }
     isLoader = false;
     _eventComplete(emit);
   }
@@ -231,7 +315,36 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectList(ViewCvComplaintSelectListEvent event, emit)  {
+    listIndex =  event.listIndex;
+    measurementFileList = [];
+    measurementFileSheet =  File("");
+    files =  File("");
+    amountController.text = "";
+    if(cngData.measurementPreImageList!.isEmpty){
+      measurementType =  MeasurementType.pre;
+    } else if(cngData.measurementPostImageList!.isEmpty){
+      measurementType =  MeasurementType.post;
+    }  else if(cngData.measurementSheet.toString().isEmpty){
+      measurementType =  MeasurementType.sheet;
+    }
+    _eventComplete(emit);
+  }
+
   _submitMeasurement(ViewCvComplaintSubmitMeasurementEvent event, emit) async {
+    if(measurementType == MeasurementType.sheet &&
+        measurementFileSheet.path.isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please select sheet");
+      return;
+    }  else if(measurementType == MeasurementType.pre &&
+        measurementFileList.length < 2){
+      SnackBarErrorWidget(event.context).show(message: "Please select minimum two before photo");
+      return;
+    } else if(measurementType == MeasurementType.post &&
+        measurementFileList.length < 2 ){
+      SnackBarErrorWidget(event.context).show(message: "Please select minimum two after photo");
+      return;
+    }
     isLoader = true;
     _eventComplete(emit);
     var res = await ViewCvComplaintHelper.addMeasurementData(
@@ -240,6 +353,7 @@ class ViewCvComplaintBloc
         context: event.context,
         measurementFileList: measurementFileList,
         measurementSheetFile: measurementFileSheet,
+        measurementType: measurementType
     );
     if (res != null) {
       Navigator.of(!event.context.mounted ? event.context : event.context)
@@ -261,6 +375,12 @@ class ViewCvComplaintBloc
       cngData: cngData,
       measurementFileList: measurementFileList,
       measurementFileSheet: measurementFileSheet,
+      listIndex: listIndex,
+      measurementType: measurementType,
+      stationData: stationData,
+      stationList: stationList,
+      isStationLoader: isStationLoader,
+      stationController: stationController,
     ));
   }
 }

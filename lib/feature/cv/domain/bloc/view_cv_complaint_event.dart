@@ -19,6 +19,14 @@ class ViewCvComplaintSelectComplaintStatusEvent extends ViewCvComplaintEvent {
   List<Object?> get props => [complaintStatusData];
 }
 
+class ViewCvComplaintSelectListEvent extends ViewCvComplaintEvent {
+  final int listIndex;
+  const ViewCvComplaintSelectListEvent(
+      {required this.listIndex});
+  @override
+  List<Object?> get props => [listIndex];
+}
+
 class ViewCvComplaintSelectFileEvent extends ViewCvComplaintEvent {
   final BuildContext context;
   final int mediaType;
@@ -103,6 +111,30 @@ class ViewCvComplaintMeasurementSheetSelectFileEvent extends ViewCvComplaintEven
   @override
   List<Object?> get props => [context, mediaType];
 }
+
+class ViewCvComplaintFetchStationEvent extends ViewCvComplaintEvent {
+  final BuildContext context;
+  const ViewCvComplaintFetchStationEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class ViewCvComplaintSelectStationEvent extends ViewCvComplaintEvent {
+  final StationModel stationData;
+  const ViewCvComplaintSelectStationEvent({required this.stationData});
+  @override
+  List<Object?> get props => [stationData];
+}
+
+class ViewCvComplaintSearchStationEvent extends ViewCvComplaintEvent {
+  final String keyword;
+
+  const ViewCvComplaintSearchStationEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
 
 class ViewCvComplaintSubmitMeasurementEvent extends ViewCvComplaintEvent {
   final BuildContext context;

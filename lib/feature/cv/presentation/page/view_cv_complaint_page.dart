@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_detail_page.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/cvStation_filter.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_complaint_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 
 class ViewCvComplaintPage extends StatefulWidget {
@@ -27,7 +31,12 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
         if (state is FetchViewCvComplaintDataState) {
           return Column(
             children: [
-              _searchWidget(),
+              Row(
+                children: [
+                  Expanded(child: _searchWidget()),
+                  _filterButtonWidget(),
+                ],
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
@@ -62,9 +71,34 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
-                  child: ViewCvComplaintItemBoxWidget(
-                    index: index,
-                    cngData: dataState.cngList[index],
+                  child: GestureDetector(
+                    onTap:  () async {
+                      BlocProvider.of<ViewCvComplaintBloc>(context).add(
+                          ViewCvComplaintSelectListEvent(listIndex: index));
+                      BlocProvider.of<ViewCvComplaintBloc>(context).add(
+                          ViewCvComplaintSelectCngDataEvent(cngData: dataState.cngList[index]));
+                      var res =  await Navigator.push(
+                        !context.mounted ? context : context,
+                        FadeRoute(page: const ViewCvDetailPage()),
+                      );
+                      if (res.toString() == "Complete") {
+                        DateTime startDate = BlocProvider.of<ViewCvComplaintBloc>(
+                            !context.mounted ? context : context)
+                            .startDate;
+                        DateTime endDate = BlocProvider.of<ViewCvComplaintBloc>(
+                            !context.mounted ? context : context)
+                            .endDate;
+                        BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
+                            .add(ViewCvComplaintSelectedDateRangeEvent(
+                            fromDate: startDate,
+                            toDate: endDate,
+                            context: !context.mounted ? context : context));
+                      }
+                    },
+                    child: ViewCvComplaintItemBoxWidget(
+                      index: index,
+                      cngData: dataState.cngList[index],
+                    ),
                   ),
                 );
               })
@@ -136,5 +170,14 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
             .add(ViewCvComplaintSearchDataEvent(keyword: keyword));
       },
     );
+  }
+
+  Widget _filterButtonWidget() {
+    return IconButton(
+        onPressed: () {
+          BlocProvider.of<ViewCvComplaintBloc>(context).add(
+              ViewCvComplaintFetchStationEvent(context: context));
+          cvModalBottomSheetMenu(context: context);
+        }, icon:  Icon(Icons.filter_alt_outlined, color: AppColor.white,));
   }
 }

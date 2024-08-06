@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/amo_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:vibration/vibration.dart';
 
-class ViewCiDetailPage extends StatefulWidget {
-  const ViewCiDetailPage({super.key});
+class ViewCvDetailPage extends StatefulWidget {
+  const ViewCvDetailPage({super.key});
 
   @override
-  State<ViewCiDetailPage> createState() => _ViewCiDetailPageState();
+  State<ViewCvDetailPage> createState() => _ViewCvDetailPageState();
 }
 
-class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
+class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,9 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
               Expanded(
-                child: BlocBuilder<ViewCiComplaintBloc, ViewCiComplaintState>(
+                child: BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
                   builder: (context, state) {
-                    if (state is FetchViewCiComplaintDataState) {
+                    if (state is FetchViewCvComplaintDataState) {
                       return Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
@@ -42,8 +44,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                                 topRight: Radius.circular(20)),
                             color: Colors.white,
                           ),
-                          child: SingleChildScrollView(
-                              child: _itemBuilder(dataState: state)));
+                          child: SingleChildScrollView(child: state.cngList.isNotEmpty ?
+                          _itemBuilder(dataState: state) : const SizedBox.shrink()));
                     } else {
                       return const Center(
                         child: CenterLoaderWidget(),
@@ -82,27 +84,27 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
     );
   }
 
-  Widget _itemBuilder({required FetchViewCiComplaintDataState dataState}) {
+  Widget _itemBuilder({required FetchViewCvComplaintDataState dataState}) {
     final CngModel cngData =  dataState.cngList[dataState.listIndex];
     final int index =  dataState.listIndex;
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      incidentDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
 
     String assignDateTime = "";
     if (cngData.assignDataTime != null &&
         cngData.assignDataTime.toString().isNotEmpty) {
-      assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      assignDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
 
     String estimateDateTime = "";
     if (cngData.estimateCostDataTime != null &&
         cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      estimateDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
     }
     return Stack(
@@ -115,15 +117,15 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 children: [
                   TextWidget(
                     "Complaint ID : ",
-                    color: AppColor.green,
+                    fontWeight: FontWeight.w700,
                     fontSize: AppFont.font_13,
+                    color: AppColor.themeColor,
                   ),
                   Expanded(
                       child: TextWidget(
                         cngData.complaintNumber,
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w700,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -140,9 +142,9 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   Expanded(
                       child: TextWidget(
                         cngData.controlRoom.toString(),
-                        textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -152,16 +154,16 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Station Name : ",
+                    "Station Room : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
                         cngData.cngStation.toString(),
-                        textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -171,16 +173,16 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "DateTime : ",
+                    "Category : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        incidentDateTime,
-                        textAlign: TextAlign.end,
+                        cngData.categoryName.toString(),
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -190,16 +192,16 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Reported Name : ",
+                    "Assign Date : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        cngData.reportByName.toString(),
-                        textAlign: TextAlign.end,
+                        assignDateTime,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -209,16 +211,16 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Reported Phone : ",
+                    "Assign By : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        cngData.reportByPhone.toString(),
-                        textAlign: TextAlign.end,
+                        cngData.assignByUser.toString(),
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
+                        textAlign: TextAlign.end,
                       )),
                 ],
               ),
@@ -228,28 +230,29 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Complaint Status : ",
+                    "Assigned Status : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        cngData.complaintStatus.toString() == "0"
+                        cngData.approveStatus.toString() == "0"
                             ? "Pending"
-                            : cngData.complaintStatus.toString() == "1"
+                            : cngData.approveStatus.toString() == "1"
                             ? "Approved"
                             : "Reject",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
-                        color: cngData.complaintStatus.toString() == "0"
+                        color: cngData.approveStatus.toString() == "0"
                             ? AppColor.orange
-                            : cngData.complaintStatus.toString() == "1"
+                            : cngData.approveStatus.toString() == "1"
                             ? AppColor.green
                             : AppColor.red,
                         textAlign: TextAlign.end,
                       )),
                 ],
               ),
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -263,6 +266,25 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   Expanded(
                       child: TextWidget(
                         cngData.assignToVendor.toString(),
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Assign By: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.assignByUser.toString(),
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -326,6 +348,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                       )),
                 ],
               ),
+
               Divider(
                 color: AppColor.lightGrey,
               ),
@@ -345,7 +368,9 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                       )),
                 ],
               ),
-
+              Divider(
+                color: AppColor.lightGrey,
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
@@ -389,27 +414,24 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               ComplaintImagesWidget(imageList: cngData.measurementSheet.toString().isNotEmpty ?
               [cngData.measurementSheet] : []),
 
-              cngData.assignTo.toString() == "0" &&
-                  cngData.complaintStatus.toString() == "0"
-                  ? CiAssignWidget(cngData: cngData)
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              cngData.estimateCost.toString() == "0"
+                  || cngData.estimateStatus.toString() == "2"
+                  ? ViewCvUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
-              cngData.assignTo.toString() != "0" &&
-                  cngData.estimateCost.toString() != "0" &&
-                  ( cngData.estimateStatus.toString() == "0"
-                      || cngData.estimateStatus.toString().isEmpty)
-                  ?  CiUpdateStatusWidget(cngData: cngData)
-                  : const SizedBox.shrink(),
-
-              cngData.estimateCost.toString().isNotEmpty  &&
+              cngData.measurementSheetDataTime.toString().isEmpty &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
-                  cngData.measurementSheetDataTime.toString().isNotEmpty  &&
-                  cngData.complaintStatus.toString() != "1"
-                  ? CiFinalApproveWidget(cngData: cngData)
+                  cngData.estimateStatus.toString() == "1"
+                  ? const ViewCvAddMeasurementWidget()
                   : const SizedBox.shrink(),
+
+
             ],
           ),
-        )
+        ),
       ],
     );
   }
