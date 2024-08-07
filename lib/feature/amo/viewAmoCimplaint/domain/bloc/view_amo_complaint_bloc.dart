@@ -14,6 +14,7 @@ class ViewAmoComplaintBloc
     extends Bloc<ViewAmoComplaintEvent, ViewAmoComplaintState> {
   List<CngModel> cngList = [];
   List<CngModel> cngSearchList = [];
+  List<CngModel> tempSearchList = [];
   List<ComplaintStatus> complaintStatusList = [];
   ComplaintStatus complaintStatusData = ComplaintStatus();
   bool isLoader = false;
@@ -45,6 +46,7 @@ class ViewAmoComplaintBloc
     emit(ViewAmoComplaintPageLoadState());
     cngList = [];
     cngSearchList = [];
+    tempSearchList = [];
     complaintStatusList = ComplaintStatus.getComplaintData();
     complaintStatusData = ComplaintStatus();
     isLoader = false;
@@ -57,12 +59,14 @@ class ViewAmoComplaintBloc
     endDate = DateTime.now();
     stationList = [];
     searchStationList = [];
+    tempSearchList = [];
     stationData =  StationModel();
     var res = await ViewCngHelper.fetchCngCivilData(
         fromDate: startDate.toString(), toDate: endDate.toString());
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
     _eventComplete(emit);
   }
@@ -152,6 +156,7 @@ class ViewAmoComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
 
     if(tabIndex== 0){
@@ -192,6 +197,7 @@ class ViewAmoComplaintBloc
 
   _selectStation(ViewAmoComplaintSelectStationDataEvent event, emit) {
     stationData =  event.stationData;
+    cngSearchList  =  tempSearchList;
 
     List<CngModel> searchList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
         == stationData.name.toString().toLowerCase()).toList();
@@ -200,6 +206,7 @@ class ViewAmoComplaintBloc
     } else {
       cngList =  searchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
+    cngSearchList =  searchList;
     _eventComplete(emit);
   }
 
@@ -224,6 +231,7 @@ class ViewAmoComplaintBloc
       var res =  await ViewAmoComplaintHelper.fetchStationData();
       if(res != null){
         stationList =  res;
+        searchStationList =  res;
         searchStationList =  res;
       }
     } else {

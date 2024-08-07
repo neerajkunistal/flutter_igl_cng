@@ -79,7 +79,7 @@ class CiFinalApproveWidget extends StatelessWidget {
             },
           ),
           RadioListTile<String>(
-            title:const TextWidget('Reject'),
+            title:const TextWidget('Change'),
             value: '2',
             groupValue: dataState.complaintStatusData.id,
             onChanged: (value) {

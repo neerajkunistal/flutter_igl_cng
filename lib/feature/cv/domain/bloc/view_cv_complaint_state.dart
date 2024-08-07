@@ -21,7 +21,7 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final bool isLoader;
   final TextEditingController amountController;
   final TextEditingController stationController;
-  final File file;
+  final List<File> file;
   final bool isFilterLoader;
   final CngModel cngData;
   final List<File> measurementFileList;

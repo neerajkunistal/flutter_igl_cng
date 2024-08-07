@@ -191,6 +191,7 @@ class _AddCngPageState extends State<AddCngPage> {
     return TextFieldWidget(
       controller: dataState.reportedByPhoneController,
       isRequired: true,
+      textInputType: TextInputType.number,
       labelText: AppString.reportedPhone,
     );
   }

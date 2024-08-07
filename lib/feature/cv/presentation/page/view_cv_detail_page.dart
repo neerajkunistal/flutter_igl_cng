@@ -373,9 +373,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               TextWidget("Estimate Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
-              ComplaintImagesWidget(imageList: cngData.estimateAttachment.toString().isNotEmpty ?
-              [cngData.estimateAttachment]
-                  : []),
+              ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),
 
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
@@ -405,6 +403,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
+
               cngData.estimateCost.toString() == "0"
                   || cngData.estimateStatus.toString() == "2"
                   ? ViewCvUpdateStatusWidget(cngData: cngData)
@@ -415,7 +414,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                   cngData.estimateStatus.toString() == "1"
                   ? const ViewCvAddMeasurementWidget()
                   : const SizedBox.shrink(),
-
 
             ],
           ),

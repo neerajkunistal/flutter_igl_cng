@@ -163,6 +163,25 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 )),
               ],
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
+                  "Assign Phone : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.reportByPhone.toString(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ),
           ],
         ),
       ),

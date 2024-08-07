@@ -14,6 +14,7 @@ class ViewCiComplaintBloc
     extends Bloc<ViewCiComplaintEvent, ViewCiComplaintState> {
   List<CngModel> cngList = [];
   List<CngModel> cngSearchList = [];
+  List<CngModel> tempSearchList = [];
   List<VendorModel> vendorList = [];
   VendorModel vendorData = VendorModel();
   List<ComplaintStatus> complaintStatusList = [];
@@ -56,6 +57,7 @@ class ViewCiComplaintBloc
     emit(ViewCiComplaintPageLoadState());
     cngList = [];
     cngSearchList = [];
+    tempSearchList = [];
     vendorList = [];
     stationList = [];
     searchStationList = [];
@@ -81,6 +83,7 @@ class ViewCiComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
     if(tabIndex== 0){
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
@@ -175,6 +178,7 @@ class ViewCiComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
     if(tabIndex== 0){
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
@@ -279,6 +283,7 @@ class ViewCiComplaintBloc
 
   _selectStation(ViewCiComplaintSelectStationDataEvent event, emit) {
     stationData =  event.stationData;
+    cngSearchList =  tempSearchList;
 
     List<CngModel> searchList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
         == stationData.name.toString().toLowerCase()).toList();
@@ -287,6 +292,7 @@ class ViewCiComplaintBloc
     } else {
       cngList =  searchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
+    cngSearchList = searchList;
     _eventComplete(emit);
   }
 

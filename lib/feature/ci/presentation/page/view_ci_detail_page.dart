@@ -87,21 +87,21 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      incidentDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
 
     String assignDateTime = "";
     if (cngData.assignDataTime != null &&
         cngData.assignDataTime.toString().isNotEmpty) {
-      assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      assignDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
 
     String estimateDateTime = "";
     if (cngData.estimateCostDataTime != null &&
         cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      estimateDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
     }
     return Stack(
@@ -170,7 +170,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "DateTime : ",
+                    "Date : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -359,9 +359,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               TextWidget("Estimate Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
-              ComplaintImagesWidget(imageList: cngData.estimateAttachment.toString().isNotEmpty ?
-              [cngData.estimateAttachment]
-                  : []),
+              ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),
 
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,

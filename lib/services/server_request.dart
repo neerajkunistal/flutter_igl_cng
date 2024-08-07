@@ -241,6 +241,9 @@ class ServerRequest {
             String filePath0 =
                 (fileExtention.toString().toLowerCase() == "pdf"
                     || fileExtention.toString().toLowerCase() == "mp4"
+                    || fileExtention.toString().toLowerCase() == "xls"
+                    || fileExtention.toString().toLowerCase() == "xlsx"
+                    || fileExtention.toString().toLowerCase() == "csv"
                     || fileExtention.toString().toLowerCase() == "mov")
                     ? fileData.file.path.toString()
                     : await fileCompress(file: fileData.file);
@@ -262,6 +265,11 @@ class ServerRequest {
             File file = File(filePath);
             String fileExtention = filePath.split(".").last;
             String filePath1 = fileExtention.toString().toLowerCase() != "pdf"
+                || fileExtention.toString().toLowerCase() != "mp4"
+                || fileExtention.toString().toLowerCase() != "mov"
+                || fileExtention.toString().toLowerCase() != "xls"
+                || fileExtention.toString().toLowerCase() != "xlsx"
+                || fileExtention.toString().toLowerCase() != "csv"
                 ? await fileCompress(file: file)
                 : file.path.toString();
             var uploadFile = await MultipartFile.fromPath(keyWord, filePath1,

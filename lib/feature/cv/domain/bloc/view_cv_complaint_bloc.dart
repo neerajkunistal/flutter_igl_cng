@@ -19,7 +19,7 @@ class ViewCvComplaintBloc
   bool isFilterLoader = false;
   TextEditingController amountController = TextEditingController();
   TextEditingController stationController = TextEditingController();
-  File files = File("");
+  List<File> files = [];
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   List<File> measurementFileList = [];
@@ -42,6 +42,7 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
     on<ViewCvComplaintSelectCngDataEvent>(_selectCngData);
+    on<ViewCvComplaintDeleteEstimatePhotoFileEvent>(_deleteEstimatePhoto);
     on<ViewCvComplaintMeasurementSelectFileEvent>(_selectMeasurementPhoto);
     on<ViewCvComplaintMeasurementDeleteFileEvent>(_deleteMeasurementFilePhoto);
     on<ViewCvComplaintMeasurementSheetSelectFileEvent>(_selectMeasurementSheet);
@@ -64,7 +65,7 @@ class ViewCvComplaintBloc
     isStationLoader =  false;
     isFilterLoader = false;
     listIndex = 0;
-    files = File("");
+    files = [];
     amountController.text = "";
     stationController.text = "";
     cngData =  CngModel();
@@ -226,16 +227,24 @@ class ViewCvComplaintBloc
       if (photo != null) {
         isLoader = true;
         _eventComplete(emit);
-        files = photo;
+        files.add(photo);
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
         isLoader = true;
         _eventComplete(emit);
-        files = photo;
+        files.add(photo);
       }
     }
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _deleteEstimatePhoto(ViewCvComplaintDeleteEstimatePhotoFileEvent event, emit) {
+    isLoader = true;
+    _eventComplete(emit);
+    files.removeAt(event.index);
     isLoader = false;
     _eventComplete(emit);
   }
@@ -317,13 +326,16 @@ class ViewCvComplaintBloc
 
   _selectList(ViewCvComplaintSelectListEvent event, emit)  {
     listIndex =  event.listIndex;
+    isLoader = false;
     measurementFileList = [];
     measurementFileSheet =  File("");
-    files =  File("");
+    files =  [];
     amountController.text = "";
-    if(cngData.measurementPreImageList!.isEmpty){
+    if(cngData.measurementPreImageList == null ||
+        cngData.measurementPreImageList!.isEmpty){
       measurementType =  MeasurementType.pre;
-    } else if(cngData.measurementPostImageList!.isEmpty){
+    } else if(cngData.measurementPostImageList == null ||
+        cngData.measurementPostImageList!.isEmpty){
       measurementType =  MeasurementType.post;
     }  else if(cngData.measurementSheet.toString().isEmpty){
       measurementType =  MeasurementType.sheet;

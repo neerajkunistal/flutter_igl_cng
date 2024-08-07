@@ -152,7 +152,7 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "DateTime : ",
+                    "Date : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -178,9 +178,9 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
                   Expanded(
                       child: TextWidget(
                         cngData.complaintStatus.toString() == "0"
-                            ? "Pending"
+                            ? "Open"
                             : cngData.complaintStatus.toString() == "1"
-                            ? "Approved"
+                            ? "Close"
                             : "Reject",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,

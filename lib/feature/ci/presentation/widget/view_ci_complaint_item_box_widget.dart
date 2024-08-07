@@ -14,14 +14,14 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      incidentDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.incidentDateTime.toString()));
     }
 
     String assignDateTime = "";
     if (cngData.assignDataTime != null &&
         cngData.assignDataTime.toString().isNotEmpty) {
-      assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
+      assignDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
 

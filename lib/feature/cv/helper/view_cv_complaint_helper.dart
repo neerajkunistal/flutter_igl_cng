@@ -27,8 +27,18 @@ class ViewCvComplaintHelper {
       {required CngModel cngData,
       required String amount,
       required BuildContext context,
-      required File file}) async {
+      required List<File> file}) async {
     try {
+
+      List<FileModel> files = [];
+      int i = 0;
+      for (var fileData in file) {
+        if (fileData.path.isNotEmpty) {
+          files.add(FileModel(
+              name: "file", file: fileData, keyName: "estimateFile[$i]"));
+          i++;
+        }
+      }
       String url = APIs.addEstimateApi;
       var json = {
         "complaintId": cngData.id.toString(),
@@ -37,8 +47,7 @@ class ViewCvComplaintHelper {
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: json,
-          filePath: file.path,
-          keyWord: "estimateFile",
+          fileList: files,
           context: context);
       if (res != null &&
           res['status'] != null &&

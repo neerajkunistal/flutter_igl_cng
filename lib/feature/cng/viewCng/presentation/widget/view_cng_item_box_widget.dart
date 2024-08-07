@@ -98,7 +98,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                   Row(
                     children: [
                       TextWidget(
-                        "DateTime : ",
+                        "Date : ",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                       ),
@@ -124,9 +124,9 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                       Expanded(
                           child: TextWidget(
                         cngData.complaintStatus.toString() == "0"
-                            ? "Pending"
+                            ? "Open"
                             : cngData.complaintStatus.toString() == "1"
-                                ? "Approved"
+                                ? "Close"
                                 : "Reject",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,

@@ -101,6 +101,16 @@ class ViewCvComplaintMeasurementDeleteFileEvent extends ViewCvComplaintEvent {
   List<Object?> get props => [index];
 }
 
+class ViewCvComplaintDeleteEstimatePhotoFileEvent extends ViewCvComplaintEvent {
+  final int index;
+
+  const ViewCvComplaintDeleteEstimatePhotoFileEvent(
+      {required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class ViewCvComplaintMeasurementSheetSelectFileEvent extends ViewCvComplaintEvent {
   final BuildContext context;
   final int mediaType;

@@ -21,7 +21,7 @@ class CngModel {
   String? assignTo;
   dynamic assignDataTime;
   dynamic estimateCost;
-  dynamic estimateAttachment;
+  List<dynamic>? estimateAttachment;
   dynamic estimateCostDataTime;
   String? estimateApproveBy;
   String? estimateStatus;
@@ -105,7 +105,8 @@ class CngModel {
     assignTo = json['assign_to'] ?? "";
     assignDataTime = json['assign_data_time'] ?? "";
     estimateCost = json['estimate_cost'] ?? "0";
-    estimateAttachment = json['estimate_attachment'] ?? "";
+    estimateAttachment = json['estimate_document'] !=  null
+        ? json['estimate_document'].cast<dynamic>() : [];
     estimateCostDataTime = json['estimate_cost_data_time'] ?? "";
     estimateApproveBy = json['estimate_approve_by'] ?? "";
     estimateStatus = json['estimate_status'] ?? "";
