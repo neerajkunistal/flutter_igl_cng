@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCiComplaintItemBoxWidget extends StatelessWidget {
@@ -25,13 +23,6 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
         cngData.assignDataTime.toString().isNotEmpty) {
       assignDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
-    }
-
-    String estimateDateTime = "";
-    if (cngData.estimateCostDataTime != null &&
-        cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy, h:mm:ss')
-          .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
     }
 
     return Card(
@@ -220,44 +211,6 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _assignButton(
-      {required CngModel cngData,
-      required int index,
-      required BuildContext context}) {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.34,
-        height: MediaQuery.of(context).size.height * 0.07,
-        child: ButtonWidget(
-            fontSize: AppFont.font_12,
-            text: "Assign",
-            backgroundColor: AppColor.orange,
-            onPressed: () async {
-              BlocProvider.of<ViewCiComplaintBloc>(context)
-                  .add(const ViewCiComplaintFetchVendorEvent());
-              var res = await showDialog(
-                  context: context,
-                  builder: (BuildContext mContext) =>
-                      CiAssignWidget(cngData: cngData));
-              if (res.toString() == "Complete") {
-                DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
-                    !context.mounted ? context : context)
-                    .startDate;
-                DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
-                    !context.mounted ? context : context)
-                    .endDate;
-                BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
-                    .add(ViewCiComplaintSelectedDateRangeEvent(
-                    fromDate: startDate,
-                    toDate: endDate,
-                    context: !context.mounted ? context : context));
-              }
-            }),
       ),
     );
   }

@@ -171,19 +171,6 @@ class _AddCngPageState extends State<AddCngPage> {
     );
   }
 
-  Widget _timeController({required FetchAddCngDataState dataState}) {
-    return TextFieldWidget(
-      controller: dataState.timeController,
-      isRequired: true,
-      enabled: false,
-      labelText: AppString.time,
-      onTap: () {
-        BlocProvider.of<AddCngBloc>(context)
-            .add(AddCngSelectTimeEvent(context: context));
-      },
-    );
-  }
-
   Widget _descriptionController({required FetchAddCngDataState dataState}) {
     return TextFieldWidget(
       controller: dataState.descriptionController,

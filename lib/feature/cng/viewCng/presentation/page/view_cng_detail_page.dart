@@ -79,7 +79,6 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
 
   Widget _itemBuilder({required FetchViewCngDataState dataState}) {
     final CngModel cngData =  dataState.cngList[dataState.listIndex];
-    final int index =  dataState.listIndex;
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {

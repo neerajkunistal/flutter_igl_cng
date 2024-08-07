@@ -81,13 +81,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
 
   Widget _itemBuilder({required FetchViewCvComplaintDataState dataState}) {
     final CngModel cngData =  dataState.cngList[dataState.listIndex];
-    final int index =  dataState.listIndex;
-    String incidentDateTime = "";
-    if (cngData.incidentDateTime != null &&
-        cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy')
-          .format(DateTime.parse(cngData.incidentDateTime.toString()));
-    }
 
     String assignDateTime = "";
     if (cngData.assignDataTime != null &&

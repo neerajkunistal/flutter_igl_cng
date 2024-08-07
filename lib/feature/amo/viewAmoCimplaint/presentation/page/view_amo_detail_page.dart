@@ -79,7 +79,6 @@ class _ViewAmoDetailPageState extends State<ViewAmoDetailPage> {
 
   Widget _itemBuilder({required FetchViewAmoComplaintDataState dataState}) {
     final CngModel cngData =  dataState.cngList[dataState.listIndex];
-    final int index =  dataState.listIndex;
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {

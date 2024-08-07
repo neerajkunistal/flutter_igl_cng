@@ -51,26 +51,6 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
     );
   }
 
-  Widget _measurementCostDateTimeEditField({required FetchViewCvComplaintDataState dataState}) {
-    TextEditingController controller =  TextEditingController(text: dataState.cngData.estimateCostDataTime.toString());
-    return TextFieldWidget(
-        isRequired: true,
-        enabled: false,
-        labelText: "Estimate Cost Date",
-        controller: controller
-    );
-  }
-
-  Widget _measurementCostEditField({required FetchViewCvComplaintDataState dataState}) {
-    TextEditingController controller =  TextEditingController(text: dataState.cngData.estimateCost.toString());
-    return TextFieldWidget(
-        isRequired: true,
-        enabled: false,
-        labelText: "Estimate Cost",
-        controller: controller
-    );
-  }
-
   Widget _imageList({required FetchViewCvComplaintDataState dataState}) {
     return dataState.measurementFileList.isNotEmpty
         ? SizedBox(

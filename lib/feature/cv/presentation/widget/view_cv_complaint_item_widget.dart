@@ -11,27 +11,12 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String incidentDateTime = "";
-    if (cngData.incidentDateTime != null &&
-        cngData.incidentDateTime.toString().isNotEmpty) {
-      incidentDateTime = DateFormat('dd-MMM-yyyy')
-          .format(DateTime.parse(cngData.incidentDateTime.toString()));
-    }
-
     String assignDateTime = "";
     if (cngData.assignDataTime != null &&
         cngData.assignDataTime.toString().isNotEmpty) {
       assignDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
-
-    String estimateDateTime = "";
-    if (cngData.estimateCostDataTime != null &&
-        cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy')
-          .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
-    }
-
     return Card(
       elevation: 4,
       shadowColor: AppColor.themeColor,

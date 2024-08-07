@@ -82,7 +82,6 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
 
   Widget _itemBuilder({required FetchViewCiComplaintDataState dataState}) {
     final CngModel cngData =  dataState.cngList[dataState.listIndex];
-    final int index =  dataState.listIndex;
     String incidentDateTime = "";
     if (cngData.incidentDateTime != null &&
         cngData.incidentDateTime.toString().isNotEmpty) {
