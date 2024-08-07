@@ -41,7 +41,9 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                             color: Colors.white,
                           ),
                           child: SingleChildScrollView(
-                              child: _itemBuilder(dataState: state)));
+                              child: state.cngList.isNotEmpty
+                                  ? _itemBuilder(dataState: state)
+                                  : const SizedBox.shrink()));
                     } else {
                       return const Center(
                         child: CenterLoaderWidget(),

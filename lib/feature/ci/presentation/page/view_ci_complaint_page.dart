@@ -26,58 +26,55 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: BlocBuilder<ViewCiComplaintBloc, ViewCiComplaintState>(
-        builder: (context, state) {
-          if (state is FetchViewCiComplaintDataState) {
-            return Column(
-              children: [
-                _searchWidget(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+    return BlocBuilder<ViewCiComplaintBloc, ViewCiComplaintState>(
+      builder: (context, state) {
+        if (state is FetchViewCiComplaintDataState) {
+          return Column(
+            children: [
+              _searchWidget(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Expanded(
+                child: RefreshIndicator(
+                  onRefresh: _handleRefresh,
+                  child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
+                        color: Colors.white.withOpacity(.4),
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                  child:
+                                  ViewCiTabBarWidget(dataState: state)),
+                              _filterButtonWidget(dataState: state),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          state.isFilterLoader == false
+                              ? Expanded(
+                              child: _listBuilder(dataState: state))
+                              : const Expanded(child: CenterLoaderWidget()),
+                        ],
+                      )),
                 ),
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: _handleRefresh,
-                    child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20)),
-                          color: Colors.white.withOpacity(.4),
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child:
-                                        ViewCiTabBarWidget(dataState: state)),
-                                _filterButtonWidget(dataState: state),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.02,
-                            ),
-                            state.isFilterLoader == false
-                                ? Expanded(
-                                    child: _listBuilder(dataState: state))
-                                : const Expanded(child: CenterLoaderWidget()),
-                          ],
-                        )),
-                  ),
-                ),
-              ],
-            );
-          }
-          return const CenterLoaderWidget();
-        },
-      ),
+              ),
+            ],
+          );
+        }
+        return const CenterLoaderWidget();
+      },
     );
   }
 
@@ -97,6 +94,10 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
                         BlocProvider.of<ViewCiComplaintBloc>(context).add(
                             ViewCiComplaintSelectListDataEvent(
                                 listIndex: index));
+                        BlocProvider.of<ViewCiComplaintBloc>(context).add(
+                            const ViewCiComplaintFetchVendorEvent()
+                        );
+
                         var res = await Navigator.push(
                             !context.mounted ? context : context,
                             FadeRoute(page: const ViewCiDetailPage()));

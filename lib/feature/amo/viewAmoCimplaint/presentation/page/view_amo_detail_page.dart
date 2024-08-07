@@ -38,7 +38,10 @@ class _ViewAmoDetailPageState extends State<ViewAmoDetailPage> {
                                 topRight: Radius.circular(20)),
                             color: Colors.white,
                           ),
-                          child: SingleChildScrollView(child: _itemBuilder(dataState: state)));
+                          child: SingleChildScrollView(child: state.cngList.isNotEmpty ?
+                          _itemBuilder(dataState: state)
+                              : const SizedBox.shrink()
+                          ));
                     } else {
                       return const Center(
                         child: CenterLoaderWidget(),
