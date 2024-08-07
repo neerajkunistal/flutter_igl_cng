@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/revi
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class MiComplaintPage extends StatefulWidget {
   const MiComplaintPage({super.key});
@@ -24,26 +27,68 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<MiComplaintBloc, MiComplaintState>(
-        builder: (context, state) {
-          if (state is FetchMiComplaintDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
+      extendBodyBehindAppBar: true,
+      body: _widgetBuilder(),
+    );
+  }
+
+  Widget _widgetBuilder() {
+    return appBackGround(
+        child:Column(
+          children: [
+            _appBar(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.white,
+                ),
+                child: BlocBuilder<MiComplaintBloc, MiComplaintState>(
+                  builder: (context, state) {
+                    if (state is FetchMiComplaintDataState) {
+                      return _itemBuilder(dataState: state);
+                    } else {
+                      return const Center(
+                        child: CenterLoaderWidget(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        context: context
     );
   }
 
   Widget _appBar() {
     return AppBar(
-      title: TextWidget(
-        "MI Complaint",
-        color: AppColor.white,
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "MI Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
       ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        ),
+      ],
     );
   }
 
@@ -53,7 +98,6 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _appBar(),
             ReviewComplaintItemBox(
                 index: 0,
                 reviewComplaintData: dataState.reviewComplaintData),
@@ -123,6 +167,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+
           ],
         ),
       ),
