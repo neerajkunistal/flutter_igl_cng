@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_am
 
 amoModalBottomSheetMenu({required BuildContext context}) {
   showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (builder) {
         return Container(

@@ -55,7 +55,7 @@ class ViewAmoComplaintBloc
     listIndex =  0;
     tabIndex =  0;
     stationController.text = "";
-    startDate = DateTime.now().subtract(const Duration(days: 4));
+    startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
     stationList = [];
     searchStationList = [];

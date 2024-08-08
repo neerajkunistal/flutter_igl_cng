@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.da
 
 ciModalBottomSheetMenu({required BuildContext context}) {
   showModalBottomSheet(
+     isScrollControlled: true,
       context: context,
       builder: (builder) {
         return Container(

@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.da
 
 cvModalBottomSheetMenu({required BuildContext context}) {
   showModalBottomSheet(
+     isScrollControlled: true,
       context: context,
       builder: (builder) {
         return Container(

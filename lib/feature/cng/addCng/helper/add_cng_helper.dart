@@ -32,7 +32,8 @@ class AddCngHelper {
       } else if (reportedBy.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Enter reported by");
         return false;
-      } else if (fileList.isEmpty) {
+      } else if (fileList[0].path.isEmpty && fileList[1].path.isEmpty
+          && fileList[2].path.isEmpty && fileList[3].path.isEmpty) {
         SnackBarErrorWidget(context).show(message: "select photo");
         return false;
       }

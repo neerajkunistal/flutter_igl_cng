@@ -30,7 +30,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
     cngSearchList = [];
     tabIndex = 0;
     listIndex = 0;
-    startDate = DateTime.now().subtract(const Duration(days: 4));
+    startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
     var res = await ViewCngHelper.fetchCngCivilData(
         fromDate: startDate.toString(), toDate: endDate.toString());
