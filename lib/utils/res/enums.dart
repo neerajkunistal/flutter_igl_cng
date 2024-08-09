@@ -8,4 +8,4 @@ enum DeviceType { phone, tablet }
 
 enum Client { iglcng }
 
-enum MeasurementType {pre, post, sheet}
+enum MeasurementType {pre, post, sheet, non}

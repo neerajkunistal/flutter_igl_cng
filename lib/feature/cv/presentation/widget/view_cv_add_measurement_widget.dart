@@ -18,7 +18,8 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                   _verticalSpace(context: context),
                   Row(
                     children: [
-                      state.measurementType == MeasurementType.sheet ?
+                      state.measurementType == MeasurementType.sheet  ||
+                          state.cngData.measurementSheetStatus.toString() != "1"?
                       _measurementSheet(
                           dataState: state,
                           index: 0,
@@ -28,7 +29,8 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.03,),
 
-                      state.measurementType != MeasurementType.sheet ?
+                      state.measurementType == MeasurementType.pre
+                      || state.measurementType == MeasurementType.post ?
                       _photo(
                           dataState: state,
                           index: 0,

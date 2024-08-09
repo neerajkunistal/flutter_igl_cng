@@ -411,7 +411,8 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
 
               cngData.measurementSheetDataTime.toString().isEmpty &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
-                  cngData.estimateStatus.toString() == "1"
+                  cngData.estimateStatus.toString() == "1" &&
+                  cngData.measurementSheetStatus.toString() != "1"
                   ? const ViewCvAddMeasurementWidget()
                   : const SizedBox.shrink(),
 

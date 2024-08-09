@@ -43,6 +43,7 @@ class CngModel {
   List<dynamic>? measurementPreImageList;
   List<dynamic>? measurementPostImageList;
   String? measurementSheet;
+  String? measurementSheetStatus;
 
   CngModel(
       {this.id,
@@ -85,6 +86,7 @@ class CngModel {
       this.measurementPreImageList,
       this.measurementPostImageList,
       this.measurementSheet,
+      this.measurementSheetStatus,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -126,6 +128,7 @@ class CngModel {
     controlRoom = json['control_room'] ?? "";
     assignByUser = json['assign_by_user'] ?? "";
     measurementSheet = json['measurement_sheet'] ?? "";
+    measurementSheetStatus = json['measurement_sheet_status'] ?? "0";
     createdComplaintImagesList = json['created_time_images'] !=  null
         ? json['created_time_images'].cast<dynamic>() : [];
     measurementPreImageList = json['measurement_sheet_pre'] !=  null

@@ -26,7 +26,7 @@ class ViewCvComplaintBloc
   File measurementFileSheet = File("");
   CngModel cngData =  CngModel();
   int listIndex = 0;
-  MeasurementType measurementType =  MeasurementType.pre;
+  MeasurementType measurementType =  MeasurementType.non;
   List<StationModel> stationList = [];
   List<StationModel> searchStationList = [];
   StationModel stationData =  StationModel();
@@ -77,7 +77,7 @@ class ViewCvComplaintBloc
       cngList = res;
       cngSearchList = res;
     }
-    measurementType =  MeasurementType.pre;
+    measurementType =  MeasurementType.non;
     _eventComplete(emit);
   }
 
@@ -330,13 +330,16 @@ class ViewCvComplaintBloc
     measurementFileSheet =  File("");
     files =  [];
     amountController.text = "";
+    measurementType =  MeasurementType.non;
+
     if(cngData.measurementPreImageList == null ||
         cngData.measurementPreImageList!.isEmpty){
       measurementType =  MeasurementType.pre;
     } else if(cngData.measurementPostImageList == null ||
         cngData.measurementPostImageList!.isEmpty){
       measurementType =  MeasurementType.post;
-    }  else if(cngData.measurementSheet.toString().isEmpty){
+    }  else if(cngData.measurementSheet.toString().isEmpty &&
+        cngData.measurementSheetStatus.toString() != "1"){
       measurementType =  MeasurementType.sheet;
     }
     _eventComplete(emit);
