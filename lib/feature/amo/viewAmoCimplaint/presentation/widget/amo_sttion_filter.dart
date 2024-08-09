@@ -8,7 +8,9 @@ amoModalBottomSheetMenu({required BuildContext context}) {
       context: context,
       builder: (builder) {
         return Container(
-          height: MediaQuery.of(context).size.height / 1.6,
+          height: WidgetsBinding.instance.window.viewInsets.bottom > 0.0
+              ? MediaQuery.of(context).size.height / 1.2
+              : MediaQuery.of(context).size.height / 1.6,
           color: Colors.transparent, //could change this to Color(0xFF737373),
           child: Container(
               decoration: const BoxDecoration(

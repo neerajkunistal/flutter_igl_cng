@@ -77,7 +77,6 @@ class ViewCvComplaintBloc
       cngList = res;
       cngSearchList = res;
     }
-
     measurementType =  MeasurementType.pre;
     _eventComplete(emit);
   }

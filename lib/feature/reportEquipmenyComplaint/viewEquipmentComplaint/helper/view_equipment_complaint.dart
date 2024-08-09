@@ -56,7 +56,7 @@ class ViewEquipmentComplaintHelper {
            SnackBarErrorWidget(context).show(message: "Internal Server Error");
            return null;
          }
-    }catch(e){
+    } catch(e) {
       return null;
     }
   }

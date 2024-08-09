@@ -76,6 +76,13 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
                           ViewCvComplaintSelectListEvent(listIndex: index));
                       BlocProvider.of<ViewCvComplaintBloc>(context).add(
                           ViewCvComplaintSelectCngDataEvent(cngData: dataState.cngList[index]));
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (_) => const CenterLoaderWidget()
+                      );
+                      await Future.delayed(const Duration(seconds: 1));
+                      Navigator.pop(!context.mounted ? context : context,);
                       var res =  await Navigator.push(
                         !context.mounted ? context : context,
                         FadeRoute(page: const ViewCvDetailPage()),
