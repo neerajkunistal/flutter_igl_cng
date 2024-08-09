@@ -69,7 +69,7 @@ class ViewCvComplaintBloc
     amountController.text = "";
     stationController.text = "";
     cngData =  CngModel();
-    startDate = DateTime.now().subtract(const Duration(days: 4));
+    startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
     var res = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
         fromDate: startDate.toString(), toDate: endDate.toString());
