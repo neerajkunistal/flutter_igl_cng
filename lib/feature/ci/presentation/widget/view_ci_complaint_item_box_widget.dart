@@ -92,7 +92,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  "DateTime : ",
+                  "Date : ",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                 ),
