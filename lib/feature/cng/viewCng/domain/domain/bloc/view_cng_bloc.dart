@@ -10,6 +10,7 @@ part 'view_cng_state.dart';
 class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
   List<CngModel> cngList = [];
   List<CngModel> cngSearchList = [];
+  List<CngModel> tempSearchList = [];
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   bool isFilterLoader = false;
@@ -28,6 +29,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
     emit(ViewCngPageLoadState());
     cngList = [];
     cngSearchList = [];
+    tempSearchList = [];
     tabIndex = 0;
     listIndex = 0;
     startDate = DateTime.now().subtract(const Duration(days: 15));
@@ -37,12 +39,14 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
     _eventComplete(emit);
   }
 
   _search(ViewCngSearchEvent event, emit) async {
     cngList = [];
+    cngSearchList = tempSearchList;
     _eventComplete(emit);
     if (event.keyword.isNotEmpty) {
       cngList = cngSearchList
@@ -103,11 +107,14 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
       cngList = cngSearchList;
     }
 
+    cngSearchList =  cngList;
+
     if(tabIndex== 0){
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
     } else {
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
+
 
     _eventComplete(emit);
   }
@@ -115,6 +122,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
   _selectDate(ViewCngSelectedDateRangeEvent event, emit) async {
     cngList = [];
     cngSearchList = [];
+    tempSearchList = [];
     isFilterLoader = true;
     _eventComplete(emit);
     startDate = event.fromDate;
@@ -124,6 +132,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+      tempSearchList = res;
     }
     if(tabIndex== 0){
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();

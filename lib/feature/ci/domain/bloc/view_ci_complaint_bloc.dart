@@ -85,16 +85,14 @@ class ViewCiComplaintBloc
       cngSearchList = res;
       tempSearchList = res;
     }
-    if(tabIndex== 0){
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
-    } else {
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
-    }
+
+    cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
     _eventComplete(emit);
   }
 
   _search(ViewCiComplaintSearchDataEvent event, emit) async {
     cngList = [];
+    cngSearchList =  tempSearchList;
     _eventComplete(emit);
     if (event.keyword.isNotEmpty) {
       cngList = cngSearchList
@@ -161,6 +159,13 @@ class ViewCiComplaintBloc
       }
     } else {
       cngList = cngSearchList;
+    }
+
+    cngSearchList =  cngList;
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
 
     _eventComplete(emit);

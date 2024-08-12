@@ -73,6 +73,7 @@ class ViewAmoComplaintBloc
 
   _search(ViewAmoComplaintSearchDataEvent event, emit) async {
     cngList = [];
+    cngSearchList =  tempSearchList;
     _eventComplete(emit);
     if (event.keyword.isNotEmpty) {
       cngList = cngSearchList
@@ -140,7 +141,13 @@ class ViewAmoComplaintBloc
     } else {
       cngList = cngSearchList;
     }
-
+    
+    cngSearchList =  cngList;
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
     _eventComplete(emit);
   }
 
