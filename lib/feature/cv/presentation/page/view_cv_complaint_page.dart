@@ -73,9 +73,9 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
                   child: GestureDetector(
                     onTap:  () async {
                       BlocProvider.of<ViewCvComplaintBloc>(context).add(
-                          ViewCvComplaintSelectListEvent(listIndex: index));
-                      BlocProvider.of<ViewCvComplaintBloc>(context).add(
                           ViewCvComplaintSelectCngDataEvent(cngData: dataState.cngList[index]));
+                      BlocProvider.of<ViewCvComplaintBloc>(context).add(
+                          ViewCvComplaintSelectListEvent(listIndex: index));
                       showDialog(
                           barrierDismissible: false,
                           context: context,

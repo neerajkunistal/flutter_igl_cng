@@ -325,6 +325,7 @@ class ViewCvComplaintBloc
 
   _selectList(ViewCvComplaintSelectListEvent event, emit)  {
     listIndex =  event.listIndex;
+    cngData =  cngList[listIndex];
     isLoader = false;
     measurementFileList = [];
     measurementFileSheet =  File("");

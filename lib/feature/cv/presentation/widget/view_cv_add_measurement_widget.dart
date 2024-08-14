@@ -18,7 +18,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                   _verticalSpace(context: context),
                   Row(
                     children: [
-                      state.measurementType == MeasurementType.sheet  ||
+                      state.measurementType == MeasurementType.sheet  &&
                           state.cngData.measurementSheetStatus.toString() != "1"?
                       _measurementSheet(
                           dataState: state,
