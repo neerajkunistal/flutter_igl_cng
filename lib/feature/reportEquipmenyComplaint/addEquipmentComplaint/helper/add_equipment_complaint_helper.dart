@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
@@ -16,6 +17,9 @@ class AddEquipmentComplaintHelper {
       }
       return null;
     } catch (e) {
+      if (kDebugMode) {
+        print("fetch complaint type data : - ---- ${e.toString()}");
+      }
       return null;
     }
   }
@@ -29,6 +33,9 @@ class AddEquipmentComplaintHelper {
       }
       return null;
     } catch (e) {
+      if (kDebugMode) {
+        print("fetch equipment type data : - ---- ${e.toString()}");
+      }
       return null;
     }
   }
@@ -42,6 +49,9 @@ class AddEquipmentComplaintHelper {
       }
       return null;
     } catch (e) {
+      if (kDebugMode) {
+        print("fetch general complaint type data : - ---- ${e.toString()}");
+      }
       return null;
     }
   }
@@ -59,7 +69,7 @@ class AddEquipmentComplaintHelper {
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
   }) async {
-    // try {
+    try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
 
@@ -137,8 +147,11 @@ class AddEquipmentComplaintHelper {
         SnackBarErrorWidget(context).show(message: "Internal Server Error");
         return null;
       }
-    // } catch (e) {
-    //   return null;
-    // }
+    } catch (e) {
+      if (kDebugMode) {
+        print("submit complaint data : - ---- ${e.toString()}");
+      }
+      return null;
+    }
   }
 }
