@@ -266,44 +266,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Assign By: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        cngData.assignByUser.toString(),
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Assign Date: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        assignDateTime,
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
                     "Estimate Cost: ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,

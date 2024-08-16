@@ -92,6 +92,25 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
+                  "Category : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.categoryName.toString(),
+                      textAlign: TextAlign.end,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ),
+            Row(
+              children: [
+                TextWidget(
                   "Date : ",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
