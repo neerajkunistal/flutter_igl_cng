@@ -122,6 +122,37 @@ class ViewCiComplaintEstimateApproveEvent extends ViewCiComplaintEvent {
   List<Object?> get props => [context, cngData];
 }
 
+class ViewCiComplaintSelectControlRoomDataEvent extends ViewCiComplaintEvent {
+  final ControlRoomModel controlRoomData;
+
+  const ViewCiComplaintSelectControlRoomDataEvent(
+      {required this.controlRoomData,});
+
+  @override
+  List<Object?> get props => [controlRoomData];
+}
+
+
+class ViewCiComplaintFinalApproveDateEvent extends ViewCiComplaintEvent {
+  final DateTime date;
+
+  const ViewCiComplaintFinalApproveDateEvent(
+      {required this.date,});
+
+  @override
+  List<Object?> get props => [date];
+}
+
+class ViewCiComplaintFilterSubmitEvent extends ViewCiComplaintEvent {
+  final bool isFilterSubmit;
+
+  const ViewCiComplaintFilterSubmitEvent(
+      {required this.isFilterSubmit,});
+
+  @override
+  List<Object?> get props => [isFilterSubmit];
+}
+
 class ViewCiComplaintFinalApproveEvent extends ViewCiComplaintEvent {
   final BuildContext context;
   final CngModel cngData;
@@ -132,3 +163,4 @@ class ViewCiComplaintFinalApproveEvent extends ViewCiComplaintEvent {
   @override
   List<Object?> get props => [context, cngData];
 }
+

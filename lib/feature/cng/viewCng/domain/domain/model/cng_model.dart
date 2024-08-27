@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/estimate_model.dart';
+
 List<CngModel> cngListResponse(var json) {
   return List<CngModel>.from(json.map((x) => CngModel.fromJson(x)));
 }
@@ -44,6 +48,8 @@ class CngModel {
   List<dynamic>? measurementPostImageList;
   String? measurementSheet;
   String? measurementSheetStatus;
+  String? estimateRemark;
+  List<EstimateModel>? estimateList;
 
   CngModel(
       {this.id,
@@ -87,6 +93,8 @@ class CngModel {
       this.measurementPostImageList,
       this.measurementSheet,
       this.measurementSheetStatus,
+      this.estimateRemark,
+      this.estimateList,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -128,6 +136,7 @@ class CngModel {
     controlRoom = json['control_room'] ?? "";
     assignByUser = json['assign_by_user'] ?? "";
     measurementSheet = json['measurement_sheet'] ?? "";
+    estimateRemark = json['estimate_remark'] ?? "";
     measurementSheetStatus = json['measurement_sheet_status'] ?? "0";
     createdComplaintImagesList = json['created_time_images'] !=  null
         ? json['created_time_images'].cast<dynamic>() : [];
@@ -135,6 +144,8 @@ class CngModel {
         ? json['measurement_sheet_pre'].cast<dynamic>() : [];
     measurementPostImageList = json['measurement_sheet_post'] !=  null
         ? json['measurement_sheet_post'].cast<dynamic>() : [];
+    estimateList =  json['civil_complaint_history'] != null ?
+    estimateListResponse(jsonDecode(json['civil_complaint_history'])) : [];
   }
 
   Map<String, dynamic> toJson() {

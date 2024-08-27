@@ -3,10 +3,14 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/model/station_model.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/helper/view_amo_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
+import 'package:flutter_igl_cng/feature/ci/domain/model/control_room_model.dart';
+import 'package:flutter_igl_cng/feature/ci/domain/model/filter_model.dart';
+import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/helper/view_cv_complaint_helper.dart';
 
 part 'view_cv_complaint_event.dart';
+
 part 'view_cv_complaint_state.dart';
 
 class ViewCvComplaintBloc
@@ -19,18 +23,22 @@ class ViewCvComplaintBloc
   bool isFilterLoader = false;
   TextEditingController amountController = TextEditingController();
   TextEditingController stationController = TextEditingController();
+  TextEditingController filterDateController = TextEditingController();
   List<File> files = [];
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   List<File> measurementFileList = [];
   File measurementFileSheet = File("");
-  CngModel cngData =  CngModel();
+  CngModel cngData = CngModel();
   int listIndex = 0;
-  MeasurementType measurementType =  MeasurementType.non;
+  MeasurementType measurementType = MeasurementType.non;
   List<StationModel> stationList = [];
   List<StationModel> searchStationList = [];
-  StationModel stationData =  StationModel();
-  bool isStationLoader =  false;
+  StationModel stationData = StationModel();
+  bool isStationLoader = false;
+  List<ControlRoomModel> controlRoomList = [];
+  ControlRoomModel controlRoomData = ControlRoomModel();
+  FilterModel filterData = FilterModel();
 
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
@@ -38,10 +46,12 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintSelectedDateRangeEvent>(_selectDate);
     on<ViewCvComplaintSearchStationEvent>(_searchStation);
     on<ViewCvComplaintSelectStationEvent>(_selectStation);
+    on<ViewCvComplaintSelectControlRoomDataEvent>(_selectControlRoom);
     on<ViewCvComplaintFetchStationEvent>(_fetchStation);
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
     on<ViewCvComplaintSelectCngDataEvent>(_selectCngData);
+    on<ViewCvComplaintFilterSubmitEvent>(_filterSubmit);
     on<ViewCvComplaintDeleteEstimatePhotoFileEvent>(_deleteEstimatePhoto);
     on<ViewCvComplaintMeasurementSelectFileEvent>(_selectMeasurementPhoto);
     on<ViewCvComplaintMeasurementDeleteFileEvent>(_deleteMeasurementFilePhoto);
@@ -55,29 +65,39 @@ class ViewCvComplaintBloc
     emit(ViewCvComplaintPageLoadState());
     cngList = [];
     cngSearchList = [];
+    filterData = FilterModel();
+    controlRoomData = ControlRoomModel();
+    controlRoomList = [];
     measurementFileList = [];
     measurementFileSheet = File("");
     complaintStatusList = ComplaintStatus.getComplaintData();
     complaintStatusData = ComplaintStatus();
     isLoader = false;
     stationList = [];
-    stationData =  StationModel();
-    isStationLoader =  false;
+    stationData = StationModel();
+    isStationLoader = false;
     isFilterLoader = false;
     listIndex = 0;
     files = [];
     amountController.text = "";
     stationController.text = "";
-    cngData =  CngModel();
+    cngData = CngModel();
     startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
+    filterData = FilterModel(
+        stationData: stationData,
+        controlRoomData: controlRoomData,
+        startDate: startDate,
+        endDate: endDate);
+    filterDateController.text =
+        "${filterData.startDate!.day}-${filterData.startDate!.month}-${filterData.startDate!.year},${filterData.endDate!.day}-${filterData.endDate!.month}-${filterData.endDate!.year}";
     var res = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
         fromDate: startDate.toString(), toDate: endDate.toString());
     if (res != null) {
       cngList = res;
       cngSearchList = res;
     }
-    measurementType =  MeasurementType.non;
+    measurementType = MeasurementType.non;
     _eventComplete(emit);
   }
 
@@ -126,25 +146,25 @@ class ViewCvComplaintBloc
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.categoryName
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.controlRoom
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.cngStation
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
     } else {
@@ -155,56 +175,85 @@ class ViewCvComplaintBloc
   }
 
   _searchStation(ViewCvComplaintSearchStationEvent event, emit) {
-    isStationLoader =  true;
+    isStationLoader = true;
     _eventComplete(emit);
-    if(event.keyword.toString().isNotEmpty) {
-      stationList =  searchStationList.where((element) =>
-          element.name.toString().toLowerCase().contains(event.keyword.toLowerCase())).toList();
+    if (event.keyword.toString().isNotEmpty) {
+      stationList = searchStationList
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(event.keyword.toLowerCase()))
+          .toList();
     } else {
-      stationList =  searchStationList;
+      stationList = searchStationList;
     }
-    isStationLoader =  false;
+    isStationLoader = false;
     _eventComplete(emit);
   }
 
   _selectStation(ViewCvComplaintSelectStationEvent event, emit) {
-    stationData =  event.stationData;
-    cngList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
-        == stationData.name.toString().toLowerCase()).toList();
+    isFilterLoader = true;
+    _eventComplete(emit);
+    stationData = event.stationData;
+    isFilterLoader = false;
+    _eventComplete(emit);
+  }
+
+  _selectControlRoom(ViewCvComplaintSelectControlRoomDataEvent event, emit) {
+    controlRoomData = event.controlRoomData;
     _eventComplete(emit);
   }
 
   _fetchStation(ViewCvComplaintFetchStationEvent event, emit) async {
-    isStationLoader =  true;
+    isStationLoader = true;
     stationController.text = "";
+    stationData = StationModel();
+    controlRoomData = ControlRoomModel();
     _eventComplete(emit);
-    if(searchStationList.isEmpty){
-      var res =  await ViewAmoComplaintHelper.fetchStationData();
-      if(res != null){
-        stationList =  res;
-        searchStationList =  res;
+    if (searchStationList.isEmpty) {
+      var res = await ViewAmoComplaintHelper.fetchStationData();
+      if (res != null) {
+        stationList = res;
+        searchStationList = res;
       }
     } else {
-      stationList =  searchStationList;
+      stationList = searchStationList;
     }
 
-    isStationLoader =  false;
+    if (controlRoomList.isEmpty) {
+      var resControlRoom = await ViewCiComplaintHelper.fetchControlRoomData();
+      if (resControlRoom != null) {
+        controlRoomList = resControlRoom;
+      }
+    }
+
+    if (filterData.startDate != null) {
+      filterDateController.text =
+          "${filterData.startDate!.day}-${filterData.startDate!.month}-${filterData.startDate!.year},${filterData.endDate!.day}-${filterData.endDate!.month}-${filterData.endDate!.year}";
+    }
+
+    if (filterData.stationData != null &&
+        filterData.stationData!.name != null) {
+      stationData = filterData.stationData!;
+    }
+
+    if (filterData.controlRoomData != null &&
+        filterData.controlRoomData!.controlRoomName != null) {
+      controlRoomData = filterData.controlRoomData!;
+    }
+
+    isStationLoader = false;
     _eventComplete(emit);
   }
 
   _selectDate(ViewCvComplaintSelectedDateRangeEvent event, emit) async {
-    cngList = [];
-    cngSearchList = [];
     isFilterLoader = true;
     _eventComplete(emit);
     startDate = event.fromDate;
     endDate = event.toDate;
-    var res = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
-        fromDate: event.fromDate.toString(), toDate: event.toDate.toString());
-    if (res != null) {
-      cngList = res;
-      cngSearchList = res;
-    }
+    filterDateController.text =
+        "${startDate.day}-${startDate.month}-${startDate.year},${endDate.day}-${endDate.month}-${endDate.year}";
+
     isFilterLoader = false;
     _eventComplete(emit);
   }
@@ -216,7 +265,61 @@ class ViewCvComplaintBloc
   }
 
   _selectCngData(ViewCvComplaintSelectCngDataEvent event, emit) {
-    cngData =  event.cngData;
+    cngData = event.cngData;
+    _eventComplete(emit);
+  }
+
+  _filterSubmit(ViewCvComplaintFilterSubmitEvent event, emit) async {
+    cngList = [];
+    cngSearchList = [];
+    isFilterLoader = true;
+    _eventComplete(emit);
+
+    startDate = DateTime.now().subtract(const Duration(days: 15));
+    endDate = DateTime.now();
+
+    startDate =
+        event.isFilterSubmit == true ? filterData.startDate! : startDate;
+    endDate = event.isFilterSubmit == true ? filterData.endDate! : endDate;
+
+    filterData.startDate = startDate;
+    filterData.endDate = endDate;
+
+    filterData.stationData = stationData;
+    filterData.controlRoomData = controlRoomData;
+
+    var res = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
+        fromDate: startDate.toString(), toDate: endDate.toString());
+    if (res != null) {
+      cngList = res;
+      cngSearchList = res;
+    }
+
+    if (event.isFilterSubmit == true) {
+      if (filterData.stationData != null &&
+          filterData.stationData!.name != null) {
+        stationData = filterData.stationData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+                element.cngStation.toString().toLowerCase() ==
+                stationData.name.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+
+      if (filterData.controlRoomData != null &&
+          filterData.controlRoomData!.controlRoomName != null) {
+        controlRoomData = filterData.controlRoomData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+                element.controlRoomId.toString().toLowerCase() ==
+                controlRoomData.controlRoomId.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+    }
+
+    isFilterLoader = false;
     _eventComplete(emit);
   }
 
@@ -240,7 +343,8 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
-  _deleteEstimatePhoto(ViewCvComplaintDeleteEstimatePhotoFileEvent event, emit) {
+  _deleteEstimatePhoto(
+      ViewCvComplaintDeleteEstimatePhotoFileEvent event, emit) {
     isLoader = true;
     _eventComplete(emit);
     files.removeAt(event.index);
@@ -248,8 +352,8 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
-  _selectMeasurementPhoto(ViewCvComplaintMeasurementSelectFileEvent event, emit) async {
-
+  _selectMeasurementPhoto(
+      ViewCvComplaintMeasurementSelectFileEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
@@ -265,14 +369,15 @@ class ViewCvComplaintBloc
         measurementFileList.add(photo);
       }
     }
-    if(measurementType == MeasurementType.sheet){
+    if (measurementType == MeasurementType.sheet) {
       Navigator.pop(event.context.mounted ? event.context : event.context);
     }
     isLoader = false;
     _eventComplete(emit);
   }
 
-  _deleteMeasurementFilePhoto(ViewCvComplaintMeasurementDeleteFileEvent event, emit) {
+  _deleteMeasurementFilePhoto(
+      ViewCvComplaintMeasurementDeleteFileEvent event, emit) {
     isLoader = true;
     _eventComplete(emit);
     measurementFileList.removeAt(event.index);
@@ -281,7 +386,8 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
-  _selectMeasurementSheet(ViewCvComplaintMeasurementSheetSelectFileEvent event, emit) async {
+  _selectMeasurementSheet(
+      ViewCvComplaintMeasurementSheetSelectFileEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
@@ -300,12 +406,12 @@ class ViewCvComplaintBloc
     Navigator.pop(event.context.mounted ? event.context : event.context);
     isLoader = false;
     _eventComplete(emit);
-
   }
 
   _submit(ViewCvComplaintSubmitEvent event, emit) async {
-    if(amountController.text.toString().isEmpty){
-      SnackBarErrorWidget(event.context).show(message: "Please enter estimate amount");
+    if (amountController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please enter estimate amount");
       return;
     }
     isLoader = true;
@@ -323,41 +429,44 @@ class ViewCvComplaintBloc
     _eventComplete(emit);
   }
 
-  _selectList(ViewCvComplaintSelectListEvent event, emit)  {
-    listIndex =  event.listIndex;
-    cngData =  cngList[listIndex];
+  _selectList(ViewCvComplaintSelectListEvent event, emit) {
+    listIndex = event.listIndex;
+    cngData = cngList[listIndex];
     isLoader = false;
     measurementFileList = [];
-    measurementFileSheet =  File("");
-    files =  [];
+    measurementFileSheet = File("");
+    files = [];
     amountController.text = "";
-    measurementType =  MeasurementType.non;
+    measurementType = MeasurementType.non;
 
-    if(cngData.measurementPreImageList == null ||
-        cngData.measurementPreImageList!.isEmpty){
-      measurementType =  MeasurementType.pre;
-    } else if(cngData.measurementPostImageList == null ||
-        cngData.measurementPostImageList!.isEmpty){
-      measurementType =  MeasurementType.post;
-    }  else if(cngData.measurementSheet.toString().isEmpty &&
-        cngData.measurementSheetStatus.toString() != "1"){
-      measurementType =  MeasurementType.sheet;
+/*    if (cngData.measurementPreImageList == null ||
+        cngData.measurementPreImageList!.isEmpty) {
+      measurementType = MeasurementType.pre;
+    } else*/
+      if (cngData.measurementPostImageList == null ||
+        cngData.measurementPostImageList!.isEmpty) {
+      measurementType = MeasurementType.post;
+    } else if (cngData.measurementSheet.toString().isEmpty &&
+        cngData.measurementSheetStatus.toString() != "1") {
+      measurementType = MeasurementType.sheet;
     }
     _eventComplete(emit);
   }
 
   _submitMeasurement(ViewCvComplaintSubmitMeasurementEvent event, emit) async {
-    if(measurementType == MeasurementType.sheet &&
-        measurementFileSheet.path.isEmpty){
+    if (measurementType == MeasurementType.sheet &&
+        measurementFileSheet.path.isEmpty) {
       SnackBarErrorWidget(event.context).show(message: "Please select sheet");
       return;
-    }  else if(measurementType == MeasurementType.pre &&
-        measurementFileList.length < 2){
-      SnackBarErrorWidget(event.context).show(message: "Please select minimum two before photo");
+    } else if (measurementType == MeasurementType.pre &&
+        measurementFileList.length < 2) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select minimum two before photo");
       return;
-    } else if(measurementType == MeasurementType.post &&
-        measurementFileList.length < 2 ){
-      SnackBarErrorWidget(event.context).show(message: "Please select minimum two after photo");
+    } else if (measurementType == MeasurementType.post &&
+        measurementFileList.length < 2) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select minimum two after photo");
       return;
     }
     isLoader = true;
@@ -368,8 +477,7 @@ class ViewCvComplaintBloc
         context: event.context,
         measurementFileList: measurementFileList,
         measurementSheetFile: measurementFileSheet,
-        measurementType: measurementType
-    );
+        measurementType: measurementType);
     if (res != null) {
       Navigator.of(!event.context.mounted ? event.context : event.context)
           .pop("Complete");
@@ -396,6 +504,9 @@ class ViewCvComplaintBloc
       stationList: stationList,
       isStationLoader: isStationLoader,
       stationController: stationController,
+      filterDateController: filterDateController,
+      controlRoomData: controlRoomData,
+      controlRoomList: controlRoomList,
     ));
   }
 }

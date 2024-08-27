@@ -145,6 +145,26 @@ class ViewCvComplaintSearchStationEvent extends ViewCvComplaintEvent {
   List<Object?> get props => [keyword];
 }
 
+class ViewCvComplaintSelectControlRoomDataEvent extends ViewCvComplaintEvent {
+  final ControlRoomModel controlRoomData;
+
+  const ViewCvComplaintSelectControlRoomDataEvent(
+      {required this.controlRoomData,});
+
+  @override
+  List<Object?> get props => [controlRoomData];
+}
+
+class ViewCvComplaintFilterSubmitEvent extends ViewCvComplaintEvent {
+  final bool isFilterSubmit;
+
+  const ViewCvComplaintFilterSubmitEvent(
+      {required this.isFilterSubmit,});
+
+  @override
+  List<Object?> get props => [isFilterSubmit];
+}
+
 
 class ViewCvComplaintSubmitMeasurementEvent extends ViewCvComplaintEvent {
   final BuildContext context;

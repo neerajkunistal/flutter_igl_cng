@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_detail_page.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/cvStation_filter.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/cv_filter_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_complaint_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
@@ -138,21 +139,13 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
 
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
-    DateTime startDate = BlocProvider.of<ViewCvComplaintBloc>(
-            !context.mounted ? context : context)
-        .startDate;
-    DateTime endDate = BlocProvider.of<ViewCvComplaintBloc>(
-            !context.mounted ? context : context)
-        .endDate;
-    BlocProvider.of<ViewCvComplaintBloc>(!context.mounted ? context : context)
-        .add(ViewCvComplaintSelectedDateRangeEvent(
-            fromDate: startDate,
-            toDate: endDate,
-            context: !context.mounted ? context : context));
+    BlocProvider.of<ViewCvComplaintBloc>(context).add(
+        const ViewCvComplaintFilterSubmitEvent(isFilterSubmit: true));
   }
 
   Widget _searchWidget() {
     return SearchBarWidget(
+      isCalenderHide: true,
       onPressed: () async {
         DateTime startDate = BlocProvider.of<ViewCvComplaintBloc>(
             !context.mounted ? context : context)
@@ -183,7 +176,7 @@ class _ViewCvComplaintPageState extends State<ViewCvComplaintPage> {
         onPressed: () {
           BlocProvider.of<ViewCvComplaintBloc>(context).add(
               ViewCvComplaintFetchStationEvent(context: context));
-          cvModalBottomSheetMenu(context: context);
+          cvFilter(context: context);
         }, icon:  Icon(Icons.filter_alt_outlined, color: AppColor.white,));
   }
 }

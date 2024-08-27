@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_history_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewCiDetailPage extends StatefulWidget {
@@ -325,6 +326,69 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                       )),
                 ],
               ),
+
+              cngData.estimateStatus.toString() == "2" ?
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ) : const SizedBox.shrink(),
+
+              cngData.estimateStatus.toString() == "2" ?
+              Row(
+                children: [
+                  TextWidget(
+                    "Estimate Status : ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        "Rejected",
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                        color: AppColor.red,
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+              ) : const SizedBox.shrink(),
+
+              cngData.estimateStatus.toString() == "2" ?
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ) : const SizedBox.shrink(),
+
+              cngData.estimateStatus.toString() == "2" ?
+              Row(
+                children: [
+                  TextWidget(
+                    "Estimate Remark : ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.estimateRemark.toString(),
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                        color: AppColor.black,
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+              ) : const SizedBox.shrink(),
+
+              cngData.estimateList != null && cngData.estimateList!.isNotEmpty
+                  &&  cngData.estimateList!.length > 1  ? Divider(
+                color: AppColor.lightGrey,
+              ) : const SizedBox.shrink(),
+
+              cngData.estimateList != null && cngData.estimateList!.isNotEmpty
+                  &&  cngData.estimateList!.length > 1  ?
+              TextWidget("Estimate history",
+                color: AppColor.black,
+                fontWeight: FontWeight.w700,)
+                  : const SizedBox.shrink(),
+
+              EstimateCoastHistoryWidget(cngData: cngData),
+
               Divider(
                 color: AppColor.lightGrey,
               ),
@@ -356,18 +420,18 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
-              TextWidget("Estimate Images : ",
+              TextWidget("Estimate & Before Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),
 
-              SizedBox(
+/*              SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
               TextWidget("Before Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
-              ComplaintImagesWidget(imageList: cngData.measurementPreImageList ?? []),
+              ComplaintImagesWidget(imageList: cngData.measurementPreImageList ?? []),*/
 
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
@@ -386,8 +450,9 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               ComplaintImagesWidget(imageList: cngData.measurementSheet.toString().isNotEmpty ?
               [cngData.measurementSheet] : []),
 
-              cngData.assignTo.toString() == "0" &&
-                  cngData.complaintStatus.toString() == "0"
+              (cngData.assignTo.toString() == "0" &&
+                  cngData.complaintStatus.toString() == "0") ||
+                  cngData.estimateList!.length == 3
                   ? CiAssignWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 

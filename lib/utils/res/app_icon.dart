@@ -30,4 +30,6 @@ class AppIcon {
   static get pumpIcon => "assets/pump.png";
 
   static get ghungaruIcon => "assets/ghungaru.png";
+
+  static get filterIcon => "assets/ic_fillter.png";
 }

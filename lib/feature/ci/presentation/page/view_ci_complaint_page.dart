@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/page/view_ci_detail_page.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_filter_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_station_filter.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/view_ci_complaint_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/view_ci_tabBar_widget.dart';
@@ -158,21 +159,13 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
 
   Future<void> _handleRefresh() async {
     await Future.delayed(const Duration(seconds: 1));
-    DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
-            !context.mounted ? context : context)
-        .startDate;
-    DateTime endDate = BlocProvider.of<ViewCiComplaintBloc>(
-            !context.mounted ? context : context)
-        .endDate;
-    BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
-        .add(ViewCiComplaintSelectedDateRangeEvent(
-            fromDate: startDate,
-            toDate: endDate,
-            context: !context.mounted ? context : context));
+    BlocProvider.of<ViewCiComplaintBloc>(context).add(
+        const ViewCiComplaintFilterSubmitEvent(isFilterSubmit: true));
   }
 
   Widget _searchWidget() {
     return SearchBarWidget(
+      isCalenderHide: true,
       onPressed: () async {
         DateTime startDate = BlocProvider.of<ViewCiComplaintBloc>(
                 !context.mounted ? context : context)
@@ -204,7 +197,7 @@ class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
         onPressed: () {
           BlocProvider.of<ViewCiComplaintBloc>(context)
               .add(ViewCiComplaintFetchStationDataEvent(context: context));
-          ciModalBottomSheetMenu(context: context);
+          ciFilter(context: context);
         },
         icon: Icon(
           Icons.filter_alt_outlined,

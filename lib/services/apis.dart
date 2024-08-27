@@ -82,5 +82,7 @@ class APIs {
 
   static get getCNGStationListApi => "api/onm/cng-stations";
 
+  static get getControlRoomDataForCiApi => "api/cr/assigned-control-room?";
+
   static get forgotPasswordApi => "";
 }

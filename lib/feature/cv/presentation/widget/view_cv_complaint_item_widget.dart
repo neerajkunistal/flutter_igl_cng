@@ -132,7 +132,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                           ? "Pending"
                           : cngData.approveStatus.toString() == "1"
                           ? "Approved"
-                          : "Reject",
+                          : "Rejected",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                       color: cngData.approveStatus.toString() == "0"
@@ -182,6 +182,55 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                     )),
               ],
             ),
+
+            cngData.estimateStatus.toString() == "2" ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.estimateStatus.toString() == "2" ?
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Status : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      "Rejected",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.red,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
+            cngData.estimateStatus.toString() == "2" ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.estimateStatus.toString() == "2" ?
+            Row(
+              children: [
+                TextWidget(
+                  "Estimate Remark : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.estimateRemark.toString(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.black,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
           ],
         ),
       ),

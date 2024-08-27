@@ -4,7 +4,11 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 class SearchBarWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final ValueChanged<String>? onChanged;
-  const SearchBarWidget({super.key, this.onPressed, this.onChanged});
+  final bool isCalenderHide;
+  const SearchBarWidget({super.key,
+    this.onPressed,
+    this.onChanged,
+    this.isCalenderHide =  false});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +22,14 @@ class SearchBarWidget extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.08,
         ),
         Expanded(child: _searchController(context: context)),
+        isCalenderHide == false ?
         IconButton(
             onPressed: onPressed,
             icon: Icon(
               Icons.calendar_month_outlined,
               color: AppColor.white,
-            ))
+            )) :  SizedBox(
+                width: MediaQuery.of(context).size.width * 0.08,)
       ],
     );
   }

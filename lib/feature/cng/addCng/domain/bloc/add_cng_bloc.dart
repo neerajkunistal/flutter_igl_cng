@@ -22,6 +22,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   TextEditingController reportedByController = TextEditingController();
   TextEditingController reportedByPhoneController = TextEditingController();
   List<File> fileList = [];
+  DateTime date =  DateTime.now();
 
   AddCngBloc() : super(AddCngInitial()) {
     on<AddCngPageLoadEvent>(_pageLoad);
@@ -50,6 +51,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     fileList.add(File(""));
     fileList.add(File(""));
     fileList.add(File(""));
+    date =  DateTime.now();
 
     var categoryRes = await AddCngHelper.fetchCategory();
     if (categoryRes != null) {
@@ -65,7 +67,13 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   }
 
   _selectDate(AddCngSelectDateEvent event, emit) async {
-    try {
+
+    date =  event.date;
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    dateController.text = formattedDate;
+    _eventCompleted(emit);
+
+/*    try {
       final DateTime? picked = await showDatePicker(
           context: event.context,
           initialDate: DateTime.now(),
@@ -80,7 +88,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       if (kDebugMode) {
         print(e.toString());
       }
-    }
+    }*/
   }
 
   _selectTime(AddCngSelectTimeEvent event, emit) async {
@@ -200,6 +208,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       reportedByController: reportedByController,
       reportedByPhoneController: reportedByPhoneController,
       timeController: timeController,
+      date: date,
     ));
   }
 }

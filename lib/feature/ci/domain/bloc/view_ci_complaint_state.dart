@@ -27,6 +27,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final TextEditingController searchController;
   final TextEditingController fromDateController;
   final TextEditingController toDateController;
+  final DateTime finalDate;
   final bool isFilterLoader;
   final int listIndex;
   final int tabIndex;
@@ -34,6 +35,10 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final List<StationModel> stationList;
   final StationModel stationData;
   final TextEditingController stationController;
+  final TextEditingController filterDateController;
+  final TextEditingController estimateRemarkController;
+  final List<ControlRoomModel> controlRoomList;
+  final ControlRoomModel controlRoomData;
 
 
   FetchViewCiComplaintDataState({
@@ -56,6 +61,11 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.stationData,
     required this.stationList,
     required this.stationController,
+    required this.finalDate,
+    required this.filterDateController,
+    required this.controlRoomList,
+    required this.controlRoomData,
+    required this.estimateRemarkController,
   });
 
   @override
@@ -79,5 +89,10 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
         stationData,
         stationList,
         stationController,
+        finalDate,
+        filterDateController,
+        controlRoomList,
+        controlRoomData,
+        estimateRemarkController,
       ];
 }

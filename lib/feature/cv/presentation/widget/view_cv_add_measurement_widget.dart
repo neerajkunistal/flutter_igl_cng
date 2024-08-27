@@ -18,17 +18,6 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                   _verticalSpace(context: context),
                   Row(
                     children: [
-                      state.measurementType == MeasurementType.sheet  &&
-                          state.cngData.measurementSheetStatus.toString() != "1"?
-                      _measurementSheet(
-                          dataState: state,
-                          index: 0,
-                          file: state.measurementFileSheet,
-                          context: context
-                      ) : const SizedBox.shrink(),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.03,),
-
                       state.measurementType == MeasurementType.pre
                       || state.measurementType == MeasurementType.post ?
                       _photo(
@@ -36,6 +25,19 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                           index: 0,
                           file: File(""),
                           context: context) : const SizedBox.shrink(),
+
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.03,),
+
+                    state.measurementType == MeasurementType.sheet  &&
+                          state.cngData.measurementSheetStatus.toString() != "1"?
+                      _measurementSheet(
+                          dataState: state,
+                          index: 0,
+                          file: state.measurementFileSheet,
+                          context: context
+                      ): const SizedBox.shrink(),
+
                     ],
                   ),
                   _verticalSpace(context: context),
@@ -192,7 +194,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Center(
-                child: Icon(Icons.photo_camera_back_outlined),
+                child: Icon(Icons.file_copy_outlined),
               ),
               Padding(
                 padding: EdgeInsets.all(

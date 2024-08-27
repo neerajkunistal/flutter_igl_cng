@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/model/complaint_status.dart';
+import 'package:flutter_igl_cng/feature/ci/domain/model/control_room_model.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ViewCiComplaintHelper {
 
@@ -133,12 +136,14 @@ class ViewCiComplaintHelper {
   static Future<dynamic> estimateApprove(
       {required CngModel cngData,
       required ComplaintStatus complaintStatus,
+      required String estimateRemark,
       required BuildContext context}) async {
     try {
       String url = APIs.estimateComplaintApproveApi;
       var json = {
         "complaintId": cngData.id.toString(),
-        "statusType": complaintStatus.id.toString()
+        "statusType": complaintStatus.id.toString(),
+        "estimateRemark": estimateRemark,
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&
@@ -179,6 +184,7 @@ class ViewCiComplaintHelper {
       {required CngModel cngData,
       required ComplaintStatus complaintStatus,
       required String remark,
+      required String approveDate,
       required BuildContext context}) async {
     try {
       String url = APIs.civilFinalComplaintApproveApi;
@@ -186,6 +192,7 @@ class ViewCiComplaintHelper {
         "complaintId": cngData.id.toString(),
         "statusType": complaintStatus.id.toString(),
         "remarks": remark,
+        "approveDate": remark,
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&
@@ -221,4 +228,23 @@ class ViewCiComplaintHelper {
       return null;
     }
   }
+
+  static Future<dynamic> fetchControlRoomData() async {
+    try {
+      LoginDataModel  userData =  UserInfo.instanceInit()!.userData!;
+      String url = APIs.getControlRoomDataForCiApi+"userId=${userData.userId}";
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return controlRoomListResponse(res['data']);
+      } else {
+        return null;
+      }
+    } catch (_) {
+      return null;
+    }
+  }
+
 }

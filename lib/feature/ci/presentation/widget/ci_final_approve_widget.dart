@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/cupertino_date_picker_widget.dart';
 
 class CiFinalApproveWidget extends StatelessWidget {
   final CngModel cngData;
@@ -50,6 +51,15 @@ class CiFinalApproveWidget extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.04,
         ),
+        dataState.complaintStatusData.id.toString() == "1" ?
+        _dateController(dataState: dataState, context: context)
+            : const SizedBox.shrink(),
+
+        dataState.complaintStatusData.id.toString() == "1" ?
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ) : const SizedBox.shrink(),
+
         _remarkController(dataState: dataState, context: context),
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.04,
@@ -88,6 +98,37 @@ class CiFinalApproveWidget extends StatelessWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _dateController(
+      {required FetchViewCiComplaintDataState dataState,
+        required BuildContext context}) {
+        DateTime estimateDateTime = DateTime.now();
+    if (cngData.estimateCostDataTime != null &&
+        cngData.estimateCostDataTime.toString().isNotEmpty) {
+      estimateDateTime = DateFormat('dd-MMM-yyyy')
+          .parse(cngData.estimateCostDataTime.toString());
+    }
+    DateTime date = DateTime(estimateDateTime.year, estimateDateTime.month, estimateDateTime.day);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+      child: TextFieldWidget(
+          controller: dataState.toDateController,
+          labelText: AppString.date,
+          onTap: () => showCupertinoDatePickerWidgetDialog(
+           context: context,
+           child : CupertinoDatePickerWidget(
+             minimumDate: date,
+             initialDateTime: dataState.finalDate,
+             onDateTimeChanged: (DateTime newDate) async {
+               BlocProvider.of<ViewCiComplaintBloc>(context).add(
+                   ViewCiComplaintFinalApproveDateEvent(date: newDate));
+             },
+           ),
+         ),
       ),
     );
   }

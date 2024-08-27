@@ -14,7 +14,9 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
     return BlocBuilder<ViewCvComplaintBloc, ViewCvComplaintState>(
       builder: (context, state) {
         if (state is FetchViewCvComplaintDataState) {
-          return _itemBuilder(dataState: state, context: context);
+          return state.cngData.estimateList!.length < 3 ?
+          _itemBuilder(dataState: state, context: context)
+              : const SizedBox.shrink();
         } else {
           return _centerLoader();
         }
@@ -95,11 +97,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
       height: MediaQuery.of(context).size.width / 4,
       child: InkWell(
         onTap: () async {
-          BlocProvider.of<ViewCvComplaintBloc>(context)
-              .add(ViewCvComplaintSelectFileEvent(
-            context: context,
-            mediaType: 1,
-          ));
+          mediaType(context: context, index: index);
         },
         child: DottedBorder(
           color: AppColor.grey,
@@ -175,6 +173,49 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void mediaType({required BuildContext context, required int index}) {
+    showModalBottomSheet(
+      context: context, // Also default
+      builder: (context) {
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.18,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<ViewCvComplaintBloc>(context)
+                        .add(ViewCvComplaintSelectFileEvent(
+                      context: context,
+                      mediaType: 1,
+                    ));
+                    Navigator.pop(context);
+                  },
+                  child: TextWidget(
+                    "Camera",
+                    fontSize: AppFont.font_16,
+                  )),
+              const Divider(),
+              TextButton(
+                  onPressed: () {
+                    BlocProvider.of<ViewCvComplaintBloc>(context)
+                        .add(ViewCvComplaintSelectFileEvent(
+                      context: context,
+                      mediaType: 2,
+                    ));
+                    Navigator.pop(context);
+                  },
+                  child: TextWidget(
+                    "Gallery",
+                    fontSize: AppFont.font_16,
+                  )),
+            ],
+          ),
+        );
+      },
     );
   }
 

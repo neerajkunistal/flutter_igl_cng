@@ -26,6 +26,7 @@ final class FetchAddCngDataState extends AddCngInitial {
   final TextEditingController reportedByController;
   final TextEditingController reportedByPhoneController;
   final List<File> fileList;
+  final DateTime date;
 
   FetchAddCngDataState({
     required this.isLoader,
@@ -39,6 +40,7 @@ final class FetchAddCngDataState extends AddCngInitial {
     required this.reportedByController,
     required this.reportedByPhoneController,
     required this.timeController,
+    required this.date,
   });
 
   @override
@@ -54,5 +56,6 @@ final class FetchAddCngDataState extends AddCngInitial {
         reportedByController,
         reportedByPhoneController,
         timeController,
+        date,
       ];
 }

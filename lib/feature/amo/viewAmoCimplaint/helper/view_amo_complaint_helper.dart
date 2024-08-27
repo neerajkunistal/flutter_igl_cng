@@ -66,4 +66,22 @@ class ViewAmoComplaintHelper {
       return null;
     }
   }
+
+  static Future<dynamic> fetchControlRoomData() async {
+    try {
+      String url = APIs.getCNGStationListApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null &&
+          res['status'] != null &&
+          res['status'] == true &&
+          res['data'] != null) {
+        return stationListResponse(res['data']);
+      } else {
+        return null;
+      }
+    } catch (_) {
+      return null;
+    }
+  }
+
 }

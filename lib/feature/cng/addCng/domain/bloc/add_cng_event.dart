@@ -11,8 +11,11 @@ class AddCngPageLoadEvent extends AddCngEvent {
 
 class AddCngSelectDateEvent extends AddCngEvent {
   final BuildContext context;
+  final DateTime date;
 
-  const AddCngSelectDateEvent({required this.context});
+  const AddCngSelectDateEvent({
+    required this.context ,
+    required this.date});
 
   @override
   List<Object?> get props => [context];
