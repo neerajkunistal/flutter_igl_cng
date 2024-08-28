@@ -180,7 +180,7 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
                         cngData.complaintStatus.toString() == "0"
                             ? "Open"
                             : cngData.complaintStatus.toString() == "1"
-                            ? "Close"
+                            ? "Closed"
                             : "Reject",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,

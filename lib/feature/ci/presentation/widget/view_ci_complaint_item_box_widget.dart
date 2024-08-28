@@ -276,7 +276,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextWidget(
-                      "Rejected",
+                      "Change request",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                       color: AppColor.red,
@@ -327,7 +327,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextWidget(
-                      "Rejected",
+                      "Change request",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                       color: AppColor.red,

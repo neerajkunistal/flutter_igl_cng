@@ -319,7 +319,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                   ),
                   Expanded(
                       child: TextWidget(
-                        "Reject",
+                        "Change request",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: AppColor.red,
@@ -383,7 +383,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                   ),
                   Expanded(
                       child: TextWidget(
-                        "Rejected",
+                        "Change request",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: AppColor.red,

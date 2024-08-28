@@ -383,7 +383,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   ),
                   Expanded(
                       child: TextWidget(
-                        "Rejected",
+                        "Change request",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: AppColor.red,
@@ -447,7 +447,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   ),
                   Expanded(
                       child: TextWidget(
-                        "Rejected",
+                        "Change request",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: AppColor.red,
@@ -553,7 +553,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               cngData.assignTo.toString() != "0" &&
                   cngData.estimateCost.toString() != "0" &&
                   ( cngData.estimateStatus.toString() == "0"
-                      || cngData.estimateStatus.toString().isEmpty)
+                      || cngData.estimateStatus.toString().isEmpty) &&
+                  cngData.estimateList!.length != 3
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
