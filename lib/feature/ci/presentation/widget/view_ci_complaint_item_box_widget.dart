@@ -25,6 +25,13 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
 
+    String complaintClosedDate = "";
+    if (cngData.complaintClosedOn != null &&
+        cngData.complaintClosedOn.toString().isNotEmpty) {
+      complaintClosedDate = DateFormat('dd-MMM-yyyy')
+          .format(DateTime.parse(cngData.complaintClosedOn.toString()));
+    }
+
     return Card(
       elevation: 2,
       shadowColor: AppColor.themeColor,
@@ -190,6 +197,31 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 )),
               ],
             ),
+
+            complaintClosedDate .isNotEmpty ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            complaintClosedDate .isNotEmpty ?
+            Row(
+              children: [
+                TextWidget(
+                  "Complaint Closed date : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      complaintClosedDate,
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color:  AppColor.green,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
@@ -269,6 +301,59 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                 Expanded(
                     child: TextWidget(
                       cngData.estimateRemark.toString(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.black,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ? SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ? Row(
+              children: [
+                TextWidget(
+                  "Measurement Sheet Status : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      "Rejected",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.red,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ?SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+            ? Row(
+              children: [
+                TextWidget(
+                  "Measurement Remark : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.anyRemarks.toString(),
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                       color: AppColor.black,

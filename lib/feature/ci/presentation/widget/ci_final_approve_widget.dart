@@ -106,16 +106,18 @@ class CiFinalApproveWidget extends StatelessWidget {
       {required FetchViewCiComplaintDataState dataState,
         required BuildContext context}) {
         DateTime estimateDateTime = DateTime.now();
-    if (cngData.estimateCostDataTime != null &&
-        cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy')
-          .parse(cngData.estimateCostDataTime.toString());
-    }
+        if (cngData.estimateCostDataTime != null &&
+            cngData.estimateCostDataTime.toString().isNotEmpty) {
+          String dateTime = DateFormat('yyyy-MM-dd')
+              .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
+          estimateDateTime =  DateTime.parse(dateTime);
+        }
     DateTime date = DateTime(estimateDateTime.year, estimateDateTime.month, estimateDateTime.day);
 
     return Padding(
       padding: const EdgeInsets.only(left: 15.0, right: 15.0),
       child: TextFieldWidget(
+         enabled: false,
           controller: dataState.toDateController,
           labelText: AppString.date,
           onTap: () => showCupertinoDatePickerWidgetDialog(

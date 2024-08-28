@@ -231,6 +231,58 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
               ],
             ) : const SizedBox.shrink(),
 
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ? SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ? Row(
+              children: [
+                TextWidget(
+                  "Measurement Sheet Status : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      "Rejected",
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.red,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ?SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.measurementSheetStatus.toString() == "0" &&
+                cngData.measurementSheet.toString().isNotEmpty
+                ? Row(
+              children: [
+                TextWidget(
+                  "Measurement Remark : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.anyRemarks.toString(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      color: AppColor.black,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ) : const SizedBox.shrink(),
+
           ],
         ),
       ),

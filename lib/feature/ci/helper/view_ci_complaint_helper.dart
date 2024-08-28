@@ -192,7 +192,7 @@ class ViewCiComplaintHelper {
         "complaintId": cngData.id.toString(),
         "statusType": complaintStatus.id.toString(),
         "remarks": remark,
-        "approveDate": remark,
+        "approveDate": approveDate,
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&

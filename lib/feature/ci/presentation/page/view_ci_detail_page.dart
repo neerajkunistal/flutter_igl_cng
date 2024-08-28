@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
@@ -34,7 +35,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 child: BlocBuilder<ViewCiComplaintBloc, ViewCiComplaintState>(
                   builder: (context, state) {
                     if (state is FetchViewCiComplaintDataState) {
-                      return Container(
+                      return state.isFilterLoader == false ?
+                      Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -44,11 +46,10 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                           child: SingleChildScrollView(
                               child: state.cngList.isNotEmpty
                                   ? _itemBuilder(dataState: state)
-                                  : const SizedBox.shrink()));
+                                  : const SizedBox.shrink()))
+                          : _centerLoader();
                     } else {
-                      return const Center(
-                        child: CenterLoaderWidget(),
-                      );
+                      return _centerLoader();
                     }
                   },
                 ),
@@ -56,6 +57,12 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
             ],
           ),
         )
+    );
+  }
+
+  Widget _centerLoader() {
+    return const Center(
+      child: CenterLoaderWidget(),
     );
   }
 
@@ -105,6 +112,14 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
       estimateDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
     }
+
+    String complaintClosedDate = "";
+    if (cngData.complaintClosedOn != null &&
+        cngData.complaintClosedOn.toString().isNotEmpty) {
+      complaintClosedDate = DateFormat('dd-MMM-yyyy')
+          .format(DateTime.parse(cngData.complaintClosedOn.toString()));
+    }
+
     return Stack(
       children: [
         Padding(
@@ -250,6 +265,32 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                       )),
                 ],
               ),
+
+              complaintClosedDate .isNotEmpty ?
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ) : const SizedBox.shrink(),
+
+              complaintClosedDate .isNotEmpty ?
+              Row(
+                children: [
+                  TextWidget(
+                    "Complaint Closed date : ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        complaintClosedDate,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                        color:  AppColor.green,
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+              ) : const SizedBox.shrink(),
+
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -388,6 +429,59 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   : const SizedBox.shrink(),
 
               EstimateCoastHistoryWidget(cngData: cngData),
+
+              cngData.measurementSheetStatus.toString() == "0" &&
+                  cngData.measurementSheet.toString().isNotEmpty
+                  ? SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ) : const SizedBox.shrink(),
+
+              cngData.measurementSheetStatus.toString() == "0" &&
+                  cngData.measurementSheet.toString().isNotEmpty
+                  ? Row(
+                children: [
+                  TextWidget(
+                    "Measurement Sheet Status : ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        "Rejected",
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                        color: AppColor.red,
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+              ) : const SizedBox.shrink(),
+
+              cngData.measurementSheetStatus.toString() == "0" &&
+                  cngData.measurementSheet.toString().isNotEmpty
+                  ?SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ) : const SizedBox.shrink(),
+
+              cngData.measurementSheetStatus.toString() == "0" &&
+                  cngData.measurementSheet.toString().isNotEmpty
+                  ? Row(
+                children: [
+                  TextWidget(
+                    "Measurement Remark : ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.anyRemarks.toString(),
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                        color: AppColor.black,
+                        textAlign: TextAlign.end,
+                      )),
+                ],
+              ) : const SizedBox.shrink(),
+
 
               Divider(
                 color: AppColor.lightGrey,

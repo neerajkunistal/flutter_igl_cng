@@ -30,7 +30,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 0.03,),
 
                     state.measurementType == MeasurementType.sheet  &&
-                          state.cngData.measurementSheetStatus.toString() != "1"?
+                       state.cngData.measurementSheetStatus.toString() != "1"?
                       _measurementSheet(
                           dataState: state,
                           index: 0,

@@ -44,6 +44,7 @@ class ViewCiComplaintBloc
   FilterModel filterData =  FilterModel();
 
   DateTime finalDate =  DateTime.now();
+  CngModel cngData =  CngModel();
 
   ViewCiComplaintBloc() : super(ViewCiComplaintInitial()) {
     on<ViewCiComplaintPageLoadEvent>(_pageLoad);
@@ -77,6 +78,7 @@ class ViewCiComplaintBloc
     stationData =  StationModel();
     complaintStatusList = ComplaintStatus.getComplaintData();
     vendorData = VendorModel();
+    cngData =  CngModel();
     isVendorListLoader = false;
     isVendorAssignLoader = false;
     isStationLoader = false;
@@ -200,6 +202,7 @@ class ViewCiComplaintBloc
     cngList = [];
     cngSearchList = [];
     isFilterLoader = true;
+    isVendorAssignLoader = false;
     _eventComplete(emit);
 
     startDate = DateTime.now().subtract(const Duration(days: 15));
@@ -229,11 +232,6 @@ class ViewCiComplaintBloc
         stationData =  filterData.stationData!;
         List<CngModel> searchList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
             == stationData.name.toString().toLowerCase()).toList();
-        if(tabIndex== 0){
-          cngList =  searchList.where((element) => element.complaintStatus.toString() == "0").toList();
-        } else {
-          cngList =  searchList.where((element) => element.complaintStatus.toString() == "1").toList();
-        }
         cngSearchList = searchList;
       }
 
@@ -241,15 +239,15 @@ class ViewCiComplaintBloc
         controlRoomData =  filterData.controlRoomData!;
         List<CngModel> searchList =  cngSearchList.where((element) => element.controlRoomId.toString().toLowerCase()
             == controlRoomData.controlRoomId.toString().toLowerCase()).toList();
-        if(tabIndex== 0){
-          cngList =  searchList.where((element) => element.complaintStatus.toString() == "0").toList();
-        } else {
-          cngList =  searchList.where((element) => element.complaintStatus.toString() == "1").toList();
-        }
         cngSearchList = searchList;
       }
     }
 
+    if(tabIndex== 0){
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    } else {
+      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+    }
 
     isFilterLoader = false;
     _eventComplete(emit);
@@ -269,6 +267,7 @@ class ViewCiComplaintBloc
 
   _selectList(ViewCiComplaintSelectListDataEvent event, emit) {
     listIndex =  event.listIndex;
+    cngData =  cngList[listIndex];
     toDateController.text = "";
     estimateRemarkController.text = "";
     complaintStatusData =  ComplaintStatus();
@@ -308,14 +307,29 @@ class ViewCiComplaintBloc
 
   _assignVendor(ViewCiComplaintVendorAssignEvent event, emit) async {
     isVendorAssignLoader = true;
+    isFilterLoader =  true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.assignVendor(
         cngData: event.cngData, vendorData: vendorData, context: event.context);
+
     if (res != null) {
-      Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+      var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (resComplaint != null) {
+        cngList = resComplaint;
+        cngSearchList = resComplaint;
+        tempSearchList = resComplaint;
+      }
+
+      if(tabIndex== 0){
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      } else {
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      }
     }
+
     isVendorAssignLoader = false;
+    isFilterLoader =  false;
     _eventComplete(emit);
   }
 
@@ -332,6 +346,7 @@ class ViewCiComplaintBloc
       SnackBarErrorWidget(event.context).show(message: "Please select status");
       return;
     }
+    isFilterLoader =  true;
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.estimateApprove(
@@ -340,11 +355,24 @@ class ViewCiComplaintBloc
         estimateRemark: estimateRemarkController.text.toString(),
         context: event.context);
     if (res != null) {
-      Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+      var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (resComplaint != null) {
+        cngList = resComplaint;
+        cngSearchList = resComplaint;
+        tempSearchList = resComplaint;
+      }
+
+      if(tabIndex== 0){
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      } else {
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      }
     }
+    isFilterLoader =  false;
     isVendorAssignLoader = false;
     _eventComplete(emit);
+
   }
 
   _finalApprove(ViewCiComplaintFinalApproveEvent event, emit) async {
@@ -352,6 +380,8 @@ class ViewCiComplaintBloc
       SnackBarErrorWidget(event.context).show(message: "Please select status");
       return;
     }
+
+    isFilterLoader = true;
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.finalApproveComplaint(
@@ -359,14 +389,34 @@ class ViewCiComplaintBloc
         complaintStatus: complaintStatusData,
         remark: remarkController.text.toString(),
         context: event.context,
-        approveDate: toDateController.toString(),
+        approveDate: toDateController.text.toString(),
     );
     if (res != null) {
-      Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+      var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (resComplaint != null) {
+        cngList = resComplaint;
+        cngSearchList = resComplaint;
+        tempSearchList = resComplaint;
+      }
+      tabIndex = complaintStatusData.id.toString() == "1" ? 1 : 0;
+      if(tabIndex== 0){
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      } else {
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      }
+
+      for(int i = 0; i < cngList.length; i++){
+        if(cngData.id.toString() == cngList[i].id.toString()){
+          listIndex =  i;
+        }
+      }
     }
+
+    isFilterLoader = false;
     isVendorAssignLoader = false;
     _eventComplete(emit);
+
   }
 
   _selectStation(ViewCiComplaintSelectStationDataEvent event, emit) {

@@ -318,7 +318,7 @@ class ViewCvComplaintBloc
         cngSearchList = searchList;
       }
     }
-
+    cngData =  cngSearchList[listIndex];
     isFilterLoader = false;
     _eventComplete(emit);
   }
@@ -422,8 +422,35 @@ class ViewCvComplaintBloc
         context: event.context,
         file: files);
     if (res != null) {
-      Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+      var resComplaint = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (resComplaint != null) {
+        cngList = resComplaint;
+        cngSearchList = resComplaint;
+      }
+
+      if (filterData.stationData != null &&
+          filterData.stationData!.name != null) {
+        stationData = filterData.stationData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+        element.cngStation.toString().toLowerCase() ==
+            stationData.name.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+
+      if (filterData.controlRoomData != null &&
+          filterData.controlRoomData!.controlRoomName != null) {
+        controlRoomData = filterData.controlRoomData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+        element.controlRoomId.toString().toLowerCase() ==
+            controlRoomData.controlRoomId.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+      cngData =  cngSearchList[listIndex];
     }
     isLoader = false;
     _eventComplete(emit);
@@ -446,8 +473,7 @@ class ViewCvComplaintBloc
       if (cngData.measurementPostImageList == null ||
         cngData.measurementPostImageList!.isEmpty) {
       measurementType = MeasurementType.post;
-    } else if (cngData.measurementSheet.toString().isEmpty &&
-        cngData.measurementSheetStatus.toString() != "1") {
+    } else if (cngData.measurementSheetStatus.toString() != "1") {
       measurementType = MeasurementType.sheet;
     }
     _eventComplete(emit);
@@ -479,8 +505,36 @@ class ViewCvComplaintBloc
         measurementSheetFile: measurementFileSheet,
         measurementType: measurementType);
     if (res != null) {
-      Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+      measurementFileList = [];
+      var resComplaint = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (resComplaint != null) {
+        cngList = resComplaint;
+        cngSearchList = resComplaint;
+      }
+
+      if (filterData.stationData != null &&
+          filterData.stationData!.name != null) {
+        stationData = filterData.stationData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+        element.cngStation.toString().toLowerCase() ==
+            stationData.name.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+
+      if (filterData.controlRoomData != null &&
+          filterData.controlRoomData!.controlRoomName != null) {
+        controlRoomData = filterData.controlRoomData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+        element.controlRoomId.toString().toLowerCase() ==
+            controlRoomData.controlRoomId.toString().toLowerCase())
+            .toList();
+        cngSearchList = searchList;
+      }
+      cngData =  cngSearchList[listIndex];
     }
     isLoader = false;
     _eventComplete(emit);
