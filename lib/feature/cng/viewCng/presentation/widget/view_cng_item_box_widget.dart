@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_detail_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ViewCngItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -180,6 +181,27 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                   SizedBox(
                     height: MediaQuery.of(context).size.width * 0.02,
                   ),
+
+                  cngData.complaintNumber.toString().isEmpty &&
+                  cngData.complaintStatus.toString() == "0"
+                   ? Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width/3,
+                      child: cngData.isSelected == false ?
+                      ButtonWidget(
+                        backgroundColor: AppColor.red,
+                        text: "Closure",
+                        fontSize: AppFont.font_12,
+                        onPressed: () async {
+                          if(await _onClosureComplaintPop(context: context) == true){
+                            BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
+                                .add(ViewCngCloserRequestEvent(context: !context.mounted ? context : context));
+                          }
+                        },
+                      ) : const DottedLoaderWidget(),
+                    ),
+                  ) : const SizedBox.shrink()
                 ],
               ),
             ),
@@ -201,5 +223,16 @@ class ViewCngItemBoxWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
+    return (await showDialog(
+        context: context,
+        builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+            message: "Do you want to closure complaint?",
+            okButtonText: "Closure",
+            okButtonColour: AppColor.red,
+            onPressed: () => Navigator.of(context).pop(true)))) ??
+        false;
   }
 }

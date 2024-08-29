@@ -22,6 +22,7 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
     on<ViewCngSearchEvent>(_search);
     on<ViewCngSelectedDateRangeEvent>(_selectDate);
     on<ViewCngSelectTabEvent>(_selectTab);
+    on<ViewCngCloserRequestEvent>(_complaintCloserRequest);
     on<ViewCngSelectIndexEvent>(_selectList);
   }
 
@@ -159,6 +160,43 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
   _selectList(ViewCngSelectIndexEvent event, emit) {
     listIndex =  event.listIndex;
     _eventComplete(emit);
+  }
+
+  _complaintCloserRequest(ViewCngCloserRequestEvent event, emit) async {
+    isFilterLoader = true;
+    _eventComplete(emit);
+    cngList[listIndex].isSelected =  true;
+    isFilterLoader = false;
+    _eventComplete(emit);
+    var res = await ViewCngHelper.closureComplaint(
+      context: event.context,
+      cngData: cngList[listIndex],
+    );
+
+    if(res != null){
+      isFilterLoader = true;
+      _eventComplete(emit);
+      var res = await ViewCngHelper.fetchCngCivilData(
+          fromDate: startDate.toString(), toDate: endDate.toString());
+      if (res != null) {
+        cngList = res;
+        cngSearchList = res;
+        tempSearchList = res;
+      }
+      if(tabIndex== 0){
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      } else {
+        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      }
+    } else {
+      isFilterLoader = true;
+      _eventComplete(emit);
+      cngList[listIndex].isSelected =  false;
+    }
+
+    isFilterLoader = false;
+    _eventComplete(emit);
+
   }
 
   _eventComplete(Emitter<ViewCngState> emit) {

@@ -84,5 +84,7 @@ class APIs {
 
   static get getControlRoomDataForCiApi => "api/cr/assigned-control-room?";
 
+  static get civilCloserComplaintApi => "api/cr/closure";
+
   static get forgotPasswordApi => "";
 }

@@ -10,7 +10,6 @@ import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_mode
 import 'package:flutter_igl_cng/feature/cv/helper/view_cv_complaint_helper.dart';
 
 part 'view_cv_complaint_event.dart';
-
 part 'view_cv_complaint_state.dart';
 
 class ViewCvComplaintBloc
@@ -412,6 +411,10 @@ class ViewCvComplaintBloc
     if (amountController.text.toString().isEmpty) {
       SnackBarErrorWidget(event.context)
           .show(message: "Please enter estimate amount");
+      return;
+    } else if(files.length < 2){
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select two estimate image and document");
       return;
     }
     isLoader = true;

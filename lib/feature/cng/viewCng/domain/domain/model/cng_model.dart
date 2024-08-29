@@ -50,6 +50,7 @@ class CngModel {
   String? measurementSheetStatus;
   String? estimateRemark;
   List<EstimateModel>? estimateList;
+  bool? isSelected;
 
   CngModel(
       {this.id,
@@ -98,6 +99,7 @@ class CngModel {
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
+    isSelected =  false;
     id = json['id'] ?? "";
     controlRoomId = json['control_room_id'] ?? "";
     cngStationId = json['cng_station_id'] ?? "";

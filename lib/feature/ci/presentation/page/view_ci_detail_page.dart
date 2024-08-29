@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
@@ -252,8 +251,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                         cngData.complaintStatus.toString() == "0"
                             ? "Pending"
                             : cngData.complaintStatus.toString() == "1"
-                            ? "Approved"
-                            : "Reject",
+                            ? "Closed"
+                            : "Rejected",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: cngData.complaintStatus.toString() == "0"
@@ -545,8 +544,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               [cngData.measurementSheet] : []),
 
               (cngData.assignTo.toString() == "0" &&
-                  cngData.complaintStatus.toString() == "0") ||
-                  cngData.estimateList!.length == 3
+                  cngData.complaintStatus.toString() == "0")
                   ? CiAssignWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
@@ -554,7 +552,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   cngData.estimateCost.toString() != "0" &&
                   ( cngData.estimateStatus.toString() == "0"
                       || cngData.estimateStatus.toString().isEmpty) &&
-                  cngData.estimateList!.length != 3
+                  (cngData.estimateList!.length <= 4
+                      && cngData.estimateStatus.toString() == "0")
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 

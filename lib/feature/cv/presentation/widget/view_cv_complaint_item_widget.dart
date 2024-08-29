@@ -198,7 +198,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                 ),
                 Expanded(
                     child: TextWidget(
-                      "Rejected",
+                      "Changes request",
                       fontWeight: FontWeight.w500,
                       fontSize: AppFont.font_13,
                       color: AppColor.red,

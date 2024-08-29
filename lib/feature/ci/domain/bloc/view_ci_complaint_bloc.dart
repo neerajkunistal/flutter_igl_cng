@@ -35,16 +35,16 @@ class ViewCiComplaintBloc
   int tabIndex = 0;
   List<StationModel> stationList = [];
   List<StationModel> searchStationList = [];
-  StationModel stationData =  StationModel();
+  StationModel stationData = StationModel();
   TextEditingController stationController = TextEditingController();
   TextEditingController filterDateController = TextEditingController();
   TextEditingController estimateRemarkController = TextEditingController();
   List<ControlRoomModel> controlRoomList = [];
-  ControlRoomModel controlRoomData =  ControlRoomModel();
-  FilterModel filterData =  FilterModel();
+  ControlRoomModel controlRoomData = ControlRoomModel();
+  FilterModel filterData = FilterModel();
 
-  DateTime finalDate =  DateTime.now();
-  CngModel cngData =  CngModel();
+  DateTime finalDate = DateTime.now();
+  CngModel cngData = CngModel();
 
   ViewCiComplaintBloc() : super(ViewCiComplaintInitial()) {
     on<ViewCiComplaintPageLoadEvent>(_pageLoad);
@@ -75,10 +75,10 @@ class ViewCiComplaintBloc
     stationList = [];
     searchStationList = [];
     complaintStatusList = [];
-    stationData =  StationModel();
+    stationData = StationModel();
     complaintStatusList = ComplaintStatus.getComplaintData();
     vendorData = VendorModel();
-    cngData =  CngModel();
+    cngData = CngModel();
     isVendorListLoader = false;
     isVendorAssignLoader = false;
     isStationLoader = false;
@@ -95,8 +95,8 @@ class ViewCiComplaintBloc
     tabIndex = 0;
     startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
-    finalDate =  DateTime.now();
-    filterData =  FilterModel(
+    finalDate = DateTime.now();
+    filterData = FilterModel(
       startDate: startDate,
       endDate: endDate,
       stationData: stationData,
@@ -113,13 +113,15 @@ class ViewCiComplaintBloc
       tempSearchList = res;
     }
 
-    cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    cngList = cngSearchList
+        .where((element) => element.complaintStatus.toString() == "0")
+        .toList();
     _eventComplete(emit);
   }
 
   _search(ViewCiComplaintSearchDataEvent event, emit) async {
     cngList = [];
-    cngSearchList =  tempSearchList;
+    cngSearchList = tempSearchList;
     _eventComplete(emit);
     if (event.keyword.isNotEmpty) {
       cngList = cngSearchList
@@ -163,36 +165,40 @@ class ViewCiComplaintBloc
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.categoryName
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.controlRoom
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
       if (cngList.isEmpty) {
         cngList = cngSearchList
             .where((element) => element.cngStation
-            .toString()
-            .toLowerCase()
-            .contains(event.keyword.toUpperCase().toLowerCase()))
+                .toString()
+                .toLowerCase()
+                .contains(event.keyword.toUpperCase().toLowerCase()))
             .toList();
       }
     } else {
       cngList = cngSearchList;
     }
 
-    cngSearchList =  cngList;
-    if(tabIndex== 0){
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    cngSearchList = cngList;
+    if (tabIndex == 0) {
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "0")
+          .toList();
     } else {
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "1")
+          .toList();
     }
 
     _eventComplete(emit);
@@ -208,14 +214,15 @@ class ViewCiComplaintBloc
     startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
 
-    startDate = event.isFilterSubmit == true ? filterData.startDate! : startDate;
-    endDate = event.isFilterSubmit == true ?  filterData.endDate! : endDate;
+    startDate =
+        event.isFilterSubmit == true ? filterData.startDate! : startDate;
+    endDate = event.isFilterSubmit == true ? filterData.endDate! : endDate;
 
     filterData.startDate = startDate;
-    filterData.endDate =  endDate;
+    filterData.endDate = endDate;
 
-    filterData.stationData =  stationData;
-    filterData.controlRoomData =  controlRoomData;
+    filterData.stationData = stationData;
+    filterData.controlRoomData = controlRoomData;
 
     var res = await ViewCiComplaintHelper.fetchCivilData(
         fromDate: startDate.toString(), toDate: endDate.toString());
@@ -224,34 +231,44 @@ class ViewCiComplaintBloc
       cngSearchList = res;
       tempSearchList = res;
     }
-    cngSearchList =  tempSearchList;
+    cngSearchList = tempSearchList;
 
-
-    if(event.isFilterSubmit == true){
-      if(filterData.stationData != null && filterData.stationData!.name != null) {
-        stationData =  filterData.stationData!;
-        List<CngModel> searchList =  cngSearchList.where((element) => element.cngStation.toString().toLowerCase()
-            == stationData.name.toString().toLowerCase()).toList();
+    if (event.isFilterSubmit == true) {
+      if (filterData.stationData != null &&
+          filterData.stationData!.name != null) {
+        stationData = filterData.stationData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+                element.cngStation.toString().toLowerCase() ==
+                stationData.name.toString().toLowerCase())
+            .toList();
         cngSearchList = searchList;
       }
 
-      if(filterData.controlRoomData != null && filterData.controlRoomData!.controlRoomName != null) {
-        controlRoomData =  filterData.controlRoomData!;
-        List<CngModel> searchList =  cngSearchList.where((element) => element.controlRoomId.toString().toLowerCase()
-            == controlRoomData.controlRoomId.toString().toLowerCase()).toList();
+      if (filterData.controlRoomData != null &&
+          filterData.controlRoomData!.controlRoomName != null) {
+        controlRoomData = filterData.controlRoomData!;
+        List<CngModel> searchList = cngSearchList
+            .where((element) =>
+                element.controlRoomId.toString().toLowerCase() ==
+                controlRoomData.controlRoomId.toString().toLowerCase())
+            .toList();
         cngSearchList = searchList;
       }
     }
 
-    if(tabIndex== 0){
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    if (tabIndex == 0) {
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "0")
+          .toList();
     } else {
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "1")
+          .toList();
     }
 
     isFilterLoader = false;
     _eventComplete(emit);
-
   }
 
   _selectDate(ViewCiComplaintSelectedDateRangeEvent event, emit) async {
@@ -259,30 +276,35 @@ class ViewCiComplaintBloc
     _eventComplete(emit);
     startDate = event.fromDate;
     endDate = event.toDate;
-    filterDateController.text = "${startDate.day}-${startDate.month}-${startDate.year},${endDate.day}-${endDate.month}-${endDate.year}";
+    filterDateController.text =
+        "${startDate.day}-${startDate.month}-${startDate.year},${endDate.day}-${endDate.month}-${endDate.year}";
 
     isFilterLoader = false;
     _eventComplete(emit);
   }
 
   _selectList(ViewCiComplaintSelectListDataEvent event, emit) {
-    listIndex =  event.listIndex;
-    cngData =  cngList[listIndex];
+    listIndex = event.listIndex;
+    cngData = cngList[listIndex];
     toDateController.text = "";
     estimateRemarkController.text = "";
-    complaintStatusData =  ComplaintStatus();
-    finalDate =  DateTime.now();
+    complaintStatusData = ComplaintStatus();
+    finalDate = DateTime.now();
     _eventComplete(emit);
   }
 
   _selectTab(ViewCiComplaintSelectTabDataEvent event, emit) {
-    tabIndex =  event.tabIndex;
+    tabIndex = event.tabIndex;
     isFilterLoader = true;
     _eventComplete(emit);
-    if(tabIndex== 0){
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+    if (tabIndex == 0) {
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "0")
+          .toList();
     } else {
-      cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+      cngList = cngSearchList
+          .where((element) => element.complaintStatus.toString() == "1")
+          .toList();
     }
     isFilterLoader = false;
     _eventComplete(emit);
@@ -307,7 +329,7 @@ class ViewCiComplaintBloc
 
   _assignVendor(ViewCiComplaintVendorAssignEvent event, emit) async {
     isVendorAssignLoader = true;
-    isFilterLoader =  true;
+    isFilterLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.assignVendor(
         cngData: event.cngData, vendorData: vendorData, context: event.context);
@@ -321,15 +343,19 @@ class ViewCiComplaintBloc
         tempSearchList = resComplaint;
       }
 
-      if(tabIndex== 0){
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      if (tabIndex == 0) {
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "0")
+            .toList();
       } else {
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "1")
+            .toList();
       }
     }
 
     isVendorAssignLoader = false;
-    isFilterLoader =  false;
+    isFilterLoader = false;
     _eventComplete(emit);
   }
 
@@ -337,16 +363,16 @@ class ViewCiComplaintBloc
     complaintStatusData = event.complaintStatusData;
     toDateController.text = "";
     estimateRemarkController.text = "";
-    finalDate =  DateTime.now();
+    finalDate = DateTime.now();
     _eventComplete(emit);
   }
 
   _estimateApprove(ViewCiComplaintEstimateApproveEvent event, emit) async {
-    if(complaintStatusData.id == null){
+    if (complaintStatusData.id == null) {
       SnackBarErrorWidget(event.context).show(message: "Please select status");
       return;
     }
-    isFilterLoader =  true;
+    isFilterLoader = true;
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.estimateApprove(
@@ -363,20 +389,37 @@ class ViewCiComplaintBloc
         tempSearchList = resComplaint;
       }
 
-      if(tabIndex== 0){
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      for (int i = 0; i < cngSearchList.length; i++) {
+        if (cngData.id.toString() == cngSearchList[i].id.toString() &&
+            cngList[i].complaintStatus.toString() == "2") {
+          tabIndex = 1;
+        }
+      }
+
+      if (tabIndex == 0) {
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "0")
+            .toList();
       } else {
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "1")
+            .toList();
+      }
+
+      for (int i = 0; i < cngList.length; i++) {
+        if (cngData.id.toString() == cngList[i].id.toString() &&
+            cngList[i].complaintStatus.toString() == "2") {
+          listIndex = i;
+        }
       }
     }
-    isFilterLoader =  false;
+    isFilterLoader = false;
     isVendorAssignLoader = false;
     _eventComplete(emit);
-
   }
 
   _finalApprove(ViewCiComplaintFinalApproveEvent event, emit) async {
-    if(complaintStatusData.id == null){
+    if (complaintStatusData.id == null) {
       SnackBarErrorWidget(event.context).show(message: "Please select status");
       return;
     }
@@ -385,11 +428,11 @@ class ViewCiComplaintBloc
     isVendorAssignLoader = true;
     _eventComplete(emit);
     var res = await ViewCiComplaintHelper.finalApproveComplaint(
-        cngData: event.cngData,
-        complaintStatus: complaintStatusData,
-        remark: remarkController.text.toString(),
-        context: event.context,
-        approveDate: toDateController.text.toString(),
+      cngData: event.cngData,
+      complaintStatus: complaintStatusData,
+      remark: remarkController.text.toString(),
+      context: event.context,
+      approveDate: toDateController.text.toString(),
     );
     if (res != null) {
       var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
@@ -400,15 +443,19 @@ class ViewCiComplaintBloc
         tempSearchList = resComplaint;
       }
       tabIndex = complaintStatusData.id.toString() == "1" ? 1 : 0;
-      if(tabIndex== 0){
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "0").toList();
+      if (tabIndex == 0) {
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "0")
+            .toList();
       } else {
-        cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
+        cngList = cngSearchList
+            .where((element) => element.complaintStatus.toString() == "1")
+            .toList();
       }
 
-      for(int i = 0; i < cngList.length; i++){
-        if(cngData.id.toString() == cngList[i].id.toString()){
-          listIndex =  i;
+      for (int i = 0; i < cngList.length; i++) {
+        if (cngData.id.toString() == cngList[i].id.toString()) {
+          listIndex = i;
         }
       }
     }
@@ -416,78 +463,84 @@ class ViewCiComplaintBloc
     isFilterLoader = false;
     isVendorAssignLoader = false;
     _eventComplete(emit);
-
   }
 
   _selectStation(ViewCiComplaintSelectStationDataEvent event, emit) {
     isFilterLoader = true;
     _eventComplete(emit);
-    stationData =  event.stationData;
+    stationData = event.stationData;
     isFilterLoader = false;
     _eventComplete(emit);
   }
 
   _finalDate(ViewCiComplaintFinalApproveDateEvent event, emit) {
-    finalDate =  event.date;
-    toDateController.text =  DateFormat('dd-MMM-yyyy')
-        .format(DateTime.parse(finalDate.toString()));
+    finalDate = event.date;
+    toDateController.text =
+        DateFormat('dd-MMM-yyyy').format(DateTime.parse(finalDate.toString()));
     _eventComplete(emit);
   }
 
   _selectControlRoom(ViewCiComplaintSelectControlRoomDataEvent event, emit) {
-    controlRoomData =  event.controlRoomData;
+    controlRoomData = event.controlRoomData;
     _eventComplete(emit);
   }
 
   _searchStation(ViewCiComplaintSearchStationEvent event, emit) {
-    isStationLoader =  true;
+    isStationLoader = true;
     _eventComplete(emit);
-    if(event.keyword.toString().isNotEmpty) {
-      stationList =  searchStationList.where((element) =>
-          element.name.toString().toLowerCase().contains(event.keyword.toLowerCase())).toList();
+    if (event.keyword.toString().isNotEmpty) {
+      stationList = searchStationList
+          .where((element) => element.name
+              .toString()
+              .toLowerCase()
+              .contains(event.keyword.toLowerCase()))
+          .toList();
     } else {
-      stationList =  searchStationList;
+      stationList = searchStationList;
     }
-    isStationLoader =  false;
+    isStationLoader = false;
     _eventComplete(emit);
   }
 
   _fetchStation(ViewCiComplaintFetchStationDataEvent event, emit) async {
-    isStationLoader =  true;
+    isStationLoader = true;
     stationController.text = "";
-    stationData =  StationModel();
-    controlRoomData =  ControlRoomModel();
+    stationData = StationModel();
+    controlRoomData = ControlRoomModel();
     _eventComplete(emit);
-    if(searchStationList.isEmpty){
-      var res =  await ViewAmoComplaintHelper.fetchStationData();
-      if(res != null) {
-        stationList =  res;
-        searchStationList =  res;
+    if (searchStationList.isEmpty) {
+      var res = await ViewAmoComplaintHelper.fetchStationData();
+      if (res != null) {
+        stationList = res;
+        searchStationList = res;
       }
-    }else {
-      stationList =  searchStationList;
+    } else {
+      stationList = searchStationList;
     }
 
-    if(controlRoomList.isEmpty){
-      var resControlRoom =  await ViewCiComplaintHelper.fetchControlRoomData();
-      if(resControlRoom !=  null){
-        controlRoomList =  resControlRoom;
+    if (controlRoomList.isEmpty) {
+      var resControlRoom = await ViewCiComplaintHelper.fetchControlRoomData();
+      if (resControlRoom != null) {
+        controlRoomList = resControlRoom;
       }
     }
 
-    if(filterData.startDate != null){
-      filterDateController.text = "${filterData.startDate!.day}-${filterData.startDate!.month}-${filterData.startDate!.year},${filterData.endDate!.day}-${filterData.endDate!.month}-${filterData.endDate!.year}";
+    if (filterData.startDate != null) {
+      filterDateController.text =
+          "${filterData.startDate!.day}-${filterData.startDate!.month}-${filterData.startDate!.year},${filterData.endDate!.day}-${filterData.endDate!.month}-${filterData.endDate!.year}";
     }
 
-    if(filterData.stationData != null && filterData.stationData!.name != null){
-       stationData =  filterData.stationData!;
+    if (filterData.stationData != null &&
+        filterData.stationData!.name != null) {
+      stationData = filterData.stationData!;
     }
 
-    if(filterData.controlRoomData != null && filterData.controlRoomData!.controlRoomName != null){
-      controlRoomData =  filterData.controlRoomData!;
+    if (filterData.controlRoomData != null &&
+        filterData.controlRoomData!.controlRoomName != null) {
+      controlRoomData = filterData.controlRoomData!;
     }
 
-    isStationLoader =  false;
+    isStationLoader = false;
     _eventComplete(emit);
   }
 

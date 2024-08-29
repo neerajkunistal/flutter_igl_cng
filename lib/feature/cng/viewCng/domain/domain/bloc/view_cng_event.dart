@@ -32,6 +32,13 @@ class ViewCngSelectIndexEvent extends ViewCngEvent {
   List<Object?> get props => [listIndex];
 }
 
+class ViewCngCloserRequestEvent extends ViewCngEvent {
+  final BuildContext context;
+  const ViewCngCloserRequestEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
 
 class ViewCngSelectedDateRangeEvent extends ViewCngEvent {
   final BuildContext context;
