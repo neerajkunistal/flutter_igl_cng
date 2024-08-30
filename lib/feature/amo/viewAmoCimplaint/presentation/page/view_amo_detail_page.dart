@@ -288,7 +288,8 @@ class _ViewAmoDetailPageState extends State<ViewAmoDetailPage> {
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.createdComplaintImagesList ?? []),
-              cngData.approveStatus.toString() == "0"
+              cngData.approveStatus.toString() == "0" &&
+              cngData.complaintStatus.toString() == "0"
                   ? AmoUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
             ],
