@@ -34,9 +34,10 @@ class ViewCngSelectIndexEvent extends ViewCngEvent {
 
 class ViewCngCloserRequestEvent extends ViewCngEvent {
   final BuildContext context;
-  const ViewCngCloserRequestEvent({required this.context});
+  final CngModel cngData;
+  const ViewCngCloserRequestEvent({required this.context, required this.cngData});
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, cngData];
 }
 
 

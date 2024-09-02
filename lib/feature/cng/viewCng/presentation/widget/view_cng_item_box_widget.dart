@@ -196,7 +196,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                         onPressed: () async {
                           if(await _onClosureComplaintPop(context: context) == true){
                             BlocProvider.of<ViewCngBloc>(!context.mounted ? context : context)
-                                .add(ViewCngCloserRequestEvent(context: !context.mounted ? context : context));
+                                .add(ViewCngCloserRequestEvent(context: !context.mounted ? context : context, cngData: cngData));
                           }
                         },
                       ) : const DottedLoaderWidget(),

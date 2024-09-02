@@ -165,12 +165,17 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
   _complaintCloserRequest(ViewCngCloserRequestEvent event, emit) async {
     isFilterLoader = true;
     _eventComplete(emit);
-    cngList[listIndex].isSelected =  true;
+    for(int i = 0; i < cngList.length; i++){
+      if(event.cngData.id.toString() == cngList[i].id.toString()){
+        cngList[i].isSelected =  true;
+      }
+    }
+
     isFilterLoader = false;
     _eventComplete(emit);
     var res = await ViewCngHelper.closureComplaint(
       context: event.context,
-      cngData: cngList[listIndex],
+      cngData: event.cngData,
     );
 
     if(res != null){
