@@ -509,6 +509,8 @@ class ViewCvComplaintBloc
         measurementType: measurementType);
     if (res != null) {
       measurementFileList = [];
+      measurementFileSheet = File("");
+      measurementType =  MeasurementType.sheet;
       var resComplaint = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
           fromDate: startDate.toString(), toDate: endDate.toString());
       if (resComplaint != null) {

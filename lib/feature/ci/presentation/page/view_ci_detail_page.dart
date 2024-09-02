@@ -429,13 +429,13 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
 
               EstimateCoastHistoryWidget(cngData: cngData),
 
-              cngData.measurementSheetStatus.toString() == "0" &&
+              cngData.measurementSheetStatus.toString() == "2" &&
                   cngData.measurementSheet.toString().isNotEmpty
                   ? SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ) : const SizedBox.shrink(),
 
-              cngData.measurementSheetStatus.toString() == "0" &&
+              cngData.measurementSheetStatus.toString() == "2" &&
                   cngData.measurementSheet.toString().isNotEmpty
                   ? Row(
                 children: [
@@ -455,13 +455,13 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 ],
               ) : const SizedBox.shrink(),
 
-              cngData.measurementSheetStatus.toString() == "0" &&
+              cngData.measurementSheetStatus.toString() == "2" &&
                   cngData.measurementSheet.toString().isNotEmpty
                   ?SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ) : const SizedBox.shrink(),
 
-              cngData.measurementSheetStatus.toString() == "0" &&
+              cngData.measurementSheetStatus.toString() == "2" &&
                   cngData.measurementSheet.toString().isNotEmpty
                   ? Row(
                 children: [
@@ -550,6 +550,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
 
               cngData.assignTo.toString() != "0" &&
                   cngData.estimateCost.toString() != "0" &&
+                  cngData.complaintStatus.toString() == "0" &&
                   ( cngData.estimateStatus.toString() == "0"
                       || cngData.estimateStatus.toString().isEmpty) &&
                   (cngData.estimateList!.length <= 4

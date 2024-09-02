@@ -231,13 +231,13 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
               ],
             ) : const SizedBox.shrink(),
 
-            cngData.measurementSheetStatus.toString() == "0" &&
+            cngData.measurementSheetStatus.toString() == "2" &&
                 cngData.measurementSheet.toString().isNotEmpty
                 ? SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ) : const SizedBox.shrink(),
 
-            cngData.measurementSheetStatus.toString() == "0" &&
+            cngData.measurementSheetStatus.toString() == "2" &&
                 cngData.measurementSheet.toString().isNotEmpty
                 ? Row(
               children: [
@@ -257,13 +257,13 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
               ],
             ) : const SizedBox.shrink(),
 
-            cngData.measurementSheetStatus.toString() == "0" &&
+            cngData.measurementSheetStatus.toString() == "2" &&
                 cngData.measurementSheet.toString().isNotEmpty
                 ?SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ) : const SizedBox.shrink(),
 
-            cngData.measurementSheetStatus.toString() == "0" &&
+            cngData.measurementSheetStatus.toString() == "2" &&
                 cngData.measurementSheet.toString().isNotEmpty
                 ? Row(
               children: [

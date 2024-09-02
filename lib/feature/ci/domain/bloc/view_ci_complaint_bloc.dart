@@ -288,6 +288,7 @@ class ViewCiComplaintBloc
     cngData = cngList[listIndex];
     toDateController.text = "";
     estimateRemarkController.text = "";
+    remarkController.text = "";
     complaintStatusData = ComplaintStatus();
     finalDate = DateTime.now();
     _eventComplete(emit);
