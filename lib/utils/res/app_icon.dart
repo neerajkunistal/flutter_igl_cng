@@ -32,4 +32,16 @@ class AppIcon {
   static get ghungaruIcon => "assets/ghungaru.png";
 
   static get filterIcon => "assets/ic_fillter.png";
+
+  static get truckMarker => "assets/ic_truck.png";
+
+  static get mapIcon => "assets/ic_map.png";
+
+  static get cngStationIcon => "assets/ic_cng_station.png";
+
+  static get motherStationIcon => "assets/ic_mother_station.png";
+
+  static get notRunningIcon => "assets/ic_truck_notrunning.png";
+
+  static get runningIcon => "assets/ic_truck_running.png";
 }

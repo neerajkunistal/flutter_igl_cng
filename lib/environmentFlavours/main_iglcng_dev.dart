@@ -14,8 +14,6 @@ void main() async {
       child: Root(
         client: Client.iglcng,
       ));
-/*  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom]);*/
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);

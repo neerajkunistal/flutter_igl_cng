@@ -10,6 +10,15 @@ class APIs {
 
   static get sendNotificationApi => "https://fcm.googleapis.com/fcm/send";
 
+  static get googlePlaceAPI =>
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?";
+
+  static get googlePlaceDetailsAPI =>
+      "https://maps.googleapis.com/maps/api/place/details/json?";
+
+  static get googleLatLongAPI =>
+      "https://maps.googleapis.com/maps/api/geocode/json?";
+
   static get login => "api/auth";
 
   static get getComplaintTypeApi => "api/onm/complaint-types";
@@ -85,6 +94,48 @@ class APIs {
   static get getControlRoomDataForCiApi => "api/cr/assigned-control-room?";
 
   static get civilCloserComplaintApi => "api/cr/closure";
+
+  static get registrationApi => "api/saveLCVDriver";
+
+  static get getDriverApi => "api/getDriver";
+
+  static get getLCVDetailApi => "api/getLcvDetails";
+
+  static get getCNFStationApi => "api/getCngStation";
+
+  static get addAssignmentApi => "api/saveAssignment";
+
+  static get updateAssignmentStatus => "api/updateStatus";
+
+  static get getAssignmentApi => "api/getAssignment";
+
+  static get getUserRolesApi => "api/getUserRole";
+
+  static get cngStationRegistrationApi => "api/saveCngStation";
+
+  static get addLcvTruckApi => "api/saveLcv";
+
+  static get addCngStationUser => "api/saveCngUser";
+
+  static get getUserApi => "api/getUsers";
+
+  static get insertLiveLocationApi => "api/insert_location";
+
+  static get updateScmApi => "api/updateScm";
+
+  static get getLocationApi => "api/getLocation";
+
+  static get getCngScmInfoApi => "api/getCngScmInfo";
+
+  static get addCngScmInfoApi => "api/addCngScmInfo";
+
+  static get getRouteApi => "api/getRoute";
+
+  static get getMotherStationsApi => "api/getMotherStations";
+
+  static get deleteCngUserApi => "api/delete_user";
+
+  static get deleteCngStationTruckApi => "api/delete_lcv";
 
   static get forgotPasswordApi => "";
 }

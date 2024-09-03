@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/services/firebase/default_notification_options.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:vibration/vibration.dart';
 
@@ -69,18 +70,8 @@ class FirebaseService {
     );
 
     _isAndroidPermissionGranted();
-    if (Platform.isAndroid) {
-      await Firebase.initializeApp(
-          options: const FirebaseOptions(
-        apiKey: 'AIzaSyA1C5oCjXFfe4__kreZkfwI3ch9PlB5PwI',
-        appId: '1:812941224886:android:c8af46dc8b106bc6072f17',
-        messagingSenderId: '812941224886',
-        projectId: 'igl-cng',
-        storageBucket: 'igl-cng.appspot.com',
-      ));
-    } else {
-      await Firebase.initializeApp();
-    }
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
 
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await FirebaseMessaging.instance

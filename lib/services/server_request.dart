@@ -341,4 +341,34 @@ class ServerRequest {
     );
     return result!.path.toString();
   }
+
+  static Future<dynamic> imageUrlConvertToByte64({required var url}) async {
+    try {
+      if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
+          false) {
+        return null;
+      }
+      log(url);
+      final response = await get(Uri.parse(url.toString()), headers: header)
+          .timeout(const Duration(minutes: 1));
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        return base64Encode(bytes);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        log("SocketException : ${e.toString()}");
+        return e.toString();
+      } else if (e is TimeoutException) {
+        log("TimeoutException : ${e.toString()}");
+        return e.toString();
+      } else {
+        log("Unhandled exception : ${e.toString()}");
+        return e.toString();
+      }
+    }
+    return null;
+  }
 }

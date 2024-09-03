@@ -297,6 +297,151 @@ class AppString {
 
   static get unit => "Unit";
 
+  static get mobileNumber => "Mobile Number";
+
+  static get history => "History";
+
+  static get profile => "Profile";
+
+  static get editProfile => "Edit Profile";
+
+  static get pending => "Pending";
+
+  static get confirm => "Confirm";
+
+  static get complete => "Complete";
+
+  static get startRoute => "Start Route";
+
+  static get qrCode => "Qr Code";
+
+  static get qrScan => "Qr Scan";
+
+  static get addMore => "Add More";
+
+  static get manualEntry => "Manual Entry";
+
+  static get addCngFillingStation => "Add Cng Filling Station";
+
+  static get updateCngFilling => "Update Cng Filling";
+
+  static get selectCngStation => "Select Cng Station";
+
+  static get enterCngQuantity => "Enter Cng Quantity";
+
+  static get scmQuantity => "Scm Quantity";
+
+  static get enterCurrentScmQuantity => "Enter Current Scm Quantity";
+
+  static get receivedScmQuantity => "Received Scm Quantity";
+
+  static get totalCngQuantity => "Total Cng Quantity";
+
+  static get yourSignupWasSuccessful => "Your Sign up was successful";
+
+  static get settings => "Settings";
+
+  static get logOut => "Logout";
+
+  static get routes => "Routes";
+
+  static get addAssignment => "Add Assignment";
+
+  static get assignmentList => "Assignment List";
+
+  static get registration => "Registration";
+
+  static get fullName => "Full Name";
+
+  static get drivingLicenceNumber => "Driving License Number";
+
+  static get enterDrivingLicenceNumber => "Enter Driving License Number";
+
+  static get address => "Address";
+
+  static get cityTown => "City/Town";
+
+  static get district => "District";
+
+  static get pincode => "Pincode";
+
+  static get state => "State";
+  static get liveTracking => "Live Traking";
+
+  static get addDriver => "Add Driver";
+
+  static get lcvDriver => "LCV Driver";
+
+  static get driverName => "Driver Name";
+
+  static get selectDriver => "Select Driver";
+
+  static get selectMotherStation => "Select Mother Station";
+
+  static get selectLCVTruck => "Select LCV Truck";
+
+  static get lcvTruck => "LCV Truck";
+
+  static get navigationRoute => "Navigation Route";
+
+  static get addLcvTruck => "Add LCV Truck";
+
+  static get selectCNGStation => "Select CNG Station";
+
+  static get cngStations => "CNG Stations";
+
+  static get addCngStation => "Add CNG Station";
+
+  static get notification => "Notification";
+
+  static get enterStationCode => "Enter station code";
+
+  static get enterStationName => "Enter station name";
+
+  static get enterOfficerName => "Enter officer name";
+
+  static get enterEmail => "Enter email";
+
+  static get vehicleCompany => "Vehicle company";
+
+  static get vehicleName => "Vehicle Name";
+
+  static get vehicleNumber => "Vehicle Number";
+
+  static get enterVehicleNumber => "Eneter Vehicle Number";
+
+  static get engineNumber => "Engine Number";
+
+  static get chassisNumber => "Chassis Number";
+
+  static get selectFuelType => "select Fuel Type";
+
+  static get average => "Vehicle average";
+
+  static get cngUser => "CNG User";
+
+  static get addCngUser => "Add CNG User";
+
+  static get addScmInfo => "Add Cng Scm Info";
+
+  static get cngScmInfo => "Cng Scm Info";
+
+  static get currentScmQuantity => "Current Scm Quantity";
+
+  static get sellScmQuantity => "Sell Scm Quantity";
+
+  static get remainScmQuantity => "Remain Scm Quantity";
+
+  static get requiredScmQuantity => "Required Scm Quantity";
+
+  static get createDate => "Create Date";
+
+  static get selectStatus => "Select Status";
+
+  static get selectDateTime => "Select Date Time";
+
+  static get selectRoute => "Select Route";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

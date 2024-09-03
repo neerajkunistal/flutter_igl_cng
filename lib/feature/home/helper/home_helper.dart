@@ -6,6 +6,8 @@ import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_complaint_p
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_widget.dart';
+import 'package:flutter_igl_cng/feature/lcv/runningTruck/presentation/page/running_truck_page.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
@@ -50,6 +52,20 @@ class HomeHelper {
           label: AppString.review,
         ));
       }
+      else if (userData.roleType == RoleType.cngStation) {
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: const Icon(
+            Icons.fire_truck_outlined,
+          ),
+          label: AppString.running,
+        ));
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: const Icon(
+            Icons.assignment_outlined,
+          ),
+          label: AppString.assign,
+        ));
+      }
     } catch (_) {}
 
     return bottomNavigationBarItemList;
@@ -71,7 +87,12 @@ class HomeHelper {
       } else if (userData.roleType == RoleType.ci) {
         pageList.add(const ViewCiComplaintPage());
       } else if (userData.roleType == RoleType.cv) {
-        pageList.add(const ViewCvComplaintPage());
+         pageList.add(const ViewCvComplaintPage());
+/*        pageList.add(const RunningTruckPage());
+        pageList.add(const ViewAssignmentPage());*/
+      } else if(userData.roleType == RoleType.cngStation){
+        pageList.add(const RunningTruckPage());
+        pageList.add(const ViewAssignmentPage());
       }
     } catch (_) {}
     return pageList;

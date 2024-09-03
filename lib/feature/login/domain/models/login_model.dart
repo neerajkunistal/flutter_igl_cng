@@ -24,6 +24,8 @@ class LoginDataModel {
   RoleType? roleType;
   String? role;
   String? roleName;
+  String? roleId;
+  String? stationId;
 
   LoginDataModel({
     this.userId,
@@ -41,6 +43,8 @@ class LoginDataModel {
     this.password,
     this.role,
     this.roleName,
+    this.roleId,
+    this.stationId,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -57,6 +61,8 @@ class LoginDataModel {
     sectionId = json['section_id'];
     role = json['user_type'] ?? "";
     roleName = json['role'] ?? "";
+    roleId = json['role_id'] ?? "";
+    stationId = json['station_id'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
