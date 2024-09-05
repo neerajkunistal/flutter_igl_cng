@@ -30,7 +30,7 @@ dependencies:
   permission_handler: ^11.0.0
   dotted_border: ^2.1.0
   camera: ^0.11.0
-  video_player: ^2.8.6
+  video_player: ^2.9.1
   flutter_local_notifications: ^15.1.0
   hive_flutter: ^1.1.0
   intl: ^0.18.1
