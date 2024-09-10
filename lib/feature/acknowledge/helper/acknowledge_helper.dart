@@ -89,6 +89,23 @@ class AcknowledgeHelper {
         if (!context.mounted) return res;
         SnackBarSuccessWidget(context).show(message: res['message'].toString());
         return res;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['error'] != null) {
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(message: res['error'].toString());
+        return null;
+      } else if (res != null &&
+          res['status'] != null &&
+          res['status'] == false &&
+          res['errors'] != null) {
+        String response = res['errors'].toString();
+        if (!context.mounted) return null;
+        SnackBarErrorWidget(context).show(
+            message: response.replaceAll("[{", "").toString()
+                .replaceAll("}]", ""));
+        return null;
       } else if (res != null && res['message'] != null) {
         if (!context.mounted) return false;
         SnackBarErrorWidget(context).show(message: res['message'].toString());

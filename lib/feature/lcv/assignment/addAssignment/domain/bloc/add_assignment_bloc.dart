@@ -138,13 +138,13 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     }
 
     var cngStationRes = await CNGStationHelper.fetchCNGStationData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (cngStationRes != null) {
       _cngStationList = cngStationRes;
     }
 
     var lcvRes = await ViewLcvTrackHelper.fetchLCVData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (lcvRes != null) {
       _lcvList = lcvRes;
       _lcvList = lcvList
@@ -303,13 +303,10 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       String formattedDateChange = DateFormat('dd-MMM-yyyy').format(pickedDate);
       dateTime = formattedDateChange.toString();
       date = dateTime;
-    } else {
-      print("Date is not selected");
     }
-    print(TimeOfDay.now());
     TimeOfDay? pickedTime = await showTimePicker(
       initialTime: TimeOfDay.now(),
-      context: event.context,
+      context: !event.context.mounted ? event.context : event.context,
       initialEntryMode: TimePickerEntryMode.dial,
       builder: (context, child) {
         return MediaQuery(
@@ -319,26 +316,18 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       },
     );
     if (pickedTime != null) {
-      String _time = pickedTime.format(event.context).toString();
-      if (_time.toLowerCase().contains("am") ||
-          _time.toLowerCase().contains("pm")) {
-        print("Flutrer  iiii====================== ${_time}");
-        DateTime date = DateFormat("hh:mma").parse(_time.replaceAll(" ", ""));
+      String time0 = pickedTime.format(!event.context.mounted ? event.context : event.context).toString();
+      if (time0.toLowerCase().contains("am") ||
+          time0.toLowerCase().contains("pm")) {
+        DateTime date = DateFormat("hh:mma").parse(time0.replaceAll(" ", ""));
         time = DateFormat("HH:mm:ss").format(date).toString();
-        print("Flutrer  ====================== ${time}");
       } else {
-        print("shdjhsdhshd time ${_time}");
-        DateTime dateTime = DateFormat("HH:mm").parse(_time);
+        DateTime dateTime = DateFormat("HH:mm").parse(time0);
         time = DateFormat("HH:mm:ss").format(dateTime);
       }
-
-      print(time);
-    } else {
-      print("Time is not selected");
     }
-
-    String _dateTime = "$time, $date";
-    scheduleDateTimeController.text = _dateTime.toString();
+    String dateTime0 = "$time, $date";
+    scheduleDateTimeController.text = dateTime0.toString();
     _eventCompleted(emit);
   }
 
@@ -364,7 +353,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     _eventCompleted(emit);
 
     var res = await AddAssignmentHelper.addAssignment(
-        context: event.context,
+        context: !event.context.mounted ? event.context : event.context,
         driverData: driverData,
         lcvData: lcvData,
         stationList: stationList,
@@ -387,8 +376,8 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       _motherStationData = MotherStationModel();
       _stationList = [];
       _eventCompleted(emit);
-      BlocProvider.of<ViewAssignmentBloc>(event.context)
-          .add(ViewAssignmentPageLoadEvent(context: event.context));
+      BlocProvider.of<ViewAssignmentBloc>(!event.context.mounted ? event.context : event.context)
+          .add(ViewAssignmentPageLoadEvent(context: !event.context.mounted ? event.context : event.context));
     }
   }
 

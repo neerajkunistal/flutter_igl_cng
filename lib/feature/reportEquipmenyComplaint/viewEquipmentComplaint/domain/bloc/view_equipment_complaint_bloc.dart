@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/helper/view_equipment_complaint.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -387,6 +386,8 @@ class ViewEquipmentComplaintBloc
     }
     reviewComplaintList = [];
     reviewComplaintWithOutFilterList = [];
+    reviewSelfComplaintList = [];
+    reviewSelfComplaintWithOutFilterList = [];
     startDate = event.fromDate;
     endDate = event.toDate;
     _eventComplete(emit);
@@ -527,6 +528,64 @@ class ViewEquipmentComplaintBloc
       reviewComplaintList = reviewSelfComplaintList;
       complaintCount.add(reviewSelfComplaintList.length);
     }
+
+    complaintCount = [];
+    complaintCount.add(reviewComplaintWithOutFilterList
+        .where((element) =>
+    element.action.toString() == "0" &&
+        element.complaintStatus.toString() == "0" &&
+        element.assignType.toString() == "0")
+        .toList()
+        .length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList
+        .where((element) =>
+    element.assignType.toString() == "2" &&
+        element.miAssignType.toString() == "0" &&
+        element.complaintStatus.toString() == "0")
+        .toList()
+        .length);
+
+    int count = 0;
+    count = reviewComplaintWithOutFilterList
+        .where((element) =>
+    element.miAssignType.toString() == "3" &&
+        element.assignType.toString() == "2" &&
+        element.complaintStatus.toString() == "0")
+        .toList()
+        .length;
+    count = count +
+        reviewComplaintWithOutFilterList
+            .where((element) =>
+        element.miAssignType.toString() == "0" &&
+            element.assignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    count = count +
+        reviewComplaintWithOutFilterList
+            .where((element) =>
+        element.miAssignType.toString() == "3" &&
+            element.assignType.toString() == "3" &&
+            element.complaintStatus.toString() == "0")
+            .toList()
+            .length;
+    complaintCount.add(count);
+
+    complaintCount.add(reviewComplaintWithOutFilterList
+        .where((element) => element.complaintStatus.toString() == "1")
+        .toList()
+        .length);
+
+    complaintCount.add(reviewComplaintWithOutFilterList
+        .where((element) =>
+    (element.complaintStatus.toString() == "0" ||
+        element.complaintStatus.toString() == "3") &&
+        element.ackStatus.toString() != "0")
+        .toList()
+        .length);
+
+    complaintCount.add(reviewSelfComplaintList.length);
 
     _eventComplete(emit);
   }

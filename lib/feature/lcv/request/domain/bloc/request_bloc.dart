@@ -9,12 +9,10 @@ import 'package:flutter_igl_cng/feature/lcv/navigationRoute/domain/bloc/navigati
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/request_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/helper/request_helper.dart';
-import 'package:flutter_igl_cng/root.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/services/location/location_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/hive/hive_database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'request_event.dart';

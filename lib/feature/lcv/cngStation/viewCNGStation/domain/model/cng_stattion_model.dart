@@ -27,6 +27,8 @@ class CngStationModel {
   dynamic long;
   List<UserModel>? userList;
   bool? isSelected;
+  String? controlRoomName;
+  dynamic controlRoomId;
 
   CngStationModel({
     this.id,
@@ -50,13 +52,15 @@ class CngStationModel {
     this.lat,
     this.long,
     this.isSelected,
+    this.controlRoomId,
+    this.controlRoomName,
   });
 
   factory CngStationModel.fromJson(Map<String, dynamic> json) {
     return CngStationModel(
       id: json['station_id'] ?? "",
       stationCode: json['station_code'] ?? "",
-      stationName: json['station_name'] ?? "",
+      stationName: json['name'] ?? "",
       address: json['address'] ?? "",
       createdBy: json['created_by'] ?? "",
       city: json['city'] ?? "",
@@ -73,6 +77,8 @@ class CngStationModel {
       firebaseId: json['firebase_id'] ?? "",
       lat: json['lat'] ?? "",
       long: json['long'] ?? "",
+      controlRoomId: json['control_room_id'] ?? "",
+      controlRoomName: json['control_room'] ?? "",
       isSelected: false,
       userList: json['users'] == null
           ? []

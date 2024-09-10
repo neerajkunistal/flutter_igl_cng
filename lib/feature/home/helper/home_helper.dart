@@ -8,7 +8,6 @@ import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_widget.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/presentation/page/running_truck_page.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';

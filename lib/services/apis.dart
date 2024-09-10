@@ -131,7 +131,9 @@ class APIs {
 
   static get getRouteApi => "api/getRoute";
 
-  static get getMotherStationsApi => "api/getMotherStations";
+  static get getMotherStationsApi => "api/lcv/getMBStation";
+
+  static get getDBStationApi => "api/lcv/getDBStation";
 
   static get deleteCngUserApi => "api/delete_user";
 

@@ -25,6 +25,8 @@ class DriverModel {
   String? licencePhoto;
   String? driverPhoto;
   bool? isSelected = false;
+  String? controlRoomName;
+  dynamic controlRoomId;
 
   DriverModel({
     this.id,
@@ -47,6 +49,8 @@ class DriverModel {
     this.licencePhoto,
     this.isSelected,
     this.driverPhoto,
+    this.controlRoomName,
+    this.controlRoomId,
   });
 
   factory DriverModel.fromJson(Map<String, dynamic> json) {
@@ -85,6 +89,8 @@ class DriverModel {
       roleId: json['role_id'] ?? "",
       status: json['status'] ?? "",
       firebaseId: json['firebase_id'] ?? "",
+      controlRoomName: json['control_room'] ?? "",
+      controlRoomId: json['control_room_id'] ?? "",
       certificatePhoto: uploadCertificate,
       licencePhoto: licencePhoto,
       driverPhoto: driverPhoto,

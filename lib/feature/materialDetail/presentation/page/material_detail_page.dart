@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/domain/bloc/material_detail_bloc.dart';
-import 'package:flutter_igl_cng/feature/materialDetail/domain/model/material_detail_model.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/presentation/widget/material_data_table_builder_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/presentation/widget/material_detail_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/presentation/widget/material_list_header_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/data_table_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class MaterialDetailPage extends StatefulWidget {

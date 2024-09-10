@@ -6,7 +6,6 @@ import 'package:flutter_igl_cng/feature/lcv/driver/registration/domain/model/reg
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/email_validation.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/phone_validation.dart';
-import 'package:image_picker/image_picker.dart';
 
 class RegistrationHelper {
   static Future<dynamic> textFieldValidation(

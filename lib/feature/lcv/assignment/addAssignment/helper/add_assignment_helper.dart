@@ -92,27 +92,27 @@ class AddAssignmentHelper {
         if (res["status"] != null &&
             res['status'] == 200 &&
             res['response'] != null) {
-          SnackBarSuccessWidget(context)
+          SnackBarSuccessWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return res;
         } else if (res["status"] != null &&
             res['status'] == 500 &&
             res['response'] != null) {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return null;
         } else {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return null;
         }
       } else {
-        SnackBarErrorWidget(context)
+        SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Internal Server Error ${APIs.registrationApi}");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
@@ -164,31 +164,31 @@ class AddAssignmentHelper {
         if (res["status"] != null &&
             res['status'] == 200 &&
             res['response'] != null) {
-          SnackBarSuccessWidget(context)
+          SnackBarSuccessWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return res;
         } else if (res["status"] != null &&
             res['status'] == 400 &&
             res['error'] != null) {
-          SnackBarErrorWidget(context).show(message: res['error'].toString());
+          SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['error'].toString());
           return null;
         } else if (res["status"] != null &&
             res['status'] == 500 &&
             res['error'] != null) {
-          SnackBarErrorWidget(context).show(message: res['error'].toString());
+          SnackBarErrorWidget(!context.mounted ? context : context).show(message: res['error'].toString());
           return null;
         } else {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['response'].toString());
           return null;
         }
       } else {
-        SnackBarErrorWidget(context)
+        SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Internal Server Error ${APIs.registrationApi}");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context).show(message: e.toString());
+      SnackBarErrorWidget(!context.mounted ? context : context).show(message: e.toString());
       return null;
     }
   }
@@ -197,27 +197,24 @@ class AddAssignmentHelper {
       {required BuildContext context, required LoginDataModel userData}) async {
     try {
       String url = APIs.getMotherStationsApi;
-      var json = {
-        "login_id": userData.userId.toString(),
-      };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
-          return motherStationListResponse(res['response']);
+            res['status'] == true &&
+            res['data'] != null) {
+          return motherStationListResponse(res['data']);
         } else {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['messages'].toString());
           return null;
         }
       } else {
-        SnackBarErrorWidget(context)
+        SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Internal Server Error ${APIs.getDriverApi}");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context)
+      SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: "Internal server error ${APIs.getDriverApi}");
       return null;
     }

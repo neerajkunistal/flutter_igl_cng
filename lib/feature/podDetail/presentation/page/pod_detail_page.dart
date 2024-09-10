@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/podDetail/domain/bloc/pod_detail_bloc.dart';
-import 'package:flutter_igl_cng/feature/podDetail/domain/model/pod_detail_model.dart';
 import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_data_table_builder_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_detail_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_list_header_widget.dart';

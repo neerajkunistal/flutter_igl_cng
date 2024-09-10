@@ -20,6 +20,7 @@ class LcvTruckModel {
   dynamic deletedAt;
   String? vehicleNo;
   bool? isSelected;
+  dynamic agencyId;
 
   LcvTruckModel(
       {this.id,
@@ -38,7 +39,9 @@ class LcvTruckModel {
       this.updatedAt,
       this.deletedAt,
       this.vehicleNo,
-      this.isSelected});
+      this.isSelected,
+      this.agencyId,
+      });
 
   factory LcvTruckModel.fromJson(Map<String, dynamic> json) {
     return LcvTruckModel(
@@ -58,6 +61,7 @@ class LcvTruckModel {
       updatedAt: json['updated_at'] ?? "",
       deletedAt: json['deleted_at'] ?? "",
       vehicleNo: json['vehicle_no'] ?? "",
+      agencyId: json['agency_id'] ?? "",
       isSelected: false,
     );
   }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/mother_station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
 
 class AddAssignmentPage extends StatefulWidget {
@@ -83,134 +81,68 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
     );
   }
 
-  Widget _motherStationDropDown(
-      {required FetchAddAssignmentDataState dataState}) {
-    return DropdownWidget(
+  Widget _motherStationDropDown({required FetchAddAssignmentDataState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem:
+      dataState.motherStationData.id != null ? dataState.motherStationData : null,
       hint: AppString.selectMotherStation,
-      dropdownValue: dataState.motherStationData.id != null
-          ? dataState.motherStationData
-          : null,
+      items: dataState.motherStationList,
+      itemAsString: (motherStationData) => motherStationData.stationName.toString(),
       onChanged: (value) {
         BlocProvider.of<AddAssignmentBloc>(context)
             .add(AddAssignmentSetMotherStationDataEvent(
           motherStationData: value,
         ));
       },
-      items: dataState.motherStationList
-          .map<DropdownMenuItem<MotherStationModel>>(
-              (MotherStationModel motherStationData) {
-        return DropdownMenuItem<MotherStationModel>(
-          value: motherStationData,
-          child: Text(motherStationData.stationName.toString()),
-        );
-      }).toList(),
     );
   }
 
   Widget _driverDropDown({required FetchAddAssignmentDataState dataState}) {
-    return Row(
-      children: [
-        Expanded(
-          child: DropDownSearchWidget(
-            selectedItem:
-                dataState.driverData.id != null ? dataState.driverData : null,
-            hint: AppString.selectDriver,
-            items: dataState.driverList,
-            itemAsString: (driverData) => driverData.driverName.toString(),
-            onChanged: (value) {
-              BlocProvider.of<AddAssignmentBloc>(context)
-                  .add(AddAssignmentSetDriverDataEvent(
-                driverData: value,
-              ));
-            },
-          ),
-        ),
-        IconButton(
-            onPressed: () {
-/*              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => QrCodeScanPage(
-                          onScan: (value) {
-                            BlocProvider.of<AddAssignmentBloc>(context).add(
-                                AddAssignmentSetDriverNoDataEvent(
-                                    drivingLicence: value.toString(),
-                                    context: context));
-                          },
-                        )),
-              );*/
-            },
-            icon: Icon(
-              Icons.qr_code_scanner,
-              color: AppColor.themeColor,
-            ))
-      ],
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.driverData.id != null ? dataState.driverData : null,
+      hint: AppString.selectDriver,
+      items: dataState.driverList,
+      itemAsString: (driverData) => driverData.driverName.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddAssignmentBloc>(context)
+            .add(AddAssignmentSetDriverDataEvent(
+          driverData: value,
+        ));
+      },
     );
   }
 
   Widget _lcvTrack({required FetchAddAssignmentDataState dataState}) {
-    return Row(
-      children: [
-        Expanded(
-          child: DropDownSearchWidget(
-            selectedItem:
-                dataState.lcvData.id != null ? dataState.lcvData : null,
-            hint: AppString.selectLCVTruck,
-            items: dataState.lcvList,
-            itemAsString: (lcvData) => lcvData.vehicleNo.toString(),
-            onChanged: (value) {
-              BlocProvider.of<AddAssignmentBloc>(context)
-                  .add(AddAssignmentSetLcvTrackDataEvent(
-                lcvData: value,
-              ));
-            },
-          ),
-        ),
-        IconButton(
-            onPressed: () {
-  /*            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => QrCodeScanPage(
-                          onScan: (value) {
-                            BlocProvider.of<AddAssignmentBloc>(context).add(
-                                AddAssignmentSetTruckNoDataEvent(
-                                    truckNumber: value.toString(),
-                                    context: context));
-                          },
-                        )),
-              );*/
-            },
-            icon: Icon(
-              Icons.qr_code_scanner,
-              color: AppColor.themeColor,
-            ))
-      ],
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.lcvData.id != null ? dataState.lcvData : null,
+      hint: AppString.selectLCVTruck,
+      items: dataState.lcvList,
+      itemAsString: (lcvData) => lcvData.vehicleNo.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddAssignmentBloc>(context)
+            .add(AddAssignmentSetLcvTrackDataEvent(
+          lcvData: value,
+        ));
+      },
     );
   }
 
   Widget _cngStationDropdown({required FetchAddAssignmentDataState dataState}) {
-    return dataState.isAddCngStation == false
-        ? DropdownWidget(
-            hint: AppString.selectCNGStation,
-            dropdownValue: dataState.cngStationData.stationName != null
-                ? dataState.cngStationData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AddAssignmentBloc>(context).add(
-                  AddAssignmentSetCngStationDataEvent(
-                      cngStationData: value, context: context));
-            },
-            items: dataState.cngStationList
-                .map<DropdownMenuItem<CngStationModel>>(
-                    (CngStationModel cngStationData) {
-              return DropdownMenuItem<CngStationModel>(
-                value: cngStationData,
-                child: Text(cngStationData.stationName.toString()),
-              );
-            }).toList(),
-          )
-        : const SizedBox.shrink();
+    return dataState.isAddCngStation == false ?
+    DropDownSearchWidget(
+      selectedItem:
+      dataState.cngStationData.id != null ? dataState.cngStationData : null,
+      hint: AppString.selectCNGStation,
+      items: dataState.cngStationList,
+      itemAsString: (cngStationData) => cngStationData.stationName.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AddAssignmentBloc>(context).add(
+            AddAssignmentSetCngStationDataEvent(
+                cngStationData: value, context: context));
+      },
+    ) : const SizedBox.shrink();
   }
 
   Widget _cngStationRoueDropdown(
@@ -400,13 +332,13 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
     );
 
     return DragTarget<StationModel>(
-      onWillAccept: (track) {
-        return stationList.indexOf(track!) != index;
+      onWillAcceptWithDetails: (track) {
+        return stationList.indexOf(track.data) != index;
       },
-      onAccept: (track) {
-        int currentIndex = stationList.indexOf(track);
-        stationList.remove(track);
-        stationList.insert(currentIndex > index ? index : index - 1, track);
+      onAcceptWithDetails: (track) {
+        int currentIndex = stationList.indexOf(track.data);
+        stationList.remove(track.data);
+        stationList.insert(currentIndex > index ? index : index - 1, track.data);
         BlocProvider.of<AddAssignmentBloc>(context).add(
             AddAssignmentStationSequenceChangeEvent(stationList: stationList));
       },

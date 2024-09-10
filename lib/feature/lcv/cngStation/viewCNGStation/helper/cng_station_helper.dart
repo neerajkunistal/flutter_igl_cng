@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/snack_bar_success_widget.dart';
+import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/db_station_model.dart';
 
 import '../domain/model/cng_stattion_model.dart';
 
@@ -9,16 +9,39 @@ class CNGStationHelper {
       {required BuildContext context, required LoginDataModel userData}) async {
     try {
       String url = APIs.getCNFStationApi;
-      var json = {
-        "role_id": userData.roleId.toString(),
-        "login_id": userData.userId.toString(),
-      };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.getData(urlEndPoint: url,);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
-          return cngStationListResponse(res['response']);
+            res['status'] == true &&
+            res['data'] != null) {
+          return cngStationListResponse(res['data']);
+        } else {
+          SnackBarErrorWidget(context)
+              .show(message: res['messages'].toString());
+          return null;
+        }
+      } else {
+        SnackBarErrorWidget(context)
+            .show(message: "Internal Server Error ${APIs.getCNFStationApi}");
+        return null;
+      }
+    } catch (e) {
+      SnackBarErrorWidget(context)
+          .show(message: "Internal server error ${APIs.getCNFStationApi}");
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchDBStationData(
+      {required BuildContext context, required LoginDataModel userData}) async {
+    try {
+      String url = APIs.getDBStationApi;
+      var res = await ServerRequest.getData(urlEndPoint: url,);
+      if (res != null) {
+        if (res["status"] != null &&
+            res['status'] == true &&
+            res['data'] != null) {
+          return dbStationListResponse(res['data']);
         } else {
           SnackBarErrorWidget(context)
               .show(message: res['messages'].toString());

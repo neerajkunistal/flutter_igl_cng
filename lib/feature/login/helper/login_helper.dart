@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../domain/models/login_model.dart';
-
 class LoginHelper {
   static Future<dynamic> textFieldValidation(
       {required String emilId,

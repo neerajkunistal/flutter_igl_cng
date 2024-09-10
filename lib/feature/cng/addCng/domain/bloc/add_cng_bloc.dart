@@ -4,7 +4,6 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/model/category_model.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/model/cr_stattion_model.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/helper/add_cng_helper.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'add_cng_event.dart';

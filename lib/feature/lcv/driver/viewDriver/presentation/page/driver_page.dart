@@ -5,7 +5,6 @@ import 'package:flutter_igl_cng/feature/lcv/driver/registration/presentation/pag
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/bloc/driver_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/presentation/widget/driver_item_box_widget.dart';
-
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class DriverPage extends StatefulWidget {

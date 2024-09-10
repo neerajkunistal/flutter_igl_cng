@@ -8,16 +8,12 @@ class DriverHelper {
       {required BuildContext context, required LoginDataModel userData}) async {
     try {
       String url = APIs.getDriverApi;
-      var json = {
-        "role_id": userData.roleId.toString(),
-        "login_id": userData.userId.toString(),
-      };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
-          return driverListResponse(res['response']);
+            res['status'] == true &&
+            res['data'] != null) {
+          return driverListResponse(res['data']);
         } else {
           SnackBarErrorWidget(context)
               .show(message: res['messages'].toString());

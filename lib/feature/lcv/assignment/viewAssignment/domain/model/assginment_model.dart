@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/hive/hive_dataTypes.dart';
 import 'package:hive/hive.dart';
 
 part 'assginment_model.g.dart';

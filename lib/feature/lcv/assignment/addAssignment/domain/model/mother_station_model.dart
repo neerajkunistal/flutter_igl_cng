@@ -22,6 +22,8 @@ class MotherStationModel {
   dynamic lat;
   dynamic long;
   String? status;
+  String? controlRoomName;
+  dynamic controlRoomId;
 
   MotherStationModel(
       {this.id,
@@ -41,13 +43,16 @@ class MotherStationModel {
       this.roleId,
       this.lat,
       this.long,
-      this.status});
+      this.status,
+      this.controlRoomName,
+      this.controlRoomId,
+      });
 
   factory MotherStationModel.fromJson(Map<String, dynamic> json) {
     return MotherStationModel(
       id: json['id'] ?? "",
       stationCode: json['station_code'] ?? "",
-      stationName: json['station_name'] ?? "",
+      stationName: json['name'] ?? "",
       address: json['address'] ?? "",
       createdBy: json['created_by'] ?? "",
       city: json['city'] ?? "",
@@ -63,6 +68,8 @@ class MotherStationModel {
       lat: json['lat'] ?? "",
       long: json['long'] ?? "",
       status: json['status'] ?? "",
+      controlRoomName: json['control_room'] ?? "",
+      controlRoomId: json['control_room_id'] ?? "",
     );
   }
 }
