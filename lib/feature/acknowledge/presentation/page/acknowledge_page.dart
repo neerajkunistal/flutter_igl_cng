@@ -64,11 +64,13 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   }
 
   Widget _searchWidget() {
+    DateTime startDate =  BlocProvider.of<AcknowledgeBloc>(context).startDate;
+    DateTime endDate =  BlocProvider.of<AcknowledgeBloc>(context).endDate;
     return SearchBarWidget(
       onPressed: () async {
         var selectedDate = await DateRangeWidget.showDateRange(
-            startDate: DateTime.now(),
-            endDate: DateTime.now(),
+            startDate:startDate,
+            endDate: endDate,
             context: context);
         if (selectedDate != null) {
           BlocProvider.of<AcknowledgeBloc>(

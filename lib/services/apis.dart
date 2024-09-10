@@ -97,11 +97,11 @@ class APIs {
 
   static get registrationApi => "api/saveLCVDriver";
 
-  static get getDriverApi => "api/getDriver";
+  static get getDriverApi => "api/lcv/getDriver";
 
-  static get getLCVDetailApi => "api/getLcvDetails";
+  static get getLCVDetailApi => "api/lcv/getLcvDetails";
 
-  static get getCNFStationApi => "api/getCngStation";
+  static get getCNFStationApi => "api/lcv/getCngStation";
 
   static get addAssignmentApi => "api/saveAssignment";
 
@@ -136,6 +136,8 @@ class APIs {
   static get deleteCngUserApi => "api/delete_user";
 
   static get deleteCngStationTruckApi => "api/delete_lcv";
+
+  static get getIglApi => "api/cr/getExtApiURl";
 
   static get forgotPasswordApi => "";
 }

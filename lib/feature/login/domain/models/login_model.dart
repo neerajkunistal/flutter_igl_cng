@@ -82,6 +82,8 @@ class LoginDataModel {
         return RoleType.cv;
       case "CI":
         return RoleType.ci;
+      case "LCVM":
+        return RoleType.lcvManager;
       default:
         return RoleType.noRole;
     }

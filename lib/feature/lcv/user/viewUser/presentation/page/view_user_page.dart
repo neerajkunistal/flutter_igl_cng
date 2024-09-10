@@ -38,7 +38,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
         ),
         actions: [
           userData.roleType == RoleType.admin ||
-                  userData.roleType == RoleType.manager
+                  userData.roleType == RoleType.lcvManager
               ? IconButton(
                   onPressed: () {
                     BlocProvider.of<AddUserBloc>(context).add(

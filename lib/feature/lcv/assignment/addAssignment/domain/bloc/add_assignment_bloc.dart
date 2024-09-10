@@ -126,7 +126,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     }
 
     var driverRes = await DriverHelper.fetchDriverData(
-        context: event.context, userData: userData);
+        context: !event.context.mounted ? event.context : event.context, userData: userData);
     if (driverRes != null) {
       _driverList = driverRes;
       _driverList = driverList

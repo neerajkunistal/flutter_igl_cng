@@ -287,6 +287,8 @@ class AppString {
 
   static get add => "Add";
 
+  static get addAssign => "Add Assign";
+
   static get addMeasurement => "Add Measurement";
 
   static get amount => "Amount";
@@ -441,6 +443,10 @@ class AppString {
   static get selectDateTime => "Select Date Time";
 
   static get selectRoute => "Select Route";
+
+  static get materialDetail => "Material Detail";
+
+  static get podDetail => "PO Detail";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

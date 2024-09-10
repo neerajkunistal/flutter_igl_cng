@@ -25,6 +25,8 @@ import 'package:flutter_igl_cng/feature/lcv/request/domain/bloc/request_bloc.dar
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/bloc/running_truck_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/user/addUser/domain/bloc/add_user_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/user/viewUser/domain/bloc/view_user_bloc.dart';
+import 'package:flutter_igl_cng/feature/materialDetail/domain/bloc/material_detail_bloc.dart';
+import 'package:flutter_igl_cng/feature/podDetail/domain/bloc/pod_detail_bloc.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 
 MultiProvider blocMultiProvider({required Widget child}) {
@@ -67,6 +69,8 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => ViewCngScmBloc()),
       BlocProvider(create: (BuildContext context) => AddCngScmBloc()),
       BlocProvider(create: (BuildContext context) => LcvTruckLiveRouteBloc()),
+      BlocProvider(create: (BuildContext context) => MaterialDetailBloc()),
+      BlocProvider(create: (BuildContext context) => PodDetailBloc()),
 
     ],
     child: child,

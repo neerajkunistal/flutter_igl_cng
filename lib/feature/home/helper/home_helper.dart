@@ -13,6 +13,8 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentCo
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
+import '../../lcv/assignment/addAssignment/presentation/page/add_assignment_page.dart';
+
 class HomeHelper {
   static Future<dynamic> fetchDrawerList(
       {required BuildContext context}) async {
@@ -52,12 +54,18 @@ class HomeHelper {
           label: AppString.review,
         ));
       }
-      else if (userData.roleType == RoleType.cngStation) {
+      else if (userData.roleType == RoleType.lcvManager) {
         bottomNavigationBarItemList.add(BottomNavigationBarItem(
           icon: const Icon(
             Icons.fire_truck_outlined,
           ),
           label: AppString.running,
+        ));
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: const Icon(
+            Icons.add,
+          ),
+          label: AppString.addAssign,
         ));
         bottomNavigationBarItemList.add(BottomNavigationBarItem(
           icon: const Icon(
@@ -88,10 +96,9 @@ class HomeHelper {
         pageList.add(const ViewCiComplaintPage());
       } else if (userData.roleType == RoleType.cv) {
          pageList.add(const ViewCvComplaintPage());
-/*        pageList.add(const RunningTruckPage());
-        pageList.add(const ViewAssignmentPage());*/
-      } else if(userData.roleType == RoleType.cngStation){
+      } else if(userData.roleType == RoleType.lcvManager){
         pageList.add(const RunningTruckPage());
+        pageList.add(const AddAssignmentPage());
         pageList.add(const ViewAssignmentPage());
       }
     } catch (_) {}

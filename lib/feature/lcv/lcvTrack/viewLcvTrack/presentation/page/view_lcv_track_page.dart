@@ -39,7 +39,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
         ),
         actions: [
           userData.roleType == RoleType.admin ||
-                  userData.roleType == RoleType.manager
+                  userData.roleType == RoleType.lcvManager
               ? IconButton(
                   onPressed: () {
                     BlocProvider.of<AddLcvTrackBloc>(context).add(

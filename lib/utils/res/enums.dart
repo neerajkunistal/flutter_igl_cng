@@ -1,6 +1,6 @@
 enum FieldStyle { underline, box }
 
-enum RoleType { stationUser, shiftEngineer, mi, amo, cv, ci, noRole, driver, admin, manager, cngStation } // CRIC
+enum RoleType { stationUser, shiftEngineer, mi, amo, cv, ci, noRole, driver, admin, lcvManager, cngStation } // CRIC
 
 enum OrderStatus { pending, confirm, complete, cancel }
 

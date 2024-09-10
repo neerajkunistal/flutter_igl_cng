@@ -36,7 +36,7 @@ class AppColor {
 
   static get cardLightGreen => const Color(0xFF8BC740);
 
-  static get themeSecondary => const Color(0xFFea8e11);
+  static get themeSecondary => const Color(0xFFFFC107);
 
 // static get themeSecondary => const Color(0xff60af62);
 }

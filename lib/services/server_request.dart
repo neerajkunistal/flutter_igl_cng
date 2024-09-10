@@ -354,19 +354,41 @@ class ServerRequest {
       if (response.statusCode == 200) {
         final bytes = response.bodyBytes;
         return base64Encode(bytes);
-      } else {
-        return null;
       }
     } catch (e) {
       if (e is SocketException) {
         log("SocketException : ${e.toString()}");
-        return e.toString();
       } else if (e is TimeoutException) {
         log("TimeoutException : ${e.toString()}");
-        return e.toString();
       } else {
         log("Unhandled exception : ${e.toString()}");
-        return e.toString();
+      }
+    }
+    return null;
+  }
+
+  static Future<dynamic> iglPost({var url, var body,
+         required String userName, required String password}) async {
+    try {
+      var headerData = {
+      "Authorization" : 'Basic ${base64.encode(utf8.encode('$userName:$password'))}',
+      "Content-Type": "application/json; charset=UTF-8"
+      };
+      log(url);
+      log(jsonEncode(body));
+      final response = await post(Uri.parse(url),
+          headers: headerData, body: jsonEncode(body));
+      log(response.body);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        log("SocketException : ${e.toString()}");
+      } else if (e is TimeoutException) {
+        log("TimeoutException : ${e.toString()}");
+      } else {
+        log("Unhandled exception : ${e.toString()}");
       }
     }
     return null;

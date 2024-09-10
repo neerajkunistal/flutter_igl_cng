@@ -49,7 +49,7 @@ class ViewEquipmentComplaintBloc
     remarkController.text = "";
     userData = UserInfo.instanceInit()!.userData!;
 
-    startDate = DateTime.now().subtract(const Duration(days: 4));
+    startDate = DateTime.now().subtract(const Duration(days: 5));
     endDate = DateTime.now();
 
     var res = userData.roleType == RoleType.mi

@@ -39,7 +39,7 @@ class _DriverPageState extends State<DriverPage> {
         ),
         actions: [
           userData.roleType == RoleType.admin ||
-                  userData.roleType == RoleType.manager
+                  userData.roleType == RoleType.lcvManager
               ? IconButton(
                   onPressed: () {
                     BlocProvider.of<RegistrationBloc>(context).add(

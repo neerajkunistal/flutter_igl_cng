@@ -3,6 +3,9 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/materialDetail/presentation/page/material_detail_page.dart';
+import 'package:flutter_igl_cng/feature/podDetail/presentation/page/pod_detail_page.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/custome_switch.dart';
 
@@ -48,6 +51,12 @@ class HomeDrawerWidget extends StatelessWidget {
               _viewEquipmentComplaint(context: context),
               userData.roleType == RoleType.mi
               ? _miComplaint(context: context): const SizedBox.shrink(),*/
+                  state.roleType != RoleType.stationUser ?
+                  _materialDetail(context: context): const SizedBox.shrink(),
+
+                  state.roleType != RoleType.stationUser ?
+                  _podDetail(context: context) : const SizedBox.shrink(),
+
                   _notificationSetting(context: context, dataState: state),
                   _logout(context: context),
                 ],
@@ -240,6 +249,86 @@ class HomeDrawerWidget extends StatelessWidget {
               ),
             );
           }),
+    );
+  }
+
+  Widget _materialDetail({required BuildContext context}) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.02,
+          bottom: MediaQuery.of(context).size.width * 0.02),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              FadeRoute(page: const MaterialDetailPage()));
+        },
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                // color: Colors.white.withOpacity(.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Icon(
+                  Icons.account_tree_outlined,
+                  color: AppColor.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+            ),
+            TextWidget(
+              AppString.materialDetail,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _podDetail({required BuildContext context}) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.02,
+          bottom: MediaQuery.of(context).size.width * 0.02),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              FadeRoute(page: const PodDetailPage()));
+        },
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                // color: Colors.white.withOpacity(.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Icon(
+                  Icons.price_change_outlined,
+                  color: AppColor.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+            ),
+            TextWidget(
+              AppString.podDetail,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
+            ),
+          ],
+        ),
+      ),
     );
   }
 

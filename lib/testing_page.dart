@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/data_table_widget.dart';
 import 'package:video_player/video_player.dart';
 
 
@@ -12,59 +13,35 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-  late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.networkUrl(
-      Uri.parse('https://indiaitchannels.com/news/upload/advertisement/videoplayback.mp4',),
-    );
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    setState(() {});
-  }
+  final _fixedRowCells = [
+    "Plant",
+    "Plant Name",
+    "Storage Location",
+    "Storage Location Name",
+    "Unrestricted Stock"
+    "Base Unit of Measure"
+  ];
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+
+  final _rowsCells = [
+    ["3010", "IGL  Greater Noida", "0045", "Avinash Em Proje", "5.000", "NO"],
+  ];
+
+  final _fixedColCells = [];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Butterfly Video'),
-      ),
-      body: FutureBuilder(
-        future: _initializeVideoPlayerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+      body: SafeArea(
+        child: Expanded(
+          child: DataTableWidget(
+            fixedCornerCell: '',
+            borderColor: Colors.grey.shade300,
+            rowsCells: _rowsCells,
+            fixedColCells: _fixedColCells,
+            fixedRowCells: _fixedRowCells,
+          ),
         ),
       ),
     );

@@ -49,13 +49,6 @@ class _RunningTruckPageState extends State<RunningTruckPage> {
     return Stack(
       children: [
         _googleMap(dataState: dataState),
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.03,
-          child: AppBarWidget(
-            titleName: AppString.appName,
-            scaffoldKey: _scaffoldKey,
-          ),
-        ),
         Align(
           alignment: Alignment.bottomCenter,
           child: _listBuilder(dataState: dataState),

@@ -23,33 +23,23 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.white,
-      appBar: AppBar(
-        elevation: 0.0,
-        title: TextWidget(
-          AppString.addAssignment,
-          color: AppColor.white,
-          fontSize: AppFont.font_16,
-        ),
-      ),
-      body: BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
-        builder: (context, state) {
-          if (state is FetchAddAssignmentDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
+    return BlocBuilder<AddAssignmentBloc, AddAssignmentState>(
+      builder: (context, state) {
+        if (state is FetchAddAssignmentDataState) {
+          return _itemBuilder(dataState: state);
+        } else {
+          return const Center(
+            child: CenterLoaderWidget(),
+          );
+        }
+      },
     );
   }
 
   Widget _itemBuilder({required FetchAddAssignmentDataState dataState}) {
     return Container(
-      margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
+      color: AppColor.white,
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
       child: ListView(
         children: [
           SizedBox(

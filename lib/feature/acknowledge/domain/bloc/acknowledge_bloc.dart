@@ -38,7 +38,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
   int get selectTabIndex => _selectTabIndex;
 
-  DateTime startDate = DateTime.now().subtract(const Duration(days: 4));
+  DateTime startDate = DateTime.now().subtract(const Duration(days: 5));
   DateTime endDate = DateTime.now();
 
   List<int> complaintCount = [];

@@ -27,55 +27,16 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: TextWidget(
-          userData.roleType == RoleType.driver
-              ? AppString.history
-              : AppString.assignmentList,
-          color: AppColor.white,
-          fontSize: AppFont.font_16,
-        ),
-        actions: [
-          userData.roleType == RoleType.admin ||
-                  userData.roleType == RoleType.manager ||
-                  userData.roleType == RoleType.cngStation
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const AddAssignmentPage()));
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: AppColor.white,
-                  ))
-              : const SizedBox.shrink(),
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                child: Icon(
-                  Icons.sort,
-                  size: 26.0,
-                  color: Colors.white,
-                ),
-                onTap: () async {
-                  ViewAssignmentFilterWidget(context: context).filterSearch();
-                },
-              )),
-        ],
-      ),
-      body: BlocBuilder<ViewAssignmentBloc, ViewAssignmentState>(
-        builder: (context, state) {
-          if (state is FetchViewAssignmentDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
+    return BlocBuilder<ViewAssignmentBloc, ViewAssignmentState>(
+      builder: (context, state) {
+        if (state is FetchViewAssignmentDataState) {
+          return _itemBuilder(dataState: state);
+        } else {
+          return const Center(
+            child: CenterLoaderWidget(),
+          );
+        }
+      },
     );
   }
 
@@ -90,9 +51,24 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
                   assignmentData: dataState.assignmentList[index]);
             })
         : Center(
-            child: TextWidget(userData.roleType == RoleType.driver
-                ? "No History Found"
-                : "No Assignment Data"),
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<ViewAssignmentBloc>(context)
+                    .add(ViewAssignmentPageLoadEvent(context: context));
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.refresh, color: AppColor.white,),
+                  TextWidget(userData.roleType == RoleType.driver
+                      ? "No History Found"
+                      : "No Assignment Data",
+                     color: AppColor.white,
+                  ),
+                ],
+              ),
+            ),
           );
   }
 }
