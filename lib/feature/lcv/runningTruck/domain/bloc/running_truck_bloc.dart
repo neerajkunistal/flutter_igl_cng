@@ -116,7 +116,7 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
           .toList();
 
       List<AssignmentModel> _tempList = assignmentList
-          .where((element) => element.receivedScmQuantity.toString().isEmpty)
+          .where((element) => element.outPressure.toString().isEmpty)
           .toList();
       _assignmentList = _tempList;
     }

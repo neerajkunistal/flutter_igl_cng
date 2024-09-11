@@ -31,14 +31,26 @@ class _TestPageState extends State<TestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Expanded(
-          child: DataTableWidget(
-            fixedCornerCell: '',
-            borderColor: Colors.grey.shade300,
-            rowsCells: _rowsCells,
-            fixedColCells: _fixedColCells,
-            fixedRowCells: _fixedRowCells,
-          ),
+        child: Center(
+          child: Table(border: TableBorder.all(), children: [
+            const TableRow(children: [
+              Text('Column 1'),
+              Text('Column 2'),
+            ]),
+            TableRow(children: [
+              const Text('Entry 1'),
+              Table(border: TableBorder.all(), children: const [
+                TableRow(children: [
+                  Text('Nested Entry 1'),
+                  Text('Nested Entry 2'),
+                ]),
+                TableRow(children: [
+                  Text('Nested Entry 3'),
+                  Text('Nested Entry 4'),
+                ]),
+              ]),
+            ]),
+          ]),
         ),
       ),
     );

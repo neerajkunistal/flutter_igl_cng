@@ -55,11 +55,10 @@ class CngFillingFormBloc
     _cngStationData = CngStationModel();
     _cngStationList = [];
     driverController.text = assignmentData.driverName.toString();
-    scmQuantityController.text = assignmentData.quantity.toString();
     unitGasMeterController.text = "";
     receivedScmQuantityController.text = "";
-    driverLicenceIdController.text = assignmentData.driverLicenseId.toString();
-    lcvTruckNumberController.text = assignmentData.vehicleNo.toString();
+    driverLicenceIdController.text = assignmentData.driverId.toString();
+    lcvTruckNumberController.text = assignmentData.lcvNumber.toString();
     remarkController.text = "";
     _eventCompleted(emit);
   }

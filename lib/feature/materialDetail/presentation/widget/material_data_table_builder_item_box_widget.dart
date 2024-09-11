@@ -21,6 +21,7 @@ class MaterialDataTableBuilderItemBox extends StatelessWidget {
     ];
 
     final fixedColCells = [];
+    int i = 0;
     for(var materialDetailData in dataState.materialDetailList) {
       List<Object> row = [];
       row.add(materialDetailData.plant.toString());
@@ -30,6 +31,7 @@ class MaterialDataTableBuilderItemBox extends StatelessWidget {
       row.add(materialDetailData.unrestrictedStock.toString());
       row.add(materialDetailData.baseUnitofMeasure.toString());
       rowsCells.add(row);
+      i++;
     }
     return dataState.materialDetailList.isNotEmpty ?
     Container(

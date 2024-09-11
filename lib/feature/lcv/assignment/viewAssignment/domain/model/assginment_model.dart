@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:hive/hive.dart';
-
-part 'assginment_model.g.dart';
 
 List<AssignmentModel> assignmentListResponse(var json) {
   return List<AssignmentModel>.from(
@@ -10,207 +7,145 @@ List<AssignmentModel> assignmentListResponse(var json) {
 }
 
 class AssignmentModel {
-  dynamic id;
-  String? motherStation;
-  dynamic motherStationId;
-  String? cngStation;
-  String? orderId;
-  String? driverName;
-  String? vehicleNo;
-  String? scm;
-  String? quantity;
-  String? status;
+  String? id;
+  String? mbStationId;
+  String? createdBy;
+  String? lcvEntryTime;
+  String? fillStartTime;
+  String? flowMeterReadingOpening;
+  String? flowMeterReadingClosing;
+  String? fillEndTime;
+  String? outPressure;
+  String? lcvCondition;
+  String? lcvConditionRemarks;
+  String? lcvNumber;
+  String? driverId;
+  String? driverFitToDrive;
+  String? improperLogbookCorrections;
+  String? mobileAvailability;
+  String? unscheduledMaintenancePenaltyHours;
+  String? scheduledMaintenancePenaltyHours;
   String? createdAt;
-  String? createdFor;
-  String? motherStationAddress;
-  dynamic motherStationLat;
-  dynamic motherStationLong;
-  String? motherStationCity;
-  String? motherStationDistrict;
-  String? motherStationState;
-  String? cngStationAddress;
-  dynamic cngStationLat;
-  dynamic cngStationLong;
-  String? cngStationCity;
-  String? cngStationDistrict;
-  String? cngStationState;
+  String? updatedAt;
+  String? lcvId;
+  String? dbCngStationId;
+  String? status;
+  String? mbStationName;
+  String? dbStationName;
+  dynamic vehicleName;
+  dynamic driverName;
+  String? attachmentPath;
   AssignmentStatus? assignmentStatus;
   Color? assignmentStatusColor;
   bool? isSelected;
-  String? receivedScmQuantity;
-  String? currentScmQuantity;
-  String? remark;
-  String? cngStationId;
-  String? driverLicenseId;
-  String? motherStationFirebaseId;
-  String? routeId;
-  String? startDateTime;
-  String? delay;
-  String? scheduleDateTime;
-  String? slipPhoto;
-  String? startSelfPhoto;
-  String? endSelfPhoto;
-  String? startTruckImage;
-  String? endTruckImage;
-  String? driverId;
-  String? notificationDateTime;
-  List<FirebaseIdModel>? firebaseIdList;
+  List<String>? motherStationAttachments;
 
-  AssignmentModel({
-    this.id,
-    this.motherStation,
-    this.motherStationId,
-    this.cngStation,
-    this.orderId,
-    this.driverName,
-    this.vehicleNo,
-    this.scm,
-    this.quantity,
-    this.status,
-    this.createdAt,
-    this.createdFor,
-    this.motherStationAddress,
-    this.motherStationLat,
-    this.motherStationLong,
-    this.motherStationCity,
-    this.motherStationDistrict,
-    this.motherStationState,
-    this.cngStationAddress,
-    this.cngStationLat,
-    this.cngStationLong,
-    this.cngStationCity,
-    this.cngStationDistrict,
-    this.cngStationState,
-    this.assignmentStatus,
-    this.assignmentStatusColor,
-    this.isSelected,
-    this.receivedScmQuantity,
-    this.currentScmQuantity,
-    this.remark,
-    this.cngStationId,
-    this.driverLicenseId,
-    this.motherStationFirebaseId,
-    this.routeId,
-    this.startDateTime,
-    this.delay,
-    this.scheduleDateTime,
-    this.firebaseIdList,
-    this.endSelfPhoto,
-    this.endTruckImage,
-    this.slipPhoto,
-    this.startSelfPhoto,
-    this.startTruckImage,
-    this.driverId,
-    this.notificationDateTime,
-  });
+  AssignmentModel(
+      {this.id,
+        this.mbStationId,
+        this.createdBy,
+        this.lcvEntryTime,
+        this.fillStartTime,
+        this.flowMeterReadingOpening,
+        this.flowMeterReadingClosing,
+        this.fillEndTime,
+        this.outPressure,
+        this.lcvCondition,
+        this.lcvConditionRemarks,
+        this.lcvNumber,
+        this.driverId,
+        this.driverFitToDrive,
+        this.improperLogbookCorrections,
+        this.mobileAvailability,
+        this.unscheduledMaintenancePenaltyHours,
+        this.scheduledMaintenancePenaltyHours,
+        this.createdAt,
+        this.updatedAt,
+        this.lcvId,
+        this.dbCngStationId,
+        this.status,
+        this.mbStationName,
+        this.dbStationName,
+        this.vehicleName,
+        this.driverName,
+        this.attachmentPath,
+        this.assignmentStatus,
+        this.assignmentStatusColor,
+        this.isSelected,
+        this.motherStationAttachments,
+      });
 
-  factory AssignmentModel.fromJson(Map<String, dynamic> json) {
-    AssignmentStatus assignmentStatus =
-        getAssignmentStatus(status: json['status'] ?? "");
-    String delay = "";
-    if (json['scheduledatetime'] != null &&
-        json['scheduledatetime'].toString().isNotEmpty &&
-        json['start_time'] != null &&
-        json['start_time'].toString().isNotEmpty) {
-      DateTime scheduleDateTime =
-          DateTime.parse(json['scheduledatetime'].toString());
-      DateTime startDateTime = DateTime.parse(json['start_time'].toString());
-      delay = startDateTime.difference(scheduleDateTime).inMinutes.toString();
-    }
-
-    String slipPhoto = "";
-    String startSelfPhoto = "";
-    String endSelfPhoto = "";
-    String startTruckPhoto = "";
-    String endTruckPhoto = "";
-
-    if (json['slip_photo'] != null && json['driver_id'] != null) {
-      slipPhoto =
-          "${APIs.baseUrl}writable/uploads/slip_photo/${json['driver_id']}/${json['slip_photo']}";
-    }
-
-    if (json['start_self_photo'] != null && json['driver_id'] != null) {
-      startSelfPhoto =
-          "${APIs.baseUrl}writable/uploads/self_photo/${json['driver_id']}/${json['start_self_photo']}";
-    }
-
-    if (json['end_self_photo'] != null && json['driver_id'] != null) {
-      endSelfPhoto =
-          "${APIs.baseUrl}writable/uploads/self_photo/${json['driver_id']}/${json['end_self_photo']}";
-    }
-
-    if (json['start_truck_image'] != null && json['driver_id'] != null) {
-      startTruckPhoto =
-          "${APIs.baseUrl}writable/uploads/truck_photo/${json['driver_id']}/${json['start_truck_image']}";
-    }
-
-    if (json['end_truck_image'] != null && json['driver_id'] != null) {
-      endTruckPhoto =
-          "${APIs.baseUrl}writable/uploads/truck_photo/${json['driver_id']}/${json['end_truck_image']}";
-    }
-
-    return AssignmentModel(
-      id: json['assignment_id'] ?? "",
-      motherStation: json['mother_station'] ?? "",
-      motherStationId: json['mother_station_id'] ?? "",
-      cngStation: json['cng_station'] ?? "",
-      orderId: json['order_id'] ?? "",
-      driverName: json['driver_name'] ?? "",
-      vehicleNo: json['vehicle_no'] ?? "",
-      scm: json['scm'] ?? "",
-      quantity: json['quantity'] ?? "",
-      status: json['status'] ?? "",
-      createdAt: json['created_at'] ?? "",
-      createdFor: json['created_for'] ?? "",
-      motherStationAddress: json['mother_station_address'] ?? "",
-      motherStationLat: json['mother_station_lat'] ?? 0.0,
-      motherStationLong: json['mother_station_long'] ?? 0.0,
-      motherStationCity: json['mother_station_city'] ?? "",
-      motherStationDistrict: json['mother_station_district'] ?? "",
-      motherStationState: json['mother_station_state'] ?? "",
-      cngStationAddress: json['cng_station_address'] ?? "",
-      cngStationLat: json['cng_station_lat'] ?? 0.0,
-      cngStationLong: json['cng_station_long'] ?? 0.0,
-      cngStationCity: json['cng_station_city'] ?? "",
-      cngStationDistrict: json['cng_station_district'] ?? "",
-      cngStationState: json['cng_station_state'] ?? "",
-      receivedScmQuantity: json['cng_station_current_scm'] ?? "",
-      currentScmQuantity: json['cng_station_recieve_scm'] ?? "",
-      remark: json['cng_station_recieve_scm'] ?? "",
-      cngStationId: json['cng_station_id'] ?? "",
-      driverLicenseId: json['driver_license_id'] ?? "",
-      motherStationFirebaseId: json['mother_station_firebase_id'] ?? "",
-      routeId: json['route_id'] ?? "",
-      startDateTime: json['start_time'] ?? "",
-      isSelected: false,
-      delay: delay,
-      scheduleDateTime: json['scheduledatetime'] ?? "",
-      assignmentStatus: assignmentStatus,
-      slipPhoto: slipPhoto,
-      startSelfPhoto: startSelfPhoto,
-      endSelfPhoto: endSelfPhoto,
-      startTruckImage: startTruckPhoto,
-      endTruckImage: endTruckPhoto,
-      driverId: json['driver_id'] ?? "",
-      firebaseIdList: json['cng_user_firebase_id'] == null
-          ? []
-          : List<FirebaseIdModel>.from(json['cng_user_firebase_id']
-              .map((x) => FirebaseIdModel.fromJson(x))),
-      assignmentStatusColor:
-          getAssignmentStatusColor(assignmentStatus: assignmentStatus),
-    );
+  AssignmentModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'] ??  "";
+    mbStationId = json['mb_station_id'] ??  "";
+    createdBy = json['created_by'] ??  "";
+    lcvEntryTime = json['lcv_entry_time'] ??  "";
+    fillStartTime = json['fill_start_time'] ??  "";
+    flowMeterReadingOpening = json['flow_meter_reading_opening'] ??  "";
+    flowMeterReadingClosing = json['flow_meter_reading_closing'] ??  "";
+    fillEndTime = json['fill_end_time'] ??  "";
+    outPressure = json['out_pressure'] ??  "";
+    lcvCondition = json['lcv_condition'] ??  "";
+    lcvConditionRemarks = json['lcv_condition_remarks'] ??  "";
+    lcvNumber = json['lcv_number'] ??  "";
+    driverId = json['driver_id'] ??  "";
+    driverFitToDrive = json['driver_fit_to_drive'] ??  "";
+    improperLogbookCorrections = json['improper_logbook_corrections'] ??  "";
+    mobileAvailability = json['mobile_availability'] ??  "";
+    unscheduledMaintenancePenaltyHours =
+    json['unscheduled_maintenance_penalty_hours'] ??  "";
+    scheduledMaintenancePenaltyHours =
+    json['scheduled_maintenance_penalty_hours'] ??  "";
+    createdAt = json['created_at'] ??  "";
+    updatedAt = json['updated_at'] ??  "";
+    lcvId = json['lcv_id'] ??  "";
+    dbCngStationId = json['db_cng_station_id'] ??  "";
+    status = json['status'] ??  "";
+    mbStationName = json['mb_station_name'] ??  "";
+    dbStationName = json['db_station_name'] ??  "";
+    vehicleName = json['vehicle_name'] ??  "";
+    driverName = json['driver_name'] ??  "";
+    attachmentPath = json['attachment_path'] ??  "";
+    motherStationAttachments = json['mb_attachments'] != null ? json['mb_attachments'].cast<String>() : [];
+    isSelected =  false;
+    assignmentStatus =  json['status'] != null
+        ? getAssignmentStatus(status: json['status'])
+        : AssignmentStatus.pending;
+    assignmentStatusColor = getAssignmentStatusColor(assignmentStatus: assignmentStatus!);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['mother_station'] = motherStation;
-    data['cng_station'] = cngStation;
-    data['order_id'] = orderId;
-    data['driver_name'] = driverName;
-    data['vehicle_no'] = vehicleNo;
-    data['scm'] = scm;
-    data['quantity'] = quantity;
+    data['id'] = id;
+    data['mb_station_id'] = mbStationId;
+    data['created_by'] = createdBy;
+    data['lcv_entry_time'] = lcvEntryTime;
+    data['fill_start_time'] = fillStartTime;
+    data['flow_meter_reading_opening'] = flowMeterReadingOpening;
+    data['flow_meter_reading_closing'] = flowMeterReadingClosing;
+    data['fill_end_time'] = fillEndTime;
+    data['out_pressure'] = outPressure;
+    data['lcv_condition'] = lcvCondition;
+    data['lcv_condition_remarks'] = lcvConditionRemarks;
+    data['lcv_number'] = lcvNumber;
+    data['driver_id'] = driverId;
+    data['driver_fit_to_drive'] = driverFitToDrive;
+    data['improper_logbook_corrections'] = improperLogbookCorrections;
+    data['mobile_availability'] = mobileAvailability;
+    data['unscheduled_maintenance_penalty_hours'] =
+        unscheduledMaintenancePenaltyHours;
+    data['scheduled_maintenance_penalty_hours'] =
+        scheduledMaintenancePenaltyHours;
     data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['lcv_id'] = lcvId;
+    data['db_cng_station_id'] = dbCngStationId;
+    data['status'] = status;
+    data['mb_station_name'] = mbStationName;
+    data['db_station_name'] = dbStationName;
+    data['vehicle_name'] = vehicleName;
+    data['driver_name'] = driverName;
+    data['attachment_path'] = attachmentPath;
     return data;
   }
 
@@ -274,9 +209,9 @@ class AssignmentModel {
       case AssignmentStatus.startRoute:
         return Colors.teal;
       case AssignmentStatus.complete:
-        return Colors.green[600];
+        return Colors.green[600] ??  "";
       case AssignmentStatus.cancel:
-        return Colors.red[600];
+        return Colors.red[600] ??  "";
       default:
         return Colors.amber;
     }

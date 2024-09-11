@@ -6,18 +6,42 @@ abstract class AddAssignmentEvent extends Equatable {
 
 class AddAssignmentPageLoadEvent extends AddAssignmentEvent {
   final BuildContext context;
-
   const AddAssignmentPageLoadEvent({required this.context});
-
   @override
   List<Object?> get props => [context];
 }
 
+class AddAssignmentSetAssignmentDataEvent extends AddAssignmentEvent {
+  final AssignmentModel assignmentData;
+  const AddAssignmentSetAssignmentDataEvent({required this.assignmentData});
+  @override
+  List<Object?> get props => [assignmentData];
+}
+
 class AddAssignmentSelectDateTimeEvent extends AddAssignmentEvent {
   final BuildContext context;
-
   const AddAssignmentSelectDateTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
 
+class AddAssignmentSelectLcvEntryTimeEvent extends AddAssignmentEvent {
+  final BuildContext context;
+  const AddAssignmentSelectLcvEntryTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddAssignmentSelectFillStartTimeEvent extends AddAssignmentEvent {
+  final BuildContext context;
+  const AddAssignmentSelectFillStartTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class AddAssignmentSelectFillEndTimeEvent extends AddAssignmentEvent {
+  final BuildContext context;
+  const AddAssignmentSelectFillEndTimeEvent({required this.context});
   @override
   List<Object?> get props => [context];
 }
@@ -128,6 +152,30 @@ class AddAssignmentSetStationRouteDataEvent extends AddAssignmentEvent {
 
   @override
   List<Object?> get props => [cngStationRouteData];
+}
+
+class AddAssignmentSetCheckListEventEvent extends AddAssignmentEvent {
+  final int checkList;
+  final bool isSelected;
+  const AddAssignmentSetCheckListEventEvent(
+      {required this.checkList, required this.isSelected});
+  @override
+  List<Object?> get props => [checkList,  isSelected];
+}
+
+class AddAssignmentSelectImageEvent extends AddAssignmentEvent {
+  final BuildContext context;
+  final int mediaType;
+  const AddAssignmentSelectImageEvent({required this.context, required this.mediaType});
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class AddAssignmentDeleteImageEvent extends AddAssignmentEvent {
+  final int index;
+  const AddAssignmentDeleteImageEvent({required this.index});
+  @override
+  List<Object?> get props => [index];
 }
 
 class AddAssignmentSubmitEvent extends AddAssignmentEvent {

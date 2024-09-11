@@ -368,6 +368,7 @@ class AppString {
   static get pincode => "Pincode";
 
   static get state => "State";
+
   static get liveTracking => "Live Traking";
 
   static get addDriver => "Add Driver";
@@ -447,6 +448,42 @@ class AppString {
   static get materialDetail => "Material Detail";
 
   static get podDetail => "PO Detail";
+
+  static get lcvEntryTime => "LCV Entry Time";
+
+  static get fillStartTime => "Fill Start Time";
+
+  static get flowMeterReadingOpen => "Flow Meter Reading Open";
+
+  static get flowMeterReadingClosed => "Flow Meter Reading Closed";
+
+  static get fillEndTime => "Fill End Time";
+
+  static get outPressure => "Out Pressure";
+
+  static get checklist => "Checklist";
+
+  static get lcvCondition => "Lcv Condition";
+
+  static get notOk => "Not Ok";
+
+  static get yes => "Yes";
+
+  static get no => "No";
+
+  static get driverFitToDrive => "Driver Fit To Drive";
+
+  static get improperLCVLogBooKCorrections =>
+      "Improper LCV logbook / corrections";
+
+  static get availabilityOfMobilWithDriver =>
+      "Availability of Mobile with Driver";
+
+  static get unscheduledMaintenancePenaltyHours =>
+      "Unscheduled Maintenance Penalty Hours";
+
+  static get scheduledMaintenancePenaltyHours =>
+      "scheduled Maintenance Penalty Hours";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

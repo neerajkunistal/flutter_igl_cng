@@ -163,7 +163,7 @@ class ViewAssignmentBloc
     var res = await AddAssignmentHelper.updateStatus(
       context: event.context,
       statusId: "4",
-      assignmentId: assignmentList[event.index].id,
+      assignmentId: assignmentList[event.index].id.toString(),
       userData: userData,
       uploadTruckImage: File(""),
       assignmentData: assignmentList[event.index],

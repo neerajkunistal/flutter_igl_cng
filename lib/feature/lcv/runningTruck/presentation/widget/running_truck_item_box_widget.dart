@@ -46,7 +46,7 @@ class RunningTruckItemBoxWidget extends StatelessWidget {
                     color: AppColor.black,
                   ),
                   TextWidget(
-                    assignmentData.vehicleNo.toString(),
+                    assignmentData.lcvNumber.toString(),
                     maxLines: 2,
                     fontSize: AppFont.font_14,
                     color: AppColor.black,
@@ -65,7 +65,7 @@ class RunningTruckItemBoxWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               TextWidget(
-                "Address : ${assignmentData.motherStationAddress}",
+                "Address : ${"assignmentData.motherStationAddress"}",
                 fontSize: AppFont.font_12,
                 color: AppColor.grey,
               ),
@@ -84,7 +84,7 @@ class RunningTruckItemBoxWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               assignmentData.assignmentStatus == AssignmentStatus.complete &&
-                      assignmentData.receivedScmQuantity.toString().isEmpty
+                      assignmentData.outPressure.toString().isEmpty
                   ? TextButton(
                       onPressed: () async {
                         BlocProvider.of<CngFillingFormBloc>(context).add(

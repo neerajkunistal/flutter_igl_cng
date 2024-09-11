@@ -58,7 +58,7 @@ class CngStationModel {
 
   factory CngStationModel.fromJson(Map<String, dynamic> json) {
     return CngStationModel(
-      id: json['station_id'] ?? "",
+      id: json['id'] ?? "",
       stationCode: json['station_code'] ?? "",
       stationName: json['name'] ?? "",
       address: json['address'] ?? "",

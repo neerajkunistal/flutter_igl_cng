@@ -50,12 +50,22 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
     width: width,
     child: TextWidget(
       '$data',
-      fontSize: AppFont.font_11,
+      fontSize: AppFont.font_12,
       fontWeight: FontWeight.w700,
       color: AppColor.themeColor,
       textAlign: TextAlign.center,
     ),
   );
+
+  TableBorder _buildHeaderBorder({bool bottom = true,}) {
+    return  TableBorder(
+      top: const BorderSide(color: Colors.black),
+      left: const BorderSide(color: Colors.black),
+      right: const BorderSide(color: Colors.black),
+      bottom: bottom ? const BorderSide(color: Colors.black) : BorderSide.none,
+      verticalInside: const BorderSide(color: Colors.black),
+    );
+  }
 
   TableBorder _buildBorder({
     bool top = false,
@@ -65,7 +75,7 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
     bool verticalInside = false,
   }) {
     return TableBorder(
-      top: top ? BorderSide(color: widget.borderColor) : BorderSide.none,
+      top: top  ? BorderSide(color: widget.borderColor) : BorderSide.none,
       left: left ? BorderSide(color: widget.borderColor) : BorderSide.none,
       right: right ? BorderSide(color: widget.borderColor) : BorderSide.none,
       bottom: bottom ? BorderSide(color: widget.borderColor) : BorderSide.none,
@@ -94,7 +104,7 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
   Widget _buildFixedRow() => Material(
     color: Colors.white,
     child: DataTable(
-      border: _buildBorder(verticalInside: true, bottom: true),
+      border: _buildHeaderBorder(bottom: false),
       horizontalMargin: widget.cellMargin,
       columnSpacing: widget.cellSpacing,
       headingRowHeight: widget.cellHeight,
@@ -122,7 +132,7 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
     return Material(
         color: Colors.white,
         child: DataTable(
-            border: _buildBorder(verticalInside: true, bottom: true),
+            border: _buildHeaderBorder(),
             horizontalMargin: widget.cellMargin,
             columnSpacing: widget.cellSpacing,
             headingRowHeight: widget.cellHeight,
@@ -165,33 +175,28 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: widget.borderColor),
-      ),
-      child: Column(
-        children: [
-          SingleChildScrollView(
-            controller: _rowController,
+    return Column(
+      children: [
+        SingleChildScrollView(
+          controller: _rowController,
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: _buildFixedRow(),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            controller: _subTableXController,
             scrollDirection: Axis.horizontal,
-            physics: const NeverScrollableScrollPhysics(),
-            child: _buildFixedRow(),
-          ),
-          Expanded(
             child: SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
-              controller: _subTableXController,
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                physics: const ClampingScrollPhysics(),
-                controller: _subTableYController,
-                scrollDirection: Axis.vertical,
-                child: _buildSubTable(),
-              ),
+              controller: _subTableYController,
+              scrollDirection: Axis.vertical,
+              child: _buildSubTable(),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

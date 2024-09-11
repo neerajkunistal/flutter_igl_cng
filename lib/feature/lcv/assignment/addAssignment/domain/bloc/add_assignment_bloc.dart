@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/mother_station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/helper/add_assignment_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/helper/cng_station_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
@@ -82,8 +84,29 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
 
   bool get isRouteLoader => _isRouteLoader;
 
+   TextEditingController lcvEntryTimeController =  TextEditingController();
+   TextEditingController fillStartTimeController  =  TextEditingController();
+   TextEditingController flowMeterReadingOpenController =  TextEditingController();
+   TextEditingController flowMeterReadingClosedController =  TextEditingController();
+   TextEditingController fillEndTimeController =  TextEditingController();
+   TextEditingController outPressureController =  TextEditingController();
+   TextEditingController remarkController =  TextEditingController();
+   TextEditingController unscheduledMaintenancePenaltyHoursController =  TextEditingController();
+   TextEditingController scheduledMaintenancePenaltyHoursController =  TextEditingController();
+   List<File> fileList = [];
+   bool isLcvCondition =  false;
+   bool isDriverFitDrive =  false;
+   bool isLcvLogBookCorrection =  false;
+   bool isAvailabilityMobileWithDriver =  false;
+   bool isUnscheduledMaintenancePenaltyHours = false;
+   bool isScheduledMaintenancePenaltyHours =  false;
+
+   AssignmentModel _assignmentData =  AssignmentModel();
+   AssignmentModel get assignmentData => _assignmentData;
+
   AddAssignmentBloc() : super(AddAssignmentInitial()) {
     on<AddAssignmentPageLoadEvent>(_pageLoad);
+    on<AddAssignmentSetAssignmentDataEvent>(_setAssignment);
     on<AddAssignmentSetMotherStationDataEvent>(_setMotherStation);
     on<AddAssignmentSetDriverDataEvent>(_setDriverData);
     on<AddAssignmentSetCngStationDataEvent>(_setCngStationData);
@@ -92,11 +115,21 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     on<AddAssignmentAddStationEvent>(_addCNGStation);
     on<AddAssignmentRemoveStationEvent>(_removeStation);
     on<AddAssignmentStationSequenceChangeEvent>(_changeSequence);
+    on<AddAssignmentSelectImageEvent>(_selectImage);
+    on<AddAssignmentDeleteImageEvent>(_deleteImage);
     on<AddAssignmentSubmitEvent>(_submit);
     on<AddAssignmentSetDriverNoDataEvent>(_setDrivingLicence);
     on<AddAssignmentSetTruckNoDataEvent>(_setTruckNumber);
     on<AddAssignmentSelectDateTimeEvent>(_setScheduleDateTime);
+    on<AddAssignmentSelectLcvEntryTimeEvent>(_selectLcvEntryTime);
+    on<AddAssignmentSelectFillStartTimeEvent>(_selectFillStartTime);
+    on<AddAssignmentSelectFillEndTimeEvent>(_selectFillEndTime);
+    on<AddAssignmentSetCheckListEventEvent>(_setCheckList);
     on<AddAssignmentSetStationRouteDataEvent>(_setCngStationRoute);
+  }
+
+  _setAssignment(AddAssignmentSetAssignmentDataEvent event, emit) {
+     _assignmentData =  event.assignmentData;
   }
 
   _pageLoad(AddAssignmentPageLoadEvent event, emit) async {
@@ -119,6 +152,22 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     _cngStationRouteList = [];
     _cngStationRouteData = CngStationRouteModel();
     _isRouteLoader = false;
+    lcvEntryTimeController.text = "";
+    fillStartTimeController.text = "";
+    flowMeterReadingOpenController.text = "";
+    flowMeterReadingClosedController.text = "";
+    fillEndTimeController.text = "";
+    outPressureController.text = "";
+    remarkController.text = "";
+    unscheduledMaintenancePenaltyHoursController.text = "";
+    scheduledMaintenancePenaltyHoursController.text = "";
+    fileList = [];
+    isLcvCondition =  true;
+    isDriverFitDrive =  true;
+    isLcvLogBookCorrection =  true;
+    isAvailabilityMobileWithDriver = true;
+    isUnscheduledMaintenancePenaltyHours = true;
+    isScheduledMaintenancePenaltyHours =  true;
     var motherStationRes = await AddAssignmentHelper.fetchMotherStationData(
         context: event.context, userData: userData);
     if (motherStationRes != null) {
@@ -151,6 +200,46 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
           .where((element) => element.deletedAt.toString().isEmpty)
           .toList();
     }
+
+    if(assignmentData.id != null){
+      for(var data in motherStationList){
+        if(assignmentData.mbStationId.toString() == data.id.toString()){
+          _motherStationData = data;
+        }
+      }
+
+      for(var data in lcvList){
+        if(assignmentData.lcvId.toString() == data.id.toString()){
+          _lcvData = data;
+        }
+      }
+
+      for(var data in driverList){
+        if(assignmentData.driverId.toString() == data.id.toString()){
+          _driverData = data;
+        }
+      }
+
+      for(var data in cngStationList){
+        if(assignmentData.dbCngStationId.toString() == data.id.toString()){
+          _cngStationData = data;
+        }
+      }
+
+      lcvEntryTimeController.text =  assignmentData.lcvEntryTime.toString();
+      fillStartTimeController.text =  assignmentData.fillStartTime.toString();
+      flowMeterReadingOpenController.text = assignmentData.flowMeterReadingOpening.toString();
+      flowMeterReadingClosedController.text = assignmentData.flowMeterReadingClosing.toString();
+      fillEndTimeController.text =  assignmentData.fillEndTime.toString();
+      unscheduledMaintenancePenaltyHoursController.text = assignmentData.unscheduledMaintenancePenaltyHours.toString();
+      scheduledMaintenancePenaltyHoursController.text =  assignmentData.scheduledMaintenancePenaltyHours.toString();
+      isLcvCondition =  assignmentData.lcvCondition.toString() == "1" ? true : false;
+      isDriverFitDrive =  assignmentData.driverFitToDrive.toString() == "1" ? true : false;
+      isLcvLogBookCorrection =  assignmentData.improperLogbookCorrections.toString() == "1" ? true : false;
+      isAvailabilityMobileWithDriver =  assignmentData.mobileAvailability.toString() == "1" ? true : false;
+
+    }
+
     _eventCompleted(emit);
   }
 
@@ -168,7 +257,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     _cngStationData = event.cngStationData;
     cngQuantityController.text = "";
     _eventCompleted(emit);
-    _cngStationRouteList = [];
+/*    _cngStationRouteList = [];
     _cngStationRouteData = CngStationRouteModel();
     _isRouteLoader = true;
     _eventCompleted(emit);
@@ -183,7 +272,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         _cngStationRouteData = cngStationRouteList[0];
       }
     }
-    _isRouteLoader = false;
+    _isRouteLoader = false;*/
     _eventCompleted(emit);
   }
 
@@ -336,6 +425,131 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     _eventCompleted(emit);
   }
 
+  _selectLcvEntryTime(AddAssignmentSelectLcvEntryTimeEvent event, emit) async {
+    try {
+      DateTime initialDate = lcvEntryTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(lcvEntryTimeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime: initialTime,
+      );
+      if (time != null) {
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+        lcvEntryTimeController.text = timeFormat;
+        _eventCompleted(emit);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  _selectFillStartTime(AddAssignmentSelectFillStartTimeEvent event, emit) async {
+    try {
+      DateTime initialDate = fillStartTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(fillStartTimeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime: initialTime,
+      );
+      if (time != null) {
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+        fillStartTimeController.text = timeFormat;
+        _eventCompleted(emit);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  _selectFillEndTime(AddAssignmentSelectFillEndTimeEvent event, emit) async {
+    try {
+      DateTime initialDate = fillEndTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(fillEndTimeController.text.toString())
+          : DateTime.now();
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime: initialTime,
+      );
+      if (time != null) {
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+        fillEndTimeController.text = timeFormat;
+        _eventCompleted(emit);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  _setCheckList(AddAssignmentSetCheckListEventEvent event, emit) {
+    bool isSelected =  event.isSelected;
+    int checkList = event.checkList;
+    switch(checkList) {
+      case 1:
+        isLcvCondition =  isSelected;
+        remarkController.text = "";
+        _eventCompleted(emit);
+        break;
+      case 2:
+        isDriverFitDrive =  isSelected;
+        _eventCompleted(emit);
+        break;
+      case 3:
+        isLcvLogBookCorrection =  isSelected;
+        _eventCompleted(emit);
+        break;
+      case 4:
+        isAvailabilityMobileWithDriver =  isSelected;
+        _eventCompleted(emit);
+        break;
+      case 5:
+        break;
+    }
+  }
+
+  _selectImage(AddAssignmentSelectImageEvent event, emit) async {
+    if (event.mediaType == 1) {
+      var photo = await DashboardHelper.imagePiker(context: event.context);
+      if (photo != null) {
+        _isLoader = true;
+        _eventCompleted(emit);
+        fileList.add(photo);
+      }
+    } else {
+      var photo = await DashboardHelper.filePiker(context: event.context);
+      if (photo != null) {
+        _isLoader = true;
+        _eventCompleted(emit);
+        fileList.add(photo);
+      }
+    }
+    _isLoader = false;
+    _eventCompleted(emit);
+  }
+
+  _deleteImage(AddAssignmentDeleteImageEvent event, emit) async {
+    _isLoader = true;
+    _eventCompleted(emit);
+    fileList.removeAt(event.index);
+    _isLoader = false;
+    _eventCompleted(emit);
+  }
+
   _submit(AddAssignmentSubmitEvent event, emit) async {
     var textFieldValidation = await AddAssignmentHelper.textFieldValidation(
         context: event.context,
@@ -345,13 +559,38 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         totalQuantity: totalCngQuantityController.text.toString(),
         motherStationData: motherStationData,
         scheduleDateTime: scheduleDateTimeController.text.toString(),
-        cngStationRouteData: cngStationRouteData);
+        cngStationRouteData: cngStationRouteData,
+        lcvEntryTime: lcvEntryTimeController.text.toString(),
+        cngStation: cngStationData,
+    );
     if (textFieldValidation == false) {
       return;
     }
     _isLoader = true;
     _eventCompleted(emit);
 
+/*    DateTime initialDate = DateTime.now();
+    String time = "";
+    if(timeController.text.toString().isNotEmpty
+        && timeController.text.toString().toLowerCase().contains("am")){
+      initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+    } else if (timeController.text.toString().isNotEmpty
+        && timeController.text.toString().toLowerCase().contains("pm")){
+      initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+    } else {
+      initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('HH:mm').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+    }*/
+
+    print(cngStationData.id.toString());
     var res = await AddAssignmentHelper.addAssignment(
         context: !event.context.mounted ? event.context : event.context,
         driverData: driverData,
@@ -361,7 +600,24 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         userData: userData,
         motherStationData: motherStationData,
         scheduleDateTime: scheduleDateTimeController.text.toString(),
-        cngStationRouteData: cngStationRouteData);
+        cngStationRouteData: cngStationRouteData,
+        fileList: fileList,
+        unscheduledMaintenancePenaltyHours: unscheduledMaintenancePenaltyHoursController.text.toString(),
+        scheduledMaintenancePenaltyHours: scheduledMaintenancePenaltyHoursController.text.toString(),
+        outPressure: outPressureController.text.toString(),
+        lcvRemark: remarkController.text.toString(),
+        lcvLogBookCorrection: isLcvLogBookCorrection == true ? "1" : "0",
+        lcvCondition: isLcvCondition == true ? "1" : "0",
+        flowMeterReadingOpen: flowMeterReadingOpenController.text.toString(),
+        flowMeterReadingClosed: flowMeterReadingClosedController.text.toString(),
+        fillStartTime: fillStartTimeController.text.toString(),
+        fillEndTime: fillStartTimeController.text.toString(),
+        driverToFitDrive: isDriverFitDrive == true ? "1" : "0",
+        cngStationData: cngStationData,
+        availabilityOfMobileWithDriver: isAvailabilityMobileWithDriver == true ? "1" : "0",
+        lcvEntryTime: lcvEntryTimeController.text.toString(),
+        assignmentData: assignmentData
+    );
     _isLoader = false;
     _eventCompleted(emit);
     if (res != null) {
@@ -375,9 +631,23 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       scheduleDateTimeController.text = "";
       _motherStationData = MotherStationModel();
       _stationList = [];
+      lcvEntryTimeController.text = "";
+      fillStartTimeController.text = "";
+      flowMeterReadingOpenController.text = "";
+      flowMeterReadingClosedController.text = "";
+      fillEndTimeController.text = "";
+      outPressureController.text = "";
+      remarkController.text = "";
+      unscheduledMaintenancePenaltyHoursController.text = "";
+      scheduledMaintenancePenaltyHoursController.text = "";
+      fileList = [];
+      isLcvCondition =  true;
+      isDriverFitDrive =  true;
+      isLcvLogBookCorrection =  true;
+      isAvailabilityMobileWithDriver = true;
+      isUnscheduledMaintenancePenaltyHours = true;
+      isScheduledMaintenancePenaltyHours =  true;
       _eventCompleted(emit);
-      BlocProvider.of<ViewAssignmentBloc>(!event.context.mounted ? event.context : event.context)
-          .add(ViewAssignmentPageLoadEvent(context: !event.context.mounted ? event.context : event.context));
     }
   }
 
@@ -400,6 +670,22 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       cngStationRouteData: cngStationRouteData,
       cngStationRouteList: cngStationRouteList,
       isRouteLoader: isRouteLoader,
+      fileList: fileList,
+      remarkController: remarkController,
+      fillEndTimeController: fillEndTimeController,
+      fillStartTimeController: fillStartTimeController,
+      flowMeterReadingClosedController: flowMeterReadingClosedController,
+      flowMeterReadingOpenController: flowMeterReadingOpenController,
+      isAvailabilityMobileWithDriver: isAvailabilityMobileWithDriver,
+      isDriverFitDrive: isDriverFitDrive,
+      isLcvCondition: isLcvCondition,
+      isLcvLogBookCorrection: isLcvLogBookCorrection,
+      isScheduledMaintenancePenaltyHours: isScheduledMaintenancePenaltyHours,
+      isUnscheduledMaintenancePenaltyHours: isUnscheduledMaintenancePenaltyHours,
+      lcvEntryTimeController: lcvEntryTimeController,
+      outPressureController: outPressureController,
+      unscheduledMaintenancePenaltyHoursController: unscheduledMaintenancePenaltyHoursController,
+      scheduledMaintenancePenaltyHoursController: scheduledMaintenancePenaltyHoursController,
     ));
   }
 }

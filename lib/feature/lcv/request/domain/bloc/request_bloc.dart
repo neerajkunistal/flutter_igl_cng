@@ -163,7 +163,9 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         var routeRes = await RequestHelper.fetchRoute(
             context: event.context,
             userData: userData,
-            routeId: assignemnt.routeId);
+            routeId: "",
+           // routeId: assignemnt.routeId
+        );
         if (routeRes != null) {
           _cngStationRouteList = routeRes;
         }
@@ -200,9 +202,9 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
     if (_tempList.isNotEmpty) {
       SharedPreferencesUtils.setString(
           key: PreferencesName.cngStationId,
-          value: _tempList[0].cngStationId.toString());
+          value: _tempList[0].dbCngStationId.toString());
       SharedPreferencesUtils.setString(
-          key: PreferencesName.routeId, value: _tempList[0].routeId.toString());
+          key: PreferencesName.routeId, value: "");
     }
 
     _eventComplete(emit);
@@ -313,7 +315,7 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
         var routeRes = await RequestHelper.fetchRoute(
             context: event.context,
             userData: userData,
-            routeId: assignemnt.routeId);
+            routeId:" assignemnt.routeId");
         if (routeRes != null) {
           _cngStationRouteList = routeRes;
         }
@@ -340,10 +342,10 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       if (_tempList.isNotEmpty) {
         SharedPreferencesUtils.setString(
             key: PreferencesName.cngStationId,
-            value: _tempList[0].cngStationId.toString());
+            value: _tempList[0].dbCngStationId.toString());
         SharedPreferencesUtils.setString(
             key: PreferencesName.routeId,
-            value: _tempList[0].routeId.toString());
+            value: "_tempList[0].routeId.toString()");
       }
     }
   }

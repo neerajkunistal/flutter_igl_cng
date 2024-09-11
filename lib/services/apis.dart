@@ -103,11 +103,11 @@ class APIs {
 
   static get getCNFStationApi => "api/lcv/getCngStation";
 
-  static get addAssignmentApi => "api/saveAssignment";
+  static get addAssignmentApi => "api/lcv/saveMBmanagerEntries";
 
   static get updateAssignmentStatus => "api/updateStatus";
 
-  static get getAssignmentApi => "api/getAssignment";
+  static get getAssignmentApi => "api/lcv/getCheckListEntries";
 
   static get getUserRolesApi => "api/getUserRole";
 

@@ -1,10 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/change_statu_pop_widget.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/presentation/page/cng_filling_station_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewAssignmentItemBoxWidget extends StatelessWidget {
   final int index;
@@ -20,7 +25,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+      margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
       child: Card(
         shadowColor: AppColor.themeLightColor,
         shape: RoundedRectangleBorder(
@@ -37,102 +42,58 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.01,
               ),
               _vehicleNumber(
-                  vehicleNumber: assignmentData.vehicleNo.toString()),
-              const Divider(),
+                  vehicleNumber: assignmentData.lcvNumber.toString()),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.01,
+              ),
+              DottedDividerLine(color: AppColor.grey,),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               _fromStation(
-                  fromStationName: assignmentData.motherStation.toString()),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-              _toStation(toStationName: assignmentData.cngStation.toString()),
+                  fromStationName: assignmentData.mbStationName.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              _receivedScm(
-                  receivedScm: assignmentData.receivedScmQuantity.toString()),
+              _toStation(toStationName: assignmentData.dbStationName.toString()),
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              _status(
+                  assignmentStatus: assignmentData.assignmentStatus!,
+                  assignmentStatusColor:
+                  assignmentData.assignmentStatusColor!,
+                  assignmentData: assignmentData,
+                 context: context
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.01,
               ),
-              _currentScm(
-                  currentScm: assignmentData.currentScmQuantity.toString()),
+              DottedDividerLine(color: AppColor.grey,),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              _cngStationAddress(
-                  cngStationAddress:
-                      "${assignmentData.cngStationAddress},${assignmentData.cngStationCity},${assignmentData.cngStationDistrict},${assignmentData.cngStationState}"),
+              _createDateTime(deliveryDate: assignmentData.createdAt.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: _status(
-                        assignmentStatus: assignmentData.assignmentStatus!,
-                        assignmentStatusColor:
-                            assignmentData.assignmentStatusColor!),
-                  ),
-                  userData.roleType == RoleType.cngStation &&
-                          assignmentData.assignmentStatus ==
-                              AssignmentStatus.complete &&
-                          assignmentData.receivedScmQuantity.toString().isEmpty
-                      ? _changeStatus(
-                          assignmentStatus: assignmentData.assignmentStatus!,
-                          context: context)
-                      : userData.roleType != RoleType.cngStation &&
-                              assignmentData.assignmentStatus !=
-                                  AssignmentStatus.complete &&
-                              assignmentData.assignmentStatus !=
-                                  AssignmentStatus.cancel
-                          ? _changeStatus(
-                              assignmentStatus:
-                                  assignmentData.assignmentStatus!,
-                              context: context)
-                          : const SizedBox.shrink(),
-                ],
-              ),
-              const Divider(),
-              _deliveryDate(deliveryDate: assignmentData.createdAt.toString()),
+              _lastUpdate(
+                  startDateTime: assignmentData.updatedAt.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              _startDateTime(
-                  startDateTime: assignmentData.startDateTime.toString()),
+              assignmentData.motherStationAttachments!.isNotEmpty ?
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              assignmentData.delay.toString().isNotEmpty
-                  ? _delayTime(delay: "${assignmentData.delay} Mints")
-                  : const SizedBox.shrink(),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.10,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _images(
-                        pictureUrl: assignmentData.slipPhoto.toString(),
-                        context: context),
-                    _images(
-                        pictureUrl: assignmentData.startSelfPhoto.toString(),
-                        context: context),
-                    _images(
-                        pictureUrl: assignmentData.startTruckImage.toString(),
-                        context: context),
-                    _images(
-                        pictureUrl: assignmentData.endSelfPhoto.toString(),
-                        context: context),
-                    _images(
-                        pictureUrl: assignmentData.endTruckImage.toString(),
-                        context: context),
-                  ],
-                ),
-              )
+                height: MediaQuery.of(context).size.width * 0.15,
+                child: ListView.builder(
+                    itemCount: assignmentData.motherStationAttachments!.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                     return  _images(pictureUrl: assignmentData.motherStationAttachments![index].toString(),
+                         context: context);
+                }),
+              ) : const SizedBox.shrink()
             ],
           ),
         ),
@@ -145,12 +106,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
       children: [
         TextWidget("Driver Name : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
+            fontSize: AppFont.font_13,
             fontWeight: FontWeight.w700),
         Expanded(
           child: TextWidget(driverName,
               color: AppColor.black,
-              fontSize: AppFont.font_14,
+              fontSize: AppFont.font_13,
               fontWeight: FontWeight.w400),
         ),
       ],
@@ -162,12 +123,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
       children: [
         TextWidget("Vehicle No. : ",
             color: AppColor.grey,
-            fontSize: AppFont.font_13,
+            fontSize: AppFont.font_12,
             fontWeight: FontWeight.w500),
         Expanded(
           child: TextWidget(vehicleNumber,
               color: AppColor.grey,
-              fontSize: AppFont.font_13,
+              fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
       ],
@@ -179,12 +140,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
       children: [
         TextWidget("From : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w700),
+            fontSize: AppFont.font_12,
+            fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(fromStationName,
               color: AppColor.black,
-              fontSize: AppFont.font_14,
+              fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
       ],
@@ -196,12 +157,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
       children: [
         TextWidget("To : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w700),
+            fontSize: AppFont.font_12,
+            fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(toStationName,
               color: AppColor.black,
-              fontSize: AppFont.font_14,
+              fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
       ],
@@ -261,60 +222,76 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
 
   Widget _status(
       {required AssignmentStatus assignmentStatus,
-      required Color assignmentStatusColor}) {
+      required Color assignmentStatusColor,
+        required AssignmentModel assignmentData,
+        required BuildContext context}) {
     return Row(
       children: [
         TextWidget("Status : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w700),
-        TextWidget(
-            assignmentStatus == AssignmentStatus.pending
-                ? "Pending"
-                : assignmentStatus == AssignmentStatus.confirm
-                    ? "Confirm"
-                    : assignmentStatus == AssignmentStatus.startRoute
-                        ? "Start Route"
-                        : assignmentStatus == AssignmentStatus.complete
-                            ? "Complete"
-                            : assignmentStatus == AssignmentStatus.cancel
-                                ? "Cancel"
-                                : "Pending",
-            color: assignmentStatusColor,
-            fontSize: AppFont.font_14,
+            fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
+        Expanded(
+          child: TextWidget(
+              assignmentStatus == AssignmentStatus.pending
+                  ? "Pending"
+                  : assignmentStatus == AssignmentStatus.confirm
+                      ? "Confirm"
+                      : assignmentStatus == AssignmentStatus.startRoute
+                          ? "Start Route"
+                          : assignmentStatus == AssignmentStatus.complete
+                              ? "Complete"
+                              : assignmentStatus == AssignmentStatus.cancel
+                                  ? "Cancel"
+                                  : "Pending",
+              color: assignmentStatusColor,
+              fontSize: AppFont.font_12,
+              fontWeight: FontWeight.w400),
+        ),
+        _changeStatus(assignmentStatus: assignmentStatus, assignmentData: assignmentData,
+            context: context)
       ],
     );
   }
 
-  Widget _deliveryDate({required String deliveryDate}) {
+  Widget _createDateTime({required String deliveryDate}) {
+    String dateTime = "";
+    if (deliveryDate.isNotEmpty) {
+      dateTime = DateFormat('dd-MMM-yyyy HH:MM')
+          .format(DateTime.parse(deliveryDate.toString()));
+    }
     return Row(
       children: [
-        TextWidget("Schedule Date Time : ",
+        TextWidget("Created DateTime : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w700),
+            fontSize: AppFont.font_12,
+            fontWeight: FontWeight.w400),
         Expanded(
-          child: TextWidget(deliveryDate,
+          child: TextWidget(dateTime,
               color: AppColor.black,
-              fontSize: AppFont.font_14,
+              fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
       ],
     );
   }
 
-  Widget _startDateTime({required String startDateTime}) {
+  Widget _lastUpdate({required String startDateTime}) {
+    String dateTime = "";
+    if (startDateTime.isNotEmpty) {
+      dateTime = DateFormat('dd-MMM-yyyy HH:MM')
+          .format(DateTime.parse(startDateTime.toString()));
+    }
     return Row(
       children: [
-        TextWidget("Start Date Time : ",
+        TextWidget("Last Update : ",
             color: AppColor.themeColor,
-            fontSize: AppFont.font_14,
-            fontWeight: FontWeight.w700),
+            fontSize: AppFont.font_12,
+            fontWeight: FontWeight.w400),
         Expanded(
-          child: TextWidget(startDateTime,
+          child: TextWidget(dateTime,
               color: AppColor.black,
-              fontSize: AppFont.font_14,
+              fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
       ],
@@ -340,17 +317,38 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
 
   Widget _changeStatus(
       {required AssignmentStatus assignmentStatus,
+        required AssignmentModel assignmentData,
       required BuildContext context}) {
     return userData.roleType == RoleType.driver
         ? const SizedBox.shrink()
         : ButtonWidget(
             height: MediaQuery.of(context).size.height * 0.04,
             fontSize: AppFont.font_12,
-            text: userData.roleType == RoleType.cngStation
-                ? "Change Status"
+            backgroundColor: assignmentData.fillEndTime.toString().isEmpty
+                && userData.roleType == RoleType.lcvManager
+                ? AppColor.orange
+                : assignmentData.fillEndTime.toString().isEmpty
+                && userData.roleType == RoleType.lcvManager
+                ? AppColor.themeSecondary
+                : AppColor.red,
+            text: assignmentData.fillEndTime.toString().isEmpty
+                && userData.roleType == RoleType.lcvManager
+                ? "Update"
+                : assignmentData.fillEndTime.toString().isNotEmpty
+                && userData.roleType == RoleType.cngStation ?
+                "Update"
                 : "Cancel",
             onPressed: () {
-              if (userData.roleType == RoleType.cngStation) {
+              if (assignmentData.fillEndTime.toString().isEmpty
+                  && userData.roleType == RoleType.lcvManager) {
+                BlocProvider.of<AddAssignmentBloc>(context)
+                    .add(AddAssignmentSetAssignmentDataEvent(assignmentData: assignmentData));
+                BlocProvider.of<HomeBloc>(context).add(
+                    HomeChangeBottomNavigationItemEvent(
+                        index: 1, context: context));
+              }
+              else  if (assignmentData.fillEndTime.toString().isNotEmpty
+                  && userData.roleType == RoleType.cngStation) {
                 BlocProvider.of<CngFillingFormBloc>(context).add(
                     CngFillingFormSetAssignmentDataEvent(
                         assignmentData: assignmentData));
@@ -376,7 +374,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
               onTap: () {
                 showDialog(
                     context: context,
-                    builder: (BuildContext context) => Container(
+                    builder: (BuildContext context) => SizedBox(
                           height: MediaQuery.of(context).size.height / 1.5,
                           width: MediaQuery.of(context).size.width / 0.6,
                           child: Image.network(

@@ -1,11 +1,11 @@
 import 'dart:convert';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/mother_station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
+import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/model/lcv_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
@@ -19,7 +19,10 @@ class AddAssignmentHelper {
       required String totalQuantity,
       required MotherStationModel motherStationData,
       required String scheduleDateTime,
-      required CngStationRouteModel cngStationRouteData}) async {
+      required CngStationRouteModel cngStationRouteData,
+      required String lcvEntryTime,
+      required CngStationModel cngStation,
+      }) async {
     try {
       if (motherStationData.id == null) {
         SnackBarErrorWidget(context)
@@ -31,19 +34,11 @@ class AddAssignmentHelper {
       } else if (lcvData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select Lcv Track");
         return false;
-      } else if (stationList.isEmpty) {
-        SnackBarErrorWidget(context).show(message: "Please add Cng Station");
+      } else if (cngStation.id == null) {
+        SnackBarErrorWidget(context).show(message: "Please select CNG station");
         return false;
-      } else if (cngStationRouteData.id == null) {
-        SnackBarErrorWidget(context).show(message: "Please select route");
-        return false;
-      } else if (scheduleDateTime.isEmpty) {
-        SnackBarErrorWidget(context)
-            .show(message: "Please enter schedule date time");
-        return false;
-      } else if (totalQuantity.isEmpty) {
-        SnackBarErrorWidget(context)
-            .show(message: "Please enter total quantity");
+      } else if (lcvEntryTime.isEmpty) {
+        SnackBarErrorWidget(context).show(message: "Please enter lcv entry time");
         return false;
       }
       return true;
@@ -62,10 +57,27 @@ class AddAssignmentHelper {
       required LoginDataModel userData,
       required MotherStationModel motherStationData,
       required String scheduleDateTime,
-      required CngStationRouteModel cngStationRouteData}) async {
+      required CngStationRouteModel cngStationRouteData,
+      required CngStationModel cngStationData,
+      required String lcvEntryTime,
+      required String fillStartTime,
+      required String flowMeterReadingOpen,
+      required String flowMeterReadingClosed,
+      required String fillEndTime,
+      required String outPressure,
+      required String lcvCondition,
+      required String lcvRemark,
+      required String driverToFitDrive,
+      required String lcvLogBookCorrection,
+      required String availabilityOfMobileWithDriver,
+      required String unscheduledMaintenancePenaltyHours,
+      required String scheduledMaintenancePenaltyHours,
+      required List<File> fileList,
+      required AssignmentModel assignmentData
+      }) async {
     try {
-      var firebaseToken = await FirebaseMessaging.instance.getToken();
-      List<StationModel> _stationList = [];
+     // var firebaseToken = await FirebaseMessaging.instance.getToken();
+/*      List<StationModel> _stationList = [];
       int sequence = 0;
       for (var stationData in stationList) {
         _stationList.add(StationModel(
@@ -74,36 +86,57 @@ class AddAssignmentHelper {
           sequences: sequence++,
           cngStationRouteData: cngStationRouteData,
         ));
+      }*/
+      var json = MotherStationModel().postBodyParam(
+        id: assignmentData.id != null ? assignmentData.id.toString() : "",
+        lcvEntryTime: lcvEntryTime,
+        availabilityOfMobileWithDriver: availabilityOfMobileWithDriver,
+        cngStationData: cngStationData,
+        driverData: driverData,
+        driverToFitDrive: driverToFitDrive,
+        fillEndTime: fillEndTime,
+        fillStartTime: fillStartTime,
+        flowMeterReadingClosed: flowMeterReadingClosed,
+        flowMeterReadingOpen: flowMeterReadingOpen,
+        lcvCondition: lcvCondition,
+        lcvLogBookCorrection: lcvLogBookCorrection,
+        lcvRemark: lcvRemark,
+        lcvTruckData: lcvData,
+        motherStationData: motherStationData,
+        outPressure: outPressure,
+        scheduledMaintenancePenaltyHours: scheduledMaintenancePenaltyHours,
+        unscheduledMaintenancePenaltyHours: unscheduledMaintenancePenaltyHours
+      );
+
+      List<FileModel> files = [];
+      int i = 0;
+      for (var fileData in fileList) {
+        if (fileData.path.isNotEmpty) {
+          files.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
+          i++;
+        }
       }
-      var json = {
-        "login_id": userData.userId,
-        "mother_station_id": motherStationData.id.toString(),
-        "lcv_driver_id": driverData.id,
-        "vehicle_id": lcvData.id,
-        "scm": totalQuantity.toString(),
-        "cng_station": List<dynamic>.from(_stationList.map((x) => x.toJson())),
-        "mother_station_firebase_id": firebaseToken.toString(),
-        "scheduleDateTime": scheduleDateTime,
-        "assign_type": userData.roleType == RoleType.cngStation ? "1" : "0"
-      };
       String url = APIs.addAssignmentApi;
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.postDataWithFile(urlEndPoint: url, body: json,
+          fileList: files,
+          context: !context.mounted ? context :context);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
+            res['status'] == true &&
+            res['message'] != null) {
           SnackBarSuccessWidget(!context.mounted ? context : context)
-              .show(message: res['response'].toString());
+              .show(message: res['message'].toString());
           return res;
         } else if (res["status"] != null &&
-            res['status'] == 500 &&
-            res['response'] != null) {
+            res['status'] == false &&
+            res['errors'] != null) {
           SnackBarErrorWidget(!context.mounted ? context : context)
-              .show(message: res['response'].toString());
+              .show(message: res['errors'].toString());
           return null;
         } else {
           SnackBarErrorWidget(!context.mounted ? context : context)
-              .show(message: res['response'].toString());
+              .show(message: res['errors'].toString());
           return null;
         }
       } else {

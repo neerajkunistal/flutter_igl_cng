@@ -32,6 +32,22 @@ class FetchAddAssignmentDataState extends AddAssignmentInitial {
   final List<CngStationRouteModel> cngStationRouteList;
   final CngStationRouteModel cngStationRouteData;
   final bool isRouteLoader;
+  final TextEditingController lcvEntryTimeController;
+  final TextEditingController fillStartTimeController;
+  final TextEditingController flowMeterReadingOpenController;
+  final TextEditingController flowMeterReadingClosedController;
+  final TextEditingController fillEndTimeController;
+  final TextEditingController outPressureController;
+  final TextEditingController remarkController;
+  final TextEditingController unscheduledMaintenancePenaltyHoursController;
+  final TextEditingController scheduledMaintenancePenaltyHoursController;
+  final List<File> fileList;
+  final bool isLcvCondition;
+  final bool isDriverFitDrive;
+  final bool isLcvLogBookCorrection;
+  final bool isAvailabilityMobileWithDriver;
+  final bool isUnscheduledMaintenancePenaltyHours;
+  final bool isScheduledMaintenancePenaltyHours;
 
   FetchAddAssignmentDataState({
     required this.isLoader,
@@ -51,6 +67,22 @@ class FetchAddAssignmentDataState extends AddAssignmentInitial {
     required this.cngStationRouteList,
     required this.cngStationRouteData,
     required this.isRouteLoader,
+    required this.lcvEntryTimeController,
+    required this.fillStartTimeController,
+    required this.flowMeterReadingOpenController,
+    required this.flowMeterReadingClosedController,
+    required this.fillEndTimeController,
+    required this.outPressureController,
+    required this.remarkController,
+    required this.fileList,
+    required this.isLcvCondition,
+    required this.isDriverFitDrive,
+    required this.isLcvLogBookCorrection,
+    required this.isAvailabilityMobileWithDriver,
+    required this.isUnscheduledMaintenancePenaltyHours,
+    required this.isScheduledMaintenancePenaltyHours,
+    required this.scheduledMaintenancePenaltyHoursController,
+    required this.unscheduledMaintenancePenaltyHoursController
   });
 
   @override
@@ -72,5 +104,21 @@ class FetchAddAssignmentDataState extends AddAssignmentInitial {
         cngStationRouteList,
         cngStationRouteData,
         isRouteLoader,
+        lcvEntryTimeController,
+        fillStartTimeController,
+        flowMeterReadingOpenController,
+        flowMeterReadingClosedController,
+        fillEndTimeController,
+        outPressureController,
+        remarkController,
+        fileList,
+        isLcvCondition,
+        isDriverFitDrive,
+        isLcvLogBookCorrection,
+        isAvailabilityMobileWithDriver,
+        isUnscheduledMaintenancePenaltyHours,
+        isScheduledMaintenancePenaltyHours,
+        scheduledMaintenancePenaltyHoursController,
+        unscheduledMaintenancePenaltyHoursController,
       ];
 }

@@ -18,17 +18,17 @@ class ViewUserHelper {
             res['response'] != null) {
           return userListResponse(res['response']);
         } else {
-          SnackBarErrorWidget(context)
+          SnackBarErrorWidget(!context.mounted ? context : context)
               .show(message: res['messages'].toString());
           return null;
         }
       } else {
-        SnackBarErrorWidget(context)
+        SnackBarErrorWidget(!context.mounted ? context : context)
             .show(message: "Internal Server Error ${APIs.getDriverApi}");
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(context)
+      SnackBarErrorWidget(!context.mounted ? context : context)
           .show(message: "Internal server error ${APIs.getDriverApi}");
       return null;
     }

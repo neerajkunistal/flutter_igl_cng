@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/home_drawer_widget.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -28,6 +30,10 @@ class _PhoneHomeWidgetState extends State<PhoneHomeWidget> {
                 ? BottomNavigationBar(
                     currentIndex: state.bottomTabIndex,
                     onTap: (index) {
+                      if(index == 1){
+                        BlocProvider.of<AddAssignmentBloc>(context)
+                            .add(AddAssignmentSetAssignmentDataEvent(assignmentData: AssignmentModel()));
+                      }
                       BlocProvider.of<HomeBloc>(context).add(
                           HomeChangeBottomNavigationItemEvent(
                               index: index, context: context));

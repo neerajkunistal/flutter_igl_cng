@@ -37,7 +37,7 @@ class RequestItemBoxWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextWidget(
-                assignmentData.cngStation.toString(),
+                assignmentData.dbStationName.toString(),
                 maxLines: 1,
                 fontSize: AppFont.font_16,
                 fontWeight: FontWeight.w600,
@@ -47,7 +47,7 @@ class RequestItemBoxWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               TextWidget(
-                assignmentData.cngStationAddress.toString(),
+                "assignmentData.cngStationAddress.toString()",
                 maxLines: 2,
                 fontSize: AppFont.font_14,
                 color: AppColor.black,
@@ -63,9 +63,6 @@ class RequestItemBoxWidget extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              assignmentData.delay.toString().isNotEmpty
-                  ? _delayTime(delay: "${assignmentData.delay} Mints")
-                  : const SizedBox.shrink(),
               _actionButton(
                 context: context,
               ),

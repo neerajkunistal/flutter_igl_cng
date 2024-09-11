@@ -30,21 +30,12 @@ class ViewAssignmentHelper {
       String? toDate}) async {
     try {
       String url = APIs.getAssignmentApi;
-      var json = {
-        "login_id": userData.userId.toString(),
-        "role_id": userData.roleId.toString(),
-        "from_date": fromDate ?? "",
-        "to_date": toDate ?? "",
-      };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.getData(urlEndPoint: url,);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
-          return assignmentListResponse(res['response']);
-        } else {
-          SnackBarErrorWidget(context).show(message: res['error'].toString());
-          return null;
+            res['status'] == true &&
+            res['data'] != null) {
+          return assignmentListResponse(res['data']);
         }
       } else {
         SnackBarErrorWidget(context)
@@ -56,5 +47,6 @@ class ViewAssignmentHelper {
           .show(message: "Internal server error ${APIs.getAssignmentApi}");
       return null;
     }
+    return null;
   }
 }
