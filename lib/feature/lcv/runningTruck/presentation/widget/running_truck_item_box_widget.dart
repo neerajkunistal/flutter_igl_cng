@@ -90,11 +90,15 @@ class RunningTruckItemBoxWidget extends StatelessWidget {
                         BlocProvider.of<CngFillingFormBloc>(context).add(
                             CngFillingFormSetAssignmentDataEvent(
                                 assignmentData: assignmentData));
-                        Navigator.push(
+                        var res = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const CngFillingStationPage()),
                         );
+
+                        if(res.toString() == "Complete"){
+
+                        }
                       },
                       child:
                           TextWidget(AppString.complete, color: AppColor.red))

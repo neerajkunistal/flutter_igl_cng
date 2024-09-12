@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_pop_button_widget.dart';
 
 class CngFillingStationHelper {
@@ -40,7 +42,7 @@ class CngFillingStationHelper {
     }
   }
 
-  static Future<dynamic> fetchCngFillingStationList(
+  static Future<dynamic> updateCngFillingStationList(
       {required BuildContext context,
       required LoginDataModel userDat,
       required AssignmentModel assignmentData,
@@ -49,45 +51,67 @@ class CngFillingStationHelper {
       required String drivingLicence,
       required String truckNumber,
       required String remark,
-      required bool isMismatch}) async {
+      required bool isMismatch,
+      required String arrivalTime,
+      required String lcvPointTime,
+      required String flowMeterReadingOpen,
+      required String flowMeterReadingClosed,
+      required String inPressure,
+      required String outPressure,
+      required String filEndTime,
+      required List<File> fileList,
+      required String lcvCondition,
+      required String driverUniform,
+      }) async {
     try {
+      LoginDataModel userData =  UserInfo.instance!.userData!;
+      List<FileModel> files = [];
+      int i = 0;
+      for (var fileData in fileList) {
+        if (fileData.path.isNotEmpty) {
+          files.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
+          i++;
+        }
+      }
       String url = APIs.updateScmApi;
       var json = {
-        "login_id": userDat.userId.toString(),
-        "assignment_id": assignmentData.id.toString(),
-        "scm_quantity": scmQuantity,
-        "recieved_scm": receivedScmQuantity,
-        "remarks": remark,
-        "driving_licence": drivingLicence,
-        "lcv_vehicle_number": truckNumber,
-        "is_mismatch": isMismatch == true ? "1" : "0"
+        "id" : assignmentData.dbCngStationList!.isNotEmpty
+            ? assignmentData.dbCngStationList![0].id.toString() : "",
+        "mb_manager_entries_id" : assignmentData.id.toString(),
+        "db_cng_station_id" : assignmentData.dbCngStationId.toString(),
+        "arrival_time" : arrivalTime,
+        "lcv_point_time" : lcvPointTime,
+        "flow_meter_reading_opening" : flowMeterReadingOpen,
+        "in_pressure" : inPressure,
+        "flow_meter_reading_closing" : flowMeterReadingClosed,
+        "out_pressure" : outPressure,
+        "fill_end_time" : filEndTime,
+        "lcv_number" : assignmentData.lcvNumber.toString(),
+        "lcv_condition" : lcvCondition,
+        "driver_not_wearing_uniform" : driverUniform,
+        "lcv_condition_remarks" : remark,
+        "lcv_id" : assignmentData.lcvId.toString(),
+        "created_by" : userData.userId.toString(),
+        "driver_id" : assignmentData.driverId.toString(),
       };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      var res = await ServerRequest.postDataWithFile(urlEndPoint: url, body: json,
+          context: context, fileList: files);
       if (res != null) {
         if (res["status"] != null &&
-            res['status'] == 200 &&
-            res['response'] != null) {
+            res['status'] == true &&
+            res['message'] != null) {
           SnackBarSuccessWidget(context)
-              .show(message: res['response'].toString());
+              .show(message: res['message'].toString());
           return res;
         } else if (res["status"] != null &&
-            res['status'] == 400 &&
-            res['response'] != null) {
-          showDialog(
-              context: context,
-              builder: (BuildContext mContext) => MessageBoxPopButtonWidget(
-                    title: "Mismatch Detail",
-                    message: res['response'],
-                    onPressed: () {
-                      Navigator.pop(mContext);
-                      BlocProvider.of<CngFillingFormBloc>(context).add(
-                          CngFillingFormSubmitEvent(
-                              context: context, isMismatch: true));
-                    },
-                  ));
+            res['status'] == false &&
+            res['errors'] != null) {
+          SnackBarErrorWidget(context)
+              .show(message: res['errors'].toString());
           return null;
         } else if (res["status"] != null &&
-            res['status'] == 500 &&
+            res['status'] == false &&
             res['response'] != null) {
           SnackBarErrorWidget(context)
               .show(message: res['response'].toString());

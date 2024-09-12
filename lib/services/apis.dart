@@ -121,7 +121,7 @@ class APIs {
 
   static get insertLiveLocationApi => "api/insert_location";
 
-  static get updateScmApi => "api/updateScm";
+  static get updateScmApi => "api/lcv/saveDBCNGmanagerEntries";
 
   static get getLocationApi => "api/getLocation";
 

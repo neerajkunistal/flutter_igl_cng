@@ -87,6 +87,7 @@ class AddAssignmentHelper {
           cngStationRouteData: cngStationRouteData,
         ));
       }*/
+      String currentDate = DateFormat("yyyy-mm-dd").format(DateTime.now());
       var json = MotherStationModel().postBodyParam(
         id: assignmentData.id != null ? assignmentData.id.toString() : "",
         lcvEntryTime: lcvEntryTime,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/db_cng_station_model.dart';
 
 List<AssignmentModel> assignmentListResponse(var json) {
   return List<AssignmentModel>.from(
@@ -39,6 +40,7 @@ class AssignmentModel {
   Color? assignmentStatusColor;
   bool? isSelected;
   List<String>? motherStationAttachments;
+  List<DbCngStationModel>? dbCngStationList;
 
   AssignmentModel(
       {this.id,
@@ -73,6 +75,7 @@ class AssignmentModel {
         this.assignmentStatusColor,
         this.isSelected,
         this.motherStationAttachments,
+        this.dbCngStationList,
       });
 
   AssignmentModel.fromJson(Map<String, dynamic> json) {
@@ -112,6 +115,8 @@ class AssignmentModel {
         ? getAssignmentStatus(status: json['status'])
         : AssignmentStatus.pending;
     assignmentStatusColor = getAssignmentStatusColor(assignmentStatus: assignmentStatus!);
+    dbCngStationList =  json['DbCngManagerEntries'] != null
+        ? dbCngStationListResponse(json['DbCngManagerEntries']) : [];
   }
 
   Map<String, dynamic> toJson() {

@@ -42,7 +42,7 @@ class DashboardHelper {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'pdf', 'doc'],
+        allowedExtensions: ['jpg', 'pdf', 'doc', "png"],
       );
       if (result != null) {
         List<File> files = result.paths.map((path) => File(path!)).toList();

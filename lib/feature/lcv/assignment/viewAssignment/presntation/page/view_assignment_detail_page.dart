@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/db_cng_station_item_box_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/text_widget.dart';
 import 'package:flutter_igl_cng/utils/res/app_color.dart';
@@ -142,7 +143,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
           _verticalSpace(),
           _rowWidget(label: AppString.fillEndTime, value: assignmentData.fillEndTime.toString()),
           _verticalSpace(),
-          _rowWidget(label: AppString.outPressure, value: assignmentData.outPressure.toString()),
+          _rowWidget(label: AppString.outPressure, value: "${assignmentData.outPressure.toString().isEmpty ? "0" : assignmentData.outPressure.toString()} Bar"),
           _verticalSpace(),
           _rowWidget(label: AppString.unscheduledMaintenancePenaltyHours, value: assignmentData.unscheduledMaintenancePenaltyHours.toString()),
           _verticalSpace(),
@@ -150,6 +151,13 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
           _verticalSpace(),
           DottedDividerLine(color: AppColor.grey,),
           _verticalSpace(),
+
+          TextWidget("DB Station Data-:",
+            color: AppColor.black, fontWeight: FontWeight.w700,),
+          _verticalSpace(),
+          DbCngStationItemBoxWidget(dbCngStationList : assignmentData.dbCngStationList!),
+          _verticalSpace(),
+
           assignmentData.motherStationAttachments!.isNotEmpty ?
           SizedBox(
             height: MediaQuery.of(context).size.width * 0.15,
@@ -317,18 +325,34 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(
-              assignmentStatus == AssignmentStatus.pending
-                  ? "Pending"
-                  : assignmentStatus == AssignmentStatus.confirm
-                  ? "Confirm"
-                  : assignmentStatus == AssignmentStatus.startRoute
-                  ? "Start Route"
+              assignmentData.fillStartTime.toString().isEmpty
+                  ? "Filling Awaiting"
+                  : assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isEmpty
+                  ? "Filling"
+                  :  assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isNotEmpty &&
+                  assignmentData.status.toString() == "0"
+                  ? "Running"
                   : assignmentStatus == AssignmentStatus.complete
                   ? "Complete"
                   : assignmentStatus == AssignmentStatus.cancel
                   ? "Cancel"
                   : "Pending",
-              color: assignmentStatusColor,
+              color: assignmentData.fillStartTime.toString().isEmpty
+                  ? Colors.amber
+                  : assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isEmpty
+                  ? Colors.orange
+                  :  assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isNotEmpty &&
+                  assignmentData.status.toString() == "0"
+                  ? AppColor.themeLightColor
+                  : assignmentStatus == AssignmentStatus.complete
+                  ? Colors.green
+                  : assignmentStatus == AssignmentStatus.cancel
+                  ?  Colors.red
+                  : Colors.amber,
               fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),

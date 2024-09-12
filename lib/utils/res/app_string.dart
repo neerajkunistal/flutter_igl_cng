@@ -485,6 +485,11 @@ class AppString {
   static get scheduledMaintenancePenaltyHours =>
       "scheduled Maintenance Penalty Hours";
 
+  static get arrivalTime => "Arrival Time";
+  static get lcvPointTime => "Lcv Point Time";
+  static get inPressure => "In Pressure";
+  static get driverNotWearingUniform => "Driver not wearing uniform";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

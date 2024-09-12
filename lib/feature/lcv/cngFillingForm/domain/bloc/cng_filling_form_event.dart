@@ -33,18 +33,61 @@ class CngFillingFormSetTruckNoDataEvent extends CngFillingFormEvent {
 
 class CngFillingFormPageLoadEvent extends CngFillingFormEvent {
   final BuildContext context;
-
-  CngFillingFormPageLoadEvent({required this.context});
-
+  const CngFillingFormPageLoadEvent({required this.context});
   @override
   List<Object?> get props => [context];
 }
+
+class CngFillingArrivalTimeEvent extends CngFillingFormEvent {
+  final BuildContext context;
+  const CngFillingArrivalTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class CngFillingLcvPointTimeEvent extends CngFillingFormEvent {
+  final BuildContext context;
+  const CngFillingLcvPointTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class CngFillingFillEndTimeEvent extends CngFillingFormEvent {
+  final BuildContext context;
+  const CngFillingFillEndTimeEvent({required this.context});
+  @override
+  List<Object?> get props => [context];
+}
+
+class CngFillingSelectPhotoEvent extends CngFillingFormEvent {
+  final BuildContext context;
+  final int mediaType;
+  const CngFillingSelectPhotoEvent({required this.context, required this.mediaType});
+  @override
+  List<Object?> get props => [context, mediaType];
+}
+
+class CngFillingDeletePhotoEvent extends CngFillingFormEvent {
+  final int index;
+  const CngFillingDeletePhotoEvent({required this.index});
+  @override
+  List<Object?> get props => [index];
+}
+
+class CngFillingCheckListEvent extends CngFillingFormEvent {
+  final bool isSelected;
+  final int checklist;
+  const CngFillingCheckListEvent({required this.isSelected, required this.checklist});
+  @override
+  List<Object?> get props => [isSelected, checklist];
+}
+
 
 class CngFillingFormSubmitEvent extends CngFillingFormEvent {
   final BuildContext context;
   final bool isMismatch;
 
-  CngFillingFormSubmitEvent({required this.context, required this.isMismatch});
+  const CngFillingFormSubmitEvent({required this.context, required this.isMismatch});
 
   @override
   List<Object?> get props => [context, isMismatch];

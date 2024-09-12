@@ -235,24 +235,50 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(
-              assignmentStatus == AssignmentStatus.pending
-                  ? "Pending"
-                  : assignmentStatus == AssignmentStatus.confirm
-                      ? "Confirm"
-                      : assignmentStatus == AssignmentStatus.startRoute
-                          ? "Start Route"
+               assignmentData.fillStartTime.toString().isEmpty
+                  ? "Awaiting"
+                  : assignmentData.fillStartTime.toString().isNotEmpty &&
+                      assignmentData.fillEndTime.toString().isEmpty
+                      ? "Filling"
+                      :  assignmentData.fillStartTime.toString().isNotEmpty &&
+                        assignmentData.fillEndTime.toString().isNotEmpty &&
+                          assignmentData.status.toString() == "0"
+                          ? "Running"
                           : assignmentStatus == AssignmentStatus.complete
                               ? "Complete"
                               : assignmentStatus == AssignmentStatus.cancel
                                   ? "Cancel"
                                   : "Pending",
-              color: assignmentStatusColor,
+              color: assignmentData.fillStartTime.toString().isEmpty
+                  ? Colors.amber
+                  : assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isEmpty
+                  ? Colors.orange
+                  :  assignmentData.fillStartTime.toString().isNotEmpty &&
+                  assignmentData.fillEndTime.toString().isNotEmpty &&
+                  assignmentData.status.toString() == "0"
+                  ? AppColor.themeLightColor
+                  : assignmentStatus == AssignmentStatus.complete
+                  ? Colors.green
+                  : assignmentStatus == AssignmentStatus.cancel
+                  ?  Colors.red
+                  : Colors.amber,
               fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
-        assignmentStatus != AssignmentStatus.cancel ?
+            ( userData.roleType == RoleType.lcvManager
+                && assignmentData.fillEndTime.toString().isEmpty
+                && assignmentStatus != AssignmentStatus.cancel) ||
+            ( userData.roleType == RoleType.stationUser
+                && assignmentData.fillEndTime.toString().isNotEmpty
+                && assignmentStatus != AssignmentStatus.cancel) ?
         _changeStatus(assignmentStatus: assignmentStatus, assignmentData: assignmentData,
             context: context)
+            : const SizedBox.shrink(),
+
+        userData.roleType == RoleType.lcvManager
+            && assignmentData.status.toString() == "0"
+        ? _cancelButton(assignmentStatus: assignmentStatus, assignmentData: assignmentData, context: context)
             : const SizedBox.shrink()
       ],
     );
@@ -319,6 +345,25 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
+  Widget _cancelButton(
+      {required AssignmentStatus assignmentStatus,
+        required AssignmentModel assignmentData,
+        required BuildContext context}) {
+    return assignmentData.isSelected == false ?
+    ButtonWidget(
+        height: MediaQuery.of(context).size.height * 0.04,
+        fontSize: AppFont.font_12,
+        backgroundColor: AppColor.red,
+        text: "Cancel",
+        onPressed: () async {
+          if(await _onCancelAssignment(context: context) == true) {
+            BlocProvider.of<ViewAssignmentBloc>(!context.mounted ? context : context).add(
+                ViewAssignmentUpdateStatusEvent(
+                    index: index, context: !context.mounted ? context : context));
+          }
+        }) : const DottedLoaderWidget();
+  }
+
   Widget _changeStatus(
       {required AssignmentStatus assignmentStatus,
         required AssignmentModel assignmentData,
@@ -327,20 +372,8 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
        ButtonWidget(
             height: MediaQuery.of(context).size.height * 0.04,
             fontSize: AppFont.font_12,
-            backgroundColor: assignmentData.fillEndTime.toString().isEmpty
-                && userData.roleType == RoleType.lcvManager
-                ? AppColor.orange
-                : assignmentData.fillEndTime.toString().isEmpty
-                && userData.roleType == RoleType.lcvManager
-                ? AppColor.themeSecondary
-                : AppColor.red,
-            text: assignmentData.fillEndTime.toString().isEmpty
-                && userData.roleType == RoleType.lcvManager
-                ? "Update"
-                : assignmentData.fillEndTime.toString().isNotEmpty
-                && userData.roleType == RoleType.stationUser ?
-                 "Update"
-                : "Cancel",
+            backgroundColor: AppColor.orange,
+            text: "Update",
             onPressed: () async {
               if (assignmentData.fillEndTime.toString().isEmpty
                   && userData.roleType == RoleType.lcvManager) {
@@ -355,17 +388,15 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                 BlocProvider.of<CngFillingFormBloc>(context).add(
                     CngFillingFormSetAssignmentDataEvent(
                         assignmentData: assignmentData));
-                Navigator.push(
+                 var res = await Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const CngFillingStationPage()),
                 );
-              } else {
-                if(await _onCancelAssignment(context: context) == true) {
-                  BlocProvider.of<ViewAssignmentBloc>(!context.mounted ? context : context).add(
-                      ViewAssignmentUpdateStatusEvent(
-                          index: index, context: !context.mounted ? context : context));
-                }
+                 if(res.toString() == "Complete"){
+                   BlocProvider.of<ViewAssignmentBloc>(!context.mounted ? context : context)
+                       .add(ViewAssignmentPageLoadEvent(context: !context.mounted ? context : context));
+                 }
               }
             }) : const DottedLoaderWidget();
   }

@@ -27,6 +27,16 @@ class FetchCngFillingDataState extends CngFillingFormInitial {
   final TextEditingController lcvTruckNumberController;
   final TextEditingController driverLicenceIdController;
   final TextEditingController remarkController;
+  final TextEditingController arrivalTimeController;
+  final TextEditingController lcvPointTimeController;
+  final TextEditingController flowMeterReadingOpenController;
+  final TextEditingController flowMeterReadingClosedController;
+  final TextEditingController inPressureController;
+  final TextEditingController fillEndTimeController;
+  final TextEditingController outPressureController;
+  final bool isLcvCondition;
+  final bool isDriverNotWearingUniform;
+  final List<File> fileList;
 
   FetchCngFillingDataState({
     required this.isLoader,
@@ -41,6 +51,16 @@ class FetchCngFillingDataState extends CngFillingFormInitial {
     required this.remarkController,
     required this.lcvTruckNumberController,
     required this.driverLicenceIdController,
+    required this.arrivalTimeController,
+    required this.lcvPointTimeController,
+    required this.flowMeterReadingOpenController,
+    required this.flowMeterReadingClosedController,
+    required this.inPressureController,
+    required this.fillEndTimeController,
+    required this.isLcvCondition,
+    required this.isDriverNotWearingUniform,
+    required this.fileList,
+    required this.outPressureController,
   });
 
   @override
@@ -54,5 +74,18 @@ class FetchCngFillingDataState extends CngFillingFormInitial {
         unitGasMeterController,
         drivingLicenceController,
         truckNumberController,
+        remarkController,
+        lcvTruckNumberController,
+        driverLicenceIdController,
+        arrivalTimeController,
+        lcvPointTimeController,
+        flowMeterReadingOpenController,
+        flowMeterReadingClosedController,
+        inPressureController,
+        fillEndTimeController,
+        isLcvCondition,
+        isDriverNotWearingUniform,
+        fileList,
+        outPressureController,
       ];
 }
