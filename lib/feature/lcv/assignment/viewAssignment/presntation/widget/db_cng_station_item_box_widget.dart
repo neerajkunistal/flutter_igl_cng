@@ -19,6 +19,7 @@ class DbCngStationItemBoxWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           DbCngStationModel dbCngStationData =  dbCngStationList[index];
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _rowWidget(label: AppString.arrivalTime, value: dbCngStationData.arrivalTime.toString()),
             _verticalSpace(context: context),

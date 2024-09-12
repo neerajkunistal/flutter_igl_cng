@@ -47,6 +47,7 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
       margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _verticalSpace(),
             _driverName(dataState: dataState),
