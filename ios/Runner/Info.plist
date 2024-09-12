@@ -30,6 +30,8 @@
 	<true/>
 	<key>FirebaseScreenReportingEnabled</key>
 	<true/>
+    <key>GIDServerClientID</key>
+    <string>AIzaSyCfvvX4J5l5kIL9bkSFWveXOpnE1lK3P20</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires to access your camera for complaints.</string>
 	<key>NSMicrophoneUsageDescription</key>

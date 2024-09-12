@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import GoogleMaps
 import Firebase
 import FirebaseMessaging
 
@@ -10,7 +11,9 @@ import FirebaseMessaging
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     FirebaseApp.configure();
+    GMSServices.provideAPIKey("AIzaSyCfvvX4J5l5kIL9bkSFWveXOpnE1lK3P20")
     GeneratedPluginRegistrant.register(with: self)
+    Messaging.messaging().isAutoInitEnabled = true;
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
