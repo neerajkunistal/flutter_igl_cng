@@ -154,13 +154,13 @@ class AssignmentModel {
       case "0":
         return AssignmentStatus.pending;
       case "1":
-        return AssignmentStatus.confirm;
-      case "2":
-        return AssignmentStatus.startRoute;
-      case "3":
         return AssignmentStatus.complete;
-      case "4":
+      case "2":
         return AssignmentStatus.cancel;
+      case "3":
+        return AssignmentStatus.confirm;
+      case "4":
+        return AssignmentStatus.startRoute;
       default:
         return AssignmentStatus.pending;
     }

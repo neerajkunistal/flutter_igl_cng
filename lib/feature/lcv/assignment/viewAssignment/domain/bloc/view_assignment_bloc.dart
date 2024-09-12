@@ -52,8 +52,13 @@ class ViewAssignmentBloc
 
   bool get isDriverList => _isDriverList;
 
+  AssignmentModel _assignmentData =  AssignmentModel();
+  AssignmentModel get assignmentData => _assignmentData;
+
+
   ViewAssignmentBloc() : super(ViewAssignmentInitial()) {
     on<ViewAssignmentPageLoadEvent>(_pageLoad);
+    on<ViewAssignmentSelectAssignmentEvent>(_selectAssignment);
     on<ViewAssignmentChangeStatusEvent>(_changeStatus);
     on<ViewAssignmentUpdateStatusEvent>(_updateStatus);
     on<ViewAssignmentSelectLcvDriverEvent>(_selectLcvDriver);
@@ -67,6 +72,7 @@ class ViewAssignmentBloc
     _assignmentList = [];
     _lcvDriverList = [];
     _lcvDriverData = DriverModel();
+    _assignmentData =  AssignmentModel();
     _userData = UserInfo.instance!.userData!;
     _assignmentChangeStatusList = AssignmentChangeStatusModel.getStatus();
     _isLoader = false;
@@ -81,7 +87,7 @@ class ViewAssignmentBloc
     }
     _eventCompleted(emit);
 
-    if (userData.roleType != RoleType.driver) {
+/*    if (userData.roleType != RoleType.driver) {
       _isDriverList = true;
       _eventCompleted(emit);
       var driverRes = await DriverHelper.fetchDriverData(
@@ -91,7 +97,12 @@ class ViewAssignmentBloc
       }
       _isDriverList = false;
       _eventCompleted(emit);
-    }
+    }*/
+  }
+
+  _selectAssignment(ViewAssignmentSelectAssignmentEvent event, emit) {
+    _assignmentData =  event.assignmentData;
+    _eventCompleted(emit);
   }
 
   _changeStatus(ViewAssignmentChangeStatusEvent event, emit) {
@@ -158,28 +169,27 @@ class ViewAssignmentBloc
   }
 
   _updateStatus(ViewAssignmentUpdateStatusEvent event, emit) async {
-    _isLoader == true;
-    _eventCompleted(emit);
-    var res = await AddAssignmentHelper.updateStatus(
-      context: event.context,
-      statusId: "4",
-      assignmentId: assignmentList[event.index].id.toString(),
-      userData: userData,
-      uploadTruckImage: File(""),
-      assignmentData: assignmentList[event.index],
-      uploadPhotoImage: File(""),
-      remarks:
-          "${assignmentChangeStatusData.status}   ${remarkController.text.toString()}",
-      assignmentStatus: AssignmentModel.getAssignmentStatus(
-          status: assignmentList[event.index].id.toString()),
-    );
-    _isLoader == false;
-    _eventCompleted(emit);
-    if (res != null) {
-      BlocProvider.of<ViewAssignmentBloc>(event.context)
-          .add(ViewAssignmentPageLoadEvent(context: event.context));
-      Navigator.pop(event.context);
-    }
+      int index = event.index;
+      _isLoader =  true;
+      _assignmentList[index].isSelected = true;
+      _eventCompleted(emit);
+      var res =  await ViewAssignmentHelper.cancelAssignment(context: event.context,
+          assignmentData: assignmentList[index], remark: "");
+      if(res != null){
+        var listRes = await ViewAssignmentHelper.fetchAssignment(
+            context: !event.context.mounted ? event.context : event.context, userData: userData);
+        if (listRes != null) {
+          _assignmentList = listRes;
+        }
+      } else {
+        _isLoader =  true;
+        _assignmentList[index].isSelected = false;
+        _eventCompleted(emit);
+      }
+
+      _isLoader =  false;
+      _eventCompleted(emit);
+
   }
 
   _eventCompleted(Emitter<ViewAssignmentState> emit) {
@@ -194,6 +204,7 @@ class ViewAssignmentBloc
       fromDateTextFieldController: fromDateTextFieldController,
       toDateTextFieldController: toDateTextFieldController,
       isDriverList: isDriverList,
+      assignmentData: assignmentData
     ));
   }
 }

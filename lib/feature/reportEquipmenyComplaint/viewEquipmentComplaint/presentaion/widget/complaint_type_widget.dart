@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:vibration/vibration.dart';
@@ -44,6 +47,91 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
 
             Column(
               children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            shadowColor: AppColor.themeColor,
+                            elevation: 2,
+                            child: InkWell(
+                              onTap: () async {
+                                if (await Vibration.hasAmplitudeControl() != null) {
+                                  Vibration.vibrate(duration: 100);
+                                }
+                                Navigator.push(
+                                  !context.mounted ? context : context,
+                                  FadeRoute(page: const ViewCngPage()),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(AppIcon.maintenanceIcon,
+                                        height: MediaQuery.of(context).size.width * 0.20),
+                                    SizedBox(
+                                      height: MediaQuery.of(context).size.width * 0.02,
+                                    ),
+                                    TextWidget(
+                                      "Civil Complaint",
+                                      color: AppColor.themeColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )),
+                    ),
+
+                    Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            shadowColor: AppColor.themeColor,
+                            elevation: 2,
+                            child: InkWell(
+                              onTap: () async {
+                                if (await Vibration.hasAmplitudeControl() != null) {
+                                  Vibration.vibrate(duration: 100);
+                                }
+                                Navigator.push(
+                                  !context.mounted ? context : context,
+                                  FadeRoute(
+                                      page: const ViewEquipmentComplaintPage(
+                                        title: "Other Complaint",
+                                      )),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(AppIcon.equipmentIcon,
+                                        height: MediaQuery.of(context).size.width * 0.20),
+                                    SizedBox(
+                                      height: MediaQuery.of(context).size.width * 0.02,
+                                    ),
+                                    TextWidget(
+                                      "Other Complaint",
+                                      color: AppColor.themeColor,
+                                      fontWeight: FontWeight.w700,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )),
+                    ),
+                  ],
+                ),
+
                 Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
@@ -56,7 +144,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                           }
                           Navigator.push(
                             !context.mounted ? context : context,
-                            FadeRoute(page: const ViewCngPage()),
+                            FadeRoute(page: const ViewAssignmentPage()),
                           );
                         },
                         child: Padding(
@@ -65,52 +153,13 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(AppIcon.maintenanceIcon,
+                              Image.asset(AppIcon.lcvTruckIcon,
                                   height: MediaQuery.of(context).size.width * 0.20),
                               SizedBox(
                                 height: MediaQuery.of(context).size.width * 0.02,
                               ),
                               TextWidget(
-                                "Civil Complaint",
-                                color: AppColor.themeColor,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )),
-                Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      shadowColor: AppColor.themeColor,
-                      elevation: 2,
-                      child: InkWell(
-                        onTap: () async {
-                          if (await Vibration.hasAmplitudeControl() != null) {
-                            Vibration.vibrate(duration: 100);
-                          }
-                          Navigator.push(
-                            !context.mounted ? context : context,
-                            FadeRoute(
-                                page: const ViewEquipmentComplaintPage(
-                                  title: "Other Complaint",
-                                )),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(AppIcon.equipmentIcon,
-                                  height: MediaQuery.of(context).size.width * 0.20),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.width * 0.02,
-                              ),
-                              TextWidget(
-                                "Other Complaint",
+                                "LCV",
                                 color: AppColor.themeColor,
                                 fontWeight: FontWeight.w700,
                               )

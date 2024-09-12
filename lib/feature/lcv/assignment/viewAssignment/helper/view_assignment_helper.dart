@@ -49,4 +49,46 @@ class ViewAssignmentHelper {
     }
     return null;
   }
+
+  static Future<dynamic> cancelAssignment(
+      {required BuildContext context,
+        required AssignmentModel assignmentData,
+        required String remark,
+      }) async {
+    try {
+      String url = APIs.cancelAssignmentApi;
+      var json = {
+        "id" : assignmentData.id.toString(),
+         "status" : "2",
+          "cancel_remark" : remark,
+      };
+      var res = await ServerRequest.postData(urlEndPoint: url, body:  json);
+        if (res != null && res["status"] != null &&
+            res['status'] == true &&
+            res['message'] != null) {
+          SnackBarErrorWidget(!context.mounted ? context : context)
+              .show(message: "${res['message']}");
+          return res;
+        } else if (res != null && res["status"] != null &&
+            res['status'] == false &&
+            res['errors'] != null) {
+          String response = res['errors'].toString();
+          if (!context.mounted) return null;
+          SnackBarErrorWidget(context).show(
+              message: response.replaceAll("[{", "").toString()
+                  .replaceAll("}]", ""));
+          return null;
+        } else {
+        SnackBarErrorWidget(!context.mounted ? context : context)
+            .show(message: "Internal Server Error ${APIs.getAssignmentApi}");
+        return null;
+      }
+    } catch (e) {
+      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "Internal server error ${APIs.getAssignmentApi}");
+      return null;
+    }
+    return null;
+  }
+
 }

@@ -141,5 +141,7 @@ class APIs {
 
   static get getIglApi => "api/cr/getExtApiURl";
 
+  static get cancelAssignmentApi => "api/lcv/cancelMBmanagerEntries";
+
   static get forgotPasswordApi => "";
 }

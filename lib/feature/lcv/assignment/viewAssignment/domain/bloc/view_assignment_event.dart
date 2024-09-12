@@ -62,6 +62,15 @@ class ViewAssignmentFilterSubmitEvent extends ViewAssignmentEvent {
   List<Object> get props => [context];
 }
 
+class ViewAssignmentSelectAssignmentEvent extends ViewAssignmentEvent {
+  final AssignmentModel assignmentData;
+
+  const ViewAssignmentSelectAssignmentEvent({required this.assignmentData});
+
+  @override
+  List<Object> get props => [assignmentData];
+}
+
 class ViewAssignmentChangeStatusEvent extends ViewAssignmentEvent {
   final AssignmentChangeStatusModel assignmentChangeStatusData;
 

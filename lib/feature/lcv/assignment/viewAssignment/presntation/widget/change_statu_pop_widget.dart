@@ -114,9 +114,7 @@ class ChangeStatusPopWidget extends StatelessWidget {
         ? ButtonWidget(
             text: AppString.submit,
             onPressed: () {
-              BlocProvider.of<ViewAssignmentBloc>(context).add(
-                  ViewAssignmentUpdateStatusEvent(
-                      index: index, context: context));
+
             })
         : const DottedLoaderWidget();
   }

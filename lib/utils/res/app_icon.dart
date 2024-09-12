@@ -44,4 +44,6 @@ class AppIcon {
   static get notRunningIcon => "assets/ic_truck_notrunning.png";
 
   static get runningIcon => "assets/ic_truck_running.png";
+
+  static get lcvTruckIcon => "assets/lcv_truck.png";
 }

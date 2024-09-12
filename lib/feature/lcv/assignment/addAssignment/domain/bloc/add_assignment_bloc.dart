@@ -569,26 +569,68 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     _isLoader = true;
     _eventCompleted(emit);
 
-/*    DateTime initialDate = DateTime.now();
-    String time = "";
-    if(timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("am")){
-      initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm a').parse(timeController.text.toString())
+    DateTime initialDate = DateTime.now();
+    String lcvEntryTime = "";
+    if(lcvEntryTimeController.text.toString().isNotEmpty
+        && lcvEntryTimeController.text.toString().toLowerCase().contains("am")){
+      initialDate = lcvEntryTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(lcvEntryTimeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
-    } else if (timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("pm")){
-      initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm a').parse(timeController.text.toString())
+      lcvEntryTime = lcvEntryTimeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+    } else if (lcvEntryTimeController.text.toString().isNotEmpty
+        && lcvEntryTimeController.text.toString().toLowerCase().contains("pm")){
+      initialDate = lcvEntryTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(lcvEntryTimeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+      lcvEntryTime = lcvEntryTimeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
     } else {
-      initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('HH:mm').parse(timeController.text.toString())
+      initialDate = lcvEntryTimeController.text.toString().isNotEmpty
+          ? DateFormat('HH:mm').parse(lcvEntryTimeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
-    }*/
+      lcvEntryTime = lcvEntryTimeController.text.toString().isNotEmpty ? "${initialDate.hour}:${initialDate.minute}:00" : "";
+    }
+
+    DateTime fillEndTimeInitaialDateTime = DateTime.now();
+    String fillEndTime = "";
+    if(fillEndTimeController.text.toString().isNotEmpty
+        && fillEndTimeController.text.toString().toLowerCase().contains("am")){
+      fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(fillEndTimeController.text.toString())
+          : DateTime.now();
+      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+    } else if (fillEndTimeController.text.toString().isNotEmpty
+        && fillEndTimeController.text.toString().toLowerCase().contains("pm")){
+      fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(fillEndTimeController.text.toString())
+          : DateTime.now();
+      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+    } else {
+      fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
+          ? DateFormat('HH:mm').parse(fillEndTimeController.text.toString())
+          : DateTime.now();
+      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+    }
+
+    DateTime fillStartTimeInitialDate = DateTime.now();
+    String fillStartTime = "";
+    if(fillStartTimeController.text.toString().isNotEmpty
+        && fillStartTimeController.text.toString().toLowerCase().contains("am")){
+      fillStartTimeInitialDate = fillStartTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(fillStartTimeController.text.toString())
+          : DateTime.now();
+      fillStartTime = fillStartTimeController.text.toString().isNotEmpty ? "${fillStartTimeInitialDate.hour}:${fillStartTimeInitialDate.minute}:00" : "";
+    } else if (fillStartTimeController.text.toString().isNotEmpty
+        && fillStartTimeController.text.toString().toLowerCase().contains("pm")){
+      fillStartTimeInitialDate = fillStartTimeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(fillStartTimeController.text.toString())
+          : DateTime.now();
+      fillStartTime = fillStartTimeController.text.toString().isNotEmpty ? "${fillStartTimeInitialDate.hour}:${fillStartTimeInitialDate.minute}:00" : "";
+    } else {
+      fillStartTimeInitialDate = fillStartTimeController.text.toString().isNotEmpty
+          ? DateFormat('HH:mm').parse(fillStartTimeController.text.toString())
+          : DateTime.now();
+      fillStartTime = fillStartTimeController.text.toString().isNotEmpty ? "${fillStartTimeInitialDate.hour}:${fillStartTimeInitialDate.minute}:00" : "";
+    }
 
     print(cngStationData.id.toString());
     var res = await AddAssignmentHelper.addAssignment(
@@ -610,12 +652,12 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         lcvCondition: isLcvCondition == true ? "1" : "0",
         flowMeterReadingOpen: flowMeterReadingOpenController.text.toString(),
         flowMeterReadingClosed: flowMeterReadingClosedController.text.toString(),
-        fillStartTime: fillStartTimeController.text.toString(),
-        fillEndTime: fillStartTimeController.text.toString(),
+        fillStartTime: fillStartTime,
+        fillEndTime: fillEndTime,
         driverToFitDrive: isDriverFitDrive == true ? "1" : "0",
         cngStationData: cngStationData,
         availabilityOfMobileWithDriver: isAvailabilityMobileWithDriver == true ? "1" : "0",
-        lcvEntryTime: lcvEntryTimeController.text.toString(),
+        lcvEntryTime: lcvEntryTime,
         assignmentData: assignmentData
     );
     _isLoader = false;

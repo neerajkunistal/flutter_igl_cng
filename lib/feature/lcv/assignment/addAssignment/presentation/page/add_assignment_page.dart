@@ -44,6 +44,7 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
       padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
