@@ -71,9 +71,6 @@ class LocationHelper {
 
   static Future<dynamic> getLocationOfflineMode(
       {required BuildContext context}) async {
-    if (await checkGps(context: context) == false) {
-      return null;
-    } else {
       try {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission != LocationPermission.denied) {
@@ -97,7 +94,6 @@ class LocationHelper {
       } catch (e) {
         return null;
       }
-    }
   }
 
   static Future<dynamic> _getAddressFromLatLng(Position position) async {
