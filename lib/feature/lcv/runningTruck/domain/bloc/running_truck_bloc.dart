@@ -7,9 +7,12 @@ import 'package:flutter_igl_cng/feature/lcv/lcvTruckLiveRoute/presentation/page/
 import 'package:flutter_igl_cng/feature/lcv/liveTracking/domain/model/tracking_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/liveTracking/helper/tracking_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/helper/request_helper.dart';
+import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/model/running_truck_model.dart';
+import 'package:flutter_igl_cng/feature/lcv/runningTruck/helper/running_truck_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'running_truck_event.dart';
@@ -44,11 +47,16 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
 
   List<TrackingModel> get trackingList => _trackingList;
 
+  List<RunningTruckModel> _runningTruckList  = [];
+
+  List<RunningTruckModel> get runningTruckList  => _runningTruckList;
+
   RunningTruckBloc() : super(RunningTruckInitial()) {
     on<RunningTruckPageLoadEvent>(_pageLoad);
   }
 
   _pageLoad(RunningTruckPageLoadEvent event, emit) async {
+    _markerRunningTruckPoints = {};
     emit(RunningTruckPageLoadState());
     _isLoader = false;
     _userData = UserInfo.instance!.userData!;
@@ -59,40 +67,44 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       _latLng = LatLng(locationData.lat!, locationData.long!);
     }
 
-    String currentDate = DateTime.now().toString();
-    var runningTackingRes = await TrackingHelper.fetchLiveTrackingData(
-        context: event.context,
-        userData: userData,
-        fromDate: currentDate,
-        toDate: currentDate,
-        isAllLocation: false);
+    var runningTackingRes = await RunningTruckHelper.fetchRunningTruck(
+        context: !event.context.mounted ? event.context : event.context);
     if (runningTackingRes != null) {
-      _trackingList = runningTackingRes;
-      for (int i = 0; i < trackingList.length; i++) {
-        if (trackingList[i].lat.toString().isNotEmpty &&
-            trackingList[i].long.toString().isNotEmpty) {
+      _runningTruckList = runningTackingRes;
+      for (int i = 0; i < runningTruckList.length; i++) {
+        if (runningTruckList[i].lat.toString().isNotEmpty &&
+            runningTruckList[i].long.toString().isNotEmpty) {
           final Uint8List? markerIcon = await RequestHelper.getBytesFromAsset(
-              trackingList[i].status.toString() == "1"
+              double.parse(runningTruckList[i].speed.toString()) > 7
                   ? AppIcon.runningIcon
                   : AppIcon.notRunningIcon,
-              100);
+              50);
 
           _markerRunningTruckPoints.add(Marker(
+            rotation: double.parse(runningTruckList[i].angle.toString())/2,
             markerId: MarkerId("${1 + i}Id"),
-            position: LatLng(double.parse(trackingList[i].lat.toString()),
-                double.parse(trackingList[i].long.toString())),
+            position: LatLng(double.parse(runningTruckList[i].lat.toString()),
+                double.parse(runningTruckList[i].long.toString())),
             infoWindow: InfoWindow(
-                title: trackingList[i].driverName.toString(),
+                title: runningTruckList[i].vehicleNo.toString(),
                 onTap: () {
                   print("User Id === ----");
-                  Navigator.push(
+
+                  showDialog(
+                      context: event.context,
+                      builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+                          message: "Speed - ${runningTruckList[i].speed.toString()}\n${runningTruckList[i].location}",
+                          okButtonText: "Ok",
+                          okButtonColour: AppColor.black,
+                          onPressed: () => Navigator.of(event.context).pop(true)));
+                  /*                 Navigator.push(
                     event.context,
                     MaterialPageRoute(
                         builder: (context) => LcvTruckLiveRoutePage(
                               driverUserId: trackingList[i].loginId.toString(),
                               routeId: trackingList[i].routeId.toString(),
                             )),
-                  );
+                  );*/
                 }),
             icon: BitmapDescriptor.fromBytes(markerIcon!),
           ));
@@ -103,23 +115,6 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       Marker markerData = markerRunningTruckPoints.first;
       _latLng = markerData.position;
     }
-
-    _assignmentData = AssignmentModel();
-    _assignmentList = [];
-    var res = await ViewAssignmentHelper.fetchAssignment(
-        context: event.context, userData: userData);
-    if (res != null) {
-      _assignmentList = res;
-      _assignmentList = assignmentList
-          .where(
-              (element) => element.assignmentStatus != AssignmentStatus.pending)
-          .toList();
-
-      List<AssignmentModel> _tempList = assignmentList
-          .where((element) => element.outPressure.toString().isEmpty)
-          .toList();
-      _assignmentList = _tempList;
-    }
     _eventComplete(emit);
   }
 
@@ -129,6 +124,7 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       isLoader: isLoader,
       latLng: latLng,
       markerRunningTruckPoints: markerRunningTruckPoints,
+      runningTruckList: runningTruckList,
     ));
   }
 }

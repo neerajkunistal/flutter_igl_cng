@@ -19,14 +19,16 @@ class FetchRunningTruckDataState extends RunningTruckInitial {
   final bool isLoader;
   final LatLng latLng;
   final Set<Marker> markerRunningTruckPoints;
+  final List<RunningTruckModel> runningTruckList;
 
   FetchRunningTruckDataState({
     required this.assignmentList,
     required this.isLoader,
     required this.latLng,
     required this.markerRunningTruckPoints,
+    required this.runningTruckList,
   });
 
   @override
-  List<Object> get props => [assignmentList, isLoader, latLng];
+  List<Object> get props => [assignmentList, isLoader, latLng, runningTruckList];
 }

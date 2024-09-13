@@ -13,7 +13,7 @@ class RunningTruckPage extends StatefulWidget {
 }
 
 class _RunningTruckPageState extends State<RunningTruckPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
