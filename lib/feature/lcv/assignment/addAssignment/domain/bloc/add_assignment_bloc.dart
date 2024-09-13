@@ -597,18 +597,18 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(fillEndTimeController.text.toString())
           : DateTime.now();
-      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+      fillEndTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
     } else if (fillEndTimeController.text.toString().isNotEmpty
         && fillEndTimeController.text.toString().toLowerCase().contains("pm")){
       fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(fillEndTimeController.text.toString())
           : DateTime.now();
-      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+      fillEndTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
     } else {
       fillEndTimeInitaialDateTime = fillEndTimeController.text.toString().isNotEmpty
           ? DateFormat('HH:mm').parse(fillEndTimeController.text.toString())
           : DateTime.now();
-      lcvEntryTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
+      fillEndTime = fillEndTimeController.text.toString().isNotEmpty ? "${fillEndTimeInitaialDateTime.hour}:${fillEndTimeInitaialDateTime.minute}:00" : "";
     }
 
     DateTime fillStartTimeInitialDate = DateTime.now();
