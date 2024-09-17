@@ -26,6 +26,10 @@ class FetchViewAssignmentDataState extends ViewAssignmentInitial {
   final DriverModel lcvDriverData;
   final bool isDriverList;
   final AssignmentModel assignmentData;
+  final List<LcvTruckModel> lcvList;
+  final LcvTruckModel lcvData;
+  final List<CngStationModel> cngStationList;
+  final CngStationModel cngStationData;
 
   FetchViewAssignmentDataState({
     required this.assignmentList,
@@ -39,6 +43,10 @@ class FetchViewAssignmentDataState extends ViewAssignmentInitial {
     required this.lcvDriverData,
     required this.isDriverList,
     required this.assignmentData,
+    required this.cngStationList,
+    required this.lcvList,
+    required this.cngStationData,
+    required this.lcvData
   });
 
   @override
@@ -54,5 +62,9 @@ class FetchViewAssignmentDataState extends ViewAssignmentInitial {
         lcvDriverData,
         isDriverList,
         assignmentData,
+        cngStationList,
+        lcvList,
+        cngStationData,
+        lcvData
       ];
 }

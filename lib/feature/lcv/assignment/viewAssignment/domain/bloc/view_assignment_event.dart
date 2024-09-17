@@ -71,6 +71,34 @@ class ViewAssignmentSelectAssignmentEvent extends ViewAssignmentEvent {
   List<Object> get props => [assignmentData];
 }
 
+class ViewAssignmentSetCngStationDataEvent extends ViewAssignmentEvent {
+  final CngStationModel cngStationData;
+
+  const ViewAssignmentSetCngStationDataEvent(
+      {required this.cngStationData});
+
+  @override
+  List<Object?> get props => [cngStationData];
+}
+
+class ViewAssignmentSetLcvTrackDataEvent extends ViewAssignmentEvent {
+  final LcvTruckModel lcvData;
+
+  const ViewAssignmentSetLcvTrackDataEvent({required this.lcvData});
+
+  @override
+  List<Object?> get props => [lcvData];
+}
+
+class ViewAssignmentKeyWordSearchDataEvent extends ViewAssignmentEvent {
+  final String keyword;
+
+  const ViewAssignmentKeyWordSearchDataEvent({required this.keyword});
+
+  @override
+  List<Object?> get props => [keyword];
+}
+
 class ViewAssignmentChangeStatusEvent extends ViewAssignmentEvent {
   final AssignmentChangeStatusModel assignmentChangeStatusData;
 

@@ -269,7 +269,9 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
       children: [
         _radioButton(
             selectedValue: dataState.isLcvCondition,
-            label: AppString.lcvCondition,
+            title: AppString.lcvCondition,
+            label1: "Ok",
+            label2: "Not Ok",
             onChanged: (value) {
               print(value);
               BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
@@ -289,7 +291,9 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
   Widget _driverFitToDrive( {required FetchAddAssignmentDataState dataState}) {
     return _radioButton(
         selectedValue: dataState.isDriverFitDrive,
-        label: AppString.driverFitToDrive,
+        title: AppString.driverFitToDrive,
+        label1: "Ok",
+        label2: "Not Ok",
         onChanged: (value) {
           BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
               checkList: 2, isSelected: value == "0" ? false : true
@@ -301,7 +305,9 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
   Widget _improperLCVLogBooKCorrections( {required FetchAddAssignmentDataState dataState}) {
     return _radioButton(
         selectedValue: dataState.isLcvLogBookCorrection,
-        label: AppString.improperLCVLogBooKCorrections,
+        title: AppString.improperLCVLogBooKCorrections,
+        label1: "Ok",
+        label2: "Not Ok",
         onChanged: (value) {
           BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
               checkList: 3, isSelected: value == "0" ? false : true
@@ -313,7 +319,7 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
   Widget _availabilityOfMobilWithDriver( {required FetchAddAssignmentDataState dataState}) {
     return _radioButton(
         selectedValue: dataState.isAvailabilityMobileWithDriver,
-        label: AppString.availabilityOfMobilWithDriver,
+        title: AppString.availabilityOfMobilWithDriver,
         onChanged: (value) {
           BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
               checkList: 4, isSelected: value == "0" ? false : true
@@ -343,7 +349,10 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
   }
 
   Widget _radioButton({required bool selectedValue,
-   required String label,required ValueChanged<dynamic> onChanged
+   required String title,
+    String? label1,
+     String? label2,
+    required ValueChanged<dynamic> onChanged
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -352,7 +361,7 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
         children: [
           Row(
             children: [
-              TextWidget(label, fontWeight: FontWeight.w700, fontSize: AppFont.font_11,),
+              TextWidget(title, fontWeight: FontWeight.w700, fontSize: AppFont.font_11,),
               TextWidget("*", fontWeight: FontWeight.w700, fontSize: AppFont.font_11, color: AppColor.red,),
             ],
           ),
@@ -361,13 +370,13 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
             child: Column(
               children: [
                 RadioListTile<String>(
-                  title: TextWidget(AppString.yes),
+                  title: TextWidget(label1 ?? AppString.yes),
                   value: '1',
                   groupValue: selectedValue == true ? "1" : "0",
                   onChanged: onChanged,
                 ),
                 RadioListTile<String>(
-                  title: TextWidget(AppString.no),
+                  title: TextWidget(label2 ?? AppString.no),
                   value: '0',
                   groupValue: selectedValue == true ? "1" : "0",
                   onChanged: onChanged,

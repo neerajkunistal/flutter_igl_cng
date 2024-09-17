@@ -244,6 +244,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                         assignmentData.fillEndTime.toString().isNotEmpty &&
                           assignmentData.status.toString() == "0"
                           ? "Running"
+                           :  assignmentData.dbCngStationList!.isNotEmpty &&
+                              assignmentData.dbCngStationList![0].arrivalTime.toString().isNotEmpty &&
+                              assignmentData.dbCngStationList![0].lcvPointTime.toString().isEmpty &&
+                             assignmentData.status.toString() == "0"
+                           ? "Arrived At"
                           : assignmentStatus == AssignmentStatus.complete
                               ? "Complete"
                               : assignmentStatus == AssignmentStatus.cancel
@@ -266,17 +271,17 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
               fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
-            ( userData.roleType == RoleType.lcvManager
+            ( userData.mDbStatus == "1"
                 && assignmentData.fillEndTime.toString().isEmpty
                 && assignmentStatus != AssignmentStatus.cancel) ||
-            ( userData.roleType == RoleType.stationUser
+            ( userData.mDbStatus == "2"
                 && assignmentData.fillEndTime.toString().isNotEmpty
                 && assignmentStatus != AssignmentStatus.cancel) ?
         _changeStatus(assignmentStatus: assignmentStatus, assignmentData: assignmentData,
             context: context)
             : const SizedBox.shrink(),
 
-        userData.roleType == RoleType.lcvManager
+        userData.mDbStatus == "1"
             && assignmentData.status.toString() == "0"
         ? _cancelButton(assignmentStatus: assignmentStatus, assignmentData: assignmentData, context: context)
             : const SizedBox.shrink()

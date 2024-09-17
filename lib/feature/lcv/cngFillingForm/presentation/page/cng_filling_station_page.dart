@@ -183,7 +183,9 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
       children: [
         _radioButton(
             selectedValue: dataState.isLcvCondition,
-            label: AppString.lcvCondition,
+            title: AppString.lcvCondition,
+            label1: "Ok",
+            label2: "Not Ok",
             onChanged: (value) {
               BlocProvider.of<CngFillingFormBloc>(context).add(CngFillingCheckListEvent(
                   checklist: 1, isSelected: value == "0" ? false : true
@@ -202,7 +204,7 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
   Widget _driverNotWearingUniform( {required FetchCngFillingDataState dataState}) {
     return _radioButton(
         selectedValue: dataState.isDriverNotWearingUniform,
-        label: AppString.driverNotWearingUniform,
+        title: AppString.driverNotWearingUniform,
         onChanged: (value) {
           BlocProvider.of<CngFillingFormBloc>(context).add(CngFillingCheckListEvent(
               checklist: 2, isSelected: value == "0" ? false : true
@@ -365,7 +367,10 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
   }
 
   Widget _radioButton({required bool selectedValue,
-    required String label,required ValueChanged<dynamic> onChanged
+    required String title,
+    String? label1,
+    String? label2,
+    required ValueChanged<dynamic> onChanged
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -374,7 +379,7 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
         children: [
           Row(
             children: [
-              TextWidget(label, fontWeight: FontWeight.w700, fontSize: AppFont.font_11,),
+              TextWidget(title, fontWeight: FontWeight.w700, fontSize: AppFont.font_11,),
               TextWidget("*", fontWeight: FontWeight.w700, fontSize: AppFont.font_11, color: AppColor.red,),
             ],
           ),
@@ -383,13 +388,13 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
             child: Column(
               children: [
                 RadioListTile<String>(
-                  title: TextWidget(AppString.yes),
+                  title: TextWidget(label1 ?? AppString.yes),
                   value: '1',
                   groupValue: selectedValue == true ? "1" : "0",
                   onChanged: onChanged,
                 ),
                 RadioListTile<String>(
-                  title: TextWidget(AppString.no),
+                  title: TextWidget(label2 ?? AppString.no),
                   value: '0',
                   groupValue: selectedValue == true ? "1" : "0",
                   onChanged: onChanged,

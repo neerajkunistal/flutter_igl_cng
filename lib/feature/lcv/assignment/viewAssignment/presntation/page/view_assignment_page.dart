@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_detail_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_detail_page.dart';
+import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/view_assignment_filter_widget.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/view_assignment_item_box_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewAssignmentPage extends StatefulWidget {
@@ -56,7 +59,7 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
   @override
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instance!.userData!;
-    return userData.roleType == RoleType.stationUser ?
+    return userData.mDbStatus == "2" ?
         Scaffold(
           body: appBackGround(
               context: context,
@@ -64,25 +67,49 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
                 children: [
                   _appBar(),
                   DottedDividerLine(color: AppColor.white),
-                  Expanded(child: _widgetBuilder()),
+                  _searchWidget(context: context),
+                  _widgetBuilder(),
                 ],
               )),
-        ) : _widgetBuilder();
+        ) : Column(
+          children: [
+            _searchWidget(context: context),
+            _widgetBuilder(),
+          ],
+        );
+  }
+
+  Widget _searchWidget({required BuildContext context}) {
+    return SearchBarWidget(
+      onPressed: () async {
+        ViewAssignmentFilterWidget(context: context).filterSearch();
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<ViewAssignmentBloc>(context)
+            .add(ViewAssignmentKeyWordSearchDataEvent(keyword: keyword));
+      },
+    );
   }
 
   Widget _widgetBuilder() {
-    return BlocBuilder<ViewAssignmentBloc, ViewAssignmentState>(
-      builder: (context, state) {
-        if (state is FetchViewAssignmentDataState) {
-          return RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: _itemBuilder(dataState: state));
-        } else {
-          return const Center(
-            child: CenterLoaderWidget(),
-          );
-        }
-      },
+    return Expanded(
+      child: BlocBuilder<ViewAssignmentBloc, ViewAssignmentState>(
+        builder: (context, state) {
+          if (state is FetchViewAssignmentDataState) {
+            return RefreshIndicator(
+                onRefresh: _handleRefresh,
+                child: state.isLoader == false
+                ?_itemBuilder(dataState: state) : const Center(
+                  child: CenterLoaderWidget(),
+                )
+            );
+          } else {
+            return const Center(
+              child: CenterLoaderWidget(),
+            );
+          }
+        },
+      ),
     );
   }
 

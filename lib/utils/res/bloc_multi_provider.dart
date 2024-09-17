@@ -16,6 +16,7 @@ import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/blo
 import 'package:flutter_igl_cng/feature/lcv/driver/registration/domain/bloc/registration_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/bloc/driver_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/geoLocation/domain/bloc/geo_location_bloc.dart';
+import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/addLcvTrack/domain/bloc/add_lcv_track_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/bloc/view_lcv_track_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTruckLiveRoute/domain/bloc/lcv_truck_live_route_bloc.dart';
@@ -71,6 +72,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => LcvTruckLiveRouteBloc()),
       BlocProvider(create: (BuildContext context) => MaterialDetailBloc()),
       BlocProvider(create: (BuildContext context) => PodDetailBloc()),
+      BlocProvider(create: (BuildContext context) => LcvDashboardBloc()),
 
     ],
     child: child,

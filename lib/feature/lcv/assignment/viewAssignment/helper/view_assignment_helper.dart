@@ -29,7 +29,7 @@ class ViewAssignmentHelper {
       String? fromDate,
       String? toDate}) async {
     try {
-      String url = APIs.getAssignmentApi;
+      String url = APIs.getAssignmentApi+"?from_date=$fromDate&to_date=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url,);
       if (res != null) {
         if (res["status"] != null &&

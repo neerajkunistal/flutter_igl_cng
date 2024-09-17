@@ -4,8 +4,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
+import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/presentation/page/lcv_dashboard_page.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
 class ComplaintTypeWidget extends StatefulWidget {
@@ -16,6 +19,9 @@ class ComplaintTypeWidget extends StatefulWidget {
 }
 
 class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
+
+  LoginDataModel userData =  UserInfo.instance!.userData!;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -88,7 +94,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                           )),
                     ),
 
-                    Expanded(
+                   Expanded(
                       child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Card(
@@ -132,7 +138,9 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                   ],
                 ),
 
-                Padding(
+                userData.mDbStatus.toString() != "0" &&
+                    userData.mDbStatus.toString().isNotEmpty ?
+                 Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(
                       shadowColor: AppColor.themeColor,
@@ -144,7 +152,9 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                           }
                           Navigator.push(
                             !context.mounted ? context : context,
-                            FadeRoute(page: const ViewAssignmentPage()),
+                            FadeRoute(page: userData.mDbStatus.toString() == "1"
+                                  ? const LcvDashboardPage()
+                                  : const ViewAssignmentPage() ),
                           );
                         },
                         child: Padding(
@@ -167,7 +177,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                           ),
                         ),
                       ),
-                    )),
+                    )) : const SizedBox.shrink(),
               ],
             ),
 

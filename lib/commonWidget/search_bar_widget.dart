@@ -26,7 +26,7 @@ class SearchBarWidget extends StatelessWidget {
         IconButton(
             onPressed: onPressed,
             icon: Icon(
-              Icons.calendar_month_outlined,
+              Icons.filter_alt_outlined,
               color: AppColor.white,
             )) :  SizedBox(
                 width: MediaQuery.of(context).size.width * 0.08,)
