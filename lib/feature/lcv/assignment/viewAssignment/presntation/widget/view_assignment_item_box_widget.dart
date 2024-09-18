@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/mod
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/change_statu_pop_widget.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/presentation/page/cng_filling_station_page.dart';
+import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
@@ -381,15 +382,15 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
             text: "Update",
             onPressed: () async {
               if (assignmentData.fillEndTime.toString().isEmpty
-                  && userData.roleType == RoleType.lcvManager) {
+                  && userData.mDbStatus == "1") {
                 BlocProvider.of<AddAssignmentBloc>(context)
                     .add(AddAssignmentSetAssignmentDataEvent(assignmentData: assignmentData));
-                BlocProvider.of<HomeBloc>(context).add(
-                    HomeChangeBottomNavigationItemEvent(
+                BlocProvider.of<LcvDashboardBloc>(context).add(
+                    LcvDashboardChangeBottomNavigationItemEvent(
                         index: 1, context: context));
               }
               else  if (assignmentData.fillEndTime.toString().isNotEmpty
-                  && userData.roleType == RoleType.stationUser) {
+                  && userData.mDbStatus == "2") {
                 BlocProvider.of<CngFillingFormBloc>(context).add(
                     CngFillingFormSetAssignmentDataEvent(
                         assignmentData: assignmentData));

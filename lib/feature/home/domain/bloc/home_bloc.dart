@@ -182,6 +182,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
     _bottomTabIndex = event.index;
     List<Widget> pageList = await HomeHelper.fetchPageList();
+    print(pageList.length);
     _childWidget = pageList[bottomTabIndex];
     _eventCompleted(emit);
   }

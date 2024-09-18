@@ -24,6 +24,7 @@ class FetchLcvDashboardDataState extends LcvDashboardInitial {
   final Widget actionButtonWidget;
   final String title;
   final bool isNotificationSilent;
+  final List<OverSpeedAlertModel> overSpeedAlertList;
 
   FetchLcvDashboardDataState({
     required this.isLoader,
@@ -35,6 +36,7 @@ class FetchLcvDashboardDataState extends LcvDashboardInitial {
     required this.title,
     required this.actionButtonWidget,
     required this.isNotificationSilent,
+    required this.overSpeedAlertList,
   });
 
   @override
@@ -48,5 +50,6 @@ class FetchLcvDashboardDataState extends LcvDashboardInitial {
     title,
     actionButtonWidget,
     isNotificationSilent,
+    overSpeedAlertList,
   ];
 }

@@ -48,7 +48,7 @@ class LcvDashboardHelper {
     List<Widget> pageList = [];
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-      if (userData.roleType == RoleType.stationUser) {
+      if (userData.mDbStatus == "1") {
         pageList.add(const RunningTruckPage());
         pageList.add(const AddAssignmentPage());
         pageList.add(const ViewAssignmentPage());

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/helper/lcv_dashboard_helper.dart';
-import 'package:flutter_igl_cng/feature/login/helper/login_helper.dart';
+import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/domain/model/over_speed_alert_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
@@ -50,13 +48,9 @@ class LcvDashboardBloc extends Bloc<LcvDashboardEvent, LcvDashboardState> {
 
   Widget get actionButtonWidget => _actionButtonWidget;
 
-  List<DrawerSubModel> _restaurantMenu = [];
-
-  List<DrawerSubModel> get restaurantMenu => _restaurantMenu;
-
-  List<FirebaseDeviceModel> firebaseDeviceList = [];
-
   bool isNotificationSilent =  false;
+
+  List<OverSpeedAlertModel> overSpeedAlertList = [];
 
   LcvDashboardBloc() : super(LcvDashboardInitial()) {
     on<LcvDashboardPageLoadEvent>(_pageLoad);
@@ -70,7 +64,6 @@ class LcvDashboardBloc extends Bloc<LcvDashboardEvent, LcvDashboardState> {
     _userData = UserInfo.instance!.userData!;
     _roleType = userData.roleType!;
     _bottomNavigationBarItemList = [];
-    _restaurantMenu = [];
     _pageWidgetList = [];
     FirebaseService.instance.setupInteractedMessage();
     _title = "LCV ( ${userData.roleName} )";
@@ -127,6 +120,7 @@ class LcvDashboardBloc extends Bloc<LcvDashboardEvent, LcvDashboardState> {
       title: title,
       actionButtonWidget: actionButtonWidget,
       isNotificationSilent: isNotificationSilent,
+      overSpeedAlertList: overSpeedAlertList,
     ));
   }
 }

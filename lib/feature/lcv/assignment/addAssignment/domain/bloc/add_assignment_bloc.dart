@@ -10,6 +10,7 @@ import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/mod
 import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/helper/cng_station_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/helper/driver_helper.dart';
+import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/model/lcv_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/helper/view_lcv_track_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
@@ -690,6 +691,9 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       isUnscheduledMaintenancePenaltyHours = true;
       isScheduledMaintenancePenaltyHours =  true;
       _eventCompleted(emit);
+      BlocProvider.of<LcvDashboardBloc>(!event.context.mounted ? event.context : event.context).add(
+          LcvDashboardChangeBottomNavigationItemEvent(
+              index: 2, context: !event.context.mounted ? event.context : event.context));
     }
   }
 

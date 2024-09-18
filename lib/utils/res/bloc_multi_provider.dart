@@ -22,6 +22,7 @@ import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/bloc/vi
 import 'package:flutter_igl_cng/feature/lcv/lcvTruckLiveRoute/domain/bloc/lcv_truck_live_route_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/liveTracking/domain/bloc/tracking_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/navigationRoute/domain/bloc/navigation_route_bloc.dart';
+import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/domain/bloc/over_speed_alert_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/bloc/request_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/bloc/running_truck_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/user/addUser/domain/bloc/add_user_bloc.dart';
@@ -73,6 +74,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => MaterialDetailBloc()),
       BlocProvider(create: (BuildContext context) => PodDetailBloc()),
       BlocProvider(create: (BuildContext context) => LcvDashboardBloc()),
+      BlocProvider(create: (BuildContext context) => OverSpeedAlertBloc()),
 
     ],
     child: child,

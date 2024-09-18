@@ -88,22 +88,22 @@ class CngStationModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['station_code'] = this.stationCode;
-    data['station_name'] = this.stationName;
-    data['address'] = this.address;
-    data['created_by'] = this.createdBy;
-    data['city'] = this.city;
-    data['district'] = this.district;
-    data['state'] = this.state;
-    data['officer_name'] = this.officerName;
-    data['company_email'] = this.companyEmail;
-    data['phone_number'] = this.phoneNumber;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['role_id'] = this.roleId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['station_code'] = stationCode;
+    data['station_name'] = stationName;
+    data['address'] = address;
+    data['created_by'] = createdBy;
+    data['city'] = city;
+    data['district'] = district;
+    data['state'] = state;
+    data['officer_name'] = officerName;
+    data['company_email'] = companyEmail;
+    data['phone_number'] = phoneNumber;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['role_id'] = roleId;
     return data;
   }
 }

@@ -143,5 +143,9 @@ class APIs {
 
   static get cancelAssignmentApi => "api/lcv/cancelMBmanagerEntries";
 
+  static get getOverSpeedApi => "api/lcv/getOverspeedAlert";
+
+  static get markOverSpeedApi => "api/lcv/markAlertAsShown";
+
   static get forgotPasswordApi => "";
 }
