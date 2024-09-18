@@ -8,6 +8,7 @@ class OverSpeedAlertModel {
   String? lcvId;
   String? speed;
   bool? isSelected;
+  dynamic status;
 
   OverSpeedAlertModel(
       {this.overSpeedingLogsId,
@@ -15,6 +16,7 @@ class OverSpeedAlertModel {
         this.lcvId,
         this.speed,
         this.isSelected,
+        this.status,
       });
 
   OverSpeedAlertModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class OverSpeedAlertModel {
     vehicleNo = json['vehicle_no'] ?? "";
     lcvId = json['lcv_id'] ?? "";
     speed = json['speed'] ?? "";
+    status = json['status'] ?? "0";
     isSelected =  false;
   }
 

@@ -64,7 +64,7 @@ class _OverSpeedAlertPageState extends State<OverSpeedAlertPage> {
                padding: const EdgeInsets.all(8.0),
                child: TextWidget(
                  "Vehicle No - ${dataState.overSpeedAlertList[index].vehicleNo}\nSpeed - ${dataState.overSpeedAlertList[index].speed}",
-                 fontWeight: FontWeight.w700,
+                 fontWeight: dataState.overSpeedAlertList[index].status.toString() == "0" ? FontWeight.w700 : FontWeight.w400,
                  fontSize: AppFont.font_12,
                ),
              ),
