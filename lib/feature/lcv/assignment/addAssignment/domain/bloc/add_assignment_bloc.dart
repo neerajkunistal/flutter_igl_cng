@@ -173,6 +173,9 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
         context: event.context, userData: userData);
     if (motherStationRes != null) {
       _motherStationList = motherStationRes;
+      if(motherStationList.isNotEmpty && motherStationList.length == 1){
+        _motherStationData =  motherStationList[0];
+      }
     }
 
     var driverRes = await DriverHelper.fetchDriverData(

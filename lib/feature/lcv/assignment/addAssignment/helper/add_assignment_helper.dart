@@ -237,20 +237,11 @@ class AddAssignmentHelper {
             res['status'] == true &&
             res['data'] != null) {
           return motherStationListResponse(res['data']);
-        } else {
-          SnackBarErrorWidget(!context.mounted ? context : context)
-              .show(message: res['messages'].toString());
-          return null;
         }
-      } else {
-        SnackBarErrorWidget(!context.mounted ? context : context)
-            .show(message: "Internal Server Error ${APIs.getDriverApi}");
-        return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context)
-          .show(message: "Internal server error ${APIs.getDriverApi}");
       return null;
     }
+    return null;
   }
 }
