@@ -234,6 +234,7 @@ class ViewAssignmentBloc
     _eventCompleted(emit);
     startDate = DateFormat("yyyy-MM-dd").parse(fromDate);
     endDate = DateFormat("yyyy-MM-dd").parse(toDate);
+    emit(ViewAssignmentPageLoadState());
     var res = await ViewAssignmentHelper.fetchAssignment(
       context: !event.context.mounted ? event.context : event.context,
       userData: userData,
@@ -332,8 +333,10 @@ class ViewAssignmentBloc
       var res =  await ViewAssignmentHelper.cancelAssignment(context: event.context,
           assignmentData: assignmentList[index], remark: "");
       if(res != null){
+        emit(ViewAssignmentPageLoadState());
         var listRes = await ViewAssignmentHelper.fetchAssignment(
-            context: !event.context.mounted ? event.context : event.context, userData: userData);
+            context: !event.context.mounted ? event.context : event.context,
+            userData: userData, fromDate: startDate.toString(), toDate: endDate.toString());
         if (listRes != null) {
           _assignmentList = listRes;
         }

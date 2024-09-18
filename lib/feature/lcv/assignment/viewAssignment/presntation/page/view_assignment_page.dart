@@ -98,10 +98,7 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
           if (state is FetchViewAssignmentDataState) {
             return RefreshIndicator(
                 onRefresh: _handleRefresh,
-                child: state.isLoader == false
-                ?_itemBuilder(dataState: state) : const Center(
-                  child: CenterLoaderWidget(),
-                )
+                child: _itemBuilder(dataState: state)
             );
           } else {
             return const Center(

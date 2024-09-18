@@ -37,16 +37,8 @@ class ViewAssignmentHelper {
             res['data'] != null) {
           return assignmentListResponse(res['data']);
         }
-      } else {
-        SnackBarErrorWidget(context)
-            .show(message: "Internal Server Error ${APIs.getAssignmentApi}");
-        return null;
       }
-    } catch (e) {
-      SnackBarErrorWidget(context)
-          .show(message: "Internal server error ${APIs.getAssignmentApi}");
-      return null;
-    }
+    } catch (_) {}
     return null;
   }
 
@@ -66,8 +58,8 @@ class ViewAssignmentHelper {
         if (res != null && res["status"] != null &&
             res['status'] == true &&
             res['message'] != null) {
-          SnackBarErrorWidget(!context.mounted ? context : context)
-              .show(message: "${res['message']}");
+          SnackBarSuccessWidget(!context.mounted ? context : context)
+              .show(message: res['message'].toString());
           return res;
         } else if (res != null && res["status"] != null &&
             res['status'] == false &&
@@ -84,11 +76,12 @@ class ViewAssignmentHelper {
         return null;
       }
     } catch (e) {
-      SnackBarErrorWidget(!context.mounted ? context : context)
-          .show(message: "Internal server error ${APIs.getAssignmentApi}");
+      print(e.toString());
+      print("---------------------------");
+/*      SnackBarErrorWidget(!context.mounted ? context : context)
+          .show(message: "Internal server error ${APIs.getAssignmentApi}");*/
       return null;
     }
-    return null;
   }
 
 }
