@@ -166,7 +166,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
     isLcvCondition =  true;
     isDriverFitDrive =  true;
     isLcvLogBookCorrection =  true;
-    isAvailabilityMobileWithDriver = true;
+    isAvailabilityMobileWithDriver = false;
     isUnscheduledMaintenancePenaltyHours = true;
     isScheduledMaintenancePenaltyHours =  true;
     var motherStationRes = await AddAssignmentHelper.fetchMotherStationData(
@@ -690,7 +690,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
       isLcvCondition =  true;
       isDriverFitDrive =  true;
       isLcvLogBookCorrection =  true;
-      isAvailabilityMobileWithDriver = true;
+      isAvailabilityMobileWithDriver = false;
       isUnscheduledMaintenancePenaltyHours = true;
       isScheduledMaintenancePenaltyHours =  true;
       _eventCompleted(emit);

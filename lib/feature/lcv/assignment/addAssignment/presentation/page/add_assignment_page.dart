@@ -292,8 +292,8 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
     return _radioButton(
         selectedValue: dataState.isDriverFitDrive,
         title: AppString.driverFitToDrive,
-        label1: "Ok",
-        label2: "Not Ok",
+        label1: "Fit",
+        label2: "Not Fit",
         onChanged: (value) {
           BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
               checkList: 2, isSelected: value == "0" ? false : true
@@ -306,8 +306,8 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
     return _radioButton(
         selectedValue: dataState.isLcvLogBookCorrection,
         title: AppString.improperLCVLogBooKCorrections,
-        label1: "Ok",
-        label2: "Not Ok",
+        label1: "Proper",
+        label2: "Improper",
         onChanged: (value) {
           BlocProvider.of<AddAssignmentBloc>(context).add(AddAssignmentSetCheckListEventEvent(
               checkList: 3, isSelected: value == "0" ? false : true
