@@ -22,9 +22,9 @@ class EnvironmentConfig extends InheritedWidget {
   String get generalUrlBaseOnFlavour {
     switch (flavours) {
       case EnvironmentFlavours.productionIglCng:
-        return "http://iglcng.smartgasnet.com/";
+        return "https://iglcng.smartgasnet.com/";
       case EnvironmentFlavours.developmentIglCng:
-        return "http://iglcng.smartgasnet.com/";
+        return "https://iglcng.smartgasnet.com/";
     }
   }
 }
