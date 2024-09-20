@@ -236,7 +236,9 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(
-               assignmentData.fillStartTime.toString().isEmpty
+              assignmentData.status.toString() == "2"
+                  ? "Cancel"
+               : assignmentData.fillStartTime.toString().isEmpty
                   ? "Awaiting"
                   : assignmentData.fillStartTime.toString().isNotEmpty &&
                       assignmentData.fillEndTime.toString().isEmpty
@@ -255,7 +257,9 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                               : assignmentStatus == AssignmentStatus.cancel
                                   ? "Cancel"
                                   : "Pending",
-              color: assignmentData.fillStartTime.toString().isEmpty
+              color: assignmentData.status.toString() == "2"
+                  ? Colors.red
+                  :assignmentData.fillStartTime.toString().isEmpty
                   ? Colors.amber
                   : assignmentData.fillStartTime.toString().isNotEmpty &&
                   assignmentData.fillEndTime.toString().isEmpty
@@ -272,17 +276,17 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
               fontSize: AppFont.font_12,
               fontWeight: FontWeight.w400),
         ),
-            ( userData.mDbStatus == "1"
+            ( userData.mDbStatus.toString() == "1"
                 && assignmentData.fillEndTime.toString().isEmpty
-                && assignmentStatus != AssignmentStatus.cancel) ||
-            ( userData.mDbStatus == "2"
+                && assignmentData.status.toString() == "0") ||
+            ( userData.mDbStatus.toString() == "2"
                 && assignmentData.fillEndTime.toString().isNotEmpty
-                && assignmentStatus != AssignmentStatus.cancel) ?
+                && assignmentData.status.toString() == "0") ?
         _changeStatus(assignmentStatus: assignmentStatus, assignmentData: assignmentData,
             context: context)
             : const SizedBox.shrink(),
 
-        userData.mDbStatus == "1"
+        userData.mDbStatus.toString() == "1"
             && assignmentData.status.toString() == "0"
         ? _cancelButton(assignmentStatus: assignmentStatus, assignmentData: assignmentData, context: context)
             : const SizedBox.shrink()
@@ -382,7 +386,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
             text: "Update",
             onPressed: () async {
               if (assignmentData.fillEndTime.toString().isEmpty
-                  && userData.mDbStatus == "1") {
+                  && userData.mDbStatus.toString() == "1") {
                 BlocProvider.of<AddAssignmentBloc>(context)
                     .add(AddAssignmentSetAssignmentDataEvent(assignmentData: assignmentData));
                 BlocProvider.of<LcvDashboardBloc>(context).add(
@@ -390,7 +394,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                         index: 1, context: context));
               }
               else  if (assignmentData.fillEndTime.toString().isNotEmpty
-                  && userData.mDbStatus == "2") {
+                  && userData.mDbStatus.toString() == "2") {
                 BlocProvider.of<CngFillingFormBloc>(context).add(
                     CngFillingFormSetAssignmentDataEvent(
                         assignmentData: assignmentData));
