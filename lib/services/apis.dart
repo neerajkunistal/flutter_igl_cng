@@ -37,6 +37,8 @@ class APIs {
 
   static get addReviewComplaintApi => "api/cr/review-complaints";
 
+  static get getCodeGroupApi => "api/cr/sap-codes-group";
+
   static get getMiComplaintApi => "api/cr/mi-complaint";
 
   static get getSparesApi => "api/cr/spares";

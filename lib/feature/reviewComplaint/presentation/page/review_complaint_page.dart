@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
@@ -88,6 +90,21 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           children: [
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
+
+            userData.roleType == RoleType.shiftEngineer ?
+            _sapCodeDropDown(dataState: dataState, context: context)
+                : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+
+            userData.roleType == RoleType.shiftEngineer ?
+            _codeGroupDropDown(dataState: dataState, context: context)
+                : const SizedBox.shrink(),
+            userData.roleType == RoleType.shiftEngineer
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+
             userData.roleType == RoleType.shiftEngineer &&
                 dataState.reviewComplaintData.assignType.toString() != "1"
                 ? _radioButton(dataState: dataState)
@@ -215,6 +232,48 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         BlocProvider.of<ReviewComplaintBloc>(context)
             .add(ReviewComplaintSelectTimeData(context: context));
       },
+    );
+  }
+
+  Widget _sapCodeDropDown(
+      {required FetchReviewComplaintDataState dataState,
+        required BuildContext context}) {
+    return DropdownWidget(
+      hint: AppString.sapCode,
+      dropdownValue:
+      dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
+      onChanged: (value) {
+        BlocProvider.of<ReviewComplaintBloc>(context)
+            .add(ReviewComplaintSelectSapCodeEvent(sapCodeData: value));
+      },
+      items: dataState.sapCodeList
+          .map<DropdownMenuItem<SapCodeModel>>((SapCodeModel sapCodeData) {
+        return DropdownMenuItem<SapCodeModel>(
+          value: sapCodeData,
+          child: TextWidget(sapCodeData.name.toString()),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _codeGroupDropDown(
+      {required FetchReviewComplaintDataState dataState,
+        required BuildContext context}) {
+    return DropdownWidget(
+      hint: AppString.codeGroup,
+      dropdownValue:
+      dataState.codeGroupData.name != null ? dataState.codeGroupData : null,
+      onChanged: (value) {
+        BlocProvider.of<ReviewComplaintBloc>(context)
+            .add(ReviewComplaintSelectCodeGroupEvent(codeGroupData: value));
+      },
+      items: dataState.codeGroupList
+          .map<DropdownMenuItem<CodeGroupModel>>((CodeGroupModel codeGroupData) {
+        return DropdownMenuItem<CodeGroupModel>(
+          value: codeGroupData,
+          child: TextWidget("${codeGroupData.name.toString()}-${codeGroupData.code.toString()}"),
+        );
+      }).toList(),
     );
   }
 

@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 
 class ReviewComplaintHelper {
@@ -14,6 +16,19 @@ class ReviewComplaintHelper {
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<dynamic> fetchCodeGroupData() async {
+    try {
+      String url = APIs.getCodeGroupApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res['status'] != null && res["status"] == true) {
+        return codeGroupListResponse(res['data']);
       }
       return null;
     } catch (e) {
@@ -33,6 +48,8 @@ class ReviewComplaintHelper {
       required List<File> files,
       required bool isNoScrap,
       required List<ScrapModel> scrapList,
+      required SapCodeModel sapCodeData,
+      required CodeGroupModel codeGroupData,
       }) async {
     try {
       String url = APIs.addReviewComplaintApi;
@@ -46,7 +63,9 @@ class ReviewComplaintHelper {
         "finalStatus": approvalValue,
         "rectifyPerson": approvalValue,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : isNoScrap == true ? "0" : "1"
+        "scrap" : isNoScrap == true ? "0" : "1",
+        "sapCode" : sapCodeData.code != null ? sapCodeData.id.toString() : "",
+        "codeGroup" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
       };
 
 

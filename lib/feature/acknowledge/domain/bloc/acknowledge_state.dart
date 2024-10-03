@@ -35,6 +35,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final DateTime startDate;
   final DateTime endDate;
   final List<int> complaintCount;
+  final TextEditingController plannerGroupController;
+  final TextEditingController mainWorkCenterController;
+  final TextEditingController personResponsibleController;
 
   FetchAcknowledgeDataState({
     required this.acknowledgeList,
@@ -57,6 +60,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     required this.complaintCount,
     required this.closeDateController,
     required this.closedTimeController,
+    required this.personResponsibleController,
+    required this.mainWorkCenterController,
+    required this.plannerGroupController,
   });
 
   @override
@@ -81,5 +87,8 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         startDate,
         endDate,
         complaintCount,
+        personResponsibleController,
+        mainWorkCenterController,
+        plannerGroupController,
       ];
 }

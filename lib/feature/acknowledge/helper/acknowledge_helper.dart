@@ -24,10 +24,11 @@ class AcknowledgeHelper {
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
         return false;
-      } else if (sapCodeModel.code == null) {
+      }
+/*      else if (sapCodeModel.code == null) {
         SnackBarErrorWidget(context).show(message: "Please select sap code");
         return false;
-      }
+      }*/
       return true;
     } catch (_) {}
   }
@@ -53,6 +54,9 @@ class AcknowledgeHelper {
       required AssignTypeModel assignTypeData,
       required String closedDate,
       required String closedTime,
+      required String plannerGroup,
+      required String mainWorkCenter,
+      required String personResponsible,
       required String remark}) async {
     try {
       String url = APIs.assignComplaintApi;
@@ -70,6 +74,9 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
+        "planner_group": plannerGroup,
+        "main_work_center": mainWorkCenter,
+        "person_responsible": personResponsible,
         "vendorAssignDatetime": "$closedDate $closedTime"
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);

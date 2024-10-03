@@ -73,7 +73,6 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _sapCodeDropDown(dataState: state, context: context),
                           _vendorDropDown(dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
@@ -89,6 +88,18 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                                   child: _timeController(dataState: state)),
                             ],
                           ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          _plannerGroupController(dataState: state),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          _mainWorkCenterController(dataState: state),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          _personResponsibleController(dataState: state),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
@@ -178,27 +189,6 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         : const SizedBox.shrink();
   }
 
-  Widget _sapCodeDropDown(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
-    return DropdownWidget(
-      hint: AppString.sapCode,
-      dropdownValue:
-          dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
-      onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectSapCodeEvent(sapCodeData: value));
-      },
-      items: dataState.sapCodeList
-          .map<DropdownMenuItem<SapCodeModel>>((SapCodeModel sapCodeData) {
-        return DropdownMenuItem<SapCodeModel>(
-          value: sapCodeData,
-          child: TextWidget(sapCodeData.name.toString()),
-        );
-      }).toList(),
-    );
-  }
-
   Widget _dateController({required FetchAcknowledgeDataState dataState}) {
     return TextFieldWidget(
       enabled: false,
@@ -242,6 +232,36 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
             },
           )
         : const SizedBox.shrink();
+  }
+
+  Widget _plannerGroupController({required FetchAcknowledgeDataState dataState}) {
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: TextFieldWidget(
+        labelText: AppString.plannerGroup,
+        controller: dataState.plannerGroupController,
+      ),
+    );
+  }
+
+  Widget _mainWorkCenterController({required FetchAcknowledgeDataState dataState}) {
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: TextFieldWidget(
+        labelText: AppString.mainWorkCenter,
+        controller: dataState.mainWorkCenterController,
+      ),
+    );
+  }
+
+  Widget _personResponsibleController({required FetchAcknowledgeDataState dataState}) {
+    return Padding(
+      padding: const EdgeInsets.all(0.0),
+      child: TextFieldWidget(
+        labelText: AppString.personResponsible,
+        controller: dataState.personResponsibleController,
+      ),
+    );
   }
 
   Widget _remarkController({required FetchAcknowledgeDataState dataState}) {

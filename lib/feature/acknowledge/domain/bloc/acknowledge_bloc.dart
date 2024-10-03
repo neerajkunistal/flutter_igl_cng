@@ -19,6 +19,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   TextEditingController remarkController = TextEditingController();
   TextEditingController closeDateController = TextEditingController();
   TextEditingController closeTimeController = TextEditingController();
+  TextEditingController plannerGroupController = TextEditingController();
+  TextEditingController mainWorkCenterController = TextEditingController();
+  TextEditingController personResponsibleController = TextEditingController();
 
   List<VendorModel> vendorList = [];
   VendorModel vendorData = VendorModel();
@@ -42,6 +45,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   DateTime endDate = DateTime.now();
 
   List<int> complaintCount = [];
+
 
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
@@ -72,6 +76,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     remarkController.text = "";
     closeDateController.text = "";
     closeTimeController.text = "";
+    plannerGroupController.text = "";
+    mainWorkCenterController.text = "";
+    personResponsibleController.text = "";
     assignTypeData = AssignTypeModel();
     assignTypeList = AssignTypeModel().fetchData();
     _selectTabIndex = 0;
@@ -611,6 +618,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       closedDate: closeDateController.text.toString(),
       closedTime: closeTimeController.text.toString(),
       remark: remarkController.text.toString(),
+      personResponsible: personResponsibleController.text.toString(),
+      plannerGroup: plannerGroupController.text.toString(),
+      mainWorkCenter: mainWorkCenterController.text.toString(),
     );
     isLoader = false;
     _eventComplete(emit);
@@ -767,6 +777,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         endDate: endDate,
         closeDateController: closeDateController,
         closedTimeController: closeTimeController,
-        complaintCount: complaintCount));
+        complaintCount: complaintCount,
+        mainWorkCenterController: mainWorkCenterController,
+        personResponsibleController: personResponsibleController,
+        plannerGroupController: plannerGroupController,
+    ));
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assignment_list_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
@@ -517,15 +518,6 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),
-
-/*              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.04,
-              ),
-              TextWidget("Before Images : ",
-                fontWeight: FontWeight.bold,
-                color: AppColor.black, textAlign: TextAlign.start,),
-              ComplaintImagesWidget(imageList: cngData.measurementPreImageList ?? []),*/
-
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
@@ -542,6 +534,13 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.measurementSheet.toString().isNotEmpty ?
               [cngData.measurementSheet] : []),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ),
+              cngData.assignmentList!.isNotEmpty
+                  ? CiAssignmentListWidget(assignmentList: cngData.assignmentList!)
+                  : const SizedBox.shrink(),
 
               (cngData.assignTo.toString() == "0" &&
                   cngData.complaintStatus.toString() == "0")

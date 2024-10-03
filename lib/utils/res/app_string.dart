@@ -259,6 +259,8 @@ class AppString {
 
   static get sapCode => "Sap Code";
 
+  static get codeGroup => "Code Group";
+
   static get reportedByName => "Reported By Name";
 
   static get search => "Search...";
@@ -489,6 +491,12 @@ class AppString {
   static get lcvPointTime => "Lcv Point Time";
   static get inPressure => "In Pressure";
   static get driverNotWearingUniform => "Driver not wearing uniform";
+
+  static get plannerGroup => "Planner Group";
+
+  static get mainWorkCenter => "Main Work center";
+
+  static get personResponsible => "Person Responsible";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

@@ -76,6 +76,24 @@ class ReviewComplaintSelectScrapData extends ReviewComplaintEvent {
   List<Object?> get props => [isNoScrap];
 }
 
+class ReviewComplaintSelectSapCodeEvent extends ReviewComplaintEvent {
+  final SapCodeModel sapCodeData;
+
+  const ReviewComplaintSelectSapCodeEvent({required this.sapCodeData});
+
+  @override
+  List<Object?> get props => [sapCodeData];
+}
+
+class ReviewComplaintSelectCodeGroupEvent extends ReviewComplaintEvent {
+  final CodeGroupModel codeGroupData;
+
+  const ReviewComplaintSelectCodeGroupEvent({required this.codeGroupData});
+
+  @override
+  List<Object?> get props => [codeGroupData];
+}
+
 class ReviewComplaintSubmitEvent extends ReviewComplaintEvent {
   final BuildContext context;
 
