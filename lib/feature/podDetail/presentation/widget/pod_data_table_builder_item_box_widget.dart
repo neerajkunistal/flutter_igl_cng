@@ -28,12 +28,15 @@ class PodDataTableBuilderItemBox extends StatelessWidget {
       row.add(podDetailData.consumedValue.toString());
 
       String percentage =  podDetailData.consumedPercentage.toString().replaceAll(" ", "");
-      double consumedPercentage =  0.0;
-      if(percentage.isNotEmpty){
-        consumedPercentage =  double.parse(percentage);
+      dynamic consumedPercentage =  0.0;
+      if(percentage.isNotEmpty && isNumeric(percentage) == true){
+        double consumedPr =  double.parse(percentage);
+        consumedPercentage = consumedPr.toStringAsFixed(2);
+      } else {
+        consumedPercentage = percentage.toString();
       }
 
-      row.add("${consumedPercentage.toStringAsFixed(2)}%");
+      row.add("$consumedPercentage");
       rowsCells.add(row);
     }
     return dataState.podDetailList.isNotEmpty ?
@@ -62,5 +65,14 @@ class PodDataTableBuilderItemBox extends StatelessWidget {
         ],
       ),
     ) : const Center(child: TextWidget("No Record Found", color: Colors.white,));
+  }
+
+  bool isNumeric(String str) {
+    try{
+      var value = double.parse(str);
+      return true;
+    } on FormatException {
+      return false;
+    }
   }
 }
