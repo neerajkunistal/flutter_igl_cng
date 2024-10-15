@@ -92,6 +92,7 @@ class AddEquipmentComplaintHelper {
       int i = 0;
       for (var fileData in file) {
         if (fileData.path.isNotEmpty) {
+          print(fileData.path.toString());
           fileList.add(FileModel(
               name: "file", file: fileData, keyName: "attachFile[$i]"));
           i++;
@@ -104,7 +105,6 @@ class AddEquipmentComplaintHelper {
               FileModel(name: "file", file: fileData, keyName: "videoFile"));
         }
       }
-
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url, body: json, fileList: fileList, context: context);

@@ -330,16 +330,25 @@ class ServerRequest {
   }
 
   static Future<String> fileCompress({required File file}) async {
-    final filePath = file.path;
-    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    final filePath = file.absolute.path;
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.png|.jp'));
     final splitted = filePath.substring(0, (lastIndex));
-    final outPath = '${splitted}_out${filePath.substring(lastIndex)}';
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.path,
-      outPath,
-      quality: 70,
-    );
-    return result!.path.toString();
+    final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
+
+    if (lastIndex == filePath.lastIndexOf(RegExp(r'.png'))) {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+          filePath, outPath,
+          quality: 50,
+          format: CompressFormat.png);
+      return compressedImage!.path.toString();
+    } else {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        filePath,
+        outPath,
+        quality: 50,
+      );
+      return compressedImage!.path.toString();
+    }
   }
 
   static Future<dynamic> imageUrlConvertToByte64({required var url}) async {

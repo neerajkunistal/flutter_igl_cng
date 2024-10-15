@@ -201,8 +201,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddEquipmentComplaintBloc>(context)
-            .add(AddEquipmentComplaintSelectDateData(context: context));
+    /*    BlocProvider.of<AddEquipmentComplaintBloc>(context)
+            .add(AddEquipmentComplaintSelectDateData(context: context));*/
       },
     );
   }

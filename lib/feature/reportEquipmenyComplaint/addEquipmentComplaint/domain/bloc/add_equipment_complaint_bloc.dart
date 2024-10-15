@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
@@ -65,6 +66,9 @@ class AddEquipmentComplaintBloc
     files.add(File(""));
     files.add(File(""));
     videoFiles.add(File(""));
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    dateController.text = formattedDate;
 
     var resComplaint =
         await AddEquipmentComplaintHelper.fetchComplaintTypeData();
@@ -192,8 +196,18 @@ class AddEquipmentComplaintBloc
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
             .format(!event.context.mounted ? event.context : event.context);
-        timeController.text = timeFormat;
-        _eventComplete(emit);
+
+        final selectedTime =  DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day,  time.hour, time.minute);
+        final currentTime = DateTime.now();
+        final diffMn = currentTime.difference(selectedTime).inMinutes;
+        if(diffMn < 30 && diffMn >= 0){
+          timeController.text = timeFormat;
+          _eventComplete(emit);
+        } else {
+          SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
+              .show(message: "The time should be no later than 30 minutes before the current time.");
+        }
       }
     } catch (e) {
       if (kDebugMode) {
