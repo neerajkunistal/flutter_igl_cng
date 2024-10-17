@@ -27,9 +27,9 @@ class AppString {
 
   static get signIn => "Sign in";
 
-  static get doesNotHaveAccount => "Does not have account?";
+  static get doesNotHaveAccount => "Does Not Have Account?";
 
-  static get continueToSignup => "Continue To Sign up";
+  static get continueToSignup => "Continue To Sign Up";
 
   static get enterOtp => "Enter OTP";
 
@@ -85,7 +85,7 @@ class AppString {
 
   static get serviceUndertaken => "Service  Undertaken At";
 
-  static get complaintReceivedMode => "Complaint received mode";
+  static get complaintReceivedMode => "Complaint Received Mode";
 
   static get customerEmailId => "Customer Email Id";
 
@@ -227,7 +227,7 @@ class AppString {
 
   static get selectUserForAssign => "Select User For Assign";
 
-  static get assignUSer => "Assign user";
+  static get assignUSer => "Assign User";
 
   static get assignType => "Assign Type";
 
@@ -341,7 +341,7 @@ class AppString {
 
   static get totalCngQuantity => "Total Cng Quantity";
 
-  static get yourSignupWasSuccessful => "Your Sign up was successful";
+  static get yourSignupWasSuccessful => "Your Sign Up Was Successful";
 
   static get settings => "Settings";
 
@@ -399,15 +399,15 @@ class AppString {
 
   static get notification => "Notification";
 
-  static get enterStationCode => "Enter station code";
+  static get enterStationCode => "Enter Station Code";
 
-  static get enterStationName => "Enter station name";
+  static get enterStationName => "Enter Station Name";
 
-  static get enterOfficerName => "Enter officer name";
+  static get enterOfficerName => "Enter Officer Name";
 
-  static get enterEmail => "Enter email";
+  static get enterEmail => "Enter Email";
 
-  static get vehicleCompany => "Vehicle company";
+  static get vehicleCompany => "Vehicle Company";
 
   static get vehicleName => "Vehicle Name";
 
@@ -421,7 +421,7 @@ class AppString {
 
   static get selectFuelType => "select Fuel Type";
 
-  static get average => "Vehicle average";
+  static get average => "Vehicle Average";
 
   static get cngUser => "CNG User";
 
@@ -476,7 +476,7 @@ class AppString {
   static get driverFitToDrive => "Driver Fit To Drive";
 
   static get improperLCVLogBooKCorrections =>
-      "Improper LCV logbook / corrections";
+      "Improper LCV logbook / Corrections";
 
   static get availabilityOfMobilWithDriver =>
       "Availability of Mobile with Driver";
@@ -485,18 +485,26 @@ class AppString {
       "Unscheduled Maintenance Penalty Hours";
 
   static get scheduledMaintenancePenaltyHours =>
-      "scheduled Maintenance Penalty Hours";
+      "Scheduled Maintenance Penalty Hours";
 
   static get arrivalTime => "Arrival Time";
   static get lcvPointTime => "Lcv Point Time";
   static get inPressure => "In Pressure";
-  static get driverNotWearingUniform => "Driver not wearing uniform";
+  static get driverNotWearingUniform => "Driver Not Wearing Uniform";
 
   static get plannerGroup => "Planner Group";
 
   static get mainWorkCenter => "Main Work center";
 
   static get personResponsible => "Person Responsible";
+
+  static get note => "Note : ";
+
+  static get selectMeasure => "Select Measure";
+
+  static get enterParticular => "Enter Particular";
+
+  static get estimateAmount => "Estimate Amount";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

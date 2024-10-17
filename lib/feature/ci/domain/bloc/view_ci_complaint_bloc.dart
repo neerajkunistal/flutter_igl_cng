@@ -39,6 +39,7 @@ class ViewCiComplaintBloc
   TextEditingController stationController = TextEditingController();
   TextEditingController filterDateController = TextEditingController();
   TextEditingController estimateRemarkController = TextEditingController();
+  TextEditingController amountRemarkController = TextEditingController();
   List<ControlRoomModel> controlRoomList = [];
   ControlRoomModel controlRoomData = ControlRoomModel();
   FilterModel filterData = FilterModel();
@@ -90,6 +91,7 @@ class ViewCiComplaintBloc
     stationController.text = "";
     filterDateController.text = "";
     estimateRemarkController.text = "";
+    amountRemarkController.text = "";
     isFilterLoader = false;
     listIndex = 0;
     tabIndex = 0;
@@ -380,6 +382,7 @@ class ViewCiComplaintBloc
         cngData: event.cngData,
         complaintStatus: complaintStatusData,
         estimateRemark: estimateRemarkController.text.toString(),
+        estimateAmount: amountRemarkController.text.toString(),
         context: event.context);
     if (res != null) {
       var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
@@ -571,6 +574,7 @@ class ViewCiComplaintBloc
       controlRoomData: controlRoomData,
       controlRoomList: controlRoomList,
       estimateRemarkController: estimateRemarkController,
+      amountRemarkController: amountRemarkController,
     ));
   }
 }

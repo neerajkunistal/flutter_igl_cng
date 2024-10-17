@@ -93,7 +93,6 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
 
   bool get isStartRoute => _isStartRoute;
 
-  late Timer _timer;
 
   RequestBloc() : super(RequestInitial()) {
     on<RequestPageEvent>(_pageLoad);
@@ -183,12 +182,8 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       }
     }
 
-    int i = 0;
     for (var element in polylines) {
       _selectedPolyline.add(element);
-/*      if(element.polylineId.toString() == "PolylineId${i}"){
-        _selectedPolyline.add(element);
-      }*/
     }
 
     BlocProvider.of<NavigationRouteBloc>(event.context)

@@ -52,6 +52,11 @@ class CngModel {
   List<EstimateModel>? estimateList;
   bool? isSelected;
   List<String>? assignmentList;
+  String? particulars;
+  dynamic measurementUnitId;
+  dynamic measurementValue;
+  String? measurementName;
+  String? unit;
 
   CngModel(
       {this.id,
@@ -98,6 +103,12 @@ class CngModel {
       this.estimateRemark,
       this.estimateList,
       this.assignmentList,
+      this.unit,
+      this.measurementName,
+      this.measurementUnitId,
+      this.measurementValue,
+      this.isSelected,
+      this.particulars,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -152,6 +163,12 @@ class CngModel {
     estimateListResponse(jsonDecode(json['civil_complaint_history'])) : [];
     assignmentList = json['assignment_list'] !=  null
         ? json['assignment_list'].cast<String>() : [];
+    particulars  =  json['particulars'] ?? "";
+    measurementValue = json['measurement_value'] ?? "";
+    measurementName = json['measurement_name'] ?? "";
+    unit =  json['unit'] ?? "";
+    measurementUnitId =  json['measurement_unit_id'] ?? "";
+    isSelected =  false;
   }
 
   Map<String, dynamic> toJson() {

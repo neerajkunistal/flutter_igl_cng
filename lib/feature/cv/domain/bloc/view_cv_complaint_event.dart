@@ -155,6 +155,16 @@ class ViewCvComplaintSelectControlRoomDataEvent extends ViewCvComplaintEvent {
   List<Object?> get props => [controlRoomData];
 }
 
+class ViewCvComplaintSelectMeasureDataEvent extends ViewCvComplaintEvent {
+  final MeasureTypeModel measureTypeData;
+
+  const ViewCvComplaintSelectMeasureDataEvent(
+      {required this.measureTypeData,});
+
+  @override
+  List<Object?> get props => [measureTypeData];
+}
+
 class ViewCvComplaintFilterSubmitEvent extends ViewCvComplaintEvent {
   final bool isFilterSubmit;
 

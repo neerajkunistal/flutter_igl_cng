@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
@@ -87,7 +88,6 @@ class AddAssignmentHelper {
           cngStationRouteData: cngStationRouteData,
         ));
       }*/
-      String currentDate = DateFormat("yyyy-mm-dd").format(DateTime.now());
       var json = MotherStationModel().postBodyParam(
         id: assignmentData.id != null ? assignmentData.id.toString() : "",
         lcvEntryTime: lcvEntryTime,

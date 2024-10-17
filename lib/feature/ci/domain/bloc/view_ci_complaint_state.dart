@@ -37,6 +37,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final TextEditingController stationController;
   final TextEditingController filterDateController;
   final TextEditingController estimateRemarkController;
+  final TextEditingController amountRemarkController;
   final List<ControlRoomModel> controlRoomList;
   final ControlRoomModel controlRoomData;
 
@@ -66,6 +67,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.controlRoomList,
     required this.controlRoomData,
     required this.estimateRemarkController,
+    required this.amountRemarkController,
   });
 
   @override
@@ -94,5 +96,6 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
         controlRoomList,
         controlRoomData,
         estimateRemarkController,
+        amountRemarkController,
       ];
 }

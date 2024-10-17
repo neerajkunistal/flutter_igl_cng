@@ -329,6 +329,47 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                       )),
                 ],
               ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Particulars: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.particulars.toString(),
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Measure ${cngData.measurementName}: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        "${cngData.measurementValue} ${cngData.unit}",
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -539,6 +580,12 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
               cngData.assignmentList!.isNotEmpty
+                  ? Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextWidget(AppString.note))
+                  : const SizedBox.shrink(),
+
+              cngData.assignmentList!.isNotEmpty
                   ? CiAssignmentListWidget(assignmentList: cngData.assignmentList!)
                   : const SizedBox.shrink(),
 
@@ -548,7 +595,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   : const SizedBox.shrink(),
 
               cngData.assignTo.toString() != "0" &&
-                  cngData.estimateCost.toString() != "0" &&
+                  cngData.measurementValue.toString().isNotEmpty &&
                   cngData.complaintStatus.toString() == "0" &&
                   ( cngData.estimateStatus.toString() == "0"
                       || cngData.estimateStatus.toString().isEmpty) &&
@@ -557,7 +604,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
-              cngData.estimateCost.toString().isNotEmpty  &&
+              cngData.measurementValue.toString().isNotEmpty  &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
                   cngData.measurementSheetDataTime.toString().isNotEmpty  &&
                   cngData.complaintStatus.toString() != "1"

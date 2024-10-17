@@ -4,8 +4,6 @@ import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/blo
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/db_cng_station_item_box_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/text_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewAssignmentDetailPage extends StatefulWidget {
   const ViewAssignmentDetailPage({super.key});

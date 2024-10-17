@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/model/control_room_model.dart'
 import 'package:flutter_igl_cng/feature/ci/domain/model/filter_model.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
 import 'package:flutter_igl_cng/feature/cv/helper/view_cv_complaint_helper.dart';
 
 part 'view_cv_complaint_event.dart';
@@ -23,6 +24,8 @@ class ViewCvComplaintBloc
   TextEditingController amountController = TextEditingController();
   TextEditingController stationController = TextEditingController();
   TextEditingController filterDateController = TextEditingController();
+  TextEditingController particularController = TextEditingController();
+  TextEditingController measureController = TextEditingController();
   List<File> files = [];
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -38,6 +41,9 @@ class ViewCvComplaintBloc
   List<ControlRoomModel> controlRoomList = [];
   ControlRoomModel controlRoomData = ControlRoomModel();
   FilterModel filterData = FilterModel();
+
+  MeasureTypeModel measureTypeData =  MeasureTypeModel();
+  List<MeasureTypeModel> measureTypeList = [];
 
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
@@ -57,6 +63,7 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintMeasurementSheetSelectFileEvent>(_selectMeasurementSheet);
     on<ViewCvComplaintSubmitEvent>(_submit);
     on<ViewCvComplaintSelectListEvent>(_selectList);
+    on<ViewCvComplaintSelectMeasureDataEvent>(_selectMeasureType);
     on<ViewCvComplaintSubmitMeasurementEvent>(_submitMeasurement);
   }
 
@@ -80,9 +87,12 @@ class ViewCvComplaintBloc
     files = [];
     amountController.text = "";
     stationController.text = "";
+    particularController.text = "";
+    measureController.text = "";
     cngData = CngModel();
     startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
+    measureTypeData =  MeasureTypeModel();
     filterData = FilterModel(
         stationData: stationData,
         controlRoomData: controlRoomData,
@@ -95,6 +105,13 @@ class ViewCvComplaintBloc
     if (res != null) {
       cngList = res;
       cngSearchList = res;
+    }
+
+    if(measureTypeList.isEmpty){
+       var res =  await ViewCvComplaintHelper.fetchMeasureTypeData();
+       if(res != null){
+         measureTypeList =  res;
+       }
     }
     measurementType = MeasurementType.non;
     _eventComplete(emit);
@@ -408,11 +425,20 @@ class ViewCvComplaintBloc
   }
 
   _submit(ViewCvComplaintSubmitEvent event, emit) async {
-    if (amountController.text.toString().isEmpty) {
+    if (particularController.text.toString().isEmpty) {
       SnackBarErrorWidget(event.context)
-          .show(message: "Please enter estimate amount");
+          .show(message: "Please enter particular");
       return;
-    } else if(files.length < 2){
+    }
+    else if (measureTypeData.id == null) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select measure");
+      return;
+    } else if (measureController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please enter ${measureTypeData.unit.toString()}");
+      return;
+    }  else if(files.length < 2){
       SnackBarErrorWidget(event.context)
           .show(message: "Please select two estimate image and document");
       return;
@@ -423,6 +449,9 @@ class ViewCvComplaintBloc
         cngData: event.cngData,
         amount: amountController.text.toString(),
         context: event.context,
+        measureTypeData: measureTypeData,
+        particular:  particularController.text.toString(),
+        measurementValue:  measureController.text.toString(),
         file: files);
     if (res != null) {
       var resComplaint = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
@@ -479,6 +508,12 @@ class ViewCvComplaintBloc
     } else if (cngData.measurementSheetStatus.toString() != "1") {
       measurementType = MeasurementType.sheet;
     }
+    _eventComplete(emit);
+  }
+
+  _selectMeasureType(ViewCvComplaintSelectMeasureDataEvent event, emit) {
+    measureTypeData =  event.measureTypeData;
+    measureController.text = "";
     _eventComplete(emit);
   }
 
@@ -566,6 +601,10 @@ class ViewCvComplaintBloc
       filterDateController: filterDateController,
       controlRoomData: controlRoomData,
       controlRoomList: controlRoomList,
+      measureTypeData: measureTypeData,
+      measureTypeList: measureTypeList,
+      measureController: measureController,
+      particularController: particularController,
     ));
   }
 }
