@@ -136,6 +136,7 @@ class ViewCiComplaintHelper {
       {required CngModel cngData,
       required ComplaintStatus complaintStatus,
       required String estimateRemark,
+      required String estimateAmount,
       required BuildContext context}) async {
     try {
       String url = APIs.estimateComplaintApproveApi;
@@ -143,6 +144,7 @@ class ViewCiComplaintHelper {
         "complaintId": cngData.id.toString(),
         "statusType": complaintStatus.id.toString(),
         "estimateRemark": estimateRemark,
+        "estimateCost": estimateAmount,
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&

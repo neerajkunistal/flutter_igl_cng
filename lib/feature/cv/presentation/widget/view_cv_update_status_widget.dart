@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
 
 class ViewCvUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
@@ -35,7 +36,23 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.08,
         ),
-        _amountController(dataState: dataState, context: context),
+        // _amountController(dataState: dataState, context: context),
+        _particularController(dataState: dataState),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.08,
+        ),
+        _measureTypDropDown(dataState: dataState, context: context),
+
+        dataState.measureTypeData.name != null ?
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.08,
+        ) : const SizedBox.shrink(),
+
+        dataState.measureTypeData.name != null ?
+        _measureController(dataState: dataState)
+            : const SizedBox.shrink(),
+
+
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.04,
         ),
@@ -63,7 +80,50 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
       isRequired: true,
       controller: dataState.amountController,
       textInputType: TextInputType.number,
-      labelText: "Approximate Estimated amount",
+      labelText: "Approximate Estimated Amount",
+    );
+  }
+
+  Widget _particularController(
+      {required FetchViewCvComplaintDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      controller: dataState.particularController,
+      textInputType: TextInputType.text,
+      labelText: AppString.enterParticular,
+    );
+  }
+
+  Widget _measureTypDropDown(
+      {required FetchViewCvComplaintDataState dataState,
+        required BuildContext context}) {
+    return  DropdownWidget(
+      hint: AppString.selectMeasure,
+      dropdownValue: dataState.measureTypeData.id != null
+          ? dataState.measureTypeData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<ViewCvComplaintBloc>(context)
+            .add(ViewCvComplaintSelectMeasureDataEvent(measureTypeData: value));
+      },
+      items: dataState.measureTypeList
+          .map<DropdownMenuItem<MeasureTypeModel>>(
+              (MeasureTypeModel measureTypeData) {
+            return DropdownMenuItem<MeasureTypeModel>(
+              value: measureTypeData,
+              child: TextWidget(measureTypeData.name.toString()),
+            );
+          }).toList(),
+    );
+  }
+
+  Widget _measureController(
+      {required FetchViewCvComplaintDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      controller: dataState.measureController,
+      textInputType: dataState.measureTypeData.dataType == DataType.number ? TextInputType.number : TextInputType.text,
+      labelText: dataState.measureTypeData.unit.toString(),
     );
   }
 

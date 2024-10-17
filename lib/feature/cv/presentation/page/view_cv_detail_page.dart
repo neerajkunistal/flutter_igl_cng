@@ -265,6 +265,48 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                       )),
                 ],
               ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Particulars: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.particulars.toString(),
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Measure ${cngData.measurementName}: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        "${cngData.measurementValue} ${cngData.unit}",
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
+
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -486,7 +528,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
 
-              cngData.estimateCost.toString() == "0"
+              cngData.measurementValue.toString().isEmpty
                   || cngData.estimateStatus.toString() == "2" &&
                    cngData.complaintStatus.toString() == "0"
                   ? ViewCvUpdateStatusWidget(cngData: cngData)

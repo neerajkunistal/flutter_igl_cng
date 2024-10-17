@@ -116,7 +116,6 @@ class ViewCngBloc extends Bloc<ViewCngEvent, ViewCngState> {
       cngList =  cngSearchList.where((element) => element.complaintStatus.toString() == "1").toList();
     }
 
-
     _eventComplete(emit);
   }
 

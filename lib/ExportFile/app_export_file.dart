@@ -25,6 +25,7 @@ export 'package:flutter_igl_cng/feature/dashboard/presentation/widget/phone_dash
 export 'package:flutter_igl_cng/feature/dashboard/presentation/widget/tablet_dashboard_widget.dart';
 export 'package:flutter_igl_cng/feature/home/domain/bloc/home_bloc.dart';
 export 'package:flutter_igl_cng/feature/login/domain/bloc/login_bloc.dart';
+export 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
 export 'package:flutter_igl_cng/feature/miComplaint/domain/bloc/mi_complaint_bloc.dart';
 export 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/bloc/add_equipment_complaint_bloc.dart';
 export 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
@@ -67,4 +68,3 @@ export 'package:image_picker/image_picker.dart';
 export 'package:intl/intl.dart';
 export 'package:provider/provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
-export 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';

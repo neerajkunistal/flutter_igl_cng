@@ -4,7 +4,6 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/mother_station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/helper/add_assignment_helper.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/helper/cng_station_helper.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboa
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/model/lcv_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/helper/view_lcv_track_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/helper/request_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'add_assignment_event.dart';

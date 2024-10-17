@@ -34,6 +34,10 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final bool isStationLoader;
   final List<ControlRoomModel> controlRoomList;
   final ControlRoomModel controlRoomData;
+  final MeasureTypeModel measureTypeData;
+  final List<MeasureTypeModel> measureTypeList;
+  final TextEditingController particularController;
+  final TextEditingController measureController;
 
   FetchViewCvComplaintDataState({
     required this.cngList,
@@ -55,6 +59,10 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
     required this.filterDateController,
     required this.controlRoomData,
     required this.controlRoomList,
+    required this.measureTypeData,
+    required this.measureTypeList,
+    required this.particularController,
+    required this.measureController,
   });
 
   @override
@@ -78,5 +86,9 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
        filterDateController,
        controlRoomList,
        controlRoomData,
+       measureTypeData,
+       measureTypeList,
+       particularController,
+       measureController,
       ];
 }

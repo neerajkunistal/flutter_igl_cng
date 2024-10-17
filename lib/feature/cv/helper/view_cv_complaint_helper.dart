@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 
 class ViewCvComplaintHelper {
+
+  static Future<dynamic> fetchMeasureTypeData() async {
+
+    try{
+      String url =  APIs.getMeasurementsApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['status'] != null
+          && res['status'] == true && res['data'] != null){
+         return measureTypeListResponse(res['data']);
+      }
+      return null;
+    }catch(_){
+      return null;
+    }
+  }
 
   static Future<dynamic> addCivilVendorComplaintApi(
       {String? fromDate, String? toDate}) async {
@@ -27,6 +43,9 @@ class ViewCvComplaintHelper {
       {required CngModel cngData,
       required String amount,
       required BuildContext context,
+      required MeasureTypeModel measureTypeData,
+      required String particular,
+      required String measurementValue,
       required List<File> file}) async {
     try {
 
@@ -43,6 +62,10 @@ class ViewCvComplaintHelper {
       var json = {
         "complaintId": cngData.id.toString(),
         "estimateCost": amount.toString(),
+        "particulars" : particular,
+        "measurement_unit_id" : measureTypeData.id != null
+            ? measureTypeData.id.toString() : "0",
+        "measurement_value" : measurementValue,
       };
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,

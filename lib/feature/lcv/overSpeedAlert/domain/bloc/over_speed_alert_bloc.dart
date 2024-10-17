@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/domain/model/over_speed_alert_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/helper/over_speed_alert_helper.dart';
 

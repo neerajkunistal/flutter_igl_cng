@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -303,7 +302,6 @@ class CngFillingFormBloc
       filEndTime = fillEndTimeController.text.toString().isNotEmpty ? "${filEndTimeInitialDate.hour}:${filEndTimeInitialDate.minute}:00" : "";
     }
 
-    String currentDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
 
     var res = await CngFillingStationHelper.updateCngFillingStationList(
         userDat: userData,

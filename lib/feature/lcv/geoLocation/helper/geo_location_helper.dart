@@ -97,8 +97,7 @@ class GeoLocationHelper {
   }
 
   static Future<Position> getGeoLocationPosition() async {
-    Map<Permission, PermissionStatus> status =
-        await [Permission.location].request();
+    await [Permission.location].request();
     bool serviceEnabled;
     LocationPermission permission;
     serviceEnabled = await Geolocator.isLocationServiceEnabled();

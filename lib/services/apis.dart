@@ -149,5 +149,7 @@ class APIs {
 
   static get markOverSpeedApi => "api/lcv/markAlertAsShown";
 
+  static get getMeasurementsApi => "api/cv/getMeasurements";
+
   static get forgotPasswordApi => "";
 }

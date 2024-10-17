@@ -1,16 +1,6 @@
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
-import 'package:intl/intl.dart';
 
 part 'add_equipment_complaint_event.dart';
 part 'add_equipment_complaint_state.dart';
@@ -206,7 +196,7 @@ class AddEquipmentComplaintBloc
           _eventComplete(emit);
         } else {
           SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
-              .show(message: "The time should be no later than 30 minutes before the current time.");
+              .show(message: "Not Before 30 Mins To Current Time.");
         }
       }
     } catch (e) {

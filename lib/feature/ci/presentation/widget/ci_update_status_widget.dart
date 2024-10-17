@@ -49,15 +49,29 @@ class CiUpdateStatusWidget extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
+
+               dataState.complaintStatusData.id == "1"
+                  ? _amountRemarkController(
+                  dataState: dataState, context: context)
+                  : const SizedBox.shrink(),
+
+               dataState.complaintStatusData.id == "1"
+                  ? SizedBox(
+                height: MediaQuery.of(context).size.width * 0.04,
+              ) : const SizedBox.shrink(),
+
               dataState.complaintStatusData.id == "2"
+                  ||  dataState.complaintStatusData.id == "1"
                   ? _estimateRemarkController(
                       dataState: dataState, context: context)
                   : const SizedBox.shrink(),
               dataState.complaintStatusData.id == "2"
+                  ||  dataState.complaintStatusData.id == "1"
                   ? SizedBox(
                       height: MediaQuery.of(context).size.width * 0.04,
                     )
                   : const SizedBox.shrink(),
+
               _submitButton(dataState: dataState, context: context),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
@@ -107,6 +121,18 @@ class CiUpdateStatusWidget extends StatelessWidget {
       child: TextFieldWidget(
         controller: dataState.estimateRemarkController,
         labelText: AppString.remark,
+      ),
+    );
+  }
+
+  Widget _amountRemarkController(
+      {required FetchViewCiComplaintDataState dataState,
+        required BuildContext context}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: TextFieldWidget(
+        controller: dataState.amountRemarkController,
+        labelText: AppString.estimateAmount,
       ),
     );
   }
