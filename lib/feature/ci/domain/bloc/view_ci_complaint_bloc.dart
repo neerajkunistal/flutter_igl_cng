@@ -47,6 +47,10 @@ class ViewCiComplaintBloc
   DateTime finalDate = DateTime.now();
   CngModel cngData = CngModel();
 
+  String selectedVendorId =  "";
+
+  bool isSendToReview =  false;
+
   ViewCiComplaintBloc() : super(ViewCiComplaintInitial()) {
     on<ViewCiComplaintPageLoadEvent>(_pageLoad);
     on<ViewCiComplaintSearchDataEvent>(_search);
@@ -62,6 +66,8 @@ class ViewCiComplaintBloc
     on<ViewCiComplaintFinalApproveEvent>(_finalApprove);
     on<ViewCiComplaintSelectStationDataEvent>(_selectStation);
     on<ViewCiComplaintFetchStationDataEvent>(_fetchStation);
+    on<ViewCiComplaintSelectVendorTableValueEvent>(_selectVendorTableValueEvent);
+    on<ViewCiComplaintSendToReviewEvent>(_sendToReview);
     on<ViewCiComplaintFinalApproveDateEvent>(_finalDate);
     on<ViewCiComplaintSelectControlRoomDataEvent>(_selectControlRoom);
     on<ViewCiComplaintSearchStationEvent>(_searchStation);
@@ -92,7 +98,9 @@ class ViewCiComplaintBloc
     filterDateController.text = "";
     estimateRemarkController.text = "";
     amountRemarkController.text = "";
+    selectedVendorId =  "";
     isFilterLoader = false;
+    isSendToReview =  false;
     listIndex = 0;
     tabIndex = 0;
     startDate = DateTime.now().subtract(const Duration(days: 15));
@@ -211,6 +219,8 @@ class ViewCiComplaintBloc
     cngSearchList = [];
     isFilterLoader = true;
     isVendorAssignLoader = false;
+    isSendToReview =  false;
+    selectedVendorId =  "";
     _eventComplete(emit);
 
     startDate = DateTime.now().subtract(const Duration(days: 15));
@@ -334,9 +344,15 @@ class ViewCiComplaintBloc
     isVendorAssignLoader = true;
     isFilterLoader = true;
     _eventComplete(emit);
-    var res = await ViewCiComplaintHelper.assignVendor(
-        cngData: event.cngData, vendorData: vendorData, context: event.context);
-
+    dynamic res;
+    if(isSendToReview == true){
+      ComplaintStatus complaintData =  ComplaintStatus(id: "4", status: "Send To Review");
+      res = await ViewAmoComplaintHelper.civilComplaintApprove(
+          cngData: cngData, complaintStatus: complaintData, context: event.context);
+    } else {
+      res = await ViewCiComplaintHelper.assignVendor(
+          cngData: event.cngData, vendorData: vendorData, context: event.context);
+    }
     if (res != null) {
       var resComplaint = await ViewCiComplaintHelper.fetchCivilData(
           fromDate: startDate.toString(), toDate: endDate.toString());
@@ -548,6 +564,16 @@ class ViewCiComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectVendorTableValueEvent(ViewCiComplaintSelectVendorTableValueEvent event, emit) {
+    selectedVendorId =  event.selectedVendorId;
+    _eventComplete(emit);
+  }
+
+  _sendToReview(ViewCiComplaintSendToReviewEvent event, emit) {
+    isSendToReview =  event.isSendToReview;
+    _eventComplete(emit);
+  }
+
   _eventComplete(Emitter<ViewCiComplaintState> emit) {
     emit(FetchViewCiComplaintDataState(
       cngList: cngList,
@@ -575,6 +601,8 @@ class ViewCiComplaintBloc
       controlRoomList: controlRoomList,
       estimateRemarkController: estimateRemarkController,
       amountRemarkController: amountRemarkController,
+      selectedVendorId: selectedVendorId,
+      isSendToReview: isSendToReview,
     ));
   }
 }

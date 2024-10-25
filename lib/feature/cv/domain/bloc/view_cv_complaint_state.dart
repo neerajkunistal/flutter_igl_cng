@@ -38,6 +38,8 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
   final List<MeasureTypeModel> measureTypeList;
   final TextEditingController particularController;
   final TextEditingController measureController;
+  final List<ParticularModel> particularList;
+  final bool isParticularWidgetShow;
 
   FetchViewCvComplaintDataState({
     required this.cngList,
@@ -63,6 +65,8 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
     required this.measureTypeList,
     required this.particularController,
     required this.measureController,
+    required this.particularList,
+    required this.isParticularWidgetShow,
   });
 
   @override
@@ -90,5 +94,7 @@ final class FetchViewCvComplaintDataState extends ViewCvComplaintInitial {
        measureTypeList,
        particularController,
        measureController,
+       particularList,
+      isParticularWidgetShow,
       ];
 }

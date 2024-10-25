@@ -40,6 +40,8 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final TextEditingController amountRemarkController;
   final List<ControlRoomModel> controlRoomList;
   final ControlRoomModel controlRoomData;
+  final String selectedVendorId;
+  final bool isSendToReview;
 
 
   FetchViewCiComplaintDataState({
@@ -68,6 +70,8 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.controlRoomData,
     required this.estimateRemarkController,
     required this.amountRemarkController,
+    required this.selectedVendorId,
+    required this.isSendToReview,
   });
 
   @override
@@ -97,5 +101,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
         controlRoomData,
         estimateRemarkController,
         amountRemarkController,
+        selectedVendorId,
+        isSendToReview,
       ];
 }

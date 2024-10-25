@@ -47,6 +47,10 @@ class ViewCiComplaintHelper {
       required VendorModel vendorData,
       required BuildContext context}) async {
     try {
+      if(vendorData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select vendor");
+        return;
+      }
       String url = APIs.assignVendorApi;
       var json = {
         "complaintId": cngData.id.toString(),

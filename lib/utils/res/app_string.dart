@@ -506,6 +506,17 @@ class AppString {
 
   static get estimateAmount => "Estimate Amount";
 
+  static get estimateComment => "Estimate Comment";
+
+  static get particular => "Particular";
+
+  static get measure => "Measure";
+
+  static get sendToReview => "Send To Review";
+
+  static get provisionallyApproved => "Provisionally Approved";
+
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

@@ -211,6 +211,8 @@ class _ViewAmoDetailPageState extends State<ViewAmoDetailPage> {
                             ? "Open"
                             : cngData.complaintStatus.toString() == "1"
                             ? "Closed"
+                            : cngData.complaintStatus.toString() == "4"
+                            ? AppString.sendToReview
                             : "Rejected",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -219,6 +221,8 @@ class _ViewAmoDetailPageState extends State<ViewAmoDetailPage> {
                             ? AppColor.orange
                             : cngData.complaintStatus.toString() == "1"
                             ? AppColor.green
+                            : cngData.complaintStatus.toString() == "4"
+                            ? AppColor.orange
                             : AppColor.red,
                       )),
                 ],

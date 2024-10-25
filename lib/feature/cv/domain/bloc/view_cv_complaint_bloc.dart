@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/model/filter_model.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 import 'package:flutter_igl_cng/feature/cv/helper/view_cv_complaint_helper.dart';
 
 part 'view_cv_complaint_event.dart';
@@ -45,6 +46,9 @@ class ViewCvComplaintBloc
   MeasureTypeModel measureTypeData =  MeasureTypeModel();
   List<MeasureTypeModel> measureTypeList = [];
 
+  List<ParticularModel> particularList = [];
+  bool isParticularWidgetShow = true;
+
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
     on<ViewCvComplaintSearchDataEvent>(_search);
@@ -64,6 +68,8 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintSubmitEvent>(_submit);
     on<ViewCvComplaintSelectListEvent>(_selectList);
     on<ViewCvComplaintSelectMeasureDataEvent>(_selectMeasureType);
+    on<ViewCvComplaintAddParticularEvent>(_addParticular);
+    on<ViewCvComplaintRemoveParticularEvent>(_removeParticular);
     on<ViewCvComplaintSubmitMeasurementEvent>(_submitMeasurement);
   }
 
@@ -80,6 +86,7 @@ class ViewCvComplaintBloc
     complaintStatusData = ComplaintStatus();
     isLoader = false;
     stationList = [];
+    particularList = [];
     stationData = StationModel();
     isStationLoader = false;
     isFilterLoader = false;
@@ -89,6 +96,7 @@ class ViewCvComplaintBloc
     stationController.text = "";
     particularController.text = "";
     measureController.text = "";
+    isParticularWidgetShow = true;
     cngData = CngModel();
     startDate = DateTime.now().subtract(const Duration(days: 15));
     endDate = DateTime.now();
@@ -425,24 +433,12 @@ class ViewCvComplaintBloc
   }
 
   _submit(ViewCvComplaintSubmitEvent event, emit) async {
-    if (particularController.text.toString().isEmpty) {
+    if (particularList.isEmpty) {
       SnackBarErrorWidget(event.context)
-          .show(message: "Please enter particular");
+          .show(message: "Please add particular data");
       return;
     }
-    else if (measureTypeData.id == null) {
-      SnackBarErrorWidget(event.context)
-          .show(message: "Please select measure");
-      return;
-    } else if (measureController.text.toString().isEmpty) {
-      SnackBarErrorWidget(event.context)
-          .show(message: "Please enter ${measureTypeData.unit.toString()}");
-      return;
-    }  else if(files.length < 2){
-      SnackBarErrorWidget(event.context)
-          .show(message: "Please select two estimate image and document");
-      return;
-    }
+
     isLoader = true;
     _eventComplete(emit);
     var res = await ViewCvComplaintHelper.addEstimateData(
@@ -452,8 +448,11 @@ class ViewCvComplaintBloc
         measureTypeData: measureTypeData,
         particular:  particularController.text.toString(),
         measurementValue:  measureController.text.toString(),
+        particularList: particularList,
         file: files);
     if (res != null) {
+      particularList = [];
+      isParticularWidgetShow = true;
       var resComplaint = await ViewCvComplaintHelper.addCivilVendorComplaintApi(
           fromDate: startDate.toString(), toDate: endDate.toString());
       if (resComplaint != null) {
@@ -514,6 +513,57 @@ class ViewCvComplaintBloc
   _selectMeasureType(ViewCvComplaintSelectMeasureDataEvent event, emit) {
     measureTypeData =  event.measureTypeData;
     measureController.text = "";
+    _eventComplete(emit);
+  }
+
+  _addParticular(ViewCvComplaintAddParticularEvent event, emit) {
+    if(isParticularWidgetShow == false) {
+      isParticularWidgetShow =  true;
+      _eventComplete(emit);
+      return;
+    }
+    if (particularController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please enter particular");
+      return;
+    }
+    else if (measureTypeData.id == null) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select measure");
+      return;
+    } else if (measureController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please enter ${measureTypeData.unit.toString()}");
+      return;
+    }  else if(files.length < 2){
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select two estimate image and document");
+      return;
+    }
+    particularList.add(
+      ParticularModel(
+        name: particularController.text.toString(),
+        measureTypeData: measureTypeData,
+        measurementValue: measureController.text.toString(),
+        fileList: files,
+      )
+    );
+    measureController.text = "";
+    measureTypeData =  MeasureTypeModel();
+    particularController.text = "";
+    files =  [];
+    isParticularWidgetShow =  false;
+    _eventComplete(emit);
+  }
+
+  _removeParticular(ViewCvComplaintRemoveParticularEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    particularList.removeAt(event.index);
+    isLoader =  false;
+    if(particularList.isEmpty){
+      isParticularWidgetShow =  true;
+    }
     _eventComplete(emit);
   }
 
@@ -605,6 +655,8 @@ class ViewCvComplaintBloc
       measureTypeList: measureTypeList,
       measureController: measureController,
       particularController: particularController,
+      particularList: particularList,
+      isParticularWidgetShow: isParticularWidgetShow,
     ));
   }
 }

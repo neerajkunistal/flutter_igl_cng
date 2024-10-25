@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
+import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_particular_widget_item_box.dart';
 
 class ViewCvUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
@@ -15,7 +18,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
       builder: (context, state) {
         if (state is FetchViewCvComplaintDataState) {
           return state.cngData.estimateList!.length < 4 ?
-          _itemBuilder(dataState: state, context: context)
+          _widgetBuilder(dataState: state, context: context)
               : const SizedBox.shrink();
         } else {
           return _centerLoader();
@@ -27,6 +30,32 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
   Widget _centerLoader() {
     return const Center(child: CenterLoaderWidget());
   }
+
+  Widget _widgetBuilder({required FetchViewCvComplaintDataState dataState,
+    required BuildContext context}) {
+    return Column(
+      children: [
+
+        dataState.particularList.isNotEmpty ?
+        ViewParticularWidgetItemBox(particularList: dataState.particularList)
+            : const SizedBox.shrink(),
+
+        dataState.isParticularWidgetShow == true
+            ? _itemBuilder(dataState: dataState, context: context)
+            : const SizedBox.shrink(),
+
+        _addButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+        _submitButton(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.04,
+        ),
+      ],
+    );
+  }
+
 
   Widget _itemBuilder(
       {required FetchViewCvComplaintDataState dataState,
@@ -65,13 +94,13 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
               context: context),
         ),
         _imageList(dataState: dataState),
-        _submitButton(dataState: dataState, context: context),
         SizedBox(
           height: MediaQuery.of(context).size.width * 0.04,
         ),
       ],
     );
   }
+
 
   Widget _amountController(
       {required FetchViewCvComplaintDataState dataState,
@@ -276,6 +305,31 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
         );
       },
     );
+  }
+
+
+  Widget _addButton(
+      {required FetchViewCvComplaintDataState dataState,
+        required BuildContext context}) {
+    return dataState.isLoader == false
+        ? Align(
+         alignment: Alignment.centerRight,
+          child: SizedBox(
+                width: dataState.particularList.isEmpty ?
+                MediaQuery.of(context).size.width * 0.27
+                    : MediaQuery.of(context).size.width * 0.37,
+                child: ButtonWidget(
+            fontSize: AppFont.font_12,
+            text: dataState.particularList.isEmpty
+                ?  AppString.add
+                : AppString.addMore,
+            backgroundColor: AppColor.themeSecondary,
+            onPressed: () {
+              BlocProvider.of<ViewCvComplaintBloc>(context)
+                  .add(ViewCvComplaintAddParticularEvent(context: context));
+           }
+          )),
+        ): const DottedLoaderWidget();
   }
 
 

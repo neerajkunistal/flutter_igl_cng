@@ -185,6 +185,8 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                       ? "Open"
                       : cngData.complaintStatus.toString() == "1"
                           ? "Closed"
+                          : cngData.complaintStatus.toString() == "4"
+                          ? AppString.sendToReview
                           : "Reject",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
@@ -192,6 +194,8 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                       ? AppColor.orange
                       : cngData.complaintStatus.toString() == "1"
                           ? AppColor.green
+                          : cngData.complaintStatus.toString() == "4"
+                          ? AppColor.orange
                           : AppColor.red,
                   textAlign: TextAlign.end,
                 )),

@@ -145,7 +145,7 @@ class CiUpdateStatusWidget extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             child: ButtonWidget(
                 fontSize: AppFont.font_12,
-                text: "Submit",
+                text: AppString.provisionallyApproved,
                 onPressed: () {
                   BlocProvider.of<ViewCiComplaintBloc>(context).add(
                       ViewCiComplaintEstimateApproveEvent(

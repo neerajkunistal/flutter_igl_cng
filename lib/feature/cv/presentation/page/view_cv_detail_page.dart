@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_history_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
@@ -265,80 +266,23 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                       )),
                 ],
               ),
-
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              _particularData(cngData: cngData),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               Row(
                 children: [
                   TextWidget(
-                    "Particulars: ",
+                    AppString.estimateComment,
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        cngData.particulars.toString(),
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Measure ${cngData.measurementName}: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        "${cngData.measurementValue} ${cngData.unit}",
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-
-
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Estimate Cost: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        cngData.estimateCost.toString(),
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Estimate Cost Date: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        estimateDateTime,
+                        "${cngData.estimateRemark}",
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -528,7 +472,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
 
-              cngData.measurementValue.toString().isEmpty
+              cngData.particularList.toString().isEmpty
                   || cngData.estimateStatus.toString() == "2" &&
                    cngData.complaintStatus.toString() == "0"
                   ? ViewCvUpdateStatusWidget(cngData: cngData)
@@ -546,5 +490,58 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
         ),
       ],
     );
+  }
+
+  Widget _particularData({required CngModel cngData }) {
+    return ListView.builder(
+         itemCount: cngData.particularList!.length,
+         shrinkWrap: true,
+         physics: const NeverScrollableScrollPhysics(),
+         itemBuilder: (context, index) {
+         ParticularModel  particularData =  cngData.particularList![index];
+      return Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.width * 0.02,
+          ),
+          Row(
+            children: [
+              TextWidget(
+                "Particulars: ",
+                fontWeight: FontWeight.w500,
+                fontSize: AppFont.font_13,
+              ),
+              Expanded(
+                  child: TextWidget(
+                    particularData.name.toString(),
+                    textAlign: TextAlign.end,
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  )),
+            ],
+          ),
+
+          SizedBox(
+            height: MediaQuery.of(context).size.width * 0.02,
+          ),
+          Row(
+            children: [
+              TextWidget(
+                "Measure ${particularData.measurementName}: ",
+                fontWeight: FontWeight.w500,
+                fontSize: AppFont.font_13,
+              ),
+              Expanded(
+                  child: TextWidget(
+                    "${particularData.measurementValue} ${particularData.measurementUnit}",
+                    textAlign: TextAlign.end,
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  )),
+            ],
+          ),
+        ],
+      );
+    });
   }
 }

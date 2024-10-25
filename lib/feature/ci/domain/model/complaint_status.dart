@@ -8,6 +8,7 @@ class ComplaintStatus {
     List<ComplaintStatus> list = [];
     list.add(ComplaintStatus(id: "1", status: "Approve"));
     list.add(ComplaintStatus(id: "2", status: "Reject"));
+    list.add(ComplaintStatus(id: "4", status: "Send To Review"));
     return list;
   }
 }

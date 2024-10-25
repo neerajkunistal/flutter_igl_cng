@@ -7,12 +7,19 @@ class VendorModel {
   String? companyName;
   String? vendorCode;
 
-  VendorModel({this.id, this.companyName, this.vendorCode});
+
+  VendorModel({
+    this.id,
+    this.companyName,
+    this.vendorCode,
+
+  });
 
   VendorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'] ?? "";
     companyName = json['company_name'] ?? "";
     vendorCode = json['vendor_code'] ?? "";
+
   }
 
   Map<String, dynamic> toJson() {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/estimate_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 
 List<CngModel> cngListResponse(var json) {
   return List<CngModel>.from(json.map((x) => CngModel.fromJson(x)));
@@ -57,6 +58,7 @@ class CngModel {
   dynamic measurementValue;
   String? measurementName;
   String? unit;
+  List<ParticularModel>?  particularList;
 
   CngModel(
       {this.id,
@@ -109,6 +111,7 @@ class CngModel {
       this.measurementValue,
       this.isSelected,
       this.particulars,
+      this.particularList,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -169,6 +172,8 @@ class CngModel {
     unit =  json['unit'] ?? "";
     measurementUnitId =  json['measurement_unit_id'] ?? "";
     isSelected =  false;
+    particularList = json['particulars_details'] != null
+        ? particularModelListResponse(jsonDecode(json['particulars_details'])) : [];
   }
 
   Map<String, dynamic> toJson() {

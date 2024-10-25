@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assignment_lis
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_history_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -253,6 +254,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                             ? "Pending"
                             : cngData.complaintStatus.toString() == "1"
                             ? "Closed"
+                            : cngData.complaintStatus.toString() == "4"
+                            ? AppString.sendToReview
                             : "Rejected",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -260,6 +263,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                             ? AppColor.orange
                             : cngData.complaintStatus.toString() == "1"
                             ? AppColor.green
+                            : cngData.complaintStatus.toString() == "4"
+                            ? AppColor.orange
                             : AppColor.red,
                         textAlign: TextAlign.end,
                       )),
@@ -333,43 +338,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Particulars: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        cngData.particulars.toString(),
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Measure ${cngData.measurementName}: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        "${cngData.measurementValue} ${cngData.unit}",
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-
+              _particularData(cngData: cngData),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -402,6 +371,26 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   Expanded(
                       child: TextWidget(
                         estimateDateTime,
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Estimate Remark: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        cngData.estimateRemark.toString(),
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -442,7 +431,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Estimate Remark : ",
+                    AppString.estimateComment,
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -595,7 +584,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   : const SizedBox.shrink(),
 
               cngData.assignTo.toString() != "0" &&
-                  cngData.measurementValue.toString().isNotEmpty &&
+                  cngData.particularList.toString().isNotEmpty &&
                   cngData.complaintStatus.toString() == "0" &&
                   ( cngData.estimateStatus.toString() == "0"
                       || cngData.estimateStatus.toString().isEmpty) &&
@@ -604,7 +593,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
-              cngData.measurementValue.toString().isNotEmpty  &&
+              cngData.particularList.toString().isNotEmpty  &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
                   cngData.measurementSheetDataTime.toString().isNotEmpty  &&
                   cngData.complaintStatus.toString() != "1"
@@ -615,5 +604,58 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
         )
       ],
     );
+  }
+
+  Widget _particularData({required CngModel cngData }) {
+    return ListView.builder(
+        itemCount: cngData.particularList!.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          ParticularModel  particularData =  cngData.particularList![index];
+          return Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Particulars: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        particularData.name.toString(),
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+
+              SizedBox(
+                height: MediaQuery.of(context).size.width * 0.02,
+              ),
+              Row(
+                children: [
+                  TextWidget(
+                    "Measure ${particularData.measurementName}: ",
+                    fontWeight: FontWeight.w500,
+                    fontSize: AppFont.font_13,
+                  ),
+                  Expanded(
+                      child: TextWidget(
+                        "${particularData.measurementValue} ${particularData.measurementUnit}",
+                        textAlign: TextAlign.end,
+                        fontWeight: FontWeight.w500,
+                        fontSize: AppFont.font_13,
+                      )),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

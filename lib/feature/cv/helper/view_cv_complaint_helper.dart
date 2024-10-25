@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 
 class ViewCvComplaintHelper {
@@ -46,30 +47,40 @@ class ViewCvComplaintHelper {
       required MeasureTypeModel measureTypeData,
       required String particular,
       required String measurementValue,
+      required List<ParticularModel> particularList,
       required List<File> file}) async {
     try {
 
       List<FileModel> files = [];
+      Map<String, String> particularJson = {};
+
       int i = 0;
-      for (var fileData in file) {
-        if (fileData.path.isNotEmpty) {
-          files.add(FileModel(
-              name: "file", file: fileData, keyName: "estimateFile[$i]"));
-          i++;
+      for(var particularData in particularList){
+        var jsonValue = {
+          "particulars[$i]" : "${particularData.name}",
+          "measurement_unit_id[$i]" : particularData.measureTypeData!.id != null
+              ? particularData.measureTypeData!.id.toString() : "0",
+          "measurement_value[$i]" : "${particularData.measurementValue}",
+        };
+        particularJson.addAll(jsonValue);
+        for (var fileData in particularData.fileList!) {
+          if (fileData.path.isNotEmpty) {
+            files.add(FileModel(
+                name: "file", file: fileData, keyName: "estimateFile[$i]"));
+          }
         }
+        i++;
       }
+
       String url = APIs.addEstimateApi;
       var json = {
         "complaintId": cngData.id.toString(),
         "estimateCost": amount.toString(),
-        "particulars" : particular,
-        "measurement_unit_id" : measureTypeData.id != null
-            ? measureTypeData.id.toString() : "0",
-        "measurement_value" : measurementValue,
       };
+      particularJson.addAll(json);
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
-          body: json,
+          body: particularJson,
           fileList: files,
           context: context);
       if (res != null &&

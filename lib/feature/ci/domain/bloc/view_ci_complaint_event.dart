@@ -153,6 +153,26 @@ class ViewCiComplaintFilterSubmitEvent extends ViewCiComplaintEvent {
   List<Object?> get props => [isFilterSubmit];
 }
 
+class ViewCiComplaintSelectVendorTableValueEvent extends ViewCiComplaintEvent {
+  final String selectedVendorId;
+
+  const ViewCiComplaintSelectVendorTableValueEvent(
+      {required this.selectedVendorId,});
+
+  @override
+  List<Object?> get props => [selectedVendorId];
+}
+
+class ViewCiComplaintSendToReviewEvent extends ViewCiComplaintEvent {
+  final bool isSendToReview;
+
+  const ViewCiComplaintSendToReviewEvent(
+      {required this.isSendToReview,});
+
+  @override
+  List<Object?> get props => [isSendToReview];
+}
+
 class ViewCiComplaintFinalApproveEvent extends ViewCiComplaintEvent {
   final BuildContext context;
   final CngModel cngData;

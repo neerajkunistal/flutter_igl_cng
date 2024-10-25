@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/vendor_list_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class CiAssignWidget extends StatelessWidget {
   final CngModel cngData;
@@ -37,7 +40,7 @@ class CiAssignWidget extends StatelessWidget {
       Align(
         alignment: Alignment.centerLeft,
         child: TextWidget(
-          "Assign Vendor",
+          "Assign Vendor / Review",
           fontSize: AppFont.font_14,
           fontWeight: FontWeight.w700,
         ),
@@ -45,7 +48,17 @@ class CiAssignWidget extends StatelessWidget {
       SizedBox(
         height: MediaQuery.of(context).size.width * 0.04,
       ),
-      _vendorDropDown(dataState: dataState, context: context),
+      _checkBox(dataState: dataState, context: context),
+
+      dataState.isSendToReview == false ?
+      SizedBox(
+        height: MediaQuery.of(context).size.width * 0.04,
+      ) : const SizedBox.shrink(),
+
+      dataState.isSendToReview == false ?
+      _assignVendorController(dataState: dataState, context: context)
+          : const SizedBox.shrink(),
+
       SizedBox(
         height: MediaQuery.of(context).size.width * 0.04,
       ),
@@ -55,6 +68,43 @@ class CiAssignWidget extends StatelessWidget {
       ),
     ])
         : _centerLoader();
+  }
+
+  Widget _checkBox({required FetchViewCiComplaintDataState dataState,
+    required BuildContext context}) {
+    return Row(
+      children: [
+        Checkbox(
+            value: dataState.isSendToReview,
+            onChanged: (value) {
+              BlocProvider.of<ViewCiComplaintBloc>(context)
+                  .add(ViewCiComplaintSendToReviewEvent(isSendToReview: value!));
+             }
+           ),
+        Expanded(child: TextWidget(AppString.sendToReview)),
+      ],
+    );
+  }
+
+  Widget _assignVendorController({required FetchViewCiComplaintDataState dataState,
+    required BuildContext context}) {
+    TextEditingController controller =  TextEditingController();
+    if(dataState.vendorData.id != null){
+      controller.text =  dataState.vendorData.name.toString();
+    }
+    return TextFieldWidget(
+      enabled: false,
+      controller: controller,
+      isRequired: true,
+      labelText: AppString.vendor,
+      onTap:  () {
+        Navigator.push(
+            !context.mounted ? context : context,
+            FadeRoute(page: const VendorListWidget()
+            )
+        );
+      },
+    );
   }
 
   Widget _vendorDropDown(
@@ -84,7 +134,8 @@ class CiAssignWidget extends StatelessWidget {
         ? SizedBox(
             width: MediaQuery.of(context).size.width * 0.40,
             child: ButtonWidget(
-                text: AppString.assign,
+                text: dataState.isSendToReview == false
+                    ? AppString.assign : AppString.review,
                 onPressed: () {
                   BlocProvider.of<ViewCiComplaintBloc>(context).add(
                       ViewCiComplaintVendorAssignEvent(
