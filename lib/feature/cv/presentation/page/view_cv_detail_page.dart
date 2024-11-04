@@ -438,7 +438,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
-              TextWidget("Estimate & Before Images : ",
+              TextWidget("Before Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),

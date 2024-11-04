@@ -544,7 +544,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.04,
               ),
-              TextWidget("Estimate & Before Images : ",
+              TextWidget("Before Images : ",
                 fontWeight: FontWeight.bold,
                 color: AppColor.black, textAlign: TextAlign.start,),
               ComplaintImagesWidget(imageList: cngData.estimateAttachment ?? []),
@@ -586,10 +586,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               cngData.assignTo.toString() != "0" &&
                   cngData.particularList.toString().isNotEmpty &&
                   cngData.complaintStatus.toString() == "0" &&
-                  ( cngData.estimateStatus.toString() == "0"
-                      || cngData.estimateStatus.toString().isEmpty) &&
-                  (cngData.estimateList!.length <= 4
-                      && cngData.estimateStatus.toString() == "0")
+                 cngData.estimateStatus.toString() == "0"
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 

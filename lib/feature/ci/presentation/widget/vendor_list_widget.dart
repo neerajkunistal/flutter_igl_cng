@@ -127,8 +127,8 @@ class _VendorListWidgetState extends State<VendorListWidget> {
               columns: const [
                 DataColumn(label: TextWidget('Name')),
                 DataColumn(label: TextWidget('PO Value')),
-                DataColumn(label: TextWidget('Consumer Value')),
-                DataColumn(label: TextWidget('Total \n(Consumer Value + Provisional Approve)',
+                DataColumn(label: TextWidget('Consumed Value')),
+                DataColumn(label: TextWidget('Total \n(Consumed Value + Provisionally Approve)',
                   textAlign: TextAlign.center,)),
               ],
               rows:rowCellsList

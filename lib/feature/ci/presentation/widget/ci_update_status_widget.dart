@@ -141,17 +141,14 @@ class CiUpdateStatusWidget extends StatelessWidget {
       {required FetchViewCiComplaintDataState dataState,
       required BuildContext context}) {
     return dataState.isVendorAssignLoader == false
-        ? SizedBox(
-            width: MediaQuery.of(context).size.width * 0.45,
-            child: ButtonWidget(
-                fontSize: AppFont.font_12,
-                text: AppString.provisionallyApproved,
-                onPressed: () {
-                  BlocProvider.of<ViewCiComplaintBloc>(context).add(
-                      ViewCiComplaintEstimateApproveEvent(
-                          context: context, cngData: cngData));
-                }),
-          )
+        ? ButtonWidget(
+        fontSize: AppFont.font_12,
+        text: AppString.provisionallyApproved,
+        onPressed: () {
+          BlocProvider.of<ViewCiComplaintBloc>(context).add(
+              ViewCiComplaintEstimateApproveEvent(
+                  context: context, cngData: cngData));
+        })
         : const DottedLoaderWidget();
   }
 }
