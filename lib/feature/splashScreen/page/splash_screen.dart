@@ -77,6 +77,16 @@ class _SplashScreenState extends State<SplashScreen> {
                     width: MediaQuery.of(context).size.width * 0.40,
                   ),
                   Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextWidget(
+                      "समाधान",
+                      color: AppColor.white,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.center,
+                      fontSize: AppFont.font_18,
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: TextWidget(
                       "CNG is a fossil fuel substitute for other auto fuels such as petrol, diesel, Auto LPG etc. For use in Automobiles as fuel, Natural Gas is compressed & dispensed to vehicles at high pressure of 200-250 Kg/cm² enhance the vehicle on board storage capacity.",
