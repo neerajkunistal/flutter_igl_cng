@@ -584,13 +584,13 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   : const SizedBox.shrink(),
 
               cngData.assignTo.toString() != "0" &&
-                  cngData.particularList.toString().isNotEmpty &&
+                  cngData.particularList!.isNotEmpty &&
                   cngData.complaintStatus.toString() == "0" &&
                  cngData.estimateStatus.toString() == "0"
                   ?  CiUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
 
-              cngData.particularList.toString().isNotEmpty  &&
+              cngData.particularList!.isNotEmpty  &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
                   cngData.measurementSheetDataTime.toString().isNotEmpty  &&
                   cngData.complaintStatus.toString() != "1"

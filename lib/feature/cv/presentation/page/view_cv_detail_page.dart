@@ -472,7 +472,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
 
-              cngData.particularList.toString().isEmpty
+              cngData.particularList!.isEmpty
                   || cngData.estimateStatus.toString() == "2" &&
                    cngData.complaintStatus.toString() == "0"
                   ? ViewCvUpdateStatusWidget(cngData: cngData)

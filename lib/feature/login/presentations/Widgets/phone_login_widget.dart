@@ -28,7 +28,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
             children: [
               _logo(),
               TextWidget(
-                "IGL CNG\nLogin",
+                "समाधान\nLogin",
                 fontSize: AppFont.font_20,
                 color: AppColor.white,
                 fontWeight: FontWeight.w700,
