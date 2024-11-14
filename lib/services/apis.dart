@@ -151,5 +151,7 @@ class APIs {
 
   static get getMeasurementsApi => "api/cv/getMeasurements";
 
+  static get getMotherStationAndDougthStationPointsApi => "lcv/getCngStationData";
+
   static get forgotPasswordApi => "";
 }

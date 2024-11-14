@@ -5,6 +5,7 @@ import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/mod
 import 'package:flutter_igl_cng/feature/lcv/liveTracking/domain/model/tracking_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/helper/request_helper.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/model/running_truck_model.dart';
+import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/model/stations_point_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/helper/running_truck_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_model.dart';
@@ -48,6 +49,8 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
 
   List<RunningTruckModel> get runningTruckList  => _runningTruckList;
 
+  List<StationPointModel> stationPointList = [];
+
   RunningTruckBloc() : super(RunningTruckInitial()) {
     on<RunningTruckPageLoadEvent>(_pageLoad);
   }
@@ -85,7 +88,6 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
             infoWindow: InfoWindow(
                 title: runningTruckList[i].vehicleNo.toString(),
                 onTap: () {
-                  print("User Id === ----");
 
                   showDialog(
                       context: event.context,
@@ -112,6 +114,54 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       Marker markerData = markerRunningTruckPoints.first;
       _latLng = markerData.position;
     }
+
+    stationPointList = [];
+    var resStationPoint =  await RunningTruckHelper.fetchStationPointsData(
+        context: !event.context.mounted ? event.context :event.context);
+    if(resStationPoint != null){
+      stationPointList = resStationPoint;
+    }
+
+    int j = runningTruckList.length;
+    String name = "";
+
+    for(var stationPointData in stationPointList) {
+
+      Uint8List? markerIcon = await RequestHelper.getBytesFromAsset(AppIcon.cngStationIcon, 50);
+
+      if(stationPointData.stationStatus.toString() == "0") // CNG Station
+      {
+        name = "CNG Station";
+        markerIcon = await RequestHelper.getBytesFromAsset(AppIcon.cngStationIcon, 50);
+      }
+      else if(stationPointData.stationStatus.toString() == "1") // Mother Station
+      {
+        name = "Mother Station";
+        markerIcon = await RequestHelper.getBytesFromAsset(AppIcon.motherStationIcon, 50);
+      }
+      else if(stationPointData.stationStatus.toString() == "2") // DB Station
+      {
+        name = "DB Station";
+        markerIcon = await RequestHelper.getBytesFromAsset(AppIcon.motherStationIcon, 50);
+      }
+
+      var points =  stationPointData.wktPoint.toString().replaceAll("POINT(", "").toString().replaceAll(")", "");
+      var pointList =  points.split(" ");
+      if(pointList.isNotEmpty){
+        double lng =  pointList[0].isNotEmpty ? double.parse(pointList[0].toString()) : 0.0;
+        double lat =  pointList[1].isNotEmpty ? double.parse(pointList[1].toString()) : 0.0;
+        _markerRunningTruckPoints.add(Marker(
+          markerId: MarkerId("${1 + j}Id"),
+          position: LatLng(lat, lng),
+          infoWindow: InfoWindow(
+              title: "${stationPointData.name}\n$name",
+              onTap: () {}),
+          icon: BitmapDescriptor.fromBytes(markerIcon!),
+        ));
+      }
+      j++;
+    }
+
     _eventComplete(emit);
   }
 
