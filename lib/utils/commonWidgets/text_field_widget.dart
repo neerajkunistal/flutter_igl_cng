@@ -15,6 +15,7 @@ class TextFieldWidget extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? isRequired;
   final bool? isBoardRemove;
+  final bool? filled;
 
   const TextFieldWidget({
     super.key,
@@ -29,6 +30,7 @@ class TextFieldWidget extends StatelessWidget {
     this.maxLine,
     this.isRequired,
     this.isBoardRemove,
+    this.filled,
   });
 
   @override
@@ -85,7 +87,7 @@ class TextFieldWidget extends StatelessWidget {
                       : AppColor.black,
             ),
             fillColor: Colors.white,
-            // filled: true,
+            filled: filled ?? false,
             enabledBorder: isBoardRemove == true
                 ? const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey, width: 1.0),

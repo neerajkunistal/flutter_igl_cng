@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/home_drawer_widget.dart';
@@ -14,6 +15,7 @@ class RunningTruckPage extends StatefulWidget {
 
 class _RunningTruckPageState extends State<RunningTruckPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GoogleMapController? mapController;
 
   @override
   void initState() {
@@ -51,18 +53,46 @@ class _RunningTruckPageState extends State<RunningTruckPage> {
         Align(
           alignment: Alignment.bottomCenter,
           child: _listBuilder(dataState: dataState),
-        )
+        ),
+        _searchTextField(),
       ],
     );
   }
 
+  Widget _searchTextField()  {
+    return  Padding(
+      padding:  const EdgeInsets.all(10),
+      child: TextFieldWidget(
+        filled: true,
+        labelText: "Search..",
+        onChanged: (value) {
+          BlocProvider.of<RunningTruckBloc>(context)
+          .add(RunningTruckSearchEvent(keyword: value.toString(), context: context));
+        },
+      ),
+    );
+  }
+
   Widget _googleMap({required FetchRunningTruckDataState dataState}) {
+    if(mapController != null){
+      mapController?.moveCamera(
+        CameraUpdate.newCameraPosition(
+           CameraPosition(
+            bearing: 270.0,
+            target: LatLng(dataState.latLng.latitude, dataState.latLng.longitude),
+            tilt: 30.0,
+             zoom: 14.4746,
+          ),
+        ),
+      );
+    }
     return dataState.isLoader == false
         ? GoogleMap(
             myLocationEnabled: false,
             initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(dataState.latLng.latitude, dataState.latLng.longitude),
+              bearing: 270.0,
+              target: LatLng(dataState.latLng.latitude, dataState.latLng.longitude),
+              tilt: 30.0,
               zoom: 14.4746,
             ),
             compassEnabled: false,
@@ -70,9 +100,12 @@ class _RunningTruckPageState extends State<RunningTruckPage> {
             myLocationButtonEnabled: false,
             zoomControlsEnabled: true,
             markers: dataState.markerRunningTruckPoints,
-            onMapCreated: (GoogleMapController controller) async {},
+            onMapCreated: _onMapCreated,
           )
         : const CenterLoaderWidget();
+  }
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
 
   Widget _listBuilder({required FetchRunningTruckDataState dataState}) {

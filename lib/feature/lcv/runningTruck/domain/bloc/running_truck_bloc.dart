@@ -41,6 +41,14 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
 
   Set<Marker> get markerRunningTruckPoints => _markerRunningTruckPoints;
 
+  Set<Marker> _markerStationPoints = {};
+
+  Set<Marker> get markerStationPoints => _markerStationPoints;
+
+  Set<Marker> _searchMarkerPoint = {};
+
+  Set<Marker> get searchMarkerPoint => _searchMarkerPoint;
+
   List<TrackingModel> _trackingList = [];
 
   List<TrackingModel> get trackingList => _trackingList;
@@ -53,6 +61,7 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
 
   RunningTruckBloc() : super(RunningTruckInitial()) {
     on<RunningTruckPageLoadEvent>(_pageLoad);
+    on<RunningTruckSearchEvent>(_search);
   }
 
   _pageLoad(RunningTruckPageLoadEvent event, emit) async {
@@ -60,6 +69,8 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
     emit(RunningTruckPageLoadState());
     _isLoader = false;
     _userData = UserInfo.instance!.userData!;
+    _searchMarkerPoint = {};
+    _markerStationPoints = {};
     var location = await LocationHelper
         .getLocationOfflineMode(context: event.context); // await isConnected() == true ? await LocationHelper.getLocation() :
     if (location != null) {
@@ -82,7 +93,7 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
 
           _markerRunningTruckPoints.add(Marker(
             rotation: double.parse(runningTruckList[i].angle.toString())/2,
-            markerId: MarkerId("${1 + i}Id"),
+            markerId: MarkerId("${runningTruckList[i].vehicleNo}"),
             position: LatLng(double.parse(runningTruckList[i].lat.toString()),
                 double.parse(runningTruckList[i].long.toString())),
             infoWindow: InfoWindow(
@@ -150,8 +161,8 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       if(pointList.isNotEmpty){
         double lng =  pointList[0].isNotEmpty ? double.parse(pointList[0].toString()) : 0.0;
         double lat =  pointList[1].isNotEmpty ? double.parse(pointList[1].toString()) : 0.0;
-        _markerRunningTruckPoints.add(Marker(
-          markerId: MarkerId("${1 + j}Id"),
+        _markerStationPoints.add(Marker(
+          markerId: MarkerId("${stationPointData.name}"),
           position: LatLng(lat, lng),
           infoWindow: InfoWindow(
               title: "${stationPointData.name}\n$name",
@@ -161,7 +172,30 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       }
       j++;
     }
+    _searchMarkerPoint = markerRunningTruckPoints;
+    _markerRunningTruckPoints.addAll(markerStationPoints);
+    _eventComplete(emit);
+  }
 
+  _search(RunningTruckSearchEvent event, emit) async {
+    String keyword =  event.keyword;
+    BuildContext context =  event.context;
+    _isLoader =  true;
+    _eventComplete(emit);
+    if(keyword.isNotEmpty){
+      _markerRunningTruckPoints =  searchMarkerPoint.where((element) => element.markerId.toString().toLowerCase()
+          .contains(keyword.toString().toLowerCase())
+      ).toSet();
+    }
+    else {
+      _markerRunningTruckPoints =  searchMarkerPoint;
+    }
+    if(markerRunningTruckPoints.isNotEmpty){
+      Marker markerData = markerRunningTruckPoints.first;
+      _latLng = markerData.position;
+    }
+    _markerRunningTruckPoints.addAll(markerStationPoints);
+    _isLoader =  false;
     _eventComplete(emit);
   }
 

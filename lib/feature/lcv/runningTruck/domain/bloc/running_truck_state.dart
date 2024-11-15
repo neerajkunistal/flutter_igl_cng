@@ -30,5 +30,10 @@ class FetchRunningTruckDataState extends RunningTruckInitial {
   });
 
   @override
-  List<Object> get props => [assignmentList, isLoader, latLng, runningTruckList];
+  List<Object> get props => [
+    assignmentList,
+    isLoader,
+    latLng,
+    runningTruckList,
+  ];
 }

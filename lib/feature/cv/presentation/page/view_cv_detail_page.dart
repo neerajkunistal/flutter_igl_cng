@@ -94,13 +94,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
       assignDateTime = DateFormat('dd-MMM-yyyy')
           .format(DateTime.parse(cngData.assignDataTime.toString()));
     }
-
-    String estimateDateTime = "";
-    if (cngData.estimateCostDataTime != null &&
-        cngData.estimateCostDataTime.toString().isNotEmpty) {
-      estimateDateTime = DateFormat('dd-MMM-yyyy')
-          .format(DateTime.parse(cngData.estimateCostDataTime.toString()));
-    }
     return Stack(
       children: [
         Padding(
