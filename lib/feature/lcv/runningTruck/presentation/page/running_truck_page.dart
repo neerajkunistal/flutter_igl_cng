@@ -26,11 +26,9 @@ class _RunningTruckPageState extends State<RunningTruckPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: HomeDrawerWidget(),
-      key: _scaffoldKey,
-      backgroundColor: AppColor.white,
-      body: BlocBuilder<RunningTruckBloc, RunningTruckState>(
+    return Container(
+      color: AppColor.white,
+      child: BlocBuilder<RunningTruckBloc, RunningTruckState>(
         builder: (context, state) {
           if (state is FetchRunningTruckDataState) {
             return _itemBuilder(dataState: state);
