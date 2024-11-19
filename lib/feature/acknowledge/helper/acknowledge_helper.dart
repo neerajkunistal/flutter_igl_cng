@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
@@ -13,7 +15,10 @@ class AcknowledgeHelper {
       required VendorModel vendorData,
       required AcknowledgeUserModel userData,
       required SapCodeModel sapCodeModel,
-      required AssignTypeModel assignTypeData}) async {
+      required AssignTypeModel assignTypeData,
+      required PlannerModel plannerData,
+      required WorkCenterModel workCenterData,
+      }) async {
     try {
       if (assignTypeData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select assign type");
@@ -23,6 +28,12 @@ class AcknowledgeHelper {
         return false;
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
+        return false;
+      } else if(plannerData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select planner");
+        return false;
+      } else if(workCenterData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select work center");
         return false;
       }
 /*      else if (sapCodeModel.code == null) {
@@ -54,9 +65,9 @@ class AcknowledgeHelper {
       required AssignTypeModel assignTypeData,
       required String closedDate,
       required String closedTime,
-      required String plannerGroup,
-      required String mainWorkCenter,
       required String personResponsible,
+      required PlannerModel plannerData,
+      required WorkCenterModel workCenterData,
       required String remark}) async {
     try {
       String url = APIs.assignComplaintApi;
@@ -74,8 +85,8 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
-        "planner_group": plannerGroup,
-        "main_work_center": mainWorkCenter,
+        "planner_group": plannerData.plannerGroup.toString(),
+        "main_work_center": workCenterData.workCenter.toString(),
         "person_responsible": personResponsible,
         "vendorAssignDatetime": "$closedDate $closedTime"
       };
@@ -122,5 +133,30 @@ class AcknowledgeHelper {
       if (!context.mounted) return false;
       SnackBarErrorWidget(context).show(message: "Internal server error");
     }
+  }
+
+  static Future<dynamic> fetchPlannerData() async {
+
+    try{
+       String url =  APIs.getPlannerGroupApi;
+       var res =  await ServerRequest.getData(urlEndPoint: url);
+       if(res != null && res['data'] != null){
+         return plannerListResponse(res['data']);
+       }
+
+    }catch(_){}
+    return null;
+  }
+
+  static Future<dynamic> fetchWorkCenterData() async {
+
+    try{
+      String url =  APIs.getWorkCenterApi;
+      var res =  await ServerRequest.getData(urlEndPoint: url);
+      if(res != null && res['data'] != null){
+        return workCenterListResponse(res['data']);
+      }
+    }catch(_){}
+    return null;
   }
 }

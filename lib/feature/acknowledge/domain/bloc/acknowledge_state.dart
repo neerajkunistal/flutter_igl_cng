@@ -38,6 +38,10 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final TextEditingController plannerGroupController;
   final TextEditingController mainWorkCenterController;
   final TextEditingController personResponsibleController;
+  final List<PlannerModel> plannerList;
+  final PlannerModel plannerData;
+  final List<WorkCenterModel> workCenterList;
+  final WorkCenterModel workCenterData;
 
   FetchAcknowledgeDataState({
     required this.acknowledgeList,
@@ -63,6 +67,10 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     required this.personResponsibleController,
     required this.mainWorkCenterController,
     required this.plannerGroupController,
+    required this.workCenterList,
+    required this.workCenterData,
+    required this.plannerData,
+    required this.plannerList,
   });
 
   @override
@@ -90,5 +98,9 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         personResponsibleController,
         mainWorkCenterController,
         plannerGroupController,
+        workCenterList,
+        workCenterData,
+        plannerData,
+        plannerList,
       ];
 }

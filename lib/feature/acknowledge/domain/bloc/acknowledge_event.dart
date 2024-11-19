@@ -119,6 +119,27 @@ class AcknowledgeSelectDateRangeEvent extends AcknowledgeEvent {
   List<Object?> get props => [context];
 }
 
+class AcknowledgeComplaintSelectedPlannerEvent extends AcknowledgeEvent {
+  final PlannerModel plannerData;
+
+  const AcknowledgeComplaintSelectedPlannerEvent(
+      {required this.plannerData});
+
+  @override
+  List<Object?> get props => [plannerData];
+}
+class AcknowledgeComplaintSelectedWorkCenterEvent extends AcknowledgeEvent {
+  final WorkCenterModel workCenterData;
+
+  const AcknowledgeComplaintSelectedWorkCenterEvent(
+      {required this.workCenterData});
+
+  @override
+  List<Object?> get props => [workCenterData];
+}
+
+
+
 class AcknowledgeUserSubmitEvent extends AcknowledgeEvent {
   final BuildContext context;
   final AcknowledgeModel acknowledgeData;

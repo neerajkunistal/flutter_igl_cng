@@ -91,15 +91,16 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
 
+
             userData.roleType == RoleType.shiftEngineer ?
-            _sapCodeDropDown(dataState: dataState, context: context)
+            _codeGroupDropDown(dataState: dataState, context: context)
                 : const SizedBox.shrink(),
             userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
 
             userData.roleType == RoleType.shiftEngineer ?
-            _codeGroupDropDown(dataState: dataState, context: context)
+            _sapCodeDropDown(dataState: dataState, context: context)
                 : const SizedBox.shrink(),
             userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
@@ -238,7 +239,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget _sapCodeDropDown(
       {required FetchReviewComplaintDataState dataState,
         required BuildContext context}) {
-    return DropdownWidget(
+    return dataState.sapCodeLoader == false ?
+    DropdownWidget(
       hint: AppString.sapCode,
       dropdownValue:
       dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
@@ -253,7 +255,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           child: TextWidget(sapCodeData.name.toString()),
         );
       }).toList(),
-    );
+    ) : const DottedLoaderWidget();
   }
 
   Widget _codeGroupDropDown(

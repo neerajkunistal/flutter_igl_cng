@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 import 'package:vibration/vibration.dart';
@@ -46,6 +48,11 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
   List<int> complaintCount = [];
 
+  List<PlannerModel> plannerList = [];
+  PlannerModel plannerData =  PlannerModel();
+  List<WorkCenterModel> workCenterList = [];
+  WorkCenterModel workCenterData =  WorkCenterModel();
+
 
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
@@ -60,6 +67,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     on<AcknowledgeSelectSapCodeEvent>(_selectSapCode);
     on<AcknowledgeSelectClosedDateEvent>(_selectDate);
     on<AcknowledgeSelectClosedTimeEvent>(_selectTime);
+    on<AcknowledgeComplaintSelectedPlannerEvent>(_selectPlanner);
+    on<AcknowledgeComplaintSelectedWorkCenterEvent>(_selectWorkCenter);
     on<AcknowledgeUserSubmitEvent>(_submit);
   }
 
@@ -82,6 +91,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     assignTypeData = AssignTypeModel();
     assignTypeList = AssignTypeModel().fetchData();
     _selectTabIndex = 0;
+    plannerData =  PlannerModel();
+    workCenterData =  WorkCenterModel();
+
 
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
       fromDate: startDate.toString(),
@@ -513,10 +525,17 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       }
     }
 
-    if (sapCodeList.isEmpty) {
-      var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData();
-      if (res != null) {
-        sapCodeList = res;
+    if(plannerList.isEmpty){
+      var res =  await AcknowledgeHelper.fetchPlannerData();
+      if(res !=  null){
+        plannerList =  res;
+      }
+    }
+
+    if(workCenterList.isEmpty){
+      var res =  await AcknowledgeHelper.fetchWorkCenterData();
+      if(res !=  null){
+        workCenterList =  res;
       }
     }
 
@@ -595,12 +614,24 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     }
   }
 
+  _selectPlanner(AcknowledgeComplaintSelectedPlannerEvent event, emit) {
+    plannerData  =  event.plannerData;
+    _eventComplete(emit);
+  }
+
+  _selectWorkCenter(AcknowledgeComplaintSelectedWorkCenterEvent event, emit) {
+    workCenterData =  event.workCenterData;
+    _eventComplete(emit);
+  }
+
   _submit(AcknowledgeUserSubmitEvent event, emit) async {
     var textFiledValidation = await AcknowledgeHelper.textFieldValidationCheck(
         context: event.context,
         vendorData: vendorData,
         userData: acknowledgeUserData,
         sapCodeModel: sapCodeData,
+        plannerData: plannerData,
+        workCenterData: workCenterData,
         assignTypeData: assignTypeData);
     if (textFiledValidation == false) {
       return;
@@ -619,8 +650,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       closedTime: closeTimeController.text.toString(),
       remark: remarkController.text.toString(),
       personResponsible: personResponsibleController.text.toString(),
-      plannerGroup: plannerGroupController.text.toString(),
-      mainWorkCenter: mainWorkCenterController.text.toString(),
+      plannerData: plannerData,
+      workCenterData: workCenterData
     );
     isLoader = false;
     _eventComplete(emit);
@@ -637,6 +668,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       closeDateController.text = "";
       closeTimeController.text = "";
       complaintCount = [];
+      workCenterData = WorkCenterModel();
+      plannerData =  PlannerModel();
 
       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
         fromDate: startDate.toString(),
@@ -781,6 +814,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         mainWorkCenterController: mainWorkCenterController,
         personResponsibleController: personResponsibleController,
         plannerGroupController: plannerGroupController,
+        plannerData: plannerData,
+        plannerList: plannerList,
+        workCenterData: workCenterData,
+        workCenterList: workCenterList,
     ));
   }
 }

@@ -79,7 +79,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _restaurantMenu = [];
     _pageWidgetList = [];
     FirebaseService.instance.setupInteractedMessage();
-    _title = "Complaint ( ${userData.roleName} )";
+    _title = "Complaint ( ${userData.roleName} ${userData.stationName.toString().isNotEmpty ? " - ${userData.stationName.toString()}": ""})";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
 

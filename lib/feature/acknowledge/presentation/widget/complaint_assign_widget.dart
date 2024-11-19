@@ -90,11 +90,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _plannerGroupController(dataState: state),
+                          _plannerTypeDropDown(dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _mainWorkCenterController(dataState: state),
+                          _workCenterTypeDropDown(dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
@@ -233,23 +233,37 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         : const SizedBox.shrink();
   }
 
-  Widget _plannerGroupController({required FetchAcknowledgeDataState dataState}) {
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: TextFieldWidget(
-        labelText: AppString.plannerGroup,
-        controller: dataState.plannerGroupController,
-      ),
+  Widget _plannerTypeDropDown(
+      {required FetchAcknowledgeDataState dataState,
+        required BuildContext context}) {
+    return DropDownSearchWidget(
+      isRequired: true,
+      selectedItem:
+      dataState.plannerData.id != null ? dataState.plannerData : null,
+      hint: AppString.plannerGroup,
+      items: dataState.plannerList,
+      itemAsString: (plannerData) => plannerData.plannerGroup.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeComplaintSelectedPlannerEvent(plannerData: value));
+      },
     );
   }
 
-  Widget _mainWorkCenterController({required FetchAcknowledgeDataState dataState}) {
-    return Padding(
-      padding: const EdgeInsets.all(0.0),
-      child: TextFieldWidget(
-        labelText: AppString.mainWorkCenter,
-        controller: dataState.mainWorkCenterController,
-      ),
+  Widget _workCenterTypeDropDown(
+      {required FetchAcknowledgeDataState dataState,
+        required BuildContext context}) {
+    return DropDownSearchWidget(
+      isRequired: true,
+      selectedItem:
+      dataState.workCenterData.id != null ? dataState.workCenterData : null,
+      hint: AppString.mainWorkCenter,
+      items: dataState.workCenterList,
+      itemAsString: (workCenterData) => workCenterData.workCenter.toString(),
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
+      },
     );
   }
 

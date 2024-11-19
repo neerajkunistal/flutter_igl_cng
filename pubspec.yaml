@@ -38,7 +38,7 @@ dependencies:
   file_picker: ^5.2.11
   mime: ^1.0.4
   textfield_search: ^0.10.0
-  path_provider: ^2.1.2
+  path_provider: ^2.1.4
   flutter_image_compress: ^2.1.0
   get_it: ^7.7.0
   firebase_auth: ^4.19.5
@@ -49,6 +49,8 @@ dependencies:
   video_compress: ^3.1.2
   google_maps_flutter: ^2.6.1
   google_maps_polyline: ^1.0.3
+  pdf: ^3.11.1
+  open_file: ^3.5.4
 
 dependency_overrides:
   meta: ^1.11.0

@@ -516,6 +516,8 @@ class AppString {
 
   static get provisionallyApproved => "Provisionally Approved";
 
+  static get searchVehicleNo => "Search Vehicle No";
+
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

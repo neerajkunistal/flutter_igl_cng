@@ -32,6 +32,8 @@ class ReviewComplaintBloc
   List<CodeGroupModel> codeGroupList = [];
   CodeGroupModel codeGroupData =  CodeGroupModel();
 
+  bool sapCodeLoader =  false;
+
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
     on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
     on<ReviewComplaintSelectComplaintEvent>(_selectComplaint);
@@ -40,8 +42,8 @@ class ReviewComplaintBloc
     on<ReviewComplaintAddImageEvent>(_selectFile);
     on<ReviewComplaintSelectDateData>(_selectDate);
     on<ReviewComplaintSelectTimeData>(_selectTime);
-    on<ReviewComplaintSelectSapCodeEvent>(_selectSapCode);
     on<ReviewComplaintSelectCodeGroupEvent>(_selectCodeGroup);
+    on<ReviewComplaintSelectSapCodeEvent>(_selectSapCode);
     on<ReviewComplaintSubmitEvent>(_submit);
   }
 
@@ -62,6 +64,7 @@ class ReviewComplaintBloc
     files.add(File(""));
     files.add(File(""));
     isNoScrap =  false;
+    sapCodeLoader =  false;
     codeGroupData =  CodeGroupModel();
 
     _complaintId = event.complaintId ?? "";
@@ -74,12 +77,6 @@ class ReviewComplaintBloc
       }
     }
 
-    if (sapCodeList.isEmpty) {
-      var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData();
-      if (res != null) {
-        sapCodeList = res;
-      }
-    }
 
     if(codeGroupList.isEmpty){
       var res =  await ReviewComplaintHelper.fetchCodeGroupData();
@@ -175,15 +172,29 @@ class ReviewComplaintBloc
     }
   }
 
+  _selectCodeGroup(ReviewComplaintSelectCodeGroupEvent event, emit) async {
+    codeGroupData  =  event.codeGroupData;
+    sapCodeList = [];
+    sapCodeData =  SapCodeModel();
+    sapCodeLoader =  true;
+    _eventComplete(emit);
+
+      var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData(
+          codeGroupData: codeGroupData);
+      if (res != null) {
+        sapCodeList = res;
+      }
+
+    sapCodeLoader =  false;
+    _eventComplete(emit);
+  }
+
   _selectSapCode(ReviewComplaintSelectSapCodeEvent event, emit) {
     sapCodeData = event.sapCodeData;
     _eventComplete(emit);
   }
 
-  _selectCodeGroup(ReviewComplaintSelectCodeGroupEvent event, emit) {
-    codeGroupData  =  event.codeGroupData;
-    _eventComplete(emit);
-  }
+
 
   _submit(ReviewComplaintSubmitEvent event, emit) async {
     isLoader = true;
@@ -270,6 +281,7 @@ class ReviewComplaintBloc
       sapCodeList: sapCodeList,
       codeGroupData: codeGroupData,
       codeGroupList: codeGroupList,
+      sapCodeLoader: sapCodeLoader,
     ));
   }
 }

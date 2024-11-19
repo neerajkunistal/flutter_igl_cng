@@ -62,7 +62,7 @@ class _RunningTruckPageState extends State<RunningTruckPage> {
       padding:  const EdgeInsets.all(10),
       child: TextFieldWidget(
         filled: true,
-        labelText: "Search..",
+        labelText: AppString.searchVehicleNo,
         onChanged: (value) {
           BlocProvider.of<RunningTruckBloc>(context)
           .add(RunningTruckSearchEvent(keyword: value.toString(), context: context));

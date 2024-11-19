@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/pdf/pdf_api.dart';
+import 'package:flutter_igl_cng/feature/pdf/pdf_invoice_api.dart';
+import 'package:flutter_igl_cng/feature/pdf/pdf_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
@@ -291,6 +295,21 @@ class ReviewComplaintItemBox extends StatelessWidget {
               text: "Closure",
               fontSize: AppFont.font_12,
               onPressed: () async {
+
+/*                final ByteData image = await rootBundle.load(AppIcon.appLogoIgl);
+                Uint8List imageData = (image).buffer.asUint8List();
+                PdfModel pdfData =  PdfModel(
+                    complaintId:  reviewComplaintData.tokenNo.toString(),
+                    complaintData:  reviewComplaintData.complaintDateTime.toString(),
+                    image: imageData,
+                    complaintStatus: "New",
+                    equipmentId: reviewComplaintData.equipmentId,
+                    stationName: reviewComplaintData.cngStationName,
+                );
+
+                final pdfFile = await PdfInvoiceApi.generate(pdfData);
+                PdfApi.openFile(pdfFile);*/
+
                 if(await _onClosureComplaintPop(context: context) == true){
                   BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
                       ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,

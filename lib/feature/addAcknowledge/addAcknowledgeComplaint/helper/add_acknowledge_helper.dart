@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -46,9 +47,10 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchSapCodeData() async {
+  static Future<dynamic> fetchSapCodeData(
+      {required CodeGroupModel codeGroupData}) async {
     try {
-      String url = APIs.getSapCodeApi;
+      String url = APIs.getSapCodeApi+"code_group=${codeGroupData.id}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return sapCodeListResponse(res['data']);

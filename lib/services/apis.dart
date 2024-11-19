@@ -153,5 +153,9 @@ class APIs {
 
   static get getMotherStationAndDougthStationPointsApi => "lcv/getCngStationData";
 
+  static get getPlannerGroupApi => "api/cr/planner_group";
+
+  static get getWorkCenterApi => "api/cr/work_center";
+
   static get forgotPasswordApi => "";
 }

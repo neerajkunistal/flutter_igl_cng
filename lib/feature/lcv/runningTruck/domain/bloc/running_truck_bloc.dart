@@ -10,6 +10,7 @@ import 'package:flutter_igl_cng/feature/lcv/runningTruck/helper/running_truck_he
 import 'package:flutter_igl_cng/services/location/location_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/message_box_pop_button_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -99,22 +100,12 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
             infoWindow: InfoWindow(
                 title: runningTruckList[i].vehicleNo.toString(),
                 onTap: () {
-
                   showDialog(
                       context: event.context,
-                      builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+                      builder: (BuildContext mContext) => MessageBoxPopButtonWidget(
+                          title: "${runningTruckList[i].vehicleNo}",
                           message: "Speed - ${runningTruckList[i].speed.toString()}\n${runningTruckList[i].location}",
-                          okButtonText: "Ok",
-                          okButtonColour: AppColor.black,
                           onPressed: () => Navigator.of(event.context).pop(true)));
-                  /*                 Navigator.push(
-                    event.context,
-                    MaterialPageRoute(
-                        builder: (context) => LcvTruckLiveRoutePage(
-                              driverUserId: trackingList[i].loginId.toString(),
-                              routeId: trackingList[i].routeId.toString(),
-                            )),
-                  );*/
                 }),
             icon: BitmapDescriptor.fromBytes(markerIcon!),
           ));
@@ -126,16 +117,17 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
       _latLng = markerData.position;
     }
 
+    _searchMarkerPoint = markerRunningTruckPoints;
     stationPointList = [];
+    _eventComplete(emit);
+
     var resStationPoint =  await RunningTruckHelper.fetchStationPointsData(
         context: !event.context.mounted ? event.context :event.context);
     if(resStationPoint != null){
       stationPointList = resStationPoint;
     }
 
-    int j = runningTruckList.length;
     String name = "";
-
     for(var stationPointData in stationPointList) {
 
       Uint8List? markerIcon = await RequestHelper.getBytesFromAsset(AppIcon.cngStationIcon, 50);
@@ -166,20 +158,29 @@ class RunningTruckBloc extends Bloc<RunningTruckEvent, RunningTruckState> {
           position: LatLng(lat, lng),
           infoWindow: InfoWindow(
               title: "${stationPointData.name}\n$name",
-              onTap: () {}),
+              onTap: () {
+                showDialog(
+                    context: event.context,
+                    builder: (BuildContext mContext) => MessageBoxPopButtonWidget(
+                        title: "${stationPointData.name}",
+                        message: "${stationPointData.description}\n${stationPointData.address}",
+                        onPressed: () => Navigator.of(event.context).pop(true)));
+              }),
           icon: BitmapDescriptor.fromBytes(markerIcon!),
         ));
       }
-      j++;
     }
-    _searchMarkerPoint = markerRunningTruckPoints;
+
+    _isLoader =  true;
+    _eventComplete(emit);
+
+    _isLoader =  false;
     _markerRunningTruckPoints.addAll(markerStationPoints);
     _eventComplete(emit);
   }
 
   _search(RunningTruckSearchEvent event, emit) async {
     String keyword =  event.keyword;
-    BuildContext context =  event.context;
     _isLoader =  true;
     _eventComplete(emit);
     if(keyword.isNotEmpty){
