@@ -44,12 +44,7 @@ class HomeDrawerWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.width * 0.10,
                   ),
                   _listBuilder(dataState: state),
-                  /*            _changePassword(context: context),*/
-                  /*            userData.roleType == RoleType.shiftEngineer
-                  ? _acknowledge(context: context) : const SizedBox.shrink(),
-              _viewEquipmentComplaint(context: context),
-              userData.roleType == RoleType.mi
-              ? _miComplaint(context: context): const SizedBox.shrink(),*/
+
                   state.roleType != RoleType.stationUser ?
                   _materialDetail(context: context): const SizedBox.shrink(),
 
@@ -92,7 +87,7 @@ class HomeDrawerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextWidget(
-                userData.name.toString(),
+                " ${userData.roleName} ${userData.stationName.toString().isNotEmpty ? " - ${userData.stationName.toString()}": ""}",
                 fontSize: AppFont.font_14,
                 color: AppColor.white,
               ),

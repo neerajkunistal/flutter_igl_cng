@@ -97,13 +97,6 @@ class RequestHelper {
         polyLines:
             "gdpmDazfwM?d@yD?gGUeEEwKQoLQyKU}LUoMQj@cQj@}RlAa_@@q@_GSiG]R{EX@",
       ));
-
-/*      routesList.add(RoutesModel(
-          isSelectedRoute: false,
-          id: "6887",
-          polyLines: "ekpmDkwfwMsAAsACe@H}@D{@AmJOg@?EDMLK\\WzH@lBHx@R|@j@jBbAlBnF`IjJbN|CtEzA|B|H`L`CnD|G|JfErGpNfT~C|EVDTPrAjBhGbJt@bARb@LEZK~@u@fGsFtAsARCFBtAoApBgBnB{B|@o@\\M@?HBBJILOLSXCHy@j@_BtAgCrB_CrB{EfEuChCyJjJ}MhMQJgDxCiDzCeL~KhCpDhCtDdD~E|A|Bt@bAZr@f@x@d@t@|AzBlBlCpAzAp@dAhAtBjC~Df@z@tAnBpHzKbBdCQVcBiCyBaDwD{FwAmBkBmC"
-      ));*/
-
       requestList.add(RequestModel(
           stationName: "Unistal Pvt, Ltd",
           stationLocation:

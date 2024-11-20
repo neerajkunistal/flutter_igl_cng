@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DashboardHelper {
-  static Future<dynamic> imagePiker({required BuildContext context}) async {
+   static Future<dynamic> imagePiker({required BuildContext context}) async {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? photo = await picker.pickImage(
