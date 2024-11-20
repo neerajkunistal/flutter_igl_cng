@@ -315,10 +315,13 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
 
   Widget _remark({required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(
-      isRequired: dataState.complaintStatus.toString() == "0" ? true : false,
-      enabled:
-          dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
-      labelText: AppString.remark,
+      isRequired: true,
+      enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
+      labelText: dataState.complaintStatus.toString() == "1"
+          ? AppString.enterSapComplaintDescription
+          : AppString.enterRemarkForComplaintRejection,
+      maxLength: dataState.complaintStatus.toString() == "1" ? 40 : null,
+      maxLine: dataState.complaintStatus.toString() == "1" ? 3 : null,
       controller: dataState.remarkController,
     );
   }

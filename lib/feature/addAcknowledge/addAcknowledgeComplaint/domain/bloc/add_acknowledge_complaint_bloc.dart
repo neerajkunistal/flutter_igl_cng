@@ -299,9 +299,9 @@ class AddAcknowledgeComplaintBloc
   }
 
   _submit(AddAcknowledgeComplaintSubmitEvent event, emit) async {
-    if (complaintStatus.toString() == "0" &&
-        remarkController.text.toString().isEmpty) {
-      SnackBarErrorWidget(event.context).show(message: "Please enter remark");
+    if (remarkController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context).show(message: "Please ${complaintStatus.toString() == "1"
+          ? AppString.enterSapComplaintDescription : AppString.enterRemarkForComplaintRejection}");
       return;
     }
 

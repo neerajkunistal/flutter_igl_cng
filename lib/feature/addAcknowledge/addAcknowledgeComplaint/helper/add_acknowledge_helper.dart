@@ -50,7 +50,7 @@ class AddAcknowledgeComplaintHelper {
   static Future<dynamic> fetchSapCodeData(
       {required CodeGroupModel codeGroupData}) async {
     try {
-      String url = APIs.getSapCodeApi+"code_group=${codeGroupData.id}";
+      String url = APIs.getSapCodeApi+"?code_group=${codeGroupData.code}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return sapCodeListResponse(res['data']);

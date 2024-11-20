@@ -207,6 +207,12 @@ class AddEquipmentComplaintBloc
   }
 
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
+
+    if(timeController.text.toString().isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please select time");
+      return;
+    }
+
     isLoader = true;
     _eventComplete(emit);
 

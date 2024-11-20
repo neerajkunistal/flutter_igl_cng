@@ -21,10 +21,10 @@ class AddCngHelper {
         SnackBarErrorWidget(context).show(message: "Please select date");
         return false;
       }
-/*      else if (time.isEmpty) {
-        SnackBarErrorWidget(context).show(message: "Please select time");
-        return false;
-      } */
+      // else if (time.isEmpty) {
+      //   SnackBarErrorWidget(context).show(message: "Please select time");
+      //   return false;
+      // }
       else if (description.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Enter description");
         return false;
