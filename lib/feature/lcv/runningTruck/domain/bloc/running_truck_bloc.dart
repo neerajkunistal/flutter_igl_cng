@@ -11,7 +11,6 @@ import 'package:flutter_igl_cng/services/location/location_helper.dart';
 import 'package:flutter_igl_cng/services/location/location_model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_pop_button_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'running_truck_event.dart';

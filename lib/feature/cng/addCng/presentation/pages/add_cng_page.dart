@@ -165,22 +165,16 @@ class _AddCngPageState extends State<AddCngPage> {
       isRequired: true,
       enabled: false,
       labelText: AppString.date,
-      onTap: () => showCupertinoDatePickerWidgetDialog(
+/*      onTap: () => showCupertinoDatePickerWidgetDialog(
         context: context,
         child : CupertinoDatePickerWidget(
           initialDateTime: dataState.date,
           onDateTimeChanged: (DateTime newDate) async {
             BlocProvider.of<AddCngBloc>(context)
                 .add(AddCngSelectDateEvent(context: context, date: newDate));
-/*            BlocProvider.of<ViewCiComplaintBloc>(context).add(
-                ViewCiComplaintFinalApproveDateEvent(date: newDate));*/
           },
         ),
-      ),
-/*      onTap: () {
-        BlocProvider.of<AddCngBloc>(context)
-            .add(AddCngSelectDateEvent(context: context));
-      },*/
+      ),*/
     );
   }
 

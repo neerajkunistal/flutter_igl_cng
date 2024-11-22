@@ -52,6 +52,10 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
     fileList.add(File(""));
     date =  DateTime.now();
 
+    String formattedDate = DateFormat('dd-MM-yyyy').format(date);
+    dateController.text = formattedDate;
+
+
     var categoryRes = await AddCngHelper.fetchCategory();
     if (categoryRes != null) {
       categoryList = categoryRes;
@@ -66,28 +70,11 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   }
 
   _selectDate(AddCngSelectDateEvent event, emit) async {
-
     date =  event.date;
     String formattedDate = DateFormat('dd-MM-yyyy').format(date);
     dateController.text = formattedDate;
     _eventCompleted(emit);
 
-/*    try {
-      final DateTime? picked = await showDatePicker(
-          context: event.context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime.now());
-      if (picked != null) {
-        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
-        dateController.text = formattedDate;
-        _eventCompleted(emit);
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }*/
   }
 
   _selectTime(AddCngSelectTimeEvent event, emit) async {

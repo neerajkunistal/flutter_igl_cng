@@ -246,7 +246,7 @@ class ServerRequest {
                     || fileExtention.toString().toLowerCase() == "csv"
                     || fileExtention.toString().toLowerCase() == "mov")
                     ? fileData.file.path.toString()
-                    : await fileCompress(file: fileData.file);
+                    : fileData.file.path.toString();
             if (fileData.file.toString().isNotEmpty) {
               var uploadFile = await MultipartFile.fromPath(
                   fileData.keyName, filePath0,
@@ -270,7 +270,7 @@ class ServerRequest {
                 || fileExtention.toString().toLowerCase() != "xls"
                 || fileExtention.toString().toLowerCase() != "xlsx"
                 || fileExtention.toString().toLowerCase() != "csv"
-                ? await fileCompress(file: file)
+                ? file.path.toString()
                 : file.path.toString();
             var uploadFile = await MultipartFile.fromPath(keyWord, filePath1,
                 contentType: MediaType("file", fileExtention));
