@@ -127,6 +127,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
 
   Widget _srNumberController({required FetchAddScrapDataState dataState}) {
     return TextFieldWidget(
+        isRequired: true,
         labelText: AppString.srNumber,
         controller: dataState.srNumberController,
     );
@@ -134,6 +135,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
 
   Widget _descriptionController({required FetchAddScrapDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.description,
       controller: dataState.descriptionController,
     );
@@ -142,6 +144,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
   Widget _sapCodeDropDown(
       {required FetchAddScrapDataState dataState}) {
     return DropdownWidget(
+      isRequired: true,
       hint: AppString.unitType,
       dropdownValue:
       dataState.scrapUnitTypeData.id != null ? dataState.scrapUnitTypeData : null,
@@ -161,6 +164,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
 
   Widget _unitController({required FetchAddScrapDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.unit,
       controller: dataState.unitController,
       textInputType: TextInputType.number,
