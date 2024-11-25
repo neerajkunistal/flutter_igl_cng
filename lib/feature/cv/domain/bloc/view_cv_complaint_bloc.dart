@@ -49,6 +49,8 @@ class ViewCvComplaintBloc
   List<ParticularModel> particularList = [];
   bool isParticularWidgetShow = true;
 
+  UnitName unitNameData = UnitName();
+
   ViewCvComplaintBloc() : super(ViewCvComplaintInitial()) {
     on<ViewCvComplaintPageLoadEvent>(_pageLoad);
     on<ViewCvComplaintSearchDataEvent>(_search);
@@ -59,6 +61,7 @@ class ViewCvComplaintBloc
     on<ViewCvComplaintFetchStationEvent>(_fetchStation);
     on<ViewCvComplaintSelectComplaintStatusEvent>(_selectComplaintStatus);
     on<ViewCvComplaintSelectFileEvent>(_selectFile);
+    on<ViewCvComplaintSelectUnitNameEvent>(_selectUnitName);
     on<ViewCvComplaintSelectCngDataEvent>(_selectCngData);
     on<ViewCvComplaintFilterSubmitEvent>(_filterSubmit);
     on<ViewCvComplaintDeleteEstimatePhotoFileEvent>(_deleteEstimatePhoto);
@@ -90,6 +93,7 @@ class ViewCvComplaintBloc
     stationData = StationModel();
     isStationLoader = false;
     isFilterLoader = false;
+    unitNameData = UnitName();
     listIndex = 0;
     files = [];
     amountController.text = "";
@@ -299,12 +303,13 @@ class ViewCvComplaintBloc
     isFilterLoader = true;
     _eventComplete(emit);
 
-    startDate = DateTime.now().subtract(const Duration(days: 15));
-    endDate = DateTime.now();
+    if(event.isFilterSubmit == false){
+      startDate = DateTime.now().subtract(const Duration(days: 15));
+      endDate = DateTime.now();
+      stationData =  StationModel();
+      controlRoomData =  ControlRoomModel();
+    }
 
-    startDate =
-        event.isFilterSubmit == true ? filterData.startDate! : startDate;
-    endDate = event.isFilterSubmit == true ? filterData.endDate! : endDate;
 
     filterData.startDate = startDate;
     filterData.endDate = endDate;
@@ -344,6 +349,12 @@ class ViewCvComplaintBloc
     }
     cngData =  cngSearchList[listIndex];
     isFilterLoader = false;
+
+    _eventComplete(emit);
+  }
+
+  _selectUnitName(ViewCvComplaintSelectUnitNameEvent event, emit) {
+    unitNameData =  event.unitNameData;
     _eventComplete(emit);
   }
 
@@ -496,6 +507,9 @@ class ViewCvComplaintBloc
     files = [];
     amountController.text = "";
     measurementType = MeasurementType.non;
+    particularController.text = "";
+    measureTypeData =  MeasureTypeModel();
+    measureController.text = "";
 
 /*    if (cngData.measurementPreImageList == null ||
         cngData.measurementPreImageList!.isEmpty) {
@@ -511,8 +525,12 @@ class ViewCvComplaintBloc
   }
 
   _selectMeasureType(ViewCvComplaintSelectMeasureDataEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
     measureTypeData =  event.measureTypeData;
+    unitNameData =  UnitName();
     measureController.text = "";
+    isLoader =  false;
     _eventComplete(emit);
   }
 
@@ -531,15 +549,23 @@ class ViewCvComplaintBloc
       SnackBarErrorWidget(event.context)
           .show(message: "Please select measure");
       return;
-    } else if (measureController.text.toString().isEmpty) {
+    }
+    else if (unitNameData.name == null) {
       SnackBarErrorWidget(event.context)
-          .show(message: "Please enter ${measureTypeData.unit.toString()}");
+          .show(message: "Please select unit");
       return;
-    }  else if(files.length < 2){
+    }
+    else if (measureController.text.toString().isEmpty) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please enter ${unitNameData.name.toString()}");
+      return;
+    }
+    else if(files.length < 2){
       SnackBarErrorWidget(event.context)
           .show(message: "Please select two estimate image and document");
       return;
     }
+    measureTypeData.unitData =  unitNameData;
     particularList.add(
       ParticularModel(
         name: particularController.text.toString(),
@@ -657,6 +683,7 @@ class ViewCvComplaintBloc
       particularController: particularController,
       particularList: particularList,
       isParticularWidgetShow: isParticularWidgetShow,
+      unitNameData: unitNameData,
     ));
   }
 }

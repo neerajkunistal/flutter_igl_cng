@@ -185,7 +185,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ): const SizedBox.shrink(),
 
-                _closureButton(context: context, reviewComplaintData: reviewComplaintData),
+ /*               _closureButton(context: context, reviewComplaintData: reviewComplaintData),*/
 
                 Container(
                     height: 1,

@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_hi
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewCvDetailPage extends StatefulWidget {
   const ViewCvDetailPage({super.key});
@@ -141,7 +142,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Station Room : ",
+                    "Station Name : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -246,7 +247,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Assign vendor: ",
+                    "Assign Vendor : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -259,9 +260,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                       )),
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
               _particularData(cngData: cngData),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
@@ -269,7 +267,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    AppString.estimateComment,
+                    AppString.estimateComment+" :",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -470,7 +468,6 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                    cngData.complaintStatus.toString() == "0"
                   ? ViewCvUpdateStatusWidget(cngData: cngData)
                   : const SizedBox.shrink(),
-
               cngData.measurementSheetDataTime.toString().isEmpty &&
                   cngData.estimateCostDataTime.toString().isNotEmpty &&
                   cngData.estimateStatus.toString() == "1" &&
@@ -497,10 +494,14 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
           SizedBox(
             height: MediaQuery.of(context).size.width * 0.02,
           ),
+          index == 0 ?  Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: DottedDividerLine(color: AppColor.themeColor,),
+          ) : const SizedBox.shrink() ,
           Row(
             children: [
               TextWidget(
-                "Particulars: ",
+                "Particulars : ",
                 fontWeight: FontWeight.w500,
                 fontSize: AppFont.font_13,
               ),
@@ -520,7 +521,7 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
           Row(
             children: [
               TextWidget(
-                "Measure ${particularData.measurementName}: ",
+                "Measure ${particularData.measurementName} : ",
                 fontWeight: FontWeight.w500,
                 fontSize: AppFont.font_13,
               ),
@@ -533,6 +534,10 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
                   )),
             ],
           ),
+          index == cngData.particularList!.length - 1 ?  Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: DottedDividerLine(color: AppColor.themeColor,),
+          ) : const SizedBox.shrink() ,
         ],
       );
     });

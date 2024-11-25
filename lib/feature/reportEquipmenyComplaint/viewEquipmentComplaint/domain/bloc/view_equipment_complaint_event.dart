@@ -33,6 +33,17 @@ class ViewEquipmentComplaintSelectedTabIndexEvent
   List<Object?> get props => [selectedTabIndex];
 }
 
+class ViewEquipmentComplaintSelectedComplaintEvent
+    extends ViewEquipmentComplaintEvent {
+  final int index;
+
+  const ViewEquipmentComplaintSelectedComplaintEvent(
+      {required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class ViewEquipmentComplaintSelectedDateRangeEvent
     extends ViewEquipmentComplaintEvent {
   final BuildContext context;

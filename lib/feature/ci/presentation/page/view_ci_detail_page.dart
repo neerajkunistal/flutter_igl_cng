@@ -140,7 +140,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w700,
                         fontSize: AppFont.font_13,
-                      )),
+                      )
+                  ),
                 ],
               ),
               Divider(
@@ -178,7 +179,8 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
-                      )),
+                      )
+                  ),
                 ],
               ),
               SizedBox(
@@ -302,7 +304,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Assign vendor: ",
+                    "Assign Vendor : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
@@ -345,13 +347,13 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Estimate Cost: ",
+                    "Estimate Cost : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),
                   Expanded(
                       child: TextWidget(
-                        cngData.estimateCost.toString(),
+                        cngData.estimateCost.toString() == "0" ? "" : cngData.estimateCost.toString(),
                         textAlign: TextAlign.end,
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
@@ -618,7 +620,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
               Row(
                 children: [
                   TextWidget(
-                    "Particulars: ",
+                    "Particulars : ",
                     fontWeight: FontWeight.w500,
                     fontSize: AppFont.font_13,
                   ),

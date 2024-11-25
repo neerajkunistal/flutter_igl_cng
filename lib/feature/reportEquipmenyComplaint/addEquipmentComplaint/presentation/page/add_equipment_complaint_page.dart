@@ -231,6 +231,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   Widget _nameRemark({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportedByName,
       controller: dataState.reportByController,
     );
@@ -338,6 +339,20 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                           Icons.refresh,
                           color: AppColor.themeColor,
                         ))),
+
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<AddEquipmentComplaintBloc>(context)
+                              .add(AddEquipmentComplaintRemoveImageEvent(index: index));
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColor.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
         ),
@@ -449,6 +464,20 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                                 Icons.refresh,
                                 color: AppColor.themeColor,
                               ))),
+
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: InkWell(
+                              onTap: () {
+                                BlocProvider.of<AddEquipmentComplaintBloc>(context)
+                                    .add(AddEquipmentComplaintRemoveVideoEvent(index: index));
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: AppColor.red,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
               ),

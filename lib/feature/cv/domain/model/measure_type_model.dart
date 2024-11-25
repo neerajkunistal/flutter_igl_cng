@@ -9,21 +9,38 @@ class MeasureTypeModel {
   String? name;
   DataType? dataType;
   String? unit;
+  List<UnitName>? unitNameList;
+  UnitName? unitData;
 
   MeasureTypeModel({
     this.id,
     this.name,
     this.dataType,
     this.unit,
+    this.unitNameList,
+    this.unitData,
  });
 
 
   factory MeasureTypeModel.fromJson(Map<String, dynamic> json) {
+
+    List<UnitName> unitNameList = [];
+    if(json['unit_names'] != null){
+      var unitNames = json['unit_names'];
+      unitNames.forEach((key, value){
+        unitNameList.add(UnitName(
+            name: value.toString(),
+           isSelected: false
+         ));
+      });
+    }
     return MeasureTypeModel(
        id: json['id'] ?? "",
        name: json['name'] ?? "",
        unit: json['unit'] ?? "",
-      dataType:  json['datatype'] != null
+       unitNameList: unitNameList,
+       unitData: UnitName(),
+       dataType:  json['datatype'] != null
           ? getType(dataType: json['datatype'])
           : DataType.string ,
     );
@@ -38,5 +55,18 @@ class MeasureTypeModel {
         case "string" :
           return DataType.string;
       }
+  }
+}
+
+class UnitName {
+  dynamic name;
+  bool? isSelected;
+
+  UnitName({this.name, this.isSelected});
+
+  factory UnitName.fromJson(Map<String, dynamic> json) {
+    return UnitName(
+      name: json['name']
+    );
   }
 }

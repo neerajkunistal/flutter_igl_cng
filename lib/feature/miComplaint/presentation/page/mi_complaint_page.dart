@@ -341,7 +341,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
               ? "Description of Job Hold"
               : dataState.actionData.id == "3"
                   ? "Description of Job Done"
-                  : "Description",
+                  : "Remark",
       controller: dataState.observationController,
     );
   }

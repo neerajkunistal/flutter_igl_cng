@@ -9,7 +9,7 @@ class ActionModel {
     // list.add(ActionModel(id: "1", value: "Start"));
     list.add(ActionModel(id: "2", value: "Hold for Third party/Others"));
     list.add(ActionModel(id: "4", value: "Assign to Third party/Vendor"));
-    list.add(ActionModel(id: "3", value: "Assign to INHouse"));
+    list.add(ActionModel(id: "3", value: "Assign to InHouse"));
     return list;
   }
 }

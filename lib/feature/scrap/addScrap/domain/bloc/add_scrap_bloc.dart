@@ -89,13 +89,15 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
   }
 
   _submit(AddScrapSubmitEvent event, emit) async {
-    if(srNumberController.text.toString().isEmpty
-        || descriptionController.text.toString().isEmpty
-       || filesList.isEmpty
-    || scrapUnitTypeData.id == null){
-      SnackBarErrorWidget(event.context).show(message: "Please filed any form filed");
+
+    var textFiledValidation =  await ScrapHelper.textFiledValidation(context: event.context,
+        srNumber: srNumberController.text.toString(),
+        description: descriptionController.text.toString(),
+        scrapUnitTypeData: scrapUnitTypeData, unit: unitController.text.toString());
+    if(textFiledValidation == false){
       return;
     }
+
     isLoader =  true;
     _eventCompleted(emit);
     ScrapUnitTypeModel scrapUnitTypeData1 =  scrapUnitTypeData;

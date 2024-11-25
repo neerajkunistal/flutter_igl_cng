@@ -93,6 +93,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     _selectTabIndex = 0;
     plannerData =  PlannerModel();
     workCenterData =  WorkCenterModel();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    closeDateController.text = formattedDate;
 
 
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
@@ -670,6 +672,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       complaintCount = [];
       workCenterData = WorkCenterModel();
       plannerData =  PlannerModel();
+      String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+      closeDateController.text = formattedDate;
 
       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
         fromDate: startDate.toString(),

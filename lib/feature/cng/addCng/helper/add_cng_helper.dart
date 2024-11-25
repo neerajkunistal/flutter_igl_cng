@@ -12,6 +12,7 @@ class AddCngHelper {
       required String time,
       required String description,
       required String reportedBy,
+      required String reportedPhone,
       required List<File> fileList}) async {
     try {
       if (categoryData.name == null) {
@@ -31,7 +32,12 @@ class AddCngHelper {
       } else if (reportedBy.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Enter reported by");
         return false;
-      } else if (fileList[0].path.isEmpty && fileList[1].path.isEmpty
+      }
+      else if (reportedPhone.isEmpty) {
+        SnackBarErrorWidget(context).show(message: "Enter reported phone");
+        return false;
+      }
+      else if (fileList[0].path.isEmpty && fileList[1].path.isEmpty
           && fileList[2].path.isEmpty && fileList[3].path.isEmpty) {
         SnackBarErrorWidget(context).show(message: "select photo");
         return false;

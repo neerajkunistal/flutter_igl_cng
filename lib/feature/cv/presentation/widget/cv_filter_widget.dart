@@ -21,7 +21,7 @@ class CvFilterWidget extends StatelessWidget {
     return  Container(
       height: WidgetsBinding.instance.window.viewInsets.bottom > 0.0
           ? MediaQuery.of(context).size.height / 1.2
-          : MediaQuery.of(context).size.height / 2,
+          : MediaQuery.of(context).size.height / 1.8,
       color: Colors.transparent, //could change this to Color(0xFF737373),
       child: Container(
           decoration: const BoxDecoration(
@@ -74,6 +74,7 @@ class CvFilterWidget extends StatelessWidget {
                       ),
                       _controlRoomDropDown(dataState: dataState, context: context),
                       _applyButtonWidget(dataState: dataState, context: context),
+                      _filterClear(context: context),
                     ],
                   ),
                 ) : const Center(child: CenterLoaderWidget());
@@ -171,4 +172,15 @@ class CvFilterWidget extends StatelessWidget {
     );
   }
 
+  Widget _filterClear({required BuildContext context}) {
+    return TextButton(onPressed: () {
+      BlocProvider.of<ViewCvComplaintBloc>(context).add(
+          const ViewCvComplaintFilterSubmitEvent(isFilterSubmit: false));
+      Navigator.pop(context);
+    }, child: TextWidget("Clear",
+      fontWeight: FontWeight.w700,
+      color: AppColor.themeColor,
+    )
+    );
+  }
 }

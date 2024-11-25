@@ -32,6 +32,8 @@ class AddEquipmentComplaintBloc
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
     on<AddEquipmentComplaintAddVideoEvent>(_selectVideo);
+    on<AddEquipmentComplaintRemoveImageEvent>(_removeImage);
+    on<AddEquipmentComplaintRemoveVideoEvent>(_removeVideo);
     on<AddEquipmentComplaintSubmitEvent>(_submit);
   }
 
@@ -122,6 +124,22 @@ class AddEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
+  _removeImage(AddEquipmentComplaintRemoveImageEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    files[event.index] =  File("");
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _removeVideo(AddEquipmentComplaintRemoveVideoEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    videoFiles[event.index] =  File("");
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
   _selectVideo(AddEquipmentComplaintAddVideoEvent event, emit) async {
     if (event.mediaType == 1) {
       var video = await DashboardHelper.videoPiker(context: event.context);
@@ -208,8 +226,21 @@ class AddEquipmentComplaintBloc
 
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
 
-    if(timeController.text.toString().isEmpty){
-      SnackBarErrorWidget(event.context).show(message: "Please select time");
+    var textFiledValidation = await AddEquipmentComplaintHelper.textFieldValidation(
+      context: event.context,
+      complaintTypeData: complaintTypeData,
+      equipmentTypeData: equipmentTypeData,
+      description: descriptionController.text.toString(),
+      name: reportByController.text.toString(),
+      date: dateController.text.toString(),
+      time: timeController.text.toString(),
+      generalComplaintData: generalComplaintData,
+      generalDescription: generalDescriptionController.text.toString(),
+      file: files,
+      videoFiles: videoFiles,
+    );
+
+    if(textFiledValidation == false){
       return;
     }
 

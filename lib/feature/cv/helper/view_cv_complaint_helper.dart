@@ -55,19 +55,22 @@ class ViewCvComplaintHelper {
       Map<String, String> particularJson = {};
 
       int i = 0;
+      int imageId = 0;
       for(var particularData in particularList){
         var jsonValue = {
           "particulars[$i]" : "${particularData.name}",
           "measurement_unit_id[$i]" : particularData.measureTypeData!.id != null
               ? particularData.measureTypeData!.id.toString() : "0",
           "measurement_value[$i]" : "${particularData.measurementValue}",
+          "unit_names[$i]" : particularData.measureTypeData!.unitData!.name.toString(),
         };
         particularJson.addAll(jsonValue);
         for (var fileData in particularData.fileList!) {
           if (fileData.path.isNotEmpty) {
             files.add(FileModel(
-                name: "file", file: fileData, keyName: "estimateFile[$i]"));
+                name: "file", file: fileData, keyName: "estimateFile[$imageId]"));
           }
+          imageId++;
         }
         i++;
       }

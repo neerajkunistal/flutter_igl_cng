@@ -95,7 +95,7 @@ class HomeHelper {
       } else if (userData.roleType == RoleType.ci) {
         pageList.add(const ViewCiComplaintPage());
       } else if (userData.roleType == RoleType.cv) {
-         pageList.add(const ViewCvComplaintPage());
+        pageList.add(const ViewCvComplaintPage());
       } else if(userData.roleType == RoleType.lcvManager){
         pageList.add(const RunningTruckPage());
         pageList.add(const AddAssignmentPage());

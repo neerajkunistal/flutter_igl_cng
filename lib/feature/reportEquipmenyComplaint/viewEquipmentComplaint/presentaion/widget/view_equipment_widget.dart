@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/presentation/page/mi_complaint_page.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
@@ -311,7 +312,22 @@ class ViewEquipmentWidget extends StatelessWidget {
                 onTap: () async {
                   LoginDataModel userLogin =
                   UserInfo.instanceInit()!.userData!;
-                  if (userLogin.roleType == RoleType.stationUser &&
+                  if(dataState.reviewComplaintList[index].miAssignToUser.toString().isEmpty &&
+                      dataState.reviewComplaintList[index].complaintStatus.toString() == "0" &&
+                      userLogin.roleType == RoleType.stationUser ) {
+                    BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                        ViewEquipmentComplaintSelectedComplaintEvent(index: index));
+                    var result = await Navigator.push(context,
+                        FadeRoute(page: const ViewEquipmentComplaintDetailPage()));
+                    if (result.toString() == "Completed") {
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                          !context.mounted ? context : context)
+                          .add(ViewEquipmentComplaintPageLoadEvent(
+                          context:
+                          !context.mounted ? context : context));
+                    }
+                  }
+                  else if (userLogin.roleType == RoleType.stationUser &&
                       dataState.reviewComplaintList[index].complaintStatus.toString() ==
                           "0" &&
                       dataState.reviewComplaintList[index].assignType.toString() ==

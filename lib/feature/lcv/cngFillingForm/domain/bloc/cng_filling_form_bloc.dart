@@ -328,7 +328,7 @@ class CngFillingFormBloc
     _eventCompleted(emit);
     if (res != null) {
       Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+          .pop("complete");
     }
   }
 

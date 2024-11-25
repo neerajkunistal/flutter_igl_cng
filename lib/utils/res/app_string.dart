@@ -502,6 +502,8 @@ class AppString {
 
   static get selectMeasure => "Select Measure";
 
+  static get selectUnit => "Select Unit";
+
   static get enterParticular => "Enter Particular";
 
   static get estimateAmount => "Estimate Amount";

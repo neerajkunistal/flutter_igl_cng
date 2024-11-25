@@ -77,7 +77,6 @@ class MiComplaintHelper {
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-
       String url = APIs.addMiComplaintApi;
       var json = {
         "complaintId": reviewComplaintData.id != null

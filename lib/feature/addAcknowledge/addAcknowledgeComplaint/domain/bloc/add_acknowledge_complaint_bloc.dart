@@ -27,7 +27,7 @@ class AddAcknowledgeComplaintBloc
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
 
-  String breakDownvalue = "";
+  String breakDownvalue = "2";
 
   bool isComplaintLoader = false;
 
@@ -78,7 +78,7 @@ class AddAcknowledgeComplaintBloc
     complaintData = ComplaintModel();
     acknowledgeData = AcknowledgeModel();
     reviewComplaintData = ReviewComplaintModel();
-    breakDownvalue = "";
+    breakDownvalue = "2";
     generalDescriptionController.text = "";
     generalComplaintList = [];
     generalComplaintData = GeneralComplaintModel();
@@ -162,7 +162,8 @@ class AddAcknowledgeComplaintBloc
       timeController.text = timeFormat;
     }
 
-    breakDownvalue = event.acknowledgeData.crBreakdown.toString();
+    breakDownvalue = event.acknowledgeData.crBreakdown.toString() == "0" ? "2" : event.acknowledgeData.crBreakdown.toString();
+
     descriptionController.text =
         acknowledgeData.complaintDescription.toString();
     remarkController.text = acknowledgeData.ackRemark.toString();
@@ -361,7 +362,7 @@ class AddAcknowledgeComplaintBloc
       timeController.text = "";
       isLoader = false;
       file = File("");
-      breakDownvalue = "";
+      breakDownvalue = "2";
       isComplaintLoader = false;
       generalDescriptionController.text = "";
       generalComplaintData = GeneralComplaintModel();

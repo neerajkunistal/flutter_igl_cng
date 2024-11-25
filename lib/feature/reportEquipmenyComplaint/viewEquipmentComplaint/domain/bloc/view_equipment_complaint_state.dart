@@ -23,6 +23,8 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final List<int> complaintCount;
   final bool isLoader;
   final TextEditingController remarkController;
+  final int index;
+  final ReviewComplaintModel reviewComplaintData;
 
   const FetchViewEquipmentComplaintDataState({
     required this.reviewComplaintList,
@@ -32,6 +34,8 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
     required this.complaintCount,
     required this.isLoader,
     required this.remarkController,
+    required this.index,
+    required this.reviewComplaintData,
   });
 
   @override
@@ -43,5 +47,7 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
         complaintCount,
         isLoader,
         remarkController,
+        index,
+        reviewComplaintData
       ];
 }

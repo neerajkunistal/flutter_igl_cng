@@ -216,10 +216,10 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       isRequired: true,
       labelText: AppString.date,
       controller: dataState.closeDateController,
-      onTap: () {
+/*      onTap: () {
         BlocProvider.of<ReviewComplaintBloc>(context)
             .add(ReviewComplaintSelectDateData(context: context));
-      },
+      },*/
     );
   }
 
@@ -390,15 +390,19 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                             : const SizedBox.shrink(),
                       ],
                     ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: AppColor.themeColor,
-                        ))),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<ReviewComplaintBloc>(context)
+                          .add(ReviewComplaintRemoveImageEvent(index: index));
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColor.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
         ),

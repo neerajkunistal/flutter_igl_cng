@@ -180,6 +180,17 @@ class ViewCvComplaintSelectMeasureDataEvent extends ViewCvComplaintEvent {
 }
 
 
+class ViewCvComplaintSelectUnitNameEvent extends ViewCvComplaintEvent {
+  final UnitName unitNameData;
+
+  const ViewCvComplaintSelectUnitNameEvent(
+      {required this.unitNameData,});
+
+  @override
+  List<Object?> get props => [unitNameData];
+}
+
+
 class ViewCvComplaintFilterSubmitEvent extends ViewCvComplaintEvent {
   final bool isFilterSubmit;
 

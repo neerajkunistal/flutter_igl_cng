@@ -30,6 +30,9 @@ class ViewEquipmentComplaintBloc
 
   bool isLoader =  false;
 
+  ReviewComplaintModel reviewComplaintData =  ReviewComplaintModel();
+  int index = 0;
+
   TextEditingController remarkController = TextEditingController();
 
   ViewEquipmentComplaintBloc() : super(ViewEquipmentComplaintInitial()) {
@@ -38,6 +41,7 @@ class ViewEquipmentComplaintBloc
     on<ViewEquipmentComplaintSelectedDateRangeEvent>(_selectDateRangeFilter);
     on<ViewEquipmentComplaintSearchEvent>(_search);
     on<ViewEquipmentComplaintClosureEvent>(_closureComplaint);
+    on<ViewEquipmentComplaintSelectedComplaintEvent>(_selectComplaint);
   }
 
   _pageLoad(ViewEquipmentComplaintPageLoadEvent event, emit) async {
@@ -47,6 +51,8 @@ class ViewEquipmentComplaintBloc
     isLoader =  false;
     remarkController.text = "";
     userData = UserInfo.instanceInit()!.userData!;
+    reviewComplaintData =  ReviewComplaintModel();
+    index = 0;
 
     startDate = DateTime.now().subtract(const Duration(days: 5));
     endDate = DateTime.now();
@@ -590,6 +596,12 @@ class ViewEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectComplaint(ViewEquipmentComplaintSelectedComplaintEvent event, emit) {
+    index =  event.index;
+    reviewComplaintData =  reviewComplaintList[index];
+    _eventComplete(emit);
+  }
+
   _closureComplaint(ViewEquipmentComplaintClosureEvent event, emit) async {
      isLoader =  true;
      reviewComplaintList[event.index].isSelected =  true;
@@ -597,12 +609,8 @@ class ViewEquipmentComplaintBloc
      var res =  await ViewEquipmentComplaintHelper.closureComplaint(context: event.context,
          reviewComplaintData: event.reviewComplaintData, remark: remarkController.text.toString());
      if(res != null){
-       BlocProvider.of<ViewEquipmentComplaintBloc>(
-           !event.context.mounted ? event.context : event.context)
-           .add(ViewEquipmentComplaintSelectedDateRangeEvent(
-           fromDate: startDate,
-           toDate: endDate,
-           context: !event.context.mounted ? event.context : event.context));
+       if (!event.context.mounted) return;
+       Navigator.pop(event.context, "Completed");
      } else {
        isLoader =  false;
        reviewComplaintList[event.index].isSelected =  false;
@@ -618,7 +626,9 @@ class ViewEquipmentComplaintBloc
         endDate: endDate,
         isLoader:  isLoader,
         complaintCount: complaintCount,
-        remarkController: remarkController
+        remarkController: remarkController,
+        index: index,
+        reviewComplaintData: reviewComplaintData
     ));
   }
 }

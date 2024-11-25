@@ -259,7 +259,7 @@ class ViewAmoComplaintBloc
         context: event.context);
     if (res != null) {
       Navigator.of(event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+          .pop("complete");
     }
     isLoader = false;
     _eventComplete(emit);

@@ -194,10 +194,10 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
       isRequired: true,
       labelText: AppString.date,
       controller: dataState.closeDateController,
-      onTap: () {
+/*      onTap: () {
         BlocProvider.of<AcknowledgeBloc>(context)
             .add(AcknowledgeSelectClosedDateEvent(context: context));
-      },
+      },*/
     );
   }
 

@@ -45,7 +45,6 @@ class ViewParticularWidgetItemBox extends StatelessWidget {
                          fontWeight: FontWeight.w400, fontSize: AppFont.font_12,),
                      ],
                    ),
-
                    Row(
                      children: [
                        TextWidget(AppString.measure + "${particularData.measureTypeData!.name.toString()} : ",

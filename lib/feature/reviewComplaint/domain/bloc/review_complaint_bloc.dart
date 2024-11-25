@@ -40,6 +40,7 @@ class ReviewComplaintBloc
     on<ReviewComplaintSelectApprovalEvent>(_selectApproval);
     on<ReviewComplaintSelectScrapData>(_selectScrap);
     on<ReviewComplaintAddImageEvent>(_selectFile);
+    on<ReviewComplaintRemoveImageEvent>(_removeImage);
     on<ReviewComplaintSelectDateData>(_selectDate);
     on<ReviewComplaintSelectTimeData>(_selectTime);
     on<ReviewComplaintSelectCodeGroupEvent>(_selectCodeGroup);
@@ -66,6 +67,9 @@ class ReviewComplaintBloc
     isNoScrap =  false;
     sapCodeLoader =  false;
     codeGroupData =  CodeGroupModel();
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    closeDateController.text = formattedDate;
 
     _complaintId = event.complaintId ?? "";
     reviewComplaintList =
@@ -126,6 +130,14 @@ class ReviewComplaintBloc
         files[event.index] = photo;
       }
     }
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _removeImage(ReviewComplaintRemoveImageEvent event, emit) {
+    isLoader = true;
+    _eventComplete(emit);
+    files[event.index] =  File("");
     isLoader = false;
     _eventComplete(emit);
   }
@@ -258,6 +270,8 @@ class ReviewComplaintBloc
       files.add(File(""));
       files.add(File(""));
       files.add(File(""));
+      String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+      closeDateController.text = formattedDate;
       if (!event.context.mounted) return;
       Navigator.pop(event.context, "Completed");
     }

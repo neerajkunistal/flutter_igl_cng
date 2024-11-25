@@ -317,15 +317,19 @@ class _AddCngPageState extends State<AddCngPage> {
                             : const SizedBox.shrink(),
                       ],
                     ),
-                    Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        color: Colors.white.withOpacity(0.6),
-                        child: Center(
-                            child: Icon(
-                          Icons.refresh,
-                          color: AppColor.themeColor,
-                        ))),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<AddCngBloc>(context)
+                              .add(AddCngFileDeleteEvent(index: index));
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColor.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
         ),

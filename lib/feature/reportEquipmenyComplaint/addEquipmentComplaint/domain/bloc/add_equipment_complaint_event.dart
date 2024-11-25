@@ -70,6 +70,26 @@ class AddEquipmentComplaintAddVideoEvent extends AddEquipmentComplaintEvent {
   List<Object?> get props => [context, mediaType, index];
 }
 
+class AddEquipmentComplaintRemoveImageEvent extends AddEquipmentComplaintEvent {
+  final int index;
+
+  const AddEquipmentComplaintRemoveImageEvent(
+      { required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class AddEquipmentComplaintRemoveVideoEvent extends AddEquipmentComplaintEvent {
+  final int index;
+
+  const AddEquipmentComplaintRemoveVideoEvent(
+      { required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class AddEquipmentComplaintSelectTimeData extends AddEquipmentComplaintEvent {
   final BuildContext context;
 

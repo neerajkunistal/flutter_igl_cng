@@ -129,7 +129,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
   _deleteFile(AddCngFileDeleteEvent event, emit) {
     isLoader = true;
     _eventCompleted(emit);
-    fileList.removeAt(event.index);
+    fileList[event.index] =  File("");
     isLoader = false;
     _eventCompleted(emit);
   }
@@ -142,6 +142,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
         time: timeController.text.toString(),
         description: descriptionController.text.toString(),
         reportedBy: reportedByController.text.toString(),
+        reportedPhone: reportedByPhoneController.text.toString(),
         fileList: fileList);
     if (textFiledValidation == false) {
       return;
@@ -175,7 +176,7 @@ class AddCngBloc extends Bloc<AddCngEvent, AddCngState> {
       fileList.add(File(""));
       fileList.add(File(""));
       Navigator.of(!event.context.mounted ? event.context : event.context)
-          .pop("Complete");
+          .pop("complete");
     }
     isLoader = false;
     _eventCompleted(emit);

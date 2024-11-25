@@ -69,6 +69,13 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
           height: MediaQuery.of(context).size.width * 0.08,
         ),
         _measureTypDropDown(dataState: dataState, context: context),
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.08,
+        ),
+
+        dataState.measureTypeData.id != null
+        ? _unitTypDropDown(dataState: dataState, context: context)
+            : const SizedBox.shrink(),
 
         dataState.measureTypeData.name != null ?
         SizedBox(
@@ -144,13 +151,36 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
     );
   }
 
+  Widget _unitTypDropDown(
+      {required FetchViewCvComplaintDataState dataState,
+        required BuildContext context}) {
+    return  DropdownWidget(
+      hint: AppString.selectUnit,
+      dropdownValue: dataState.unitNameData.name != null ? dataState.unitNameData : null,
+      onChanged: (value) {
+        BlocProvider.of<ViewCvComplaintBloc>(context)
+            .add(ViewCvComplaintSelectUnitNameEvent(unitNameData: value));
+      },
+      items: dataState.measureTypeData.unitNameList!
+          .map<DropdownMenuItem<UnitName>>(
+              (UnitName unitData) {
+            return DropdownMenuItem<UnitName>(
+              value: unitData,
+              child: TextWidget(unitData.name.toString()),
+            );
+          }).toList(),
+    );
+  }
+
   Widget _measureController(
       {required FetchViewCvComplaintDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
       controller: dataState.measureController,
       textInputType: dataState.measureTypeData.dataType == DataType.number ? TextInputType.number : TextInputType.text,
-      labelText: dataState.measureTypeData.unit.toString(),
+      labelText: dataState.unitNameData.name == null
+          ? dataState.measureTypeData.unit.toString()
+          : dataState.unitNameData.name.toString() ,
     );
   }
 

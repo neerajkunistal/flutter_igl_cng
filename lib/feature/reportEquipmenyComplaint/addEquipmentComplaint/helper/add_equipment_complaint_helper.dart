@@ -7,6 +7,47 @@ import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AddEquipmentComplaintHelper {
+
+  static Future<dynamic> textFieldValidation({
+    required BuildContext context,
+    required ComplaintTypeModel complaintTypeData,
+    required EquipmentTypeModel equipmentTypeData,
+    required String description,
+    required String name,
+    required List<File> file,
+    required List<File> videoFiles,
+    required String date,
+    required String time,
+    required String generalDescription,
+    required GeneralComplaintModel generalComplaintData,
+  }) async {
+
+    try{
+      if(complaintTypeData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select complaint type");
+        return false;
+      }
+      else if(complaintTypeData.id.toString() == "2" && equipmentTypeData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select equipment");
+        return false;
+      }
+      else if(complaintTypeData.id.toString() == "1" && generalComplaintData.id == null){
+        SnackBarErrorWidget(context).show(message: "Please select general");
+        return false;
+      }
+      else if(time.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter time");
+        return false;
+      }
+      else if(name.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter reported by name");
+        return false;
+      }
+      return true;
+    }catch(_){}
+    return false;
+  }
+
   static Future<dynamic> fetchComplaintTypeData() async {
     try {
       String url = APIs.getComplaintTypeApi;
