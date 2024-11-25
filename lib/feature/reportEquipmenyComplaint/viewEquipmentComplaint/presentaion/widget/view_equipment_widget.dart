@@ -312,7 +312,10 @@ class ViewEquipmentWidget extends StatelessWidget {
                 onTap: () async {
                   LoginDataModel userLogin =
                   UserInfo.instanceInit()!.userData!;
-                  if(dataState.reviewComplaintList[index].miAssignToUser.toString().isEmpty &&
+                  if(dataState.reviewComplaintList[index].complaintStatus.toString() == "1"){
+                    return;
+                  }
+                  else if(dataState.reviewComplaintList[index].miAssignToUser.toString().isEmpty &&
                       dataState.reviewComplaintList[index].complaintStatus.toString() == "0" &&
                       userLogin.roleType == RoleType.stationUser ) {
                     BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
