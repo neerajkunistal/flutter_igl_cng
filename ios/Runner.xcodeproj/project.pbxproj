@@ -498,7 +498,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
@@ -699,7 +699,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
@@ -731,7 +731,7 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
