@@ -52,9 +52,12 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                     value: acknowledgeData.equipmentCode.toString().isNotEmpty
                         ? acknowledgeData.descriptionKva.toString()
                         : acknowledgeData.generalComplaintName.toString()),
+
+                acknowledgeData.equipmentCode.toString().isNotEmpty?
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
-                ),
+                ) : const SizedBox(),
+
                 acknowledgeData.equipmentCode.toString().isNotEmpty
                     ? _rowWidget(
                         name: "vendor Code",
