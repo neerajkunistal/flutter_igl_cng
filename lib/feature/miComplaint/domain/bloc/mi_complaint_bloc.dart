@@ -119,6 +119,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
       materialCodeController: TextEditingController(),
+      remarkCodeController: TextEditingController(),
     ));
 
     actionList = ActionModel().fetchData();
@@ -311,6 +312,7 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
       uomTypeData: UomTypeModel(),
       qtyController: TextEditingController(),
       materialCodeController: TextEditingController(),
+      remarkCodeController: TextEditingController(),
     ));
     isLoader = false;
     _eventComplete(emit);

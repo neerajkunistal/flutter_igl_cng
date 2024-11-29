@@ -4,14 +4,21 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/pdf/pdf_api.dart';
 import 'package:flutter_igl_cng/feature/pdf/pdf_invoice_api.dart';
 import 'package:flutter_igl_cng/feature/pdf/pdf_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
   final int index;
+  final bool? isDetailPage;
 
-  const ReviewComplaintItemBox({super.key, required this.reviewComplaintData, required this.index});
+  const ReviewComplaintItemBox({super.key,
+    required this.reviewComplaintData,
+    required this.index,
+    this.isDetailPage
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +192,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ): const SizedBox.shrink(),
 
- /*               _closureButton(context: context, reviewComplaintData: reviewComplaintData),*/
+                isDetailPage == true ?
+                const SizedBox.shrink()
+                : _closureButton(context: context, reviewComplaintData: reviewComplaintData),
 
                 Container(
                     height: 1,
@@ -296,25 +305,23 @@ class ReviewComplaintItemBox extends StatelessWidget {
               fontSize: AppFont.font_12,
               onPressed: () async {
 
-/*                final ByteData image = await rootBundle.load(AppIcon.appLogoIgl);
-                Uint8List imageData = (image).buffer.asUint8List();
-                PdfModel pdfData =  PdfModel(
-                    complaintId:  reviewComplaintData.tokenNo.toString(),
-                    complaintData:  reviewComplaintData.complaintDateTime.toString(),
-                    image: imageData,
-                    complaintStatus: "New",
-                    equipmentId: reviewComplaintData.equipmentId,
-                    stationName: reviewComplaintData.cngStationName,
-                );
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    ViewEquipmentComplaintSelectedComplaintEvent(index: index));
+                var result = await Navigator.push(context,
+                    FadeRoute(page: const ViewEquipmentComplaintDetailPage()));
+                if (result.toString() == "Completed") {
+                  BlocProvider.of<ViewEquipmentComplaintBloc>(
+                      !context.mounted ? context : context)
+                      .add(ViewEquipmentComplaintPageLoadEvent(
+                      context:
+                      !context.mounted ? context : context));
+                }
 
-                final pdfFile = await PdfInvoiceApi.generate(pdfData);
-                PdfApi.openFile(pdfFile);*/
-
-                if(await _onClosureComplaintPop(context: context) == true){
+/*                if(await _onClosureComplaintPop(context: context) == true){
                   BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
                       ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,
                       reviewComplaintData: reviewComplaintData, index: index));
-                }
+                }*/
               },
             ) : const DottedLoaderWidget(),
           ),

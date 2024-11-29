@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/add_sap_widget.dart';
 
 class AddAcknowledgePage extends StatefulWidget {
   const AddAcknowledgePage({super.key});
@@ -92,6 +93,8 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _radioButton(dataState: dataState),
             _verticalSpace(),
             _complaintStatusRadioButton(dataState: dataState),
+            _verticalSpace(),
+            AddSapWidget(dataState: dataState),
             _verticalSpace(),
             _remark(dataState: dataState),
             _verticalSpace(),

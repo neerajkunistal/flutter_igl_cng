@@ -108,6 +108,10 @@ class _AddScrapPageState extends State<AddScrapPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
+            _remarkController(dataState: dataState),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
             _imageList(dataState: dataState),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -168,6 +172,13 @@ class _AddScrapPageState extends State<AddScrapPage> {
       labelText: AppString.unit,
       controller: dataState.unitController,
       textInputType: TextInputType.number,
+    );
+  }
+
+  Widget _remarkController({required FetchAddScrapDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.remark,
+      controller: dataState.remarkController,
     );
   }
 

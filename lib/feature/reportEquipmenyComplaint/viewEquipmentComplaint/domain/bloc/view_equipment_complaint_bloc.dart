@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
@@ -34,6 +35,9 @@ class ViewEquipmentComplaintBloc
   int index = 0;
 
   TextEditingController remarkController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController rectifyByController = TextEditingController();
 
   ViewEquipmentComplaintBloc() : super(ViewEquipmentComplaintInitial()) {
     on<ViewEquipmentComplaintPageLoadEvent>(_pageLoad);
@@ -42,6 +46,8 @@ class ViewEquipmentComplaintBloc
     on<ViewEquipmentComplaintSearchEvent>(_search);
     on<ViewEquipmentComplaintClosureEvent>(_closureComplaint);
     on<ViewEquipmentComplaintSelectedComplaintEvent>(_selectComplaint);
+    on<ViewEquipmentComplaintSelectDateData>(_selectDate);
+    on<ViewEquipmentComplaintSelectTimeData>(_selectTime);
   }
 
   _pageLoad(ViewEquipmentComplaintPageLoadEvent event, emit) async {
@@ -50,12 +56,23 @@ class ViewEquipmentComplaintBloc
     complaintCount = [];
     isLoader =  false;
     remarkController.text = "";
+    dateController.text = "";
+    timeController.text = "";
+    dateController.text = "";
+    rectifyByController.text = "";
     userData = UserInfo.instanceInit()!.userData!;
     reviewComplaintData =  ReviewComplaintModel();
     index = 0;
 
     startDate = DateTime.now().subtract(const Duration(days: 5));
     endDate = DateTime.now();
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    dateController.text = formattedDate;
+
+    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
+        .format(!event.context.mounted ? event.context : event.context);
+    timeController.text = timeFormat;
 
     var res = userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint(
@@ -603,12 +620,69 @@ class ViewEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectDate(ViewEquipmentComplaintSelectDateData event, emit) async {
+    try {
+      final DateTime? picked = await showDatePicker(
+          context: event.context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime.now());
+      if (picked != null) {
+        String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
+        dateController.text = formattedDate;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  _selectTime(ViewEquipmentComplaintSelectTimeData event, emit) async {
+    try {
+      DateTime initialDate = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm').parse(timeController.text.toString())
+          : DateTime.now();
+
+      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
+      final TimeOfDay? time = await showTimePicker(
+        context: event.context,
+        initialTime: initialTime,
+      );
+      if (time != null) {
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+        timeController.text = timeFormat;
+        _eventComplete(emit);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+
   _closureComplaint(ViewEquipmentComplaintClosureEvent event, emit) async {
+    var textFiledValidation =  await ViewEquipmentComplaintHelper.closureComplaintTextFiledValidation(context: event.context,
+        date: dateController.text.toString(),
+        time: timeController.text.toString(),
+        rectifiedBy: rectifyByController.text.toString(),
+        remark: remarkController.text.toString());
+    if(textFiledValidation == false){
+      return;
+    }
+
      isLoader =  true;
      reviewComplaintList[event.index].isSelected =  true;
      _eventComplete(emit);
-     var res =  await ViewEquipmentComplaintHelper.closureComplaint(context: event.context,
-         reviewComplaintData: event.reviewComplaintData, remark: remarkController.text.toString());
+     var res =  await ViewEquipmentComplaintHelper.closureComplaint(
+          context: !event.context.mounted ? event.context :event.context,
+         reviewComplaintData: event.reviewComplaintData,
+         date: dateController.text.toString(),
+         time: timeController.text.toString(),
+         rectifiedBy: rectifyByController.text.toString(),
+         remark: remarkController.text.toString());
      if(res != null){
        if (!event.context.mounted) return;
        Navigator.pop(event.context, "Completed");
@@ -629,7 +703,10 @@ class ViewEquipmentComplaintBloc
         complaintCount: complaintCount,
         remarkController: remarkController,
         index: index,
-        reviewComplaintData: reviewComplaintData
+        reviewComplaintData: reviewComplaintData,
+        dateController: dateController,
+        rectifyByController: rectifyByController,
+        timeController: timeController,
     ));
   }
 }

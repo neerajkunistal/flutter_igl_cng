@@ -118,6 +118,7 @@ class MiComplaintHelper {
           var jsonData = {
             "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
             "scrapDetails[$i][description]" : scrapList[i].description.toString(),
+            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
           };

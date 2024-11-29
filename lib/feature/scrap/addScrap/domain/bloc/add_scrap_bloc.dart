@@ -15,6 +15,7 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
   TextEditingController srNumberController =  TextEditingController();
   TextEditingController descriptionController =  TextEditingController();
   TextEditingController unitController =  TextEditingController();
+  TextEditingController remarkController =  TextEditingController();
   List<File> filesList = [];
   List<ScrapModel> scrapList = [];
 
@@ -36,6 +37,7 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
     srNumberController =  TextEditingController();
     descriptionController =  TextEditingController();
     unitController =  TextEditingController();
+    remarkController =  TextEditingController();
     filesList = [];
     filesList.add(File(""));
     filesList.add(File(""));
@@ -107,6 +109,7 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
       description: descriptionController.text.toString(),
       scrapUnitTypeData: scrapUnitTypeData1,
       filesList: filesList,
+      remark: remarkController.text.toString()
     );
     scrapList.add(scrapData);
     isLoader =  false;
@@ -124,6 +127,7 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
         scrapUnitTypeList: scrapUnitTypeList,
         srNumberController: srNumberController,
         unitController: unitController,
+        remarkController: remarkController,
        scrapList: scrapList,
     ));
   }

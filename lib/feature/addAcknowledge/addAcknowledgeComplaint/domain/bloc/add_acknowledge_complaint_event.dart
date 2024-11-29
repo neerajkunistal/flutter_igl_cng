@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
@@ -88,6 +90,25 @@ class AddAcknowledgeComplaintSelectDepartmentEvent
 
   @override
   List<Object?> get props => [departmentData];
+}
+
+class AddAcknowledgeComplaintSelectedPlannerEvent extends AddAcknowledgeComplaintEvent {
+  final PlannerModel plannerData;
+
+  const AddAcknowledgeComplaintSelectedPlannerEvent(
+      {required this.plannerData});
+
+  @override
+  List<Object?> get props => [plannerData];
+}
+class AddAcknowledgeComplaintSelectedWorkCenterEvent extends AddAcknowledgeComplaintEvent {
+  final WorkCenterModel workCenterData;
+
+  const AddAcknowledgeComplaintSelectedWorkCenterEvent(
+      {required this.workCenterData});
+
+  @override
+  List<Object?> get props => [workCenterData];
 }
 
 class AddAcknowledgeComplaintSelectUserEvent

@@ -192,7 +192,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                       child: cngData.isSelected == false ?
                       ButtonWidget(
                         backgroundColor: AppColor.red,
-                        text: "Closure",
+                        text: AppString.closure,
                         fontSize: AppFont.font_12,
                         onPressed: () async {
                           if(await _onClosureComplaintPop(context: context) == true){
@@ -231,7 +231,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
         context: context,
         builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
             message: "Do you want to closure complaint?",
-            okButtonText: "Closure",
+            okButtonText: AppString.closure,
             okButtonColour: AppColor.red,
             onPressed: () => Navigator.of(context).pop(true)))) ??
         false;

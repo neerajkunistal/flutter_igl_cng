@@ -25,6 +25,9 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
   final TextEditingController remarkController;
   final int index;
   final ReviewComplaintModel reviewComplaintData;
+  final TextEditingController dateController;
+  final TextEditingController timeController;
+  final TextEditingController rectifyByController;
 
   const FetchViewEquipmentComplaintDataState({
     required this.reviewComplaintList,
@@ -36,6 +39,9 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
     required this.remarkController,
     required this.index,
     required this.reviewComplaintData,
+    required this.rectifyByController,
+    required this.dateController,
+    required this.timeController,
   });
 
   @override
@@ -48,6 +54,8 @@ class FetchViewEquipmentComplaintDataState extends ViewEquipmentComplaintState {
         isLoader,
         remarkController,
         index,
-        reviewComplaintData
+        rectifyByController,
+        dateController,
+        timeController,
       ];
 }

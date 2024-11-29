@@ -18,8 +18,41 @@ class ViewEquipmentComplaintHelper {
     }
   }
 
+  static Future<dynamic> closureComplaintTextFiledValidation({required BuildContext context,
+    required String date,
+    required String time,
+    required String rectifiedBy,
+    required String remark})  async
+  {
+     try
+     {
+       if(date.isEmpty){
+         SnackBarErrorWidget(context).show(message: "Please select date");
+         return false;
+       }
+       else if(date.isEmpty){
+         SnackBarErrorWidget(context).show(message: "Please select time");
+         return false;
+       }
+       else if(rectifiedBy.isEmpty){
+         SnackBarErrorWidget(context).show(message: "Please enter rectified By");
+         return false;
+       }
+       else if(remark.isEmpty){
+         SnackBarErrorWidget(context).show(message: "Please enter remark");
+         return false;
+       }
+       return true;
+     }catch(_){}
+    return false;
+  }
+
   static  Future<dynamic> closureComplaint({required BuildContext context,
-     required ReviewComplaintModel reviewComplaintData, required String remark}) async {
+     required ReviewComplaintModel reviewComplaintData,
+    required String date,
+    required String time,
+    required String rectifiedBy,
+    required String remark}) async {
     try{
          String url =  APIs.closureComplaintApi;
          var json = {

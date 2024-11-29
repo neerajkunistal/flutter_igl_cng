@@ -78,6 +78,7 @@ class ReviewComplaintHelper {
             "scrapDetails[$i][description]" : scrapList[i].description.toString(),
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
@@ -185,6 +186,7 @@ class ReviewComplaintHelper {
             "scrapDetails[$i][description]" : scrapList[i].description.toString(),
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){

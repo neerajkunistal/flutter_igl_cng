@@ -21,6 +21,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
   final TextEditingController srNumberController;
   final TextEditingController descriptionController;
   final TextEditingController unitController;
+  final TextEditingController remarkController;
   final List<File> filesList;
   final List<ScrapModel> scrapList;
 
@@ -32,6 +33,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
    required this.scrapUnitTypeList,
    required this.srNumberController,
    required this.unitController,
+   required this.remarkController,
    required this.scrapList,
   });
 
@@ -44,6 +46,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
     scrapUnitTypeList,
     srNumberController,
     unitController,
+    remarkController,
     scrapList,
   ];
 }

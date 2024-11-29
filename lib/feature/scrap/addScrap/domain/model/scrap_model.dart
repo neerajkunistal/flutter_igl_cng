@@ -8,12 +8,14 @@ class ScrapModel {
   String? description;
   ScrapUnitTypeModel? scrapUnitTypeData;
   List<File>? filesList;
+  String? remark;
 
   ScrapModel({
     this.srNumber,
     this.description,
     this.scrapUnitTypeData,
     this.filesList,
+    this.remark,
   });
 
 }

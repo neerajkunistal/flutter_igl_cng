@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
 
 part 'add_acknowledge_complaint_state.dart';
 
@@ -12,6 +15,7 @@ class AddAcknowledgeComplaintBloc
   List<EquipmentTypeModel> equipmentTypeList = [];
   TextEditingController descriptionController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
+  TextEditingController personResponsibleController = TextEditingController();
   bool isLoader = false;
   File file = File("");
   List<DepartmentModel> departmentList = [];
@@ -36,6 +40,11 @@ class AddAcknowledgeComplaintBloc
   TextEditingController generalDescriptionController = TextEditingController();
   String complaintStatus = "0";
 
+  List<PlannerModel> plannerList = [];
+  PlannerModel plannerData =  PlannerModel();
+  List<WorkCenterModel> workCenterList = [];
+  WorkCenterModel workCenterData =  WorkCenterModel();
+
   AddAcknowledgeComplaintBloc() : super(AddAcknowledgeComplaintInitial()) {
     on<AddAcknowledgeComplaintPageLoadEvent>(_pageLoad);
     on<AddAcknowledgeComplaintSelectComplaintDataEvent>(_selectComplaintType);
@@ -43,6 +52,8 @@ class AddAcknowledgeComplaintBloc
     on<AddAcknowledgeComplaintSelectStatusData>(_selectComplaintStatus);
     on<AddAcknowledgeComplaintSelectUserEvent>(_selectUser);
     on<AddAcknowledgeComplaintSelectDepartmentEvent>(_selectDepartment);
+    on<AddAcknowledgeComplaintSelectedPlannerEvent>(_selectPlanner);
+    on<AddAcknowledgeComplaintSelectedWorkCenterEvent>(_selectWorkCenter);
     on<AddAcknowledgeComplaintSelectComplaintEvent>(_selectComplaint);
     on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(
         _selectAcknowledget);
@@ -80,9 +91,12 @@ class AddAcknowledgeComplaintBloc
     reviewComplaintData = ReviewComplaintModel();
     breakDownvalue = "2";
     generalDescriptionController.text = "";
+    personResponsibleController.text = "";
     generalComplaintList = [];
     generalComplaintData = GeneralComplaintModel();
     complaintStatus = "0";
+    plannerData =  PlannerModel();
+    workCenterData =  WorkCenterModel();
 
     acknowledgeData = event.acknowledgeData;
     acknowledgeList =
@@ -169,6 +183,21 @@ class AddAcknowledgeComplaintBloc
     remarkController.text = acknowledgeData.ackRemark.toString();
 
     complaintStatus = acknowledgeData.ackStatus.toString();
+
+    if(plannerList.isEmpty){
+      var res =  await AcknowledgeHelper.fetchPlannerData();
+      if(res !=  null){
+        plannerList =  res;
+      }
+    }
+
+    if(workCenterList.isEmpty){
+      var res =  await AcknowledgeHelper.fetchWorkCenterData();
+      if(res !=  null){
+        workCenterList =  res;
+      }
+    }
+
     _eventComplete(emit);
   }
 
@@ -197,6 +226,16 @@ class AddAcknowledgeComplaintBloc
 
   _selectDepartment(AddAcknowledgeComplaintSelectDepartmentEvent event, emit) {
     departmentData = event.departmentData;
+    _eventComplete(emit);
+  }
+
+  _selectPlanner(AddAcknowledgeComplaintSelectedPlannerEvent event, emit) {
+    plannerData  =  event.plannerData;
+    _eventComplete(emit);
+  }
+
+  _selectWorkCenter(AddAcknowledgeComplaintSelectedWorkCenterEvent event, emit) {
+    workCenterData =  event.workCenterData;
     _eventComplete(emit);
   }
 
@@ -401,6 +440,11 @@ class AddAcknowledgeComplaintBloc
       generalComplaintList: generalComplaintList,
       generalDescriptionController: generalDescriptionController,
       complaintStatus: complaintStatus,
+      workCenterData: workCenterData,
+      plannerData: plannerData,
+      workCenterList: workCenterList,
+      plannerList: plannerList,
+      personResponsibleController: personResponsibleController,
     ));
   }
 }

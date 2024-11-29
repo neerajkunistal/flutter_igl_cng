@@ -75,6 +75,13 @@ class ScrapItemBoxWidget extends StatelessWidget {
                 color: AppColor.black, textAlign: TextAlign.end)),
           ],
         ),
+        Row(
+          children: [
+            TextWidget("Remark", color: AppColor.black,),
+            Expanded(child: TextWidget(scrapData.remark.toString(),
+                color: AppColor.black, textAlign: TextAlign.end)),
+          ],
+        ),
        _removeButton(context: context),
    ]);
   }

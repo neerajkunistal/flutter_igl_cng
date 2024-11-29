@@ -524,6 +524,7 @@ class AppString {
 
   static get enterRemarkForComplaintRejection => "Enter Remarks For Complaint Rejection";
 
+  static get closure => "Closure";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

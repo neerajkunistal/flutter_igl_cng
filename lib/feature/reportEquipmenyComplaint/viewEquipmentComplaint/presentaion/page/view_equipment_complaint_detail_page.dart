@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/closer_widget.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
@@ -35,18 +36,17 @@ class _ViewEquipmentComplaintDetailPageState
                   Expanded(
                     child: Container(
                       color: AppColor.white,
-                      child: Column(
-                        children: [
-                          ReviewComplaintItemBox(
-                            index: state.index,
-                            reviewComplaintData: state.reviewComplaintList[state.index],
-                          ),
-                          _verticalSpace(),
-                          _closureButton(
-                              context: context,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ReviewComplaintItemBox(
+                              index: state.index,
+                              isDetailPage: true,
                               reviewComplaintData: state.reviewComplaintList[state.index],
-                              index: state.index),
-                        ],
+                            ),
+                            CloserWidget(dataState: state),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -85,46 +85,7 @@ class _ViewEquipmentComplaintDetailPageState
     );
   }
 
-  Widget _closureButton({required BuildContext context,
-    required ReviewComplaintModel reviewComplaintData,
-    required int index,
-  })  {
-    LoginDataModel userData =  UserInfo.instance!.userData!;
-    return reviewComplaintData.miAssignToUser.toString().isEmpty &&
-        reviewComplaintData.complaintStatus.toString() == "0" &&
-        userData.roleType == RoleType.stationUser  ?
-    Align(
-      alignment: Alignment.center,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width/3,
-        child: reviewComplaintData.isSelected == false ?
-        ButtonWidget(
-          backgroundColor: AppColor.red,
-          text: "Closure",
-          fontSize: AppFont.font_12,
-          onPressed: () async {
 
-            if(await _onClosureComplaintPop(context: context) == true){
-              BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
-                  ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,
-                      reviewComplaintData: reviewComplaintData, index: index));
-            }
-          },
-        ) : const DottedLoaderWidget(),
-      ),
-    ) : const SizedBox.shrink();
-  }
-
-  Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
-    return (await showDialog(
-        context: context,
-        builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
-            message: "Do you want to closure complaint?",
-            okButtonText: "Closure",
-            okButtonColour: AppColor.red,
-            onPressed: () => Navigator.of(context).pop(true)))) ??
-        false;
-  }
 
   Widget _verticalSpace() {
     return SizedBox(

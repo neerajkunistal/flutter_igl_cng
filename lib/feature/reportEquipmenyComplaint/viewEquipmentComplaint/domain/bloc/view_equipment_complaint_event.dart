@@ -57,6 +57,24 @@ class ViewEquipmentComplaintSelectedDateRangeEvent
   List<Object?> get props => [context];
 }
 
+class ViewEquipmentComplaintSelectTimeData extends ViewEquipmentComplaintEvent {
+  final BuildContext context;
+
+  const ViewEquipmentComplaintSelectTimeData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class ViewEquipmentComplaintSelectDateData extends ViewEquipmentComplaintEvent {
+  final BuildContext context;
+
+  const ViewEquipmentComplaintSelectDateData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
 class ViewEquipmentComplaintClosureEvent
     extends ViewEquipmentComplaintEvent {
   final BuildContext context;

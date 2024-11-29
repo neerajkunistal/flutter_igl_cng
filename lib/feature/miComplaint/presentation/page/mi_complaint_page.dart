@@ -235,10 +235,13 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     sparesData: dataState.sparesPartList[index].sparesData!,
                   ),
                   _verticalSpace(),
-                  _vendorDropDown(dataState: dataState),
-                  _verticalSpace(),
+/*                  _vendorDropDown(dataState: dataState),
+                  _verticalSpace(),*/
                   _materialCodeController(dataState: dataState, index: index,
                       materialCodeController: dataState.sparesPartList[index].materialCodeController!),
+                  _verticalSpace(),
+                  _remarkController(dataState: dataState, index: index,
+                      remarkController: dataState.sparesPartList[index].remarkCodeController!),
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
@@ -295,6 +298,16 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       isRequired: false,
       labelText: AppString.materialCode,
       controller: materialCodeController,
+    );
+  }
+
+  Widget _remarkController(
+      {required FetchMiComplaintDataState dataState,
+        required int index,
+        required TextEditingController remarkController}) {
+    return TextFieldWidget(
+      labelText: AppString.remark,
+      controller: remarkController,
     );
   }
 

@@ -315,21 +315,6 @@ class ViewEquipmentWidget extends StatelessWidget {
                   if(dataState.reviewComplaintList[index].complaintStatus.toString() == "1"){
                     return;
                   }
-                  else if(dataState.reviewComplaintList[index].miAssignToUser.toString().isEmpty &&
-                      dataState.reviewComplaintList[index].complaintStatus.toString() == "0" &&
-                      userLogin.roleType == RoleType.stationUser ) {
-                    BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
-                        ViewEquipmentComplaintSelectedComplaintEvent(index: index));
-                    var result = await Navigator.push(context,
-                        FadeRoute(page: const ViewEquipmentComplaintDetailPage()));
-                    if (result.toString() == "Completed") {
-                      BlocProvider.of<ViewEquipmentComplaintBloc>(
-                          !context.mounted ? context : context)
-                          .add(ViewEquipmentComplaintPageLoadEvent(
-                          context:
-                          !context.mounted ? context : context));
-                    }
-                  }
                   else if (userLogin.roleType == RoleType.stationUser &&
                       dataState.reviewComplaintList[index].complaintStatus.toString() ==
                           "0" &&
