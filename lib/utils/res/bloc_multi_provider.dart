@@ -30,6 +30,7 @@ import 'package:flutter_igl_cng/feature/lcv/user/viewUser/domain/bloc/view_user_
 import 'package:flutter_igl_cng/feature/materialDetail/domain/bloc/material_detail_bloc.dart';
 import 'package:flutter_igl_cng/feature/podDetail/domain/bloc/pod_detail_bloc.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 
 MultiProvider blocMultiProvider({required Widget child}) {
   return MultiProvider(
@@ -75,6 +76,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => PodDetailBloc()),
       BlocProvider(create: (BuildContext context) => LcvDashboardBloc()),
       BlocProvider(create: (BuildContext context) => OverSpeedAlertBloc()),
+      BlocProvider(create: (BuildContext context) => AddSparePartBloc()),
 
     ],
     child: child,
