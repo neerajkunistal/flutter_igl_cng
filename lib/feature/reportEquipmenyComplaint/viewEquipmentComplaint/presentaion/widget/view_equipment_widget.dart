@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/presentation/page/mi_complaint_page.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
@@ -125,10 +124,10 @@ class ViewEquipmentWidget extends StatelessWidget {
               ? TextButton(
               style: dataState.selectedTabIndex == 0
                   ? ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       AppColor.themeColor),
                   shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(
@@ -154,10 +153,10 @@ class ViewEquipmentWidget extends StatelessWidget {
               ? TextButton(
               style: dataState.selectedTabIndex == 4
                   ? ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       AppColor.themeColor),
                   shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(
@@ -184,10 +183,10 @@ class ViewEquipmentWidget extends StatelessWidget {
               ? TextButton(
               style: dataState.selectedTabIndex == 1
                   ? ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       AppColor.themeColor),
                   shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(
@@ -214,10 +213,10 @@ class ViewEquipmentWidget extends StatelessWidget {
               ? TextButton(
               style: dataState.selectedTabIndex == 2
                   ? ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       AppColor.themeColor),
                   shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(
@@ -243,8 +242,8 @@ class ViewEquipmentWidget extends StatelessWidget {
               style: dataState.selectedTabIndex == 3
                   ? ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(AppColor.themeColor),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<Color>(AppColor.themeColor),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(color: AppColor.themeColor))))
@@ -268,10 +267,10 @@ class ViewEquipmentWidget extends StatelessWidget {
               ? TextButton(
               style: dataState.selectedTabIndex == 5
                   ? ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       AppColor.themeColor),
                   shape:
-                  MaterialStateProperty.all<RoundedRectangleBorder>(
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                           side: BorderSide(

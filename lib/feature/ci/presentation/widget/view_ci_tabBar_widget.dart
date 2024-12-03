@@ -28,9 +28,9 @@ class ViewCiTabBarWidget extends StatelessWidget {
             child: TextButton(
                 style: dataState.tabIndex == 0
                     ? ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         AppColor.themeColor),
-                    shape: MaterialStateProperty
+                    shape: WidgetStateProperty
                         .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: AppColor.themeColor))))
@@ -55,9 +55,9 @@ class ViewCiTabBarWidget extends StatelessWidget {
             child: TextButton(
                 style: dataState.tabIndex == 1
                     ? ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         AppColor.themeColor),
-                    shape: MaterialStateProperty
+                    shape: WidgetStateProperty
                         .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         side: BorderSide(color: AppColor.themeColor))))

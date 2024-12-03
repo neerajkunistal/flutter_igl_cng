@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/closer_widget.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ViewEquipmentComplaintDetailPage extends StatefulWidget {
   const ViewEquipmentComplaintDetailPage({super.key});

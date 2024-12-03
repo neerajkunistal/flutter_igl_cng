@@ -65,10 +65,10 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
     return TextButton(
         style: ButtonStyle(
             padding:
-                MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
+                WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
-                MaterialStateProperty.all<Color>(AppColor.themeColor),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                WidgetStateProperty.all<Color>(AppColor.themeColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                     side: BorderSide(color: AppColor.themeColor)))),

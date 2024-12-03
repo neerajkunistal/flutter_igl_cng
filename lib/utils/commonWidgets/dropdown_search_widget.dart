@@ -28,10 +28,11 @@ class DropDownSearchWidget extends StatelessWidget {
           : MediaQuery.of(context).size.height * 0.15,
       child: DropdownSearch<dynamic>(
         selectedItem: selectedItem,
-        dropdownDecoratorProps: DropDownDecoratorProps(
+        compareFn: (i, s) => i.isEqual(s),
+        decoratorProps: DropDownDecoratorProps(
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
-          dropdownSearchDecoration: InputDecoration(
+          decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
@@ -58,7 +59,7 @@ class DropDownSearchWidget extends StatelessWidget {
             filled: false,
           ),
         ),
-        items: items,
+        items: (filter, infiniteScrollProps) => items,
         itemAsString: itemAsString,
         onChanged: onChanged,
         popupProps: PopupProps.dialog(

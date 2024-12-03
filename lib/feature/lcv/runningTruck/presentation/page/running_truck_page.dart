@@ -12,7 +12,6 @@ class RunningTruckPage extends StatefulWidget {
 }
 
 class _RunningTruckPageState extends State<RunningTruckPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   GoogleMapController? mapController;
 
   @override

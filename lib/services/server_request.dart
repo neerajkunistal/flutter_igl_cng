@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -193,9 +194,9 @@ class ServerRequest {
 
   static Future<dynamic> firebasePushNotification({var url, var body}) async {
     try {
+      var token =  await NotificationHelper.obtainAuthenticatedClient();
       var headerData = {
-        HttpHeaders.authorizationHeader:
-            "key=AAAAvUcSq7Y:APA91bHC67iO0x0DER3_DU37-ZoaVq7CgKqpi3P2GhBxAMSu2Thhv93MydFigrXDuhf-Tx8OsfEtywE0pVxdA2TBa_JsQG8ZTHQ2lTzha1D0M63ZdljYYq0cD2db6Ll5LAB-ZZtbRzOc",
+        HttpHeaders.authorizationHeader: "Bearer $token",
         "Content-Type": "application/json; charset=UTF-8"
       };
       log(url);

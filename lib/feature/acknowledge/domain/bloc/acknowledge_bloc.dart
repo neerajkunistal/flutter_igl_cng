@@ -169,6 +169,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
             .length;
     complaintCount.add(count);
 
+    complaintCount.add(0); // Closure count;
+
     _eventComplete(emit);
   }
 
@@ -248,6 +250,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       acknowledgeList = tempList;
     }
 
+
     _eventComplete(emit);
   }
 
@@ -305,6 +308,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               element.miAssignType.toString() == "3" &&
               element.complaintStatus.toString() == "0")
           .toList());
+    }
+    else if (selectTabIndex == 3) {
+      acknowledgeList = [];
+
     }
 
     complaintCount.add(acknowledgeWithOutFilterList
@@ -366,6 +373,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
     complaintCount.add(count);
 
+    complaintCount.add(0); // Closure count;
     _eventComplete(emit);
   }
 
@@ -495,6 +503,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
             .length;
 
     complaintCount.add(count);
+
+    complaintCount.add(0); // Closure count;
     _eventComplete(emit);
   }
 
@@ -789,6 +799,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               .length;
 
       complaintCount.add(count);
+
+      complaintCount.add(0); // Closure count;
       _eventComplete(emit);
     }
   }

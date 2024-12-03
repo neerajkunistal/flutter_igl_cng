@@ -17,12 +17,12 @@ ThemeData appTheme() {
           return Colors.white; //the color when checkbox is unselected;
         },
       ),
-      checkColor: MaterialStateProperty.all<Color>(AppColor.white),
+      checkColor: WidgetStateProperty.all<Color>(AppColor.white),
       side: const BorderSide(color: Color(0xff585858)),
     ),
     textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(AppColor.black))),
+            foregroundColor: WidgetStateProperty.all<Color>(AppColor.black))),
     primaryColor: AppColor.themeColor,
     appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: AppColor.white),
@@ -33,9 +33,9 @@ ThemeData appTheme() {
       backgroundColor: Colors.white,
       confirmButtonStyle: ButtonStyle(
           foregroundColor:
-              MaterialStateProperty.all<Color>(AppColor.themeColor)),
+              WidgetStateProperty.all<Color>(AppColor.themeColor)),
       cancelButtonStyle: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(AppColor.grey)),
+          foregroundColor: WidgetStateProperty.all<Color>(AppColor.grey)),
       surfaceTintColor: Colors.white,
       dayStyle: TextStyle(color: AppColor.themeColor),
       weekdayStyle:

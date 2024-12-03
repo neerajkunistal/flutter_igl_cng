@@ -24,10 +24,11 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
       /*  height: MediaQuery.of(context).size.height * 0.07,*/
       child: DropdownSearch<dynamic>.multiSelection(
         selectedItems: selectedItem ?? [],
-        dropdownDecoratorProps: DropDownDecoratorProps(
+        compareFn: (i, s) => i.isEqual(s),
+        decoratorProps: DropDownDecoratorProps(
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.center,
-          dropdownSearchDecoration: InputDecoration(
+          decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(
@@ -45,11 +46,11 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
             filled: false,
           ),
         ),
-        items: items,
+        items: (filter, infiniteScrollProps) => items,
         itemAsString: itemAsString,
         onChanged: onChanged,
         popupProps: PopupPropsMultiSelection.dialog(
-          validationWidgetBuilder: (ctx, selectedItems) {
+          containerBuilder: (ctx, selectedItems) {
             return Align(
               alignment: Alignment.centerRight,
               child: Padding(

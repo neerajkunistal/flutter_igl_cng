@@ -8,7 +8,7 @@ class APIs {
   static final String baseUrl =
       EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
 
-  static get sendNotificationApi => "https://fcm.googleapis.com/fcm/send";
+  static get sendNotificationApi => "https://fcm.googleapis.com/v1/projects/igl-cng/messages:send";
 
   static get googlePlaceAPI =>
       "https://maps.googleapis.com/maps/api/place/autocomplete/json?";

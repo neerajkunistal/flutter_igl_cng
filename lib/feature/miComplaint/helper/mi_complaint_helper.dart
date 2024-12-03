@@ -152,7 +152,7 @@ class MiComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
+        NotificationHelper.sendNotification(
             firebaseDeviceList:
                 BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
                     .firebaseDeviceList,

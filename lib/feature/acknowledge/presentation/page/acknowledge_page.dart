@@ -119,9 +119,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
             child: TextButton(
                 style: dataState.selectTabIndex == 0
                     ? ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor.themeColor),
-                        shape: MaterialStateProperty
+                        shape: WidgetStateProperty
                             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: AppColor.themeColor))))
@@ -146,9 +146,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
             child: TextButton(
                 style: dataState.selectTabIndex == 1
                     ? ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor.themeColor),
-                        shape: MaterialStateProperty
+                        shape: WidgetStateProperty
                             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: AppColor.themeColor))))
@@ -173,9 +173,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
             child: TextButton(
                 style: dataState.selectTabIndex == 2
                     ? ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
+                        backgroundColor: WidgetStateProperty.all<Color>(
                             AppColor.themeColor),
-                        shape: MaterialStateProperty
+                        shape: WidgetStateProperty
                             .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                                 side: BorderSide(color: AppColor.themeColor))))
@@ -191,6 +191,34 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                       ? AppColor.white
                       : AppColor.black,
                   fontWeight: dataState.selectTabIndex == 2
+                      ? FontWeight.w700
+                      : FontWeight.w400,
+                  fontSize: AppFont.font_11,
+                )),
+          ),
+
+          Expanded(
+            child: TextButton(
+                style: dataState.selectTabIndex == 3
+                    ? ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                        AppColor.themeColor),
+                    shape: WidgetStateProperty
+                        .all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: AppColor.themeColor))))
+                    : null,
+                onPressed: () {
+                  BlocProvider.of<AcknowledgeBloc>(context).add(
+                      const AcknowledgeComplaintSelectedTabIndexEvent(
+                          selectedTabIndex: 3));
+                },
+                child: TextWidget(
+                  "${AppString.closure}-${dataState.complaintCount[3]}",
+                  color: dataState.selectTabIndex == 3
+                      ? AppColor.white
+                      : AppColor.black,
+                  fontWeight: dataState.selectTabIndex == 3
                       ? FontWeight.w700
                       : FontWeight.w400,
                   fontSize: AppFont.font_11,

@@ -8,7 +8,6 @@ import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_hi
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_add_measurement_widget.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_cv_update_status_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
 
 class ViewCvDetailPage extends StatefulWidget {
   const ViewCvDetailPage({super.key});

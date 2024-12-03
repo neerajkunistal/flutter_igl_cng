@@ -32,7 +32,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: WidgetStateProperty.all(Colors.white),
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -55,7 +55,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton.icon(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor: WidgetStateProperty.all(Colors.white),
                     ),
                     onPressed: () {
                       Navigator.push(

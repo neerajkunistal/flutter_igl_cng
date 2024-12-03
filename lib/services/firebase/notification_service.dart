@@ -59,8 +59,6 @@ class FirebaseService {
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification:
-          (int id, String? title, String? body, String? payload) async {},
     );
 
     InitializationSettings(
@@ -104,7 +102,7 @@ class FirebaseService {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
-      final bool? granted = await androidImplementation?.requestPermission();
+      final bool? granted = await androidImplementation?.requestNotificationsPermission();
       if (kDebugMode) {
         print("Notification permission ====== ${granted.toString()}");
       }
