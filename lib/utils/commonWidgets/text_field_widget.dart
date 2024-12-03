@@ -86,6 +86,7 @@ class TextFieldWidget extends StatelessWidget {
                       ? AppColor.black
                       : AppColor.black,
             ),
+            alignLabelWithHint: true,
             fillColor: Colors.white,
             filled: filled ?? false,
             enabledBorder: isBoardRemove == true

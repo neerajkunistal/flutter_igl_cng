@@ -16,7 +16,18 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   void initState() {
     BlocProvider.of<AcknowledgeBloc>(context)
         .add(AcknowledgePageLoadEvent(context: context));
+    fetchData();
     super.initState();
+  }
+
+  void fetchData () async {
+    bool flag = true;
+    var futureWithTheLoop = () async {
+      while (flag){
+        await Future.delayed(Duration(minutes: 15));
+        _pageRefresh(isTimerCondition: true);
+      }
+    }();
   }
 
   @override
@@ -78,7 +89,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
               .add(AcknowledgeSelectDateRangeEvent(
               fromDate: selectedDate.start,
               toDate: selectedDate.end,
-              context: !context.mounted ? context : context));
+              context: !context.mounted ? context : context,
+             isTimerCondition: false
+          ));
         }
       },
       onChanged: (keyword) {
@@ -89,6 +102,10 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   }
 
   Future<void> _handleRefresh() async {
+    _pageRefresh(isTimerCondition: false);
+  }
+
+  Future<void> _pageRefresh({required bool isTimerCondition}) async {
     await Future.delayed(const Duration(seconds: 1));
     DateTime startDate =
         BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
@@ -100,7 +117,9 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
         AcknowledgeSelectDateRangeEvent(
             fromDate: startDate,
             toDate: endDate,
-            context: !context.mounted ? context : context));
+            context: !context.mounted ? context : context,
+           isTimerCondition: isTimerCondition,
+        ));
   }
 
   Widget _tabWidget({required FetchAcknowledgeDataState dataState}) {
@@ -275,7 +294,8 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                           .add(AcknowledgeSelectDateRangeEvent(
                               fromDate: dataState.startDate,
                               toDate: dataState.endDate,
-                              context: !context.mounted ? context : context));
+                              context: !context.mounted ? context : context,
+                              isTimerCondition: false));
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

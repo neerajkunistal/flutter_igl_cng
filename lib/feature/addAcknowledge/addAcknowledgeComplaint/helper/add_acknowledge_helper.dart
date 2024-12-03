@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
@@ -93,6 +95,9 @@ class AddAcknowledgeComplaintHelper {
     required String generalDescription,
     required String complaintStatus,
     required GeneralComplaintModel generalComplaintData,
+    required PlannerModel plannerData,
+    required WorkCenterModel workCenterData,
+    required String personResponsible,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
@@ -117,6 +122,9 @@ class AddAcknowledgeComplaintHelper {
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
         "ackRemarks": remark,
+        "planner_group" : plannerData.id != null ? plannerData.plannerGroup.toString() : "",
+        "main_work_center" :workCenterData.id != null ? workCenterData.workCenter.toString() : "",
+        "person_responsible" : personResponsible,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(

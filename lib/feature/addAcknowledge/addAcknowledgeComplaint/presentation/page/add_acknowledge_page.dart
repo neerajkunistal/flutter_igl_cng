@@ -62,23 +62,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             dataState.complaintTypeData.id.toString() == "1"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
-/*            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
-                ? _generalDescriptionController(dataState: dataState)
-                : const SizedBox.shrink(),
-
-            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),*/
-
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),

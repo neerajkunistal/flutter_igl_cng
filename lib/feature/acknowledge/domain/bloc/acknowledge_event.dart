@@ -108,11 +108,13 @@ class AcknowledgeSelectDateRangeEvent extends AcknowledgeEvent {
   final BuildContext context;
   final DateTime fromDate;
   final DateTime toDate;
+  final bool isTimerCondition;
 
   const AcknowledgeSelectDateRangeEvent({
     required this.context,
     required this.fromDate,
     required this.toDate,
+    required this.isTimerCondition,
   });
 
   @override

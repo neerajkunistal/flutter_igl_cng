@@ -18,12 +18,14 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
   TextEditingController remarkController =  TextEditingController();
   List<File> filesList = [];
   List<ScrapModel> scrapList = [];
+  String destroyReusable =  "";
 
   AddScrapBloc() : super(AddScrapInitial()) {
     on<AddScrapPageLoadEvent>(_pageLoad);
     on<AddScrapSelectScrapUnitTypeEvent>(_selectScrapData);
     on<AddScrapSelectFileEvent>(_selectFile);
     on<AddScrapClearScrapDataEvent>(_clearScrapData);
+    on<AddScrapDestroyEvent>(_destroyScrap);
     on<AddScrapDeleteEvent>(_deleteScrap);
     on<AddScrapSubmitEvent>(_submit);
   }
@@ -39,6 +41,7 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
     unitController =  TextEditingController();
     remarkController =  TextEditingController();
     filesList = [];
+    destroyReusable =  "";
     filesList.add(File(""));
     filesList.add(File(""));
     filesList.add(File(""));
@@ -73,6 +76,12 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
     isLoader =  false;
     _eventCompleted(emit);
   }
+
+  _destroyScrap(AddScrapDestroyEvent event, emit) {
+     destroyReusable =  event.destroyReusable;
+     _eventCompleted(emit);
+  }
+
 
   _deleteScrap(AddScrapDeleteEvent event, emit) {
     isLoader =  true;
@@ -109,7 +118,8 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
       description: descriptionController.text.toString(),
       scrapUnitTypeData: scrapUnitTypeData1,
       filesList: filesList,
-      remark: remarkController.text.toString()
+      remark: remarkController.text.toString(),
+      destroyReusable: destroyReusable,
     );
     scrapList.add(scrapData);
     isLoader =  false;
@@ -128,7 +138,8 @@ class AddScrapBloc extends Bloc<AddScrapEvent, AddScrapState> {
         srNumberController: srNumberController,
         unitController: unitController,
         remarkController: remarkController,
-       scrapList: scrapList,
+        scrapList: scrapList,
+        destroyReusable: destroyReusable,
     ));
   }
 }

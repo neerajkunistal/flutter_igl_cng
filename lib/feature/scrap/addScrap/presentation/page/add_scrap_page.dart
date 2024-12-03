@@ -108,6 +108,10 @@ class _AddScrapPageState extends State<AddScrapPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
+            _radioButton(dataState: dataState, context: context),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
             _remarkController(dataState: dataState),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
@@ -179,6 +183,35 @@ class _AddScrapPageState extends State<AddScrapPage> {
     return TextFieldWidget(
       labelText: AppString.remark,
       controller: dataState.remarkController,
+    );
+  }
+
+  Widget _radioButton({required FetchAddScrapDataState dataState,
+    required BuildContext context}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: Column(
+        children: [
+          RadioListTile<String>(
+            title: TextWidget(AppString.destroy),
+            value: AppString.destroy,
+            groupValue: dataState.destroyReusable,
+            onChanged: (value) {
+              BlocProvider.of<AddScrapBloc>(context)
+                  .add(AddScrapDestroyEvent(destroyReusable: value!));
+            },
+          ),
+          RadioListTile<String>(
+            title: TextWidget(AppString.reusable),
+            value: AppString.reusable,
+            groupValue: dataState.destroyReusable,
+            onChanged: (value) {
+              BlocProvider.of<AddScrapBloc>(context)
+                  .add(AddScrapDestroyEvent(destroyReusable: value!));
+            },
+          ),
+        ],
+      ),
     );
   }
 

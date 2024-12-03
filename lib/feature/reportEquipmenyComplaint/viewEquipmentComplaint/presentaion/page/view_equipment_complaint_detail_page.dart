@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/closer_widget.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewEquipmentComplaintDetailPage extends StatefulWidget {
@@ -41,7 +44,13 @@ class _ViewEquipmentComplaintDetailPageState
                               isDetailPage: true,
                               reviewComplaintData: state.reviewComplaintList[state.index],
                             ),
+                            _verticalSpace(),
+                            ScrapItemWidget(),
+                            _verticalSpace(),
+                            _addScarpButton(),
+                            _verticalSpace(),
                             CloserWidget(dataState: state),
+                            _verticalSpace(),
                           ],
                         ),
                       ),
@@ -82,7 +91,28 @@ class _ViewEquipmentComplaintDetailPageState
     );
   }
 
+  Widget _addScarpButton() {
+    return Align(
+      alignment: Alignment.topRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2.5,
+        child: ButtonWidget(
+            text: AppString.addScrap,
+            height:
+            AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                ? MediaQuery.of(context).size.height * 0.13
+                : null,
+            onPressed: () async {
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
 
+              }
+            }),
+      ),
+    );
+  }
 
   Widget _verticalSpace() {
     return SizedBox(

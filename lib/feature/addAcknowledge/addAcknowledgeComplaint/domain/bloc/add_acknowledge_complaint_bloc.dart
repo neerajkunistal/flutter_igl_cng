@@ -133,6 +133,12 @@ class AddAcknowledgeComplaintBloc
       departmentList = resDepartment;
     }
 
+    for(var data in departmentList){
+      if (data.id.toString() == event.acknowledgeData.departmentId.toString()) {
+        departmentData = data;
+      }
+    }
+
     var resGeneral =
         await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
     if (resGeneral != null) {
@@ -184,6 +190,8 @@ class AddAcknowledgeComplaintBloc
 
     complaintStatus = acknowledgeData.ackStatus.toString();
 
+    personResponsibleController.text =  acknowledgeData.personResponsible.toString();
+
     if(plannerList.isEmpty){
       var res =  await AcknowledgeHelper.fetchPlannerData();
       if(res !=  null){
@@ -191,10 +199,24 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
+    for(var data in plannerList){
+      if(data.plannerGroup.toString().toLowerCase()
+          == event.acknowledgeData.plannerGroup.toString().toLowerCase()){
+        plannerData =  data;
+      }
+    }
+
     if(workCenterList.isEmpty){
       var res =  await AcknowledgeHelper.fetchWorkCenterData();
       if(res !=  null){
         workCenterList =  res;
+      }
+    }
+
+    for(var data in workCenterList){
+      if(data.workCenter.toString().toLowerCase()
+          == event.acknowledgeData.mainWorkCenter.toString().toLowerCase()){
+        workCenterData =  data;
       }
     }
 
@@ -264,8 +286,9 @@ class AddAcknowledgeComplaintBloc
       final DateTime? picked = await showDatePicker(
           context: event.context,
           initialDate: initialDate,
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
+          firstDate: DateTime.now().subtract(const Duration(days: 1)),
+          lastDate: DateTime.now()
+      );
       if (picked != null) {
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         dateController.text = formattedDate;
@@ -385,6 +408,9 @@ class AddAcknowledgeComplaintBloc
         generalDescription: generalDescriptionController.text.toString(),
         generalComplaintData: generalComplaintData,
         complaintStatus: complaintStatus,
+        plannerData: plannerData,
+        workCenterData: workCenterData,
+        personResponsible: personResponsibleController.text.toString(),
         file: file);
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();

@@ -7,6 +7,7 @@ import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.da
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
 import 'package:vibration/vibration.dart';
 
 part 'acknowledge_event.dart';
@@ -505,6 +506,11 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     complaintCount.add(count);
 
     complaintCount.add(0); // Closure count;
+
+    if(event.isTimerCondition == true && complaintCount[0] != 0){
+       HomeHelper.fifteenMinuteNotification(context: !event.context.mounted ? event.context : event.context);
+    }
+
     _eventComplete(emit);
   }
 

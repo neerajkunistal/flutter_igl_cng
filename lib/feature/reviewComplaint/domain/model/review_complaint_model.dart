@@ -73,6 +73,7 @@ class ReviewComplaintModel {
   String? cngStationName;
   bool? isSelected;
   String? descriptionKva;
+  String? seAssignStatus;
 
   ReviewComplaintModel({
     this.id,
@@ -144,6 +145,7 @@ class ReviewComplaintModel {
     this.cngStationName,
     this.isSelected,
     this.descriptionKva,
+    this.seAssignStatus,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -215,6 +217,7 @@ class ReviewComplaintModel {
     ackStatus = json['ack_status'] ?? "";
     cngStationName = json['cng_station_name'] ?? "";
     descriptionKva = json['description_kva'] ?? "";
+    seAssignStatus = json['se_assign_status'] ?? "0";
 
     if (vendorCode.toString().isEmpty) {
       vendorCode = json['mi_assign_to_vendor_code'] ?? "";

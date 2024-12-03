@@ -516,6 +516,10 @@ class AppString {
 
   static get sendToReview => "Send To Review";
 
+  static get destroy => "Destroy";
+
+  static get reusable => "Reusable";
+
   static get provisionallyApproved => "Provisionally Approved";
 
   static get searchVehicleNo => "Search Vehicle No";

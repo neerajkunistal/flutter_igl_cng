@@ -9,6 +9,7 @@ class ScrapModel {
   ScrapUnitTypeModel? scrapUnitTypeData;
   List<File>? filesList;
   String? remark;
+  String? destroyReusable;
 
   ScrapModel({
     this.srNumber,
@@ -16,6 +17,7 @@ class ScrapModel {
     this.scrapUnitTypeData,
     this.filesList,
     this.remark,
+    this.destroyReusable,
   });
 
 }

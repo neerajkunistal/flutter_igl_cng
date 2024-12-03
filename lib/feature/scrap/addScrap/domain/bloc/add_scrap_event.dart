@@ -28,6 +28,13 @@ class AddScrapSelectScrapUnitTypeEvent extends AddScrapEvent {
   List<Object?> get props => [scrapUnitTypeData];
 }
 
+class AddScrapDestroyEvent extends AddScrapEvent {
+  final String destroyReusable;
+  const AddScrapDestroyEvent({required this.destroyReusable});
+  @override
+  List<Object?> get props => [destroyReusable];
+}
+
 class AddScrapDeleteEvent extends AddScrapEvent {
   final int index;
   const AddScrapDeleteEvent({required this.index});

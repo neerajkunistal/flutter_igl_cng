@@ -29,13 +29,14 @@ class AcknowledgeHelper {
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
         return false;
-      } else if(plannerData.id == null){
+      }
+/*      else if(plannerData.id == null){
         SnackBarErrorWidget(context).show(message: "Please select planner");
         return false;
       } else if(workCenterData.id == null){
         SnackBarErrorWidget(context).show(message: "Please select work center");
         return false;
-      }
+      }*/
 /*      else if (sapCodeModel.code == null) {
         SnackBarErrorWidget(context).show(message: "Please select sap code");
         return false;
@@ -74,9 +75,9 @@ class AcknowledgeHelper {
       var json = {
         "complaintId": acknowledgeData.id.toString(),
         "assignType": assignTypeData.id.toString(),
-        "sapCode": sapCodeData.id != null ? sapCodeData.id.toString() : "0",
-        "departmentId":
-            departmentData.id != null ? departmentData.id.toString() : "0",
+/*        "sapCode": sapCodeData.id != null ? sapCodeData.id.toString() : "0",*/
+/*        "departmentId":
+            departmentData.id != null ? departmentData.id.toString() : "0",*/
         "assignTo": assignTypeData.id.toString() == "1"
             ? "1"
             : assignTypeData.id.toString() == "2"
@@ -85,9 +86,9 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
-        "planner_group": plannerData.plannerGroup.toString(),
+/*        "planner_group": plannerData.plannerGroup.toString(),
         "main_work_center": workCenterData.workCenter.toString(),
-        "person_responsible": personResponsible,
+        "person_responsible": personResponsible,*/
         "vendorAssignDatetime": "$closedDate $closedTime"
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);

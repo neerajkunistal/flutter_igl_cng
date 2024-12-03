@@ -117,6 +117,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         }
       }
     }
+
     _eventCompleted(emit);
   }
 

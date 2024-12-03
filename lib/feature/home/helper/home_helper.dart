@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/page/view_amo_complaint_page.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_igl_cng/feature/lcv/runningTruck/presentation/page/runni
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/message_box_pop_button_widget.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../lcv/assignment/addAssignment/presentation/page/add_assignment_page.dart';
 
@@ -117,5 +120,22 @@ class HomeHelper {
       }
     } catch (_) {}
     return null;
+  }
+
+  static Future <dynamic> fifteenMinuteNotification ({required BuildContext context}) async {
+
+     if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 10000);
+    }
+    final player = AudioPlayer();
+    player.setReleaseMode(ReleaseMode.loop);
+    player.play(AssetSource('siren_alert.mp3'));
+    var res =  await (showDialog(
+        context: !context.mounted ? context : context,
+        builder: (BuildContext mContext) => MessageBoxPopButtonWidget(
+            title: "Alert",
+            message: "Pending Task",
+            onPressed: () => Navigator.of(!context.mounted ? context : context).pop(true))));
+    player.stop();
   }
 }

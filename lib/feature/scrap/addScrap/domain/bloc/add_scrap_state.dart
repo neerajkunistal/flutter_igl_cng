@@ -24,6 +24,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
   final TextEditingController remarkController;
   final List<File> filesList;
   final List<ScrapModel> scrapList;
+  final String destroyReusable;
 
   FetchAddScrapDataState({
    required this.filesList,
@@ -35,6 +36,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
    required this.unitController,
    required this.remarkController,
    required this.scrapList,
+   required this.destroyReusable,
   });
 
   @override
@@ -48,6 +50,7 @@ final class FetchAddScrapDataState extends AddScrapInitial {
     unitController,
     remarkController,
     scrapList,
+    destroyReusable,
   ];
 }
 

@@ -32,10 +32,13 @@ class AddSapWidget extends StatelessWidget {
       hint: AppString.department,
       dropdownValue:
       dataState.departmentData.id != null ? dataState.departmentData : null,
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
-            .add(AddAcknowledgeComplaintSelectDepartmentEvent(departmentData: value));
-      },
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+          BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
+              .add(AddAcknowledgeComplaintSelectDepartmentEvent(departmentData: value));
+        }
+      } : null,
       items: dataState.departmentList.map<DropdownMenuItem<DepartmentModel>>(
               (DepartmentModel departmentData) {
             return DropdownMenuItem<DepartmentModel>(
@@ -51,15 +54,19 @@ class AddSapWidget extends StatelessWidget {
         required BuildContext context}) {
     return DropDownSearchWidget(
       isRequired: true,
+      enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
       selectedItem:
       dataState.plannerData.id != null ? dataState.plannerData : null,
       hint: AppString.plannerGroup,
       items: dataState.plannerList,
       itemAsString: (plannerData) => plannerData.plannerGroup.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
-            .add(AddAcknowledgeComplaintSelectedPlannerEvent(plannerData: value));
-      },
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+          BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
+              .add(AddAcknowledgeComplaintSelectedPlannerEvent(plannerData: value));
+        }
+      } : null,
     );
   }
 
@@ -68,15 +75,19 @@ class AddSapWidget extends StatelessWidget {
         required BuildContext context}) {
     return DropDownSearchWidget(
       isRequired: true,
+      enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
       selectedItem:
       dataState.workCenterData.id != null ? dataState.workCenterData : null,
       hint: AppString.mainWorkCenter,
       items: dataState.workCenterList,
       itemAsString: (workCenterData) => workCenterData.workCenter.toString(),
-      onChanged: (value) {
-        BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
-            .add(AddAcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
-      },
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+          BlocProvider.of<AddAcknowledgeComplaintBloc>(context)
+              .add(AddAcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
+        }
+      } : null,
     );
   }
 
@@ -85,6 +96,7 @@ class AddSapWidget extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
         isRequired: true,
+        enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
         labelText: AppString.personResponsible,
         controller: dataState.personResponsibleController,
       ),

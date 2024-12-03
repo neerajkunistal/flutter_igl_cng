@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 
 class ViewEquipmentComplaintHelper {
   static Future<dynamic> fetchReviewAndSelfComplaint() async {
@@ -52,6 +56,7 @@ class ViewEquipmentComplaintHelper {
     required String date,
     required String time,
     required String rectifiedBy,
+    required List<ScrapModel> scrapList,
     required String remark}) async {
     try{
          String url =  APIs.closureComplaintApi;
@@ -59,7 +64,30 @@ class ViewEquipmentComplaintHelper {
            "complaintId" : reviewComplaintData.id.toString(),
            "stationRemarks" : remark.toString().isEmpty ? "remark" : remark,
          };
-         var res =  await ServerRequest.postData(urlEndPoint: url, body: json);
+
+         Map<String, String> scrapData = {};
+         List<FileModel> filesList = [];
+         if(scrapList.isNotEmpty){
+           for(int i = 0;  i < scrapList.length; i++ ){
+             var jsonData = {
+               "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
+               "scrapDetails[$i][description]" : scrapList[i].description.toString(),
+               "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
+               "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+               "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+             };
+             if(scrapList[i].filesList != null){
+               for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
+                 filesList.add(FileModel(
+                     name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+               }
+             }
+             scrapData.addAll(jsonData);
+           }
+         }
+         scrapData.addAll(json);
+         log(jsonEncode(scrapData).toString());
+         var res =  await ServerRequest.postData(urlEndPoint: url, body: scrapData);
          if (res != null &&
              res['status'] != null &&
              res['status'] == true &&

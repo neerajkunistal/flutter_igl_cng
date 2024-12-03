@@ -287,8 +287,11 @@ class ReviewComplaintItemBox extends StatelessWidget {
   Widget _closureButton({required BuildContext context,
      required ReviewComplaintModel reviewComplaintData})  {
     LoginDataModel userData =  UserInfo.instance!.userData!;
-    return reviewComplaintData.miAssignToUser.toString().isEmpty &&
-        reviewComplaintData.complaintStatus.toString() == "0" &&
+    return (reviewComplaintData.seAssignStatus.toString() == "0"
+          && reviewComplaintData.ackStatus.toString() == "0")
+        || (reviewComplaintData.seAssignStatus.toString() == "1"
+        && reviewComplaintData.ackStatus.toString() == "1")
+            && reviewComplaintData.complaintStatus.toString() == "0" &&
         userData.roleType == RoleType.stationUser  ?
         Align(
           alignment: Alignment.centerRight,

@@ -57,11 +57,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           ),
                           _assignTypeDropDown(
                               dataState: state, context: context),
-                          SizedBox(
+                    /*      SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
                           _departmentDropDown(
-                              dataState: state, context: context),
+                              dataState: state, context: context),*/
                           state.assignTypeData.id == "2"
                               ? SizedBox(
                                   height:
@@ -90,7 +90,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
-                          _plannerTypeDropDown(dataState: state, context: context),
+/*                          _plannerTypeDropDown(dataState: state, context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
@@ -101,7 +101,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           _personResponsibleController(dataState: state),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
-                          ),
+                          ),*/
                           _remarkController(dataState: state),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
@@ -281,6 +281,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
+        maxLine: 3,
         labelText: AppString.workDescription,
         controller: dataState.remarkController,
       ),
