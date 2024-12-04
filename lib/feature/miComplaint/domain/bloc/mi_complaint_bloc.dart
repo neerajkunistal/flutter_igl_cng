@@ -9,6 +9,7 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_mod
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 
 part 'mi_complaint_event.dart';
 part 'mi_complaint_state.dart';
@@ -380,7 +381,8 @@ class MiComplaintBloc extends Bloc<MiComplaintEvent, MiComplaintState> {
         observation: observation.text.toString(),
         uomTypeData: uomTypeData,
         qty: qtyController.text.toString(),
-        sparesPartList: sparesPartList,
+        sparesPartList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted
+            ? event.context : event.context).partList,
         vendorData: vendorData,
         rectifyBy: rectifyByController.text.toString(),
         file: file,

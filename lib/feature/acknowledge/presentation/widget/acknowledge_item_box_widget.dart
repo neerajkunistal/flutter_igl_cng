@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/complaint_assign_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
@@ -235,6 +236,8 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             onPressed: () async {
                 BlocProvider.of<AcknowledgeBloc>(context)
                     .add(AcknowledgeUserListLoadEvent(context: context));
+                BlocProvider.of<AddSparePartBloc>(context)
+                    .add(AddSparePartPageLoadEvent(context: context));
                 Navigator.push(
                     context,
                     MaterialPageRoute(

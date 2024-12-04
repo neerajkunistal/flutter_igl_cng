@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class ComplaintAssignWidget extends StatefulWidget {
   final AcknowledgeModel acknowledgeData;
@@ -103,6 +107,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),*/
                           _remarkController(dataState: state),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.04,
+                          ),
+                          AddSparePartWidget(),
+                          _addPartButton( context: context),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
@@ -284,6 +293,24 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         maxLine: 3,
         labelText: AppString.workDescription,
         controller: dataState.remarkController,
+      ),
+    );
+  }
+
+  Widget _addPartButton(
+      {required BuildContext context}) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width/2.6,
+        child: ButtonWidget(
+            text: AppString.addPart,
+            onPressed: () {
+              Navigator.push(
+                context,
+                FadeRoute(page: const AddSparePartPage()),
+              );
+            }),
       ),
     );
   }

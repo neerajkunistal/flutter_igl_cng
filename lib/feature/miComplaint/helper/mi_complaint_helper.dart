@@ -9,6 +9,7 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.da
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -69,7 +70,7 @@ class MiComplaintHelper {
     required String time,
     required UomTypeModel uomTypeData,
     required String qty,
-    required List<SparesPartModel> sparesPartList,
+    required List<PartModel> sparesPartList,
     required VendorModel vendorData,
     required String rectifyBy,
     required bool isNoScrap,

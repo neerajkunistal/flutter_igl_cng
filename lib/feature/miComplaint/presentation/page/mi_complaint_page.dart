@@ -6,6 +6,9 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.da
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -104,18 +107,24 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             _verticalSpace(),
             _actionDropDown(dataState: dataState),
             _verticalSpace(),
-            dataState.actionData.id.toString() == "3"
-                ? _sparesPartList(dataState: dataState)
+
+            dataState.actionData.id.toString() == "3" ||
+             dataState.actionData.id.toString() == "4"
+                ? AddSparePartWidget()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _addSparesPartButton(dataState: dataState)
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
+
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -332,6 +341,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       dropdownValue:
           dataState.actionData.id != null ? dataState.actionData : null,
       onChanged: (value) {
+        BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
         BlocProvider.of<MiComplaintBloc>(context).add(
             MiComplaintSelectActionData(actionData: value, context: context));
       },
@@ -550,14 +560,14 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 2.5,
         child: ButtonWidget(
-            text: AppString.addItem,
+            text: AppString.addPart,
             height:
                 AppConfig.getDeviceType(context: context) == DeviceType.tablet
                     ? MediaQuery.of(context).size.height * 0.13
                     : null,
-            onPressed: () {
-              BlocProvider.of<MiComplaintBloc>(context)
-                  .add(MiComplaintAddSparesPartData(context: context));
+            onPressed: () async {
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddSparePartPage()));
             }),
       ),
     );

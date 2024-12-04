@@ -11,6 +11,11 @@ class AddSparePartPageLoadEvent extends AddSparePartEvent {
   List<Object?> get props => [context]; // SparesModel
 }
 
+class AddSparePartClearSparePartEvent extends AddSparePartEvent {
+  @override
+  List<Object?> get props => []; // SparesModel
+}
+
 class AddSparePartSelectPartEvent extends AddSparePartEvent {
   final SparesModel sparesData;
   const AddSparePartSelectPartEvent({required this.sparesData});

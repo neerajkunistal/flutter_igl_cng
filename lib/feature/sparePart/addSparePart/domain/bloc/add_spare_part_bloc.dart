@@ -23,6 +23,7 @@ class AddSparePartBloc extends Bloc<AddSparePartEvent, AddSparePartState> {
 
   AddSparePartBloc() : super(AddSparePartInitial()) {
     on<AddSparePartPageLoadEvent>(_pageLoad);
+    on<AddSparePartClearSparePartEvent>(_clearSparePart);
     on<AddSparePartSelectPartEvent>(_selectSparePart);
     on<AddSparePartDeletePartEvent>(_deletePart);
     on<AddSparePartSubmitEvent>(_submit);
@@ -36,14 +37,21 @@ class AddSparePartBloc extends Bloc<AddSparePartEvent, AddSparePartState> {
     materialCodeController.text = "";
     remarkCodeController.text = "";
     isLoader =  false;
-    sparePartList = [];
     partList = [];
-    var res = await MiComplaintHelper.fetchSpareData();
-    if (res != null) {
-      sparePartList = res;
-    }
-    _eventComplete(emit);
 
+    if(sparePartList.isEmpty){
+      var res = await MiComplaintHelper.fetchSpareData();
+      if (res != null) {
+        sparePartList = res;
+      }
+    }
+
+    _eventComplete(emit);
+  }
+
+  _clearSparePart(AddSparePartClearSparePartEvent event, emit) {
+    partList = [];
+    _eventComplete(emit);
   }
 
   _selectSparePart(AddSparePartSelectPartEvent event, emit) {
@@ -80,6 +88,11 @@ class AddSparePartBloc extends Bloc<AddSparePartEvent, AddSparePartState> {
         uomTypeData: uomTypeData,
       )
     );
+    sparesData =  SparesModel();
+    uomTypeData =  UomTypeModel();
+    qtyController.text = "";
+    materialCodeController.text = "";
+    remarkCodeController.text = "";
     isLoader =  false;
     _eventComplete(emit);
     Navigator.pop(!event.context.mounted ? event.context: event.context);

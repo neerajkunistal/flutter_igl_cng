@@ -530,6 +530,8 @@ class AppString {
 
   static get closure => "Closure";
 
+  static get addPart => "Add Part";
+
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";
 }

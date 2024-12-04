@@ -209,7 +209,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(0);
+    complaintCount.add(reviewSelfComplaintList.length);
 
     _eventComplete(emit);
   }
@@ -442,7 +442,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(0);
+    complaintCount.add(reviewComplaintList.length);
     _eventComplete(emit);
   }
 
@@ -591,7 +591,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(0);
+    complaintCount.add(reviewComplaintList.length);
 
     _eventComplete(emit);
   }

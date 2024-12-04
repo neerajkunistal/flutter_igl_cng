@@ -5,6 +5,8 @@ import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
@@ -130,28 +132,11 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _imageList(dataState: dataState),
             _verticalSpace(),
 
-            dataState.approvalValue == "1"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            dataState.approvalValue == "1"
-                ?_scrapCheckBoxWidget(dataState: dataState)
-                : const SizedBox.shrink(),
+            AddSparePartWidget(),
+            _addPartButton( context: context),
 
-            dataState.isNoScrap == false
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            dataState.isNoScrap == false
-                ? const ScrapItemWidget()
-                : const SizedBox.shrink(),
-
-            dataState.isNoScrap == false &&
-                dataState.approvalValue == "1"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            dataState.isNoScrap == false &&
-                dataState.approvalValue == "1"
-                ?_addScarpButton(dataState: dataState)
-                : const SizedBox.shrink(),
+            ScrapItemWidget(),
+            _addScarpButton(dataState: dataState),
 
             _verticalSpace(),
             _verticalSpace(),
@@ -494,6 +479,24 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
               if (result.toString() == "Completed") {
 
               }
+            }),
+      ),
+    );
+  }
+
+  Widget _addPartButton(
+      {required BuildContext context}) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width/2.6,
+        child: ButtonWidget(
+            text: AppString.addPart,
+            onPressed: () {
+              Navigator.push(
+                context,
+                FadeRoute(page: const AddSparePartPage()),
+              );
             }),
       ),
     );

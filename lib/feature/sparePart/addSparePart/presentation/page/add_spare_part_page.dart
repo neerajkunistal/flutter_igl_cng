@@ -15,8 +15,6 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
 
   @override
   void initState() {
-    BlocProvider.of<AddSparePartBloc>(context)
-         .add(AddSparePartPageLoadEvent(context: context));
     super.initState();
   }
 
@@ -64,7 +62,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
       title: Align(
         alignment: Alignment.centerLeft,
         child: TextWidget(
-          "Add Scarp",
+          "Add Spare Part",
           color: AppColor.white,
           fontSize: AppFont.font_15,
           fontWeight: FontWeight.w600,
@@ -82,26 +80,30 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
 
   Widget _itemBuilder({required FetchAddSparePartDataState dataState}) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          _verticalSpace(),
-          _sparesDropDown(dataState: dataState),
-          _verticalSpace(),
-          _qtyController(dataState: dataState),
-          _verticalSpace(),
-          _materialCodeController(dataState: dataState),
-          _verticalSpace(),
-          _remarkController(dataState: dataState),
-          _verticalSpace(),
-          _submit(dataState: dataState),
-          _verticalSpace(),
-        ],
+      child: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            _verticalSpace(),
+            _sparesDropDown(dataState: dataState),
+            _verticalSpace(),
+            _qtyController(dataState: dataState),
+            _verticalSpace(),
+            _materialCodeController(dataState: dataState),
+            _verticalSpace(),
+            _remarkController(dataState: dataState),
+            _verticalSpace(),
+            _submit(dataState: dataState),
+            _verticalSpace(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _sparesDropDown({required FetchAddSparePartDataState dataState}) {
     return DropDownSearchWidget(
+      isRequired: true,
       selectedItem: dataState.sparesData.id != null ? dataState.sparesData : null,
       hint: AppString.selectSpares,
       items: dataState.sparePartList,
@@ -116,7 +118,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
   Widget _qtyController({required FetchAddSparePartDataState dataState}) {
     return TextFieldWidget(
       textInputType: TextInputType.number,
-      isRequired: false,
+      isRequired: true,
       labelText: dataState.sparesData.id != null
           ? dataState.sparesData.spareUom.toString()
           : AppString.qty,
@@ -127,7 +129,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
   Widget _materialCodeController({required FetchAddSparePartDataState dataState,}) {
     return TextFieldWidget(
       textInputType: TextInputType.text,
-      isRequired: false,
+      isRequired: true,
       labelText: AppString.materialCode,
       controller: dataState.materialCodeController,
     );
@@ -146,7 +148,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
         text: AppString.submit,
         onPressed: () {
           BlocProvider.of<AddSparePartBloc>(context)
-          .add(AddSparePartPageLoadEvent(context: context));
+          .add(AddSparePartSubmitEvent(context: context));
        }
     ) : const DottedLoaderWidget();
   }

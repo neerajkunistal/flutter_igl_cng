@@ -20,6 +20,7 @@ class AddSparePartWidget extends StatelessWidget {
   }
 
   Widget _scrapList({required FetchAddSparePartDataState dataState}) {
+    print("Part List ==== ${dataState.partList.length}");
     return dataState.partList.isNotEmpty ?
     DottedBorder(
       color: AppColor.grey,

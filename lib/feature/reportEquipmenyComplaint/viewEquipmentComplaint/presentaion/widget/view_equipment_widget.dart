@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/presentation/page/mi_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
@@ -324,6 +325,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                             context: context,
                             reviewComplaintData:
                             dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     var result = await Navigator.push(context,
                         FadeRoute(page: const ReviewComaplintPage()));
                     if (!context.mounted) result;
@@ -345,6 +348,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                             context: context,
                             reviewComplaintData:
                             dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     var result = await Navigator.push(context,
                         FadeRoute(page: const ReviewComaplintPage()));
                     if (!context.mounted) result;
@@ -363,6 +368,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                             context: context,
                             reviewComplaintData:
                             dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     var result = await Navigator.push(context,
                         FadeRoute(page: const ReviewComaplintPage()));
                     if (!context.mounted) result;
@@ -381,6 +388,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                             context: context,
                             reviewComplaintData:
                             dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     var result = await Navigator.push(context,
                         FadeRoute(page: const ReviewComaplintPage()));
                     if (!context.mounted) result;
@@ -398,6 +407,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                             context: context,
                             reviewComplaintData:
                             dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     var result = await Navigator.push(context,
                         FadeRoute(page: const ReviewComaplintPage()));
                     if (!context.mounted) result;
@@ -414,6 +425,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                       dataState.reviewComplaintList[index].complaintStatus
                           .toString() !=
                           "1") {
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintPageLoadEvent(
                             context: context,
