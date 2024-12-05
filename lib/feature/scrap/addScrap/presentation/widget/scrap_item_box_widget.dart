@@ -55,26 +55,41 @@ class ScrapItemBoxWidget extends StatelessWidget {
             Expanded(child: TextWidget(scrapData.description.toString(), color: AppColor.black,textAlign: TextAlign.end,)),
           ],
         ),
+        scrapData.scrapUnitTypeData != null ?
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.02,
-        ),
+        ): const SizedBox.shrink(),
+
+        scrapData.scrapUnitTypeData != null ?
         Row(
           children: [
             TextWidget("Unity Type", color: AppColor.black,),
             Expanded(child: TextWidget(scrapData.scrapUnitTypeData!.name.toString(),
                 color: AppColor.black,textAlign: TextAlign.end)),
           ],
-        ),
+        ) : const SizedBox.shrink(),
+
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.02,
         ),
+
+        scrapData.unit != null ?
+        Row(
+          children: [
+            TextWidget("Unity", color: AppColor.black,),
+            Expanded(child: TextWidget(scrapData.unit.toString(),
+                color: AppColor.black, textAlign: TextAlign.end)),
+          ],
+        ) : const SizedBox.shrink(),
+
+        scrapData.scrapUnitTypeData != null ?
         Row(
           children: [
             TextWidget("Unity", color: AppColor.black,),
             Expanded(child: TextWidget(scrapData.scrapUnitTypeData!.unit.toString(), 
                 color: AppColor.black, textAlign: TextAlign.end)),
           ],
-        ),
+        ) : const SizedBox.shrink(),
         Row(
           children: [
             TextWidget("Remark", color: AppColor.black,),

@@ -1,3 +1,6 @@
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
+
 List<AcknowledgeModel> acknowledgeListResponse(var json) {
   return List<AcknowledgeModel>.from(
       json.map((x) => AcknowledgeModel.fromJson(x)));
@@ -65,6 +68,8 @@ class AcknowledgeModel {
   String? plannerGroup;
   String? mainWorkCenter;
   String? personResponsible;
+  List<ScrapModel>? scrapList;
+  List<PartModel>? partList;
 
   AcknowledgeModel({
     this.id,
@@ -128,7 +133,8 @@ class AcknowledgeModel {
     this.plannerGroup,
     this.mainWorkCenter,
     this.personResponsible,
-
+    this.scrapList,
+    this.partList,
   });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -192,6 +198,8 @@ class AcknowledgeModel {
     plannerGroup = json['planner_group'] ?? "";
     mainWorkCenter = json['main_work_center'] ?? "";
     personResponsible = json['person_responsible'] ?? "";
+    scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
+    partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
   }
 
   Map<String, dynamic> toJson() {

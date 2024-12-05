@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -6,6 +8,9 @@ import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.d
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 
@@ -69,6 +74,8 @@ class AcknowledgeHelper {
       required String personResponsible,
       required PlannerModel plannerData,
       required WorkCenterModel workCenterData,
+      required List<PartModel> sparesPartList,
+      required List<ScrapModel> scrapList,
       required String remark}) async {
     try {
       String url = APIs.assignComplaintApi;
@@ -89,9 +96,37 @@ class AcknowledgeHelper {
 /*        "planner_group": plannerData.plannerGroup.toString(),
         "main_work_center": workCenterData.workCenter.toString(),
         "person_responsible": personResponsible,*/
-        "vendorAssignDatetime": "$closedDate $closedTime"
+        "vendorAssignDatetime": "$closedDate $closedTime",
+        "scrap" : scrapList.isNotEmpty ? "1" : "0",
+        "spares": sparesPartList.isNotEmpty
+            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList())
+            .toString()
+            : "0",
       };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+
+      Map<String, String> scrapData = {};
+      List<FileModel> filesList = [];
+      if(scrapList.isNotEmpty){
+        for(int i = 0;  i < scrapList.length; i++ ){
+          var jsonData = {
+            "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
+            "scrapDetails[$i][description]" : scrapList[i].description.toString(),
+            "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
+            "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+          };
+          if(scrapList[i].filesList != null){
+            for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
+              filesList.add(FileModel(
+                  name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+            }
+          }
+          scrapData.addAll(jsonData);
+        }
+      }
+      scrapData.addAll(json);
+
+      var res = await ServerRequest.postData(urlEndPoint: url, body: scrapData);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/presentation/page/mi_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/page/review_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -320,6 +321,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                           "0" &&
                       dataState.reviewComplaintList[index].assignType.toString() ==
                           "3") {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
+                    BlocProvider.of<AddScrapBloc>(context).add(AddScrapClearScrapDataEvent(context: context));
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(
                             context: context,
@@ -460,8 +463,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                   index: index,
                   reviewComplaintData: dataState.reviewComplaintList[index],
                 ));
-          })
-          : Center(
+          }) : Center(
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.10,
           child: GestureDetector(

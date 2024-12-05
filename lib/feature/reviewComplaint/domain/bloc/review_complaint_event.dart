@@ -102,6 +102,31 @@ class ReviewComplaintSelectCodeGroupEvent extends ReviewComplaintEvent {
   List<Object?> get props => [codeGroupData];
 }
 
+class ReviewComplaintDeleteScarpEvent extends ReviewComplaintEvent {
+  final int index;
+
+  const ReviewComplaintDeleteScarpEvent({required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class ReviewComplaintClearDeleteEvent extends ReviewComplaintEvent {
+
+  @override
+  List<Object?> get props => [];
+}
+
+
+class ReviewComplaintDeletePartEvent extends ReviewComplaintEvent {
+  final int index;
+
+  const ReviewComplaintDeletePartEvent({required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
 class ReviewComplaintSubmitEvent extends ReviewComplaintEvent {
   final BuildContext context;
 

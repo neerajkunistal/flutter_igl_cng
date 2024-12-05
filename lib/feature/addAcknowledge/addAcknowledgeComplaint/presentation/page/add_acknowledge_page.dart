@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/add_sap_widget.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddAcknowledgePage extends StatefulWidget {
   const AddAcknowledgePage({super.key});
@@ -49,6 +52,8 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                 acknowledgeData: dataState.acknowledgeData, index: 0),
             _verticalSpace(),
             _complaintTypeDropDown(dataState: dataState),
+            _scrapList(dataState: dataState),
+            _sparePartList(dataState: dataState),
             _verticalSpace(),
             dataState.complaintTypeData.id.toString() == "2"
                 ? _equipmentDropDown(dataState: dataState)
@@ -116,6 +121,56 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
         );
       }).toList(),
     );
+  }
+
+  Widget _scrapList({required FetchAddAcknowledgeComplaintState dataState}) {
+    return  dataState.acknowledgeData.scrapList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.acknowledgeData.scrapList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ScrapCommonItemWidget(
+                index: index,
+                scrapData: dataState.acknowledgeData.scrapList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
+  }
+
+  Widget _sparePartList({required FetchAddAcknowledgeComplaintState dataState}) {
+    return  dataState.acknowledgeData.partList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.acknowledgeData.partList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SparePartCommonItemWidget(
+                index: index,
+                partModel: dataState.acknowledgeData.partList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
   }
 
   Widget _equipmentDropDown(

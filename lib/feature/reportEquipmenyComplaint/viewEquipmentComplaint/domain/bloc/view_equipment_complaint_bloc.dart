@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/helper/view_equipment_complaint.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:vibration/vibration.dart';
 
@@ -442,7 +443,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewComplaintList.length);
+    complaintCount.add(reviewSelfComplaintList.length);
     _eventComplete(emit);
   }
 
@@ -591,7 +592,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewComplaintList.length);
+    complaintCount.add(reviewSelfComplaintList.length);
 
     _eventComplete(emit);
   }
@@ -666,6 +667,7 @@ class ViewEquipmentComplaintBloc
          rectifiedBy: rectifyByController.text.toString(),
          remark: remarkController.text.toString(),
         scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+        partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
      );
      if(res != null){
        if (!event.context.mounted) return;

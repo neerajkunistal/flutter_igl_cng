@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 
 class ViewEquipmentComplaintHelper {
   static Future<dynamic> fetchReviewAndSelfComplaint() async {
@@ -57,12 +58,20 @@ class ViewEquipmentComplaintHelper {
     required String time,
     required String rectifiedBy,
     required List<ScrapModel> scrapList,
+    required List<PartModel> partList,
     required String remark}) async {
     try{
          String url =  APIs.closureComplaintApi;
          var json = {
            "complaintId" : reviewComplaintData.id.toString(),
            "stationRemarks" : remark.toString().isEmpty ? "remark" : remark,
+           "closeDateTime" : "$date $time",
+           "rectifyPerson" : rectifiedBy,
+           "scrap" : scrapList.isNotEmpty ? "1" : "0",
+           "spares": partList.isNotEmpty
+               ? jsonEncode(partList.map((e) => e.toJson()).toList())
+               .toString()
+               : "0",
          };
 
          Map<String, String> scrapData = {};
@@ -78,8 +87,10 @@ class ViewEquipmentComplaintHelper {
              };
              if(scrapList[i].filesList != null){
                for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-                 filesList.add(FileModel(
-                     name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+                 if(scrapList[i].filesList![j].path.isNotEmpty){
+                   filesList.add(FileModel(
+                       name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+                 }
                }
              }
              scrapData.addAll(jsonData);
@@ -87,7 +98,12 @@ class ViewEquipmentComplaintHelper {
          }
          scrapData.addAll(json);
          log(jsonEncode(scrapData).toString());
-         var res =  await ServerRequest.postData(urlEndPoint: url, body: scrapData);
+
+         var res = await ServerRequest.postDataWithFile(
+           urlEndPoint: url,
+           body: scrapData,
+           context: context,
+           fileList: filesList,);
          if (res != null &&
              res['status'] != null &&
              res['status'] == true &&

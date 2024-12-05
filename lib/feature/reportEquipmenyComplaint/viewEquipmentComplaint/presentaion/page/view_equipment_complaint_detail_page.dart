@@ -3,7 +3,12 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/closer_widget.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -44,11 +49,16 @@ class _ViewEquipmentComplaintDetailPageState
                               isDetailPage: true,
                               reviewComplaintData: state.reviewComplaintList[state.index],
                             ),
+                            _scrapList(dataState: state),
+                            _sparePartList(dataState: state),
+
                             _verticalSpace(),
                             ScrapItemWidget(),
                             _verticalSpace(),
                             _addScarpButton(),
                             _verticalSpace(),
+                            AddSparePartWidget(),
+                            _addPartButton( context: context),
                             CloserWidget(dataState: state),
                             _verticalSpace(),
                           ],
@@ -91,6 +101,56 @@ class _ViewEquipmentComplaintDetailPageState
     );
   }
 
+  Widget _scrapList({required FetchViewEquipmentComplaintDataState dataState}) {
+    return  dataState.reviewComplaintList[dataState.index].scrapList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintList[dataState.index].scrapList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ScrapCommonItemWidget(
+                index: index,
+                scrapData: dataState.reviewComplaintList[dataState.index].scrapList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
+  }
+
+  Widget _sparePartList({required FetchViewEquipmentComplaintDataState dataState}) {
+    return  dataState.reviewComplaintList[dataState.index].partList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount:  dataState.reviewComplaintList[dataState.index].partList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SparePartCommonItemWidget(
+                index: index,
+                partModel:  dataState.reviewComplaintList[dataState.index].partList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
+  }
+
   Widget _addScarpButton() {
     return Align(
       alignment: Alignment.topRight,
@@ -109,6 +169,26 @@ class _ViewEquipmentComplaintDetailPageState
               if (result.toString() == "Completed") {
 
               }
+            }),
+      ),
+    );
+  }
+
+  Widget _addPartButton(
+      {required BuildContext context}) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width/2.6,
+        child: ButtonWidget(
+            text: AppString.addPart,
+            onPressed: () {
+              BlocProvider.of<AddSparePartBloc>(context)
+                  .add(AddSparePartPageLoadEvent(context: context));
+              Navigator.push(
+                context,
+                FadeRoute(page: const AddSparePartPage()),
+              );
             }),
       ),
     );

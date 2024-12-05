@@ -5,10 +5,12 @@ import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.da
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
@@ -102,6 +104,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
             ReviewComplaintItemBox(
                 index: 0,
                 reviewComplaintData: dataState.reviewComplaintData),
+            _scrapList(dataState: dataState),
+            _sparePartList(dataState: dataState),
+
             _verticalSpace(),
             _amcStatusDate(dataState: dataState),
             _verticalSpace(),
@@ -181,6 +186,56 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         ),
       ),
     );
+  }
+
+  Widget _scrapList({required FetchMiComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.scrapList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintData.scrapList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ScrapCommonItemWidget(
+                index: index,
+                scrapData: dataState.reviewComplaintData.scrapList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
+  }
+
+  Widget _sparePartList({required FetchMiComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.partList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintData.partList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SparePartCommonItemWidget(
+                index: index,
+                partModel: dataState.reviewComplaintData.partList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
   }
 
   Widget _amcStatusDate({required FetchMiComplaintDataState dataState}) {
@@ -566,6 +621,8 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     ? MediaQuery.of(context).size.height * 0.13
                     : null,
             onPressed: () async {
+              BlocProvider.of<AddSparePartBloc>(context)
+                  .add(AddSparePartPageLoadEvent(context: context));
               var result = await Navigator.push(context,
                   FadeRoute(page: const AddSparePartPage()));
             }),

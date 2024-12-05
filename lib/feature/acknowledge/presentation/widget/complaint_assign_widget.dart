@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
@@ -306,6 +307,8 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         child: ButtonWidget(
             text: AppString.addPart,
             onPressed: () {
+              BlocProvider.of<AddSparePartBloc>(context)
+                  .add(AddSparePartPageLoadEvent(context: context));
               Navigator.push(
                 context,
                 FadeRoute(page: const AddSparePartPage()),

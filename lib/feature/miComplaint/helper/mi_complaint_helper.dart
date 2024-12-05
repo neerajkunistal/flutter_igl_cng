@@ -71,10 +71,10 @@ class MiComplaintHelper {
     required UomTypeModel uomTypeData,
     required String qty,
     required List<PartModel> sparesPartList,
+    required List<ScrapModel> scrapList,
     required VendorModel vendorData,
     required String rectifyBy,
     required bool isNoScrap,
-    required List<ScrapModel> scrapList,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;

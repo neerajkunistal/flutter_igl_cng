@@ -4,6 +4,9 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 part 'review_complaint_event.dart';
@@ -34,8 +37,13 @@ class ReviewComplaintBloc
 
   bool sapCodeLoader =  false;
 
+  List<ScrapModel> deleteScrapList = [];
+  List<PartModel> deletePartList = [];
+
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
     on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
+    on<ReviewComplaintDeleteScarpEvent>(_deleteScrap);
+    on<ReviewComplaintDeletePartEvent>(_deletePart);
     on<ReviewComplaintSelectComplaintEvent>(_selectComplaint);
     on<ReviewComplaintSelectApprovalEvent>(_selectApproval);
     on<ReviewComplaintSelectScrapData>(_selectScrap);
@@ -78,9 +86,10 @@ class ReviewComplaintBloc
     for (var reviewData in reviewComplaintList) {
       if (event.reviewComplaintData.id.toString() == reviewData.id.toString()) {
         reviewComplaintData = reviewData;
+        reviewComplaintData.scrapList!.addAll(deleteScrapList);
+        reviewComplaintData.partList!.addAll(deletePartList);
       }
     }
-
 
     if(codeGroupList.isEmpty){
       var res =  await ReviewComplaintHelper.fetchCodeGroupData();
@@ -89,8 +98,29 @@ class ReviewComplaintBloc
       }
     }
 
+    deleteScrapList = [];
+    deletePartList = [];
+
     BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).add(
         AddScrapClearScrapDataEvent(context: !event.context.mounted ? event.context : event.context));
+    _eventComplete(emit);
+  }
+
+  _deleteScrap(ReviewComplaintDeleteScarpEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    deleteScrapList.add( reviewComplaintData.scrapList![event.index]);
+    reviewComplaintData.scrapList!.removeAt(event.index);
+    isLoader =  true;
+    _eventComplete(emit);
+  }
+
+  _deletePart(ReviewComplaintDeletePartEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    deletePartList.add(reviewComplaintData.partList![event.index]);
+    reviewComplaintData.partList!.removeAt(event.index);
+    isLoader =  false;
     _eventComplete(emit);
   }
 
@@ -243,7 +273,10 @@ class ReviewComplaintBloc
             isNoScrap: isNoScrap,
             sapCodeData: sapCodeData,
             codeGroupData: codeGroupData,
+            deletePartList: deletePartList,
+            deletesScrapList: deleteScrapList,
             scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+            partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
     )
         : await ReviewComplaintHelper.reviewComplaint(
             context: !event.context.mounted ? event.context : event.context,
@@ -255,7 +288,11 @@ class ReviewComplaintBloc
             rectifyBy: rectifiedByController.text.toString(),
             files: files,
           isNoScrap: isNoScrap,
+          deletePartList: deletePartList,
+          deletesScrapList: deleteScrapList,
           scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+          partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
+
 
     );
     if (res != null) {

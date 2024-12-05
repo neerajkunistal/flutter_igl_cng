@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 
 class ReviewComplaintHelper {
   static Future<dynamic> fetchReviewComplaint(
@@ -48,6 +49,9 @@ class ReviewComplaintHelper {
       required List<File> files,
       required bool isNoScrap,
       required List<ScrapModel> scrapList,
+      required List<PartModel> partList,
+        required List<ScrapModel> deletesScrapList,
+        required List<PartModel> deletePartList,
       required SapCodeModel sapCodeData,
       required CodeGroupModel codeGroupData,
       }) async {
@@ -66,6 +70,18 @@ class ReviewComplaintHelper {
         "scrap" : isNoScrap == true ? "0" : "1",
         "sapCode" : sapCodeData.code != null ? sapCodeData.id.toString() : "",
         "codeGroup" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
+        "spares": partList.isNotEmpty
+            ? jsonEncode(partList.map((e) => e.toJson()).toList())
+            .toString()
+            : "0",
+        "deletedSpares": deletesScrapList.isNotEmpty
+            ? jsonEncode(deletesScrapList.map((e) => e.toJson()).toList())
+            .toString()
+            : "0",
+        "deletedParts": deletePartList.isNotEmpty
+            ? jsonEncode(deletePartList.map((e) => e.toDeleteJson()).toList())
+            .toString()
+            : "0",
       };
 
 
@@ -153,6 +169,9 @@ class ReviewComplaintHelper {
       required List<File> files,
         required bool isNoScrap,
         required List<ScrapModel> scrapList,
+        required List<PartModel> partList,
+        required List<ScrapModel> deletesScrapList,
+        required List<PartModel> deletePartList,
       }) async {
     try {
       List<FileModel> fileList = [];
@@ -175,7 +194,19 @@ class ReviewComplaintHelper {
         "stationRemarks": observation.toString(),
         "rectifyPerson": approvalValue,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : isNoScrap == true ? "0" : "1"
+        "scrap" : isNoScrap == true ? "0" : "1",
+        "spares": partList.isNotEmpty
+            ? jsonEncode(partList.map((e) => e.toJson()).toList())
+            .toString()
+            : "0",
+        "deletedSpares": deletesScrapList.isNotEmpty
+            ? jsonEncode(deletesScrapList.map((e) => e.toJson()).toList())
+            .toString()
+            : "0",
+        "deletedParts": deletePartList.isNotEmpty
+            ? jsonEncode(deletePartList.map((e) => e.toDeleteJson()).toList())
+            .toString()
+            : "0",
       };
 
       Map<String, String> scrapData = {};
@@ -190,8 +221,10 @@ class ReviewComplaintHelper {
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-              fileList.add(FileModel(
-                  name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              if(scrapList[i].filesList![j].path.isNotEmpty){
+                fileList.add(FileModel(
+                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              }
             }
           }
           scrapData.addAll(jsonData);

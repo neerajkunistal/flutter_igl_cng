@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
@@ -293,6 +295,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
           || (reviewComplaintData.seAssignStatus.toString() == "1"
               && reviewComplaintData.ackStatus.toString() == "1"))
             && (reviewComplaintData.complaintStatus.toString() == "0" &&
+          reviewComplaintData.assignType.toString() != "3" &&
               userData.roleType == RoleType.stationUser)  ?
         Align(
           alignment: Alignment.centerRight,
@@ -304,7 +307,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
               text: "Closure",
               fontSize: AppFont.font_12,
               onPressed: () async {
-
+                BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
+                BlocProvider.of<AddScrapBloc>(context).add(AddScrapClearScrapDataEvent(context: context));
                 BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
                     ViewEquipmentComplaintSelectedComplaintEvent(index: index));
                 var result = await Navigator.push(context,

@@ -4,9 +4,13 @@ import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/d
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
@@ -93,6 +97,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
 
+            _scrapList(dataState: dataState),
+            _sparePartList(dataState: dataState),
 
             userData.roleType == RoleType.shiftEngineer ?
             _codeGroupDropDown(dataState: dataState, context: context)
@@ -155,6 +161,64 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             reviewComplaintData: dataState.reviewComplaintData,
           )
         : const SizedBox.shrink();
+  }
+
+  Widget _scrapList({required FetchReviewComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.scrapList!.isNotEmpty
+        ? Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const DottedDividerLine(),
+            TextWidget("Scarp", fontWeight: FontWeight.w700,),
+            ListView.builder(
+            itemCount: dataState.reviewComplaintData.scrapList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ScrapCommonItemWidget(
+                index: index,
+                scrapData: dataState.reviewComplaintData.scrapList![index],
+                onTap: () {
+                  BlocProvider.of<ReviewComplaintBloc>(context)
+                  .add(ReviewComplaintDeleteScarpEvent(index: index));
+                },
+              );
+            }),
+            _verticalSpace(),
+            const DottedDividerLine(),
+            _verticalSpace(),
+          ],
+        ) : const SizedBox.shrink();
+  }
+
+  Widget _sparePartList({required FetchReviewComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.partList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintData.partList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SparePartCommonItemWidget(
+                index: index,
+                partModel: dataState.reviewComplaintData.partList![index],
+                onTap: () {
+                  BlocProvider.of<ReviewComplaintBloc>(context)
+                      .add(ReviewComplaintDeletePartEvent(index: index));
+                },
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
   }
 
   Widget _radioButton({required FetchReviewComplaintDataState dataState}) {
@@ -493,6 +557,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         child: ButtonWidget(
             text: AppString.addPart,
             onPressed: () {
+              BlocProvider.of<AddSparePartBloc>(context)
+                  .add(AddSparePartPageLoadEvent(context: context));
               Navigator.push(
                 context,
                 FadeRoute(page: const AddSparePartPage()),

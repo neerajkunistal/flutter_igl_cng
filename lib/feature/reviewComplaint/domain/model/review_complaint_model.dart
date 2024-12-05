@@ -1,3 +1,6 @@
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
+
 List<ReviewComplaintModel> reviewComplaintListResponse(var json) {
   return List<ReviewComplaintModel>.from(
       json.map((x) => ReviewComplaintModel.fromJson(x)));
@@ -74,6 +77,8 @@ class ReviewComplaintModel {
   bool? isSelected;
   String? descriptionKva;
   String? seAssignStatus;
+  List<ScrapModel>? scrapList;
+  List<PartModel>? partList;
 
   ReviewComplaintModel({
     this.id,
@@ -146,6 +151,8 @@ class ReviewComplaintModel {
     this.isSelected,
     this.descriptionKva,
     this.seAssignStatus,
+    this.scrapList,
+    this.partList,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -218,6 +225,8 @@ class ReviewComplaintModel {
     cngStationName = json['cng_station_name'] ?? "";
     descriptionKva = json['description_kva'] ?? "";
     seAssignStatus = json['se_assign_status'] ?? "0";
+    scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
+    partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
 
     if (vendorCode.toString().isEmpty) {
       vendorCode = json['mi_assign_to_vendor_code'] ?? "";
