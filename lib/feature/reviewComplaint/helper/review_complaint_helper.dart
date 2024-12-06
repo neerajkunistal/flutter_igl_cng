@@ -67,7 +67,7 @@ class ReviewComplaintHelper {
         "finalStatus": approvalValue,
         "rectifyPerson": approvalValue,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : isNoScrap == true ? "0" : "1",
+        "scrap" : scrapList.isEmpty ? "0" :"1",
         "sapCode" : sapCodeData.code != null ? sapCodeData.id.toString() : "",
         "codeGroup" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
         "spares": partList.isNotEmpty
@@ -87,7 +87,6 @@ class ReviewComplaintHelper {
 
       Map<String, String> scrapData = {};
       List<FileModel> filesList = [];
-      if(isNoScrap == false){
         for(int i = 0;  i < scrapList.length; i++ ){
           var jsonData = {
             "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
@@ -95,28 +94,33 @@ class ReviewComplaintHelper {
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
             "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-              filesList.add(FileModel(
-                  name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              if(scrapList[i].filesList![j].path.isNotEmpty){
+                filesList.add(FileModel(
+                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              }
             }
           }
           scrapData.addAll(jsonData);
-        }
-      }
+     }
 
       scrapData.addAll(json);
       log(jsonEncode(scrapData).toString());
 
-      filesList.add(FileModel(
-          name: "file", file: files[0], keyName: "attachFile"));
+      if(files[0].path.isNotEmpty){
+        filesList.add(FileModel(
+            name: "file", file: files[0], keyName: "attachFile"));
+      }
 
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: scrapData,
-          context: context);
+          context: context,
+        fileList: filesList);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
@@ -194,7 +198,7 @@ class ReviewComplaintHelper {
         "stationRemarks": observation.toString(),
         "rectifyPerson": approvalValue,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : isNoScrap == true ? "0" : "1",
+        "scrap" : scrapList.isEmpty ? "0" : "1",
         "spares": partList.isNotEmpty
             ? jsonEncode(partList.map((e) => e.toJson()).toList())
             .toString()
@@ -218,6 +222,7 @@ class ReviewComplaintHelper {
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
             "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
           };
           if(scrapList[i].filesList != null){
             for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){

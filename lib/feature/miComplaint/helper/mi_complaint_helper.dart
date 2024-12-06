@@ -46,7 +46,7 @@ class MiComplaintHelper {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.getMiComplaintApi +
-          "?userId=${userData.userId}&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
+          "?userId=${userData.userId}&sort=&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
@@ -120,6 +120,7 @@ class MiComplaintHelper {
             "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
             "scrapDetails[$i][description]" : scrapList[i].description.toString(),
             "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
             "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
             "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
           };

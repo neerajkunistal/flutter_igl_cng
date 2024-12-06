@@ -256,7 +256,12 @@ class ReviewComplaintBloc
       _eventComplete(emit);
       return;
     }
-
+    else if(closeTimeController.text.toString().isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please enter time");
+      isLoader = false;
+      _eventComplete(emit);
+      return;
+    }
 
 
     var res = userData.roleType == RoleType.shiftEngineer

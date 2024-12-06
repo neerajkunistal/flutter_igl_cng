@@ -194,7 +194,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
         children: [
           RadioListTile<String>(
             title: TextWidget(AppString.destroy),
-            value: AppString.destroy,
+            value: "0",
             groupValue: dataState.destroyReusable,
             onChanged: (value) {
               BlocProvider.of<AddScrapBloc>(context)
@@ -203,7 +203,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
           ),
           RadioListTile<String>(
             title: TextWidget(AppString.reusable),
-            value: AppString.reusable,
+            value: "1",
             groupValue: dataState.destroyReusable,
             onChanged: (value) {
               BlocProvider.of<AddScrapBloc>(context)

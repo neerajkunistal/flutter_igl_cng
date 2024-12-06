@@ -164,7 +164,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   }
 
   Widget _scrapList({required FetchReviewComplaintDataState dataState}) {
-    return  dataState.reviewComplaintData.scrapList!.isNotEmpty
+    return  dataState.reviewComplaintData.scrapList != null &&
+        dataState.reviewComplaintData.scrapList!.isNotEmpty
         ? Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -193,7 +194,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   }
 
   Widget _sparePartList({required FetchReviewComplaintDataState dataState}) {
-    return  dataState.reviewComplaintData.partList!.isNotEmpty
+    return  dataState.reviewComplaintData.partList != null &&
+        dataState.reviewComplaintData.partList!.isNotEmpty
         ? Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
