@@ -110,7 +110,6 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
               element.ackStatus.toString() == "0" &&
-              element.complaintStatus.toString() != "3" &&
               element.assignType.toString() == "0" &&
               element.miAssignType.toString() == "0")
           .toList();
@@ -119,7 +118,6 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
             element.ackStatus.toString() == "0" &&
-             element.complaintStatus.toString() != "3" &&
             element.assignType.toString() == "0" &&
             element.miAssignType.toString() == "0")
         .toList()
@@ -127,9 +125,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
-            element.ackStatus.toString() == "1" &&
+        element.ackStatus.toString() == "1" &&
+            element.complaintStatus.toString() == "0" &&
             element.assignType.toString() == "0")
-        .toList()
+            .toList()
         .length);
 
     int count = 0;
@@ -268,15 +267,14 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
           .where((element) =>
               element.ackStatus.toString() == "0" &&
               element.assignType.toString() == "0" &&
-              element.complaintStatus.toString() != "3" &&
               element.miAssignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 1) {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
-              element.ackStatus.toString() == "1" &&
-              element.complaintStatus.toString() == "0" &&
-              element.assignType.toString() == "0")
+      element.ackStatus.toString() == "1" &&
+          element.complaintStatus.toString() == "0" &&
+          element.assignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 2) {
       acknowledgeList = acknowledgeWithOutFilterList
@@ -320,7 +318,6 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
             element.ackStatus.toString() == "0" &&
-           element.complaintStatus.toString() != "3" &&
             element.assignType.toString() == "0" &&
             element.miAssignType.toString() == "0")
         .toList()
@@ -402,17 +399,16 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
               element.ackStatus.toString() == "0" &&
-              element.complaintStatus.toString() != "3" &&
               element.assignType.toString() == "0" &&
               element.miAssignType.toString() == "0")
           .toList();
     } else if (selectTabIndex == 1) {
       acknowledgeList = acknowledgeWithOutFilterList
-          .where((element) =>
-              element.ackStatus.toString() == "1" &&
-              element.complaintStatus.toString() == "0" &&
-              element.assignType.toString() == "0")
-          .toList();
+                .where((element) =>
+            element.ackStatus.toString() == "1" &&
+                element.complaintStatus.toString() == "0" &&
+                element.assignType.toString() == "0")
+                .toList();
     } else if (selectTabIndex == 2) {
       acknowledgeList = acknowledgeWithOutFilterList
           .where((element) =>
@@ -451,7 +447,6 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     complaintCount.add(acknowledgeWithOutFilterList
         .where((element) =>
             element.ackStatus.toString() == "0" &&
-            element.complaintStatus.toString() != "3" &&
             element.assignType.toString() == "0" &&
             element.miAssignType.toString() == "0")
         .toList()

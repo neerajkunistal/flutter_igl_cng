@@ -88,7 +88,9 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                             ? "Completed"
                             : acknowledgeData.complaintStatus.toString() == "2"
                                 ? "Reject"
-                                : ""),
+                              : acknowledgeData.complaintStatus.toString() == "3"
+                              ? "${AppString.closure} ${AppString.pending}"
+                                : "", color: acknowledgeData.complaintStatus.toString() == "3" ? AppColor.orange: null),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
@@ -180,7 +182,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _rowWidget({required String name, required String value}) {
+  Widget _rowWidget({required String name, required String value, Color? color}) {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Row(
@@ -188,7 +190,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
           TextWidget("$name : ", fontSize: AppFont.font_13),
           Expanded(
               child: TextWidget(value,
-                  textAlign: TextAlign.end, fontSize: AppFont.font_13)),
+                  textAlign: TextAlign.end, fontSize: AppFont.font_13, color: color,)),
         ],
       ),
     );

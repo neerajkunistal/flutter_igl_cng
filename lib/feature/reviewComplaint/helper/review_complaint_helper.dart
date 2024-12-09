@@ -239,7 +239,6 @@ class ReviewComplaintHelper {
       scrapData.addAll(json);
       log(jsonEncode(scrapData).toString());
 
-
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url, body: scrapData, context: context, fileList: fileList);

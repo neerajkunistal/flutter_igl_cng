@@ -3,6 +3,8 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/tab_bar_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/tab_item_widget.dart';
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -11,9 +13,13 @@ class AcknowledgePage extends StatefulWidget {
   State<AcknowledgePage> createState() => _AcknowledgePageState();
 }
 
-class _AcknowledgePageState extends State<AcknowledgePage> {
+class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+
   @override
   void initState() {
+    _tabController = TabController(length: 3, vsync: this);
     BlocProvider.of<AcknowledgeBloc>(context)
         .add(AcknowledgePageLoadEvent(context: context));
     fetchData();
@@ -56,7 +62,8 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                        _tabWidget(dataState: state),
+                        // _tabWidget(dataState: state),
+                        _tabWidget(dataState:state),
                         Expanded(child: _itemBuilder(dataState: state)),
                       ],
                     ),
@@ -123,98 +130,19 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
   }
 
   Widget _tabWidget({required FetchAcknowledgeDataState dataState}) {
-    return Container(
-      height: MediaQuery.of(context).size.width * 0.10,
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: AppColor.themeNormalLightColor,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: TextButton(
-                style: dataState.selectTabIndex == 0
-                    ? ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                            AppColor.themeColor),
-                        shape: WidgetStateProperty
-                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: AppColor.themeColor))))
-                    : null,
-                onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context).add(
-                      const AcknowledgeComplaintSelectedTabIndexEvent(
-                          selectedTabIndex: 0));
-                },
-                child: TextWidget(
-                  "New-${dataState.complaintCount[0]}",
-                  color: dataState.selectTabIndex == 0
-                      ? AppColor.white
-                      : AppColor.black,
-                  fontWeight: dataState.selectTabIndex == 0
-                      ? FontWeight.w700
-                      : FontWeight.w400,
-                  fontSize: AppFont.font_11,
-                )),
-          ),
-          Expanded(
-            child: TextButton(
-                style: dataState.selectTabIndex == 1
-                    ? ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                            AppColor.themeColor),
-                        shape: WidgetStateProperty
-                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: AppColor.themeColor))))
-                    : null,
-                onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context).add(
-                      const AcknowledgeComplaintSelectedTabIndexEvent(
-                          selectedTabIndex: 1));
-                },
-                child: TextWidget(
-                  "Ack-${dataState.complaintCount[1]}",
-                  color: dataState.selectTabIndex == 1
-                      ? AppColor.white
-                      : AppColor.black,
-                  fontWeight: dataState.selectTabIndex == 1
-                      ? FontWeight.w700
-                      : FontWeight.w400,
-                  fontSize: AppFont.font_11,
-                )),
-          ),
-          Expanded(
-            child: TextButton(
-                style: dataState.selectTabIndex == 2
-                    ? ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all<Color>(
-                            AppColor.themeColor),
-                        shape: WidgetStateProperty
-                            .all<RoundedRectangleBorder>(RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: BorderSide(color: AppColor.themeColor))))
-                    : null,
-                onPressed: () {
-                  BlocProvider.of<AcknowledgeBloc>(context).add(
-                      const AcknowledgeComplaintSelectedTabIndexEvent(
-                          selectedTabIndex: 2));
-                },
-                child: TextWidget(
-                  "Assign-${dataState.complaintCount[2]}",
-                  color: dataState.selectTabIndex == 2
-                      ? AppColor.white
-                      : AppColor.black,
-                  fontWeight: dataState.selectTabIndex == 2
-                      ? FontWeight.w700
-                      : FontWeight.w400,
-                  fontSize: AppFont.font_11,
-                )),
-          ),
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: TabBarWidget(
+        controller: _tabController,
+        onTap: (index) {
+          BlocProvider.of<AcknowledgeBloc>(context).add(
+              AcknowledgeComplaintSelectedTabIndexEvent(
+                  selectedTabIndex: index));
+        },
+        tabs: [
+          TabItemWidget(title: "New", count: dataState.complaintCount[0]),
+          TabItemWidget(title: "Ack", count: dataState.complaintCount[1]),
+          TabItemWidget(title: "Assign", count: dataState.complaintCount[2]),
         ],
       ),
     );
