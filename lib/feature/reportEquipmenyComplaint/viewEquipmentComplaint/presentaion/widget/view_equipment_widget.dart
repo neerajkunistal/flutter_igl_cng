@@ -346,6 +346,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                           "0" &&
                       dataState.reviewComplaintList[index].miAssignType.toString() ==
                           "3") {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(
                             context: context,
@@ -366,6 +367,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                   } else if (userLogin.roleType == RoleType.shiftEngineer &&
                       dataState.reviewComplaintList[index].assignType.toString() ==
                           "3") {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(
                             context: context,
@@ -386,6 +388,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                   } else if (userLogin.roleType == RoleType.shiftEngineer &&
                       dataState.reviewComplaintList[index].miAssignType.toString() ==
                           "3") {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(
                             context: context,
@@ -405,6 +408,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                     }
                   } else if (userLogin.roleType == RoleType.shiftEngineer &&
                       dataState.selectedTabIndex == 5) {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                     BlocProvider.of<ReviewComplaintBloc>(context).add(
                         ReviewComplaintPageLoadEvent(
                             context: context,

@@ -37,8 +37,6 @@ class AddSparePartBloc extends Bloc<AddSparePartEvent, AddSparePartState> {
     materialCodeController.text = "";
     remarkCodeController.text = "";
     isLoader =  false;
-    partList = [];
-
     if(sparePartList.isEmpty){
       var res = await MiComplaintHelper.fetchSpareData();
       if (res != null) {

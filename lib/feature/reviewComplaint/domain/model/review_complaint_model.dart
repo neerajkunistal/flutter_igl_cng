@@ -78,6 +78,9 @@ class ReviewComplaintModel {
   String? descriptionKva;
   String? seAssignStatus;
   dynamic rejectStatus;
+  String? stationRemark;
+  String? rectifyBy;
+  List<String>? stationAttachmentFile;
   List<ScrapModel>? scrapList;
   List<PartModel>? partList;
 
@@ -155,6 +158,9 @@ class ReviewComplaintModel {
     this.rejectStatus,
     this.scrapList,
     this.partList,
+    this.stationRemark,
+    this.rectifyBy,
+    this.stationAttachmentFile,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -228,6 +234,10 @@ class ReviewComplaintModel {
     descriptionKva = json['description_kva'] ?? "";
     seAssignStatus = json['se_assign_status'] ?? "0";
     rejectStatus = json['reject_status'] ?? "0";
+    stationRemark = json['station_remarks'] ?? "";
+    rectifyBy = json['rectify_by'] ?? "";
+    stationAttachmentFile =  json['station_attachment_file'] != null
+        ? json['station_attachment_file'].cast<String>() :[];
     scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
     partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
 

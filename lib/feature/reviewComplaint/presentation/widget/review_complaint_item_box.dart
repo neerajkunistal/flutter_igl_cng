@@ -91,8 +91,11 @@ class ReviewComplaintItemBox extends StatelessWidget {
       ? "Reopen"
        : reviewComplaintData.complaintStatus.toString() == "0"
         ? "New"
-        : reviewComplaintData.complaintStatus.toString() == "1"
-            ? "Completed"
+           : reviewComplaintData.complaintStatus.toString() == "1"
+              && reviewComplaintData.ackStatus.toString() == "2"
+            ? "Reject - Not Acknowledge"
+           : reviewComplaintData.complaintStatus.toString() == "1"
+             ? "Completed"
             : reviewComplaintData.complaintStatus.toString() == "2"
                 ? "Reject"
                 : "";

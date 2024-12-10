@@ -196,7 +196,7 @@ class ReviewComplaintHelper {
         "stationStatus": "1",
         "stationPerson": "",
         "stationRemarks": observation.toString(),
-        "rectifyPerson": approvalValue,
+        "rectifyPerson": rectifyBy,
         "closeDateTime": "$closedDate $closedTime",
         "scrap" : scrapList.isEmpty ? "0" : "1",
         "spares": partList.isNotEmpty

@@ -238,6 +238,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
             onPressed: () async {
                 BlocProvider.of<AcknowledgeBloc>(context)
                     .add(AcknowledgeUserListLoadEvent(context: context));
+                BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                 BlocProvider.of<AddSparePartBloc>(context)
                     .add(AddSparePartPageLoadEvent(context: context));
                 Navigator.push(

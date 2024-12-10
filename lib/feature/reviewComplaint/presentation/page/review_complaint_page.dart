@@ -155,11 +155,80 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
 
   Widget _complaintItemBuilder(
       {required FetchReviewComplaintDataState dataState}) {
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return dataState.reviewComplaintData.id != null
-        ? ReviewComplaintItemBox(
-            index: 0,
-            reviewComplaintData: dataState.reviewComplaintData,
-          )
+        ? Column(
+          children: [
+            ReviewComplaintItemBox(
+                index: 0,
+                reviewComplaintData: dataState.reviewComplaintData,
+              ),
+            userData.roleType == RoleType.shiftEngineer
+            ? Container(
+              margin: EdgeInsets.all(0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: TextWidget("SU Details : ", fontWeight:  FontWeight.w700)),
+                      ),
+                    Row(
+                        children: [
+                          TextWidget("Remark : "),
+                          TextWidget("${dataState.reviewComplaintData.stationRemark}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      ),
+                      Row(
+                        children: [
+                          TextWidget("${AppString.rectifiedBy} : "),
+                          TextWidget("${dataState.reviewComplaintData.rectifyBy}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      ),
+                      Row(
+                        children: [
+                          TextWidget("${AppString.date} : "),
+                          TextWidget("${dataState.reviewComplaintData.stationPersonDateTime}"),
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      ),
+
+                      dataState.reviewComplaintData.stationAttachmentFile != null &&
+                          dataState.reviewComplaintData.stationAttachmentFile!.isNotEmpty?
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.15,
+                        child: ListView.builder(
+                            itemCount: dataState.reviewComplaintData.stationAttachmentFile!.length,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                             return Image.network(
+                             dataState.reviewComplaintData.stationAttachmentFile![index].toString(),
+                             height: MediaQuery.of(context).size.width * 0.13,
+                             width: MediaQuery.of(context).size.width * 0.13,
+                             );
+                        }),
+                      ) : const SizedBox.shrink(),
+                    ],
+                  ),
+                ),
+
+              ),
+            ) : const SizedBox.shrink()
+          ],
+        )
         : const SizedBox.shrink();
   }
 
