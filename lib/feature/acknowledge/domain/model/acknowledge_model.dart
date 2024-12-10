@@ -68,6 +68,7 @@ class AcknowledgeModel {
   String? plannerGroup;
   String? mainWorkCenter;
   String? personResponsible;
+  dynamic rejectStatus;
   List<ScrapModel>? scrapList;
   List<PartModel>? partList;
 
@@ -135,6 +136,7 @@ class AcknowledgeModel {
     this.personResponsible,
     this.scrapList,
     this.partList,
+    this.rejectStatus,
   });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -198,6 +200,7 @@ class AcknowledgeModel {
     plannerGroup = json['planner_group'] ?? "";
     mainWorkCenter = json['main_work_center'] ?? "";
     personResponsible = json['person_responsible'] ?? "";
+    rejectStatus = json['reject_status'] ?? "0";
     scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
     partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
   }

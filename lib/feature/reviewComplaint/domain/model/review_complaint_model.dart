@@ -77,6 +77,7 @@ class ReviewComplaintModel {
   bool? isSelected;
   String? descriptionKva;
   String? seAssignStatus;
+  dynamic rejectStatus;
   List<ScrapModel>? scrapList;
   List<PartModel>? partList;
 
@@ -151,6 +152,7 @@ class ReviewComplaintModel {
     this.isSelected,
     this.descriptionKva,
     this.seAssignStatus,
+    this.rejectStatus,
     this.scrapList,
     this.partList,
   });
@@ -225,6 +227,7 @@ class ReviewComplaintModel {
     cngStationName = json['cng_station_name'] ?? "";
     descriptionKva = json['description_kva'] ?? "";
     seAssignStatus = json['se_assign_status'] ?? "0";
+    rejectStatus = json['reject_status'] ?? "0";
     scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
     partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
 

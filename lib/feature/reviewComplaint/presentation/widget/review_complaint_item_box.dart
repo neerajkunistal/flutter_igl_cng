@@ -86,7 +86,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 ? "Closed"
                 : "";
 
-    status = reviewComplaintData.complaintStatus.toString() == "0"
+    status =
+       reviewComplaintData.rejectStatus.toString() == "1"
+      ? "Reopen"
+       : reviewComplaintData.complaintStatus.toString() == "0"
         ? "New"
         : reviewComplaintData.complaintStatus.toString() == "1"
             ? "Completed"
@@ -148,7 +151,9 @@ class ReviewComplaintItemBox extends StatelessWidget {
                         height: MediaQuery.of(context).size.width * 0.02,
                       )
                     : const SizedBox.shrink(),
-                _rowWidget(name: "Complaint Status", value: status),
+                _rowWidget(name: "Complaint Status",
+                    value: status, color: reviewComplaintData.rejectStatus.toString() == "1"
+                        ? AppColor.orange : null),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
@@ -290,7 +295,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
      required ReviewComplaintModel reviewComplaintData})  {
     LoginDataModel userData =  UserInfo.instance!.userData!;
     return
-      ((reviewComplaintData.seAssignStatus.toString() == "0"
+      (reviewComplaintData.rejectStatus.toString() == "1" &&userData.roleType == RoleType.stationUser)
+          || ((reviewComplaintData.seAssignStatus.toString() == "0"
           && reviewComplaintData.ackStatus.toString() == "0")
           || (reviewComplaintData.seAssignStatus.toString() == "1"
               && reviewComplaintData.ackStatus.toString() == "1"))
