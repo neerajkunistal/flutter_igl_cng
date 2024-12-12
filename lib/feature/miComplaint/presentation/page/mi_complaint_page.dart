@@ -415,6 +415,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _observationController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: dataState.actionData.id == "1"
           ? "Description of Job Start"
           : dataState.actionData.id == "2"
