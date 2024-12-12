@@ -377,6 +377,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
 
   Widget _rectifyByController({required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.rectifiedBy,
       controller: dataState.rectifyByController,
     );
@@ -385,6 +386,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _descriptionController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: "Description",
       controller: dataState.descriptionController,
     );

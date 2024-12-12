@@ -38,10 +38,10 @@ class AddAcknowledgeComplaintHelper {
 
   static Future<dynamic> fetchDepartmentData() async {
     try {
-      String url = APIs.getDepartmentApi;
+      String url = APIs.getDepartmentPGWCApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null && res['status'] != null && res["status"] == true) {
-        return departmentListResponse(res['data']);
+      if (res != null) {
+        return departmentListResponse(res);
       }
       return null;
     } catch (e) {

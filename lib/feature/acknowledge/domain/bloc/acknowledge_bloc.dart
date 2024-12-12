@@ -540,19 +540,21 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       }
     }
 
+/*
     if(plannerList.isEmpty){
       var res =  await AcknowledgeHelper.fetchPlannerData();
       if(res !=  null){
         plannerList =  res;
       }
     }
+*/
 
-    if(workCenterList.isEmpty){
+/*    if(workCenterList.isEmpty){
       var res =  await AcknowledgeHelper.fetchWorkCenterData();
       if(res !=  null){
         workCenterList =  res;
       }
-    }
+    }*/
 
     isUserLoader = false;
     _eventComplete(emit);
@@ -579,6 +581,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
   _selectDepartment(AcknowledgeSelectDepartmentEvent event, emit) {
     departmentData = event.departmentData;
+    plannerList = departmentData.plannerList!;
+    plannerData = PlannerModel();
+    workCenterList = [];
+    workCenterData =  WorkCenterModel();
     _eventComplete(emit);
   }
 
@@ -631,6 +637,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
 
   _selectPlanner(AcknowledgeComplaintSelectedPlannerEvent event, emit) {
     plannerData  =  event.plannerData;
+    workCenterList = plannerData.workCenterList!;
+    workCenterData =  WorkCenterModel();
     _eventComplete(emit);
   }
 

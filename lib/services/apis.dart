@@ -29,6 +29,8 @@ class APIs {
 
   static get getDepartmentApi => "api/cr/departments";
 
+  static get getDepartmentPGWCApi => "api/cr/getDepartmentPGWC";
+
   static get getComplaintApi => "api/cr/complaint";
 
   static get getAcknolegeApi => "api/cr/acknowledge";

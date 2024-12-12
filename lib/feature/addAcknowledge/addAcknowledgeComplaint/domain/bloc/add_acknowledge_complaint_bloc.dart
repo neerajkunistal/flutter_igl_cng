@@ -192,11 +192,8 @@ class AddAcknowledgeComplaintBloc
 
     personResponsibleController.text =  acknowledgeData.personResponsible.toString();
 
-    if(plannerList.isEmpty){
-      var res =  await AcknowledgeHelper.fetchPlannerData();
-      if(res !=  null){
-        plannerList =  res;
-      }
+    if(plannerList.isEmpty && departmentData.plannerList != null){
+      plannerList = departmentData.plannerList!;
     }
 
     for(var data in plannerList){
@@ -206,11 +203,8 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    if(workCenterList.isEmpty){
-      var res =  await AcknowledgeHelper.fetchWorkCenterData();
-      if(res !=  null){
-        workCenterList =  res;
-      }
+    if(workCenterList.isEmpty && plannerData.workCenterList != null){
+      workCenterList =  plannerData.workCenterList!;
     }
 
     for(var data in workCenterList){
@@ -248,11 +242,17 @@ class AddAcknowledgeComplaintBloc
 
   _selectDepartment(AddAcknowledgeComplaintSelectDepartmentEvent event, emit) {
     departmentData = event.departmentData;
+    plannerList = departmentData.plannerList!;;
+    plannerData =  PlannerModel();
+    workCenterList = [];
+    workCenterData =  WorkCenterModel();
     _eventComplete(emit);
   }
 
   _selectPlanner(AddAcknowledgeComplaintSelectedPlannerEvent event, emit) {
     plannerData  =  event.plannerData;
+    workCenterList = plannerData.workCenterList!;
+    workCenterData =  WorkCenterModel();
     _eventComplete(emit);
   }
 
