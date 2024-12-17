@@ -24,7 +24,7 @@ class EnvironmentConfig extends InheritedWidget {
       case EnvironmentFlavours.productionIglCng:
         return "https://iglcngautomation.smartgasnet.com/";
       case EnvironmentFlavours.developmentIglCng:
-        return "https://iglcng.smartgasnet.com/";
+        return "https://iglcngautomation.smartgasnet.com/uatiglcng/";
     }
   }
 }

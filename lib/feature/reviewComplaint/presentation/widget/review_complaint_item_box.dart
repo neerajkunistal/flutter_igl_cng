@@ -202,6 +202,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 const SizedBox.shrink()
                 : _closureButton(context: context, reviewComplaintData: reviewComplaintData),
 
+                userData.roleType != RoleType.stationUser
+                    ? _rowWidget(name: "Notification No", value: reviewComplaintData.notificationNo.toString())
+                    : const SizedBox.shrink(),
+
                 Container(
                     height: 1,
                     color: AppColor.lightGrey,
