@@ -661,7 +661,7 @@ class ViewEquipmentComplaintBloc
      _eventComplete(emit);
      var res =  await ViewEquipmentComplaintHelper.closureComplaint(
           context: !event.context.mounted ? event.context :event.context,
-         reviewComplaintData: event.reviewComplaintData,
+         reviewComplaintData: reviewComplaintData,
          date: dateController.text.toString(),
          time: timeController.text.toString(),
          rectifiedBy: rectifyByController.text.toString(),

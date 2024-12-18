@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/cupertino_time_picker_widget.dart';
 
 part 'review_complaint_event.dart';
 part 'review_complaint_state.dart';
@@ -86,6 +87,15 @@ class ReviewComplaintBloc
     for (var reviewData in reviewComplaintList) {
       if (event.reviewComplaintData.id.toString() == reviewData.id.toString()) {
         reviewComplaintData = reviewData;
+        String stationPersonDateTime  =  reviewComplaintData.stationPersonDateTime.toString();
+        if(stationPersonDateTime.isNotEmpty){
+          try{
+            DateTime closerDateTime =  DateFormat('yyyy-MM-dd hh:mm:ss').parse(stationPersonDateTime);
+            var timeFormat = TimeOfDay(hour: closerDateTime.hour, minute: closerDateTime.minute)
+                .format(!event.context.mounted ? event.context : event.context);
+            closeTimeController.text =  timeFormat.toString();
+          }catch(_){}
+        }
         reviewComplaintData.scrapList!.addAll(deleteScrapList);
         reviewComplaintData.partList!.addAll(deletePartList);
       }
@@ -191,16 +201,15 @@ class ReviewComplaintBloc
   }
 
   _selectTime(ReviewComplaintSelectTimeData event, emit) async {
+
     try {
       DateTime initialDate = closeTimeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(closeTimeController.text.toString())
+          ? DateFormat('hh:mm').parse(closeTimeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
-        context: event.context,
-        initialTime: initialTime,
-      );
+      DateTime? time =  await showCupertinoDatePicker(
+          initialDateTime: initialDate,
+          context: event.context);
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
             .format(!event.context.mounted ? event.context : event.context);

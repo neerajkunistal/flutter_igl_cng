@@ -124,6 +124,17 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                         height: MediaQuery.of(context).size.width * 0.02,
                       )
                     : const SizedBox.shrink(),
+
+                acknowledgeData.notificationNo.toString().isNotEmpty
+                    ? _rowWidget(
+                    name: "Notification No",
+                    value: acknowledgeData.notificationNo.toString())
+                    : const SizedBox.shrink(),
+                acknowledgeData.notificationNo.toString().isNotEmpty
+                    ? SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ): const SizedBox.shrink(),
+
                 acknowledgeData.complaintStatus.toString() != "2" &&
                         acknowledgeData.complaintStatus.toString() != "1" &&
                         acknowledgeData.ackStatus.toString() == "1"
