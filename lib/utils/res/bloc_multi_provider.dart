@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/changePassword/domain/bloc/change_password_bloc.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
@@ -77,6 +78,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => LcvDashboardBloc()),
       BlocProvider(create: (BuildContext context) => OverSpeedAlertBloc()),
       BlocProvider(create: (BuildContext context) => AddSparePartBloc()),
+      BlocProvider(create: (BuildContext context) => ChangePasswordBloc()),
 
     ],
     child: child,

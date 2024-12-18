@@ -21,6 +21,8 @@ class APIs {
 
   static get login => "api/auth";
 
+  static get changePassword => "api/changePassword";
+
   static get getComplaintTypeApi => "api/onm/complaint-types";
 
   static get getEquipmentApi => "api/onm/equipments";

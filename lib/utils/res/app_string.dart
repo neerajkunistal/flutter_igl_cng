@@ -21,6 +21,10 @@ class AppString {
 
   static get password => "Password";
 
+  static get oldPassword => "Old Password";
+
+  static get newPassword => "New Password";
+
   static get confirmPassword => "Confirm Password";
 
   static get signup => "signup";

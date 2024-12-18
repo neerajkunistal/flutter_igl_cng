@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/changePassword/presentation/pages/change_password_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/presentation/page/material_detail_page.dart';
@@ -52,6 +53,9 @@ class HomeDrawerWidget extends StatelessWidget {
                   _podDetail(context: context) : const SizedBox.shrink(),
 
                   _notificationSetting(context: context, dataState: state),
+
+                  _changePassword(context: context),
+
                   _logout(context: context),
                 ],
               ),
@@ -246,6 +250,7 @@ class HomeDrawerWidget extends StatelessWidget {
     );
   }
 
+
   Widget _materialDetail({required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.only(
@@ -374,6 +379,46 @@ class HomeDrawerWidget extends StatelessWidget {
           )
           )*/
         ],
+      ),
+    );
+  }
+
+  Widget _changePassword({required BuildContext context}) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.02,
+          bottom: MediaQuery.of(context).size.width * 0.02),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              FadeRoute(page: const ChangePasswordPage()));
+        },
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                // color: Colors.white.withOpacity(.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Icon(
+                  Icons.password,
+                  color: AppColor.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+            ),
+            TextWidget(
+              AppString.changePassword,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
+            ),
+          ],
+        ),
       ),
     );
   }
