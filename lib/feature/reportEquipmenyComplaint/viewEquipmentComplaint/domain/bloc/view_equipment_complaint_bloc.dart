@@ -155,7 +155,9 @@ class ViewEquipmentComplaintBloc
           element.ackStatus.toString() != "0")
           .toList();
     } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList;
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+    } else if (selectTabIndex == 6) {
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
     }
 
     complaintCount = [];
@@ -210,7 +212,8 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
 
     _eventComplete(emit);
   }
@@ -326,7 +329,8 @@ class ViewEquipmentComplaintBloc
                   .contains(keyword.toLowerCase()))
               .toList();
         }
-        complaintCount.add(reviewSelfComplaintList.length);
+        complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+        complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
       }
     } else {
       reviewComplaintList = tempList;
@@ -387,8 +391,10 @@ class ViewEquipmentComplaintBloc
           element.complaintStatus.toString() == "3") &&
           element.ackStatus.toString() != "0")
           .toList();
-    } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList;
+    } 	else if (selectTabIndex == 5) {
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+    } else if (selectTabIndex == 6) {
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
     }
 
     complaintCount = [];
@@ -443,7 +449,8 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
     _eventComplete(emit);
   }
 
@@ -537,7 +544,9 @@ class ViewEquipmentComplaintBloc
           element.ackStatus.toString() != "0")
           .toList();
     } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList;
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+    } else if (selectTabIndex == 6) {
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
     }
 
     complaintCount = [];
@@ -592,7 +601,8 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
 
     _eventComplete(emit);
   }
@@ -627,11 +637,11 @@ class ViewEquipmentComplaintBloc
           ? DateFormat('h:mm').parse(timeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
+      final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
-        initialTime: initialTime,
+        initialDateTime: initialDate,
       );
+
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
             .format(!event.context.mounted ? event.context : event.context);

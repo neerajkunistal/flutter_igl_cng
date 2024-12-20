@@ -518,6 +518,10 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     assignTypeData = AssignTypeModel();
     _eventComplete(emit);
 
+    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
+        .format(!event.context.mounted ? event.context : event.context);
+    closeTimeController.text = timeFormat;
+
     if (vendorList.isEmpty) {
       var resVendor = await AcknowledgeHelper.fetchVendorData();
       if (resVendor != null) {
@@ -616,11 +620,9 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       DateTime initialDate = closeTimeController.text.toString().isNotEmpty
           ? DateFormat('h:mm').parse(closeTimeController.text.toString())
           : DateTime.now();
-
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
+      final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
-        initialTime: initialTime,
+        initialDateTime: initialDate,
       );
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
@@ -655,6 +657,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         sapCodeModel: sapCodeData,
         plannerData: plannerData,
         workCenterData: workCenterData,
+        time: closeTimeController.text.toString(),
         assignTypeData: assignTypeData);
     if (textFiledValidation == false) {
       return;

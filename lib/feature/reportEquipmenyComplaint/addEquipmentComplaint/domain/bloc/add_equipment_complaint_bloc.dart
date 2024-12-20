@@ -196,10 +196,9 @@ class AddEquipmentComplaintBloc
           ? DateFormat('h:mm').parse(timeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
+      final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
-        initialTime: initialTime,
+        initialDateTime: initialDate,
       );
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)

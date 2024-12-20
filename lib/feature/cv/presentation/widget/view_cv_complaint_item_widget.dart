@@ -150,7 +150,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
             Row(
               children: [
                 TextWidget(
-                  "Assign By : ",
+                   "Assign By : ",
                   fontWeight: FontWeight.w500,
                   fontSize: AppFont.font_13,
                 ),

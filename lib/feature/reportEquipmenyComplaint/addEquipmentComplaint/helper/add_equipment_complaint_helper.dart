@@ -157,8 +157,8 @@ class AddEquipmentComplaintHelper {
             firebaseDeviceList:
                 BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
                     .firebaseDeviceList,
-            title: "Complain new ${userData.name}",
-            body: name,
+            title: "Complain new ${userData.stationName}",
+            body: description,
             pageId: PageId.addComplaint,
             complaintId: "",
             dateTime: DateTime.now().toString());

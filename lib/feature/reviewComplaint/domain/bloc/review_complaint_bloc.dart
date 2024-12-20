@@ -80,6 +80,10 @@ class ReviewComplaintBloc
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     closeDateController.text = formattedDate;
 
+    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
+        .format(!event.context.mounted ? event.context : event.context);
+    closeTimeController.text =  timeFormat.toString();
+
     _complaintId = event.complaintId ?? "";
     reviewComplaintList =
         BlocProvider.of<ViewEquipmentComplaintBloc>(event.context)

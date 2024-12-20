@@ -5,6 +5,9 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
+import 'package:flutter_igl_cng/services/firebase/page_id.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class ViewEquipmentComplaintHelper {
   static Future<dynamic> fetchReviewAndSelfComplaint() async {
@@ -61,6 +64,7 @@ class ViewEquipmentComplaintHelper {
     required List<PartModel> partList,
     required String remark}) async {
     try{
+        LoginDataModel userData = UserInfo.instanceInit()!.userData!;
          String url =  APIs.closureComplaintApi;
          var json = {
            "complaintId" : reviewComplaintData.id.toString(),
@@ -111,6 +115,15 @@ class ViewEquipmentComplaintHelper {
              res['message'] != null) {
            if (!context.mounted) return res;
            SnackBarSuccessWidget(context).show(message: res['message'].toString());
+           NotificationHelper.sendNotification(
+               firebaseDeviceList:
+               BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                   .firebaseDeviceList,
+               title: "Closing Request ${userData.stationName}",
+               body: reviewComplaintData.complaintDescription.toString(),
+               pageId: PageId.reviewComplaint,
+               complaintId: "",
+               dateTime: DateTime.now().toString());
            return res;
          } else if (res != null &&
              res['status'] != null &&

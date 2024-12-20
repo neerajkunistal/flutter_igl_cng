@@ -101,11 +101,32 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 : "";
 
     return Card(
+      shape: userData.roleType == RoleType.stationUser && tabIndex == 4 && reviewComplaintData.ackStatus.toString() == "1"
+          && reviewComplaintData.complaintStatus.toString() == "3"
+          ?  RoundedRectangleBorder(
+          side: BorderSide(color: Colors.green, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0))
+        : userData.roleType == RoleType.stationUser &&  tabIndex == 4 && reviewComplaintData.ackStatus.toString() == "1"
+          && reviewComplaintData.complaintStatus.toString() == "0"
+          ?  RoundedRectangleBorder(
+          side: BorderSide(color: Colors.red, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0))
+          : RoundedRectangleBorder(
+          side: BorderSide(color: userData.roleType == RoleType.shiftEngineer && tabIndex == 6 // self
+              ? Colors.orange
+              :userData.roleType == RoleType.shiftEngineer && tabIndex == 1 // Mi
+              ? Colors.purple
+              :userData.roleType == RoleType.shiftEngineer && tabIndex == 2 // Vendor
+              ? Colors.yellow
+              :userData.roleType == RoleType.shiftEngineer && tabIndex == 5 // close
+              ? Colors.white
+              :userData.roleType == RoleType.shiftEngineer && tabIndex == 3 // close
+              ? Colors.green
+              :AppColor.white, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0)),
       shadowColor: AppColor.themeColor,
       elevation: 2,
-      color: tabIndex == 5 && reviewComplaintData.assignType.toString() == "1"
-          ? Colors.grey[300]
-          : AppColor.white,
+      color: AppColor.white,
       child: Stack(
         children: [
           Padding(
@@ -170,7 +191,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 ),
                 reviewComplaintData.miAssignToUser.toString().isNotEmpty
                     ? _rowWidget(
-                        name: "Assign By",
+                        name: "Assign To",
                         value: reviewComplaintData.miAssignToUser.toString())
                     : const SizedBox.shrink(),
                 reviewComplaintData.miAssignToUser.toString().isNotEmpty
@@ -182,10 +203,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
+    /*            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
-                ),
+                ),*/
                 _rowWidget(name: "Closed Date Time", value: maintinaceEndDate),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,

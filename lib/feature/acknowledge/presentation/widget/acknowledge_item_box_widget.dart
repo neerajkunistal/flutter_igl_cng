@@ -24,6 +24,21 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
     }
 
     return Card(
+      shape: acknowledgeData.assignType.toString() == "1"  // self
+          ?  RoundedRectangleBorder(
+          side: BorderSide(color: Colors.orange, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0))
+        : acknowledgeData.assignType.toString() == "2" // MI
+          ?  RoundedRectangleBorder(
+          side: BorderSide(color: Colors.purple, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0))
+       : acknowledgeData.assignType.toString() == "3" // Vendor
+          ?  RoundedRectangleBorder(
+          side: BorderSide(color: Colors.yellow, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0))
+          : RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white, width: 2.0),
+          borderRadius: BorderRadius.circular(10.0)),
       child: Stack(
         children: [
           Padding(
@@ -116,7 +131,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 ),
                 acknowledgeData.miAssignToUser.toString().isNotEmpty
                     ? _rowWidget(
-                        name: "Assign By",
+                        name: "Assign To",
                         value: acknowledgeData.miAssignToUser.toString())
                     : const SizedBox.shrink(),
                 acknowledgeData.miAssignToUser.toString().isNotEmpty

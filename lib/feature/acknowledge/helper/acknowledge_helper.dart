@@ -13,6 +13,7 @@ import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AcknowledgeHelper {
   static Future<dynamic> textFieldValidationCheck(
@@ -23,6 +24,7 @@ class AcknowledgeHelper {
       required AssignTypeModel assignTypeData,
       required PlannerModel plannerData,
       required WorkCenterModel workCenterData,
+      required String time,
       }) async {
     try {
       if (assignTypeData.id == null) {
@@ -33,6 +35,9 @@ class AcknowledgeHelper {
         return false;
       } else if (assignTypeData.id.toString() == "3" && vendorData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select vendor");
+        return false;
+      } else if(time.isEmpty){
+        SnackBarErrorWidget(context).show(message: "Please enter time");
         return false;
       }
 /*      else if(plannerData.id == null){
@@ -78,6 +83,9 @@ class AcknowledgeHelper {
       required List<ScrapModel> scrapList,
       required String remark}) async {
     try {
+
+      LoginDataModel loginData =  UserInfo.instanceInit()!.userData!;
+
       String url = APIs.assignComplaintApi;
       var json = {
         "complaintId": acknowledgeData.id.toString(),
@@ -136,8 +144,8 @@ class AcknowledgeHelper {
             firebaseDeviceList:
                 BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
                     .firebaseDeviceList,
-            title: "Complaint Assign",
-            body: remark,
+            title: "Complaint Assign ${loginData.stationName}",
+            body: acknowledgeData.complaintDescription,
             pageId: PageId.assignComplaint,
             complaintId: acknowledgeData.id.toString(),
             dateTime: DateTime.now().toString());

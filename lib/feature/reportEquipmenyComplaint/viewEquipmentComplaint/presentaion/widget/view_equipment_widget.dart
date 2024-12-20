@@ -122,6 +122,35 @@ class ViewEquipmentWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         children: [
+          userData.roleType == RoleType.shiftEngineer
+              ? TextButton(
+              style: dataState.selectedTabIndex == 6
+                  ? ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                      AppColor.themeColor),
+                  shape:
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                              color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 6));
+              },
+              child: TextWidget(
+                "Self-${dataState.complaintCount[6]}",
+                color: dataState.selectedTabIndex == 6
+                    ? AppColor.white
+                    : AppColor.black,
+                fontWeight: dataState.selectedTabIndex == 6
+                    ? FontWeight.w700
+                    : FontWeight.w400,
+                fontSize: AppFont.font_11,
+              ))
+              : const SizedBox.shrink(),
           userData.roleType == RoleType.stationUser
               ? TextButton(
               style: dataState.selectedTabIndex == 0
@@ -240,6 +269,37 @@ class ViewEquipmentWidget extends StatelessWidget {
                 fontSize: AppFont.font_11,
               ))
               : const SizedBox.shrink(),
+
+          userData.roleType == RoleType.shiftEngineer
+              ? TextButton(
+              style: dataState.selectedTabIndex == 5
+                  ? ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                      AppColor.themeColor),
+                  shape:
+                  WidgetStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side: BorderSide(
+                              color: AppColor.themeColor))))
+                  : null,
+              onPressed: () {
+                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                    const ViewEquipmentComplaintSelectedTabIndexEvent(
+                        selectedTabIndex: 5));
+              },
+              child: TextWidget(
+                "Close-${dataState.complaintCount[5]}",
+                color: dataState.selectedTabIndex == 5
+                    ? AppColor.white
+                    : AppColor.black,
+                fontWeight: dataState.selectedTabIndex == 5
+                    ? FontWeight.w700
+                    : FontWeight.w400,
+                fontSize: AppFont.font_11,
+              ))
+              : const SizedBox.shrink(),
+
           TextButton(
               style: dataState.selectedTabIndex == 3
                   ? ButtonStyle(
@@ -265,35 +325,6 @@ class ViewEquipmentWidget extends StatelessWidget {
                     : FontWeight.w400,
                 fontSize: AppFont.font_11,
               )),
-          userData.roleType == RoleType.shiftEngineer
-              ? TextButton(
-              style: dataState.selectedTabIndex == 5
-                  ? ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                      AppColor.themeColor),
-                  shape:
-                  WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          side: BorderSide(
-                              color: AppColor.themeColor))))
-                  : null,
-              onPressed: () {
-                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
-                    const ViewEquipmentComplaintSelectedTabIndexEvent(
-                        selectedTabIndex: 5));
-              },
-              child: TextWidget(
-                "REV-${dataState.complaintCount[5]}",
-                color: dataState.selectedTabIndex == 5
-                    ? AppColor.white
-                    : AppColor.black,
-                fontWeight: dataState.selectedTabIndex == 5
-                    ? FontWeight.w700
-                    : FontWeight.w400,
-                fontSize: AppFont.font_11,
-              ))
-              : const SizedBox.shrink(),
         ],
       ),
     );
