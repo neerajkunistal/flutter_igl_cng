@@ -96,6 +96,7 @@ class AddSapWidget extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
         isRequired: true,
+        textInputType: TextInputType.number,
         enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
         labelText: AppString.personResponsible,
         controller: dataState.personResponsibleController,

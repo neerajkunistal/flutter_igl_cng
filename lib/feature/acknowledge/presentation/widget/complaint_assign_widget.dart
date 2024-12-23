@@ -281,6 +281,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
+        textInputType: TextInputType.number,
         labelText: AppString.personResponsible,
         controller: dataState.personResponsibleController,
       ),

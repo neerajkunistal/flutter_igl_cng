@@ -98,6 +98,8 @@ class ReviewComplaintBloc
             var timeFormat = TimeOfDay(hour: closerDateTime.hour, minute: closerDateTime.minute)
                 .format(!event.context.mounted ? event.context : event.context);
             closeTimeController.text =  timeFormat.toString();
+            closeDateController.text = "${closerDateTime.day}-${closerDateTime.month}-${closerDateTime.year}";
+
           }catch(_){}
         }
         reviewComplaintData.scrapList!.addAll(deleteScrapList);

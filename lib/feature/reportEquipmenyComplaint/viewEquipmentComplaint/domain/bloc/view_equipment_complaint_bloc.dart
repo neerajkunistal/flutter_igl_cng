@@ -155,7 +155,7 @@ class ViewEquipmentComplaintBloc
           element.ackStatus.toString() != "0")
           .toList();
     } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
     } else if (selectTabIndex == 6) {
       reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
     }
@@ -212,7 +212,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
     complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
 
     _eventComplete(emit);
@@ -392,7 +392,7 @@ class ViewEquipmentComplaintBloc
           element.ackStatus.toString() != "0")
           .toList();
     } 	else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
     } else if (selectTabIndex == 6) {
       reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
     }
@@ -449,7 +449,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
     complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
     _eventComplete(emit);
   }
@@ -544,9 +544,11 @@ class ViewEquipmentComplaintBloc
           element.ackStatus.toString() != "0")
           .toList();
     } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList();
+      reviewComplaintList = reviewSelfComplaintList.where((element) =>
+      element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
     } else if (selectTabIndex == 6) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
+      reviewComplaintList = reviewSelfComplaintList.where((element) =>
+      element.assignType.toString() == "1").toList();
     }
 
     complaintCount = [];
@@ -601,7 +603,7 @@ class ViewEquipmentComplaintBloc
         element.ackStatus.toString() != "0")
         .toList().length);
 
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1").toList().length);
+    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
     complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
 
     _eventComplete(emit);

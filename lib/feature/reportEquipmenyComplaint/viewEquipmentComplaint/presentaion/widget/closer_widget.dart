@@ -42,10 +42,10 @@ class CloserWidget extends StatelessWidget {
       isRequired: true,
       labelText: AppString.date,
       controller: dataState.dateController,
-/*      onTap: () {
+      onTap: () {
         BlocProvider.of<ViewEquipmentComplaintBloc>(context)
             .add(ViewEquipmentComplaintSelectDateData(context: context));
-      },*/
+      },
     );
   }
 

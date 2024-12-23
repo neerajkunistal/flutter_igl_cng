@@ -457,7 +457,27 @@ class ViewEquipmentWidget extends StatelessWidget {
                           context:
                           !context.mounted ? context : context));
                     }
-                  } else if (userLogin.roleType == RoleType.mi &&
+                  }  else if (userLogin.roleType == RoleType.shiftEngineer &&
+                      dataState.selectedTabIndex == 5 || dataState.selectedTabIndex == 6) {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
+                    BlocProvider.of<ReviewComplaintBloc>(context).add(
+                        ReviewComplaintPageLoadEvent(
+                            context: context,
+                            reviewComplaintData:
+                            dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
+                    var result = await Navigator.push(context,
+                        FadeRoute(page: const ReviewComaplintPage()));
+                    if (!context.mounted) result;
+                    if (result.toString() == "Completed") {
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                          !context.mounted ? context : context)
+                          .add(ViewEquipmentComplaintPageLoadEvent(
+                          context:
+                          !context.mounted ? context : context));
+                    }
+                  }else if (userLogin.roleType == RoleType.mi &&
                       dataState.reviewComplaintList[index].action.toString() !=
                           "3" &&
                       dataState.reviewComplaintList[index].complaintStatus

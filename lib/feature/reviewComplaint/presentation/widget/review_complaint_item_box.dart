@@ -227,6 +227,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
                     ? _rowWidget(name: "Notification No", value: reviewComplaintData.notificationNo.toString())
                     : const SizedBox.shrink(),
 
+                userData.roleType != RoleType.stationUser && reviewComplaintData.sapRejectError.toString().isNotEmpty
+                    ? _rowWidget(name: "Sap Reject Error", value: reviewComplaintData.sapRejectError.toString(), color: AppColor.red)
+                    : const SizedBox.shrink(),
+
                 Container(
                     height: 1,
                     color: AppColor.lightGrey,

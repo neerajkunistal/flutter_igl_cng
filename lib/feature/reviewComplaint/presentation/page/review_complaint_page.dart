@@ -332,20 +332,18 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
 
   Widget _dateController({required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
-      enabled: false,
       isRequired: true,
       labelText: AppString.date,
       controller: dataState.closeDateController,
-/*      onTap: () {
+      onTap: () {
         BlocProvider.of<ReviewComplaintBloc>(context)
             .add(ReviewComplaintSelectDateData(context: context));
-      },*/
+      },
     );
   }
 
   Widget _timeController({required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
-      enabled: false,
       isRequired: true,
       labelText: AppString.time,
       controller: dataState.closeTimeController,
