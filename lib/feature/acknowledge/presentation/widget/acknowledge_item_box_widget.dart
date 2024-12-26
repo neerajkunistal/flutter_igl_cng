@@ -170,7 +170,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                     width: MediaQuery.of(context).size.width),
                 _rowBottomWidget(
                     name: "Description",
-                    value: acknowledgeData.complaintDescription.toString()),
+                    value: acknowledgeData.crComplaintDescription.toString().isNotEmpty ? acknowledgeData.crComplaintDescription.toString() : acknowledgeData.complaintDescription.toString()),
               ],
             ),
           ),

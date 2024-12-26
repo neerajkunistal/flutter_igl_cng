@@ -237,7 +237,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                     width: MediaQuery.of(context).size.width),
                 _rowBottomWidget(
                     name: "Description",
-                    value: reviewComplaintData.complaintDescription.toString()),
+                    value: reviewComplaintData.crComplaintDescription.toString().isNotEmpty ? reviewComplaintData.crComplaintDescription.toString() : reviewComplaintData.complaintDescription.toString()),
               ],
             ),
           ),

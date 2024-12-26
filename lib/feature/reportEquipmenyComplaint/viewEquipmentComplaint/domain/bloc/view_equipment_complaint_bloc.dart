@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/helper/mi_complaint_helper.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/helper/complaint_filter_helper.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/helper/view_equipment_complaint.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
@@ -96,125 +97,40 @@ class ViewEquipmentComplaintBloc
     if (res != null) {
       reviewComplaintList = res;
       reviewComplaintWithOutFilterList = res;
-/*      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.stationUser
-              ? element.action.toString() == "0" &&
-                  element.assignType.toString() == "0" &&
-                element.complaintStatus.toString() == "0"
-              : element.assignType.toString() == "2" &&
-                  element.miAssignType.toString() == "0" &&
-                  element.complaintStatus.toString() == "0")
-          .toList();*/
     }
 
     if (selectTabIndex == 0) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.stationUser
-          ? element.ackStatus.toString() == "0"
-          : element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 1) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 2) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "2" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "0" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-
-    } else if (selectTabIndex == 3) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => element.complaintStatus.toString() == "1")
-          .toList();
-    } else if (selectTabIndex == 4) {
-
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      (element.complaintStatus.toString() == "0" ||
-          element.complaintStatus.toString() == "3") &&
-          element.ackStatus.toString() != "0")
-          .toList();
-    } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
-    } else if (selectTabIndex == 6) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
+      reviewComplaintList =  ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 1) {
+      reviewComplaintList = ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 2) {
+      reviewComplaintList =  ComplaintFilterHelper.vendorFilter(
+          complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 3) {
+      reviewComplaintList = ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 4) {
+      reviewComplaintList = ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 5) {
+      reviewComplaintList = ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 6) {
+      reviewComplaintList = ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList);
     }
 
     complaintCount = [];
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => userData.roleType == RoleType.stationUser
-        ? element.ackStatus.toString() == "0"
-        : element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    int count = 0;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "2" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+ reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "0" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    complaintCount.add(count);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => element.complaintStatus.toString() == "1")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    (element.complaintStatus.toString() == "0" ||
-        element.complaintStatus.toString() == "3") &&
-        element.ackStatus.toString() != "0")
-        .toList().length);
-
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
-
+    complaintCount.add(ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.vendorFilter(
+        complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList).length);
     _eventComplete(emit);
   }
 
@@ -225,24 +141,37 @@ class ViewEquipmentComplaintBloc
     List<ReviewComplaintModel> tempList = reviewComplaintWithOutFilterList;
 
     if (selectTabIndex == 0) {
-      tempList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.mi
-              ? element.assignType.toString() == "1"
-              : element.action.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 1) {
-      tempList = reviewComplaintWithOutFilterList
-          .where((element) => element.assignType.toString() == "2")
-          .toList();
-    } else if (selectTabIndex == 2) {
-      tempList = reviewComplaintWithOutFilterList
-          .where((element) => element.assignType.toString() == "3")
-          .toList();
-    } else if (selectTabIndex == 3) {
-      tempList = reviewComplaintWithOutFilterList
-          .where((element) => element.complaintStatus.toString() == "1")
-          .toList();
+      tempList =  ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList);
     }
+    else if (selectTabIndex == 1) {
+      tempList = ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 2) {
+      tempList =  ComplaintFilterHelper.vendorFilter(
+          complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 3) {
+      tempList = ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 4) {
+      tempList = ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 5) {
+      tempList = ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 6) {
+      tempList = ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+
+    complaintCount = [];
+    complaintCount.add(ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.vendorFilter(
+        complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList).length);
 
     if (keyword.isNotEmpty) {
       reviewComplaintList = tempList
@@ -345,112 +274,37 @@ class ViewEquipmentComplaintBloc
 
     _selectTabIndex = event.selectedTabIndex;
     if (selectTabIndex == 0) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.stationUser
-          ? element.ackStatus.toString() == "0"
-          : element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 1) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 2) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "2" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "0" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-
-    } else if (selectTabIndex == 3) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => element.complaintStatus.toString() == "1")
-          .toList();
-    } else if (selectTabIndex == 4) {
-
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      (element.complaintStatus.toString() == "0" ||
-          element.complaintStatus.toString() == "3") &&
-          element.ackStatus.toString() != "0")
-          .toList();
-    } 	else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
-    } else if (selectTabIndex == 6) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList();
+      reviewComplaintList =  ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 1) {
+      reviewComplaintList = ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 2) {
+      reviewComplaintList =  ComplaintFilterHelper.vendorFilter(
+          complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 3) {
+      reviewComplaintList = ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 4) {
+      reviewComplaintList = ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 5) {
+      reviewComplaintList = ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 6) {
+      reviewComplaintList = ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList);
     }
 
     complaintCount = [];
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => userData.roleType == RoleType.stationUser
-        ? element.ackStatus.toString() == "0"
-        : element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    int count = 0;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "2" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+ reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "0" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    complaintCount.add(count);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => element.complaintStatus.toString() == "1")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    (element.complaintStatus.toString() == "0" ||
-        element.complaintStatus.toString() == "3") &&
-        element.ackStatus.toString() != "0")
-        .toList().length);
-
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
+    complaintCount.add(ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.vendorFilter(
+        complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList).length);
     _eventComplete(emit);
   }
 
@@ -497,114 +351,37 @@ class ViewEquipmentComplaintBloc
     }
 
     if (selectTabIndex == 0) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.stationUser
-          ? element.ackStatus.toString() == "0"
-          : element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 1) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.assignType.toString() == "2" &&
-          element.miAssignType.toString() == "0" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-    } else if (selectTabIndex == 2) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "2" &&
-          element.complaintStatus.toString() == "0")
-          .toList();
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "0" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-      reviewComplaintList.addAll(reviewComplaintWithOutFilterList
-          .where((element) =>
-      element.miAssignType.toString() == "3" &&
-          element.assignType.toString() == "3" &&
-          element.complaintStatus.toString() == "0")
-          .toList());
-
-    } else if (selectTabIndex == 3) {
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => element.complaintStatus.toString() == "1")
-          .toList();
-    } else if (selectTabIndex == 4) {
-
-      reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) =>
-      (element.complaintStatus.toString() == "0" ||
-          element.complaintStatus.toString() == "3") &&
-          element.ackStatus.toString() != "0")
-          .toList();
-    } else if (selectTabIndex == 5) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) =>
-      element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList();
-    } else if (selectTabIndex == 6) {
-      reviewComplaintList = reviewSelfComplaintList.where((element) =>
-      element.assignType.toString() == "1").toList();
+      reviewComplaintList =  ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 1) {
+      reviewComplaintList = ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 2) {
+      reviewComplaintList =  ComplaintFilterHelper.vendorFilter(
+          complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 3) {
+      reviewComplaintList = ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 4) {
+      reviewComplaintList = ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 5) {
+      reviewComplaintList = ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList);
+    }
+    else if (selectTabIndex == 6) {
+      reviewComplaintList = ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList);
     }
 
     complaintCount = [];
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => userData.roleType == RoleType.stationUser
-        ? element.ackStatus.toString() == "0"
-        : element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.assignType.toString() == "2" &&
-        element.miAssignType.toString() == "0" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length);
-
-    int count = 0;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "2" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+ reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "0" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    count = count+reviewComplaintWithOutFilterList
-        .where((element) =>
-    element.miAssignType.toString() == "3" &&
-        element.assignType.toString() == "3" &&
-        element.complaintStatus.toString() == "0")
-        .toList().length;
-
-    complaintCount.add(count);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) => element.complaintStatus.toString() == "1")
-        .toList().length);
-
-    complaintCount.add(reviewComplaintWithOutFilterList
-        .where((element) =>
-    (element.complaintStatus.toString() == "0" ||
-        element.complaintStatus.toString() == "3") &&
-        element.ackStatus.toString() != "0")
-        .toList().length);
-
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() != "1" && element.complaintStatus.toString() != "0").toList().length);
-    complaintCount.add(reviewSelfComplaintList.where((element) => element.assignType.toString() == "1").toList().length);
+    complaintCount.add(ComplaintFilterHelper.newFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.miFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.vendorFilter(
+        complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.completeFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.ackFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.closerFilter(complaintList: reviewComplaintWithOutFilterList).length);
+    complaintCount.add(ComplaintFilterHelper.selfFilter(complaintList: reviewComplaintWithOutFilterList).length);
 
     _eventComplete(emit);
   }
