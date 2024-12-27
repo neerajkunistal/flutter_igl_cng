@@ -516,6 +516,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     acknowledgeUserData = AcknowledgeUserModel();
     vendorData = VendorModel();
     assignTypeData = AssignTypeModel();
+    remarkController.text = "";
     _eventComplete(emit);
 
     var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)

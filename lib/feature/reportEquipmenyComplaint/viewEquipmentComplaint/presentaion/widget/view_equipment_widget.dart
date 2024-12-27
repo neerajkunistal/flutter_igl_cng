@@ -372,6 +372,32 @@ class ViewEquipmentWidget extends StatelessWidget {
                           !context.mounted ? context : context));
                     }
                   } else if (userLogin.roleType == RoleType.stationUser &&
+                      dataState.reviewComplaintList[index].complaintStatus.toString() ==
+                          "0" &&
+                      dataState.reviewComplaintList[index].ackStatus.toString() !=
+                          "0" &&
+                      dataState.reviewComplaintList[index].assignType.toString() ==
+                          "1") {
+                    BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
+                    BlocProvider.of<AddScrapBloc>(context).add(AddScrapClearScrapDataEvent(context: context));
+                    BlocProvider.of<ReviewComplaintBloc>(context).add(
+                        ReviewComplaintPageLoadEvent(
+                            context: context,
+                            reviewComplaintData:
+                            dataState.reviewComplaintList[index]));
+                    BlocProvider.of<AddSparePartBloc>(context)
+                        .add(AddSparePartPageLoadEvent(context: context));
+                    var result = await Navigator.push(context,
+                        FadeRoute(page: const ReviewComaplintPage()));
+                    if (!context.mounted) result;
+                    if (result.toString() == "Completed") {
+                      BlocProvider.of<ViewEquipmentComplaintBloc>(
+                          !context.mounted ? context : context)
+                          .add(ViewEquipmentComplaintPageLoadEvent(
+                          context:
+                          !context.mounted ? context : context));
+                    }
+                  }else if (userLogin.roleType == RoleType.stationUser &&
                       dataState.reviewComplaintList[index].complaintStatus
                           .toString() ==
                           "0" &&
