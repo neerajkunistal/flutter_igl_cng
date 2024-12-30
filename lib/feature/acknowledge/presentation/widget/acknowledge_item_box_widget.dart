@@ -12,16 +12,6 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String complaintDate = "";
-    if (acknowledgeData.complaintDateTime.toString().isNotEmpty) {
-      complaintDate = DateFormat('dd-MMM-yyyy, h:mm:ss')
-          .format(DateTime.parse(acknowledgeData.complaintDateTime.toString()));
-    }
-    String reportDate = "";
-    if (acknowledgeData.reportDateTime.toString().isNotEmpty) {
-      reportDate = DateFormat('dd-MMM-yyyy, h:mm:ss')
-          .format(DateTime.parse(acknowledgeData.reportDateTime.toString()));
-    }
 
     return Card(
       shape: acknowledgeData.assignType.toString() == "1"  // self
@@ -87,11 +77,11 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Complaint Date Time", value: complaintDate),
+                _rowWidget(name: "Complaint Date Time", value: acknowledgeData.complaintDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Report Date Time", value: reportDate),
+                _rowWidget(name: "Report Date Time", value: acknowledgeData.reportDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),

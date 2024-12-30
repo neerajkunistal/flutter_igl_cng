@@ -23,60 +23,8 @@ class ReviewComplaintItemBox extends StatelessWidget {
     LoginDataModel userData = UserInfo.instance!.userData!;
     int tabIndex =  BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
 
-    String complaintDate = "";
-    if (reviewComplaintData.complaintDateTime != null &&
-        reviewComplaintData.complaintDateTime.toString().isNotEmpty) {
-      complaintDate = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
-          DateTime.parse(reviewComplaintData.complaintDateTime.toString()));
-    }
-    String reportDate = "";
-    if (reviewComplaintData.reportDateTime != null &&
-        reviewComplaintData.reportDateTime.toString().isNotEmpty) {
-      reportDate = DateFormat('dd-MMM-yyyy, h:mm:ss').format(
-          DateTime.parse(reviewComplaintData.reportDateTime.toString()));
-    }
-
-    String maintinaceStartDate = "";
-    if (reviewComplaintData.maintenanceStartDate != null &&
-        reviewComplaintData.maintenanceStartDate.toString().isNotEmpty) {
-      String date = DateFormat('dd-MMM-yyyy').format(
-          DateTime.parse(reviewComplaintData.maintenanceStartDate.toString()));
-
-      DateTime initialDate =
-          reviewComplaintData.maintenanceStartDate.toString().isNotEmpty
-              ? DateFormat('yyyy-dd-MM h:mm:ss')
-                  .parse(reviewComplaintData.maintenanceStartDate.toString())
-              : DateTime.now();
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      var timeFormat =
-          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
-              .format(context);
-
-      maintinaceStartDate = "$date $timeFormat";
-    }
-
-    String maintinaceEndDate = "";
-    if (reviewComplaintData.maintenanceEndDate != null &&
-        reviewComplaintData.maintenanceEndDate.toString().isNotEmpty) {
-      String date = DateFormat('dd-MMM-yyyy').format(
-          DateTime.parse(reviewComplaintData.maintenanceEndDate.toString()));
-
-      DateTime initialDate =
-          reviewComplaintData.maintenanceEndDate.toString().isNotEmpty
-              ? DateFormat('yyyy-dd-MM h:mm:ss')
-                  .parse(reviewComplaintData.maintenanceEndDate.toString())
-              : DateTime.now();
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      var timeFormat =
-          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
-              .format(context);
-
-      maintinaceEndDate = "$date $timeFormat";
-    }
-
     String maintenanceStatus = "";
     String status = "";
-
 
     maintenanceStatus = reviewComplaintData.action.toString() == "1"
         ? "Start"
@@ -181,11 +129,11 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Complaint Date", value: complaintDate),
+                _rowWidget(name: "Complaint Date", value: reviewComplaintData.complaintDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Report Date Time", value: reportDate),
+                _rowWidget(name: "Report Date Time", value: reviewComplaintData.reportDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
@@ -207,7 +155,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),*/
-                _rowWidget(name: "Closed Date Time", value: maintinaceEndDate),
+                _rowWidget(name: "Closed Date Time", value: reviewComplaintData.maintenanceEndDate.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
