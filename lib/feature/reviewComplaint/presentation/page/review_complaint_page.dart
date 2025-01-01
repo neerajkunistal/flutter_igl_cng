@@ -333,6 +333,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget _dateController({required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      enabled: false,
       labelText: AppString.date,
       controller: dataState.closeDateController,
       onTap: () {
@@ -345,6 +346,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget _timeController({required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
       isRequired: true,
+      enabled: false,
       labelText: AppString.time,
       controller: dataState.closeTimeController,
       onTap: () {

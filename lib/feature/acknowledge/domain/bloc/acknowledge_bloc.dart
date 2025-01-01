@@ -519,9 +519,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     remarkController.text = "";
     _eventComplete(emit);
 
-    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
-        .format(!event.context.mounted ? event.context : event.context);
-    closeTimeController.text = timeFormat;
+    closeTimeController.text = DateFormat('HH:mm:ss').format(DateTime.now()).toString();
 
     if (vendorList.isEmpty) {
       var resVendor = await AcknowledgeHelper.fetchVendorData();
@@ -619,16 +617,15 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   _selectTime(AcknowledgeSelectClosedTimeEvent event, emit) async {
     try {
       DateTime initialDate = closeTimeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(closeTimeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(closeTimeController.text.toString())
           : DateTime.now();
       final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
         initialDateTime: initialDate,
       );
+
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(!event.context.mounted ? event.context : event.context);
-        closeTimeController.text = timeFormat;
+        closeTimeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }
     } catch (e) {

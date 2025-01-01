@@ -73,9 +73,7 @@ class ViewEquipmentComplaintBloc
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
 
-    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
-        .format(!event.context.mounted ? event.context : event.context);
-    timeController.text = timeFormat;
+    timeController.text = DateFormat('HH:mm:ss').format(DateTime.now()).toString();
 
     var res = userData.roleType == RoleType.mi
         ? await MiComplaintHelper.fetchMiComplaint(
@@ -413,7 +411,7 @@ class ViewEquipmentComplaintBloc
   _selectTime(ViewEquipmentComplaintSelectTimeData event, emit) async {
     try {
       DateTime initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(timeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(timeController.text.toString())
           : DateTime.now();
 
       final DateTime? time = await showCupertinoDatePicker(
@@ -422,9 +420,7 @@ class ViewEquipmentComplaintBloc
       );
 
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(!event.context.mounted ? event.context : event.context);
-        timeController.text = timeFormat;
+        timeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }
     } catch (e) {

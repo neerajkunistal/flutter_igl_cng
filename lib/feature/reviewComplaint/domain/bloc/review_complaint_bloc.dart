@@ -80,9 +80,8 @@ class ReviewComplaintBloc
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     closeDateController.text = formattedDate;
 
-    var timeFormat = TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute)
-        .format(!event.context.mounted ? event.context : event.context);
-    closeTimeController.text =  timeFormat.toString();
+
+    closeTimeController.text =  DateFormat('HH:mm:ss').format(DateTime.now()).toString();
 
     _complaintId = event.complaintId ?? "";
     reviewComplaintList =
@@ -94,10 +93,8 @@ class ReviewComplaintBloc
         String stationPersonDateTime  =  reviewComplaintData.stationPersonDateTime.toString();
         if(stationPersonDateTime.isNotEmpty){
           try{
-            DateTime closerDateTime =  DateFormat('yyyy-MM-dd hh:mm:ss').parse(stationPersonDateTime);
-            var timeFormat = TimeOfDay(hour: closerDateTime.hour, minute: closerDateTime.minute)
-                .format(!event.context.mounted ? event.context : event.context);
-            closeTimeController.text =  timeFormat.toString();
+            DateTime closerDateTime =  DateFormat('yyyy-MM-dd HH:mm:ss').parse(stationPersonDateTime);
+            closeTimeController.text =  DateFormat('HH:mm:ss').format(closerDateTime).toString();
             closeDateController.text = "${closerDateTime.day}-${closerDateTime.month}-${closerDateTime.year}";
 
           }catch(_){}
@@ -210,16 +207,14 @@ class ReviewComplaintBloc
 
     try {
       DateTime initialDate = closeTimeController.text.toString().isNotEmpty
-          ? DateFormat('hh:mm').parse(closeTimeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(closeTimeController.text.toString())
           : DateTime.now();
 
       DateTime? time =  await showCupertinoDatePicker(
           initialDateTime: initialDate,
           context: event.context);
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(!event.context.mounted ? event.context : event.context);
-        closeTimeController.text = timeFormat;
+        closeTimeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }
     } catch (e) {

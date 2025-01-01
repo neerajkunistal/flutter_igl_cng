@@ -172,14 +172,10 @@ class AddAcknowledgeComplaintBloc
 
       DateTime initialDate =
           acknowledgeData.complaintDateTime.toString().isNotEmpty
-              ? DateFormat('yyyy-dd-MM h:mm:ss')
+              ? DateFormat('yyyy-dd-MM HH:mm:ss')
                   .parse(acknowledgeData.complaintDateTime.toString())
               : DateTime.now();
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      var timeFormat =
-          TimeOfDay(hour: initialTime.hour, minute: initialTime.minute)
-              .format(!event.context.mounted ? event.context : event.context);
-      timeController.text = timeFormat;
+      timeController.text = DateFormat('HH:mm:ss').format(initialDate).toString();
     }
 
     breakDownvalue = event.acknowledgeData.crBreakdown.toString() == "0" ? "2" : event.acknowledgeData.crBreakdown.toString();
@@ -303,7 +299,7 @@ class AddAcknowledgeComplaintBloc
   _selectTime(AddAcknowledgeComplaintSelectTimeData event, emit) async {
     try {
       DateTime initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(timeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(timeController.text.toString())
           : DateTime.now();
 
       final DateTime? time = await showCupertinoDatePicker(
@@ -311,9 +307,7 @@ class AddAcknowledgeComplaintBloc
         initialDateTime: initialDate,
       );
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(!event.context.mounted ? event.context : event.context);
-        timeController.text = timeFormat;
+        timeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }
     } catch (e) {

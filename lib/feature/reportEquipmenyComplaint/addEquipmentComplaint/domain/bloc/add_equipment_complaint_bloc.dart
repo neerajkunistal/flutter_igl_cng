@@ -193,7 +193,7 @@ class AddEquipmentComplaintBloc
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
     try {
       DateTime initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(timeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(timeController.text.toString())
           : DateTime.now();
 
       final DateTime? time = await showCupertinoDatePicker(

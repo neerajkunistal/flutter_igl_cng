@@ -454,18 +454,14 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
   _selectFillStartTime(AddAssignmentSelectFillStartTimeEvent event, emit) async {
     try {
       DateTime initialDate = fillStartTimeController.text.toString().isNotEmpty
-          ? DateFormat('h:mm').parse(fillStartTimeController.text.toString())
+          ? DateFormat('HH:mm:ss').parse(fillStartTimeController.text.toString())
           : DateTime.now();
 
-      TimeOfDay initialTime = TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
-        context: event.context,
-        initialTime: initialTime,
-      );
+      DateTime? time =  await showCupertinoDatePicker(
+          initialDateTime: initialDate,
+          context: event.context);
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
-            .format(!event.context.mounted ? event.context : event.context);
-        fillStartTimeController.text = timeFormat;
+        fillStartTimeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventCompleted(emit);
       }
     } catch (e) {
