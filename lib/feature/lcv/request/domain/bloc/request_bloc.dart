@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -351,36 +350,10 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
       return;
     }
     _photoIndex = event.photoIndex;
-    List<CameraDescription> _cameras = await availableCameras();
     if (event.photoIndex == 1) {
-/*      Navigator.push(
-          event.context,
-          MaterialPageRoute(
-              builder: (context) => SelfieCameraPage(
-                    camera: _cameras[0],
-                  )));*/
+
     } else if (event.photoIndex == 2) {
-      if (_cameras.length > 1) {
-        for (var camera in _cameras) {
-          if (camera.lensDirection == CameraLensDirection.front) {
-/*            Navigator.push(
-                event.context,
-                MaterialPageRoute(
-                    builder: (context) => SelfieCameraPage(
-                          camera: camera,
-                        )));*/
-            return;
-          }
-        }
-      } else {
-/*        Navigator.push(
-            event.context,
-            MaterialPageRoute(
-                builder: (context) => SelfieCameraPage(
-                      camera: _cameras[0],
-                    )));*/
-        return;
-      }
+
     }
     if (event.photoIndex == 3) {
 /*      Navigator.push(

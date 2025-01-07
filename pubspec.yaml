@@ -3,7 +3,7 @@ description: "IGL CNG Status Developed By  Unistal"
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.11+12
 
 environment:
   sdk: ^3.5.3
@@ -29,7 +29,7 @@ dependencies:
   geocoding: ^3.0.0
   permission_handler: ^11.0.0
   dotted_border: ^2.1.0
-  camera: ^0.11.0
+#  camera: ^0.11.0
   video_player: ^2.9.1
   flutter_local_notifications: ^18.0.1
   hive_flutter: ^1.1.0
