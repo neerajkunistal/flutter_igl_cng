@@ -70,17 +70,34 @@ class CiAssignWidget extends StatelessWidget {
 
   Widget _checkBox({required FetchViewCiComplaintDataState dataState,
     required BuildContext context}) {
-    return Row(
+    return Column(
       children: [
-        Checkbox(
-            value: dataState.isSendToReview,
-            onChanged: (value) {
-              BlocProvider.of<ViewCiComplaintBloc>(context)
-                  .add(ViewCiComplaintSendToReviewEvent(isSendToReview: value!));
-             }
-           ),
-        Expanded(child: TextWidget(AppString.sendToReview)),
+        Row(
+          children: [
+            Checkbox(
+                value: dataState.isSendToReview,
+                onChanged: (value) {
+                  BlocProvider.of<ViewCiComplaintBloc>(context)
+                      .add(ViewCiComplaintSendToReviewEvent(isSendToReview: value!));
+                 }
+               ),
+            Expanded(child: TextWidget(AppString.reject)),
+          ],
+        ),
+
+        dataState.isSendToReview == true ?
+        _reasonForRejectionController(dataState: dataState, context: context)
+            : const SizedBox.shrink(),
       ],
+    );
+  }
+  
+  Widget _reasonForRejectionController({required FetchViewCiComplaintDataState dataState,
+    required BuildContext context}) {
+    return TextFieldWidget(
+        isRequired: true,
+        controller: dataState.reasonForRejectionController,
+        labelText: AppString.reasonForRejection
     );
   }
 

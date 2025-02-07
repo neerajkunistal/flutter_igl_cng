@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 
 class CiUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
@@ -93,9 +94,9 @@ class CiUpdateStatusWidget extends StatelessWidget {
             value: '1',
             groupValue: dataState.complaintStatusData.id,
             onChanged: (value) {
-              BlocProvider.of<ViewCiComplaintBloc>(context).add(
+/*              BlocProvider.of<ViewCiComplaintBloc>(context).add(
                   ViewCiComplaintStatusDataEvent(
-                      complaintStatusData: dataState.complaintStatusList[0]));
+                      complaintStatusData: dataState.complaintStatusList[0]));*/
             },
           ),
           RadioListTile<String>(
@@ -103,12 +104,24 @@ class CiUpdateStatusWidget extends StatelessWidget {
             value: '2',
             groupValue: dataState.complaintStatusData.id,
             onChanged: (value) {
-              BlocProvider.of<ViewCiComplaintBloc>(context).add(
+/*              BlocProvider.of<ViewCiComplaintBloc>(context).add(
                   ViewCiComplaintStatusDataEvent(
-                      complaintStatusData: dataState.complaintStatusList[1]));
+                      complaintStatusData: dataState.complaintStatusList[1]));*/
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _amountRemarkController(
+      {required FetchViewCiComplaintDataState dataState,
+        required BuildContext context}) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      child: TextFieldWidget(
+        controller: dataState.amountRemarkController,
+        labelText: AppString.estimateAmount,
       ),
     );
   }
@@ -125,17 +138,7 @@ class CiUpdateStatusWidget extends StatelessWidget {
     );
   }
 
-  Widget _amountRemarkController(
-      {required FetchViewCiComplaintDataState dataState,
-        required BuildContext context}) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15),
-      child: TextFieldWidget(
-        controller: dataState.amountRemarkController,
-        labelText: AppString.estimateAmount,
-      ),
-    );
-  }
+
 
   Widget _submitButton(
       {required FetchViewCiComplaintDataState dataState,

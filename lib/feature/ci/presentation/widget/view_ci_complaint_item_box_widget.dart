@@ -202,6 +202,29 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
               ],
             ),
 
+            cngData.reasonForRejection.toString().isNotEmpty ?
+            SizedBox(
+              height: MediaQuery.of(context).size.width * 0.02,
+            ) : const SizedBox.shrink(),
+
+            cngData.reasonForRejection.toString().isNotEmpty ?
+            Row(
+              children: [
+                TextWidget(
+                  "Remark : ",
+                  fontWeight: FontWeight.w500,
+                  fontSize: AppFont.font_13,
+                ),
+                Expanded(
+                    child: TextWidget(
+                      cngData.reasonForRejection.toString(),
+                      fontWeight: FontWeight.w500,
+                      fontSize: AppFont.font_13,
+                      textAlign: TextAlign.end,
+                    )),
+              ],
+            ): const SizedBox.shrink(),
+
             complaintClosedDate .isNotEmpty ?
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,

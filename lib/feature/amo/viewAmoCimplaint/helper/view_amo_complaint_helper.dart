@@ -8,12 +8,14 @@ class ViewAmoComplaintHelper {
   static Future<dynamic> civilComplaintApprove(
       {required CngModel cngData,
       required ComplaintStatus complaintStatus,
+      required String reasonForRejection,
       required BuildContext context}) async {
     try {
       String url = APIs.civilComplaintApproveApi;
       var json = {
         "complaintId": cngData.id.toString(),
-        "statusType": complaintStatus.id.toString()
+        "statusType": complaintStatus.id.toString(),
+        "reasonForRejection" : reasonForRejection
       };
       var res = await ServerRequest.postData(urlEndPoint: url, body: json);
       if (res != null &&

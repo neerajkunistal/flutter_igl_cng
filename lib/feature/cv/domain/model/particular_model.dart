@@ -14,6 +14,8 @@ class ParticularModel {
   String? measurementName;
   dynamic measurementUnit;
   List<File>? fileList;
+  dynamic status;
+  String? currentStatus;
 
   ParticularModel({
    this.id,
@@ -23,6 +25,8 @@ class ParticularModel {
    this.measurementUnit,
    this.measurementName,
    this.fileList,
+   this.status,
+   this.currentStatus,
   });
 
   factory ParticularModel.fromJson(Map<String, dynamic> json ){
@@ -32,7 +36,15 @@ class ParticularModel {
       measurementValue: json['measurement_value'] ?? "",
       measurementName: json['measurement_name'] ?? "",
       measurementUnit: json['measurement_unit'] ?? "",
+      status: json['status'] ?? "1",
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['status'] = currentStatus;
+    return data;
   }
 
 }

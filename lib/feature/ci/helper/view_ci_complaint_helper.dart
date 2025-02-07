@@ -144,13 +144,30 @@ class ViewCiComplaintHelper {
       required BuildContext context}) async {
     try {
       String url = APIs.estimateComplaintApproveApi;
+
+      Map<String, String> particular =  {};
+      if(cngData.particularList != null){
+        int index = 0;
+        for(var particularData in cngData.particularList!)
+        {
+          var json = {
+            "particular[$index][id]" : particularData.id.toString(),
+            "particular[$index][status]" : particularData.status.toString() == "1"
+                ? particularData.currentStatus.toString() :  particularData.status.toString()
+          };
+          particular.addAll(json);
+          index++;
+        }
+      }
+
       var json = {
         "complaintId": cngData.id.toString(),
         "statusType": complaintStatus.id.toString(),
         "estimateRemark": estimateRemark,
         "estimateCost": estimateAmount,
       };
-      var res = await ServerRequest.postData(urlEndPoint: url, body: json);
+      particular.addAll(json);
+      var res = await ServerRequest.postData(urlEndPoint: url, body: particular);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&

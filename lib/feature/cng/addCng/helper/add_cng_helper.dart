@@ -37,8 +37,7 @@ class AddCngHelper {
         SnackBarErrorWidget(context).show(message: "Enter reported phone");
         return false;
       }
-      else if (fileList[0].path.isEmpty && fileList[1].path.isEmpty
-          && fileList[2].path.isEmpty && fileList[3].path.isEmpty) {
+      else if (fileList.where((element) => element.path.toString().isNotEmpty).toList().length < 2) {
         SnackBarErrorWidget(context).show(message: "select photo");
         return false;
       }

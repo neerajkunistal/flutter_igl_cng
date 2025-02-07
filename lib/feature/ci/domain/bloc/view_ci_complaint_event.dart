@@ -18,6 +18,16 @@ class ViewCiComplaintSelectVendorEvent extends ViewCiComplaintEvent {
   List<Object?> get props => [vendorData];
 }
 
+class ViewCiComplaintSelectParticularStatusEvent extends ViewCiComplaintEvent {
+  final String status;
+  final int index;
+  const ViewCiComplaintSelectParticularStatusEvent(
+      {required this.status, required this.index});
+
+  @override
+  List<Object?> get props => [status, index];
+}
+
 class ViewCiComplaintFetchVendorEvent extends ViewCiComplaintEvent {
   const ViewCiComplaintFetchVendorEvent();
 

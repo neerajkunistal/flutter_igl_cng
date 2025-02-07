@@ -520,6 +520,8 @@ class AppString {
 
   static get sendToReview => "Send To Review";
 
+  static get reject => "Reject";
+
   static get destroy => "Destroy";
 
   static get reusable => "Reusable";
@@ -535,6 +537,8 @@ class AppString {
   static get closure => "Closure";
 
   static get addPart => "Add Part";
+
+  static get reasonForRejection => "Reason for Rejection";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

@@ -256,6 +256,7 @@ class ViewAmoComplaintBloc
     var res = await ViewAmoComplaintHelper.civilComplaintApprove(
         cngData: event.cngData,
         complaintStatus: complaintStatusData,
+        reasonForRejection: "",
         context: event.context);
     if (res != null) {
       Navigator.of(event.context.mounted ? event.context : event.context)

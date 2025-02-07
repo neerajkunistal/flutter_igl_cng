@@ -8,6 +8,7 @@ import 'package:flutter_igl_cng/feature/ci/domain/model/control_room_model.dart'
 import 'package:flutter_igl_cng/feature/ci/domain/model/filter_model.dart';
 import 'package:flutter_igl_cng/feature/ci/helper/view_ci_complaint_helper.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 
 part 'view_ci_complaint_event.dart';
 part 'view_ci_complaint_state.dart';
@@ -27,6 +28,7 @@ class ViewCiComplaintBloc
   TextEditingController searchController = TextEditingController();
   TextEditingController toDateController = TextEditingController();
   TextEditingController fromDateController = TextEditingController();
+  TextEditingController reasonForRejectionController = TextEditingController();
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
   bool isFilterLoader = false;
@@ -61,6 +63,7 @@ class ViewCiComplaintBloc
     on<ViewCiComplaintFetchVendorEvent>(_fetchVendor);
     on<ViewCiComplaintVendorAssignEvent>(_assignVendor);
     on<ViewCiComplaintSelectVendorEvent>(_selectVendor);
+    on<ViewCiComplaintSelectParticularStatusEvent>(_selectParticularStatus);
     on<ViewCiComplaintStatusDataEvent>(_selectComplaintStatus);
     on<ViewCiComplaintEstimateApproveEvent>(_estimateApprove);
     on<ViewCiComplaintFinalApproveEvent>(_finalApprove);
@@ -98,6 +101,7 @@ class ViewCiComplaintBloc
     filterDateController.text = "";
     estimateRemarkController.text = "";
     amountRemarkController.text = "";
+    reasonForRejectionController.text = "";
     selectedVendorId =  "";
     isFilterLoader = false;
     isSendToReview =  false;
@@ -340,7 +344,37 @@ class ViewCiComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectParticularStatus(ViewCiComplaintSelectParticularStatusEvent event, emit) {
+    isVendorListLoader = true;
+    _eventComplete(emit);
+    int index =  event.index;
+    String status =  event.status;
+    if(cngData.particularList != null){
+      cngData.particularList![index].currentStatus =  status;
+    }
+
+
+    if(cngData.particularList != null){
+      if(cngData.particularList!.where((element)
+      => element.currentStatus.toString() == "2").toList().length
+          == cngData.particularList!.where(
+                 (element) => element.status.toString() == "1").length)
+      {
+        complaintStatusData = complaintStatusList[0];
+      }  else {
+        complaintStatusData = complaintStatusList[1];
+      }
+    }
+
+    isVendorListLoader = false;
+    _eventComplete(emit);
+  }
+
   _assignVendor(ViewCiComplaintVendorAssignEvent event, emit) async {
+    if(isSendToReview == true && reasonForRejectionController.text.toString().isEmpty){
+      SnackBarErrorWidget(event.context).show(message: "Please enter reason for rejection");
+      return;
+    }
     isVendorAssignLoader = true;
     isFilterLoader = true;
     _eventComplete(emit);
@@ -348,7 +382,9 @@ class ViewCiComplaintBloc
     if(isSendToReview == true){
       ComplaintStatus complaintData =  ComplaintStatus(id: "4", status: "Send To Review");
       res = await ViewAmoComplaintHelper.civilComplaintApprove(
-          cngData: cngData, complaintStatus: complaintData, context: event.context);
+          cngData: cngData, complaintStatus: complaintData,
+          reasonForRejection: reasonForRejectionController.text.toString(),
+          context: event.context);
     } else {
       res = await ViewCiComplaintHelper.assignVendor(
           cngData: event.cngData, vendorData: vendorData, context: event.context);
@@ -603,6 +639,7 @@ class ViewCiComplaintBloc
       amountRemarkController: amountRemarkController,
       selectedVendorId: selectedVendorId,
       isSendToReview: isSendToReview,
+      reasonForRejectionController: reasonForRejectionController,
     ));
   }
 }

@@ -59,6 +59,7 @@ class CngModel {
   String? measurementName;
   String? unit;
   List<ParticularModel>?  particularList;
+  String? reasonForRejection;
 
   CngModel(
       {this.id,
@@ -112,6 +113,7 @@ class CngModel {
       this.isSelected,
       this.particulars,
       this.particularList,
+      this.reasonForRejection,
       });
 
   CngModel.fromJson(Map<String, dynamic> json) {
@@ -153,6 +155,7 @@ class CngModel {
     cngStation = json['cng_station'] ?? "";
     controlRoom = json['control_room'] ?? "";
     assignByUser = json['assign_by_user'] ?? "";
+    reasonForRejection = json['reasonForRejection'] ?? "";
     measurementSheet = json['measurement_sheet'] ?? "";
     estimateRemark = json['estimate_remark'] ?? "";
     measurementSheetStatus = json['measurement_sheet_status'] ?? "0";

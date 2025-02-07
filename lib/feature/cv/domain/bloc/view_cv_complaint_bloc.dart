@@ -516,7 +516,7 @@ class ViewCvComplaintBloc
       measurementType = MeasurementType.pre;
     } else*/
       if (cngData.measurementPostImageList == null ||
-        cngData.measurementPostImageList!.isEmpty) {
+        cngData.measurementPostImageList!.isEmpty && cngData.measurementSheetStatus.toString() != "1") {
       measurementType = MeasurementType.post;
     } else if (cngData.measurementSheetStatus.toString() != "1") {
       measurementType = MeasurementType.sheet;

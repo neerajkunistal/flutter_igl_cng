@@ -27,6 +27,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
   final TextEditingController searchController;
   final TextEditingController fromDateController;
   final TextEditingController toDateController;
+  final TextEditingController reasonForRejectionController;
   final DateTime finalDate;
   final bool isFilterLoader;
   final int listIndex;
@@ -72,6 +73,7 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
     required this.amountRemarkController,
     required this.selectedVendorId,
     required this.isSendToReview,
+    required this.reasonForRejectionController,
   });
 
   @override
@@ -103,5 +105,6 @@ final class FetchViewCiComplaintDataState extends ViewCiComplaintInitial {
         amountRemarkController,
         selectedVendorId,
         isSendToReview,
+        reasonForRejectionController,
       ];
 }

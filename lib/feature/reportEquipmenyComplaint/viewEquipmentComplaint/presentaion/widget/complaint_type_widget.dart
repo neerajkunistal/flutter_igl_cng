@@ -106,7 +106,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                                   !context.mounted ? context : context,
                                   FadeRoute(
                                       page: const ViewEquipmentComplaintPage(
-                                        title: "Other Complaint",
+                                        title: "CNG O&M Complaints",
                                       )),
                                 );
                               },
@@ -122,7 +122,8 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                                       height: MediaQuery.of(context).size.width * 0.02,
                                     ),
                                     TextWidget(
-                                      "Other Complaint",
+                                      "CNG O&M Complaints",
+                                      textAlign: TextAlign.center,
                                       color: AppColor.themeColor,
                                       fontWeight: FontWeight.w700,
                                     )

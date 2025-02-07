@@ -264,7 +264,7 @@ class _AddCngPageState extends State<AddCngPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          index == 0 ?
+                          index == 0  || index == 1?
                           TextWidget(
                             "* ",
                             fontSize: AppFont.font_12,

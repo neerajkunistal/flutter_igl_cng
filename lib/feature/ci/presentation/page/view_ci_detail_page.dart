@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assignment_list_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
 import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
+import 'package:flutter_igl_cng/feature/ci/presentation/widget/particular_widget.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_history_widget.dart';
@@ -606,55 +607,6 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
   }
 
   Widget _particularData({required CngModel cngData }) {
-    return ListView.builder(
-        itemCount: cngData.particularList!.length,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          ParticularModel  particularData =  cngData.particularList![index];
-          return Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Particulars : ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        particularData.name.toString(),
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.02,
-              ),
-              Row(
-                children: [
-                  TextWidget(
-                    "Measure ${particularData.measurementName}: ",
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppFont.font_13,
-                  ),
-                  Expanded(
-                      child: TextWidget(
-                        "${particularData.measurementValue} ${particularData.measurementUnit}",
-                        textAlign: TextAlign.end,
-                        fontWeight: FontWeight.w500,
-                        fontSize: AppFont.font_13,
-                      )),
-                ],
-              ),
-            ],
-          );
-        });
+    return ParticularWidget(cngData: cngData);
   }
 }

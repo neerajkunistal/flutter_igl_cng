@@ -17,6 +17,7 @@ class ViewCiComplaintPage extends StatefulWidget {
 }
 
 class _ViewCiComplaintPageState extends State<ViewCiComplaintPage> {
+
   @override
   void initState() {
     BlocProvider.of<ViewCiComplaintBloc>(!context.mounted ? context : context)
