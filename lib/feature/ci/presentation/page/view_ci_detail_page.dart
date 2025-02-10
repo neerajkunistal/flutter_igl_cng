@@ -254,16 +254,22 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
                   Expanded(
                       child: TextWidget(
                         cngData.complaintStatus.toString() == "0"
-                            ? "Pending"
+                            ? "Open"
+                            : cngData.complaintStatus.toString() == "1"
+                            && cngData.assignToVendor.toString().isEmpty
+                            ? "Reject"
                             : cngData.complaintStatus.toString() == "1"
                             ? "Closed"
                             : cngData.complaintStatus.toString() == "4"
                             ? AppString.sendToReview
-                            : "Rejected",
+                            : "Reject",
                         fontWeight: FontWeight.w500,
                         fontSize: AppFont.font_13,
                         color: cngData.complaintStatus.toString() == "0"
                             ? AppColor.orange
+                            : cngData.complaintStatus.toString() == "1"
+                            && cngData.assignToVendor.toString().isEmpty
+                            ? AppColor.red
                             : cngData.complaintStatus.toString() == "1"
                             ? AppColor.green
                             : cngData.complaintStatus.toString() == "4"

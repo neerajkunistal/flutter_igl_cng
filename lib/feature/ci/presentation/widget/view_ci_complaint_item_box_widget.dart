@@ -35,6 +35,20 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
     return Card(
       elevation: 2,
       shadowColor: AppColor.themeColor,
+      shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: cngData.complaintStatus.toString() == "0"
+              ? AppColor.orange
+              : cngData.complaintStatus.toString() == "1"
+              && cngData.assignToVendor.toString().isEmpty
+              ? AppColor.red
+              : cngData.complaintStatus.toString() == "1"
+              ? AppColor.green
+              : cngData.complaintStatus.toString() == "4"
+              ? AppColor.orange
+              : AppColor.red,
+              width: 1.5),
+          borderRadius: BorderRadius.circular(20.0)),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -184,6 +198,9 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   cngData.complaintStatus.toString() == "0"
                       ? "Open"
                       : cngData.complaintStatus.toString() == "1"
+                         && cngData.assignToVendor.toString().isEmpty
+                          ? "Reject"
+                          : cngData.complaintStatus.toString() == "1"
                           ? "Closed"
                           : cngData.complaintStatus.toString() == "4"
                           ? AppString.sendToReview
@@ -193,6 +210,9 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
                   color: cngData.complaintStatus.toString() == "0"
                       ? AppColor.orange
                       : cngData.complaintStatus.toString() == "1"
+                        && cngData.assignToVendor.toString().isEmpty
+                        ? AppColor.red
+                        : cngData.complaintStatus.toString() == "1"
                           ? AppColor.green
                           : cngData.complaintStatus.toString() == "4"
                           ? AppColor.orange
