@@ -161,5 +161,7 @@ class APIs {
 
   static get getWorkCenterApi => "api/cr/work_center";
 
+  static get addComplaintNumberApi => "api/cr/complaintUpdateVCN";
+
   static get forgotPasswordApi => "";
 }

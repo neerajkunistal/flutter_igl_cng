@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 
 part 'add_equipment_complaint_event.dart';
 part 'add_equipment_complaint_state.dart';
@@ -11,6 +12,8 @@ class AddEquipmentComplaintBloc
   ComplaintTypeModel complaintTypeData = ComplaintTypeModel();
   EquipmentTypeModel equipmentTypeData = EquipmentTypeModel();
   List<EquipmentTypeModel> equipmentTypeList = [];
+  EquipmentModel equipmentData =  EquipmentModel();
+  List<EquipmentModel> equipmentList = [];
   TextEditingController descriptionController = TextEditingController();
   TextEditingController reportByController = TextEditingController();
   TextEditingController dateController = TextEditingController();
@@ -27,6 +30,7 @@ class AddEquipmentComplaintBloc
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
     on<AddEquipmentComplaintSelectComplaintDataEvent>(_selectComplaintType);
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddEquipmentComplaintSelectEquipmentTypeDataEvent>(_selectEquipmentType);
     on<AddEquipmentComplaintSelectGeneralDataEvent>(_selectGeneral);
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
@@ -45,6 +49,8 @@ class AddEquipmentComplaintBloc
     equipmentTypeList = [];
     generalComplaintList = [];
     videoFiles = [];
+    equipmentList = [];
+    equipmentData =  EquipmentModel();
     generalComplaintData = GeneralComplaintModel();
     descriptionController.text = "";
     reportByController.text = "";
@@ -71,7 +77,8 @@ class AddEquipmentComplaintBloc
     var resEquipment =
         await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
     if (resEquipment != null) {
-      equipmentTypeList = resEquipment;
+      equipmentList = resEquipment;
+      equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
     }
 
     var resGeneral =
@@ -93,9 +100,28 @@ class AddEquipmentComplaintBloc
   }
 
   _selectEquipment(AddEquipmentComplaintSelectEquipmentDataEvent event, emit) {
+    equipmentData = event.equipmentData;
+    equipmentTypeData =  EquipmentTypeModel();
+    equipmentTypeList = [];
+    _eventComplete(emit);
+    if(equipmentData.equipmentTypeList != null){
+      for(var equipmentTypeData in equipmentData.equipmentTypeList!) {
+        if(equipmentData.id.toString() == equipmentTypeData.equipmentId.toString())
+        {
+          equipmentTypeList.add(equipmentTypeData);
+        }
+      }
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectEquipmentType(AddEquipmentComplaintSelectEquipmentTypeDataEvent event, emit) {
     equipmentTypeData = event.equipmentTypeData;
     _eventComplete(emit);
   }
+
+
 
   _selectGeneral(AddEquipmentComplaintSelectGeneralDataEvent event, emit) {
     generalComplaintData = event.generalComplaintData;
@@ -282,6 +308,7 @@ class AddEquipmentComplaintBloc
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
       equipmentTypeData = EquipmentTypeModel();
+      equipmentTypeList = [];
       generalComplaintData = GeneralComplaintModel();
       descriptionController.text = "";
       reportByController.text = "";
@@ -318,6 +345,8 @@ class AddEquipmentComplaintBloc
       generalDescriptionController: generalDescriptionController,
       videoFiles: videoFiles,
       isFileLoader: isFileLoader,
+      equipmentData: equipmentData,
+      equipmentList: equipmentList,
     ));
   }
 }

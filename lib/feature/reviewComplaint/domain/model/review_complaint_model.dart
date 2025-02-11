@@ -84,6 +84,7 @@ class ReviewComplaintModel {
   List<ScrapModel>? scrapList;
   List<PartModel>? partList;
   dynamic sapRejectError;
+  dynamic vendorComplaintNumber;
 
   ReviewComplaintModel({
     this.id,
@@ -163,6 +164,7 @@ class ReviewComplaintModel {
     this.rectifyBy,
     this.stationAttachmentFile,
     this.sapRejectError,
+    this.vendorComplaintNumber,
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -239,6 +241,7 @@ class ReviewComplaintModel {
     stationRemark = json['station_remarks'] ?? "";
     rectifyBy = json['rectify_by'] ?? "";
     sapRejectError = json['sap_reject_error'] ?? "";
+    vendorComplaintNumber = json['vendorComplaintNumber'] ?? "";
     stationAttachmentFile =  json['station_attachment_file'] != null
         ? json['station_attachment_file'].cast<String>() :[];
     scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];

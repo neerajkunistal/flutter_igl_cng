@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 
 part 'add_acknowledge_complaint_state.dart';
 
@@ -13,6 +14,7 @@ class AddAcknowledgeComplaintBloc
   ComplaintTypeModel complaintTypeData = ComplaintTypeModel();
   EquipmentTypeModel equipmentTypeData = EquipmentTypeModel();
   List<EquipmentTypeModel> equipmentTypeList = [];
+  List<EquipmentModel> equipmentList = [];
   TextEditingController descriptionController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
   TextEditingController personResponsibleController = TextEditingController();
@@ -73,6 +75,7 @@ class AddAcknowledgeComplaintBloc
     complaintTypeData = ComplaintTypeModel();
     equipmentTypeData = EquipmentTypeModel();
     equipmentTypeList = [];
+    equipmentList = [];
     departmentList = [];
     complaintList = [];
     acknowledgeList = [];
@@ -118,7 +121,8 @@ class AddAcknowledgeComplaintBloc
         await AddEquipmentComplaintHelper.fetchEquipmentTypeData(
             complaintId: acknowledgeData.id.toString());
     if (resEquipment != null) {
-      equipmentTypeList = resEquipment;
+      equipmentList = resEquipment;
+      equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
       for (var equipment in equipmentTypeList) {
         if (equipment.id.toString() ==
             event.acknowledgeData.equipmentId.toString()) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/complaintNumber/presentation/page/add_complaint_number_page.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
@@ -174,6 +175,14 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                 : const SizedBox.shrink(),
             dataState.isNoScrap == false
                 ?_addScarpButton(dataState: dataState)
+                : const SizedBox.shrink(),
+
+            dataState.reviewComplaintData.miAssignType.toString() == "3"
+                ?  _verticalSpace()
+                : const SizedBox.shrink(),
+
+            dataState.reviewComplaintData.miAssignType.toString() == "3"
+             ? _addComplaintNumberWidget(dataState: dataState)
                 : const SizedBox.shrink(),
 
             _verticalSpace(),
@@ -680,6 +689,21 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
               }
             }),
       ),
+    );
+  }
+
+  Widget _addComplaintNumberWidget({required FetchMiComplaintDataState dataState}) {
+    return AddComplaintNumberPage(
+      assignType: dataState.reviewComplaintData.miAssignType.toString(),
+      complaintId: dataState.reviewComplaintData.id.toString(),
+      vendorComplaintNumber: dataState.reviewComplaintData.vendorComplaintNumber.toString(),
+      onChanged: (value) {
+        if(value.toString().isNotEmpty){
+          int index  =  BlocProvider.of<ViewEquipmentComplaintBloc>(context).index;
+          BlocProvider.of<ViewEquipmentComplaintBloc>(context)
+              .reviewComplaintList[index].vendorComplaintNumber = value.toString();
+        }
+      },
     );
   }
 

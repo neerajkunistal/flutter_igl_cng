@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -68,8 +69,14 @@ class AddEquipmentComplaintHelper {
     try {
       String url = APIs.getEquipmentApi +"/$complaintId";
       var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null && res['status'] != null && res["status"] == true) {
-        return equipmentTypeListResponse(res['data']);
+      if (res != null && res['status'] != null && res["status"] == true && res['EqpRecord']  != null) {
+        List<EquipmentModel> equipmentList = equipmentListResponse(res['EqpRecord']);
+        List<EquipmentTypeModel> equipmentTypeList = equipmentTypeListResponse(res['data']);
+        for(var equipmentData in equipmentList)
+        {
+          equipmentData.equipmentTypeList!.addAll(equipmentTypeList);
+        }
+        return equipmentList;
       }
       return null;
     } catch (e) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/add_sap_widget.dart';
+import 'package:flutter_igl_cng/feature/complaintNumber/domain/bloc/complaint_number_bloc.dart';
+import 'package:flutter_igl_cng/feature/complaintNumber/presentation/page/add_complaint_number_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
@@ -87,6 +89,10 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             _remark(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
+            dataState.acknowledgeData.ackStatus != "0"
+                && dataState.acknowledgeData.assignType.toString() == "3"
+                ? _addComplaintNumberWidget(dataState: dataState)
+                : const SizedBox.shrink(),
             dataState.acknowledgeData.ackStatus == "0"
                 ? _button(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -419,6 +425,17 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                   .add(AddAcknowledgeComplaintSubmitEvent(context: context));
             })
         : const DottedLoaderWidget();
+  }
+
+  Widget _addComplaintNumberWidget({required FetchAddAcknowledgeComplaintState dataState}) {
+    return AddComplaintNumberPage(
+      assignType: dataState.acknowledgeData.assignType.toString(),
+      complaintId: dataState.acknowledgeData.id.toString(),
+      vendorComplaintNumber: dataState.acknowledgeData.vendorComplaintNumber.toString(),
+      onChanged: (value) {
+        Navigator.pop(context, "Completed");
+      },
+    );
   }
 
   Widget _verticalSpace() {

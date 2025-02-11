@@ -20,4 +20,6 @@ enum AssignmentStatus {
   cancel
 }
 
+enum PageRoute { addAcknowledge, complaintDetail }
+
 enum PopRouteName { completeTask, startRoute, notification }

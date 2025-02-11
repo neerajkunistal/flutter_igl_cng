@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
@@ -91,8 +92,16 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _complaintDropDown(dataState: dataState),
             _verticalSpace(),
+
             dataState.complaintTypeData.id.toString() == "2"
                 ? _equipmentDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "2"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+
+            dataState.complaintTypeData.id.toString() == "2"
+                ? _equipmentTypeDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
@@ -178,21 +187,46 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   Widget _equipmentDropDown(
       {required FetchAddEquipmentComplaintState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectEquipment,
+      dropdownValue: dataState.equipmentData.name != null
+          ? dataState.equipmentData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+            AddEquipmentComplaintSelectEquipmentDataEvent(
+                equipmentData: value));
+      },
+      items: dataState.equipmentList
+          .map<DropdownMenuItem<EquipmentModel>>(
+              (EquipmentModel equipmentData) {
+            return DropdownMenuItem<EquipmentModel>(
+              value: equipmentData,
+              child: Text(equipmentData.name.toString()),
+            );
+          }).toList(),
+    );
+  }
+
+  Widget _equipmentTypeDropDown(
+      {required FetchAddEquipmentComplaintState dataState}) {
     return DropDownSearchWidget(
       selectedItem: dataState.equipmentTypeData.equipmentCode != null
           ? dataState.equipmentTypeData
           : null,
-      hint: AppString.selectEquipment,
+      hint: AppString.selectEquipmentType,
       items: dataState.equipmentTypeList,
       itemAsString: (equipmentTypeData) =>
-          "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
+      "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
-            AddEquipmentComplaintSelectEquipmentDataEvent(
+            AddEquipmentComplaintSelectEquipmentTypeDataEvent(
                 equipmentTypeData: value));
       },
     );
   }
+
+
 
   Widget _dateController({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(

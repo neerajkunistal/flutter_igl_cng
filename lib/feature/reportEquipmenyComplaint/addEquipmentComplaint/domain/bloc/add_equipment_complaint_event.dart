@@ -35,15 +35,26 @@ class AddEquipmentComplaintSelectGeneralDataEvent
   List<Object?> get props => [generalComplaintData];
 }
 
-class AddEquipmentComplaintSelectEquipmentDataEvent
+class AddEquipmentComplaintSelectEquipmentTypeDataEvent
     extends AddEquipmentComplaintEvent {
   final EquipmentTypeModel equipmentTypeData;
 
-  const AddEquipmentComplaintSelectEquipmentDataEvent(
+  const AddEquipmentComplaintSelectEquipmentTypeDataEvent(
       {required this.equipmentTypeData});
 
   @override
   List<Object?> get props => [equipmentTypeData];
+}
+
+class AddEquipmentComplaintSelectEquipmentDataEvent
+    extends AddEquipmentComplaintEvent {
+  final EquipmentModel equipmentData;
+
+  const AddEquipmentComplaintSelectEquipmentDataEvent(
+      {required this.equipmentData});
+
+  @override
+  List<Object?> get props => [equipmentData];
 }
 
 class AddEquipmentComplaintAddImageEvent extends AddEquipmentComplaintEvent {

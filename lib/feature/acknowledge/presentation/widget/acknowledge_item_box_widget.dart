@@ -140,6 +140,16 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ): const SizedBox.shrink(),
 
+                acknowledgeData.vendorComplaintNumber.toString().isNotEmpty
+                    ? _rowWidget(
+                    name: "Vendor Complaint No",
+                    value: acknowledgeData.vendorComplaintNumber.toString())
+                    : const SizedBox.shrink(),
+                acknowledgeData.vendorComplaintNumber.toString().isNotEmpty
+                    ? SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ): const SizedBox.shrink(),
+
                 acknowledgeData.sapRejectError.toString().isNotEmpty
                     ? _rowWidget(name: "Sap Reject Error", value: acknowledgeData.sapRejectError.toString(), color: AppColor.red)
                     : const SizedBox.shrink(),

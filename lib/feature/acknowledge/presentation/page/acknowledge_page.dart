@@ -21,7 +21,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     BlocProvider.of<AcknowledgeBloc>(context)
-        .add(AcknowledgePageLoadEvent(context: context));
+        .add(AcknowledgePageLoadEvent(context: context, selectTabIndex:  0));
     fetchData();
     super.initState();
   }
@@ -167,6 +167,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
                               context: context,
                               acknowledgeData:
                                   dataState.acknowledgeList[index]));
+
                       final result = await Navigator.push(
                         context,
                         FadeRoute(page: const AddAcknowledgePage()),
@@ -174,7 +175,8 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
                       if (!context.mounted) return;
                       if (result.toString() == "Completed") {
                         BlocProvider.of<AcknowledgeBloc>(context)
-                            .add(AcknowledgePageLoadEvent(context: context));
+                            .add(AcknowledgePageLoadEvent(context: context,
+                            selectTabIndex : dataState.selectTabIndex));
                       }
                     }
                   },

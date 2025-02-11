@@ -6,11 +6,14 @@ abstract class AcknowledgeEvent extends Equatable {
 
 class AcknowledgePageLoadEvent extends AcknowledgeEvent {
   final BuildContext context;
+  final int selectTabIndex;
 
-  const AcknowledgePageLoadEvent({required this.context});
+  const AcknowledgePageLoadEvent({required this.context,
+   required this.selectTabIndex
+  });
 
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, selectTabIndex];
 }
 
 class AcknowledgeUserListLoadEvent extends AcknowledgeEvent {
@@ -21,6 +24,8 @@ class AcknowledgeUserListLoadEvent extends AcknowledgeEvent {
   @override
   List<Object?> get props => [context];
 }
+
+
 
 class AcknowledgeSelectUserEvent extends AcknowledgeEvent {
   final AcknowledgeUserModel acknowledgeUserData;

@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/changePassword/domain/bloc/change_passwo
 import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/addCng/domain/bloc/add_cng_bloc.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
+import 'package:flutter_igl_cng/feature/complaintNumber/domain/bloc/complaint_number_bloc.dart';
 import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
@@ -79,6 +80,7 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => OverSpeedAlertBloc()),
       BlocProvider(create: (BuildContext context) => AddSparePartBloc()),
       BlocProvider(create: (BuildContext context) => ChangePasswordBloc()),
+   /*   BlocProvider(create: (BuildContext context) => ComplaintNumberBloc()),*/
 
     ],
     child: child,

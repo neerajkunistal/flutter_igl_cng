@@ -72,6 +72,7 @@ class AcknowledgeModel {
   List<ScrapModel>? scrapList;
   List<PartModel>? partList;
   dynamic sapRejectError;
+  dynamic vendorComplaintNumber;
 
   AcknowledgeModel({
     this.id,
@@ -139,6 +140,7 @@ class AcknowledgeModel {
     this.partList,
     this.rejectStatus,
     this.sapRejectError,
+    this.vendorComplaintNumber,
   });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -204,6 +206,7 @@ class AcknowledgeModel {
     personResponsible = json['person_responsible'] ?? "";
     rejectStatus = json['reject_status'] ?? "0";
     sapRejectError = json['sap_reject_error'] ?? "";
+    vendorComplaintNumber = json['vendorComplaintNumber'] ?? "";
     scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
     partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
   }
