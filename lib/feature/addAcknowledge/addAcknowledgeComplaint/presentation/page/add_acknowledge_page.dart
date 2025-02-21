@@ -433,7 +433,9 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
       complaintId: dataState.acknowledgeData.id.toString(),
       vendorComplaintNumber: dataState.acknowledgeData.vendorComplaintNumber.toString(),
       onChanged: (value) {
-        Navigator.pop(context, "Completed");
+        if(value.toString().isNotEmpty){
+          Navigator.pop(context, "Completed");
+        }
       },
     );
   }
