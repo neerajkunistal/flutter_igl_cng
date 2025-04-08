@@ -25,12 +25,23 @@ class PodDataTableBuilderItemBox extends StatelessWidget {
       row.add(podDetailData.lineItem.toString());
       row.add(podDetailData.shortTextDescription.toString());
       row.add(podDetailData.lineItemNetValue.toString());
-      row.add(podDetailData.consumedValue.toString());
+
+      // row.add(podDetailData.consumedValue.toString());
+
+      String value =  podDetailData.consumedValue.toString().replaceAll(" ", "");
+      dynamic consumedValue =  0.0;
+      if(value.isNotEmpty && isNumeric(value) == true){
+        double consumedPr =  double.parse(value)/1.18;
+        consumedValue = consumedPr.toStringAsFixed(2);
+      } else {
+        consumedValue = value.toString();
+      }
+      row.add("$consumedValue");
 
       String percentage =  podDetailData.consumedPercentage.toString().replaceAll(" ", "");
       dynamic consumedPercentage =  0.0;
       if(percentage.isNotEmpty && isNumeric(percentage) == true){
-        double consumedPr =  double.parse(percentage);
+        double consumedPr =  double.parse(percentage)/1.18;
         consumedPercentage = consumedPr.toStringAsFixed(2);
       } else {
         consumedPercentage = percentage.toString();

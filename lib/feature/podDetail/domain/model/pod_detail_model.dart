@@ -23,7 +23,7 @@ class PodDetailModel {
     lineItem = json['LineItem'] ?? "";
     shortTextDescription = json['ShortTextDescription'] ?? "";
     lineItemNetValue = json['LineItemNetValue'] ?? "";
-    consumedValue = json['ConsumedValue'] ?? "";
-    consumedPercentage = json['ConsumedPercentage'] ?? "";
+    consumedValue = json['ConsumedValue'] ?? "0";
+    consumedPercentage = json['ConsumedPercentage'] ?? "0";
   }
 }
