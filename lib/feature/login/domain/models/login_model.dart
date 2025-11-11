@@ -28,6 +28,7 @@ class LoginDataModel {
   String? stationId;
   dynamic mDbStatus;
   dynamic stationName;
+  dynamic showCivil;
 
   LoginDataModel({
     this.userId,
@@ -49,6 +50,7 @@ class LoginDataModel {
     this.stationId,
     this.mDbStatus,
     this.stationName,
+    this.showCivil,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -69,6 +71,7 @@ class LoginDataModel {
     stationId = json['station_id'] ?? "";
     mDbStatus = json['mdb_status'] ?? "0";
     stationName = json['station_name'] ?? "";
+    showCivil = json['show_civil'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;

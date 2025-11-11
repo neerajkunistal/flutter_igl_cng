@@ -52,6 +52,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
               children: [
                 Row(
                   children: [
+                    userData.showCivil.toString() == "1" ?
                     Expanded(
                       child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -89,7 +90,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                               ),
                             ),
                           )),
-                    ),
+                    ) : const SizedBox.shrink(),
 
                    Expanded(
                       child: Padding(
