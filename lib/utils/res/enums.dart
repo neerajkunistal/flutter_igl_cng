@@ -23,3 +23,8 @@ enum AssignmentStatus {
 enum PageRoute { addAcknowledge, complaintDetail }
 
 enum PopRouteName { completeTask, startRoute, notification }
+
+enum MenuUrlMethodType {
+   get,
+   post
+}

@@ -65,6 +65,8 @@ class AppString {
 
   static get dashboard => "Dashboard";
 
+  static get home => "Home";
+
   static get systemAdmin => "System Admin";
 
   static get serviceCenter => "Service Center";

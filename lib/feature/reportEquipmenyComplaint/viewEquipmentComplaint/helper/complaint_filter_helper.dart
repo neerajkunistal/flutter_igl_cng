@@ -68,8 +68,7 @@ class ComplaintFilterHelper {
     List<ReviewComplaintModel> list = [];
     try{
       LoginDataModel userData =  UserInfo.instance!.userData!;
-      list = complaintList.where((element) => element.assignType.toString() != "1"
-          && element.ackStatus.toString() !=  "0"
+      list = complaintList.where((element) => element.ackStatus.toString() !=  "0"
           && element.stationStatus.toString() != "0" && element.complaintStatus.toString() != "1").toList();
     }catch(_){}
     return list;
@@ -80,7 +79,7 @@ class ComplaintFilterHelper {
     try{
       LoginDataModel userData =  UserInfo.instance!.userData!;
       list = complaintList.where((element) => element.assignType.toString() == "1"
-          && element.complaintStatus.toString() != "1").toList();
+          && element.complaintStatus.toString() == "0").toList();
     }catch(_){}
     return list;
   }

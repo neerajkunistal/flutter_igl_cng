@@ -5,10 +5,12 @@ import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/page/v
 import 'package:flutter_igl_cng/feature/ci/presentation/page/view_ci_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/web_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/presentation/page/running_truck_page.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/menu_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -26,10 +28,24 @@ class HomeHelper {
       drawerList.add(DrawerModel(
           widget: const DashboardPage(),
           icon: Icons.home_outlined,
-          label: AppString.dashboard,
+          label: AppString.home,
           sublist: [],
           isSelected: true));
 
+      LoginDataModel loginData =  UserInfo.instance!.userData!;
+      List<MenuModel> menuPageList =  loginData.menuPage!;
+      for(var menuData in menuPageList){
+        if(menuData.url.toString().isNotEmpty){
+          drawerList.add(DrawerModel(
+              widget: WebPage(url: "${menuData.url}?token=${loginData.token}", name: menuData.name.toString(),),
+              icon: Icons.dashboard_outlined,
+              label: menuData.name.toString(),
+              isNewPage: true,
+              sublist: [],
+              isSelected: false)
+          );
+        }
+      }
       return drawerList;
     } catch (e) {
       return null;

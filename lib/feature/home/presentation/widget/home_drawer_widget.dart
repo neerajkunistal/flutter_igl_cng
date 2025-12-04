@@ -129,9 +129,13 @@ class HomeDrawerWidget extends StatelessWidget {
         if (drawerData.sublist.isEmpty) {
           Navigator.pop(context);
         }
-        if (drawerData.isSelected == false) {
+        if (drawerData.isSelected == false && drawerData.isNewPage == false) {
           BlocProvider.of<HomeBloc>(context).add(HomeDrawerItemSelectedEvent(
               isSelected: true, index: index, context: context));
+        }
+        else if(drawerData.isNewPage == true) {
+          Navigator.push(context,
+              FadeRoute(page: drawerData.widget));
         }
       },
       child: Padding(

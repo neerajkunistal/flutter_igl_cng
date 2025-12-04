@@ -1,4 +1,5 @@
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/menu_model.dart';
 
 List<LoginDataModel> loginScreenResponseData(var json) {
   return List<LoginDataModel>.from(json.map((x) => LoginDataModel.fromJson(x)));
@@ -29,6 +30,7 @@ class LoginDataModel {
   dynamic mDbStatus;
   dynamic stationName;
   dynamic showCivil;
+  List<MenuModel>? menuPage;
 
   LoginDataModel({
     this.userId,
@@ -51,6 +53,7 @@ class LoginDataModel {
     this.mDbStatus,
     this.stationName,
     this.showCivil,
+    this.menuPage,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -75,6 +78,7 @@ class LoginDataModel {
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
+    menuPage =  json['dashboard_urls'] == null ? [] : menuListResponse(json['dashboard_urls']);
   }
 
   getRole({required String role}) {
