@@ -5,6 +5,8 @@ class AppIcon {
 
   static get appLogoIgl => "assets/ic_launcher_igl.png";
 
+  static get appLogoPBGPL => "assets/pbgpl_logo.png";
+
   static get appLogoAgcl => "assets/agcl_logo.png";
 
   static get colourStrip => "assets/ic_strip.png";

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -309,6 +310,7 @@ class AddAcknowledgeComplaintBloc
       final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
         initialDateTime: initialDate,
+        mode: CupertinoDatePickerMode.dateAndTime,
       );
       if (time != null) {
         timeController.text = DateFormat('HH:mm:ss').format(time).toString();

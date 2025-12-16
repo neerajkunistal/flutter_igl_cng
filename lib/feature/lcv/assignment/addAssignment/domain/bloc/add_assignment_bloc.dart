@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -459,6 +460,7 @@ class AddAssignmentBloc extends Bloc<AddAssignmentEvent, AddAssignmentState> {
 
       DateTime? time =  await showCupertinoDatePicker(
           initialDateTime: initialDate,
+          mode: CupertinoDatePickerMode.dateAndTime,
           context: event.context);
       if (time != null) {
         fillStartTimeController.text = DateFormat('HH:mm:ss').format(time).toString();

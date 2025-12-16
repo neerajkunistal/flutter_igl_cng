@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
@@ -190,7 +191,7 @@ class ReviewComplaintBloc
       final DateTime? picked = await showDatePicker(
           context: event.context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2015, 8),
+          firstDate: DateTime.now(),
           lastDate: DateTime.now());
       if (picked != null) {
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
@@ -204,16 +205,19 @@ class ReviewComplaintBloc
   }
 
   _selectTime(ReviewComplaintSelectTimeData event, emit) async {
-
+    print("close66666TimeController--->${closeTimeController.text.toString()}");
     try {
       DateTime initialDate = closeTimeController.text.toString().isNotEmpty
           ? DateFormat('HH:mm:ss').parse(closeTimeController.text.toString())
           : DateTime.now();
 
       DateTime? time =  await showCupertinoDatePicker(
-          initialDateTime: initialDate,
-          context: event.context);
+          initialDateTime: DateTime.now(),
+          mode: CupertinoDatePickerMode.dateAndTime,
+          context: event.context
+      );
       if (time != null) {
+        print("closeTimeController--->${closeTimeController.text.toString()}");
         closeTimeController.text = DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }

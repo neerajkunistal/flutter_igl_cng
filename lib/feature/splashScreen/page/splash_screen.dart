@@ -72,7 +72,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   Image.asset(
                     AppConfig.instanceInit()!.client == Client.iglcng
                         ? AppIcon.appLogoIgl
-                        : AppIcon.appLogoIgl,
+                        : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                        ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
                     height: MediaQuery.of(context).size.width * 0.40,
                     width: MediaQuery.of(context).size.width * 0.40,
                   ),

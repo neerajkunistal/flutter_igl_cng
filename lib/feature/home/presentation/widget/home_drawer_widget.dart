@@ -32,7 +32,7 @@ class HomeDrawerWidget extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Color.fromARGB(255, 85, 124, 18),
-                    Color.fromRGBO(200, 169, 20, 18),
+                    Color.fromRGBO(239, 190, 17, 1.0),
                     Color.fromARGB(255, 85, 124, 18),
                   ],
                 ),
@@ -78,7 +78,8 @@ class HomeDrawerWidget extends StatelessWidget {
           child: Image.asset(
             AppConfig.instanceInit()!.client == Client.iglcng
                 ? AppIcon.appLogoIgl
-                : AppIcon.appLogoIgl,
+                : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.15,
             width: MediaQuery.of(context).size.width * 0.15,
           ),

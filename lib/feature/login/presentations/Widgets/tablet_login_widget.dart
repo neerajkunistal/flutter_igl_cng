@@ -80,7 +80,8 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
               child: Image.asset(
                 AppConfig.instanceInit()!.client == Client.iglcng
                     ? AppIcon.appLogoIgl
-                    : AppIcon.appLogoIgl,
+                    : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                    ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
             ),

@@ -36,8 +36,7 @@ class HomeHelper {
     }
   }
 
-  static Future<dynamic> fetchAppBottomBarItems(
-      {required BuildContext context}) async {
+  static Future<dynamic> fetchAppBottomBarItems({required BuildContext context}) async {
     List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;

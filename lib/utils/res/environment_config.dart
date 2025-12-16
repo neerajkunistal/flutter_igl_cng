@@ -25,8 +25,12 @@ class EnvironmentConfig extends InheritedWidget {
         return "https://iglcngautomation.smartgasnet.com/";
       case EnvironmentFlavours.developmentIglCng:
         return "https://iglcngautomation.smartgasnet.com/uatiglcng/";
+      case EnvironmentFlavours.prodPBGPL:
+      return "https://pbgpl.smartgasnet.com/";
+      case EnvironmentFlavours.devPBGPL:
+        return "https://pbgpluat.smartgasnet.com/";
     }
   }
 }
 
-enum EnvironmentFlavours { productionIglCng, developmentIglCng }
+enum EnvironmentFlavours { productionIglCng, developmentIglCng, prodPBGPL, devPBGPL }

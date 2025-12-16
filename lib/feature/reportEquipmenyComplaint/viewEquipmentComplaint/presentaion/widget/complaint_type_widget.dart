@@ -33,7 +33,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
               child: Column(
                 children: [
                   TextWidget(
-                    "IGL CNG Automation",
+                    "PBGPL CNG Automation",
                     fontSize: AppFont.font_18,
                     color: AppColor.white,
                     fontWeight: FontWeight.w700,
@@ -136,8 +136,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                   ],
                 ),
 
-                userData.mDbStatus.toString() != "0" &&
-                    userData.mDbStatus.toString().isNotEmpty ?
+                userData.mDbStatus.toString() != "0" && userData.mDbStatus.toString().isNotEmpty ?
                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Card(

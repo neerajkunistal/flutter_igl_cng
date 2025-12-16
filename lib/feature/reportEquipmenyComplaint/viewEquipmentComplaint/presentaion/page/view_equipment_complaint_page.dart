@@ -28,29 +28,28 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return userData.roleType == RoleType.shiftEngineer ||
-        userData.roleType == RoleType.mi
+            userData.roleType == RoleType.mi
         ? const ViewEquipmentWidget()
         : Scaffold(
-      backgroundColor: Colors.transparent,
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: userData.roleType == RoleType.stationUser
-          ? _floatingActionButton()
-          : const SizedBox.shrink(),
-      extendBodyBehindAppBar: true,
-      body: appBackGround(
-        context: context,
-        child: Column(
-          children: [
-            _appBar(),
-            const DottedDividerLine(color: Colors.white),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
+            backgroundColor: Colors.transparent,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.startFloat,
+            floatingActionButton: userData.roleType == RoleType.stationUser
+                ? _floatingActionButton()
+                : const SizedBox.shrink(),
+            extendBodyBehindAppBar: true,
+            body: appBackGround(
+              context: context,
+              child: Column(children: [
+                _appBar(),
+                const DottedDividerLine(color: Colors.white),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+                const Expanded(child: ViewEquipmentWidget()),
+              ]),
             ),
-            const Expanded(child: ViewEquipmentWidget()),
-          ]
-        ),
-      ),
-    );
+          );
   }
 
   Widget _appBar() {
@@ -67,14 +66,13 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
       ),
       actions: [
         Image.asset(
-          AppIcon.appLogoIgl,
+          AppIcon.appLogoPurvaBharti,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         )
       ],
     );
   }
-
 
   Widget _floatingActionButton() {
     return FloatingActionButton(
@@ -101,5 +99,4 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
       ),
     );
   }
-
 }

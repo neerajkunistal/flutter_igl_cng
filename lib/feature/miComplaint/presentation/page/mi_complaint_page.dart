@@ -88,7 +88,8 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         Image.asset(
           AppConfig.instanceInit()!.client == Client.iglcng
               ? AppIcon.appLogoIgl
-              : AppIcon.appLogoIgl,
+              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         ),

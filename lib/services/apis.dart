@@ -19,7 +19,7 @@ class APIs {
   static get googleLatLongAPI =>
       "https://maps.googleapis.com/maps/api/geocode/json?";
 
-  static get login => "api/auth";
+  static get login => "api/cng/auth";
 
   static get changePassword => "api/changePassword";
 

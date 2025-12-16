@@ -75,7 +75,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
         Image.asset(
           AppConfig.instanceInit()!.client == Client.iglcng
               ? AppIcon.appLogoIgl
-              : AppIcon.appLogoIgl,
+              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         )
@@ -93,12 +94,12 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _complaintDropDown(dataState: dataState),
             _verticalSpace(),
 
-            dataState.complaintTypeData.id.toString() == "2"
-                ? _equipmentDropDown(dataState: dataState)
-                : const SizedBox.shrink(),
-            dataState.complaintTypeData.id.toString() == "2"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+            // dataState.complaintTypeData.id.toString() == "2"
+            //     ? _equipmentDropDown(dataState: dataState)
+            //     : const SizedBox.shrink(),
+            // dataState.complaintTypeData.id.toString() == "2"
+            //     ? _verticalSpace()
+            //     : const SizedBox.shrink(),
 
             dataState.complaintTypeData.id.toString() == "2"
                 ? _equipmentTypeDropDown(dataState: dataState)
