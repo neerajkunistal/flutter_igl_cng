@@ -499,7 +499,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = B7JEL7WK25;
+				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -509,7 +509,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhane.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -698,8 +698,8 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = B7JEL7WK25;
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -709,7 +709,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhane.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -729,8 +729,8 @@
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = B7JEL7WK25;
+				CURRENT_PROJECT_VERSION = 6;
+				DEVELOPMENT_TEAM = GYPLY6HF9U;
 				ENABLE_BITCODE = NO;
 				FLUTTER_TARGET = lib/environmentFlavours/main_iglcng_prod.dart;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -740,7 +740,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhan.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iglcngsamadhane.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
