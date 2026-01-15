@@ -52,6 +52,7 @@ class AddEquipmentComplaintHelper {
   static Future<dynamic> fetchComplaintTypeData() async {
     try {
       String url = APIs.getComplaintTypeApi;
+      print("url-->${url}");
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return complaintTypeListResponse(res['data']);
@@ -119,7 +120,7 @@ class AddEquipmentComplaintHelper {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
-
+      print("url-->${url}");
       var json = {
         "complaintTypeId": complaintTypeData.id != null
             ? complaintTypeData.id.toString()

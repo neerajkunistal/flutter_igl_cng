@@ -79,7 +79,10 @@ class _ViewCvDetailPageState extends State<ViewCvDetailPage> {
           AppConfig.instanceInit()!.client == Client.iglcng
               ? AppIcon.appLogoIgl
               : AppConfig.instanceInit()!.client == Client.pbgplCNG
-              ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
+              ? AppIcon.appLogoPurvaBharti
+              : AppConfig.instanceInit()!.client == Client.mahanagar
+              ? AppIcon.appLogoMGL
+              : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         ),

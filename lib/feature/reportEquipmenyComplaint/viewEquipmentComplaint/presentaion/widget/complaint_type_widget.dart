@@ -16,24 +16,31 @@ class ComplaintTypeWidget extends StatefulWidget {
 }
 
 class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
-
-  LoginDataModel userData =  UserInfo.instance!.userData!;
+  final LoginDataModel userData = UserInfo.instance!.userData!;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Column(
+    return Stack(
+      children: [
+        /// MAIN SCROLLABLE CONTENT
+        SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 70), // space for footer
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 24),
+
+              /// HEADER
+              Column(
                 children: [
                   TextWidget(
-                    "PBGPL CNG Automation",
+                    AppConfig.instanceInit()!.client == Client.iglcng
+                        ? "IGL CNG Automation"
+                        : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                        ? "PBGPL CNG Automation"
+                        : AppConfig.instanceInit()!.client == Client.mahanagar
+                        ? "MGL CNG Automation"
+                        : "IGL CNG Automation",
                     fontSize: AppFont.font_18,
                     color: AppColor.white,
                     fontWeight: FontWeight.w700,
@@ -43,154 +50,177 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                     fontSize: AppFont.font_16,
                     color: AppColor.white,
                     fontWeight: FontWeight.w700,
-                  )
+                  ),
                 ],
               ),
-            ),
 
-            Column(
+              const SizedBox(height: 30),
+
+              /// CIVIL & EQUIPMENT ROW
+              Row(
+                children: [
+                  Expanded(child: _civilComplaintCard()),
+                  Expanded(child: _equipmentComplaintCard()),
+                ],
+              ),
+
+              /// LCV CARD (Conditional)
+              if (userData.mDbStatus.toString().isNotEmpty &&
+                  userData.mDbStatus.toString() != "0")
+                _lcvCard(),
+
+              const SizedBox(height: 40),
+            ],
+          ),
+        ),
+
+        /// ✅ FIXED FOOTER
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 8,
+          child: _unistalFooter(),
+        ),
+      ],
+    );
+  }
+
+  // -------------------- CARDS --------------------
+
+  Widget _civilComplaintCard() {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Card(
+        elevation: 2,
+        shadowColor: AppColor.themeColor,
+        child: InkWell(
+          onTap: () async {
+            if (await Vibration.hasAmplitudeControl() != null) {
+              Vibration.vibrate(duration: 100);
+            }
+            Navigator.push(
+              context,
+              FadeRoute(page: const ViewCngPage()),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            shadowColor: AppColor.themeColor,
-                            elevation: 2,
-                            child: InkWell(
-                              onTap: () async {
-                                if (await Vibration.hasAmplitudeControl() != null) {
-                                  Vibration.vibrate(duration: 100);
-                                }
-                                Navigator.push(
-                                  !context.mounted ? context : context,
-                                  FadeRoute(page: const ViewCngPage()),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(AppIcon.maintenanceIcon,
-                                        height: MediaQuery.of(context).size.width * 0.20),
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.width * 0.02,
-                                    ),
-                                    TextWidget(
-                                      "Civil Complaint",
-                                      color: AppColor.themeColor,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                    ),
-
-                   Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            shadowColor: AppColor.themeColor,
-                            elevation: 2,
-                            child: InkWell(
-                              onTap: () async {
-                                if (await Vibration.hasAmplitudeControl() != null) {
-                                  Vibration.vibrate(duration: 100);
-                                }
-                                Navigator.push(
-                                  !context.mounted ? context : context,
-                                  FadeRoute(
-                                      page: const ViewEquipmentComplaintPage(
-                                        title: "CNG O&M Complaints",
-                                      )),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(AppIcon.equipmentIcon,
-                                        height: MediaQuery.of(context).size.width * 0.20),
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.width * 0.02,
-                                    ),
-                                    TextWidget(
-                                      "CNG O&M Complaints",
-                                      textAlign: TextAlign.center,
-                                      color: AppColor.themeColor,
-                                      fontWeight: FontWeight.w700,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
+                Image.asset(
+                  AppIcon.maintenanceIcon,
+                  height: MediaQuery.of(context).size.width * 0.20,
                 ),
-
-                userData.mDbStatus.toString() != "0" && userData.mDbStatus.toString().isNotEmpty ?
-                 Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      shadowColor: AppColor.themeColor,
-                      elevation: 2,
-                      child: InkWell(
-                        onTap: () async {
-                          if (await Vibration.hasAmplitudeControl() != null) {
-                            Vibration.vibrate(duration: 100);
-                          }
-                          Navigator.push(
-                            !context.mounted ? context : context,
-                            FadeRoute(page: userData.mDbStatus.toString() == "1"
-                                  ? const LcvDashboardPage()
-                                  : const ViewAssignmentPage() ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(AppIcon.lcvTruckIcon,
-                                  height: MediaQuery.of(context).size.width * 0.20),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.width * 0.02,
-                              ),
-                              TextWidget(
-                                "LCV",
-                                color: AppColor.themeColor,
-                                fontWeight: FontWeight.w700,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )) : const SizedBox.shrink(),
+                const SizedBox(height: 10),
+                TextWidget(
+                  "Civil Complaint",
+                  color: AppColor.themeColor,
+                  fontWeight: FontWeight.w700,
+                ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
 
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: TextWidget(
-                "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-                fontSize: AppFont.font_12,
-                color: AppColor.white,
-                fontWeight: FontWeight.w700,
+  Widget _equipmentComplaintCard() {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Card(
+        elevation: 2,
+        shadowColor: AppColor.themeColor,
+        child: InkWell(
+          onTap: () async {
+            if (await Vibration.hasAmplitudeControl() != null) {
+              Vibration.vibrate(duration: 100);
+            }
+            Navigator.push(
+              context,
+              FadeRoute(
+                page: const ViewEquipmentComplaintPage(
+                  title: "CNG O&M Complaints",
+                ),
               ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Image.asset(
+                  AppIcon.equipmentIcon,
+                  height: MediaQuery.of(context).size.width * 0.20,
+                ),
+                const SizedBox(height: 10),
+                TextWidget(
+                  "CNG O&M Complaints",
+                  textAlign: TextAlign.center,
+                  color: AppColor.themeColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _lcvCard() {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Card(
+        elevation: 2,
+        shadowColor: AppColor.themeColor,
+        child: InkWell(
+          onTap: () async {
+            if (await Vibration.hasAmplitudeControl() != null) {
+              Vibration.vibrate(duration: 100);
+            }
+            Navigator.push(
+              context,
+              FadeRoute(
+                page: userData.mDbStatus.toString() == "1"
+                    ? const LcvDashboardPage()
+                    : const ViewAssignmentPage(),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Image.asset(
+                  AppIcon.lcvTruckIcon,
+                  height: MediaQuery.of(context).size.width * 0.20,
+                ),
+                const SizedBox(height: 10),
+                TextWidget(
+                  "LCV",
+                  color: AppColor.themeColor,
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
             ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // -------------------- FOOTER --------------------
+
+  Widget _unistalFooter() {
+    return SafeArea(
+      top: false,
+      child: Center(
+        child: TextWidget(
+          "Unistal Systems Pvt Ltd. | Version ${AppConfig.instanceInit()!.appVersion}",
+          fontSize: AppFont.font_12,
+          color: AppColor.white,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

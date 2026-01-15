@@ -70,6 +70,15 @@ android {
                     appIconRound: "@mipmap/pbgpl_logo"
             ]
         }
+
+        prodMGL {
+            resValue "string", "app_name", "CNG Complaint"
+            applicationIdSuffix ".unistalmglcng.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/mgl_logo",
+                    appIconRound: "@mipmap/mgl_logo"
+            ]
+        }
     }
 
     defaultConfig {

@@ -76,7 +76,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         AppConfig.instanceInit()!.client == Client.iglcng
             ? AppIcon.appLogoIgl
             : AppConfig.instanceInit()!.client == Client.pbgplCNG
-            ? AppIcon.appLogoPurvaBharti : AppIcon.appLogoIgl,
+            ? AppIcon.appLogoPurvaBharti
+            : AppConfig.instanceInit()!.client == Client.mahanagar
+            ? AppIcon.appLogoMGL
+            : AppIcon.appLogoIgl,
         width: MediaQuery.of(context).size.width * 0.30,
       ),
     );

@@ -8,7 +8,7 @@ enum OrderStatus { pending, confirm, complete, cancel }
 
 enum DeviceType { phone, tablet }
 
-enum Client { iglcng, pbgplCNG }
+enum Client { iglcng, pbgplCNG,  mahanagar}
 
 enum MeasurementType {pre, post, sheet, non}
 

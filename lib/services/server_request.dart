@@ -25,9 +25,8 @@ class ServerRequest {
       String url = APIs.baseUrl + urlEndPoint;
       log(Uri.parse(url.toString()).toString());
       log(header.toString());
-      final response = await get(Uri.parse(url.toString()), headers: header)
-          .timeout(const Duration(minutes: 1));
-      log(response.body);
+      final response = await get(Uri.parse(url.toString()), headers: header).timeout(const Duration(minutes: 1));
+      log("response---${response.body}");
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       } else if (response.statusCode == 500) {
@@ -61,7 +60,7 @@ class ServerRequest {
       final response =
           await put(Uri.parse(url), headers: header, body: jsonEncode(body))
               .timeout(const Duration(minutes: 1));
-      log(response.body);
+      log("response---${response.body}");
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       } else if (response.statusCode == 500) {
@@ -133,9 +132,10 @@ class ServerRequest {
       addToken();
       log(jsonEncode(body).toString());
       log(header.toString());
-      final response = await post(Uri.parse(url), headers: header, body: body)
-          .timeout(const Duration(minutes: 1));
+      final response = await post(Uri.parse(url), headers: header, body: body).timeout(const Duration(minutes: 1));
       log(response.body);
+      log("response---${response.body}");
+      log("response---${url}");
       if (response.statusCode == 200) {
         updateCookie(response);
         return jsonDecode(response.body);
@@ -170,7 +170,7 @@ class ServerRequest {
       }
       log(url.toString());
       final response =
-          await get(url, headers: header).timeout(const Duration(minutes: 1));
+      await get(url, headers: header).timeout(const Duration(minutes: 1));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
