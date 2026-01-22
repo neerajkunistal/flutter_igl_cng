@@ -71,7 +71,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           ),
                           _departmentDropDown(
                               dataState: state, context: context),*/
-                          state.assignTypeData.id == "2"
+                          state.assignTypeData.id.toString() == "2"
                               ? SizedBox(
                                   height:
                                       MediaQuery.of(context).size.width * 0.04,
@@ -180,7 +180,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget _userDropDown(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
-    return dataState.assignTypeData.id == "2"
+    return dataState.assignTypeData.id.toString() == "2"
         ? DropdownWidget(
             hint: AppString.assignUSer,
             dropdownValue: dataState.acknowledgeUserData.id != null
@@ -231,7 +231,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   Widget _vendorDropDown(
       {required FetchAcknowledgeDataState dataState,
       required BuildContext context}) {
-    return dataState.assignTypeData.id == "3"
+    return dataState.assignTypeData.id.toString() == "3"
         ? DropDownSearchWidget(
             selectedItem:
                 dataState.vendorData.id != null ? dataState.vendorData : null,

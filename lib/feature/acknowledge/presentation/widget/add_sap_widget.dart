@@ -9,14 +9,27 @@ class AddSapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final client = AppConfig.instanceInit()!.client;
     return Column(
       children: [
-        _verticalSpace(context: context),
-        _departmentDropDown(dataState: dataState, context: context),
-        _verticalSpace(context: context),
-        _plannerTypeDropDown(dataState: dataState, context: context),
-        _verticalSpace(context: context),
-        _workCenterTypeDropDown(dataState: dataState, context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :  _verticalSpace(context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :   _departmentDropDown(dataState: dataState, context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :  _verticalSpace(context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :   _plannerTypeDropDown(dataState: dataState, context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :   _verticalSpace(context: context),
+        client == Client.mahanagar
+            ? SizedBox.shrink()
+            :  _workCenterTypeDropDown(dataState: dataState, context: context),
         _verticalSpace(context: context),
         _personResponsibleController(dataState: dataState),
         _verticalSpace(context: context),

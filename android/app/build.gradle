@@ -12,16 +12,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
-
 
 
 
@@ -60,6 +50,8 @@ android {
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
+            versionCode 12
+            versionName "1.0.11-IGL"
         }
 
         pbgplCNG {
@@ -69,15 +61,23 @@ android {
                     appIcon: "@mipmap/pbgpl_logo",
                     appIconRound: "@mipmap/pbgpl_logo"
             ]
+            versionCode 01
+            versionName "1.0.0-PBGPL"
         }
 
         prodMGL {
             resValue "string", "app_name", "CNG Complaint"
             applicationIdSuffix ".unistalmglcng.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/mgl_logo",
-                    appIconRound: "@mipmap/mgl_logo"
+                    appIcon: "@mipmap/unistal_logo",
+                    appIconRound: "@mipmap/unistal_logo"
             ]
+            def keystorePropertiesFile = rootProject.file('mgl.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+            versionCode 03
+            versionName "1.0.0-MGL"
         }
     }
 
@@ -88,8 +88,6 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 23
         targetSdk 35
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
     }
 
     signingConfigs {

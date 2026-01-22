@@ -28,7 +28,13 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
             children: [
               _logo(),
               TextWidget(
-                "समाधान\nLogin",
+                AppConfig.instanceInit()!.client == Client.iglcng
+                    ? "समाधान\nLogin"
+                    : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                    ? "समाधान\nLogin"
+                    : AppConfig.instanceInit()!.client == Client.mahanagar
+                    ? "CNG Complaint\nLogin"
+                    : "समाधान\nLogin",
                 fontSize: AppFont.font_20,
                 color: AppColor.white,
                 fontWeight: FontWeight.w700,

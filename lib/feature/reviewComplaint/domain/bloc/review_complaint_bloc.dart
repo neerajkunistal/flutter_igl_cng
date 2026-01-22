@@ -255,16 +255,16 @@ class ReviewComplaintBloc
   _submit(ReviewComplaintSubmitEvent event, emit) async {
     isLoader = true;
     _eventComplete(emit);
-
+    final client = AppConfig.instanceInit()!.client;
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
-    if(sapCodeData.code == null && userData.roleType == RoleType.shiftEngineer){
+    if(sapCodeData.code == null && userData.roleType == RoleType.shiftEngineer && client !=  Client.mahanagar){
       SnackBarErrorWidget(event.context).show(message: "Please select sap code");
       isLoader = false;
       _eventComplete(emit);
       return;
     }
-    else if(codeGroupData.name == null && userData.roleType == RoleType.shiftEngineer){
+    else if(codeGroupData.name == null && userData.roleType == RoleType.shiftEngineer && client !=  Client.mahanagar){
       SnackBarErrorWidget(event.context).show(message: "Please select code group");
       isLoader = false;
       _eventComplete(emit);

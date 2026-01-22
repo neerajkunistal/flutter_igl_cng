@@ -23,7 +23,6 @@ class ReviewComaplintPage extends StatefulWidget {
 }
 
 class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +63,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   }
 
   Widget _appBar() {
-    return  AppBar(
+    return AppBar(
       backgroundColor: Colors.transparent,
       title: Align(
         alignment: Alignment.centerLeft,
@@ -80,10 +79,10 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           AppConfig.instanceInit()!.client == Client.iglcng
               ? AppIcon.appLogoIgl
               : AppConfig.instanceInit()!.client == Client.pbgplCNG
-              ? AppIcon.appLogoPurvaBharti
-              : AppConfig.instanceInit()!.client == Client.mahanagar
-              ? AppIcon.appLogoMGL
-              : AppIcon.appLogoIgl,
+                  ? AppIcon.appLogoPurvaBharti
+                  : AppConfig.instanceInit()!.client == Client.mahanagar
+                      ? AppIcon.appLogoMGL
+                      : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         )
@@ -93,6 +92,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
 
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+    final client = AppConfig.instanceInit()!.client;
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -100,29 +100,37 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
           children: [
             _complaintItemBuilder(dataState: dataState),
             _verticalSpace(),
-
             _scrapList(dataState: dataState),
             _sparePartList(dataState: dataState),
-
-            userData.roleType == RoleType.shiftEngineer ?
-            _codeGroupDropDown(dataState: dataState, context: context)
-                : const SizedBox.shrink(),
-            userData.roleType == RoleType.shiftEngineer
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                : userData.roleType == RoleType.shiftEngineer
+                    ? _codeGroupDropDown(dataState: dataState, context: context)
+                    : const SizedBox.shrink(),
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                :  userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
-            userData.roleType == RoleType.shiftEngineer ?
-            _sapCodeDropDown(dataState: dataState, context: context)
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                : userData.roleType == RoleType.shiftEngineer
+                ? _sapCodeDropDown(dataState: dataState, context: context)
                 : const SizedBox.shrink(),
-            userData.roleType == RoleType.shiftEngineer
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                : userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
-            userData.roleType == RoleType.shiftEngineer &&
-                dataState.reviewComplaintData.assignType.toString() != "1"
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                : userData.roleType == RoleType.shiftEngineer &&
+                    dataState.reviewComplaintData.assignType.toString() != "1"
                 ? _radioButton(dataState: dataState)
                 : const SizedBox.shrink(),
-            userData.roleType == RoleType.shiftEngineer
+            client == Client.mahanagar
+                ? SizedBox.shrink()
+                :  userData.roleType == RoleType.shiftEngineer
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             Row(
@@ -141,13 +149,10 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _verticalSpace(),
             _imageList(dataState: dataState),
             _verticalSpace(),
-
             AddSparePartWidget(),
-            _addPartButton( context: context),
-
+            _addPartButton(context: context),
             ScrapItemWidget(),
             _addScarpButton(dataState: dataState),
-
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -162,138 +167,170 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return dataState.reviewComplaintData.id != null
         ? Column(
-          children: [
-            ReviewComplaintItemBox(
+            children: [
+              ReviewComplaintItemBox(
                 index: 0,
                 reviewComplaintData: dataState.reviewComplaintData,
               ),
-            userData.roleType == RoleType.shiftEngineer
-            ? Container(
-              margin: EdgeInsets.all(0),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                            alignment: Alignment.topLeft,
-                            child: TextWidget("SU Details : ", fontWeight:  FontWeight.w700)),
+              userData.roleType == RoleType.shiftEngineer
+                  ? Container(
+                      margin: EdgeInsets.all(0),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Align(
+                                    alignment: Alignment.topLeft,
+                                    child: TextWidget("SU Details : ",
+                                        fontWeight: FontWeight.w700)),
+                              ),
+                              Row(
+                                children: [
+                                  TextWidget("Remark : "),
+                                  TextWidget(
+                                      "${dataState.reviewComplaintData.stationRemark}"),
+                                ],
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              Row(
+                                children: [
+                                  TextWidget("${AppString.rectifiedBy} : "),
+                                  TextWidget(
+                                      "${dataState.reviewComplaintData.rectifyBy}"),
+                                ],
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              Row(
+                                children: [
+                                  TextWidget("${AppString.date} : "),
+                                  TextWidget(
+                                      "${dataState.reviewComplaintData.stationPersonDateTime}"),
+                                ],
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.width * 0.02,
+                              ),
+                              dataState.reviewComplaintData
+                                              .stationAttachmentFile !=
+                                          null &&
+                                      dataState.reviewComplaintData
+                                          .stationAttachmentFile!.isNotEmpty
+                                  ? SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.15,
+                                      child: ListView.builder(
+                                          itemCount: dataState
+                                              .reviewComplaintData
+                                              .stationAttachmentFile!
+                                              .length,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return Image.network(
+                                              dataState.reviewComplaintData
+                                                  .stationAttachmentFile![index]
+                                                  .toString(),
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.13,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.13,
+                                            );
+                                          }),
+                                    )
+                                  : const SizedBox.shrink(),
+                            ],
+                          ),
+                        ),
                       ),
-                    Row(
-                        children: [
-                          TextWidget("Remark : "),
-                          TextWidget("${dataState.reviewComplaintData.stationRemark}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      Row(
-                        children: [
-                          TextWidget("${AppString.rectifiedBy} : "),
-                          TextWidget("${dataState.reviewComplaintData.rectifyBy}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      Row(
-                        children: [
-                          TextWidget("${AppString.date} : "),
-                          TextWidget("${dataState.reviewComplaintData.stationPersonDateTime}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      ),
-
-                      dataState.reviewComplaintData.stationAttachmentFile != null &&
-                          dataState.reviewComplaintData.stationAttachmentFile!.isNotEmpty?
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.15,
-                        child: ListView.builder(
-                            itemCount: dataState.reviewComplaintData.stationAttachmentFile!.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                             return Image.network(
-                             dataState.reviewComplaintData.stationAttachmentFile![index].toString(),
-                             height: MediaQuery.of(context).size.width * 0.13,
-                             width: MediaQuery.of(context).size.width * 0.13,
-                             );
-                        }),
-                      ) : const SizedBox.shrink(),
-                    ],
-                  ),
-                ),
-
-              ),
-            ) : const SizedBox.shrink()
-          ],
-        )
+                    )
+                  : const SizedBox.shrink()
+            ],
+          )
         : const SizedBox.shrink();
   }
 
   Widget _scrapList({required FetchReviewComplaintDataState dataState}) {
-    return  dataState.reviewComplaintData.scrapList != null &&
-        dataState.reviewComplaintData.scrapList!.isNotEmpty
+    return dataState.reviewComplaintData.scrapList != null &&
+            dataState.reviewComplaintData.scrapList!.isNotEmpty
         ? Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const DottedDividerLine(),
-            TextWidget("Scarp", fontWeight: FontWeight.w700,),
-            ListView.builder(
-            itemCount: dataState.reviewComplaintData.scrapList!.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ScrapCommonItemWidget(
-                index: index,
-                scrapData: dataState.reviewComplaintData.scrapList![index],
-                onTap: () {
-                  BlocProvider.of<ReviewComplaintBloc>(context)
-                  .add(ReviewComplaintDeleteScarpEvent(index: index));
-                },
-              );
-            }),
-            _verticalSpace(),
-            const DottedDividerLine(),
-            _verticalSpace(),
-          ],
-        ) : const SizedBox.shrink();
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const DottedDividerLine(),
+              TextWidget(
+                "Scrap",
+                fontWeight: FontWeight.w700,
+              ),
+              ListView.builder(
+                  itemCount: dataState.reviewComplaintData.scrapList!.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ScrapCommonItemWidget(
+                      index: index,
+                      scrapData:
+                          dataState.reviewComplaintData.scrapList![index],
+                      onTap: () {
+                        BlocProvider.of<ReviewComplaintBloc>(context)
+                            .add(ReviewComplaintDeleteScarpEvent(index: index));
+                      },
+                    );
+                  }),
+              _verticalSpace(),
+              const DottedDividerLine(),
+              _verticalSpace(),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _sparePartList({required FetchReviewComplaintDataState dataState}) {
-    return  dataState.reviewComplaintData.partList != null &&
-        dataState.reviewComplaintData.partList!.isNotEmpty
+    return dataState.reviewComplaintData.partList != null &&
+            dataState.reviewComplaintData.partList!.isNotEmpty
         ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const DottedDividerLine(),
-        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
-        ListView.builder(
-            itemCount: dataState.reviewComplaintData.partList!.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return SparePartCommonItemWidget(
-                index: index,
-                partModel: dataState.reviewComplaintData.partList![index],
-                onTap: () {
-                  BlocProvider.of<ReviewComplaintBloc>(context)
-                      .add(ReviewComplaintDeletePartEvent(index: index));
-                },
-              );
-            }),
-        _verticalSpace(),
-        const DottedDividerLine(),
-        _verticalSpace(),
-      ],
-    ) : const SizedBox.shrink();
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const DottedDividerLine(),
+              TextWidget(
+                "Spare Part",
+                fontWeight: FontWeight.w700,
+              ),
+              ListView.builder(
+                  itemCount: dataState.reviewComplaintData.partList!.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return SparePartCommonItemWidget(
+                      index: index,
+                      partModel: dataState.reviewComplaintData.partList![index],
+                      onTap: () {
+                        BlocProvider.of<ReviewComplaintBloc>(context)
+                            .add(ReviewComplaintDeletePartEvent(index: index));
+                      },
+                    );
+                  }),
+              _verticalSpace(),
+              const DottedDividerLine(),
+              _verticalSpace(),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _radioButton({required FetchReviewComplaintDataState dataState}) {
@@ -362,42 +399,44 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
 
   Widget _sapCodeDropDown(
       {required FetchReviewComplaintDataState dataState,
-        required BuildContext context}) {
-    return dataState.sapCodeLoader == false ?
-    DropdownWidget(
-      hint: AppString.sapCode,
-      dropdownValue:
-      dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
-      onChanged: (value) {
-        BlocProvider.of<ReviewComplaintBloc>(context)
-            .add(ReviewComplaintSelectSapCodeEvent(sapCodeData: value));
-      },
-      items: dataState.sapCodeList
-          .map<DropdownMenuItem<SapCodeModel>>((SapCodeModel sapCodeData) {
-        return DropdownMenuItem<SapCodeModel>(
-          value: sapCodeData,
-          child: TextWidget(sapCodeData.name.toString()),
-        );
-      }).toList(),
-    ) : const DottedLoaderWidget();
+      required BuildContext context}) {
+    return dataState.sapCodeLoader == false
+        ? DropdownWidget(
+            hint: AppString.sapCode,
+            dropdownValue:
+                dataState.sapCodeData.id != null ? dataState.sapCodeData : null,
+            onChanged: (value) {
+              BlocProvider.of<ReviewComplaintBloc>(context)
+                  .add(ReviewComplaintSelectSapCodeEvent(sapCodeData: value));
+            },
+            items: dataState.sapCodeList.map<DropdownMenuItem<SapCodeModel>>(
+                (SapCodeModel sapCodeData) {
+              return DropdownMenuItem<SapCodeModel>(
+                value: sapCodeData,
+                child: TextWidget(sapCodeData.name.toString()),
+              );
+            }).toList(),
+          )
+        : const DottedLoaderWidget();
   }
 
   Widget _codeGroupDropDown(
       {required FetchReviewComplaintDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return DropdownWidget(
       hint: AppString.codeGroup,
       dropdownValue:
-      dataState.codeGroupData.name != null ? dataState.codeGroupData : null,
+          dataState.codeGroupData.name != null ? dataState.codeGroupData : null,
       onChanged: (value) {
         BlocProvider.of<ReviewComplaintBloc>(context)
             .add(ReviewComplaintSelectCodeGroupEvent(codeGroupData: value));
       },
-      items: dataState.codeGroupList
-          .map<DropdownMenuItem<CodeGroupModel>>((CodeGroupModel codeGroupData) {
+      items: dataState.codeGroupList.map<DropdownMenuItem<CodeGroupModel>>(
+          (CodeGroupModel codeGroupData) {
         return DropdownMenuItem<CodeGroupModel>(
           value: codeGroupData,
-          child: TextWidget("${codeGroupData.name.toString()}-${codeGroupData.code.toString()}"),
+          child: TextWidget(
+              "${codeGroupData.name.toString()}-${codeGroupData.code.toString()}"),
         );
       }).toList(),
     );
@@ -518,8 +557,8 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                       alignment: Alignment.topRight,
                       child: InkWell(
                         onTap: () {
-                          BlocProvider.of<ReviewComplaintBloc>(context)
-                          .add(ReviewComplaintRemoveImageEvent(index: index));
+                          BlocProvider.of<ReviewComplaintBloc>(context).add(
+                              ReviewComplaintRemoveImageEvent(index: index));
                         },
                         child: Icon(
                           Icons.close,
@@ -573,22 +612,20 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  Widget _scrapCheckBoxWidget({required FetchReviewComplaintDataState dataState}) {
+  Widget _scrapCheckBoxWidget(
+      {required FetchReviewComplaintDataState dataState}) {
     return Row(
       children: [
         Checkbox(
           value: dataState.isNoScrap,
           onChanged: (bool? value) async {
-            BlocProvider.of<ReviewComplaintBloc>(context).add(
-                ReviewComplaintSelectScrapData(isNoScrap: value!)
-            );
-            if(value == false){
-              var result = await Navigator.push(context,
-                  FadeRoute(page: const AddScrapPage()));
+            BlocProvider.of<ReviewComplaintBloc>(context)
+                .add(ReviewComplaintSelectScrapData(isNoScrap: value!));
+            if (value == false) {
+              var result = await Navigator.push(
+                  context, FadeRoute(page: const AddScrapPage()));
               if (!context.mounted) result;
-              if (result.toString() == "Completed") {
-
-              }
+              if (result.toString() == "Completed") {}
             }
           },
           activeColor: Colors.green,
@@ -599,7 +636,6 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-
   Widget _addScarpButton({required FetchReviewComplaintDataState dataState}) {
     return Align(
       alignment: Alignment.topRight,
@@ -608,27 +644,24 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
         child: ButtonWidget(
             text: AppString.addScrap,
             height:
-            AppConfig.getDeviceType(context: context) == DeviceType.tablet
-                ? MediaQuery.of(context).size.height * 0.13
-                : null,
+                AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                    ? MediaQuery.of(context).size.height * 0.13
+                    : null,
             onPressed: () async {
-              var result = await Navigator.push(context,
-                  FadeRoute(page: const AddScrapPage()));
+              var result = await Navigator.push(
+                  context, FadeRoute(page: const AddScrapPage()));
               if (!context.mounted) result;
-              if (result.toString() == "Completed") {
-
-              }
+              if (result.toString() == "Completed") {}
             }),
       ),
     );
   }
 
-  Widget _addPartButton(
-      {required BuildContext context}) {
+  Widget _addPartButton({required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width/2.6,
+        width: MediaQuery.of(context).size.width / 2.6,
         child: ButtonWidget(
             text: AppString.addPart,
             onPressed: () {

@@ -17,6 +17,10 @@ class ReviewComplaintModel {
   String? systemId;
   String? complaintTypeId;
   String? attachmentFile;
+  String? equipmentTypeName;
+  String? equipmentVendor;
+  String? equipmentVendorCode;
+  String? cngStationType;
   dynamic stationPersonName;
   dynamic stationPersonSign;
   dynamic stationPersonDateTime;
@@ -165,6 +169,11 @@ class ReviewComplaintModel {
     this.stationAttachmentFile,
     this.sapRejectError,
     this.vendorComplaintNumber,
+    this.equipmentTypeName,
+    this.cngStationType,
+    this.equipmentVendor,
+    this.equipmentVendorCode,
+
   });
 
   ReviewComplaintModel.fromJson(Map<String, dynamic> json) {
@@ -255,6 +264,10 @@ class ReviewComplaintModel {
       miAssignToUser = json['mi_assign_to_vendor_name'] ?? "";
     }
     isSelected =  false;
+    equipmentVendor = json['equipment_vendor'] ?? "";
+    equipmentVendorCode = json['equipment_vendor_code'] ?? "";
+    equipmentTypeName = json['equipment_type_name'] ?? "";
+    cngStationType = json['cng_station_type'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -309,6 +322,10 @@ class ReviewComplaintModel {
     data['spare_id'] = spareId;
     data['se_approval'] = seApproval;
     data['se_observation'] = seObservation;
+    data['equipment_vendor'] = equipmentVendor;
+    data['equipment_vendor_code'] = equipmentVendorCode;
+    data['equipment_type_name'] = equipmentTypeName;
+    data['cng_station_type'] = cngStationType;
     return data;
   }
 }

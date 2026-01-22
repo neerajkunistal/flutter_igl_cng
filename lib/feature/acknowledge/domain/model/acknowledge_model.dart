@@ -42,6 +42,11 @@ class AcknowledgeModel {
   String? complaintStatusCloseBy;
   String? source;
   String? createdAt;
+  String? createdBy;
+  String? equipmentTypeName;
+  String? equipmentVendor;
+  String? equipmentVendorCode;
+  String? cngStationType;
   String? updatedAt;
   dynamic attachmentFileType;
   String? tokenNo;
@@ -110,6 +115,11 @@ class AcknowledgeModel {
     this.complaintStatusCloseBy,
     this.source,
     this.createdAt,
+    this.createdBy,
+    this.equipmentTypeName,
+    this.cngStationType,
+    this.equipmentVendor,
+    this.equipmentVendorCode,
     this.updatedAt,
     this.attachmentFileType,
     this.tokenNo,
@@ -179,6 +189,11 @@ class AcknowledgeModel {
     complaintStatusCloseBy = json['complaint_status_close_by'] ?? "";
     source = json['source'] ?? "";
     createdAt = json['created_at'] ?? "";
+    createdBy = json['created_by'] ?? "";
+    equipmentVendor = json['equipment_vendor'] ?? "";
+    equipmentVendorCode = json['equipment_vendor_code'] ?? "";
+    equipmentTypeName = json['equipment_type_name'] ?? "";
+    cngStationType = json['cng_station_type'] ?? "";
     updatedAt = json['updated_at'] ?? "";
     attachmentFileType = json['attachment_file_type'] ?? "";
     tokenNo = json['token_no'] ?? "";
@@ -248,6 +263,11 @@ class AcknowledgeModel {
     data['complaint_status_close_by'] = complaintStatusCloseBy;
     data['source'] = source;
     data['created_at'] = createdAt;
+    data['created_by'] = createdBy;
+    data['equipment_vendor'] = equipmentVendor;
+    data['equipment_vendor_code'] = equipmentVendorCode;
+    data['equipment_type_name'] = equipmentTypeName;
+    data['cng_station_type'] = cngStationType;
     data['updated_at'] = updatedAt;
     data['attachment_file_type'] = attachmentFileType;
     data['token_no'] = tokenNo;

@@ -46,10 +46,34 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
-                    name: "Station Name",
-                    value: acknowledgeData.cngStationName.toString()),
+                  name: "Station Name",
+                  value:
+                  "${acknowledgeData.cngStationName ?? ""}"
+                      "${acknowledgeData.cngStationType != null &&
+                      acknowledgeData.cngStationType!.isNotEmpty
+                      ? " (${acknowledgeData.cngStationType})"
+                      : ""}",
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                  name: "Equipment Type Name",
+                  value: acknowledgeData.equipmentTypeName ?? "",
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                  name: "Equipment vendor",
+                  value: acknowledgeData.equipmentVendor ?? "",
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                  name: "Equipment vendor code",
+                  value: acknowledgeData.equipmentVendorCode ?? "",
                 ),
                 _rowWidget(
                     name: acknowledgeData.equipmentCode.toString().isNotEmpty

@@ -12,16 +12,17 @@ class ReviewComplaintItemBox extends StatelessWidget {
   final int index;
   final bool? isDetailPage;
 
-  const ReviewComplaintItemBox({super.key,
-    required this.reviewComplaintData,
-    required this.index,
-    this.isDetailPage
-  });
+  const ReviewComplaintItemBox(
+      {super.key,
+      required this.reviewComplaintData,
+      required this.index,
+      this.isDetailPage});
 
   @override
   Widget build(BuildContext context) {
     LoginDataModel userData = UserInfo.instance!.userData!;
-    int tabIndex =  BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
+    int tabIndex =
+        BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
 
     String maintenanceStatus = "";
     String status = "";
@@ -34,44 +35,56 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 ? "Closed"
                 : "";
 
-    status =
-       reviewComplaintData.rejectStatus.toString() == "1"
-      ? "Reopen"
-       : reviewComplaintData.complaintStatus.toString() == "0"
-        ? "New"
-           : reviewComplaintData.complaintStatus.toString() == "1"
-              && reviewComplaintData.ackStatus.toString() == "2"
-            ? "Reject - Not Acknowledge"
-           : reviewComplaintData.complaintStatus.toString() == "1"
-             ? "Completed"
-            : reviewComplaintData.complaintStatus.toString() == "2"
-                ? "Reject"
-                : "";
+    status = reviewComplaintData.rejectStatus.toString() == "1"
+        ? "Reopen"
+        : reviewComplaintData.complaintStatus.toString() == "0"
+            ? "New"
+            : reviewComplaintData.complaintStatus.toString() == "1" &&
+                    reviewComplaintData.ackStatus.toString() == "2"
+                ? "Reject - Not Acknowledge"
+                : reviewComplaintData.complaintStatus.toString() == "1"
+                    ? "Completed"
+                    : reviewComplaintData.complaintStatus.toString() == "2"
+                        ? "Reject"
+                        : "";
 
     return Card(
-      shape: userData.roleType == RoleType.stationUser && tabIndex == 4 && reviewComplaintData.ackStatus.toString() == "1"
-          && reviewComplaintData.complaintStatus.toString() == "3"
-          ?  RoundedRectangleBorder(
-          side: BorderSide(color: Colors.green, width: 2.0),
-          borderRadius: BorderRadius.circular(10.0))
-        : userData.roleType == RoleType.stationUser &&  tabIndex == 4 && reviewComplaintData.ackStatus.toString() == "1"
-          && reviewComplaintData.complaintStatus.toString() == "0"
-          ?  RoundedRectangleBorder(
-          side: BorderSide(color: Colors.red, width: 2.0),
-          borderRadius: BorderRadius.circular(10.0))
-          : RoundedRectangleBorder(
-          side: BorderSide(color: userData.roleType == RoleType.shiftEngineer && tabIndex == 6 // self
-              ? Colors.orange
-              :userData.roleType == RoleType.shiftEngineer && tabIndex == 1 // Mi
-              ? Colors.purple
-              :userData.roleType == RoleType.shiftEngineer && tabIndex == 2 // Vendor
-              ? Colors.yellow
-              :userData.roleType == RoleType.shiftEngineer && tabIndex == 5 // close
-              ? Colors.white
-              :userData.roleType == RoleType.shiftEngineer && tabIndex == 3 // close
-              ? Colors.green
-              :AppColor.white, width: 2.0),
-          borderRadius: BorderRadius.circular(10.0)),
+      shape: userData.roleType == RoleType.stationUser &&
+              tabIndex == 4 &&
+              reviewComplaintData.ackStatus.toString() == "1" &&
+              reviewComplaintData.complaintStatus.toString() == "3"
+          ? RoundedRectangleBorder(
+              side: BorderSide(color: Colors.green, width: 2.0),
+              borderRadius: BorderRadius.circular(10.0))
+          : userData.roleType == RoleType.stationUser &&
+                  tabIndex == 4 &&
+                  reviewComplaintData.ackStatus.toString() == "1" &&
+                  reviewComplaintData.complaintStatus.toString() == "0"
+              ? RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.red, width: 2.0),
+                  borderRadius: BorderRadius.circular(10.0))
+              : RoundedRectangleBorder(
+                  side: BorderSide(
+                      color: userData.roleType == RoleType.shiftEngineer &&
+                              tabIndex == 6 // self
+                          ? Colors.orange
+                          : userData.roleType == RoleType.shiftEngineer &&
+                                  tabIndex == 1 // Mi
+                              ? Colors.purple
+                              : userData.roleType == RoleType.shiftEngineer &&
+                                      tabIndex == 2 // Vendor
+                                  ? Colors.yellow
+                                  : userData.roleType ==
+                                              RoleType.shiftEngineer &&
+                                          tabIndex == 5 // close
+                                      ? Colors.white
+                                      : userData.roleType ==
+                                                  RoleType.shiftEngineer &&
+                                              tabIndex == 3 // close
+                                          ? Colors.green
+                                          : AppColor.white,
+                      width: 2.0),
+                  borderRadius: BorderRadius.circular(10.0)),
       shadowColor: AppColor.themeColor,
       elevation: 2,
       color: AppColor.white,
@@ -93,11 +106,36 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
-                    name: "Station Name",
-                    value: reviewComplaintData.cngStationName.toString()),
+                  name: "Station Name",
+                  value:
+                  "${reviewComplaintData.cngStationName ?? ""}"
+                      "${reviewComplaintData.cngStationType != null &&
+                      reviewComplaintData.cngStationType!.isNotEmpty
+                      ? " (${reviewComplaintData.cngStationType})"
+                      : ""}",
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
+                _rowWidget(
+                  name: "Equipment Type Name",
+                  value: reviewComplaintData.equipmentTypeName ?? "",
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                  name: "Equipment vendor",
+                  value: reviewComplaintData.equipmentVendor ?? "",
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.02,
+                ),
+                _rowWidget(
+                  name: "Equipment vendor code",
+                  value: reviewComplaintData.equipmentVendorCode ?? "",
+                ),
+
                 _rowWidget(
                     name:
                         reviewComplaintData.equipmentCode.toString().isNotEmpty
@@ -114,7 +152,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 reviewComplaintData.equipmentCode.toString().isNotEmpty &&
                         userData.roleType != RoleType.stationUser
                     ? _rowWidget(
-                        name: "vendor Code",
+                        name: "Vendor Code",
                         value: reviewComplaintData.vendorCode.toString())
                     : const SizedBox.shrink(),
                 reviewComplaintData.equipmentCode.toString().isNotEmpty &&
@@ -123,17 +161,24 @@ class ReviewComplaintItemBox extends StatelessWidget {
                         height: MediaQuery.of(context).size.width * 0.02,
                       )
                     : const SizedBox.shrink(),
-                _rowWidget(name: "Complaint Status",
-                    value: status, color: reviewComplaintData.rejectStatus.toString() == "1"
-                        ? AppColor.orange : null),
+                _rowWidget(
+                    name: "Complaint Status",
+                    value: status,
+                    color: reviewComplaintData.rejectStatus.toString() == "1"
+                        ? AppColor.orange
+                        : null),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Complaint Date", value: reviewComplaintData.complaintDateTime.toString()),
+                _rowWidget(
+                    name: "Complaint Date",
+                    value: reviewComplaintData.complaintDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Report Date Time", value: reviewComplaintData.reportDateTime.toString()),
+                _rowWidget(
+                    name: "Report Date Time",
+                    value: reviewComplaintData.reportDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
@@ -151,51 +196,66 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-    /*            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
+                /*            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),*/
-                _rowWidget(name: "Closed Date Time", value: reviewComplaintData.maintenanceEndDate.toString()),
+                _rowWidget(
+                    name: "Closed Date Time",
+                    value: reviewComplaintData.maintenanceEndDate.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-
-                reviewComplaintData.complaintStatus.toString() == "3" ?
-                _rowWidget(name: "Closure Status", value: "Pending", color: AppColor.red) : const SizedBox.shrink(),
-                reviewComplaintData.complaintStatus.toString() == "3" ?
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ): const SizedBox.shrink(),
-
-                isDetailPage == true ?
-                const SizedBox.shrink()
-                : _closureButton(context: context, reviewComplaintData: reviewComplaintData),
-
-                userData.roleType != RoleType.stationUser
-                    ? _rowWidget(name: "Notification No", value: reviewComplaintData.notificationNo.toString())
+                reviewComplaintData.complaintStatus.toString() == "3"
+                    ? _rowWidget(
+                        name: "Closure Status",
+                        value: "Pending",
+                        color: AppColor.red)
                     : const SizedBox.shrink(),
-
+                reviewComplaintData.complaintStatus.toString() == "3"
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
+                    : const SizedBox.shrink(),
+                isDetailPage == true
+                    ? const SizedBox.shrink()
+                    : _closureButton(
+                        context: context,
+                        reviewComplaintData: reviewComplaintData),
+                userData.roleType != RoleType.stationUser
+                    ? _rowWidget(
+                        name: "Notification No",
+                        value: reviewComplaintData.notificationNo.toString())
+                    : const SizedBox.shrink(),
                 reviewComplaintData.vendorComplaintNumber.toString().isNotEmpty
                     ? _rowWidget(
-                    name: "Vendor Complaint No",
-                    value: reviewComplaintData.vendorComplaintNumber.toString())
+                        name: "Vendor Complaint No",
+                        value: reviewComplaintData.vendorComplaintNumber
+                            .toString())
                     : const SizedBox.shrink(),
                 reviewComplaintData.vendorComplaintNumber.toString().isNotEmpty
                     ? SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ): const SizedBox.shrink(),
-
-                userData.roleType != RoleType.stationUser && reviewComplaintData.sapRejectError.toString().isNotEmpty
-                    ? _rowWidget(name: "Sap Reject Error", value: reviewComplaintData.sapRejectError.toString(), color: AppColor.red)
+                        height: MediaQuery.of(context).size.width * 0.02,
+                      )
                     : const SizedBox.shrink(),
-
+                userData.roleType != RoleType.stationUser &&
+                        reviewComplaintData.sapRejectError.toString().isNotEmpty
+                    ? _rowWidget(
+                        name: "Sap Reject Error",
+                        value: reviewComplaintData.sapRejectError.toString(),
+                        color: AppColor.red)
+                    : const SizedBox.shrink(),
                 Container(
                     height: 1,
                     color: AppColor.lightGrey,
                     width: MediaQuery.of(context).size.width),
                 _rowBottomWidget(
                     name: "Description",
-                    value: reviewComplaintData.crComplaintDescription.toString().isNotEmpty ? reviewComplaintData.crComplaintDescription.toString() : reviewComplaintData.complaintDescription.toString()),
+                    value: reviewComplaintData.crComplaintDescription
+                            .toString()
+                            .isNotEmpty
+                        ? reviewComplaintData.crComplaintDescription.toString()
+                        : reviewComplaintData.complaintDescription.toString()),
               ],
             ),
           ),
@@ -243,16 +303,20 @@ class ReviewComplaintItemBox extends StatelessWidget {
     );
   }
 
-  Widget _rowWidget({required String name, required String value, Color? color}) {
+  Widget _rowWidget(
+      {required String name, required String value, Color? color}) {
     return Padding(
       padding: const EdgeInsets.only(left: 10.0, right: 10.0),
       child: Row(
         children: [
           TextWidget("$name : ", fontSize: AppFont.font_13),
           Expanded(
-              child: TextWidget(value,
-                  textAlign: TextAlign.end, fontSize: AppFont.font_13,
-                color: color ?? AppColor.black,)),
+              child: TextWidget(
+            value,
+            textAlign: TextAlign.end,
+            fontSize: AppFont.font_13,
+            color: color ?? AppColor.black,
+          )),
         ],
       ),
     );
@@ -281,62 +345,70 @@ class ReviewComplaintItemBox extends StatelessWidget {
     );
   }
 
-  Widget _closureButton({required BuildContext context,
-     required ReviewComplaintModel reviewComplaintData})  {
-    LoginDataModel userData =  UserInfo.instance!.userData!;
-    return
-      (reviewComplaintData.rejectStatus.toString() == "1" &&userData.roleType == RoleType.stationUser)
-          || ((reviewComplaintData.seAssignStatus.toString() == "0"
-          && reviewComplaintData.ackStatus.toString() == "0")
-          || (reviewComplaintData.seAssignStatus.toString() == "1"
-              && reviewComplaintData.ackStatus.toString() == "1"))
-            && (reviewComplaintData.complaintStatus.toString() == "0" &&
-          reviewComplaintData.assignType.toString() != "3" &&
-              userData.roleType == RoleType.stationUser)  ?
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width/3,
-            child: reviewComplaintData.isSelected == false ?
-            ButtonWidget(
-              backgroundColor: AppColor.red,
-              text: "Closure",
-              fontSize: AppFont.font_12,
-              onPressed: () async {
-                BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
-                BlocProvider.of<AddScrapBloc>(context).add(AddScrapClearScrapDataEvent(context: context));
-                BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
-                    ViewEquipmentComplaintSelectedComplaintEvent(index: index));
-                var result = await Navigator.push(context,
-                    FadeRoute(page: const ViewEquipmentComplaintDetailPage()));
-                if (result.toString() == "Completed") {
-                  BlocProvider.of<ViewEquipmentComplaintBloc>(
-                      !context.mounted ? context : context)
-                      .add(ViewEquipmentComplaintPageLoadEvent(
-                      context:
-                      !context.mounted ? context : context));
-                }
+  Widget _closureButton(
+      {required BuildContext context,
+      required ReviewComplaintModel reviewComplaintData}) {
+    LoginDataModel userData = UserInfo.instance!.userData!;
+    return (reviewComplaintData.rejectStatus.toString() == "1" &&
+                userData.roleType == RoleType.stationUser) ||
+            ((reviewComplaintData.seAssignStatus.toString() == "0" &&
+                        reviewComplaintData.ackStatus.toString() == "0") ||
+                    (reviewComplaintData.seAssignStatus.toString() == "1" &&
+                        reviewComplaintData.ackStatus.toString() == "1")) &&
+                (reviewComplaintData.complaintStatus.toString() == "0" &&
+                    reviewComplaintData.assignType.toString() != "3" &&
+                    userData.roleType == RoleType.stationUser)
+        ? Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 3,
+              child: reviewComplaintData.isSelected == false
+                  ? ButtonWidget(
+                      backgroundColor: AppColor.red,
+                      text: "Closure",
+                      fontSize: AppFont.font_12,
+                      onPressed: () async {
+                        BlocProvider.of<AddSparePartBloc>(context)
+                            .add(AddSparePartClearSparePartEvent());
+                        BlocProvider.of<AddScrapBloc>(context)
+                            .add(AddScrapClearScrapDataEvent(context: context));
+                        BlocProvider.of<ViewEquipmentComplaintBloc>(context)
+                            .add(ViewEquipmentComplaintSelectedComplaintEvent(
+                                index: index));
+                        var result = await Navigator.push(
+                            context,
+                            FadeRoute(
+                                page:
+                                    const ViewEquipmentComplaintDetailPage()));
+                        if (result.toString() == "Completed") {
+                          BlocProvider.of<ViewEquipmentComplaintBloc>(
+                                  !context.mounted ? context : context)
+                              .add(ViewEquipmentComplaintPageLoadEvent(
+                                  context:
+                                      !context.mounted ? context : context));
+                        }
 
 /*                if(await _onClosureComplaintPop(context: context) == true){
                   BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
                       ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,
                       reviewComplaintData: reviewComplaintData, index: index));
                 }*/
-              },
-            ) : const DottedLoaderWidget(),
-          ),
-        ) : const SizedBox.shrink();
-   }
+                      },
+                    )
+                  : const DottedLoaderWidget(),
+            ),
+          )
+        : const SizedBox.shrink();
+  }
 
   Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
     return (await showDialog(
-        context: context,
-        builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
-            message: "Do you want to closure complaint?",
-            okButtonText: "Closure",
-             okButtonColour: AppColor.red,
-            onPressed: () => Navigator.of(context).pop(true)))) ??
+            context: context,
+            builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
+                message: "Do you want to closure complaint?",
+                okButtonText: "Closure",
+                okButtonColour: AppColor.red,
+                onPressed: () => Navigator.of(context).pop(true)))) ??
         false;
   }
-
 }

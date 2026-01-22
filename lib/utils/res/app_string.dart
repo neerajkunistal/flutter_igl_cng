@@ -45,7 +45,7 @@ class AppString {
 
   static get addItem => "Add Item";
 
-  static get addScrap => "Add Scarp";
+  static get addScrap => "Add Scrap";
 
   static get ok => "Ok";
 
@@ -532,7 +532,8 @@ class AppString {
 
   static get searchVehicleNo => "Search Vehicle No";
 
-  static get enterSapComplaintDescription => "Enter Sap Complaint Description";
+ // static get enterSapComplaintDescription => "Enter Sap Complaint Description";
+  static get enterSapComplaintDescription => "Complaint Description";
 
   static get enterRemarkForComplaintRejection => "Enter Remarks For Complaint Rejection";
 

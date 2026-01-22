@@ -23,9 +23,12 @@ class ServerRequest {
       }
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
-      log(Uri.parse(url.toString()).toString());
+
+      log("url--->${Uri.parse(url.toString()).toString()}");
       log(header.toString());
-      final response = await get(Uri.parse(url.toString()), headers: header).timeout(const Duration(minutes: 1));
+      final response = await get(Uri.parse(url.toString()), headers: header)
+          .timeout(const Duration(minutes: 1));
+
       log("response---${response.body}");
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -56,7 +59,7 @@ class ServerRequest {
       }
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
-      log(url);
+      log("url--->${url}");
       final response =
           await put(Uri.parse(url), headers: header, body: jsonEncode(body))
               .timeout(const Duration(minutes: 1));
@@ -100,6 +103,7 @@ class ServerRequest {
       final response =
           await post(Uri.parse(url), headers: header, body: jsonEncode(body))
               .timeout(const Duration(minutes: 1));
+      log("url--->${url}");
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -128,11 +132,12 @@ class ServerRequest {
       {required var urlEndPoint, required var body}) async {
     try {
       String url = APIs.baseUrl + urlEndPoint;
-      log(url);
+      log("url--->${url}");
       addToken();
       log(jsonEncode(body).toString());
       log(header.toString());
-      final response = await post(Uri.parse(url), headers: header, body: body).timeout(const Duration(minutes: 1));
+      final response = await post(Uri.parse(url), headers: header, body: body)
+          .timeout(const Duration(minutes: 1));
       log(response.body);
       log("response---${response.body}");
       log("response---${url}");
@@ -170,7 +175,7 @@ class ServerRequest {
       }
       log(url.toString());
       final response =
-      await get(url, headers: header).timeout(const Duration(minutes: 1));
+          await get(url, headers: header).timeout(const Duration(minutes: 1));
       log(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
@@ -194,7 +199,7 @@ class ServerRequest {
 
   static Future<dynamic> firebasePushNotification({var url, var body}) async {
     try {
-      var token =  await NotificationHelper.obtainAuthenticatedClient();
+      var token = await NotificationHelper.obtainAuthenticatedClient();
       var headerData = {
         HttpHeaders.authorizationHeader: "Bearer $token",
         "Content-Type": "application/json; charset=UTF-8"
@@ -240,12 +245,12 @@ class ServerRequest {
           if (fileData.file.path.isNotEmpty) {
             String fileExtention = fileData.file.path.split(".").last;
             String filePath0 =
-                (fileExtention.toString().toLowerCase() == "pdf"
-                    || fileExtention.toString().toLowerCase() == "mp4"
-                    || fileExtention.toString().toLowerCase() == "xls"
-                    || fileExtention.toString().toLowerCase() == "xlsx"
-                    || fileExtention.toString().toLowerCase() == "csv"
-                    || fileExtention.toString().toLowerCase() == "mov")
+                (fileExtention.toString().toLowerCase() == "pdf" ||
+                        fileExtention.toString().toLowerCase() == "mp4" ||
+                        fileExtention.toString().toLowerCase() == "xls" ||
+                        fileExtention.toString().toLowerCase() == "xlsx" ||
+                        fileExtention.toString().toLowerCase() == "csv" ||
+                        fileExtention.toString().toLowerCase() == "mov")
                     ? fileData.file.path.toString()
                     : fileData.file.path.toString();
             if (fileData.file.toString().isNotEmpty) {
@@ -265,14 +270,15 @@ class ServerRequest {
           if (filePath.isNotEmpty) {
             File file = File(filePath);
             String fileExtention = filePath.split(".").last;
-            String filePath1 = fileExtention.toString().toLowerCase() != "pdf"
-                || fileExtention.toString().toLowerCase() != "mp4"
-                || fileExtention.toString().toLowerCase() != "mov"
-                || fileExtention.toString().toLowerCase() != "xls"
-                || fileExtention.toString().toLowerCase() != "xlsx"
-                || fileExtention.toString().toLowerCase() != "csv"
-                ? file.path.toString()
-                : file.path.toString();
+            String filePath1 =
+                fileExtention.toString().toLowerCase() != "pdf" ||
+                        fileExtention.toString().toLowerCase() != "mp4" ||
+                        fileExtention.toString().toLowerCase() != "mov" ||
+                        fileExtention.toString().toLowerCase() != "xls" ||
+                        fileExtention.toString().toLowerCase() != "xlsx" ||
+                        fileExtention.toString().toLowerCase() != "csv"
+                    ? file.path.toString()
+                    : file.path.toString();
             var uploadFile = await MultipartFile.fromPath(keyWord, filePath1,
                 contentType: MediaType("file", fileExtention));
             request.files.add(uploadFile);
@@ -339,8 +345,7 @@ class ServerRequest {
     if (lastIndex == filePath.lastIndexOf(RegExp(r'.png'))) {
       final compressedImage = await FlutterImageCompress.compressAndGetFile(
           filePath, outPath,
-          quality: 50,
-          format: CompressFormat.png);
+          quality: 50, format: CompressFormat.png);
       return compressedImage!.path.toString();
     } else {
       final compressedImage = await FlutterImageCompress.compressAndGetFile(
@@ -377,12 +382,16 @@ class ServerRequest {
     return null;
   }
 
-  static Future<dynamic> iglPost({var url, var body,
-         required String userName, required String password}) async {
+  static Future<dynamic> iglPost(
+      {var url,
+      var body,
+      required String userName,
+      required String password}) async {
     try {
       var headerData = {
-      "Authorization" : 'Basic ${base64.encode(utf8.encode('$userName:$password'))}',
-      "Content-Type": "application/json; charset=UTF-8"
+        "Authorization":
+            'Basic ${base64.encode(utf8.encode('$userName:$password'))}',
+        "Content-Type": "application/json; charset=UTF-8"
       };
       log(url);
       log(jsonEncode(body));

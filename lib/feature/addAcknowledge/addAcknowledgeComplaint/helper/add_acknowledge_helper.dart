@@ -117,13 +117,12 @@ class AddAcknowledgeComplaintHelper {
             : "0",
         "description": description,
         "complaintDateTime": "$date $time",
-        "departmentId":
-            departmentData.id != null ? departmentData.id.toString() : "0",
+        "departmentId": departmentData.id != null ? departmentData.id.toString() : "0",
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
         "ackRemarks": remark,
-        "planner_group" : plannerData.id != null ? plannerData.plannerGroup.toString() : "",
-        "main_work_center" :workCenterData.id != null ? workCenterData.workCenter.toString() : "",
+        "planner_group" : plannerData.id != null ? plannerData.plannerGroup.toString() : "0",
+        "main_work_center" :workCenterData.id != null ? workCenterData.workCenter.toString() : "0",
         "person_responsible" : personResponsible,
       };
       if (!context.mounted) return null;

@@ -111,7 +111,7 @@ class _ViewEquipmentComplaintDetailPageState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const DottedDividerLine(),
-        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        TextWidget("Scrap", fontWeight: FontWeight.w700,),
         ListView.builder(
             itemCount: dataState.reviewComplaintList[dataState.index].scrapList!.length,
             shrinkWrap: true,

@@ -56,6 +56,7 @@ class ReviewComplaintHelper {
       required CodeGroupModel codeGroupData,
       }) async {
     try {
+      final client = AppConfig.instanceInit()!.client;
       String url = APIs.addReviewComplaintApi;
       var json = {
         "complaintId": complaintId.isNotEmpty
@@ -68,8 +69,8 @@ class ReviewComplaintHelper {
         "rectifyPerson": approvalValue,
         "closeDateTime": "$closedDate $closedTime",
         "scrap" : scrapList.isEmpty ? "0" :"1",
-        "sapCode" : sapCodeData.code != null ? sapCodeData.id.toString() : "",
-        "codeGroup" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
+        "sapCode" : client ==  Client.mahanagar ? "0" :sapCodeData.code != null ? sapCodeData.id.toString() : "",
+        "codeGroup" : client ==  Client.mahanagar ? "0" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
         "spares": partList.isNotEmpty
             ? jsonEncode(partList.map((e) => e.toJson()).toList())
             .toString()

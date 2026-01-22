@@ -96,7 +96,8 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     mainWorkCenterController.text = "";
     personResponsibleController.text = "";
     assignTypeData = AssignTypeModel();
-    assignTypeList = AssignTypeModel().fetchData();
+  //  assignTypeList = AssignTypeModel().fetchData();
+    assignTypeList = await AcknowledgeHelper.fetchCNGComplainAssignData() ?? [];
     _selectTabIndex = event.selectTabIndex;
     plannerData =  PlannerModel();
     workCenterData =  WorkCenterModel();

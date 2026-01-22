@@ -122,21 +122,15 @@ class AddEquipmentComplaintHelper {
       String url = APIs.addComplaintApi;
       print("url-->${url}");
       var json = {
-        "complaintTypeId": complaintTypeData.id != null
-            ? complaintTypeData.id.toString()
-            : "0",
-        "equipmentId": equipmentTypeData.id != null
-            ? equipmentTypeData.id.toString()
-            : "0",
+        "complaintTypeId": complaintTypeData.id != null ? complaintTypeData.id.toString() : "0",
+        "equipmentId": equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
         "description": description,
         "reportBy": name,
         "complaintDateTime": "$date $time",
         "generalComplaintDesc": generalDescription,
-        "generalComplaintId": generalComplaintData.id != null
-            ? generalComplaintData.id.toString()
-            : "0",
+        "generalComplaintId": generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
       };
-
+      print("url-->${url}");
       List<FileModel> fileList = [];
       int i = 0;
       for (var fileData in file) {
@@ -150,8 +144,9 @@ class AddEquipmentComplaintHelper {
 
       for (var fileData in videoFiles) {
         if (fileData.path.isNotEmpty) {
-          fileList.add(
-              FileModel(name: "file", file: fileData, keyName: "videoFile"));
+          fileList.add(FileModel(name: "file", file: fileData, keyName: "videoFile"));
+          print('fileData--->${fileData}');
+          print('fileList--->${fileList}');
         }
       }
       if (!context.mounted) return null;

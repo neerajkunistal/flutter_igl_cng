@@ -207,7 +207,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const DottedDividerLine(),
-        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        TextWidget("Scrap", fontWeight: FontWeight.w700,),
         ListView.builder(
             itemCount: dataState.reviewComplaintData.scrapList!.length,
             shrinkWrap: true,

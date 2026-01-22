@@ -73,19 +73,24 @@ class _SplashScreenState extends State<SplashScreen> {
                     AppConfig.instanceInit()!.client == Client.iglcng
                         ? AppIcon.appLogoIgl
                         : AppConfig.instanceInit()!.client == Client.pbgplCNG
-                        ? AppIcon.appLogoPurvaBharti
-                        : AppConfig.instanceInit()!.client == Client.mahanagar
-                        ? AppIcon.appLogoMGL
-                        : AppIcon.appLogoIgl,
-
-
+                            ? AppIcon.appLogoPurvaBharti
+                            : AppConfig.instanceInit()!.client ==
+                                    Client.mahanagar
+                                ? AppIcon.appLogoMGL
+                                : AppIcon.appLogoIgl,
                     height: MediaQuery.of(context).size.width * 0.40,
                     width: MediaQuery.of(context).size.width * 0.40,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextWidget(
-                      "समाधान",
+                      AppConfig.instanceInit()!.client == Client.iglcng
+                          ? "समाधान"
+                          : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                              ? "समाधान"
+                              : AppConfig.instanceInit()!.client == Client.mahanagar
+                                  ? "CNG Complaint"
+                                  : "समाधान",
                       color: AppColor.white,
                       fontWeight: FontWeight.w700,
                       textAlign: TextAlign.center,

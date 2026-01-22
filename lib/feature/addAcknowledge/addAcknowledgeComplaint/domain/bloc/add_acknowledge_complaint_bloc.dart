@@ -144,8 +144,7 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    var resGeneral =
-        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    var resGeneral = await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
     if (resGeneral != null) {
       generalComplaintList = resGeneral;
       for (var generalData in generalComplaintList) {
@@ -191,7 +190,8 @@ class AddAcknowledgeComplaintBloc
 
     complaintStatus = acknowledgeData.ackStatus.toString();
 
-    personResponsibleController.text =  acknowledgeData.personResponsible.toString();
+  //  personResponsibleController.text =  acknowledgeData.personResponsible.toString();
+    personResponsibleController.text =  acknowledgeData.createdByUser.toString();
 
     if(plannerList.isEmpty && departmentData.plannerList != null){
       plannerList = departmentData.plannerList!;
@@ -409,7 +409,8 @@ class AddAcknowledgeComplaintBloc
         complaintStatus: complaintStatus,
         plannerData: plannerData,
         workCenterData: workCenterData,
-        personResponsible: personResponsibleController.text.toString(),
+      //  personResponsible: personResponsibleController.text.toString(),
+        personResponsible: acknowledgeData.createdBy.toString(),
         file: file);
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();

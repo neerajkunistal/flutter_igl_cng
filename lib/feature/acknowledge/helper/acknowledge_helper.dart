@@ -205,5 +205,18 @@ class AcknowledgeHelper {
     return null;
   }
 
+  static Future<List<AssignTypeModel>?> fetchCNGComplainAssignData() async {
+    try {
+      String url = APIs.cngComplainAssign;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+
+      if (res != null && res['data'] != null) {
+        return assignTypeListResponse(res);
+      }
+    } catch (e) {
+      debugPrint("fetchCNGComplainAssignData error: $e");
+    }
+    return null;
+  }
 
 }

@@ -66,7 +66,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
       title: Align(
         alignment: Alignment.centerLeft,
         child: TextWidget(
-          "Add Scarp",
+          "Add Scrap",
           color: AppColor.white,
           fontSize: AppFont.font_15,
           fontWeight: FontWeight.w600,

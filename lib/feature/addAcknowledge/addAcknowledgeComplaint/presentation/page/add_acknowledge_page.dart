@@ -134,7 +134,7 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             children: [
               const DottedDividerLine(),
               TextWidget(
-                "Scarp",
+                "Scrap",
                 fontWeight: FontWeight.w700,
               ),
               ListView.builder(
