@@ -73,7 +73,7 @@ class NewVersion {
         versionStatus = await _getiOSStoreVersion(id, versionStatus);
         break;
       default:
-        // debugPrint(AppString.thisTargetPlatformIsNotYetSupportedByThisPackage);
+      // debugPrint(AppString.thisTargetPlatformIsNotYetSupportedByThisPackage);
     }
 
     try {
@@ -136,8 +136,8 @@ class NewVersion {
 
     if (elements.isNotEmpty) {
       final versionElement = elements.firstWhere(
-        (elm) =>
-            elm.querySelector('.BgcNfc')!.text.toString() == "Current Version",
+            (elm) =>
+        elm.querySelector('.BgcNfc')!.text.toString() == "Current Version",
       );
       try {
         String data = response.body;
@@ -149,7 +149,7 @@ class NewVersion {
         int p2 = f.indexOf(pat2);
         String lastVersionReleaseDate = f.substring(0, p2);
         DateTime releaseDate =
-            DateFormat('MMMM dd, yyyy').parse(lastVersionReleaseDate);
+        DateFormat('MMMM dd, yyyy').parse(lastVersionReleaseDate);
         if (DateTime.now().difference(releaseDate).inDays > 7) {
           versionStatus.isUpdateMandatory = true;
         } else {
@@ -183,50 +183,50 @@ class NewVersion {
     showDialog(
       context: context,
       barrierDismissible:
-          versionStatus.isUpdateMandatory == false ? true : false,
+      versionStatus.isUpdateMandatory == false ? true : false,
       builder: (BuildContext context) {
         return platform == TargetPlatform.android
             ? WillPopScope(
-                onWillPop: () async => false,
-                child: AlertDialog(
-                  title: title,
-                  content: content,
-                  actions: <Widget>[
-                    versionStatus.isUpdateMandatory == false
-                        ? TextButton(
-                            onPressed: dismissAction,
-                            child: dismissText,
-                          )
-                        : const SizedBox.shrink(),
-                    TextButton(
-                      onPressed: updateAction,
-                      child: updateText,
-                    ),
-                  ],
-                ),
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: title,
+            content: content,
+            actions: <Widget>[
+              versionStatus.isUpdateMandatory == false
+                  ? TextButton(
+                onPressed: dismissAction,
+                child: dismissText,
               )
+                  : const SizedBox.shrink(),
+              TextButton(
+                onPressed: updateAction,
+                child: updateText,
+              ),
+            ],
+          ),
+        )
             : versionStatus.isUpdateMandatory == false
-                ? CupertinoAlertDialog(
-                    title: title,
-                    content: content,
-                    actions: <Widget>[
-                      CupertinoDialogAction(
-                        child: dismissText,
-                        onPressed: dismissAction,
-                      ),
-                      CupertinoDialogAction(
-                        child: updateText,
-                        onPressed: updateAction,
-                      ),
-                    ],
-                  )
-                : CupertinoAlertDialog(
-                    title: title,
-                    content: content,
-                    actions: <Widget>[
-                      TextButton(onPressed: updateAction, child: updateText)
-                    ],
-                  );
+            ? CupertinoAlertDialog(
+          title: title,
+          content: content,
+          actions: <Widget>[
+            CupertinoDialogAction(
+              child: dismissText,
+              onPressed: dismissAction,
+            ),
+            CupertinoDialogAction(
+              child: updateText,
+              onPressed: updateAction,
+            ),
+          ],
+        )
+            : CupertinoAlertDialog(
+          title: title,
+          content: content,
+          actions: <Widget>[
+            TextButton(onPressed: updateAction, child: updateText)
+          ],
+        );
       },
     );
   }

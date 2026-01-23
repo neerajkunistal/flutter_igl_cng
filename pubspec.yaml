@@ -52,6 +52,7 @@ dependencies:
   pdf: ^3.11.1
   open_file: ^3.5.4
   extension_google_sign_in_as_googleapis_auth: ^3.0.0
+  webview_flutter: ^4.13.0
 
 dependency_overrides:
   meta: ^1.11.0

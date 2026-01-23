@@ -104,7 +104,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       _eventCompleted(emit);
       if (res != null) {
         _loginData = loginResponse(res['user']);
-        String _token = res['token'] ?? "";
+        String _token = res['cngtoken'] ?? "";
         _loginData.token = _token;
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         if (loginData.roleType == RoleType.noRole) {

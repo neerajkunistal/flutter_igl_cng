@@ -1,4 +1,5 @@
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/menu_model.dart';
 
 List<LoginDataModel> loginScreenResponseData(var json) {
   return List<LoginDataModel>.from(json.map((x) => LoginDataModel.fromJson(x)));
@@ -28,6 +29,8 @@ class LoginDataModel {
   String? stationId;
   dynamic mDbStatus;
   dynamic stationName;
+  dynamic showCivil;
+  List<MenuModel>? menuPage;
 
   LoginDataModel({
     this.userId,
@@ -49,6 +52,8 @@ class LoginDataModel {
     this.stationId,
     this.mDbStatus,
     this.stationName,
+    this.showCivil,
+    this.menuPage,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -69,9 +74,12 @@ class LoginDataModel {
     stationId = json['station_id'] ?? "";
     mDbStatus = json['mdb_status'] ?? "0";
     stationName = json['station_name'] ?? "";
+    showCivil = json['show_civil'] ?? "";
+    token = json['cngtoken'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
+    menuPage =  json['dashboard_urls'] == null ? [] : menuListResponse(json['dashboard_urls']);
   }
 
   getRole({required String role}) {
@@ -104,9 +112,9 @@ class LoginScreenRequestModel {
 
   LoginScreenRequestModel(
       {required this.userEmailId,
-      required this.password,
-      required this.firebaseId,
-      required this.deviceId});
+        required this.password,
+        required this.firebaseId,
+        required this.deviceId});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {

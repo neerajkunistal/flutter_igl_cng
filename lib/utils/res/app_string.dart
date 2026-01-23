@@ -63,6 +63,7 @@ class AppString {
 
   static get acknowledge => "Acknowledge";
 
+  static get home => "Home";
   static get dashboard => "Dashboard";
 
   static get systemAdmin => "System Admin";

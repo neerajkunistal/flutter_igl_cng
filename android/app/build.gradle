@@ -76,7 +76,7 @@ android {
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
-            versionCode 03
+            versionCode 04
             versionName "1.0.0-MGL"
         }
     }

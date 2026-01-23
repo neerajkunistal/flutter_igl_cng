@@ -9,15 +9,17 @@ class DrawerModel {
   bool isSelected;
   Widget? actionButtonWidget;
   bool? isSublistLoader = false;
+  bool? isNewPage;
 
   DrawerModel(
       {required this.widget,
-      required this.icon,
-      required this.label,
-      required this.sublist,
-      required this.isSelected,
-      this.isSublistLoader,
-      this.actionButtonWidget});
+        required this.icon,
+        required this.label,
+        required this.sublist,
+        required this.isSelected,
+        this.isSublistLoader,
+        this.isNewPage =  false,
+        this.actionButtonWidget});
 }
 
 class DrawerSubModel {

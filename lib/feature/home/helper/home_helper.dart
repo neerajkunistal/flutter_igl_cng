@@ -5,10 +5,12 @@ import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/page/v
 import 'package:flutter_igl_cng/feature/ci/presentation/page/view_ci_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/cv/presentation/page/view_cv_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
+import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/web_page.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/presentation/page/running_truck_page.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/menu_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/complaint_type_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -18,7 +20,7 @@ import 'package:vibration/vibration.dart';
 import '../../lcv/assignment/addAssignment/presentation/page/add_assignment_page.dart';
 
 class HomeHelper {
-   static Future<dynamic> fetchDrawerList(
+  static Future<dynamic> fetchDrawerList(
       {required BuildContext context}) async {
     try {
 
@@ -26,17 +28,32 @@ class HomeHelper {
       drawerList.add(DrawerModel(
           widget: const DashboardPage(),
           icon: Icons.home_outlined,
-          label: AppString.dashboard,
+          label: AppString.home,
           sublist: [],
           isSelected: true));
 
+      LoginDataModel loginData =  UserInfo.instance!.userData!;
+      List<MenuModel> menuPageList =  loginData.menuPage!;
+      for(var menuData in menuPageList){
+        if(menuData.url.toString().isNotEmpty){
+          drawerList.add(DrawerModel(
+              widget: WebPage(url: "${menuData.url}?cngtoken=${UserInfo.instanceInit()!.userData!.token}", name: menuData.name.toString(),),
+              icon: Icons.dashboard_outlined,
+              label: menuData.name.toString(),
+              isNewPage: true,
+              sublist: [],
+              isSelected: false)
+          );
+        }
+      }
       return drawerList;
     } catch (e) {
       return null;
     }
   }
 
-  static Future<dynamic> fetchAppBottomBarItems({required BuildContext context}) async {
+  static Future<dynamic> fetchAppBottomBarItems(
+      {required BuildContext context}) async {
     List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
@@ -123,7 +140,7 @@ class HomeHelper {
 
   static Future <dynamic> fifteenMinuteNotification ({required BuildContext context}) async {
 
-     if (await Vibration.hasAmplitudeControl() != null) {
+    if (await Vibration.hasAmplitudeControl() != null) {
       Vibration.vibrate(duration: 10000);
     }
     final player = AudioPlayer();
