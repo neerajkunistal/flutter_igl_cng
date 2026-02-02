@@ -11,6 +11,8 @@ LoginDataModel loginResponse(var json) {
 
 class LoginDataModel {
   String? userId;
+  String? complainPhotoUrl;
+  String? complainVideoUrl;
   String? email;
   String? moduleId;
   String? name;
@@ -54,6 +56,8 @@ class LoginDataModel {
     this.stationName,
     this.showCivil,
     this.menuPage,
+    this.complainPhotoUrl,
+    this.complainVideoUrl
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -71,6 +75,8 @@ class LoginDataModel {
     role = json['user_type'] ?? "";
     roleName = json['role'] ?? "";
     roleId = json['role_id'] ?? "";
+    complainPhotoUrl = json['complainphotourl'] ?? "";
+    complainVideoUrl = json['complainvediourl'] ?? "";
     stationId = json['station_id'] ?? "";
     mDbStatus = json['mdb_status'] ?? "0";
     stationName = json['station_name'] ?? "";

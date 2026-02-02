@@ -15,6 +15,7 @@ class EquipmentTypeModel {
   String? vendorId;
   String? companyName;
   String? vendorCode;
+  String? equipmentTypeName;
   dynamic equipmentId;
 
   EquipmentTypeModel({
@@ -29,6 +30,7 @@ class EquipmentTypeModel {
     this.vendorId,
     this.companyName,
     this.vendorCode,
+    this.equipmentTypeName,
     this.equipmentId,
   });
 
@@ -45,6 +47,7 @@ class EquipmentTypeModel {
     companyName = json['company_name'] ?? "";
     vendorCode = json['vendor_code'] ?? "";
     equipmentId = json['equipment_type'] ?? "";
+    equipmentTypeName = json['equipment_type_name'] ?? "";
   }
 
   Map<String, dynamic> toJson() {
@@ -55,6 +58,7 @@ class EquipmentTypeModel {
     data['description'] = description;
     data['manufacture_serial_no'] = manufactureSerialNo;
     data['model_no'] = modelNo;
+    data['equipment_type_name'] = equipmentTypeName;
     return data;
   }
 }

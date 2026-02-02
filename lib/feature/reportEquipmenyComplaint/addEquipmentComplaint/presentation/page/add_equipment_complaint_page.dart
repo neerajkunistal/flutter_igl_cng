@@ -221,7 +221,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       hint: AppString.selectEquipmentType,
       items: dataState.equipmentTypeList,
       itemAsString: (equipmentTypeData) =>
-      "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
+      "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()}),(${equipmentTypeData.equipmentTypeName.toString()})",
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentTypeDataEvent(

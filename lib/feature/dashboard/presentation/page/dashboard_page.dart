@@ -31,6 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       String applicationId = packageInfo.packageName.toString();
+      print("applicationId--${applicationId}");
       String androidPlayStoreUrl =
           "https://play.google.com/store/apps/details?id=$applicationId&hl=en&gl=US";
       if (Platform.isAndroid) {

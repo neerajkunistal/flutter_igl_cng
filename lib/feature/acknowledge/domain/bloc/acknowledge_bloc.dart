@@ -51,6 +51,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   DateTime startDate = DateTime.now().subtract(const Duration(days: 5));
   DateTime endDate = DateTime.now();
 
+  List<String> parseAttachments = [];
   List<int> complaintCount = [];
 
   List<PlannerModel> plannerList = [];
@@ -119,6 +120,14 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
               element.miAssignType.toString() == "0")
           .toList();
     }
+    if (acknowledgeList != null) {
+      for (var d in acknowledgeList) {
+        parseAttachments.addAll(
+          AcknowledgeHelper.parseAttachments(d.attachmentFile),
+        );
+      }
+    }
+
 
     if (selectTabIndex == 0) {
       acknowledgeList = acknowledgeWithOutFilterList
@@ -911,6 +920,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         plannerList: plannerList,
         workCenterData: workCenterData,
         workCenterList: workCenterList,
+      parseAttachments: parseAttachments,
     ));
   }
 }

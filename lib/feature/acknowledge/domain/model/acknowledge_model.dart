@@ -17,6 +17,7 @@ class AcknowledgeModel {
   String? systemId;
   String? complaintTypeId;
   String? attachmentFile;
+  String? videoFile;
   dynamic stationPersonName;
   dynamic stationPersonSign;
   dynamic stationPersonDateTime;
@@ -90,6 +91,7 @@ class AcknowledgeModel {
     this.systemId,
     this.complaintTypeId,
     this.attachmentFile,
+    this.videoFile,
     this.stationPersonName,
     this.stationPersonSign,
     this.stationPersonDateTime,
@@ -164,6 +166,7 @@ class AcknowledgeModel {
     systemId = json['system_id'] ?? "";
     complaintTypeId = json['complaint_type_id'] ?? "";
     attachmentFile = json['attachment_file'] ?? "";
+    videoFile = json['video_file'] ?? "";
     stationPersonName = json['station_person_name'] ?? "";
     stationPersonSign = json['station_person_sign'] ?? "";
     stationPersonDateTime = json['station_person_date_time'] ?? "";
@@ -238,6 +241,7 @@ class AcknowledgeModel {
     data['system_id'] = systemId;
     data['complaint_type_id'] = complaintTypeId;
     data['attachment_file'] = attachmentFile;
+    data['video_file'] = videoFile;
     data['station_person_name'] = stationPersonName;
     data['station_person_sign'] = stationPersonSign;
     data['station_person_date_time'] = stationPersonDateTime;

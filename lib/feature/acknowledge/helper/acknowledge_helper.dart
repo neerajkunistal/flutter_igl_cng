@@ -219,4 +219,45 @@ class AcknowledgeHelper {
     return null;
   }
 
+  static List<String> parseAttachments(String? raw) {
+    if (raw == null || raw.isEmpty) return [];
+
+    try {
+      // Fix common backend issues
+      String cleaned = raw.trim();
+
+      // Remove trailing comma if exists
+      if (cleaned.endsWith(',')) {
+        cleaned = cleaned.substring(0, cleaned.length - 1);
+      }
+
+      // Ensure closing bracket
+      if (!cleaned.endsWith(']')) {
+        cleaned = '$cleaned]';
+      }
+
+      final decoded = jsonDecode(cleaned);
+
+      if (decoded is List) {
+        return decoded
+            .whereType<String>()
+            .map((e) => e.replaceAll('"', '').trim())
+            .toList();
+      }
+    } catch (e) {
+      debugPrint('Attachment parse error: $e');
+    }
+
+    return [];
+  }
+
+  // static List<String> parseAttachments(String? attachmentFile) {
+  //   if (attachmentFile == null || attachmentFile.isEmpty) return [];
+  //
+  //   final List<dynamic> decoded = jsonDecode(attachmentFile);
+  //   return decoded
+  //       .map((e) => e.toString().replaceAll('"', '').trim())
+  //       .toList();
+  // }
+
 }

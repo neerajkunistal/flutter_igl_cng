@@ -39,6 +39,7 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final TextEditingController mainWorkCenterController;
   final TextEditingController personResponsibleController;
   final List<PlannerModel> plannerList;
+  final List<String> parseAttachments;
   final PlannerModel plannerData;
   final List<WorkCenterModel> workCenterList;
   final WorkCenterModel workCenterData;
@@ -68,6 +69,7 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     required this.mainWorkCenterController,
     required this.plannerGroupController,
     required this.workCenterList,
+    required this.parseAttachments,
     required this.workCenterData,
     required this.plannerData,
     required this.plannerList,
@@ -102,5 +104,6 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         workCenterData,
         plannerData,
         plannerList,
+    parseAttachments,
       ];
 }

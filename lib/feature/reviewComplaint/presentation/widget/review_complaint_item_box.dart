@@ -118,7 +118,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
-                  name: "Equipment Type Name",
+                  name: "Equipment Type",
                   value: reviewComplaintData.equipmentTypeName ?? "",
                 ),
                 SizedBox(
