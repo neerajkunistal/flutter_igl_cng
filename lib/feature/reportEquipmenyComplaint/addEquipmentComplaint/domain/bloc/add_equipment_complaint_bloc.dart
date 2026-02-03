@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
 
 part 'add_equipment_complaint_event.dart';
 part 'add_equipment_complaint_state.dart';
@@ -25,6 +26,14 @@ class AddEquipmentComplaintBloc
   List<File> files = [];
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
+
+
+  List<StationTypeModel> allStationList = [];
+  List<StationTypeModel> controlRoomList = [];
+  List<StationTypeModel> cngStationList = [];
+
+  StationTypeModel controlRoomData = StationTypeModel();
+  StationTypeModel cngStationData = StationTypeModel();
   List<File> videoFiles = [];
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
@@ -33,6 +42,8 @@ class AddEquipmentComplaintBloc
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
     on<AddEquipmentComplaintSelectEquipmentTypeDataEvent>(_selectEquipmentType);
     on<AddEquipmentComplaintSelectGeneralDataEvent>(_selectGeneral);
+    on<AddEquipmentComplaintSelectControlRoomDataEvent>(_selectControlRoom);
+    on<AddEquipmentComplaintSelectCngStationDataEvent>(_selectCngStation);
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
@@ -51,8 +62,13 @@ class AddEquipmentComplaintBloc
     generalComplaintList = [];
     videoFiles = [];
     equipmentList = [];
+     controlRoomList = [];
+    cngStationList = [];
     equipmentData =  EquipmentModel();
     generalComplaintData = GeneralComplaintModel();
+    controlRoomData = StationTypeModel();
+    cngStationData = StationTypeModel();
+
     descriptionController.text = "";
     reportByController.text = "";
     dateController.text = "";
@@ -69,30 +85,34 @@ class AddEquipmentComplaintBloc
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
 
-    var resComplaint =
-        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    var resComplaint = await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
     }
 
-    var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+    var resEquipment = await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
     if (resEquipment != null) {
       equipmentList = resEquipment;
       equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
     }
 
-    var resGeneral =
-        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    var resGeneral = await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
     if (resGeneral != null) {
       generalComplaintList = resGeneral;
     }
 
+      var resCRStation = await AddEquipmentComplaintHelper.fetchCRStationData();
+      if (resCRStation != null) {
+        allStationList = resCRStation;
+        controlRoomList = {
+          for (var e in resCRStation) e.controlRoomId: e
+        }.values.toList();
+      //  cngStationList = resCRStation.toSet().toList();
+      }
     _eventComplete(emit);
   }
 
-  _selectComplaintType(
-      AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
+  _selectComplaintType(AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
     complaintTypeData = event.complaintTypeData;
     equipmentTypeData = EquipmentTypeModel();
     generalDescriptionController.text = "";
@@ -122,13 +142,24 @@ class AddEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
-
-
   _selectGeneral(AddEquipmentComplaintSelectGeneralDataEvent event, emit) {
     generalComplaintData = event.generalComplaintData;
     generalDescriptionController.text = "";
     _eventComplete(emit);
   }
+
+  _selectControlRoom(AddEquipmentComplaintSelectControlRoomDataEvent event, emit) {
+    controlRoomData = event.controlRoomData;
+    cngStationList = allStationList.where((e) => e.controlRoomId == event.controlRoomData.controlRoomId).toList();
+    _eventComplete(emit);
+  }
+
+
+  _selectCngStation(AddEquipmentComplaintSelectCngStationDataEvent event, emit) {
+    cngStationData = event.cngStationData;
+    _eventComplete(emit);
+  }
+
 
   _selectFile(AddEquipmentComplaintAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
@@ -306,6 +337,8 @@ class AddEquipmentComplaintBloc
       generalDescription: generalDescriptionController.text.toString(),
       file: files,
       videoFiles: videoFiles,
+      controlRoomData: controlRoomData,
+      cngStationData: cngStationData,
     );
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
@@ -349,6 +382,10 @@ class AddEquipmentComplaintBloc
       isFileLoader: isFileLoader,
       equipmentData: equipmentData,
       equipmentList: equipmentList,
+      controlRoomList: controlRoomList,
+      cngStationList: cngStationList,
+      cngStationData: cngStationData,
+      controlRoomData: controlRoomData,
     ));
   }
 }

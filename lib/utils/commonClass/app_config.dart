@@ -20,9 +20,9 @@ class AppConfig {
   Future<dynamic> getPackageInfo() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String version = packageInfo.version;
+      String version = "${packageInfo.version}${packageInfo.buildNumber}";
       // String code = packageInfo.buildNumber;
-      appVersion = version;
+       appVersion = version;
     } catch (e) {
       return null;
     }

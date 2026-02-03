@@ -49,14 +49,14 @@ class ReviewComplaintItemBox extends StatelessWidget {
                         : "";
 
     return Card(
-      shape: userData.roleType == RoleType.stationUser &&
+      shape: userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager &&
               tabIndex == 4 &&
               reviewComplaintData.ackStatus.toString() == "1" &&
               reviewComplaintData.complaintStatus.toString() == "3"
           ? RoundedRectangleBorder(
               side: BorderSide(color: Colors.green, width: 2.0),
               borderRadius: BorderRadius.circular(10.0))
-          : userData.roleType == RoleType.stationUser &&
+          : userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager &&
                   tabIndex == 4 &&
                   reviewComplaintData.ackStatus.toString() == "1" &&
                   reviewComplaintData.complaintStatus.toString() == "0"
@@ -150,13 +150,13 @@ class ReviewComplaintItemBox extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                        userData.roleType != RoleType.stationUser
+                        userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
                     ? _rowWidget(
                         name: "Vendor Code",
                         value: reviewComplaintData.vendorCode.toString())
                     : const SizedBox.shrink(),
                 reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                        userData.roleType != RoleType.stationUser
+                    userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
                     ? SizedBox(
                         height: MediaQuery.of(context).size.width * 0.02,
                       )
@@ -222,7 +222,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                     : _closureButton(
                         context: context,
                         reviewComplaintData: reviewComplaintData),
-                userData.roleType != RoleType.stationUser
+                userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
                     ? _rowWidget(
                         name: "Notification No",
                         value: reviewComplaintData.notificationNo.toString())
@@ -238,7 +238,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                         height: MediaQuery.of(context).size.width * 0.02,
                       )
                     : const SizedBox.shrink(),
-                userData.roleType != RoleType.stationUser &&
+                userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager &&
                         reviewComplaintData.sapRejectError.toString().isNotEmpty
                     ? _rowWidget(
                         name: "Sap Reject Error",
@@ -350,14 +350,14 @@ class ReviewComplaintItemBox extends StatelessWidget {
       required ReviewComplaintModel reviewComplaintData}) {
     LoginDataModel userData = UserInfo.instance!.userData!;
     return (reviewComplaintData.rejectStatus.toString() == "1" &&
-                userData.roleType == RoleType.stationUser) ||
+        userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager) ||
             ((reviewComplaintData.seAssignStatus.toString() == "0" &&
                         reviewComplaintData.ackStatus.toString() == "0") ||
                     (reviewComplaintData.seAssignStatus.toString() == "1" &&
                         reviewComplaintData.ackStatus.toString() == "1")) &&
                 (reviewComplaintData.complaintStatus.toString() == "0" &&
                     reviewComplaintData.assignType.toString() != "3" &&
-                    userData.roleType == RoleType.stationUser)
+                    userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager)
         ? Align(
             alignment: Alignment.centerRight,
             child: SizedBox(

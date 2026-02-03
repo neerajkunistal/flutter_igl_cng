@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: appBackGround(
@@ -88,13 +91,18 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   }
 
   Widget _itemWWidget({required FetchAddEquipmentComplaintState dataState}) {
+    LoginDataModel userData = UserInfo.instance!.userData!;
     return Container(
-      margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.all(10),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _verticalSpace(),
-            _complaintDropDown(dataState: dataState),
+            userData.roleType == RoleType.stationUserManager ? _verticalSpace() : SizedBox.shrink(),
+            userData.roleType == RoleType.stationUserManager ? _crDropDown(dataState: dataState): SizedBox.shrink(),
+            userData.roleType == RoleType.stationUserManager ?_verticalSpace(): SizedBox.shrink(),
+            userData.roleType == RoleType.stationUserManager ?_cngStationDropDown(dataState: dataState): SizedBox.shrink(),
+            userData.roleType == RoleType.stationUserManager ?_verticalSpace(): SizedBox.shrink(),
+            userData.roleType == RoleType.stationUserManager ? _complaintDropDown(dataState: dataState): SizedBox.shrink(),
             _verticalSpace(),
 
             // dataState.complaintTypeData.id.toString() == "2"
@@ -143,8 +151,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _complaintDropDown(
-      {required FetchAddEquipmentComplaintState dataState}) {
+  Widget _complaintDropDown({required FetchAddEquipmentComplaintState dataState}) {
     return DropdownWidget(
       hint: AppString.selectComplaintType,
       dropdownValue: dataState.complaintTypeData.id != null
@@ -166,8 +173,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _generalDropDown(
-      {required FetchAddEquipmentComplaintState dataState}) {
+  Widget _generalDropDown({required FetchAddEquipmentComplaintState dataState}) {
     return DropdownWidget(
       hint: AppString.selectGeneral,
       dropdownValue: dataState.generalComplaintData.name != null
@@ -186,6 +192,50 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           child: Text(generalComplaintData.name.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _crDropDown({required FetchAddEquipmentComplaintState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectCR,
+      dropdownValue: dataState.controlRoomData.controlRoomId != null
+          ? dataState.controlRoomData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+            AddEquipmentComplaintSelectControlRoomDataEvent(
+                controlRoomData: value));
+      },
+      items: dataState.controlRoomList
+          .map<DropdownMenuItem<StationTypeModel>>(
+              (StationTypeModel stationData) {
+            return DropdownMenuItem<StationTypeModel>(
+              value: stationData,
+              child: Text(stationData.controlRoomName.toString()),
+            );
+          }).toList(),
+    );
+  }
+
+  Widget _cngStationDropDown({required FetchAddEquipmentComplaintState dataState}) {
+    return DropdownWidget(
+      hint: AppString.selectCngStation,
+      dropdownValue: dataState.cngStationData.cngStationId != null
+          ? dataState.cngStationData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+            AddEquipmentComplaintSelectCngStationDataEvent(
+                cngStationData: value));
+      },
+      items: dataState.cngStationList
+          .map<DropdownMenuItem<StationTypeModel>>(
+              (StationTypeModel stationData) {
+            return DropdownMenuItem<StationTypeModel>(
+              value: stationData,
+              child: Text(stationData.cngStationName.toString()),
+            );
+          }).toList(),
     );
   }
 

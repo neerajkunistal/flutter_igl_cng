@@ -8,7 +8,7 @@ class ComplaintFilterHelper {
     try{
       LoginDataModel userData =  UserInfo.instance!.userData!;
       list = complaintList
-          .where((element) => userData.roleType == RoleType.stationUser
+          .where((element) => userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
           ? element.ackStatus.toString() == "0" && element.complaintStatus.toString() == "0"
           : element.assignType.toString() == "2" &&
           element.miAssignType.toString() == "0" &&

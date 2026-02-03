@@ -55,6 +55,8 @@ class APIs {
 
   static get getGeneralComplaintApi => "api/cr/general-complain";
 
+  static get getCRStationApi => "api/cng/cr-station";
+
   static get getUomApi => "api/onm/uom";
 
   static get getVendorApi => "api/onm/vendors";

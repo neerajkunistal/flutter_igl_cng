@@ -34,7 +34,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
             backgroundColor: Colors.transparent,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.startFloat,
-            floatingActionButton: userData.roleType == RoleType.stationUser
+            floatingActionButton: userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
                 ? _floatingActionButton()
                 : const SizedBox.shrink(),
             extendBodyBehindAppBar: true,

@@ -151,7 +151,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                 fontSize: AppFont.font_11,
               ))
               : const SizedBox.shrink(),
-          userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
               ? TextButton(
               style: dataState.selectedTabIndex == 0
                   ? ButtonStyle(
@@ -180,7 +180,7 @@ class ViewEquipmentWidget extends StatelessWidget {
                 fontSize: AppFont.font_11,
               ))
               : const SizedBox.shrink(),
-          userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
               ? TextButton(
               style: dataState.selectedTabIndex == 4
                   ? ButtonStyle(

@@ -46,15 +46,31 @@ class AddEquipmentComplaintSelectEquipmentTypeDataEvent
   List<Object?> get props => [equipmentTypeData];
 }
 
-class AddEquipmentComplaintSelectEquipmentDataEvent
-    extends AddEquipmentComplaintEvent {
+class AddEquipmentComplaintSelectEquipmentDataEvent extends AddEquipmentComplaintEvent {
   final EquipmentModel equipmentData;
 
-  const AddEquipmentComplaintSelectEquipmentDataEvent(
-      {required this.equipmentData});
+  const AddEquipmentComplaintSelectEquipmentDataEvent({required this.equipmentData});
 
   @override
   List<Object?> get props => [equipmentData];
+}
+
+class AddEquipmentComplaintSelectControlRoomDataEvent extends AddEquipmentComplaintEvent {
+  final StationTypeModel controlRoomData;
+
+  const AddEquipmentComplaintSelectControlRoomDataEvent({required this.controlRoomData});
+
+  @override
+  List<Object?> get props => [controlRoomData];
+}
+
+class AddEquipmentComplaintSelectCngStationDataEvent extends AddEquipmentComplaintEvent {
+  final StationTypeModel cngStationData;
+
+  const AddEquipmentComplaintSelectCngStationDataEvent({required this.cngStationData});
+
+  @override
+  List<Object?> get props => [cngStationData];
 }
 
 class AddEquipmentComplaintAddImageEvent extends AddEquipmentComplaintEvent {
@@ -84,8 +100,7 @@ class AddEquipmentComplaintAddVideoEvent extends AddEquipmentComplaintEvent {
 class AddEquipmentComplaintRemoveImageEvent extends AddEquipmentComplaintEvent {
   final int index;
 
-  const AddEquipmentComplaintRemoveImageEvent(
-      { required this.index});
+  const AddEquipmentComplaintRemoveImageEvent({required this.index});
 
   @override
   List<Object?> get props => [index];
@@ -94,8 +109,7 @@ class AddEquipmentComplaintRemoveImageEvent extends AddEquipmentComplaintEvent {
 class AddEquipmentComplaintRemoveVideoEvent extends AddEquipmentComplaintEvent {
   final int index;
 
-  const AddEquipmentComplaintRemoveVideoEvent(
-      { required this.index});
+  const AddEquipmentComplaintRemoveVideoEvent({required this.index});
 
   @override
   List<Object?> get props => [index];

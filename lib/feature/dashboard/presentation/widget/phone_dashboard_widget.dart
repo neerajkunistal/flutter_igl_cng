@@ -42,7 +42,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
             height: MediaQuery.of(context).size.height / 4.3,
             opacity: const AlwaysStoppedAnimation(.6),
           ),
-          userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
@@ -82,7 +82,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                 ),
               ))
               : const SizedBox.shrink(),
-          userData.roleType == RoleType.stationUser
+          userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(

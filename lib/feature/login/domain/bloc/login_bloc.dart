@@ -108,8 +108,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _loginData.token = _token;
         AppConfig.instanceInit()?.roleType = loginData.roleType;
         if (loginData.roleType == RoleType.noRole) {
-          SnackBarErrorWidget(
-                  !event.context.mounted ? event.context : event.context)
+          SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
               .show(message: "Invalid role");
           return;
         }

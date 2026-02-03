@@ -12,7 +12,10 @@ class SearchBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _searchWidget(context: context);
+    return  Material(
+      color: Colors.transparent, // important
+      child: _searchWidget(context: context),
+    );
   }
 
   Widget _searchWidget({required BuildContext context}) {

@@ -20,6 +20,7 @@ import 'package:vibration/vibration.dart';
 import '../../lcv/assignment/addAssignment/presentation/page/add_assignment_page.dart';
 
 class HomeHelper {
+
   static Future<dynamic> fetchDrawerList(
       {required BuildContext context}) async {
     try {
@@ -37,7 +38,7 @@ class HomeHelper {
       for(var menuData in menuPageList){
         if(menuData.url.toString().isNotEmpty){
           drawerList.add(DrawerModel(
-              widget: WebPage(url: "${menuData.url}?cngtoken=${UserInfo.instanceInit()!.userData!.token}", name: menuData.name.toString(),),
+              widget: WebPage(url: "${menuData.url}?cngtoken=${loginData.token}", name: menuData.name.toString(),),
               icon: Icons.dashboard_outlined,
               label: menuData.name.toString(),
               isNewPage: true,
@@ -51,6 +52,37 @@ class HomeHelper {
       return null;
     }
   }
+  // static Future<dynamic> fetchDrawerList(
+  //     {required BuildContext context}) async {
+  //   try {
+  //
+  //     List<DrawerModel> drawerList = [];
+  //     drawerList.add(DrawerModel(
+  //         widget: const DashboardPage(),
+  //         icon: Icons.home_outlined,
+  //         label: AppString.home,
+  //         sublist: [],
+  //         isSelected: true));
+  //
+  //     LoginDataModel loginData =  UserInfo.instance!.userData!;
+  //     List<MenuModel> menuPageList =  loginData.menuPage!;
+  //     for(var menuData in menuPageList){
+  //       if(menuData.url.toString().isNotEmpty){
+  //         drawerList.add(DrawerModel(
+  //             widget: WebPage(url: "${menuData.url}?cngtoken=${UserInfo.instanceInit()!.userData!.token}", name: menuData.name.toString(),),
+  //             icon: Icons.dashboard_outlined,
+  //             label: menuData.name.toString(),
+  //             isNewPage: true,
+  //             sublist: [],
+  //             isSelected: false)
+  //         );
+  //       }
+  //     }
+  //     return drawerList;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
   static Future<dynamic> fetchAppBottomBarItems(
       {required BuildContext context}) async {
@@ -105,7 +137,7 @@ class HomeHelper {
       if (userData.roleType == RoleType.shiftEngineer) {
         pageList.add(const AcknowledgePage());
         pageList.add(const ViewEquipmentComplaintPage());
-      } else if (userData.roleType == RoleType.stationUser) {
+      } else if (userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager) {
         pageList.add(const ComplaintTypeWidget());
       } else if (userData.roleType == RoleType.mi) {
         pageList.add(const ViewEquipmentComplaintPage());

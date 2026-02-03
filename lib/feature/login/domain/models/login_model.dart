@@ -104,6 +104,8 @@ class LoginDataModel {
         return RoleType.ci;
       case "LCVM":
         return RoleType.lcvManager;
+      case "SUM":
+        return RoleType.stationUserManager;
       default:
         return RoleType.noRole;
     }

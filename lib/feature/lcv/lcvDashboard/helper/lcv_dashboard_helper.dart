@@ -11,7 +11,7 @@ class LcvDashboardHelper {
     List<BottomNavigationBarItem> bottomNavigationBarItemList = [];
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-       if (userData.roleType == RoleType.stationUser) {
+       if (userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager) {
         bottomNavigationBarItemList.add(BottomNavigationBarItem(
           icon: const Icon(
             Icons.fire_truck_outlined,

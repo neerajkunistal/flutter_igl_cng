@@ -195,6 +195,8 @@ class AppString {
   static get selectEquipmentType => "Select Equipment Type";
 
   static get selectGeneral => "Select General";
+  static get selectCR => "Select Control Room";
+  static get selectCngStation => "Select CNG Station";
 
   static get editEquipment => "Edit Equipment";
 
@@ -336,7 +338,7 @@ class AppString {
 
   static get updateCngFilling => "Update Cng Filling";
 
-  static get selectCngStation => "Select Cng Station";
+ // static get selectCngStation => "Select Cng Station";
 
   static get enterCngQuantity => "Enter Cng Quantity";
 

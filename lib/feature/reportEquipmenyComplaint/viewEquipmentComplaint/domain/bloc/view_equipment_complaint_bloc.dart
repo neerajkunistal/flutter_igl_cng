@@ -82,7 +82,7 @@ class ViewEquipmentComplaintBloc
         : await ReviewComplaintHelper.fetchReviewComplaint(
             fromDate: startDate.toString(), toDate: endDate.toString());
 
-    _selectTabIndex = userData.roleType == RoleType.stationUser ? 0 : 1;
+    _selectTabIndex = userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager ? 0 : 1;
 
     if (userData.roleType == RoleType.shiftEngineer) {
       var reviewSelfComplaintRes =
@@ -331,7 +331,7 @@ class ViewEquipmentComplaintBloc
       reviewComplaintList = res;
       reviewComplaintWithOutFilterList = res;
       reviewComplaintList = reviewComplaintWithOutFilterList
-          .where((element) => userData.roleType == RoleType.stationUser
+          .where((element) => userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
               ? element.ackStatus.toString() == "0"
               : element.assignType.toString() == "2" &&
                   element.miAssignType.toString() == "0" &&

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -104,6 +105,22 @@ class AddEquipmentComplaintHelper {
     }
   }
 
+  static Future<List<StationTypeModel>?> fetchCRStationData() async {
+    try {
+      String url = APIs.getCRStationApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res['status'] == true && res['data'] != null) {
+        return stationTypeListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print("fetchCRStationData : - ---- ${e.toString()}");
+      }
+      return null;
+    }
+  }
+
   static Future<dynamic> submitData({
     required BuildContext context,
     required ComplaintTypeModel complaintTypeData,
@@ -116,6 +133,8 @@ class AddEquipmentComplaintHelper {
     required String time,
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
+    required StationTypeModel controlRoomData,
+    required StationTypeModel cngStationData,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
@@ -129,6 +148,8 @@ class AddEquipmentComplaintHelper {
         "complaintDateTime": "$date $time",
         "generalComplaintDesc": generalDescription,
         "generalComplaintId": generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
+        "control_room_id": controlRoomData.controlRoomId != null ? controlRoomData.controlRoomId.toString() : "0",
+        "cng_station_id": cngStationData.cngStationId != null ? cngStationData.cngStationId.toString() : "0",
       };
       print("url-->${url}");
       List<FileModel> fileList = [];

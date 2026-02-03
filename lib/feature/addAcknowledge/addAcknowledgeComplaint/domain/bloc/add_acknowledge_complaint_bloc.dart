@@ -106,8 +106,7 @@ class AddAcknowledgeComplaintBloc
     acknowledgeList =
         BlocProvider.of<AcknowledgeBloc>(event.context).acknowledgeList;
 
-    var resComplaint =
-        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    var resComplaint = await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
       for (var complaint in complaintTypeList) {
@@ -118,9 +117,7 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData(
-            complaintId: acknowledgeData.id.toString());
+    var resEquipment = await AddEquipmentComplaintHelper.fetchEquipmentTypeData(complaintId: acknowledgeData.id.toString());
     if (resEquipment != null) {
       equipmentList = resEquipment;
       equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
@@ -132,8 +129,7 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    var resDepartment =
-        await AddAcknowledgeComplaintHelper.fetchDepartmentData();
+    var resDepartment = await AddAcknowledgeComplaintHelper.fetchDepartmentData();
     if (resDepartment != null) {
       departmentList = resDepartment;
     }
