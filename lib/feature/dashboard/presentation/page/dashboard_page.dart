@@ -21,9 +21,9 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
+    callMethodeChannel();
     BlocProvider.of<DashboardBloc>(context)
         .add(DashboardPageLoadEvent(context: context));
-    callMethodeChannel();
     super.initState();
   }
 

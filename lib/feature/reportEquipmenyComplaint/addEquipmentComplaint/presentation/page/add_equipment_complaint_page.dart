@@ -102,7 +102,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             userData.roleType == RoleType.stationUserManager ?_verticalSpace(): SizedBox.shrink(),
             userData.roleType == RoleType.stationUserManager ?_cngStationDropDown(dataState: dataState): SizedBox.shrink(),
             userData.roleType == RoleType.stationUserManager ?_verticalSpace(): SizedBox.shrink(),
-            userData.roleType == RoleType.stationUserManager ? _complaintDropDown(dataState: dataState): SizedBox.shrink(),
+            _complaintDropDown(dataState: dataState),
             _verticalSpace(),
 
             // dataState.complaintTypeData.id.toString() == "2"
