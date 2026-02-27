@@ -182,8 +182,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                     height: MediaQuery.of(context).size.width * 0.02,
                   ),
 
-                  cngData.complaintNumber.toString().isEmpty &&
-                  cngData.complaintStatus.toString() == "0"
+                  cngData.complaintNumber.toString().isEmpty && cngData.complaintStatus.toString() == "0"
                    ? Align(
                     alignment: Alignment.centerRight,
                     child: SizedBox(

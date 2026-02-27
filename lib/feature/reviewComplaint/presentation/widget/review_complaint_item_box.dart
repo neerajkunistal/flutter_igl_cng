@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/full_image_view_widget.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/video_player_view_widget.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
@@ -20,9 +24,32 @@ class ReviewComplaintItemBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginDataModel userData = UserInfo.instance!.userData!;
-    int tabIndex =
-        BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
+    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+
+    // --- Safely parse attachment_file JSON ---
+    List<String> attachments = [];
+    if (reviewComplaintData.attachmentFile != null && reviewComplaintData.attachmentFile!.isNotEmpty) {
+      try {
+        final parsed = jsonDecode(reviewComplaintData.attachmentFile!);
+        if (parsed is List) {
+          attachments = parsed.map((e) => e.toString()).toList();
+        }
+      } catch (e) {
+        attachments = []; // fallback
+      }
+    }
+
+    // Build image URLs
+    final List<String> imageUrls = attachments.map((a) => "${userData.complainPhotoUrl}$a").toList();
+
+    final String? videoFile = (reviewComplaintData.videoFile != null && reviewComplaintData.videoFile!.isNotEmpty)
+        ? "${userData.complainVideoUrl}${reviewComplaintData.videoFile}"
+        : null;
+
+
+    print("videoFile-->${videoFile}");
+
+    int tabIndex = BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
 
     String maintenanceStatus = "";
     String status = "";
@@ -200,28 +227,30 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),*/
-                _rowWidget(
-                    name: "Closed Date Time",
-                    value: reviewComplaintData.maintenanceEndDate.toString()),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                reviewComplaintData.complaintStatus.toString() == "3"
-                    ? _rowWidget(
-                        name: "Closure Status",
-                        value: "Pending",
-                        color: AppColor.red)
-                    : const SizedBox.shrink(),
-                reviewComplaintData.complaintStatus.toString() == "3"
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      )
-                    : const SizedBox.shrink(),
-                isDetailPage == true
-                    ? const SizedBox.shrink()
-                    : _closureButton(
-                        context: context,
-                        reviewComplaintData: reviewComplaintData),
+
+                // _rowWidget(
+                //     name: "Closed Date Time",
+                //     value: reviewComplaintData.maintenanceEndDate.toString()),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.width * 0.02,
+                // ),
+                // reviewComplaintData.complaintStatus.toString() == "3"
+                //     ? _rowWidget(
+                //         name: "Closure Status",
+                //         value: "Pending",
+                //         color: AppColor.red)
+                //     : const SizedBox.shrink(),
+                // reviewComplaintData.complaintStatus.toString() == "3"
+                //     ? SizedBox(
+                //         height: MediaQuery.of(context).size.width * 0.02,
+                //       )
+                //     : const SizedBox.shrink(),
+                // isDetailPage == true
+                //     ? const SizedBox.shrink()
+                //     : _closureButton(
+                //         context: context,
+                //         reviewComplaintData: reviewComplaintData),
+
                 userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
                     ? _rowWidget(
                         name: "Notification No",
@@ -256,6 +285,10 @@ class ReviewComplaintItemBox extends StatelessWidget {
                             .isNotEmpty
                         ? reviewComplaintData.crComplaintDescription.toString()
                         : reviewComplaintData.complaintDescription.toString()),
+                SizedBox(height: 8),
+                _attachmentImages(imageUrls, context),
+                SizedBox(height: 8),
+                _videoWidget(videoUrl: videoFile,context: context),
               ],
             ),
           ),
@@ -277,7 +310,118 @@ class ReviewComplaintItemBox extends StatelessWidget {
       ),
     );
   }
+  Widget _attachmentImages(List<String> imageUrls, BuildContext context) {
+    if (imageUrls.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.1,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: imageUrls.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
+          final imgUrl = imageUrls[i];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => FullImageViewWidget(imageUrl: imgUrl),
+                ),
+              );
+            },
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    imgUrl,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width:MediaQuery.of(context).size.width * 0.2,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      height: MediaQuery.of(context).size.height * 0.09,
+                      width:MediaQuery.of(context).size.width * 0.2,
+                      color: Colors.grey[300],
+                      child: const Icon(
+                        Icons.broken_image,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: const Icon(
+                    Icons.zoom_out_map,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 
+  Widget _videoWidget({
+    required BuildContext context,
+    required String? videoUrl,
+  }) {
+    if (videoUrl == null || videoUrl.isEmpty) {
+      return const SizedBox.shrink(); // nothing to show
+    }
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => VideoPlayerViewWidget(videoUrl: videoUrl),
+          ),
+        );
+      },
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width * 0.3,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.videocam,
+              color: Colors.white54,
+              size: 60,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.black45,
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: const Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+              size: 32,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   Widget _rowHeaderWidget({required String name, required String value}) {
     return Container(
       decoration: const BoxDecoration(

@@ -330,8 +330,7 @@ class ViewEquipmentWidget extends StatelessWidget {
     );
   }
 
-  Widget _listBuilder(
-      {required FetchViewEquipmentComplaintDataState dataState, required BuildContext context}) {
+  Widget _listBuilder({required FetchViewEquipmentComplaintDataState dataState, required BuildContext context}) {
     return Container(
       margin: const EdgeInsets.all(10.0),
       child: dataState.reviewComplaintList.isNotEmpty
@@ -348,10 +347,8 @@ class ViewEquipmentWidget extends StatelessWidget {
                     return;
                   }
                   else if (userLogin.roleType == RoleType.stationUser &&
-                      dataState.reviewComplaintList[index].complaintStatus.toString() ==
-                          "0" &&
-                      dataState.reviewComplaintList[index].assignType.toString() ==
-                          "3") {
+                      dataState.reviewComplaintList[index].complaintStatus.toString() == "0" &&
+                      dataState.reviewComplaintList[index].assignType.toString() == "3") {
                     BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
                     BlocProvider.of<AddScrapBloc>(context).add(AddScrapClearScrapDataEvent(context: context));
                     BlocProvider.of<ReviewComplaintBloc>(context).add(

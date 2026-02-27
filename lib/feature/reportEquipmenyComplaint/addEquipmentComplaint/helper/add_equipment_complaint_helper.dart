@@ -140,7 +140,7 @@ class AddEquipmentComplaintHelper {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addComplaintApi;
       print("url-->${url}");
-      var json = {
+      Map<String, String> json = {
         "complaintTypeId": complaintTypeData.id != null ? complaintTypeData.id.toString() : "0",
         "equipmentId": equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
         "description": description,
@@ -148,9 +148,15 @@ class AddEquipmentComplaintHelper {
         "complaintDateTime": "$date $time",
         "generalComplaintDesc": generalDescription,
         "generalComplaintId": generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
-        "control_room_id": controlRoomData.controlRoomId != null ? controlRoomData.controlRoomId.toString() : "0",
-        "cng_station_id": cngStationData.cngStationId != null ? cngStationData.cngStationId.toString() : "0",
+        // "control_room_id": controlRoomData.controlRoomId != null ? controlRoomData.controlRoomId.toString() : "0",
+        // "cng_station_id": cngStationData.cngStationId != null ? cngStationData.cngStationId.toString() : "0",
       };
+      if (userData.roleType == RoleType.stationUserManager) {
+        json["control_room_id"] = controlRoomData.controlRoomId.toString();
+      }
+      if (userData.roleType == RoleType.stationUserManager) {
+        json["cng_station_id"] = cngStationData.cngStationId.toString();
+      }
       print("url-->${url}");
       List<FileModel> fileList = [];
       int i = 0;
