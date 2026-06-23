@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
 
 class CngFillingStationPage extends StatefulWidget {
   const CngFillingStationPage({
@@ -298,7 +297,7 @@ class _CngFillingStationPageState extends State<CngFillingStationPage> {
                       ? TextWidget(
                     file.path.split('.').last.toString(),
                     maxLines: 1,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   ) : const SizedBox.shrink(),
                 ],

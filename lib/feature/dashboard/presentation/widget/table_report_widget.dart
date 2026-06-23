@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/widget/card_backgound.dart';
 
 class TabletReportWidget extends StatelessWidget {
   const TabletReportWidget({super.key});
@@ -20,8 +19,8 @@ class TabletReportWidget extends StatelessWidget {
                 height: boxHeight,
                 child: Card(
                   elevation: 3,
-                  shadowColor: AppColor.themeLightColor,
-                  color: AppColor.themeLightColor,
+                  shadowColor:EnvironmentConfig.of(context)!.secondaryTheme,
+                  color: EnvironmentConfig.of(context)!.secondaryTheme,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),

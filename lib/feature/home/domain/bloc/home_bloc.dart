@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_page.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
-import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
-import 'package:flutter_igl_cng/feature/login/helper/login_helper.dart';
-import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:vibration/vibration.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

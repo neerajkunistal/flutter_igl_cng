@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebPage extends StatefulWidget {
@@ -31,18 +31,19 @@ class _WebPageState extends State<WebPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: appBackGround(
-        context: context,
-        child: Column(
-          children: [
-          //  _appBar(),
-            const DottedDividerLine(color: Colors.white),
-
-            /// IMPORTANT: WebView must be inside Expanded
-            Expanded(
-              child: WebViewWidget(controller: controller),
-            ),
-          ],
+      body: SafeArea(
+        child: AppBackgroundWidget(
+          child: Column(
+            children: [
+            //  _appBar(),
+              const DottedDividerLine(color: Colors.white),
+        
+              /// IMPORTANT: WebView must be inside Expanded
+              Expanded(
+                child: WebViewWidget(controller: controller),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -62,12 +63,14 @@ class _WebPageState extends State<WebPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,

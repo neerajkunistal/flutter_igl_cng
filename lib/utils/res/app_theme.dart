@@ -1,59 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
-ThemeData appTheme() {
+ThemeData appTheme({required BuildContext context}) {
+  final primaryColor = EnvironmentConfig.of(context)!.primaryTheme;
+
   return ThemeData(
     colorScheme: ColorScheme.light(
-      primary: AppColor.themeColor,
+      primary: primaryColor,
       onPrimary: AppColor.white,
       onSurface: Colors.black,
     ),
+
     checkboxTheme: CheckboxThemeData(
-      fillColor: MaterialStateColor.resolveWith(
-        (states) {
-          if (states.contains(MaterialState.selected)) {
-            return AppColor.themeColor; // the color when checkbox is selected;
+      fillColor: WidgetStateProperty.resolveWith(
+            (states) {
+          if (states.contains(WidgetState.selected)) {
+            return primaryColor;
           }
-          return Colors.white; //the color when checkbox is unselected;
+          return Colors.white;
         },
       ),
       checkColor: WidgetStateProperty.all<Color>(AppColor.white),
       side: const BorderSide(color: Color(0xff585858)),
     ),
+
     textButtonTheme: TextButtonThemeData(
-        style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all<Color>(AppColor.black))),
-    primaryColor: AppColor.themeColor,
+      style: ButtonStyle(
+        foregroundColor: WidgetStateProperty.all<Color>(AppColor.black),
+      ),
+    ),
+
+    primaryColor: primaryColor,
+
     appBarTheme: AppBarTheme(
-        iconTheme: IconThemeData(color: AppColor.white),
-        color: AppColor.themeColor),
+      iconTheme: IconThemeData(color: AppColor.white),
+      backgroundColor: primaryColor,
+    ),
+
     datePickerTheme: DatePickerThemeData(
-      headerBackgroundColor: AppColor.themeColor,
+      headerBackgroundColor: primaryColor,
       headerForegroundColor: Colors.white,
       backgroundColor: Colors.white,
+
       confirmButtonStyle: ButtonStyle(
-          foregroundColor:
-              WidgetStateProperty.all<Color>(AppColor.themeColor)),
+        foregroundColor: WidgetStateProperty.all<Color>(primaryColor),
+      ),
+
       cancelButtonStyle: ButtonStyle(
-          foregroundColor: WidgetStateProperty.all<Color>(AppColor.grey)),
+        foregroundColor: WidgetStateProperty.all<Color>(AppColor.grey),
+      ),
+
       surfaceTintColor: Colors.white,
-      dayStyle: TextStyle(color: AppColor.themeColor),
-      weekdayStyle:
-          TextStyle(color: AppColor.themeColor, fontWeight: FontWeight.w700),
+
+      dayStyle: TextStyle(color: primaryColor),
+
+      weekdayStyle: TextStyle(
+        color: primaryColor,
+        fontWeight: FontWeight.w700,
+      ),
     ),
+
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.white,
-    cardTheme:
-    const CardThemeData(color: Colors.white, surfaceTintColor: Colors.white),
-    dialogBackgroundColor: AppColor.white,
-    dialogTheme: DialogThemeData(
-      backgroundColor: AppColor.white,
-      surfaceTintColor: AppColor.white,
+
+    cardTheme: const CardThemeData(
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
     ),
+
+    dialogTheme: const DialogThemeData(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+    ),
+
     bottomAppBarTheme: const BottomAppBarThemeData(
-        color: Colors.white, surfaceTintColor: Colors.white),
+      color: Colors.white,
+      surfaceTintColor: Colors.white,
+    ),
+
     navigationBarTheme: const NavigationBarThemeData(
-        backgroundColor: Colors.white, surfaceTintColor: Colors.white),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.white,
+    ),
+
     primarySwatch: Colors.lightBlue,
     fontFamily: AppFont.rubik,
   );
@@ -75,10 +104,10 @@ Widget appBackGround(
               end: isGradientChange == null
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
-              colors: const [
-                Color.fromRGBO(239, 190, 17, 1.0),
-                Color.fromARGB(230, 131, 168, 30),
-                Color.fromARGB(230, 87, 163, 37),
+              colors:  [
+                EnvironmentConfig.of(context)!.primaryTheme.withValues(alpha: 0.8),
+                EnvironmentConfig.of(context)!.secondaryTheme.withValues(alpha: 0.8),
+                EnvironmentConfig.of(context)!.primaryTheme,
               ],
             ),
     ),

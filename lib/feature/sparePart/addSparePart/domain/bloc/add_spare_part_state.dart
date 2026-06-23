@@ -17,6 +17,7 @@ final class AddSparePartPageLoadState extends AddSparePartInitial {
 final class FetchAddSparePartDataState extends AddSparePartInitial {
   final SparesModel sparesData;
   final UomTypeModel uomTypeData;
+  final TextEditingController sparesController;
   final TextEditingController qtyController;
   final TextEditingController materialCodeController;
   final TextEditingController remarkCodeController;
@@ -27,6 +28,7 @@ final class FetchAddSparePartDataState extends AddSparePartInitial {
   FetchAddSparePartDataState({
    required this.remarkCodeController,
    required this.materialCodeController,
+   required this.sparesController,
    required this.qtyController,
    required this.sparesData,
    required this.uomTypeData,
@@ -39,6 +41,7 @@ final class FetchAddSparePartDataState extends AddSparePartInitial {
   List<Object> get props => [
     remarkCodeController,
     materialCodeController,
+    sparesController,
     qtyController,
     sparesData,
     uomTypeData,

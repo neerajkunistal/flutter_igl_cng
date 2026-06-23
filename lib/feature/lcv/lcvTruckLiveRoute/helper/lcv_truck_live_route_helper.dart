@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/request/helper/request_helper.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_polyline/src/point_latlng.dart';
 
 class LcvTruckLiveRouteHelper {
@@ -20,7 +19,7 @@ class LcvTruckLiveRouteHelper {
         polylines.add(Polyline(
           polylineId: const PolylineId("${9999}"),
           points: polylineCoordinates,
-          color: AppColor.themeColor,
+          color: EnvironmentConfig.of(context)!.primaryTheme,
           width: 5,
           consumeTapEvents: true,
           jointType: JointType.mitered,

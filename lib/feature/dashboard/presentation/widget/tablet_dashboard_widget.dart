@@ -37,7 +37,7 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                   onPressed: () {},
                   icon: Icon(
                     Icons.comment_bank_outlined,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                   ),
                   label: const TextWidget("Report Equipment Complaint"),
                 ),
@@ -54,7 +54,7 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                   onPressed: () {},
                   icon: Icon(
                     Icons.report_gmailerrorred,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                   ),
                   label: const TextWidget("Report Civil Complaint"),
                 ),

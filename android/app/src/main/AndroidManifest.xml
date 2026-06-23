@@ -28,7 +28,7 @@
         android:name="${applicationName}"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
-        android:icon="@mipmap/mgl_logo"
+        android:icon="@mipmap/hpcl_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"

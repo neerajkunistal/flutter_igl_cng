@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/presentation/page/cng_filling_station_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
+
 
 class ViewAssignmentItemBoxWidget extends StatelessWidget {
   final int index;
@@ -26,7 +20,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
       child: Card(
-        shadowColor: AppColor.themeLightColor,
+        shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -36,7 +30,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _driverName(driverName: assignmentData.driverName.toString()),
+              _driverName(driverName: assignmentData.driverName.toString(), context: context),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.01,
               ),
@@ -50,11 +44,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               _fromStation(
+                context: context,
                   fromStationName: assignmentData.mbStationName.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              _toStation(toStationName: assignmentData.dbStationName.toString()),
+              _toStation( context: context,toStationName: assignmentData.dbStationName.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
@@ -72,11 +67,12 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
-              _createDateTime(deliveryDate: assignmentData.createdAt.toString()),
+              _createDateTime( context: context,deliveryDate: assignmentData.createdAt.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
               ),
               _lastUpdate(
+                  context: context,
                   startDateTime: assignmentData.updatedAt.toString()),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
@@ -100,11 +96,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _driverName({required String driverName}) {
+  Widget _driverName({required String driverName, required BuildContext context}) {
     return Row(
       children: [
         TextWidget("Driver Name : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_13,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -134,11 +130,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _fromStation({required String fromStationName}) {
+  Widget _fromStation({required String fromStationName, required BuildContext context,}) {
     return Row(
       children: [
         TextWidget("From : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -151,11 +147,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _toStation({required String toStationName}) {
+  Widget _toStation({required String toStationName, required BuildContext context}) {
     return Row(
       children: [
         TextWidget("To : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -168,11 +164,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _receivedScm({required String receivedScm}) {
+  Widget _receivedScm({required String receivedScm, required BuildContext context}) {
     return Row(
       children: [
         TextWidget("Received Scm: ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -185,11 +181,11 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _currentScm({required String currentScm}) {
+  Widget _currentScm({required String currentScm, required BuildContext context}) {
     return Row(
       children: [
         TextWidget("Current Scm : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -227,7 +223,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     return Row(
       children: [
         TextWidget("Status : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -263,7 +259,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
                   :  assignmentData.fillStartTime.toString().isNotEmpty &&
                   assignmentData.fillEndTime.toString().isNotEmpty &&
                   assignmentData.status.toString() == "0"
-                  ? AppColor.themeLightColor
+                  ? EnvironmentConfig.of(context)!.secondaryTheme
                   : assignmentStatus == AssignmentStatus.complete
                   ? Colors.green
                   : assignmentStatus == AssignmentStatus.cancel
@@ -290,7 +286,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _createDateTime({required String deliveryDate}) {
+  Widget _createDateTime({required String deliveryDate, required BuildContext context}) {
     String dateTime = "";
     if (deliveryDate.isNotEmpty) {
       dateTime = DateFormat('dd-MMM-yyyy HH:MM')
@@ -299,7 +295,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     return Row(
       children: [
         TextWidget("Created DateTime : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -312,7 +308,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _lastUpdate({required String startDateTime}) {
+  Widget _lastUpdate({required String startDateTime, required BuildContext context}) {
     String dateTime = "";
     if (startDateTime.isNotEmpty) {
       dateTime = DateFormat('dd-MMM-yyyy HH:MM')
@@ -321,7 +317,7 @@ class ViewAssignmentItemBoxWidget extends StatelessWidget {
     return Row(
       children: [
         TextWidget("Last Update : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(

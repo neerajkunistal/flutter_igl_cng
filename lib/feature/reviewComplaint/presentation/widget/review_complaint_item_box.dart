@@ -1,558 +1,336 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/full_image_view_widget.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/video_player_view_widget.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_detail_page.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
+
 
 class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
   final int index;
   final bool? isDetailPage;
 
-  const ReviewComplaintItemBox(
-      {super.key,
-      required this.reviewComplaintData,
-      required this.index,
-      this.isDetailPage});
+  const ReviewComplaintItemBox({
+    super.key,
+    required this.reviewComplaintData,
+    required this.index,
+    this.isDetailPage,
+  });
+
+  // ---------------- HELPERS ----------------
+
+  List<String> _parseJsonList(String? raw) {
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final parsed = jsonDecode(raw);
+      return parsed is List ? parsed.map((e) => e.toString()).toList() : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  DateTime? _parseDate(String? raw) {
+    if (raw == null || raw.trim().isEmpty) return null;
+    try {
+      return DateFormat("yyyy-MM-dd HH:mm:ss").parse(raw);
+    } catch (_) {
+      try {
+        return DateTime.parse(raw.replaceAll(" ", "T"));
+      } catch (_) {
+        return null;
+      }
+    }
+  }
+
+  bool _isStationUser(LoginDataModel user) =>
+      user.roleType == RoleType.stationUser ||
+      user.roleType == RoleType.stationUserManager;
+
+  String _getMaintenanceStatus(String? action) {
+    switch (action) {
+      case "1":
+        return "Start";
+      case "2":
+        return "Hold";
+      case "3":
+        return "Closed";
+      default:
+        return "";
+    }
+  }
+
+  String _getComplaintStatus(ReviewComplaintModel data) {
+    if (data.rejectStatus == "1") return "Reopen";
+    if (data.complaintStatus == "0") return "New";
+    if (data.complaintStatus == "1" && data.ackStatus == "2") {
+      return "Reject - Not Acknowledge";
+    }
+    if (data.complaintStatus == "1") return "Completed";
+    if (data.complaintStatus == "2") return "Reject";
+    return "";
+  }
+
+  Color _getBorderColor(BuildContext context, LoginDataModel userData) {
+    final tabIndex =
+        BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
+
+    if (userData.roleType == RoleType.shiftEngineer) {
+      switch (tabIndex) {
+        case 6:
+          return Colors.orange;
+        case 1:
+          return Colors.purple;
+        case 2:
+          return Colors.yellow;
+        case 3:
+          return Colors.green;
+      }
+    }
+    return AppColor.white;
+  }
+
+  // ---------------- BUILD ----------------
 
   @override
   Widget build(BuildContext context) {
-    LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+    final userData = UserInfo.instanceInit()!.userData!;
+    final size = MediaQuery.of(context).size;
+    final spacing = size.width * 0.02;
 
-    // --- Safely parse attachment_file JSON ---
-    List<String> attachments = [];
-    if (reviewComplaintData.attachmentFile != null && reviewComplaintData.attachmentFile!.isNotEmpty) {
-      try {
-        final parsed = jsonDecode(reviewComplaintData.attachmentFile!);
-        if (parsed is List) {
-          attachments = parsed.map((e) => e.toString()).toList();
-        }
-      } catch (e) {
-        attachments = []; // fallback
-      }
-    }
+    final dt = _parseDate(reviewComplaintData.closeDateTime);
 
-    // Build image URLs
-    final List<String> imageUrls = attachments.map((a) => "${userData.complainPhotoUrl}$a").toList();
+    final formattedDate = dt != null ? DateFormat('yyyy-MM-dd').format(dt) : "";
+    final formattedTime = dt != null ? DateFormat('HH:mm:ss').format(dt) : "";
 
-    final String? videoFile = (reviewComplaintData.videoFile != null && reviewComplaintData.videoFile!.isNotEmpty)
+    final attachments = _parseJsonList(reviewComplaintData.attachmentFile);
+    final reviewAttach = _parseJsonList(reviewComplaintData.reviewAttachFile);
+
+    final imageUrls =
+        attachments.map((e) => "${userData.complainPhotoUrl}$e").toList();
+
+    final reviewAttachUrls =
+        reviewAttach.map((e) => "${userData.complainPhotoUrl}$e").toList();
+
+    final videoUrl = (reviewComplaintData.videoFile?.isNotEmpty ?? false)
         ? "${userData.complainVideoUrl}${reviewComplaintData.videoFile}"
         : null;
 
+    final isStationUser = _isStationUser(userData);
 
-    print("videoFile-->${videoFile}");
+    final complaintName =
+        reviewComplaintData.generalComplaintName?.toLowerCase().trim();
 
-    int tabIndex = BlocProvider.of<ViewEquipmentComplaintBloc>(context).selectTabIndex;
+    final showSpecialClosure = complaintName == "dry out" ||
+                     complaintName == "power supply not available";
+    final isEquipment = (reviewComplaintData.equipmentCode ?? "").isNotEmpty;
+    final maintenanceStatus = _getMaintenanceStatus(reviewComplaintData.action);
 
-    String maintenanceStatus = "";
-    String status = "";
+    final status = _getComplaintStatus(reviewComplaintData);
 
-    maintenanceStatus = reviewComplaintData.action.toString() == "1"
-        ? "Start"
-        : reviewComplaintData.action.toString() == "2"
-            ? "Hold"
-            : reviewComplaintData.action.toString() == "3"
-                ? "Closed"
-                : "";
-
-    status = reviewComplaintData.rejectStatus.toString() == "1"
-        ? "Reopen"
-        : reviewComplaintData.complaintStatus.toString() == "0"
-            ? "New"
-            : reviewComplaintData.complaintStatus.toString() == "1" &&
-                    reviewComplaintData.ackStatus.toString() == "2"
-                ? "Reject - Not Acknowledge"
-                : reviewComplaintData.complaintStatus.toString() == "1"
-                    ? "Completed"
-                    : reviewComplaintData.complaintStatus.toString() == "2"
-                        ? "Reject"
-                        : "";
-
+    final borderColor = _getBorderColor(context, userData);
     return Card(
-      shape: userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager &&
-              tabIndex == 4 &&
-              reviewComplaintData.ackStatus.toString() == "1" &&
-              reviewComplaintData.complaintStatus.toString() == "3"
-          ? RoundedRectangleBorder(
-              side: BorderSide(color: Colors.green, width: 2.0),
-              borderRadius: BorderRadius.circular(10.0))
-          : userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager &&
-                  tabIndex == 4 &&
-                  reviewComplaintData.ackStatus.toString() == "1" &&
-                  reviewComplaintData.complaintStatus.toString() == "0"
-              ? RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.red, width: 2.0),
-                  borderRadius: BorderRadius.circular(10.0))
-              : RoundedRectangleBorder(
-                  side: BorderSide(
-                      color: userData.roleType == RoleType.shiftEngineer &&
-                              tabIndex == 6 // self
-                          ? Colors.orange
-                          : userData.roleType == RoleType.shiftEngineer &&
-                                  tabIndex == 1 // Mi
-                              ? Colors.purple
-                              : userData.roleType == RoleType.shiftEngineer &&
-                                      tabIndex == 2 // Vendor
-                                  ? Colors.yellow
-                                  : userData.roleType ==
-                                              RoleType.shiftEngineer &&
-                                          tabIndex == 5 // close
-                                      ? Colors.white
-                                      : userData.roleType ==
-                                                  RoleType.shiftEngineer &&
-                                              tabIndex == 3 // close
-                                          ? Colors.green
-                                          : AppColor.white,
-                      width: 2.0),
-                  borderRadius: BorderRadius.circular(10.0)),
-      shadowColor: AppColor.themeColor,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: borderColor, width: 2),
+        borderRadius: BorderRadius.circular(10),
+      ),
       elevation: 2,
-      color: AppColor.white,
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(0.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _rowHeaderWidget(
-                    name: "Complaint Id",
-                    value: reviewComplaintData.tokenNo.toString()),
-                Divider(
-                  color: AppColor.lightGrey,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                  name: "Station Name",
-                  value:
-                  "${reviewComplaintData.cngStationName ?? ""}"
-                      "${reviewComplaintData.cngStationType != null &&
-                      reviewComplaintData.cngStationType!.isNotEmpty
-                      ? " (${reviewComplaintData.cngStationType})"
-                      : ""}",
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                  name: "Equipment Type",
-                  value: reviewComplaintData.equipmentTypeName ?? "",
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                  name: "Equipment vendor",
-                  value: reviewComplaintData.equipmentVendor ?? "",
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                  name: "Equipment vendor code",
-                  value: reviewComplaintData.equipmentVendorCode ?? "",
-                ),
-
-                _rowWidget(
-                    name:
-                        reviewComplaintData.equipmentCode.toString().isNotEmpty
-                            ? "Equipment"
-                            : "General",
-                    value: reviewComplaintData.equipmentCode
-                            .toString()
-                            .isNotEmpty
-                        ? reviewComplaintData.descriptionKva.toString()
-                        : reviewComplaintData.generalComplaintName.toString()),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                        userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
-                    ? _rowWidget(
-                        name: "Vendor Code",
-                        value: reviewComplaintData.vendorCode.toString())
-                    : const SizedBox.shrink(),
-                reviewComplaintData.equipmentCode.toString().isNotEmpty &&
-                    userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      )
-                    : const SizedBox.shrink(),
-                _rowWidget(
-                    name: "Complaint Status",
-                    value: status,
-                    color: reviewComplaintData.rejectStatus.toString() == "1"
-                        ? AppColor.orange
-                        : null),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                    name: "Complaint Date",
-                    value: reviewComplaintData.complaintDateTime.toString()),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                _rowWidget(
-                    name: "Report Date Time",
-                    value: reviewComplaintData.reportDateTime.toString()),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                reviewComplaintData.miAssignToUser.toString().isNotEmpty
-                    ? _rowWidget(
-                        name: "Assign To",
-                        value: reviewComplaintData.miAssignToUser.toString())
-                    : const SizedBox.shrink(),
-                reviewComplaintData.miAssignToUser.toString().isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      )
-                    : const SizedBox.shrink(),
-                _rowWidget(name: "MI Status", value: maintenanceStatus),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
-                /*            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),*/
-
-                // _rowWidget(
-                //     name: "Closed Date Time",
-                //     value: reviewComplaintData.maintenanceEndDate.toString()),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.width * 0.02,
-                // ),
-                // reviewComplaintData.complaintStatus.toString() == "3"
-                //     ? _rowWidget(
-                //         name: "Closure Status",
-                //         value: "Pending",
-                //         color: AppColor.red)
-                //     : const SizedBox.shrink(),
-                // reviewComplaintData.complaintStatus.toString() == "3"
-                //     ? SizedBox(
-                //         height: MediaQuery.of(context).size.width * 0.02,
-                //       )
-                //     : const SizedBox.shrink(),
-                // isDetailPage == true
-                //     ? const SizedBox.shrink()
-                //     : _closureButton(
-                //         context: context,
-                //         reviewComplaintData: reviewComplaintData),
-
-                userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager
-                    ? _rowWidget(
-                        name: "Notification No",
-                        value: reviewComplaintData.notificationNo.toString())
-                    : const SizedBox.shrink(),
-                reviewComplaintData.vendorComplaintNumber.toString().isNotEmpty
-                    ? _rowWidget(
-                        name: "Vendor Complaint No",
-                        value: reviewComplaintData.vendorComplaintNumber
-                            .toString())
-                    : const SizedBox.shrink(),
-                reviewComplaintData.vendorComplaintNumber.toString().isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      )
-                    : const SizedBox.shrink(),
-                userData.roleType != RoleType.stationUser || userData.roleType != RoleType.stationUserManager &&
-                        reviewComplaintData.sapRejectError.toString().isNotEmpty
-                    ? _rowWidget(
-                        name: "Sap Reject Error",
-                        value: reviewComplaintData.sapRejectError.toString(),
-                        color: AppColor.red)
-                    : const SizedBox.shrink(),
-                Container(
-                    height: 1,
-                    color: AppColor.lightGrey,
-                    width: MediaQuery.of(context).size.width),
-                _rowBottomWidget(
-                    name: "Description",
-                    value: reviewComplaintData.crComplaintDescription
-                            .toString()
-                            .isNotEmpty
-                        ? reviewComplaintData.crComplaintDescription.toString()
-                        : reviewComplaintData.complaintDescription.toString()),
-                SizedBox(height: 8),
-                _attachmentImages(imageUrls, context),
-                SizedBox(height: 8),
-                _videoWidget(videoUrl: videoFile,context: context),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: -8.0,
-            left: 0.09,
-            right: 0.09,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 7.0, right: 7.0),
-              child: Image.asset(
-                AppIcon.ghungaruIcon,
-                height: MediaQuery.of(context).size.width * 0.06,
-                color: Colors.grey[200],
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-  Widget _attachmentImages(List<String> imageUrls, BuildContext context) {
-    if (imageUrls.isEmpty) {
-      return SizedBox.shrink();
-    }
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.1,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: imageUrls.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (context, i) {
-          final imgUrl = imageUrls[i];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => FullImageViewWidget(imageUrl: imgUrl),
-                ),
-              );
-            },
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    imgUrl,
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width:MediaQuery.of(context).size.width * 0.2,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      height: MediaQuery.of(context).size.height * 0.09,
-                      width:MediaQuery.of(context).size.width * 0.2,
-                      color: Colors.grey[300],
-                      child: const Icon(
-                        Icons.broken_image,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black45,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: const Icon(
-                    Icons.zoom_out_map,
-                    color: Colors.white,
-                    size: 12,
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _videoWidget({
-    required BuildContext context,
-    required String? videoUrl,
-  }) {
-    if (videoUrl == null || videoUrl.isEmpty) {
-      return const SizedBox.shrink(); // nothing to show
-    }
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => VideoPlayerViewWidget(videoUrl: videoUrl),
-          ),
-        );
-      },
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.width * 0.3,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Icon(
-              Icons.videocam,
-              color: Colors.white54,
-              size: 60,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.black45,
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: const Icon(
-              Icons.play_arrow,
-              color: Colors.white,
-              size: 32,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-  Widget _rowHeaderWidget({required String name, required String value}) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-      ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
+        padding: const EdgeInsets.all(10),
+        child: Column(
           children: [
-            TextWidget(
-              "$name ",
-              fontWeight: FontWeight.w700,
-              fontSize: AppFont.font_13,
-              color: AppColor.themeColor,
+            _row("Complaint Id", reviewComplaintData.tokenNo.toString()),
+            _divider(),
+            _row("Station Name",
+                "${reviewComplaintData.cngStationName ?? ""} ${reviewComplaintData.cngStationType ?? ""}"),
+            _row(
+              (reviewComplaintData.equipmentCode ?? "").isNotEmpty
+                  ? "Equipment"
+                  : "General",
+              (reviewComplaintData.equipmentCode ?? "").isNotEmpty
+                  ? reviewComplaintData.descriptionKva ?? ""
+                  : reviewComplaintData.generalComplaintName ?? "",
             ),
-            Expanded(
-                child: TextWidget(value,
-                    textAlign: TextAlign.end, fontSize: AppFont.font_13)),
+            if ((reviewComplaintData.equipmentTypeName ?? "").isNotEmpty)
+              _row("Equipment Type",
+                  reviewComplaintData.equipmentTypeName ?? ""),
+            if ((reviewComplaintData.equipmentVendor ?? "").isNotEmpty)
+              _row("Equipment Vendor",
+                  reviewComplaintData.equipmentVendor ?? ""),
+            if ((reviewComplaintData.equipmentCode ?? "").isNotEmpty &&
+                !isStationUser)
+              _row("Vendor Code", reviewComplaintData.equipmentCode ?? ""),
+            _row("Complaint Status", status,
+                color: reviewComplaintData.rejectStatus == "1"
+                    ? AppColor.orange
+                    : null),
+            _row("Complaint Date", reviewComplaintData.complaintDateTime ?? ""),
+            _row("Report Date Time", reviewComplaintData.reportDateTime ?? ""),
+            formattedDate.isNotEmpty
+                ? _row("Close Date", formattedDate)
+                : SizedBox.shrink(),
+            formattedTime.isNotEmpty
+                ? _row("Close Time", formattedTime)
+                : SizedBox.shrink(),
+            reviewComplaintData.actionTaken!.isNotEmpty
+                ? _row("Action Taken", reviewComplaintData.actionTaken ?? "")
+                : SizedBox.shrink(),
+            reviewComplaintData.personName!.isNotEmpty
+                ? _row("Person Name", reviewComplaintData.personName ?? "")
+                : SizedBox.shrink(),
+            maintenanceStatus.isNotEmpty
+                ? _row("MI Status", maintenanceStatus)
+                : SizedBox.shrink(),
+            if (showSpecialClosure) ...[
+              reviewComplaintData.maintenanceEndDate!.isNotEmpty
+                  ? _row("Closed Date Time",
+                      reviewComplaintData.maintenanceEndDate ?? "")
+                  : SizedBox.shrink(),
+              if (reviewComplaintData.complaintStatus == "3")
+                _row("Closure Status", "Pending", color: AppColor.red),
+              if (isDetailPage != true)
+                _closureButton(context, reviewComplaintData),
+            ],
+            if (!showSpecialClosure && isEquipment && isDetailPage != true)
+              _closureButton(context, reviewComplaintData,),
+            reviewComplaintData.serialNumber!.isNotEmpty
+                ? _row("Serial Number", reviewComplaintData.serialNumber ?? "")
+                : SizedBox.shrink(),
+            if (!isStationUser) ...[
+              reviewComplaintData.notificationNo!.isNotEmpty
+                  ? _row("Notification No",
+                      reviewComplaintData.notificationNo ?? "")
+                  : SizedBox.shrink(),
+            ],
+            if ((reviewComplaintData.vendorComplaintNumber ?? "")
+                .isNotEmpty) ...[
+              _row("Vendor Complaint No",
+                  reviewComplaintData.vendorComplaintNumber ?? ""),
+            ],
+            _divider(),
+            _row(
+                "Description",
+                reviewComplaintData.crComplaintDescription?.isNotEmpty == true
+                    ? reviewComplaintData.crComplaintDescription!
+                    : reviewComplaintData.complaintDescription ?? ""),
+            _imageList(imageUrls, context),
+            _imageList(reviewAttachUrls, context),
+            _videoWidget(context, videoUrl),
           ],
         ),
       ),
     );
   }
 
-  Widget _rowWidget(
-      {required String name, required String value, Color? color}) {
+  // ---------------- UI WIDGETS ----------------
+
+  Widget _row(String name, String value, {Color? color}) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          TextWidget("$name : ", fontSize: AppFont.font_13),
+          TextWidget("$name : "),
           Expanded(
-              child: TextWidget(
-            value,
-            textAlign: TextAlign.end,
-            fontSize: AppFont.font_13,
-            color: color ?? AppColor.black,
-          )),
+            child: TextWidget(
+              value,
+              textAlign: TextAlign.end,
+              color: color ?? AppColor.black,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _rowBottomWidget({required String name, required String value}) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(10.0)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextWidget("$name : ", fontSize: AppFont.font_13),
-            Expanded(
-                child: TextWidget(value,
-                    textAlign: TextAlign.end, fontSize: AppFont.font_13)),
-          ],
+  Widget _divider() => Divider(color: AppColor.lightGrey);
+
+  Widget _imageList(List<String> urls, BuildContext context) {
+    if (urls.isEmpty) return const SizedBox.shrink();
+
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: urls.length,
+        itemBuilder: (_, i) => GestureDetector(
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => FullImageViewWidget(imageUrl: urls[i])),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: Image.network(urls[i], width: 80, fit: BoxFit.cover),
+          ),
         ),
       ),
     );
   }
 
-  Widget _closureButton(
-      {required BuildContext context,
-      required ReviewComplaintModel reviewComplaintData}) {
-    LoginDataModel userData = UserInfo.instance!.userData!;
-    return (reviewComplaintData.rejectStatus.toString() == "1" &&
-        userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager) ||
-            ((reviewComplaintData.seAssignStatus.toString() == "0" &&
-                        reviewComplaintData.ackStatus.toString() == "0") ||
-                    (reviewComplaintData.seAssignStatus.toString() == "1" &&
-                        reviewComplaintData.ackStatus.toString() == "1")) &&
-                (reviewComplaintData.complaintStatus.toString() == "0" &&
-                    reviewComplaintData.assignType.toString() != "3" &&
-                    userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager)
-        ? Align(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 3,
-              child: reviewComplaintData.isSelected == false
-                  ? ButtonWidget(
-                      backgroundColor: AppColor.red,
-                      text: "Closure",
-                      fontSize: AppFont.font_12,
-                      onPressed: () async {
-                        BlocProvider.of<AddSparePartBloc>(context)
-                            .add(AddSparePartClearSparePartEvent());
-                        BlocProvider.of<AddScrapBloc>(context)
-                            .add(AddScrapClearScrapDataEvent(context: context));
-                        BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-                            .add(ViewEquipmentComplaintSelectedComplaintEvent(
-                                index: index));
-                        var result = await Navigator.push(
-                            context,
-                            FadeRoute(
-                                page:
-                                    const ViewEquipmentComplaintDetailPage()));
-                        if (result.toString() == "Completed") {
-                          BlocProvider.of<ViewEquipmentComplaintBloc>(
-                                  !context.mounted ? context : context)
-                              .add(ViewEquipmentComplaintPageLoadEvent(
-                                  context:
-                                      !context.mounted ? context : context));
-                        }
+  Widget _videoWidget(BuildContext context, String? url) {
+    if (url == null) return const SizedBox.shrink();
 
-/*                if(await _onClosureComplaintPop(context: context) == true){
-                  BlocProvider.of<ViewEquipmentComplaintBloc>(!context.mounted ? context: context).add(
-                      ViewEquipmentComplaintClosureEvent(context: context.mounted ? context: context,
-                      reviewComplaintData: reviewComplaintData, index: index));
-                }*/
-                      },
-                    )
-                  : const DottedLoaderWidget(),
-            ),
-          )
-        : const SizedBox.shrink();
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => VideoPlayerViewWidget(videoUrl: url)),
+      ),
+      child: Container(
+        height: 80,
+        width: 120,
+        color: Colors.black,
+        child: const Icon(Icons.play_arrow, color: Colors.white),
+      ),
+    );
   }
 
-  Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
-    return (await showDialog(
-            context: context,
-            builder: (BuildContext mContext) => MessageBoxTwoButtonPopWidget(
-                message: "Do you want to closure complaint?",
-                okButtonText: "Closure",
-                okButtonColour: AppColor.red,
-                onPressed: () => Navigator.of(context).pop(true)))) ??
-        false;
+  Widget _closureButton(BuildContext context, ReviewComplaintModel data) {
+    final user = UserInfo.instance!.userData!;
+    final isStationUser = _isStationUser(user);
+
+    final canShow = (data.rejectStatus == "1" && isStationUser)
+        || ((data.seAssignStatus == "0" && data.ackStatus == "0") ||
+            (data.seAssignStatus == "1" && data.ackStatus == "1")) &&
+            (data.complaintStatus == "0" &&
+                data.assignType != "3" &&
+                isStationUser);
+
+    if (!canShow) return const SizedBox.shrink();
+    print("CLOSURE token=${data.tokenNo} role=${user.roleType} "
+        "isStation=$isStationUser isEquip= "
+        "reject=${data.rejectStatus} seAssign=${data.seAssignStatus} "
+        "ack=${data.ackStatus} cStatus=${data.complaintStatus} "
+        "assignType=${data.assignType} isSelected=${data.isSelected} "
+        "canShow=$canShow");
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 3,
+        child: data.isSelected == false
+            ? ButtonWidget(
+                backgroundColor: AppColor.red,
+                text: "Closure",
+                onPressed: () async {
+                  BlocProvider.of<AddSparePartBloc>(context)
+                      .add(AddSparePartClearSparePartEvent());
+
+                  BlocProvider.of<AddScrapBloc>(context)
+                      .add(AddScrapClearScrapDataEvent(context: context));
+
+                  BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                      ViewEquipmentComplaintSelectedComplaintEvent(
+                          index: index));
+
+                  final result = await Navigator.push(
+                      context,
+                      FadeRoute(
+                          page: const ViewEquipmentComplaintDetailPage()));
+
+                  if (result == "Completed") {
+                    BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
+                        ViewEquipmentComplaintPageLoadEvent(context: context));
+                  }
+                },
+              )
+            : const DottedLoaderWidget(),
+      ),
+    );
   }
 }

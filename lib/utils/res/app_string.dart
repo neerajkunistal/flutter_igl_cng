@@ -206,6 +206,7 @@ class AppString {
 
   static get qty => "Qty";
 
+
   static get materialCode => "Material Code";
 
   static get editDescription => "Edit Description";
@@ -530,6 +531,10 @@ class AppString {
   static get destroy => "Destroy";
 
   static get reusable => "Reusable";
+
+  static get closedByName => "Closed By (Person Name)";
+
+  static get actionTaken => "Action Taken";
 
   static get provisionallyApproved => "Provisionally Approved";
 

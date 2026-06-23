@@ -89,10 +89,10 @@ flutter:
         - asset: fonts/Rubik-Regular.ttf
 
 flutter_icons:
-  android: "mgl_logo"
+  android: "hpcl_logo"
   ios: true
   remove_alpha_ios: true
-  image_path: "assets/mgl_logo.png"
+  image_path: "assets/hpcl_logo.png"
   min_sdk_android: 21
 
 

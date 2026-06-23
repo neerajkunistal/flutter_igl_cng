@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
 
 cvFilter({required BuildContext context}) {
   showModalBottomSheet(
@@ -179,7 +177,7 @@ class CvFilterWidget extends StatelessWidget {
       Navigator.pop(context);
     }, child: TextWidget("Clear",
       fontWeight: FontWeight.w700,
-      color: AppColor.themeColor,
+      color: EnvironmentConfig.of(context)!.primaryTheme,
     )
     );
   }

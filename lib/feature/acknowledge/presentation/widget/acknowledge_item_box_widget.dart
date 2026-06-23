@@ -1,14 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/complaint_assign_widget.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/video_player_view_widget.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-
-import 'full_image_view_widget.dart';
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
@@ -68,7 +59,8 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
               children: [
                 _rowHeaderWidget(
                     name: "Complaint ID",
-                    value: acknowledgeData.tokenNo.toString()),
+                    value: acknowledgeData.tokenNo.toString(),
+                  context: context,),
                 Container(
                     height: 1,
                     color: AppColor.lightGrey,
@@ -90,21 +82,21 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 ),
                 _rowWidget(
                   name: "Equipment Type",
-                  value: acknowledgeData.equipmentTypeName ?? "",
+                  value: acknowledgeData.equipmentTypeName!.isEmpty ? "NA" :acknowledgeData.equipmentTypeName.toString(),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
                   name: "Equipment vendor",
-                  value: acknowledgeData.equipmentVendor ?? "",
+                  value: acknowledgeData.equipmentVendor!.isEmpty ? "NA" : acknowledgeData.equipmentVendor.toString(),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
                 _rowWidget(
                   name: "Equipment vendor code",
-                  value: acknowledgeData.equipmentVendorCode ?? "",
+                  value: acknowledgeData.equipmentVendorCode!.isEmpty ? "NA" :acknowledgeData.equipmentVendorCode.toString(),
                 ),
                 _rowWidget(
                     name: acknowledgeData.equipmentCode.toString().isNotEmpty
@@ -371,7 +363,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
   }
 
 
-  Widget _rowHeaderWidget({required String name, required String value}) {
+  Widget _rowHeaderWidget({required String name, required String value, required BuildContext context}) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -383,7 +375,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         child: Row(
           children: [
             TextWidget("$name ",
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fontWeight: FontWeight.w700,
                 fontSize: AppFont.font_13),
             Expanded(
@@ -442,7 +434,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
         child: ButtonWidget(
             backgroundColor: acknowledgeData.assignTo.toString() != "0"
                     ? AppColor.orange
-                    : AppColor.themeColor,
+                    : EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_11,
             text:(acknowledgeData.assignTo.toString().isEmpty ||
                         acknowledgeData.assignTo.toString() == "0")

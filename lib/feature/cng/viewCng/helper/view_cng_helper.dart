@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-
 class ViewCngHelper {
   static Future<dynamic> fetchCngCivilData(
       {String? fromDate, String? toDate}) async {

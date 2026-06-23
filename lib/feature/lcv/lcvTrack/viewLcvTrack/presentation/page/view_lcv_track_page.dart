@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/addLcvTrack/domain/bloc/add_lcv_track_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/addLcvTrack/presentation/page/add_lcv_track_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/bloc/view_lcv_track_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/model/lcv_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ViewLcvTrackPage extends StatefulWidget {
   const ViewLcvTrackPage({super.key});
@@ -93,7 +89,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
       {required int index, required LcvTruckModel lcvTruckData}) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeLightColor,
+      shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -146,7 +142,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
 
   Widget _truckNumber({required String truckNumber}) {
     return TextWidget(truckNumber,
-        color: AppColor.themeColor,
+        color: EnvironmentConfig.of(context)!.primaryTheme,
         fontSize: AppFont.font_16,
         fontWeight: FontWeight.w700);
   }
@@ -155,7 +151,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
     return Row(
       children: [
         TextWidget("Vehicle name : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -172,7 +168,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
     return Row(
       children: [
         TextWidget("Engine No. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -189,7 +185,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
     return Row(
       children: [
         TextWidget("Chassis No. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -206,7 +202,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
     return Row(
       children: [
         TextWidget("Vehicle Aver. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -224,7 +220,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
     return Row(
       children: [
         TextWidget("Fuel Type : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -254,7 +250,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(status.isEmpty ? "Active" : "Deactivate",
-              color: status.isEmpty ? AppColor.themeColor : AppColor.red,
+              color: status.isEmpty ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.red,
               fontSize: AppFont.font_14,
               fontWeight: FontWeight.w700),
         ),
@@ -274,7 +270,7 @@ class _ViewLcvTrackPageState extends State<ViewLcvTrackPage> {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => const AddLcvTrackPage()));
         },
-            icon: Icon(Icons.edit_note_outlined, color: AppColor.themeColor,)),*/
+            icon: Icon(Icons.edit_note_outlined, color: EnvironmentConfig.of(context)!.primaryTheme,)),*/
 
         IconButton(
             onPressed: () {

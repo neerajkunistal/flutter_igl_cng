@@ -66,18 +66,32 @@ android {
         }
 
         prodMGL {
-            resValue "string", "app_name", "CNG Complaint"
+            resValue "string", "app_name", "MGL CNG Complaint"
             applicationIdSuffix ".unistalmglcng.app"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/unistal_logo",
-                    appIconRound: "@mipmap/unistal_logo"
+                    appIcon: "@mipmap/mgl_logo",
+                    appIconRound: "@mipmap/mgl_logo"
             ]
             def keystorePropertiesFile = rootProject.file('mgl.properties')
             if (keystorePropertiesFile.exists()) {
                 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             }
-            versionCode 07
+            versionCode 9
             versionName "1.0.0-MGL"
+        }
+        prodHPCL {
+            resValue "string", "app_name", "HPCL CNG Complaint"
+            applicationIdSuffix ".unistalhpclcng.app"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/hpcl_logo",
+                    appIconRound: "@mipmap/hpcl_logo"
+            ]
+            def keystorePropertiesFile = rootProject.file('hpcl.properties')
+            if (keystorePropertiesFile.exists()) {
+                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+            }
+            versionCode 1
+            versionName "1.0.0-HPCL"
         }
     }
 

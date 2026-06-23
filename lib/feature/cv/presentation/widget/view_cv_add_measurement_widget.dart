@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
 
 class ViewCvAddMeasurementWidget extends StatelessWidget {
   const ViewCvAddMeasurementWidget({super.key});
@@ -149,7 +148,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                       ? TextWidget(
                     file.path.split('.').last.toString(),
                     maxLines: 1,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   ) : const SizedBox.shrink(),
                 ],
@@ -238,7 +237,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                       ? TextWidget(
                     file.path.split('/').last.toString(),
                     maxLines: 2,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   )
                       : const SizedBox.shrink(),
@@ -251,7 +250,7 @@ class ViewCvAddMeasurementWidget extends StatelessWidget {
                   child: Center(
                       child: Icon(
                         Icons.refresh,
-                        color: AppColor.themeColor,
+                        color: EnvironmentConfig.of(context)!.primaryTheme,
                       ))),
               Align(
                 alignment: Alignment.topRight,

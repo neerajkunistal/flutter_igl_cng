@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngScmInfo/viewCngScm/domain/model/cng_scm_model.dart';
 
 class ViewCngScmItemBoxWidget extends StatelessWidget {
   final int index;
@@ -13,7 +12,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeLightColor,
+      shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -25,7 +24,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
               children: [
                 TextWidget(
                   AppString.currentScmQuantity + " : ",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(
@@ -41,7 +40,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
               children: [
                 TextWidget(
                   AppString.sellScmQuantity + " : ",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(
@@ -57,7 +56,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
               children: [
                 TextWidget(
                   AppString.remainScmQuantity + " : ",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(
@@ -73,7 +72,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
               children: [
                 TextWidget(
                   AppString.requiredScmQuantity + " : ",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(
@@ -90,7 +89,7 @@ class ViewCngScmItemBoxWidget extends StatelessWidget {
               children: [
                 TextWidget(
                   AppString.createDate + " : ",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(

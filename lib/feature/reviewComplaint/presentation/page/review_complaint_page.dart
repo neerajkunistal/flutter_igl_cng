@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
+
 
 class ReviewComaplintPage extends StatefulWidget {
   const ReviewComaplintPage({super.key});
@@ -27,8 +15,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: appBackGround(
-        context: context,
+      body: AppBackgroundWidget(
         child: Column(
           children: [
             _appBar(),
@@ -76,12 +63,14 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
                   ? AppIcon.appLogoPurvaBharti
                   : AppConfig.instanceInit()!.client == Client.mahanagar
                       ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
                       : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -93,6 +82,10 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
   Widget _itemBuilder({required FetchReviewComplaintDataState dataState}) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     final client = AppConfig.instanceInit()!.client;
+
+    final bool isMahanagar = client == Client.mahanagar;
+    final bool isHPCL  = client == Client.hpcl;
+    final bool isShiftEngineer = userData.roleType == RoleType.shiftEngineer;
     return Container(
       margin: const EdgeInsets.all(10),
       child: SingleChildScrollView(
@@ -102,37 +95,16 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _verticalSpace(),
             _scrapList(dataState: dataState),
             _sparePartList(dataState: dataState),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                : userData.roleType == RoleType.shiftEngineer
-                    ? _codeGroupDropDown(dataState: dataState, context: context)
-                    : const SizedBox.shrink(),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                :  userData.roleType == RoleType.shiftEngineer
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                : userData.roleType == RoleType.shiftEngineer
-                ? _sapCodeDropDown(dataState: dataState, context: context)
-                : const SizedBox.shrink(),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                : userData.roleType == RoleType.shiftEngineer
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                : userData.roleType == RoleType.shiftEngineer &&
-                    dataState.reviewComplaintData.assignType.toString() != "1"
-                ? _radioButton(dataState: dataState)
-                : const SizedBox.shrink(),
-            client == Client.mahanagar
-                ? SizedBox.shrink()
-                :  userData.roleType == RoleType.shiftEngineer
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+            if (!(isMahanagar || isHPCL) && isShiftEngineer) ...[
+              _codeGroupDropDown(dataState: dataState, context: context),
+              _verticalSpace(),
+              _sapCodeDropDown(dataState: dataState, context: context),
+              _verticalSpace(),
+              if (dataState.reviewComplaintData.assignType.toString() != "1")
+                _radioButton(dataState: dataState),
+              _verticalSpace(),
+            ],
+
             Row(
               children: [
                 Expanded(child: _dateController(dataState: dataState)),
@@ -146,6 +118,10 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
             _observationController(dataState: dataState),
             _verticalSpace(),
             _rectifiedByController(dataState: dataState),
+            _verticalSpace(),
+            _closedByField(dataState: dataState),
+            _verticalSpace(),
+            _actionTakenField(dataState: dataState),
             _verticalSpace(),
             _imageList(dataState: dataState),
             _verticalSpace(),
@@ -162,8 +138,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  Widget _complaintItemBuilder(
-      {required FetchReviewComplaintDataState dataState}) {
+  Widget _complaintItemBuilder({required FetchReviewComplaintDataState dataState}) {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return dataState.reviewComplaintData.id != null
         ? Column(
@@ -220,35 +195,19 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                                 height:
                                     MediaQuery.of(context).size.width * 0.02,
                               ),
-                              dataState.reviewComplaintData
-                                              .stationAttachmentFile !=
-                                          null &&
-                                      dataState.reviewComplaintData
-                                          .stationAttachmentFile!.isNotEmpty
+                              dataState.reviewComplaintData.stationAttachmentFile != null &&
+                                      dataState.reviewComplaintData.stationAttachmentFile!.isNotEmpty
                                   ? SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.15,
+                                      height: MediaQuery.of(context).size.width * 0.15,
                                       child: ListView.builder(
-                                          itemCount: dataState
-                                              .reviewComplaintData
-                                              .stationAttachmentFile!
-                                              .length,
+                                          itemCount: dataState.reviewComplaintData.stationAttachmentFile!.length,
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
                                             return Image.network(
-                                              dataState.reviewComplaintData
-                                                  .stationAttachmentFile![index]
-                                                  .toString(),
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.13,
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.13,
+                                              dataState.reviewComplaintData.stationAttachmentFile![index].toString(),
+                                              height: MediaQuery.of(context).size.width * 0.13,
+                                              width: MediaQuery.of(context).size.width * 0.13,
                                             );
                                           }),
                                     )
@@ -450,11 +409,27 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
     );
   }
 
-  Widget _rectifiedByController(
-      {required FetchReviewComplaintDataState dataState}) {
+  Widget _rectifiedByController({required FetchReviewComplaintDataState dataState}) {
     return TextFieldWidget(
       labelText: AppString.rectifiedBy,
       controller: dataState.rectifiedByController,
+    );
+  }
+
+  Widget _closedByField({required FetchReviewComplaintDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.closedByName,
+      controller: dataState.closedByController,
+    );
+  }
+
+  Widget _actionTakenField({required FetchReviewComplaintDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.actionTaken,
+      controller: dataState.actionTakenController,
+      maxLine: 4,
     );
   }
 
@@ -547,7 +522,7 @@ class _ReviewComaplintPageState extends State<ReviewComaplintPage> {
                                     .split('/')
                                     .last
                                     .toString(),
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),

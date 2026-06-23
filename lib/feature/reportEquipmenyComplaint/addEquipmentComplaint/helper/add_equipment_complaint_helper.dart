@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
-import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
-import 'package:flutter_igl_cng/services/firebase/page_id.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AddEquipmentComplaintHelper {
-
-  static Future<dynamic> textFieldValidation({
+// Helper for safe comparison
+  static bool _isDryOut(GeneralComplaintModel generalComplaintData) =>
+      generalComplaintData.name?.toString().trim().toLowerCase() == "dry out";
+  static bool _hasRealFile(List<File> files) =>
+      files.any((f) => f.path.isNotEmpty);
+  static Future<bool> textFieldValidation({
     required BuildContext context,
     required ComplaintTypeModel complaintTypeData,
     required EquipmentTypeModel equipmentTypeData,
@@ -23,30 +20,38 @@ class AddEquipmentComplaintHelper {
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
   }) async {
+    final String complaintId = complaintTypeData.id?.toString() ?? "";
 
-    try{
-      if(complaintTypeData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select complaint type");
-        return false;
-      }
-      else if(complaintTypeData.id.toString() == "2" && equipmentTypeData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select equipment");
-        return false;
-      }
-      else if(complaintTypeData.id.toString() == "1" && generalComplaintData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select general");
-        return false;
-      }
-      else if(time.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter time");
-        return false;
-      }
-      else if(name.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter reported by name");
-        return false;
-      }
-      return true;
-    }catch(_){}
+    if (complaintTypeData.id == null) {
+      return _showError(context, "Please select complaint type");
+    }
+    if (complaintId == "2" && equipmentTypeData.id == null) {
+      return _showError(context, "Please select equipment");
+    }
+    if (complaintId == "1" && generalComplaintData.id == null) {
+      return _showError(context, "Please select general");
+    }
+    if (date.isEmpty) {
+      return _showError(context, "Please enter date");
+    }
+    if (time.isEmpty) {
+      return _showError(context, "Please enter time");
+    }
+    if (name.isEmpty) {
+      return _showError(context, "Please enter reported by name");
+    }
+
+    // ✅ Dry Out photo check
+    if (_isDryOut(generalComplaintData) && !_hasRealFile(file)) {
+      return _showError(context, "Please upload at least one photo for Dry Out complaint");
+    }
+
+    return true;
+  }
+
+// Helper to show snackbar and return false
+  static bool _showError(BuildContext context, String message) {
+    SnackBarErrorWidget(context).show(message: message);
     return false;
   }
 
@@ -127,6 +132,7 @@ class AddEquipmentComplaintHelper {
     required EquipmentTypeModel equipmentTypeData,
     required String description,
     required String name,
+    required String lcvCascade,
     required List<File> file,
     required List<File> videoFiles,
     required String date,
@@ -145,6 +151,7 @@ class AddEquipmentComplaintHelper {
         "equipmentId": equipmentTypeData.id != null ? equipmentTypeData.id.toString() : "0",
         "description": description,
         "reportBy": name,
+        "lcv_cascade_pressure": lcvCascade,
         "complaintDateTime": "$date $time",
         "generalComplaintDesc": generalDescription,
         "generalComplaintId": generalComplaintData.id != null ? generalComplaintData.id.toString() : "0",
@@ -172,8 +179,6 @@ class AddEquipmentComplaintHelper {
       for (var fileData in videoFiles) {
         if (fileData.path.isNotEmpty) {
           fileList.add(FileModel(name: "file", file: fileData, keyName: "videoFile"));
-          print('fileData--->${fileData}');
-          print('fileList--->${fileList}');
         }
       }
       if (!context.mounted) return null;

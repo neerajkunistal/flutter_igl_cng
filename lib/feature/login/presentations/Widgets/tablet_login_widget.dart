@@ -78,12 +78,14 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
               right: 00.0,
               bottom: MediaQuery.of(context).size.height * 0.13,
               child: Image.asset(
-                AppConfig.instanceInit()!.client == Client.iglcng
+                AppConfig.instanceInit()!.client == Client.igl
                     ? AppIcon.appLogoIgl
-                    : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                    : AppConfig.instanceInit()!.client == Client.pbgpl
                     ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.mahanagar
                     ? AppIcon.appLogoMGL
+                    : AppConfig.instanceInit()!.client == Client.hpcl
+                    ? AppIcon.appLogoHPCL
                     : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.30,
               ),
@@ -92,7 +94,7 @@ class _TabletLoginWidgetState extends State<TabletLoginWidget> {
               alignment: Alignment.bottomCenter,
               child: Image.asset(
                 AppIcon.colourStrip,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fit: BoxFit.cover,
 /*                width: MediaQuery.of(context).size.width/2.3,*/
               ),

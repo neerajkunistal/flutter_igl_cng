@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assign_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_assignment_list_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_final_approve_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/ci_update_status_widget.dart';
-import 'package:flutter_igl_cng/feature/ci/presentation/widget/particular_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
-import 'package:flutter_igl_cng/feature/cv/presentation/widget/estimate_coast_history_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewCiDetailPage extends StatefulWidget {
   const ViewCiDetailPage({super.key});
@@ -24,8 +14,7 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: appBackGround(
-          context: context,
+        body: AppBackgroundWidget(
           child: Column(
             children: [
               _appBar(),
@@ -82,12 +71,14 @@ class _ViewCiDetailPageState extends State<ViewCiDetailPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,

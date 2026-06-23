@@ -10,26 +10,19 @@ class AddSapWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = AppConfig.instanceInit()!.client;
+    final bool isMahanagar = client == Client.mahanagar;
+    final bool isHPCL = client == Client.hpcl;
+
     return Column(
       children: [
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :  _verticalSpace(context: context),
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :   _departmentDropDown(dataState: dataState, context: context),
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :  _verticalSpace(context: context),
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :   _plannerTypeDropDown(dataState: dataState, context: context),
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :   _verticalSpace(context: context),
-        client == Client.mahanagar
-            ? SizedBox.shrink()
-            :  _workCenterTypeDropDown(dataState: dataState, context: context),
+        if (!(isMahanagar || isHPCL)) ...[
+          _verticalSpace(context: context),
+          _departmentDropDown(dataState: dataState, context: context),
+          _verticalSpace(context: context),
+          _plannerTypeDropDown(dataState: dataState, context: context),
+          _verticalSpace(context: context),
+          _workCenterTypeDropDown(dataState: dataState, context: context),
+        ],
         _verticalSpace(context: context),
         _personResponsibleController(dataState: dataState),
         _verticalSpace(context: context),
@@ -37,9 +30,10 @@ class AddSapWidget extends StatelessWidget {
     );
   }
 
-  Widget _departmentDropDown(
-      {required FetchAddAcknowledgeComplaintState dataState,
-        required BuildContext context}) {
+  Widget _departmentDropDown({
+    required FetchAddAcknowledgeComplaintState dataState,
+    required BuildContext context,
+  }) {
     return DropdownWidget(
       isRequired: true,
       hint: AppString.department,

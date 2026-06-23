@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
-import 'package:flutter_igl_cng/feature/login/presentations/pages/login_screen_page.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class TabletDrawerWidget extends StatelessWidget {
   final FetchHomeDataState dataState;
@@ -13,7 +9,7 @@ class TabletDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColor.themeLightColor,
+      color: EnvironmentConfig.of(context)!.secondaryTheme,
       height: MediaQuery.of(context).size.height,
       child: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
@@ -52,12 +48,14 @@ class TabletDrawerWidget extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
               child: Image.asset(
-                AppConfig.instanceInit()!.client == Client.iglcng
+                AppConfig.instanceInit()!.client == Client.igl
                     ? AppIcon.appLogoIgl
-                    : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                    : AppConfig.instanceInit()!.client == Client.pbgpl
                     ? AppIcon.appLogoPurvaBharti
                     : AppConfig.instanceInit()!.client == Client.mahanagar
                     ? AppIcon.appLogoMGL
+                    : AppConfig.instanceInit()!.client == Client.hpcl
+                    ? AppIcon.appLogoHPCL
                     : AppIcon.appLogoIgl,
                 width: MediaQuery.of(context).size.width * 0.13,
               ),

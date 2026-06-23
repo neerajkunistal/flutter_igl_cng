@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
 
 class ViewAssignmentFilterWidget {
   BuildContext context;
@@ -39,7 +38,7 @@ class ViewAssignmentFilterWidget {
                     children: [
                        TextWidget(
                         "View Assignment Filter",
-                         color: AppColor.themeColor,
+                         color: EnvironmentConfig.of(context)!.primaryTheme,
                          fontSize: AppFont.font_15,
                          fontWeight: FontWeight.w700,
                       ),
@@ -197,7 +196,7 @@ class ViewAssignmentFilterWidget {
     return dataState.isLoader == false
         ? Container(
             width: double.infinity,
-            decoration: gradientDecoration,
+            decoration: gradientDecoration(context: context),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.all(15),

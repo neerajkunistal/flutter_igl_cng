@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/changePassword/domain/bloc/change_password_bloc.dart';
 
@@ -73,12 +72,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     return Hero(
       tag: 'logo',
       child: Image.asset(
-        AppConfig.instanceInit()!.client == Client.iglcng
+        AppConfig.instanceInit()!.client == Client.igl
             ? AppIcon.appLogoIgl
-            : AppConfig.instanceInit()!.client == Client.pbgplCNG
+            : AppConfig.instanceInit()!.client == Client.pbgpl
             ? AppIcon.appLogoPurvaBharti
             : AppConfig.instanceInit()!.client == Client.mahanagar
             ? AppIcon.appLogoMGL
+            : AppConfig.instanceInit()!.client == Client.hpcl
+            ? AppIcon.appLogoHPCL
             : AppIcon.appLogoIgl,
         width: MediaQuery.of(context).size.width * 0.30,
       ),

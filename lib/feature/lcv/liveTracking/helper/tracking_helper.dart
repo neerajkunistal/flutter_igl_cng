@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/liveTracking/domain/model/tracking_model.dart';
 
 class TrackingHelper {
   static Future<dynamic> fetchLiveTrackingData(

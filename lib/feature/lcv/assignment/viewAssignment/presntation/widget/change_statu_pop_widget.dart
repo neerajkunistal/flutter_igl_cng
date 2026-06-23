@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assignment_change_status_model.dart';
+
 
 class ChangeStatusPopWidget extends StatelessWidget {
   final int index;

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_detail_page.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class ViewCngItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -23,7 +18,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
     }
     return Card(
       elevation: 7,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       child: GestureDetector(
         onTap: () {
           BlocProvider.of<ViewCngBloc>(context).add(ViewCngSelectIndexEvent(listIndex: index));
@@ -44,7 +39,7 @@ class ViewCngItemBoxWidget extends StatelessWidget {
                         "Complaint ID : ",
                         fontWeight: FontWeight.w700,
                         fontSize: AppFont.font_13,
-                        color: AppColor.themeColor,
+                        color: EnvironmentConfig.of(context)!.primaryTheme,
                       ),
                       Expanded(
                           child: TextWidget(

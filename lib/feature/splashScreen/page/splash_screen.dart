@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_event.dart';
-import 'package:flutter_igl_cng/feature/login/presentations/pages/login_screen_page.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -45,9 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: appBackGround(
+      body: AppBackgroundWidget(
         isGradientChange: true,
-        context: context,
         child: Stack(
           children: [
             Positioned(
@@ -70,26 +69,31 @@ class _SplashScreenState extends State<SplashScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    AppConfig.instanceInit()!.client == Client.iglcng
+                    AppConfig.instanceInit()!.client == Client.igl
                         ? AppIcon.appLogoIgl
-                        : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                        : AppConfig.instanceInit()!.client == Client.pbgpl
                             ? AppIcon.appLogoPurvaBharti
                             : AppConfig.instanceInit()!.client ==
                                     Client.mahanagar
                                 ? AppIcon.appLogoMGL
-                                : AppIcon.appLogoIgl,
+                                : AppConfig.instanceInit()!.client ==
+                        Client.hpcl
+                                    ? AppIcon.appLogoHPCL
+                                    : AppIcon.appLogoIgl,
                     height: MediaQuery.of(context).size.width * 0.40,
                     width: MediaQuery.of(context).size.width * 0.40,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextWidget(
-                      AppConfig.instanceInit()!.client == Client.iglcng
+                      AppConfig.instanceInit()!.client == Client.igl
                           ? "समाधान"
-                          : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                          : AppConfig.instanceInit()!.client == Client.pbgpl
                               ? "समाधान"
                               : AppConfig.instanceInit()!.client == Client.mahanagar
                                   ? "CNG Complaint"
+                          : AppConfig.instanceInit()!.client == Client.hpcl
+                          ? "CNG Complaint"
                                   : "समाधान",
                       color: AppColor.white,
                       fontWeight: FontWeight.w700,

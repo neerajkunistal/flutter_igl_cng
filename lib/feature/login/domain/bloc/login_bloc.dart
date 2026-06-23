@@ -96,10 +96,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (textFieldValidationCheck == true) {
       _isLoader = true;
       _eventCompleted(emit);
-      var res = await LoginHelper.getLoginData(
-          emilId: email,
-          password: password,
-          context: event.context.mounted ? event.context : event.context);
+      var res = await LoginHelper.getLoginData(emilId: email, password: password, context: event.context.mounted ? event.context : event.context);
       _isLoader = false;
       _eventCompleted(emit);
       if (res != null) {

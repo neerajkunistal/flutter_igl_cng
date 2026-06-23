@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class AddSparePartPage extends StatefulWidget {
   const AddSparePartPage({super.key});
@@ -21,8 +19,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: appBackGround(
-        context: context,
+      body: AppBackgroundWidget(
         child: Column(
           children: [
             _appBar(),
@@ -70,12 +67,14 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -93,6 +92,7 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
             _verticalSpace(),
             _sparesDropDown(dataState: dataState),
             _verticalSpace(),
+           // _sparesController(dataState: dataState),
             _qtyController(dataState: dataState),
             _verticalSpace(),
             _materialCodeController(dataState: dataState),
@@ -119,6 +119,19 @@ class _AddSparePartPageState extends State<AddSparePartPage> {
             .add(AddSparePartSelectPartEvent(sparesData: value));
       },
     );
+  }
+
+  Widget _sparesController({required FetchAddSparePartDataState dataState}) {
+    return dataState.sparesData.spareName.toString() == "Others" ? Column(
+      children: [
+        TextFieldWidget(
+          textInputType: TextInputType.text,
+          labelText: AppString.otherDescription,
+          controller: dataState.sparesController,
+        ),
+        _verticalSpace(),
+      ],
+    ) : SizedBox.shrink();
   }
 
   Widget _qtyController({required FetchAddSparePartDataState dataState}) {

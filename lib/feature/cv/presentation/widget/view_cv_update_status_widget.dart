@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/model/measure_type_model.dart';
-import 'package:flutter_igl_cng/feature/cv/presentation/widget/view_particular_widget_item_box.dart';
 
 class ViewCvUpdateStatusWidget extends StatelessWidget {
   final CngModel cngData;
@@ -267,7 +263,7 @@ class ViewCvUpdateStatusWidget extends StatelessWidget {
                       ? TextWidget(
                     file.path.split('.').last.toString(),
                     maxLines: 1,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   ) : const SizedBox.shrink(),
                 ],

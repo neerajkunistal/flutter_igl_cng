@@ -15,7 +15,7 @@ class DateRangeWidget {
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.fromSeed(seedColor: AppColor.themeColor),
+            colorScheme: ColorScheme.fromSeed(seedColor: EnvironmentConfig.of(context)!.primaryTheme),
             //.dialogBackgroundColor:Colors.blue[900],
           ),
           child: child!,

@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/tab_bar_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/tab_item_widget.dart';
 
 class AcknowledgePage extends StatefulWidget {
   const AcknowledgePage({super.key});
@@ -115,12 +110,12 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
   Future<void> _pageRefresh({required bool isTimerCondition}) async {
     await Future.delayed(const Duration(seconds: 1));
     DateTime startDate =
-        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+        BlocProvider.of<AcknowledgeBloc>(context.mounted ? context : context)
             .startDate;
     DateTime endDate =
-        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+        BlocProvider.of<AcknowledgeBloc>(context.mounted ? context : context)
             .endDate;
-    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).add(
+    BlocProvider.of<AcknowledgeBloc>(context.mounted ? context : context).add(
         AcknowledgeSelectDateRangeEvent(
             fromDate: startDate,
             toDate: endDate,
@@ -159,9 +154,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () async {
-                    if (dataState.acknowledgeList[index].complaintStatus
-                            .toString() !=
-                        "2") {
+                    if (dataState.acknowledgeList[index].complaintStatus.toString() != "2") {
                       BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
                           AddAcknowledgeComplaintPageLoadEvent(
                               context: context,

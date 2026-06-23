@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/navigationRoute/domain/bloc/navigation_route_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class NavigationRoutePage extends StatefulWidget {
   const NavigationRoutePage({super.key});

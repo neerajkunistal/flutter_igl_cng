@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/registration/domain/bloc/registration_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/registration/presentation/pages/registration_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/bloc/driver_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class DriverItemBoxWidget extends StatelessWidget {
   final DriverModel driverData;
@@ -24,7 +19,7 @@ class DriverItemBoxWidget extends StatelessWidget {
       required BuildContext context}) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeLightColor,
+      shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -34,14 +29,14 @@ class DriverItemBoxWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _driverName(driverName: driverData.driverName.toString()),
+            _driverName(context:context, driverName: driverData.driverName.toString()),
             _licenceNumber(
                 licenseNumber: driverData.driverLicenseId.toString()),
             const Divider(),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _number(mobileNumber: driverData.phoneNumber.toString()),
+            _number(context:context,mobileNumber: driverData.phoneNumber.toString()),
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
@@ -49,7 +44,7 @@ class DriverItemBoxWidget extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.02,
             ),
-            _driverStatus(status: driverData.deletedAt.toString()),
+            _driverStatus(context:context,status: driverData.deletedAt.toString()),
             driverData.deletedAt.toString().isEmpty
                 ? Align(
                     alignment: Alignment.centerRight,
@@ -83,9 +78,9 @@ class DriverItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _driverName({required String driverName}) {
+  Widget _driverName({required String driverName, required BuildContext context}) {
     return TextWidget(driverName,
-        color: AppColor.themeColor,
+        color: EnvironmentConfig.of(context)!.primaryTheme,
         fontSize: AppFont.font_16,
         fontWeight: FontWeight.w700);
   }
@@ -108,11 +103,11 @@ class DriverItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _number({required String mobileNumber}) {
+  Widget _number({required String mobileNumber, required BuildContext context}) {
     return Row(
       children: [
         TextWidget("Mobile No. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -143,7 +138,7 @@ class DriverItemBoxWidget extends StatelessWidget {
     );
   }
 
-  Widget _driverStatus({required String status}) {
+  Widget _driverStatus({required String status, required BuildContext context}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -153,7 +148,7 @@ class DriverItemBoxWidget extends StatelessWidget {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(status.isEmpty ? "Active" : "Deactivate",
-              color: status.isEmpty ? AppColor.themeColor : AppColor.red,
+              color: status.isEmpty ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.red,
               fontSize: AppFont.font_14,
               fontWeight: FontWeight.w700),
         ),
@@ -178,7 +173,7 @@ class DriverItemBoxWidget extends StatelessWidget {
             },
             icon: Icon(
               Icons.edit_note_outlined,
-              color: AppColor.themeColor,
+              color: EnvironmentConfig.of(context)!.primaryTheme,
             )),
         IconButton(
             onPressed: () {

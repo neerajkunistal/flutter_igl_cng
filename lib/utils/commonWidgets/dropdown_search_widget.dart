@@ -45,10 +45,10 @@ class DropDownSearchWidget extends StatelessWidget {
             ),
             label: TextWidget(
               "$hint${isRequired == false ? "" : ' *'}",
-              color: AppColor.themeColor,
+              color: EnvironmentConfig.of(context)!.primaryTheme,
             ),
             hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: AppColor.themeColor),
+                fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),
             contentPadding: EdgeInsets.only(
                 top: AppConfig.getDeviceType(context: context) ==
                         DeviceType.phone

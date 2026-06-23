@@ -52,7 +52,7 @@ class DataTableWidgetState<T> extends State<DataTableWidget<T>> {
       '$data',
       fontSize: AppFont.font_12,
       fontWeight: FontWeight.w700,
-      color: AppColor.themeColor,
+      color: EnvironmentConfig.of(context)!.primaryTheme,
       textAlign: TextAlign.center,
     ),
   );

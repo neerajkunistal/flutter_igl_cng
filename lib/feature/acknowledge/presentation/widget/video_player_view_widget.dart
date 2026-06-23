@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/text_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
-import 'package:flutter_igl_cng/utils/res/app_font.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class VideoPlayerViewWidget extends StatefulWidget {
   final String videoUrl;

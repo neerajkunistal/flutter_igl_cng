@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/widget/complaint_images_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewCngDetailPage extends StatefulWidget {
   const ViewCngDetailPage({super.key});
@@ -17,8 +14,7 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: appBackGround(
-          context: context,
+      body: AppBackgroundWidget(
         child: Column(
           children: [
             _appBar(),
@@ -67,12 +63,14 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -101,7 +99,7 @@ class _ViewCngDetailPageState extends State<ViewCngDetailPage> {
                     "Complaint ID : ",
                     fontWeight: FontWeight.w700,
                     fontSize: AppFont.font_13,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                   ),
                   Expanded(
                       child: TextWidget(

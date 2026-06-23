@@ -65,7 +65,7 @@ class SearchBarWidget extends StatelessWidget {
           prefixIcon: const Icon(
             Icons.search,
           ),
-          prefixIconColor: AppColor.themeColor,
+          prefixIconColor: EnvironmentConfig.of(context)!.primaryTheme,
         ),
       ),
     );

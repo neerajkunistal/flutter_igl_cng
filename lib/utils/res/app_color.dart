@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  static dynamic theme_Color = 0xFF72a720;
-  static dynamic theme_LightColor = 0xFF2f9e2c;
+  // static dynamic theme_Color = 0xFF72a720;
+  // static dynamic theme_LightColor = 0xFF2f9e2c;
   static dynamic theme_NormalLightColor = 0xFF72a720;
 
-  AppColor({required dynamic themeColor, required dynamic themeLightColor}) {
-    theme_Color = themeColor;
-    theme_LightColor = themeLightColor;
-  }
-
-  static get themeColor => Color(theme_Color);
-
-  static get themeLightColor => Color(theme_LightColor);
+  // AppColor({required dynamic themeColor, required dynamic themeLightColor}) {
+  //   theme_Color = themeColor;
+  //   theme_LightColor = themeLightColor;
+  // }
+  //
+  // static get themeColor => Color(theme_Color);
+  //
+  // static get themeLightColor => Color(theme_LightColor);
 
   static get themeNormalLightColor => Color(theme_NormalLightColor);
 

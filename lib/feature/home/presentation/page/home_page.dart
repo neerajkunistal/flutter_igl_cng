@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/utils/res/version_status.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/widget/phone_home_widget.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/widget/tablet_home_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

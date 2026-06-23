@@ -67,11 +67,11 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
             padding:
                 WidgetStateProperty.all<EdgeInsets>(const EdgeInsets.all(15)),
             foregroundColor:
-                WidgetStateProperty.all<Color>(AppColor.themeColor),
+                WidgetStateProperty.all<Color>(EnvironmentConfig.of(context)!.primaryTheme),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
-                    side: BorderSide(color: AppColor.themeColor)))),
+                    side: BorderSide(color: EnvironmentConfig.of(context)!.primaryTheme)))),
         onPressed: () async {
           await openAppSettings();
           if (!context.mounted) return;
@@ -84,7 +84,7 @@ class GPSSettingPermissionPopWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             fontSize: AppFont.font_16,
             fontWeight: FontWeight.w500,
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
           ),
         ));
   }

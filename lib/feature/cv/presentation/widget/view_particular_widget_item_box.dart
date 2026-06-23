@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/bloc/view_cv_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
 
 class ViewParticularWidgetItemBox extends StatelessWidget {
   final List<ParticularModel> particularList;
@@ -31,7 +29,7 @@ class ViewParticularWidgetItemBox extends StatelessWidget {
          children: [
            Card(
              elevation: 2,
-             shadowColor: AppColor.themeColor,
+             shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
              child: Padding(
                padding: const EdgeInsets.all(10),
                child: Column(

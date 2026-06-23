@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/user/addUser/domain/bloc/add_user_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/user/addUser/presentation/page/add_user_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/user/viewUser/domain/bloc/view_user_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/user/viewUser/domain/model/user_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
+
 
 class ViewUserPage extends StatefulWidget {
   const ViewUserPage({super.key});
@@ -91,7 +86,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
   Widget _itemBuilder({required int index, required UserModel userData}) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeLightColor,
+      shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -137,7 +132,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
 
   Widget _fullName({required String driverName}) {
     return TextWidget(driverName,
-        color: AppColor.themeColor,
+        color: EnvironmentConfig.of(context)!.primaryTheme,
         fontSize: AppFont.font_16,
         fontWeight: FontWeight.w700);
   }
@@ -147,7 +142,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextWidget("Station Name : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -164,7 +159,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
     return Row(
       children: [
         TextWidget("Mobile No. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -181,7 +176,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
     return Row(
       children: [
         TextWidget("Email Id. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -222,7 +217,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(status.isEmpty ? "Active" : "Deactivate",
-              color: status.isEmpty ? AppColor.themeColor : AppColor.red,
+              color: status.isEmpty ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.red,
               fontSize: AppFont.font_14,
               fontWeight: FontWeight.w700),
         ),
@@ -245,7 +240,7 @@ class _ViewUserPageState extends State<ViewUserPage> {
                   },
                   icon: Icon(
                     Icons.edit_note_outlined,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                   )),
               IconButton(
                   onPressed: () {

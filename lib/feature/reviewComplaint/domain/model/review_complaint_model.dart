@@ -14,9 +14,13 @@ class ReviewComplaintModel {
   dynamic incidentDateTime;
   dynamic reportBy;
   String? reportDateTime;
+  String? lcvCascadePressure;
+  String? personName;
+  String? actionTaken;
   String? systemId;
   String? complaintTypeId;
   String? attachmentFile;
+  String? reviewAttachFile;
   String? videoFile;
   String? equipmentTypeName;
   String? equipmentVendor;
@@ -99,9 +103,13 @@ class ReviewComplaintModel {
     this.incidentDateTime,
     this.reportBy,
     this.reportDateTime,
+    this.lcvCascadePressure,
+    this.personName,
+    this.actionTaken,
     this.systemId,
     this.complaintTypeId,
     this.attachmentFile,
+    this.reviewAttachFile,
     this.videoFile,
     this.stationPersonName,
     this.stationPersonSign,
@@ -186,9 +194,13 @@ class ReviewComplaintModel {
     incidentDateTime = json['incident_date_time'] ?? "";
     reportBy = json['report_by'] ?? "";
     reportDateTime = json['report_date_time'] ?? "";
+    lcvCascadePressure = json['lcv_cascade_pressure'] ?? "";
+    personName = json['person_name'] ?? "";
+    actionTaken = json['action_taken'] ?? "";
     systemId = json['system_id'] ?? "";
     complaintTypeId = json['complaint_type_id'] ?? "";
     attachmentFile = json['attachment_file'] ?? "";
+    reviewAttachFile = json['review_attach_file'] ?? "";
     videoFile = json['video_file'] ?? "";
     stationPersonName = json['station_person_name'] ?? "";
     stationPersonSign = json['station_person_sign'] ?? "";
@@ -282,9 +294,13 @@ class ReviewComplaintModel {
     data['incident_date_time'] = incidentDateTime;
     data['report_by'] = reportBy;
     data['report_date_time'] = reportDateTime;
+    data['lcv_cascade_pressure'] = lcvCascadePressure;
+    data['person_name'] = personName;
+    data['action_taken'] = actionTaken;
     data['system_id'] = systemId;
     data['complaint_type_id'] = complaintTypeId;
     data['attachment_file'] = attachmentFile;
+    data['review_attach_file'] = reviewAttachFile;
     data['video_file'] = videoFile;
     data['station_person_name'] = stationPersonName;
     data['station_person_sign'] = stationPersonSign;

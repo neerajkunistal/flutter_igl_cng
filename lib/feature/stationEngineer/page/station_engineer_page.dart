@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 
 class StationEngineerPage extends StatefulWidget {
   const StationEngineerPage({super.key});
@@ -43,7 +42,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                     },
                     icon: Icon(
                       Icons.report_gmailerrorred,
-                      color: AppColor.themeColor,
+                      color: EnvironmentConfig.of(context)!.primaryTheme,
                     ),
                     label: const TextWidget("Ack Complaint"),
                   ),
@@ -67,7 +66,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                     },
                     icon: Icon(
                       Icons.report_gmailerrorred,
-                      color: AppColor.themeColor,
+                      color: EnvironmentConfig.of(context)!.primaryTheme,
                     ),
                     label: const TextWidget("Review Complaint"),
                   ),

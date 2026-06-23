@@ -36,6 +36,19 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
+  static Future<dynamic> fetchCngVendorList() async {
+    try {
+      String url = APIs.getCngVendorListApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res['status'] != null && res["status"] == true) {
+        return acknowledgeUserListResponse(res['data']);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<dynamic> fetchDepartmentData() async {
     try {
       String url = APIs.getDepartmentPGWCApi;
@@ -52,7 +65,7 @@ class AddAcknowledgeComplaintHelper {
   static Future<dynamic> fetchSapCodeData(
       {required CodeGroupModel codeGroupData}) async {
     try {
-      String url = APIs.getSapCodeApi+"?code_group=${codeGroupData.code}";
+      String url = APIs.getSapCodeApi + "?code_group=${codeGroupData.code}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return sapCodeListResponse(res['data']);
@@ -121,9 +134,11 @@ class AddAcknowledgeComplaintHelper {
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
         "ackRemarks": remark,
-        "planner_group" : plannerData.id != null ? plannerData.plannerGroup.toString() : "0",
-        "main_work_center" :workCenterData.id != null ? workCenterData.workCenter.toString() : "0",
-        "person_responsible" : personResponsible,
+        "planner_group": plannerData.id != null ? plannerData.plannerGroup.toString() : "0",
+        "main_work_center": workCenterData.id != null
+            ? workCenterData.workCenter.toString()
+            : "0",
+        "person_responsible": personResponsible,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
@@ -163,8 +178,8 @@ class AddAcknowledgeComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              .replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

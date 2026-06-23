@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
-import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/presentation/page/view_amo_detail_page.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+
 
 class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -23,7 +20,7 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
 
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       child: GestureDetector(
         onTap: () async {
           BlocProvider.of<ViewAmoComplaintBloc>(context).add(ViewAmoComplaintSelectIndexEvent(listIndex: index));
@@ -57,7 +54,7 @@ class ViewAmoComplaintItemBoxWidget extends StatelessWidget {
                         "Complaint Id : ",
                         fontWeight: FontWeight.w700,
                         fontSize: AppFont.font_13,
-                        color: AppColor.themeColor,
+                        color: EnvironmentConfig.of(context)!.primaryTheme,
                       ),
                       Expanded(
                           child: TextWidget(

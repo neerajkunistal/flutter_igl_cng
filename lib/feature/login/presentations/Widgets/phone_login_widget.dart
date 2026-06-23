@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_event.dart';
 import 'package:flutter_igl_cng/feature/login/domain/bloc/login_state.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class PhoneLoginWidget extends StatefulWidget {
   final FetchLoginStateData dataState;
@@ -17,8 +18,7 @@ class PhoneLoginWidget extends StatefulWidget {
 class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
   @override
   Widget build(BuildContext context) {
-    return appBackGround(
-      context: context,
+    return AppBackgroundWidget(
       child: Column(
         children: [
           Expanded(
@@ -28,11 +28,13 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
             children: [
               _logo(),
               TextWidget(
-                AppConfig.instanceInit()!.client == Client.iglcng
+                AppConfig.instanceInit()!.client == Client.igl
                     ? "समाधान\nLogin"
-                    : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                    : AppConfig.instanceInit()!.client == Client.pbgpl
                     ? "समाधान\nLogin"
                     : AppConfig.instanceInit()!.client == Client.mahanagar
+                    ? "CNG Complaint\nLogin"
+                    : AppConfig.instanceInit()!.client == Client.hpcl
                     ? "CNG Complaint\nLogin"
                     : "समाधान\nLogin",
                 fontSize: AppFont.font_20,
@@ -100,11 +102,6 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.03,
             ),
-            TextWidget(
-              "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-              fontSize: AppFont.font_12,
-              fontWeight: FontWeight.w700,
-            ),
           ],
         ),
         Padding(
@@ -120,12 +117,14 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
     return Hero(
       tag: 'logo',
       child: Image.asset(
-        AppConfig.instanceInit()!.client == Client.iglcng
+        AppConfig.instanceInit()!.client == Client.igl
             ? AppIcon.appLogoIgl
-            : AppConfig.instanceInit()!.client == Client.pbgplCNG
+            : AppConfig.instanceInit()!.client == Client.pbgpl
             ? AppIcon.appLogoPurvaBharti
             : AppConfig.instanceInit()!.client == Client.mahanagar
             ? AppIcon.appLogoMGL
+            : AppConfig.instanceInit()!.client == Client.hpcl
+            ? AppIcon.appLogoHPCL
             : AppIcon.appLogoIgl,
         width: MediaQuery.of(context).size.width * 0.30,
       ),
@@ -181,7 +180,7 @@ class _PhoneLoginWidgetState extends State<PhoneLoginWidget> {
               right: MediaQuery.of(context).size.width * 0.20,
             ),
             child: ButtonWidget(
-                backgroundColor: AppColor.themeColor,
+                backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
                 isLockIcon: true,
                 text: AppString.login,
                 onPressed: () {

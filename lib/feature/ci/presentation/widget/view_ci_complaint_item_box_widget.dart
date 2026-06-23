@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCiComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -34,7 +33,7 @@ class ViewCiComplaintItemBoxWidget extends StatelessWidget {
 
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       shape: RoundedRectangleBorder(
           side: BorderSide(
               color: cngData.complaintStatus.toString() == "0"

@@ -6,6 +6,7 @@ import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentCom
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
 
 part 'add_equipment_complaint_event.dart';
+
 part 'add_equipment_complaint_state.dart';
 
 class AddEquipmentComplaintBloc
@@ -14,19 +15,20 @@ class AddEquipmentComplaintBloc
   ComplaintTypeModel complaintTypeData = ComplaintTypeModel();
   EquipmentTypeModel equipmentTypeData = EquipmentTypeModel();
   List<EquipmentTypeModel> equipmentTypeList = [];
-  EquipmentModel equipmentData =  EquipmentModel();
+  EquipmentModel equipmentData = EquipmentModel();
   List<EquipmentModel> equipmentList = [];
   TextEditingController descriptionController = TextEditingController();
   TextEditingController reportByController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController generalDescriptionController = TextEditingController();
+  TextEditingController lcvCascadeController = TextEditingController();
+
   bool isLoader = false;
   bool isFileLoader = false;
   List<File> files = [];
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
-
 
   List<StationTypeModel> allStationList = [];
   List<StationTypeModel> controlRoomList = [];
@@ -62,57 +64,60 @@ class AddEquipmentComplaintBloc
     generalComplaintList = [];
     videoFiles = [];
     equipmentList = [];
-     controlRoomList = [];
+    controlRoomList = [];
     cngStationList = [];
-    equipmentData =  EquipmentModel();
+    equipmentData = EquipmentModel();
     generalComplaintData = GeneralComplaintModel();
     controlRoomData = StationTypeModel();
     cngStationData = StationTypeModel();
 
     descriptionController.text = "";
     reportByController.text = "";
+    lcvCascadeController.text = "";
     dateController.text = "";
     timeController.text = "";
     generalDescriptionController.text = "";
     isLoader = false;
     isFileLoader = false;
     files = [];
-    files.add(File(""));
-    files.add(File(""));
-    files.add(File(""));
+    files = [File(""), File(""), File("")];
     videoFiles.add(File(""));
 
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
 
-    var resComplaint = await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    var resComplaint =
+        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
     }
 
-    var resEquipment = await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+    var resEquipment =
+        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
     if (resEquipment != null) {
       equipmentList = resEquipment;
-      equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
+      equipmentTypeList =
+          equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
     }
 
-    var resGeneral = await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+    var resGeneral =
+        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
     if (resGeneral != null) {
       generalComplaintList = resGeneral;
     }
 
-      var resCRStation = await AddEquipmentComplaintHelper.fetchCRStationData();
-      if (resCRStation != null) {
-        allStationList = resCRStation;
-        controlRoomList = {
-          for (var e in resCRStation) e.controlRoomId: e
-        }.values.toList();
+    var resCRStation = await AddEquipmentComplaintHelper.fetchCRStationData();
+    if (resCRStation != null) {
+      allStationList = resCRStation;
+      controlRoomList =
+          {for (var e in resCRStation) e.controlRoomId: e}.values.toList();
       //  cngStationList = resCRStation.toSet().toList();
-      }
+    }
     _eventComplete(emit);
   }
 
-  _selectComplaintType(AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
+  _selectComplaintType(
+      AddEquipmentComplaintSelectComplaintDataEvent event, emit) {
     complaintTypeData = event.complaintTypeData;
     equipmentTypeData = EquipmentTypeModel();
     generalDescriptionController.text = "";
@@ -122,13 +127,13 @@ class AddEquipmentComplaintBloc
 
   _selectEquipment(AddEquipmentComplaintSelectEquipmentDataEvent event, emit) {
     equipmentData = event.equipmentData;
-    equipmentTypeData =  EquipmentTypeModel();
+    equipmentTypeData = EquipmentTypeModel();
     equipmentTypeList = [];
     _eventComplete(emit);
-    if(equipmentData.equipmentTypeList != null){
-      for(var equipmentTypeData in equipmentData.equipmentTypeList!) {
-        if(equipmentData.id.toString() == equipmentTypeData.equipmentId.toString())
-        {
+    if (equipmentData.equipmentTypeList != null) {
+      for (var equipmentTypeData in equipmentData.equipmentTypeList!) {
+        if (equipmentData.id.toString() ==
+            equipmentTypeData.equipmentId.toString()) {
           equipmentTypeList.add(equipmentTypeData);
         }
       }
@@ -137,7 +142,8 @@ class AddEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
-  _selectEquipmentType(AddEquipmentComplaintSelectEquipmentTypeDataEvent event, emit) {
+  _selectEquipmentType(
+      AddEquipmentComplaintSelectEquipmentTypeDataEvent event, emit) {
     equipmentTypeData = event.equipmentTypeData;
     _eventComplete(emit);
   }
@@ -148,18 +154,20 @@ class AddEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
-  _selectControlRoom(AddEquipmentComplaintSelectControlRoomDataEvent event, emit) {
+  _selectControlRoom(
+      AddEquipmentComplaintSelectControlRoomDataEvent event, emit) {
     controlRoomData = event.controlRoomData;
-    cngStationList = allStationList.where((e) => e.controlRoomId == event.controlRoomData.controlRoomId).toList();
+    cngStationList = allStationList
+        .where((e) => e.controlRoomId == event.controlRoomData.controlRoomId)
+        .toList();
     _eventComplete(emit);
   }
 
-
-  _selectCngStation(AddEquipmentComplaintSelectCngStationDataEvent event, emit) {
+  _selectCngStation(
+      AddEquipmentComplaintSelectCngStationDataEvent event, emit) {
     cngStationData = event.cngStationData;
     _eventComplete(emit);
   }
-
 
   _selectFile(AddEquipmentComplaintAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
@@ -183,18 +191,18 @@ class AddEquipmentComplaintBloc
   }
 
   _removeImage(AddEquipmentComplaintRemoveImageEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    files[event.index] =  File("");
-    isLoader =  false;
+    files[event.index] = File("");
+    isLoader = false;
     _eventComplete(emit);
   }
 
   _removeVideo(AddEquipmentComplaintRemoveVideoEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    videoFiles[event.index] =  File("");
-    isLoader =  false;
+    videoFiles[event.index] = File("");
+    isLoader = false;
     _eventComplete(emit);
   }
 
@@ -263,15 +271,16 @@ class AddEquipmentComplaintBloc
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
             .format(!event.context.mounted ? event.context : event.context);
 
-        final selectedTime =  DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day,  time.hour, time.minute);
+        final selectedTime = DateTime(DateTime.now().year, DateTime.now().month,
+            DateTime.now().day, time.hour, time.minute);
         final currentTime = DateTime.now();
         final diffMn = currentTime.difference(selectedTime).inMinutes;
-        if(diffMn < 30 && diffMn >= 0){
+        if (diffMn < 30 && diffMn >= 0) {
           timeController.text = timeFormat;
           _eventComplete(emit);
         } else {
-          SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
+          SnackBarErrorWidget(
+                  !event.context.mounted ? event.context : event.context)
               .show(message: "Not Before 30 Mins To Current Time.");
         }
       }
@@ -283,7 +292,6 @@ class AddEquipmentComplaintBloc
   }
 
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
-
     var textFiledValidation = await AddEquipmentComplaintHelper.textFieldValidation(
       context: event.context,
       complaintTypeData: complaintTypeData,
@@ -298,7 +306,7 @@ class AddEquipmentComplaintBloc
       videoFiles: videoFiles,
     );
 
-    if(textFiledValidation == false){
+    if (textFiledValidation == false) {
       return;
     }
 
@@ -307,23 +315,29 @@ class AddEquipmentComplaintBloc
 
     DateTime initialDate1 = DateTime.now();
     String time = "";
-    if(timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("am")){
+    if (timeController.text.toString().isNotEmpty &&
+        timeController.text.toString().toLowerCase().contains("am")) {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
-    } else if (timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("pm")){
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
+    } else if (timeController.text.toString().isNotEmpty &&
+        timeController.text.toString().toLowerCase().contains("pm")) {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
     } else {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('HH:mm').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
     }
     var res = await AddEquipmentComplaintHelper.submitData(
       context: event.context,
@@ -331,6 +345,7 @@ class AddEquipmentComplaintBloc
       equipmentTypeData: equipmentTypeData,
       description: descriptionController.text.toString(),
       name: reportByController.text.toString(),
+      lcvCascade: lcvCascadeController.text.toString(),
       date: dateController.text.toString(),
       time: time,
       generalComplaintData: generalComplaintData,
@@ -347,6 +362,7 @@ class AddEquipmentComplaintBloc
       generalComplaintData = GeneralComplaintModel();
       descriptionController.text = "";
       reportByController.text = "";
+      lcvCascadeController.text = "";
       dateController.text = "";
       timeController.text = "";
       generalDescriptionController.text = "";
@@ -373,6 +389,7 @@ class AddEquipmentComplaintBloc
       equipmentTypeData: equipmentTypeData,
       equipmentTypeList: equipmentTypeList,
       reportByController: reportByController,
+      lcvCascadeController: lcvCascadeController,
       dateController: dateController,
       timeController: timeController,
       generalComplaintData: generalComplaintData,

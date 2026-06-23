@@ -1,16 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
-import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:vibration/vibration.dart';
 
 part 'acknowledge_event.dart';
@@ -23,6 +13,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   AcknowledgeUserModel acknowledgeUserData = AcknowledgeUserModel();
   bool isUserLoader = false;
   TextEditingController remarkController = TextEditingController();
+  TextEditingController otherController = TextEditingController();
   TextEditingController closeDateController = TextEditingController();
   TextEditingController closeTimeController = TextEditingController();
   TextEditingController plannerGroupController = TextEditingController();
@@ -91,6 +82,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     vendorData = VendorModel();
     acknowledgeUserData = AcknowledgeUserModel();
     remarkController.text = "";
+    otherController.text = "";
     closeDateController.text = "";
     closeTimeController.text = "";
     plannerGroupController.text = "";
@@ -586,6 +578,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     vendorData = VendorModel();
     assignTypeData = AssignTypeModel();
     remarkController.text = "";
+    otherController.text = "";
     _eventComplete(emit);
 
     closeTimeController.text = DateFormat('HH:mm:ss').format(DateTime.now()).toString();
@@ -743,6 +736,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       closedDate: closeDateController.text.toString(),
       closedTime: closeTimeController.text.toString(),
       remark: remarkController.text.toString(),
+      others: otherController.text.toString(),
       personResponsible: personResponsibleController.text.toString(),
       plannerData: plannerData,
       workCenterData: workCenterData,
@@ -899,6 +893,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
         acknowledgeUserList: acknowledgeUserList,
         isUserLoader: isUserLoader,
         remarkController: remarkController,
+      otherController: otherController,
         vendorData: vendorData,
         vendorList: vendorList,
         assignTypeData: assignTypeData,

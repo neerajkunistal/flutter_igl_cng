@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scarp_unit_type_model.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class AddScrapPage extends StatefulWidget {
   const AddScrapPage({super.key});
@@ -25,8 +23,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       extendBodyBehindAppBar: true,
-      body:appBackGround(
-        context: context,
+      body:AppBackgroundWidget(
         child: Column(
           children: [
             _appBar(),
@@ -74,12 +71,14 @@ class _AddScrapPageState extends State<AddScrapPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -310,7 +309,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
                         .split('/')
                         .last
                         .toString(),
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   )
                       : const SizedBox.shrink(),
@@ -323,7 +322,7 @@ class _AddScrapPageState extends State<AddScrapPage> {
                   child: Center(
                       child: Icon(
                         Icons.refresh,
-                        color: AppColor.themeColor,
+                        color: EnvironmentConfig.of(context)!.primaryTheme,
                       ))),
             ],
           ),

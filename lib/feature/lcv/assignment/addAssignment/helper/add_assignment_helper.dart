@@ -1,15 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/mother_station_model.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvTrack/viewLcvTrack/domain/model/lcv_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
 
 class AddAssignmentHelper {
   static Future<dynamic> textFieldValidation(
@@ -88,7 +79,7 @@ class AddAssignmentHelper {
           cngStationRouteData: cngStationRouteData,
         ));
       }*/
-      var json = MotherStationModel().postBodyParam(
+      Map<String, dynamic> json = MotherStationModel().postBodyParam(
         id: assignmentData.id != null ? assignmentData.id.toString() : "",
         lcvEntryTime: lcvEntryTime,
         availabilityOfMobileWithDriver: availabilityOfMobileWithDriver,

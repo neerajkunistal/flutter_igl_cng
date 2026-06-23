@@ -58,7 +58,7 @@ class MessageBoxPopButtonWidget extends StatelessWidget {
                         child: TextWidget(
                           "OK",
                           fontWeight: FontWeight.w700,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_16,
                         ),
                       ),

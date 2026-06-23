@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_detail_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/view_assignment_filter_widget.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/view_assignment_item_box_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewAssignmentPage extends StatefulWidget {
   const ViewAssignmentPage({super.key});
@@ -43,12 +39,14 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -62,8 +60,7 @@ class _ViewAssignmentPageState extends State<ViewAssignmentPage> {
     LoginDataModel userData = UserInfo.instance!.userData!;
     return userData.mDbStatus == "2" ?
         Scaffold(
-          body: appBackGround(
-              context: context,
+          body: AppBackgroundWidget(
               child: Column(
                 children: [
                   _appBar(),

@@ -33,7 +33,7 @@ class AppBarWidget extends StatelessWidget {
               child: TextWidget(
                 titleName,
                 textAlign: TextAlign.center,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
                 fontWeight: FontWeight.w600,
                 fontSize: AppFont.font_16,
               ),

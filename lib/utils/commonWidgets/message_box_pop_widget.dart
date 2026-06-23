@@ -66,7 +66,7 @@ class MessageBoxPopWidget extends StatelessWidget {
             fontSize: AppFont.font_16,
             fontWeight: FontWeight.w700,
             textAlign: TextAlign.center,
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
           ),
         ),
         Align(

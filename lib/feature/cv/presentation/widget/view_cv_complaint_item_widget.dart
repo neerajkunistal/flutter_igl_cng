@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/cng_model.dart';
 
 class ViewCvComplaintItemBoxWidget extends StatelessWidget {
   final CngModel cngData;
@@ -19,7 +18,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
     }
     return Card(
       elevation: 4,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -30,7 +29,7 @@ class ViewCvComplaintItemBoxWidget extends StatelessWidget {
                   "Complaint ID : ",
                   fontWeight: FontWeight.w700,
                   fontSize: AppFont.font_13,
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 ),
                 Expanded(
                     child: TextWidget(

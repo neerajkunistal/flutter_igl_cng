@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class SparePartCommonItemWidget extends StatelessWidget {
   final PartModel partModel;
@@ -19,7 +16,7 @@ class SparePartCommonItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 1,
-      shadowColor: AppColor.themeColor,
+      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
       child: Stack(
         children: [
           Padding(

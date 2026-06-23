@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/addCNGStation/domain/bloc/add_cng_station_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/addCNGStation/presentation/page/add_cng_station_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/bloc/cng_station_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/bloc/cng_station_event.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/bloc/cng_station_state.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngStation/viewCNGStation/domain/model/cng_stattion_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/geoLocation/domain/bloc/geo_location_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/geoLocation/domain/bloc/geo_location_event.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/message_box_two_button_pop.dart';
 
 class CNGStationPage extends StatefulWidget {
   const CNGStationPage({super.key});
@@ -104,7 +95,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
       {required int index, required CngStationModel cngStationData}) {
     return Card(
       elevation: 2,
-      shadowColor: AppColor.themeLightColor,
+      shadowColor: EnvironmentConfig.of(context)!.secondaryTheme,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -152,12 +143,12 @@ class _CNGStationPageState extends State<CNGStationPage> {
     return Row(
       children: [
         TextWidget("",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w700),
         Expanded(
           child: TextWidget(stationName,
-              color: AppColor.themeColor,
+              color: EnvironmentConfig.of(context)!.primaryTheme,
               fontSize: AppFont.font_16,
               fontWeight: FontWeight.w700),
         ),
@@ -169,7 +160,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
     return Row(
       children: [
         TextWidget("Officer Name : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -186,7 +177,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
     return Row(
       children: [
         TextWidget("Mobile No. : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -203,7 +194,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
     return Row(
       children: [
         TextWidget("Email Id : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -244,7 +235,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
             fontWeight: FontWeight.w400),
         Expanded(
           child: TextWidget(status.isEmpty ? "Active" : "Deactivate",
-              color: status.isEmpty ? AppColor.themeColor : AppColor.red,
+              color: status.isEmpty ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.red,
               fontSize: AppFont.font_14,
               fontWeight: FontWeight.w700),
         ),
@@ -270,7 +261,7 @@ class _CNGStationPageState extends State<CNGStationPage> {
             },
             icon: Icon(
               Icons.edit_note_outlined,
-              color: AppColor.themeColor,
+              color: EnvironmentConfig.of(context)!.primaryTheme,
             )),
         IconButton(
             onPressed: () {

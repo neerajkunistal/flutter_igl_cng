@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/testing_page.dart';
+import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 
 import 'ExportFile/app_export_file.dart';
 
@@ -30,9 +31,9 @@ class _RootState extends State<Root> {
     return blocMultiProvider(
       child: MaterialApp(
       navigatorKey: navigatorKey,
-      title: 'IGL CNG',
+      title: 'CNG Complaint App',
       debugShowCheckedModeBanner: false,
-      theme: appTheme(),
+      theme: appTheme(context: context),
       initialRoute: '/',
       routes: {
         '/second': (context) => const TestPage(),

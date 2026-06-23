@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvTrack/addLcvTrack/domain/bloc/add_lcv_track_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvTrack/addLcvTrack/domain/model/fuel_type_model.dart';
 
 class AddLcvTrackPage extends StatefulWidget {
   const AddLcvTrackPage({super.key});

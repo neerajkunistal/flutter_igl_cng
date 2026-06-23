@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/domain/bloc/lcv_dashboard_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/domain/bloc/over_speed_alert_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/presentation/page/over_speed_alert_page.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
-import 'package:vibration/vibration.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class LcvDashboardPage extends StatefulWidget {
   const LcvDashboardPage({super.key});
@@ -58,8 +52,7 @@ class _LcvDashboardPageState extends State<LcvDashboardPage> {
             return const SizedBox.shrink();
           }
         }),
-        body: appBackGround(
-          context: context,
+        body: AppBackgroundWidget(
           child: Column(
             children: [
               _appBar(userData),
@@ -117,12 +110,14 @@ class _LcvDashboardPageState extends State<LcvDashboardPage> {
               }
             }),
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,

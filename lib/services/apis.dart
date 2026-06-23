@@ -51,6 +51,8 @@ class APIs {
 
   static get getAssignUserApi => "api/onm/assign-users";
 
+  static get getCngVendorListApi => "cng-vendor-list";
+
   static get addAcknowlegeApi => "api/cr/se-ack-complaints";
 
   static get getGeneralComplaintApi => "api/cr/general-complain";

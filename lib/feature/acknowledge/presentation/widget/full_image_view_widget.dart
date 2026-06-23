@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/text_widget.dart';
-import 'package:flutter_igl_cng/utils/res/app_color.dart';
-import 'package:flutter_igl_cng/utils/res/app_font.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class FullImageViewWidget extends StatelessWidget {
   final String imageUrl;

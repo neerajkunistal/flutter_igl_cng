@@ -37,7 +37,7 @@ class DropDownSearchMultiSelectWidget extends StatelessWidget {
               ),
             ),
             hintStyle: TextStyle(
-                fontSize: AppFont.font_14, color: AppColor.themeColor),
+                fontSize: AppFont.font_14, color: EnvironmentConfig.of(context)!.primaryTheme),
             contentPadding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.018,
               left: MediaQuery.of(context).size.height * 0.01,

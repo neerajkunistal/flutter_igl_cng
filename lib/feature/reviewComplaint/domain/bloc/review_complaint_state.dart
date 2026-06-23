@@ -30,6 +30,8 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
   final List<CodeGroupModel> codeGroupList;
   final CodeGroupModel codeGroupData;
   final bool sapCodeLoader;
+  final TextEditingController actionTakenController;
+  final TextEditingController closedByController;
 
   const FetchReviewComplaintDataState({
     required this.isLoader,
@@ -47,6 +49,8 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
     required this.codeGroupList,
     required this.codeGroupData,
     required this.sapCodeLoader,
+    required this.actionTakenController,
+    required this.closedByController,
   });
 
   @override
@@ -66,5 +70,7 @@ class FetchReviewComplaintDataState extends ReviewComplaintState {
         codeGroupList,
         codeGroupData,
         sapCodeLoader,
+        actionTakenController,
+        closedByController,
       ];
 }

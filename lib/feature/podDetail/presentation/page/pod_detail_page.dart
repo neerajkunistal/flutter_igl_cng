@@ -1,11 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/podDetail/domain/bloc/pod_detail_bloc.dart';
-import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_data_table_builder_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_detail_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/podDetail/presentation/widget/pod_list_header_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class PodDetailPage extends StatefulWidget {
   const PodDetailPage({super.key});
@@ -26,8 +21,7 @@ class _PodDetailPageState extends State<PodDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        body: appBackGround(
-          context: context,
+        body: AppBackgroundWidget(
           child: Column(
             children: [
               _appBar(),
@@ -79,12 +73,14 @@ class _PodDetailPageState extends State<PodDetailPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -107,7 +103,7 @@ class _PodDetailPageState extends State<PodDetailPage> {
             child:  dataState.isLoader == false ?
             FloatingActionButton(
                 backgroundColor: AppColor.white,
-                child: Icon(Icons.search, color: AppColor.themeColor,),
+                child: Icon(Icons.search, color: EnvironmentConfig.of(context)!.primaryTheme,),
                 onPressed: () {
                   BlocProvider.of<PodDetailBloc>(context).
                   add(PodDetailSearchEvent(context: context));

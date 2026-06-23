@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/presentation/page/add_equipment_complaint_page.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/widget/view_equipment_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
   final String? title;
@@ -32,14 +29,13 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         ? const ViewEquipmentWidget()
         : Scaffold(
             backgroundColor: Colors.transparent,
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.startFloat,
-            floatingActionButton: userData.roleType == RoleType.stationUser || userData.roleType == RoleType.stationUserManager
+            floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+            floatingActionButton: userData.roleType == RoleType.stationUser ||
+                    userData.roleType == RoleType.stationUserManager
                 ? _floatingActionButton()
                 : const SizedBox.shrink(),
             extendBodyBehindAppBar: true,
-            body: appBackGround(
-              context: context,
+            body: AppBackgroundWidget(
               child: Column(children: [
                 _appBar(),
                 const DottedDividerLine(color: Colors.white),
@@ -66,13 +62,15 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
-              ? AppIcon.appLogoPurvaBharti
-              : AppConfig.instanceInit()!.client == Client.mahanagar
-              ? AppIcon.appLogoMGL
-              : AppIcon.appLogoIgl,
+              : AppConfig.instanceInit()!.client == Client.pbgpl
+                  ? AppIcon.appLogoPurvaBharti
+                  : AppConfig.instanceInit()!.client == Client.mahanagar
+                      ? AppIcon.appLogoMGL
+                      : AppConfig.instanceInit()!.client == Client.hpcl
+                          ? AppIcon.appLogoHPCL
+                          : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
         )
@@ -84,7 +82,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
     return FloatingActionButton(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0))),
-      backgroundColor: AppColor.themeColor,
+      backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
       onPressed: () async {
         var res = await Navigator.push(
           context,

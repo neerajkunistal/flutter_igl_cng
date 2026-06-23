@@ -40,7 +40,7 @@ Future<DateTime?> showCupertinoDatePicker({
                   child: TextWidget(
                     "Done",
                     fontWeight: FontWeight.w700,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                   ),
                 ),
               ],

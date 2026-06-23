@@ -22,6 +22,7 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
   final TextEditingController descriptionController;
   final TextEditingController reportByController;
   final TextEditingController dateController;
+  final TextEditingController lcvCascadeController;
   final TextEditingController timeController;
   final bool isLoader;
   final bool isFileLoader;
@@ -48,6 +49,7 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
     required this.equipmentTypeList,
     required this.reportByController,
     required this.dateController,
+    required this.lcvCascadeController,
     required this.timeController,
     required this.generalComplaintData,
     required this.generalComplaintList,
@@ -73,6 +75,7 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
         equipmentTypeList,
         reportByController,
         dateController,
+        lcvCascadeController,
         timeController,
         generalComplaintData,
         generalComplaintList,
@@ -80,9 +83,9 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
         videoFiles,
         equipmentList,
         equipmentData,
-    controlRoomList,
-    cngStationList,
-    controlRoomData,
-    cngStationData,
+        controlRoomList,
+        cngStationList,
+        controlRoomData,
+        cngStationData,
       ];
 }

@@ -29,11 +29,11 @@ class ButtonWidget extends StatelessWidget {
       height: height ?? MediaQuery.of(context).size.height * 0.055,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColor.themeColor,
+          backgroundColor: backgroundColor ?? EnvironmentConfig.of(context)!.primaryTheme,
           side: isSideBoard == true
               ? BorderSide(
                   width: 1,
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                 )
               : null,
           shape: RoundedRectangleBorder(
@@ -61,7 +61,7 @@ class ButtonWidget extends StatelessWidget {
                 TextWidget(
                   text,
                   color: isSideBoard == true
-                      ? AppColor.themeColor
+                      ? EnvironmentConfig.of(context)!.primaryTheme
                       : AppColor.white,
                   fontSize: fontSize ?? AppFont.font_14,
                   fontWeight: FontWeight.w700,

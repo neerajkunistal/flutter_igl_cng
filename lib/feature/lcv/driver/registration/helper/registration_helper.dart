@@ -1,11 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/registration/domain/model/registration_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/driver/viewDriver/domain/model/driver_model.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/email_validation.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/phone_validation.dart';
 
 class RegistrationHelper {
   static Future<dynamic> textFieldValidation(

@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/addCng/presentation/pages/add_cng_page.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/bloc/view_cng_bloc.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_item_box_widget.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/widget/view_cng_tabBar_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewCngPage extends StatefulWidget {
   const ViewCngPage({super.key});
@@ -27,7 +21,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
     return FloatingActionButton(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15.0))),
-      backgroundColor: AppColor.themeColor,
+      backgroundColor: EnvironmentConfig.of(context)!.primaryTheme,
       onPressed: () async {
         var res = await Navigator.push(
           context,
@@ -52,8 +46,7 @@ class _ViewCngPageState extends State<ViewCngPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: _floatingActionButton(),
       extendBodyBehindAppBar: true,
-      body: appBackGround(
-        context: context,
+      body: AppBackgroundWidget(
         child: BlocBuilder<ViewCngBloc, ViewCngState>(
           builder: (context, state) {
             if (state is FetchViewCngDataState) {
@@ -80,12 +73,14 @@ class _ViewCngPageState extends State<ViewCngPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,

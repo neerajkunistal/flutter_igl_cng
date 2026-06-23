@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/acknowledge/domain/model/aasign_type_model.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class ComplaintAssignWidget extends StatefulWidget {
   final AcknowledgeModel acknowledgeData;
@@ -35,13 +29,15 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
         ),
         actions: [
           Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
+            AppConfig.instanceInit()!.client == Client.igl
                 ? AppIcon.appLogoIgl
-                : AppConfig.instanceInit()!.client == Client.pbgplCNG
-                ? AppIcon.appLogoPurvaBharti
-                : AppConfig.instanceInit()!.client == Client.mahanagar
-                ? AppIcon.appLogoMGL
-                : AppIcon.appLogoIgl,
+                : AppConfig.instanceInit()!.client == Client.pbgpl
+                    ? AppIcon.appLogoPurvaBharti
+                    : AppConfig.instanceInit()!.client == Client.mahanagar
+                        ? AppIcon.appLogoMGL
+                        : AppConfig.instanceInit()!.client == Client.hpcl
+                            ? AppIcon.appLogoHPCL
+                            : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.13,
             width: MediaQuery.of(context).size.width * 0.13,
           )
@@ -61,30 +57,30 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
+                          _vertical(),
                           _assignTypeDropDown(
-                              dataState: state, context: context),
-                    /*      SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
+                            dataState: state,
                           ),
+                          /*  _vertical(),
                           _departmentDropDown(
-                              dataState: state, context: context),*/
-                          state.assignTypeData.id.toString() == "2"
-                              ? SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                )
-                              : const SizedBox.shrink(),
-                          _userDropDown(dataState: state, context: context),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          _vendorDropDown(dataState: state, context: context),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
+                              dataState: state, ),*/
+                          if (state.assignTypeData.id.toString() == "2") ...[
+                            _vertical(),
+                            _userDropDown(
+                              dataState: state,
+                            ),
+                          ],
+                          if (state.assignTypeData.id.toString() == "3") ...[
+                            _vertical(),
+                            _vendorDropDown(
+                              dataState: state,
+                            ),
+                          ],
+                          if (state.vendorData.name.toString() == "Others") ...[
+                            //  _vertical(),
+                            _otherController(dataState: state),
+                          ],
+                          _vertical(),
                           Row(
                             children: [
                               Expanded(
@@ -96,31 +92,21 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                                   child: _timeController(dataState: state)),
                             ],
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
-/*                          _plannerTypeDropDown(dataState: state, context: context),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          _workCenterTypeDropDown(dataState: state, context: context),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
+                          _vertical(),
+/*                          _plannerTypeDropDown(dataState: state, ),
+                           _vertical(),
+                          _workCenterTypeDropDown(dataState: state, ),
+                           _vertical(),
                           _personResponsibleController(dataState: state),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),*/
+                         _vertical(),*/
                           _remarkController(dataState: state),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
-                          ),
+                          _vertical(),
                           AddSparePartWidget(),
-                          _addPartButton( context: context),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.04,
+                          _addPartButton(),
+                          _vertical(),
+                          _actionButton(
+                            dataState: state,
                           ),
-                          _actionButton(dataState: state, context: context),
                         ],
                       ),
                     ))
@@ -135,9 +121,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _assignTypeDropDown(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
+  Widget _assignTypeDropDown({required FetchAcknowledgeDataState dataState}) {
     return DropdownWidget(
       hint: AppString.assignType,
       dropdownValue:
@@ -156,9 +140,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _departmentDropDown(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
+  Widget _departmentDropDown({required FetchAcknowledgeDataState dataState}) {
     return DropdownWidget(
       hint: AppString.department,
       dropdownValue:
@@ -177,29 +159,25 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _userDropDown(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
-    return dataState.assignTypeData.id.toString() == "2"
-        ? DropdownWidget(
-            hint: AppString.assignUSer,
-            dropdownValue: dataState.acknowledgeUserData.id != null
-                ? dataState.acknowledgeUserData
-                : null,
-            onChanged: (value) {
-              BlocProvider.of<AcknowledgeBloc>(context)
-                  .add(AcknowledgeSelectUserEvent(acknowledgeUserData: value));
-            },
-            items: dataState.acknowledgeUserList
-                .map<DropdownMenuItem<AcknowledgeUserModel>>(
-                    (AcknowledgeUserModel acknowledgeUserData) {
-              return DropdownMenuItem<AcknowledgeUserModel>(
-                value: acknowledgeUserData,
-                child: TextWidget(acknowledgeUserData.name.toString()),
-              );
-            }).toList(),
-          )
-        : const SizedBox.shrink();
+  Widget _userDropDown({required FetchAcknowledgeDataState dataState}) {
+    return DropdownWidget(
+      hint: AppString.assignUSer,
+      dropdownValue: dataState.acknowledgeUserData.id != null
+          ? dataState.acknowledgeUserData
+          : null,
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectUserEvent(acknowledgeUserData: value));
+      },
+      items: dataState.acknowledgeUserList
+          .map<DropdownMenuItem<AcknowledgeUserModel>>(
+              (AcknowledgeUserModel acknowledgeUserData) {
+        return DropdownMenuItem<AcknowledgeUserModel>(
+          value: acknowledgeUserData,
+          child: TextWidget(acknowledgeUserData.name.toString()),
+        );
+      }).toList(),
+    );
   }
 
   Widget _dateController({required FetchAcknowledgeDataState dataState}) {
@@ -210,7 +188,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
       controller: dataState.closeDateController,
 /*      onTap: () {
         BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeSelectClosedDateEvent(context: context));
+            .add(AcknowledgeSelectClosedDateEvent());
       },*/
     );
   }
@@ -228,32 +206,36 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _vendorDropDown(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
-    return dataState.assignTypeData.id.toString() == "3"
-        ? DropDownSearchWidget(
-            selectedItem:
-                dataState.vendorData.id != null ? dataState.vendorData : null,
-            hint: AppString.vendor,
-            items: dataState.vendorList,
-            itemAsString: (vendorData) =>
-                "${vendorData.name.toString()}-(${vendorData.code.toString()})",
-            onChanged: (value) {
-              BlocProvider.of<AcknowledgeBloc>(context)
-                  .add(AcknowledgeSelectVendorEvent(vendorData: value));
-            },
-          )
-        : const SizedBox.shrink();
+  Widget _vendorDropDown({required FetchAcknowledgeDataState dataState}) {
+    print("value-- ${dataState.vendorData.name}");
+    return DropDownSearchWidget(
+      selectedItem:
+          dataState.vendorData.id != null ? dataState.vendorData : null,
+      hint: AppString.vendor,
+      items: dataState.vendorList,
+      itemAsString: (vendorData) =>
+          "${vendorData.name.toString()}-(${vendorData.code.toString()})",
+      onChanged: (value) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeSelectVendorEvent(vendorData: value));
+      },
+    );
+  }
+
+  Widget _otherController({required FetchAcknowledgeDataState dataState}) {
+    return TextFieldWidget(
+      labelText: AppString.otherDescription,
+      controller: dataState.otherController,
+    );
   }
 
   Widget _plannerTypeDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
-      dataState.plannerData.id != null ? dataState.plannerData : null,
+          dataState.plannerData.id != null ? dataState.plannerData : null,
       hint: AppString.plannerGroup,
       items: dataState.plannerList,
       itemAsString: (plannerData) => plannerData.plannerGroup.toString(),
@@ -265,23 +247,23 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
   }
 
   Widget _workCenterTypeDropDown(
-      {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      {required FetchAcknowledgeDataState dataState}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
-      dataState.workCenterData.id != null ? dataState.workCenterData : null,
+          dataState.workCenterData.id != null ? dataState.workCenterData : null,
       hint: AppString.mainWorkCenter,
       items: dataState.workCenterList,
       itemAsString: (workCenterData) => workCenterData.workCenter.toString(),
       onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
+        BlocProvider.of<AcknowledgeBloc>(context).add(
+            AcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
       },
     );
   }
 
-  Widget _personResponsibleController({required FetchAcknowledgeDataState dataState}) {
+  Widget _personResponsibleController(
+      {required FetchAcknowledgeDataState dataState}) {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
@@ -303,12 +285,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _addPartButton(
-      {required BuildContext context}) {
+  Widget _addPartButton() {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width/2.6,
+        width: MediaQuery.of(context).size.width / 2.6,
         child: ButtonWidget(
             text: AppString.addPart,
             onPressed: () {
@@ -323,9 +304,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _actionButton(
-      {required FetchAcknowledgeDataState dataState,
-      required BuildContext context}) {
+  Widget _actionButton({required FetchAcknowledgeDataState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
             text: AppString.assign,
@@ -336,5 +315,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                       acknowledgeData: widget.acknowledgeData));
             })
         : const DottedLoaderWidget();
+  }
+
+  _vertical() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 0.009,
+    );
   }
 }

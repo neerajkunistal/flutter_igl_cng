@@ -81,7 +81,9 @@ class AcknowledgeHelper {
       required WorkCenterModel workCenterData,
       required List<PartModel> sparesPartList,
       required List<ScrapModel> scrapList,
-      required String remark}) async {
+      required String remark,
+      required String others,
+      }) async {
     try {
 
       LoginDataModel loginData =  UserInfo.instanceInit()!.userData!;
@@ -101,6 +103,7 @@ class AcknowledgeHelper {
                     ? vendorData.id.toString()
                     : "0",
         "shiftEngRemarks": remark,
+        "other": others,
 /*        "planner_group": plannerData.plannerGroup.toString(),
         "main_work_center": workCenterData.workCenter.toString(),
         "person_responsible": personResponsible,*/

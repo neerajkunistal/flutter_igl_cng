@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class AppConfig {

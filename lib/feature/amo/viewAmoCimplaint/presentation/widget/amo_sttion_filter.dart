@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/amo/viewAmoCimplaint/domain/bloc/view_amo_complaint_bloc.dart';
 
 amoModalBottomSheetMenu({required BuildContext context}) {
   showModalBottomSheet(
@@ -73,7 +72,7 @@ amoModalBottomSheetMenu({required BuildContext context}) {
                                       Navigator.pop(context);
                                     },
                                     child: Card(
-                                      shadowColor: AppColor.themeColor,
+                                      shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                                       elevation: 2,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -87,7 +86,7 @@ amoModalBottomSheetMenu({required BuildContext context}) {
                                               fontWeight: FontWeight.w700,
                                               fontSize: AppFont.font_12,
                                               color: dataState.stationData.name.toString() == dataState.stationList[index].name
-                                                  .toString() ? AppColor.themeColor : AppColor.black,
+                                                  .toString() ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.black,
                                             ),
                                             TextWidget(
                                               dataState.stationList[index].code
@@ -95,7 +94,7 @@ amoModalBottomSheetMenu({required BuildContext context}) {
                                               fontWeight: FontWeight.w500,
                                               fontSize: AppFont.font_12,
                                               color: dataState.stationData.name.toString() == dataState.stationList[index].name
-                                                  .toString() ? AppColor.themeColor : AppColor.black,
+                                                  .toString() ? EnvironmentConfig.of(context)!.primaryTheme : AppColor.black,
                                             ),
                                           ],
                                         ),

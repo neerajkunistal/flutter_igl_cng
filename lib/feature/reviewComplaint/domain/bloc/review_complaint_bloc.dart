@@ -9,9 +9,10 @@ import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/cupertino_time_picker_widget.dart';
+import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 
 part 'review_complaint_event.dart';
+
 part 'review_complaint_state.dart';
 
 class ReviewComplaintBloc
@@ -24,20 +25,23 @@ class ReviewComplaintBloc
   TextEditingController closeDateController = TextEditingController();
   TextEditingController closeTimeController = TextEditingController();
   TextEditingController rectifiedByController = TextEditingController();
+  TextEditingController actionTakenController = TextEditingController();
+  TextEditingController closedByController = TextEditingController();
+
   List<File> files = [];
 
   String _complaintId = "";
 
   String get complaintId => _complaintId;
-  bool isNoScrap =  false;
+  bool isNoScrap = false;
 
   List<SapCodeModel> sapCodeList = [];
   SapCodeModel sapCodeData = SapCodeModel();
 
   List<CodeGroupModel> codeGroupList = [];
-  CodeGroupModel codeGroupData =  CodeGroupModel();
+  CodeGroupModel codeGroupData = CodeGroupModel();
 
-  bool sapCodeLoader =  false;
+  bool sapCodeLoader = false;
 
   List<ScrapModel> deleteScrapList = [];
   List<PartModel> deletePartList = [];
@@ -69,20 +73,22 @@ class ReviewComplaintBloc
     closeDateController.text = "";
     closeTimeController.text = "";
     rectifiedByController.text = "";
+    actionTakenController.text = "";
+    closedByController.text = "";
     _complaintId = "";
     files = [];
     files.add(File(""));
     files.add(File(""));
     files.add(File(""));
-    isNoScrap =  false;
-    sapCodeLoader =  false;
-    codeGroupData =  CodeGroupModel();
+    isNoScrap = false;
+    sapCodeLoader = false;
+    codeGroupData = CodeGroupModel();
 
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     closeDateController.text = formattedDate;
 
-
-    closeTimeController.text =  DateFormat('HH:mm:ss').format(DateTime.now()).toString();
+    closeTimeController.text =
+        DateFormat('HH:mm:ss').format(DateTime.now()).toString();
 
     _complaintId = event.complaintId ?? "";
     reviewComplaintList =
@@ -91,50 +97,55 @@ class ReviewComplaintBloc
     for (var reviewData in reviewComplaintList) {
       if (event.reviewComplaintData.id.toString() == reviewData.id.toString()) {
         reviewComplaintData = reviewData;
-        String stationPersonDateTime  =  reviewComplaintData.stationPersonDateTime.toString();
-        if(stationPersonDateTime.isNotEmpty){
-          try{
-            DateTime closerDateTime =  DateFormat('yyyy-MM-dd HH:mm:ss').parse(stationPersonDateTime);
-            closeTimeController.text =  DateFormat('HH:mm:ss').format(closerDateTime).toString();
-            closeDateController.text = "${closerDateTime.day}-${closerDateTime.month}-${closerDateTime.year}";
-
-          }catch(_){}
+        String stationPersonDateTime =
+            reviewComplaintData.stationPersonDateTime.toString();
+        if (stationPersonDateTime.isNotEmpty) {
+          try {
+            DateTime closerDateTime =
+                DateFormat('yyyy-MM-dd HH:mm:ss').parse(stationPersonDateTime);
+            closeTimeController.text =
+                DateFormat('HH:mm:ss').format(closerDateTime).toString();
+            closeDateController.text =
+                "${closerDateTime.day}-${closerDateTime.month}-${closerDateTime.year}";
+          } catch (_) {}
         }
         reviewComplaintData.scrapList!.addAll(deleteScrapList);
         reviewComplaintData.partList!.addAll(deletePartList);
       }
     }
 
-    if(codeGroupList.isEmpty){
-      var res =  await ReviewComplaintHelper.fetchCodeGroupData();
-      if(res != null){
-        codeGroupList =  res;
+    if (codeGroupList.isEmpty) {
+      var res = await ReviewComplaintHelper.fetchCodeGroupData();
+      if (res != null) {
+        codeGroupList = res;
       }
     }
 
     deleteScrapList = [];
     deletePartList = [];
 
-    BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).add(
-        AddScrapClearScrapDataEvent(context: !event.context.mounted ? event.context : event.context));
+    BlocProvider.of<AddScrapBloc>(
+            !event.context.mounted ? event.context : event.context)
+        .add(AddScrapClearScrapDataEvent(
+            context: !event.context.mounted ? event.context : event.context));
     _eventComplete(emit);
   }
 
   _deleteScrap(ReviewComplaintDeleteScarpEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
-    deleteScrapList.add( reviewComplaintData.scrapList![event.index]);
+    deleteScrapList.add(reviewComplaintData.scrapList![event.index]);
     reviewComplaintData.scrapList!.removeAt(event.index);
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
   }
 
   _deletePart(ReviewComplaintDeletePartEvent event, emit) {
-    isLoader =  true;
+    isLoader = true;
     _eventComplete(emit);
     deletePartList.add(reviewComplaintData.partList![event.index]);
     reviewComplaintData.partList!.removeAt(event.index);
-    isLoader =  false;
+    isLoader = false;
     _eventComplete(emit);
   }
 
@@ -145,16 +156,16 @@ class ReviewComplaintBloc
 
   _selectApproval(ReviewComplaintSelectApprovalEvent event, emit) {
     approvalValue = event.approvalValue;
-    if(approvalValue == "1"){
-      isNoScrap =  true;
+    if (approvalValue == "1") {
+      isNoScrap = true;
     } else {
-      isNoScrap =  false;
+      isNoScrap = false;
     }
     _eventComplete(emit);
   }
 
   _selectScrap(ReviewComplaintSelectScrapData event, emit) {
-    isNoScrap =  event.isNoScrap;
+    isNoScrap = event.isNoScrap;
     _eventComplete(emit);
   }
 
@@ -174,6 +185,7 @@ class ReviewComplaintBloc
         files[event.index] = photo;
       }
     }
+    log("fileDataReview--- > ${files.toString()}");
     isLoader = false;
     _eventComplete(emit);
   }
@@ -181,7 +193,7 @@ class ReviewComplaintBloc
   _removeImage(ReviewComplaintRemoveImageEvent event, emit) {
     isLoader = true;
     _eventComplete(emit);
-    files[event.index] =  File("");
+    files[event.index] = File("");
     isLoader = false;
     _eventComplete(emit);
   }
@@ -211,14 +223,14 @@ class ReviewComplaintBloc
           ? DateFormat('HH:mm:ss').parse(closeTimeController.text.toString())
           : DateTime.now();
 
-      DateTime? time =  await showCupertinoDatePicker(
+      DateTime? time = await showCupertinoDatePicker(
           initialDateTime: DateTime.now(),
           mode: CupertinoDatePickerMode.dateAndTime,
-          context: event.context
-      );
+          context: event.context);
       if (time != null) {
         print("closeTimeController--->${closeTimeController.text.toString()}");
-        closeTimeController.text = DateFormat('HH:mm:ss').format(time).toString();
+        closeTimeController.text =
+            DateFormat('HH:mm:ss').format(time).toString();
         _eventComplete(emit);
       }
     } catch (e) {
@@ -229,19 +241,19 @@ class ReviewComplaintBloc
   }
 
   _selectCodeGroup(ReviewComplaintSelectCodeGroupEvent event, emit) async {
-    codeGroupData  =  event.codeGroupData;
+    codeGroupData = event.codeGroupData;
     sapCodeList = [];
-    sapCodeData =  SapCodeModel();
-    sapCodeLoader =  true;
+    sapCodeData = SapCodeModel();
+    sapCodeLoader = true;
     _eventComplete(emit);
 
-      var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData(
-          codeGroupData: codeGroupData);
-      if (res != null) {
-        sapCodeList = res;
-      }
+    var res = await AddAcknowledgeComplaintHelper.fetchSapCodeData(
+        codeGroupData: codeGroupData);
+    if (res != null) {
+      sapCodeList = res;
+    }
 
-    sapCodeLoader =  false;
+    sapCodeLoader = false;
     _eventComplete(emit);
   }
 
@@ -250,35 +262,45 @@ class ReviewComplaintBloc
     _eventComplete(emit);
   }
 
-
-
   _submit(ReviewComplaintSubmitEvent event, emit) async {
+
     isLoader = true;
     _eventComplete(emit);
     final client = AppConfig.instanceInit()!.client;
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
-    if(sapCodeData.code == null && userData.roleType == RoleType.shiftEngineer && client !=  Client.mahanagar){
+    final bool isMahanagar = client == Client.mahanagar;
+    final bool isHPCL = client == Client.hpcl;
+    final bool isShiftEngineer = userData.roleType == RoleType.shiftEngineer;
+
+    if (sapCodeData.code == null && isShiftEngineer && !(isMahanagar || isHPCL)) {
       SnackBarErrorWidget(event.context).show(message: "Please select sap code");
       isLoader = false;
       _eventComplete(emit);
       return;
-    }
-    else if(codeGroupData.name == null && userData.roleType == RoleType.shiftEngineer && client !=  Client.mahanagar){
+    } else if (codeGroupData.name == null && isShiftEngineer && !(isMahanagar || isHPCL)) {
       SnackBarErrorWidget(event.context).show(message: "Please select code group");
       isLoader = false;
       _eventComplete(emit);
       return;
-    }
-    else if(closeTimeController.text.toString().isEmpty){
+    } else if (closeTimeController.text.toString().isEmpty) {
       SnackBarErrorWidget(event.context).show(message: "Please enter time");
+      isLoader = false;
+      _eventComplete(emit);
+      return;
+    } else if (closedByController.text.trim().toString().isEmpty) {
+      SnackBarErrorWidget(event.context).show(message: "Please enter Closed By (Person Name)");
+      isLoader = false;
+      _eventComplete(emit);
+      return;
+    } else if (actionTakenController.text.trim().toString().isEmpty) {
+      SnackBarErrorWidget(event.context).show(message: "Please enter Action Taken");
       isLoader = false;
       _eventComplete(emit);
       return;
     }
 
-
-    var res = userData.roleType == RoleType.shiftEngineer
+    var res = isShiftEngineer
         ? await ReviewComplaintHelper.submit(
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
@@ -289,6 +311,8 @@ class ReviewComplaintBloc
             closedDate: closeDateController.text.toString(),
             closedTime: closeTimeController.text.toString(),
             rectifyBy: rectifiedByController.text.toString(),
+            personName: closedByController.text.toString(),
+            actionTaken: actionTakenController.text.toString(),
             isNoScrap: isNoScrap,
             sapCodeData: sapCodeData,
             codeGroupData: codeGroupData,
@@ -296,7 +320,7 @@ class ReviewComplaintBloc
             deletesScrapList: deleteScrapList,
             scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
             partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
-    )
+          )
         : await ReviewComplaintHelper.reviewComplaint(
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
@@ -305,15 +329,15 @@ class ReviewComplaintBloc
             closedDate: closeDateController.text.toString(),
             closedTime: closeTimeController.text.toString(),
             rectifyBy: rectifiedByController.text.toString(),
+            personName: closedByController.text.toString(),
+            actionTaken: actionTakenController.text.toString(),
             files: files,
-          isNoScrap: isNoScrap,
-          deletePartList: deletePartList,
-          deletesScrapList: deleteScrapList,
-          scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
-          partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
-
-
-    );
+            isNoScrap: isNoScrap,
+            deletePartList: deletePartList,
+            deletesScrapList: deleteScrapList,
+            scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
+            partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
+          );
     if (res != null) {
       isLoader = false;
       reviewComplaintData = ReviewComplaintModel();
@@ -352,6 +376,8 @@ class ReviewComplaintBloc
       codeGroupData: codeGroupData,
       codeGroupList: codeGroupList,
       sapCodeLoader: sapCodeLoader,
+      actionTakenController: actionTakenController,
+      closedByController: closedByController,
     ));
   }
 }

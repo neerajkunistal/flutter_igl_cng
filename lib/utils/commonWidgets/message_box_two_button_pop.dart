@@ -8,14 +8,14 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
   final double? width;
   final Color? okButtonColour;
 
-  const MessageBoxTwoButtonPopWidget(
-      {super.key,
-      required this.message,
-      required this.onPressed,
-      this.okButtonText,
-      this.width,
-      this.okButtonColour,
-      });
+  const MessageBoxTwoButtonPopWidget({
+    super.key,
+    required this.message,
+    required this.onPressed,
+    this.okButtonText,
+    this.width,
+    this.okButtonColour,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,8 @@ class MessageBoxTwoButtonPopWidget extends StatelessWidget {
                             child: TextWidget(
                               okButtonText ?? "OK",
                               fontWeight: FontWeight.w700,
-                              color: okButtonColour ?? AppColor.themeColor,
+                              color: okButtonColour ??
+                                  EnvironmentConfig.of(context)!.primaryTheme,
                               fontSize: AppFont.font_14,
                             ),
                           ),

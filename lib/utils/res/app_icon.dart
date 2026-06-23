@@ -2,6 +2,8 @@ class AppIcon {
   static get appLogoPurvaBharti => "assets/logo.png";
 
 
+  static get appLogoHPCL => "assets/hpcl_logo.png";
+
   static get appLogoMGL => "assets/mgl_logo.png";
 
   static get appLogoUnistal => "assets/unistal_logo.png";

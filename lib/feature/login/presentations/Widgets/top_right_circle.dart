@@ -11,7 +11,7 @@ Widget topRightCircle(BuildContext context) {
         left: -13,
         child: Card(
           elevation: 5,
-          shadowColor: AppColor.themeColor,
+          shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(80),
           ),
@@ -23,8 +23,8 @@ Widget topRightCircle(BuildContext context) {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                      AppColor.themeColor,
-                      AppColor.themeLightColor
+                      EnvironmentConfig.of(context)!.primaryTheme,
+                      EnvironmentConfig.of(context)!.secondaryTheme
                     ]),
                 // color: Colors.pink,
                 borderRadius: const BorderRadius.all(Radius.circular(80))),
@@ -47,7 +47,7 @@ Widget topRightCircle(BuildContext context) {
         left: -15,
         child: Card(
           elevation: 5,
-          shadowColor: AppColor.themeColor,
+          shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(80),
           ),
@@ -59,8 +59,8 @@ Widget topRightCircle(BuildContext context) {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                      AppColor.themeColor,
-                      AppColor.themeLightColor
+                      EnvironmentConfig.of(context)!.primaryTheme,
+                      EnvironmentConfig.of(context)!.secondaryTheme
                     ]),
                 // color: Colors.pink,
                 borderRadius: const BorderRadius.all(Radius.circular(80))),

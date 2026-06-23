@@ -13,28 +13,38 @@ class PartModel {
   SparesModel? sparesData;
   UomTypeModel? uomTypeData;
   dynamic qty;
+  dynamic otherSpares;
   dynamic materialCode;
   String? remarkCode;
 
-  PartModel({this.qty, this.uomTypeData, this.sparesData,
-    this.materialCode, this.remarkCode,this.id, this.partId, this.uomId,this.name
-  });
+  PartModel({
+    this.otherSpares,
+    this.qty,
+      this.uomTypeData,
+      this.sparesData,
+      this.materialCode,
+      this.remarkCode,
+      this.id,
+      this.partId,
+      this.uomId,
+      this.name});
 
   factory PartModel.fromJson(Map<String, dynamic> json) {
     return PartModel(
-      id: json['id'] ?? "",
-      partId: json['spare_id'] ?? "",
+        id: json['id'] ?? "",
+        partId: json['spare_id'] ?? "",
         name: json['spare_name'] ?? "",
-      qty: json['qty'] ?? "",
-      materialCode: json['material_code'] ?? "",
-      remarkCode: json['remark_code'] ?? ""
-    );
+        qty: json['qty'] ?? "",
+     //   otherSpares: json['otherSpares'] ?? "",
+        materialCode: json['material_code'] ?? "",
+        remarkCode: json['remark_code'] ?? "");
   }
 
   Map<String, String> toJson() {
     final Map<String, String> data = <String, String>{};
     data['spareId'] = sparesData!.id != null ? sparesData!.id.toString() : "0";
     data['quantity'] = qty.toString();
+  //  data['otherSpares'] = otherSpares.toString();
     data['materialCode'] = materialCode.toString();
     data['remark'] = remarkCode.toString();
     return data;

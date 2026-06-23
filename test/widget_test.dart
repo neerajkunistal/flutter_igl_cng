@@ -8,13 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/root.dart';
+import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const Root(client: Client.iglcng));
+    await tester.pumpWidget(const Root(client: Client.mahanagar));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

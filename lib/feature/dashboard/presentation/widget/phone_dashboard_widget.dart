@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/presentation/page/add_equipment_complaint_page.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class PhoneDashboardWidget extends StatefulWidget {
   const PhoneDashboardWidget({
@@ -46,7 +42,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                shadowColor: AppColor.themeColor,
+                shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
@@ -73,7 +69,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         ),
                         TextWidget(
                           "Add Complaint",
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontWeight: FontWeight.w700,
                         )
                       ],
@@ -86,7 +82,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                shadowColor: AppColor.themeColor,
+                shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
@@ -113,7 +109,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         ),
                         TextWidget(
                           "View Complaint",
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontWeight: FontWeight.w700,
                         )
                       ],
@@ -126,7 +122,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                shadowColor: AppColor.themeColor,
+                shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
@@ -151,7 +147,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         ),
                         TextWidget(
                           "Ack Complaint",
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontWeight: FontWeight.w700,
                         )
                       ],
@@ -164,7 +160,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                shadowColor: AppColor.themeColor,
+                shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
@@ -190,7 +186,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         ),
                         TextWidget(
                           "Review Complaint",
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontWeight: FontWeight.w700,
                         )
                       ],
@@ -203,7 +199,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
               ? Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                shadowColor: AppColor.themeColor,
+                shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
                 elevation: 2,
                 child: InkWell(
                   onTap: () {
@@ -229,7 +225,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                         ),
                         TextWidget(
                           "MI Complaint",
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontWeight: FontWeight.w700,
                         )
                       ],

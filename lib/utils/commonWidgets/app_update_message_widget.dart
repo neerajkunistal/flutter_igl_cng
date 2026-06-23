@@ -25,7 +25,7 @@ class AppUpdateMessage {
       child: TextWidget(
         "Update Now",
         fontSize: AppFont.font_14,
-        color: AppColor.themeColor,
+        color: EnvironmentConfig.of(context)!.primaryTheme,
         fontWeight: FontWeight.w700,
       ),
       onPressed: () async {

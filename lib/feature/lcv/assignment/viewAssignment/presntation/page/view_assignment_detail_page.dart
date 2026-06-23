@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/bloc/view_assignment_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/widget/db_cng_station_item_box_widget.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class ViewAssignmentDetailPage extends StatefulWidget {
   const ViewAssignmentDetailPage({super.key});
@@ -28,12 +25,14 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -45,8 +44,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       body: appBackGround(
-         context: context,
+       body: AppBackgroundWidget(
          child: Column(
            children: [
              _appBar(),
@@ -199,7 +197,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Driver Name : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_13,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -233,7 +231,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("From : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -250,7 +248,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("To : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -267,7 +265,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Received Scm: ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -284,7 +282,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Current Scm : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_14,
             fontWeight: FontWeight.w700),
         Expanded(
@@ -322,7 +320,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Status : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -349,7 +347,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
                   :  assignmentData.fillStartTime.toString().isNotEmpty &&
                   assignmentData.fillEndTime.toString().isNotEmpty &&
                   assignmentData.status.toString() == "0"
-                  ? AppColor.themeLightColor
+                  ? EnvironmentConfig.of(context)!.secondaryTheme
                   : assignmentStatus == AssignmentStatus.complete
                   ? Colors.green
                   : assignmentStatus == AssignmentStatus.cancel
@@ -371,7 +369,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Created DateTime : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(
@@ -393,7 +391,7 @@ class _ViewAssignmentDetailPageState extends State<ViewAssignmentDetailPage> {
     return Row(
       children: [
         TextWidget("Last Update : ",
-            color: AppColor.themeColor,
+            color: EnvironmentConfig.of(context)!.primaryTheme,
             fontSize: AppFont.font_12,
             fontWeight: FontWeight.w400),
         Expanded(

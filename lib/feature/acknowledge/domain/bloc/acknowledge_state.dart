@@ -20,6 +20,7 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
   final List<AcknowledgeUserModel> acknowledgeUserList;
   final AcknowledgeUserModel acknowledgeUserData;
   final bool isUserLoader;
+  final TextEditingController otherController;
   final TextEditingController remarkController;
   final TextEditingController closeDateController;
   final TextEditingController closedTimeController;
@@ -51,6 +52,7 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
     required this.isUserLoader,
     required this.acknowledgeUserData,
     required this.remarkController,
+    required this.otherController,
     required this.vendorList,
     required this.vendorData,
     required this.assignTypeList,
@@ -84,6 +86,7 @@ class FetchAcknowledgeDataState extends AcknowledgeInitial {
         acknowledgeUserList,
         isUserLoader,
         acknowledgeUserData,
+    otherController,
         remarkController,
         vendorList,
         vendorData,

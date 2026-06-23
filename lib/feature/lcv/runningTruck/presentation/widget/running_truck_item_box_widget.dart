@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/domain/bloc/cng_filling_form_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngFillingForm/presentation/page/cng_filling_station_page.dart';
 
 class RunningTruckItemBoxWidget extends StatelessWidget {
   final AssignmentModel assignmentData;
@@ -32,7 +29,7 @@ class RunningTruckItemBoxWidget extends StatelessWidget {
                 maxLines: 1,
                 fontSize: AppFont.font_16,
                 fontWeight: FontWeight.w600,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,

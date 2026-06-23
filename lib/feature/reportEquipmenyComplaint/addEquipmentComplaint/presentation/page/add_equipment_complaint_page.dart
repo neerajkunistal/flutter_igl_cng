@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/station_type_model.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
+
 
 class AddEquipmentComplaintPage extends StatefulWidget {
   const AddEquipmentComplaintPage({super.key});
@@ -26,8 +24,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: appBackGround(
-        context: context,
+      body: AppBackgroundWidget(
         child: Column(
           children: [
             _appBar(),
@@ -76,12 +73,14 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       ),
       actions: [
         Image.asset(
-          AppConfig.instanceInit()!.client == Client.iglcng
+          AppConfig.instanceInit()!.client == Client.igl
               ? AppIcon.appLogoIgl
-              : AppConfig.instanceInit()!.client == Client.pbgplCNG
+              : AppConfig.instanceInit()!.client == Client.pbgpl
               ? AppIcon.appLogoPurvaBharti
               : AppConfig.instanceInit()!.client == Client.mahanagar
               ? AppIcon.appLogoMGL
+              : AppConfig.instanceInit()!.client == Client.hpcl
+              ? AppIcon.appLogoHPCL
               : AppIcon.appLogoIgl,
           height: MediaQuery.of(context).size.width * 0.13,
           width: MediaQuery.of(context).size.width * 0.13,
@@ -121,6 +120,12 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
 
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "1"
+                ? _lcvCascadeController(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "1"
                 ? _verticalSpace()
@@ -180,6 +185,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           ? dataState.generalComplaintData
           : null,
       onChanged: (value) {
+        print("generalComplaintData-->${dataState.generalComplaintData.name}");
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectGeneralDataEvent(
                 generalComplaintData: value));
@@ -193,6 +199,14 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
         );
       }).toList(),
     );
+  }
+
+
+  Widget _lcvCascadeController({required FetchAddEquipmentComplaintState dataState}) {
+    return dataState.generalComplaintData.name.toString() == "Dry Out" ?TextFieldWidget(
+      labelText: "LCV cascade pressure",
+      controller: dataState.lcvCascadeController,
+    ) : SizedBox.shrink();
   }
 
   Widget _crDropDown({required FetchAddEquipmentComplaintState dataState}) {
@@ -239,8 +253,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _equipmentDropDown(
-      {required FetchAddEquipmentComplaintState dataState}) {
+  Widget _equipmentDropDown({required FetchAddEquipmentComplaintState dataState}) {
     return DropdownWidget(
       hint: AppString.selectEquipment,
       dropdownValue: dataState.equipmentData.name != null
@@ -262,8 +275,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _equipmentTypeDropDown(
-      {required FetchAddEquipmentComplaintState dataState}) {
+  Widget _equipmentTypeDropDown({required FetchAddEquipmentComplaintState dataState}) {
     return DropDownSearchWidget(
       selectedItem: dataState.equipmentTypeData.equipmentCode != null
           ? dataState.equipmentTypeData
@@ -309,8 +321,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   }
 
 
-  Widget _descriptionRemark(
-      {required FetchAddEquipmentComplaintState dataState}) {
+  Widget _descriptionRemark({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
       labelText: AppString.description,
       controller: dataState.descriptionController,
@@ -325,25 +336,73 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
+
   Widget _imageList({required FetchAddEquipmentComplaintState dataState}) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: dataState.files.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) =>
-          _photo(dataState: dataState, index: index),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-      ),
+    final bool isRequired = dataState.generalComplaintData.name?.toString() == "Dry Out";
+    final bool showError  = isRequired && dataState.files.isEmpty;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Required label
+        if (isRequired)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 6.0),
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "Photo Upload ",
+                    style: TextStyle(
+                      fontSize: AppFont.font_13,
+                      color: AppColor.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const TextSpan(
+                    text: "* Required",
+                    style: TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+        // Photo grid
+        GridView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: dataState.files.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) =>
+              _photo(dataState: dataState, index: index),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+          ),
+        ),
+
+        // Error message when no photo uploaded
+        if (showError)
+          Padding(
+            padding: const EdgeInsets.only(top: 6.0),
+            child: Row(
+              children: const [
+                Icon(Icons.error_outline, color: Colors.red, size: 14),
+                SizedBox(width: 4),
+                Text(
+                  "At least one photo is required",
+                  style: TextStyle(color: Colors.red, fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 
-  Widget _photo(
-      {required FetchAddEquipmentComplaintState dataState,
-      required int index}) {
+  Widget _photo({required FetchAddEquipmentComplaintState dataState, required int index}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: MediaQuery.of(context).size.width / 3,
@@ -412,7 +471,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                                     .split('/')
                                     .last
                                     .toString(),
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                                 fontSize: AppFont.font_12,
                               )
                             : const SizedBox.shrink(),
@@ -425,7 +484,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                         child: Center(
                             child: Icon(
                           Icons.refresh,
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                         ))),
 
                     Align(
@@ -531,7 +590,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                               children: [
                                 Icon(
                                   Icons.video_collection_outlined,
-                                  color: AppColor.themeColor,
+                                  color: EnvironmentConfig.of(context)!.primaryTheme,
                                   size:
                                       MediaQuery.of(context).size.width * 0.20,
                                 ),
@@ -550,7 +609,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                               child: Center(
                                   child: Icon(
                                 Icons.refresh,
-                                color: AppColor.themeColor,
+                                color: EnvironmentConfig.of(context)!.primaryTheme,
                               ))),
 
                           Align(

@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/changePassword/presentation/pages/change_password_page.dart';
-import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
-import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
-import 'package:flutter_igl_cng/feature/materialDetail/presentation/page/material_detail_page.dart';
-import 'package:flutter_igl_cng/feature/podDetail/presentation/page/pod_detail_page.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/custome_switch.dart';
 
 class HomeDrawerWidget extends StatelessWidget {
   HomeDrawerWidget({super.key});
@@ -18,6 +10,7 @@ class HomeDrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is FetchHomeDataState) {
@@ -26,14 +19,19 @@ class HomeDrawerWidget extends StatelessWidget {
             child: Container(
               // color: AppColor.white,
               width: MediaQuery.of(context).size.width / 1.5,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromARGB(255, 85, 124, 18),
-                    Color.fromRGBO(239, 190, 17, 1.0),
-                    Color.fromARGB(255, 85, 124, 18),
+                    // Color.fromARGB(255, 85, 124, 18),
+                    // Color.fromRGBO(239, 190, 17, 1.0),
+                    // Color.fromARGB(255, 85, 124, 18),
+                    EnvironmentConfig.of(context)!.primaryTheme,
+                    EnvironmentConfig.of(context)!
+                        .secondaryTheme
+                        .withValues(alpha: 0.6),
+                    EnvironmentConfig.of(context)!.primaryTheme,
                   ],
                 ),
               ),
@@ -46,15 +44,17 @@ class HomeDrawerWidget extends StatelessWidget {
                   ),
                   _listBuilder(dataState: state),
 
-                  state.roleType != RoleType.stationUser ?
-                  _materialDetail(context: context): const SizedBox.shrink(),
+                  state.roleType != RoleType.stationUser
+                      ? _materialDetail(context: context)
+                      : const SizedBox.shrink(),
 
-                  state.roleType != RoleType.stationUser ?
-                  _podDetail(context: context) : const SizedBox.shrink(),
+                  state.roleType != RoleType.stationUser
+                      ? _podDetail(context: context)
+                      : const SizedBox.shrink(),
 
-                  _notificationSetting(context: context, dataState: state),
+                  //   _notificationSetting(context: context, dataState: state),
 
-                  _changePassword(context: context),
+                  //  _changePassword(context: context),
 
                   _logout(context: context),
                 ],
@@ -76,13 +76,15 @@ class HomeDrawerWidget extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: Image.asset(
-            AppConfig.instanceInit()!.client == Client.iglcng
+            AppConfig.instanceInit()!.client == Client.igl
                 ? AppIcon.appLogoIgl
-                : AppConfig.instanceInit()!.client == Client.pbgplCNG
-                ? AppIcon.appLogoPurvaBharti
-                : AppConfig.instanceInit()!.client == Client.mahanagar
-                ? AppIcon.appLogoMGL
-                : AppIcon.appLogoIgl,
+                : AppConfig.instanceInit()!.client == Client.pbgpl
+                    ? AppIcon.appLogoPurvaBharti
+                    : AppConfig.instanceInit()!.client == Client.mahanagar
+                        ? AppIcon.appLogoMGL
+                        : AppConfig.instanceInit()!.client == Client.hpcl
+                            ? AppIcon.appLogoHPCL
+                            : AppIcon.appLogoIgl,
             height: MediaQuery.of(context).size.width * 0.15,
             width: MediaQuery.of(context).size.width * 0.15,
           ),
@@ -95,7 +97,7 @@ class HomeDrawerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextWidget(
-                " ${userData.roleName} ${userData.stationName.toString().isNotEmpty ? " - ${userData.stationName.toString()}": ""}",
+                " ${userData.roleName} ${userData.stationName.toString().isNotEmpty ? " - ${userData.stationName.toString()}" : ""}",
                 fontSize: AppFont.font_14,
                 color: AppColor.white,
               ),
@@ -124,8 +126,7 @@ class HomeDrawerWidget extends StatelessWidget {
         });
   }
 
-  Widget _itemBuilder(
-      {required BuildContext context,
+  Widget _itemBuilder({required BuildContext context,
       required DrawerModel drawerData,
       required int index}) {
     return GestureDetector(
@@ -227,7 +228,7 @@ class HomeDrawerWidget extends StatelessWidget {
                       Icons.circle,
                       size: MediaQuery.of(context).size.width * 0.03,
                       color: drawerData.sublist[index].isSelected == true
-                          ? AppColor.themeColor
+                          ? EnvironmentConfig.of(context)!.primaryTheme
                           : AppColor.white,
                     ),
                     SizedBox(
@@ -238,7 +239,7 @@ class HomeDrawerWidget extends StatelessWidget {
                         drawerData.sublist[index].label.toString(),
                         fontSize: AppFont.font_12,
                         color: drawerData.sublist[index].isSelected == true
-                            ? AppColor.themeColor
+                            ? EnvironmentConfig.of(context)!.primaryTheme
                             : AppColor.white,
                       ),
                     ),
@@ -254,7 +255,6 @@ class HomeDrawerWidget extends StatelessWidget {
     );
   }
 
-
   Widget _materialDetail({required BuildContext context}) {
     return Padding(
       padding: EdgeInsets.only(
@@ -263,8 +263,7 @@ class HomeDrawerWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pop(context);
-          Navigator.push(context,
-              FadeRoute(page: const MaterialDetailPage()));
+          Navigator.push(context, FadeRoute(page: const MaterialDetailPage()));
         },
         child: Row(
           children: [
@@ -303,8 +302,7 @@ class HomeDrawerWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pop(context);
-          Navigator.push(context,
-              FadeRoute(page: const PodDetailPage()));
+          Navigator.push(context, FadeRoute(page: const PodDetailPage()));
         },
         child: Row(
           children: [
@@ -335,7 +333,8 @@ class HomeDrawerWidget extends StatelessWidget {
     );
   }
 
-  Widget _notificationSetting({required BuildContext context, required FetchHomeDataState dataState}) {
+  Widget _notificationSetting(
+      {required BuildContext context, required FetchHomeDataState dataState}) {
     return Padding(
       padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.width * 0.02,
@@ -366,12 +365,12 @@ class HomeDrawerWidget extends StatelessWidget {
             ),
           ),
           CustomSwitch(
-              // activeColor: AppColor.themeColor,
+              // activeColor: EnvironmentConfig.of(context)!.primaryTheme,
               value: dataState.isNotificationSilent,
               onChanged: (value) {
-                BlocProvider.of<HomeBloc>(context).add(
-                    HomePageNotificationSilentEvent(context: context));
-          })
+                BlocProvider.of<HomeBloc>(context)
+                    .add(HomePageNotificationSilentEvent(context: context));
+              })
 /*          IconButton(
               onPressed: () {
                 BlocProvider.of<HomeBloc>(context).add(
@@ -395,8 +394,7 @@ class HomeDrawerWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pop(context);
-          Navigator.push(context,
-              FadeRoute(page: const ChangePasswordPage()));
+          Navigator.push(context, FadeRoute(page: const ChangePasswordPage()));
         },
         child: Row(
           children: [

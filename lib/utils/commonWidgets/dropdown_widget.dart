@@ -37,7 +37,7 @@ class DropdownWidget extends StatelessWidget {
                     TextSpan(
                         text: hint,
                         style: TextStyle(
-                          color: AppColor.themeColor,
+                          color: EnvironmentConfig.of(context)!.primaryTheme,
                           fontSize: AppFont.font_14,
                         )),
                     TextSpan(
@@ -54,7 +54,7 @@ class DropdownWidget extends StatelessWidget {
               TextSpan(
                   text: hint,
                   style: TextStyle(
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_14,
                   )),
               TextSpan(

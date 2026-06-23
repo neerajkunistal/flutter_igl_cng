@@ -1,16 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
-import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
-import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
-import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
-import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 
 class ReviewComplaintHelper {
-  static Future<dynamic> fetchReviewComplaint(
-      {String? fromDate, String? toDate}) async {
+  static Future<dynamic> fetchReviewComplaint({String? fromDate, String? toDate}) async {
     try {
       String url = APIs.getReviewComplaintApi +
           "?sort=&order=&fromDate=$fromDate&toDate=$toDate";
@@ -37,26 +29,31 @@ class ReviewComplaintHelper {
     }
   }
 
-  static Future<dynamic> submit(
-      {required BuildContext context,
-      required ReviewComplaintModel reviewComplaintData,
-      required String approvalValue,
-      required String observation,
-      required String complaintId,
-      required String rectifyBy,
-      required String closedDate,
-      required String closedTime,
-      required List<File> files,
-      required bool isNoScrap,
-      required List<ScrapModel> scrapList,
-      required List<PartModel> partList,
-        required List<ScrapModel> deletesScrapList,
-        required List<PartModel> deletePartList,
-      required SapCodeModel sapCodeData,
-      required CodeGroupModel codeGroupData,
-      }) async {
+  static Future<dynamic> submit({
+    required BuildContext context,
+    required ReviewComplaintModel reviewComplaintData,
+    required String approvalValue,
+    required String observation,
+    required String complaintId,
+    required String rectifyBy,
+    required String closedDate,
+    required String closedTime,
+    required String personName,
+    required String actionTaken,
+    required List<File> files,
+    required bool isNoScrap,
+    required List<ScrapModel> scrapList,
+    required List<PartModel> partList,
+    required List<ScrapModel> deletesScrapList,
+    required List<PartModel> deletePartList,
+    required SapCodeModel sapCodeData,
+    required CodeGroupModel codeGroupData,
+  }) async {
     try {
       final client = AppConfig.instanceInit()!.client;
+      final bool isMahanagar = client == Client.mahanagar;
+      final bool isHPCL = client == Client.hpcl;
+
       String url = APIs.addReviewComplaintApi;
       var json = {
         "complaintId": complaintId.isNotEmpty
@@ -67,61 +64,81 @@ class ReviewComplaintHelper {
         "remarks": observation.toString(),
         "finalStatus": approvalValue,
         "rectifyPerson": approvalValue,
+        "person_name": personName,
+        "action_taken": actionTaken,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : scrapList.isEmpty ? "0" :"1",
-        "sapCode" : client ==  Client.mahanagar ? "0" :sapCodeData.code != null ? sapCodeData.id.toString() : "",
-        "codeGroup" : client ==  Client.mahanagar ? "0" : codeGroupData.code != null ? codeGroupData.id.toString() : "",
+        "scrap": scrapList.isEmpty ? "0" : "1",
+        "sapCode": isMahanagar || isHPCL
+            ? "0"
+            : sapCodeData.code != null
+                ? sapCodeData.id.toString()
+                : "",
+        "codeGroup": isMahanagar || isHPCL
+            ? "0"
+            : codeGroupData.code != null
+                ? codeGroupData.id.toString()
+                : "",
         "spares": partList.isNotEmpty
-            ? jsonEncode(partList.map((e) => e.toJson()).toList())
-            .toString()
+            ? jsonEncode(partList.map((e) => e.toJson()).toList()).toString()
             : "0",
         "deletedSpares": deletesScrapList.isNotEmpty
             ? jsonEncode(deletesScrapList.map((e) => e.toJson()).toList())
-            .toString()
+                .toString()
             : "0",
         "deletedParts": deletePartList.isNotEmpty
             ? jsonEncode(deletePartList.map((e) => e.toDeleteJson()).toList())
-            .toString()
+                .toString()
             : "0",
       };
 
-
       Map<String, String> scrapData = {};
       List<FileModel> filesList = [];
-        for(int i = 0;  i < scrapList.length; i++ ){
-          var jsonData = {
-            "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
-            "scrapDetails[$i][description]" : scrapList[i].description.toString(),
-            "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
-            "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
-            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
-            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
-          };
-          if(scrapList[i].filesList != null){
-            for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-              if(scrapList[i].filesList![j].path.isNotEmpty){
-                filesList.add(FileModel(
-                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
-              }
+      for (int i = 0; i < scrapList.length; i++) {
+        var jsonData = {
+          "scrapDetails[$i][serial]": scrapList[i].srNumber.toString(),
+          "scrapDetails[$i][description]": scrapList[i].description.toString(),
+          "scrapDetails[$i][unit]":
+              scrapList[i].scrapUnitTypeData!.unit.toString(),
+          "scrapDetails[$i][unitType]":
+              scrapList[i].scrapUnitTypeData!.id.toString(),
+          "scrapDetails[$i][remark]": scrapList[i].remark.toString(),
+          "scrapDetails[$i][destroy_reusable]":
+              scrapList[i].destroyReusable.toString(),
+        };
+        if (scrapList[i].filesList != null) {
+          for (int j = 0; j < scrapList[i].filesList!.length; j++) {
+            if (scrapList[i].filesList![j].path.isNotEmpty) {
+              filesList.add(FileModel(
+                  name: "file",
+                  file: scrapList[i].filesList![j],
+                  keyName: "scrapDetails[$i][attachFile][$j]"));
             }
           }
-          scrapData.addAll(jsonData);
-     }
+        }
+        scrapData.addAll(jsonData);
+      }
 
       scrapData.addAll(json);
       log(jsonEncode(scrapData).toString());
-
-      if(files[0].path.isNotEmpty){
-        filesList.add(FileModel(
-            name: "file", file: files[0], keyName: "attachFile"));
+      int i = 0;
+      for (var fileData in files) {
+        if (fileData.path.isNotEmpty) {
+          print(fileData.path.toString());
+          filesList.add(FileModel(
+              name: "file", file: fileData, keyName: "attachFile[$i]"));
+          i++;
+        }
       }
-
+      // if(files[0].path.isNotEmpty){
+      //   filesList.add(FileModel(
+      //       name: "file", file: files[0], keyName: "attachFile"));
+      // }
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
           body: scrapData,
           context: context,
-        fileList: filesList);
+          fileList: filesList);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
@@ -150,8 +167,8 @@ class ReviewComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              .replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;
@@ -163,32 +180,42 @@ class ReviewComplaintHelper {
     }
   }
 
-  static Future<dynamic> reviewComplaint(
-      {required BuildContext context,
-      required ReviewComplaintModel reviewComplaintData,
-      required String approvalValue,
-      required String observation,
-      required String rectifyBy,
-      required String closedDate,
-      required String closedTime,
-      required List<File> files,
-        required bool isNoScrap,
-        required List<ScrapModel> scrapList,
-        required List<PartModel> partList,
-        required List<ScrapModel> deletesScrapList,
-        required List<PartModel> deletePartList,
-      }) async {
+  static Future<dynamic> reviewComplaint({
+    required BuildContext context,
+    required ReviewComplaintModel reviewComplaintData,
+    required String approvalValue,
+    required String observation,
+    required String rectifyBy,
+    required String closedDate,
+    required String closedTime,
+    required String personName,
+    required String actionTaken,
+    required List<File> files,
+    required bool isNoScrap,
+    required List<ScrapModel> scrapList,
+    required List<PartModel> partList,
+    required List<ScrapModel> deletesScrapList,
+    required List<PartModel> deletePartList,
+  }) async {
     try {
       List<FileModel> fileList = [];
+      // int i = 0;
+      // for (var fileData in files) {
+      //   if (fileData.path.isNotEmpty) {
+      //     fileList.add(FileModel(
+      //         name: "file", file: fileData, keyName: "attachFile[$i]"));
+      //     i++;
+      //   }
+      // }
       int i = 0;
       for (var fileData in files) {
         if (fileData.path.isNotEmpty) {
+          print(fileData.path.toString());
           fileList.add(FileModel(
               name: "file", file: fileData, keyName: "attachFile[$i]"));
           i++;
         }
       }
-
       String url = APIs.getReviewComplaintApi;
       var json = {
         "complaintId": reviewComplaintData.id != null
@@ -196,40 +223,47 @@ class ReviewComplaintHelper {
             : "",
         "stationStatus": "1",
         "stationPerson": "",
+        "person_name": personName,
+        "action_taken": actionTaken,
         "stationRemarks": observation.toString(),
         "rectifyPerson": rectifyBy,
         "closeDateTime": "$closedDate $closedTime",
-        "scrap" : scrapList.isEmpty ? "0" : "1",
+        "scrap": scrapList.isEmpty ? "0" : "1",
         "spares": partList.isNotEmpty
-            ? jsonEncode(partList.map((e) => e.toJson()).toList())
-            .toString()
+            ? jsonEncode(partList.map((e) => e.toJson()).toList()).toString()
             : "0",
         "deletedSpares": deletesScrapList.isNotEmpty
             ? jsonEncode(deletesScrapList.map((e) => e.toJson()).toList())
-            .toString()
+                .toString()
             : "0",
         "deletedParts": deletePartList.isNotEmpty
             ? jsonEncode(deletePartList.map((e) => e.toDeleteJson()).toList())
-            .toString()
+                .toString()
             : "0",
       };
 
       Map<String, String> scrapData = {};
-      if(isNoScrap == false){
-        for(int i = 0;  i < scrapList.length; i++ ){
+      if (isNoScrap == false) {
+        for (int i = 0; i < scrapList.length; i++) {
           var jsonData = {
-            "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
-            "scrapDetails[$i][description]" : scrapList[i].description.toString(),
-            "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
-            "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
-            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
-            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
+            "scrapDetails[$i][serial]": scrapList[i].srNumber.toString(),
+            "scrapDetails[$i][description]":
+                scrapList[i].description.toString(),
+            "scrapDetails[$i][unit]":
+                scrapList[i].scrapUnitTypeData!.unit.toString(),
+            "scrapDetails[$i][unitType]":
+                scrapList[i].scrapUnitTypeData!.id.toString(),
+            "scrapDetails[$i][remark]": scrapList[i].remark.toString(),
+            "scrapDetails[$i][destroy_reusable]":
+                scrapList[i].destroyReusable.toString(),
           };
-          if(scrapList[i].filesList != null){
-            for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
-              if(scrapList[i].filesList![j].path.isNotEmpty){
+          if (scrapList[i].filesList != null) {
+            for (int j = 0; j < scrapList[i].filesList!.length; j++) {
+              if (scrapList[i].filesList![j].path.isNotEmpty) {
                 fileList.add(FileModel(
-                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+                    name: "file",
+                    file: scrapList[i].filesList![j],
+                    keyName: "scrapDetails[$i][attachFile][$j]"));
               }
             }
           }
@@ -238,11 +272,14 @@ class ReviewComplaintHelper {
       }
 
       scrapData.addAll(json);
-      log(jsonEncode(scrapData).toString());
+      log("scrapData--- > ${jsonEncode(scrapData).toString()}");
 
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
-          urlEndPoint: url, body: scrapData, context: context, fileList: fileList);
+          urlEndPoint: url,
+          body: scrapData,
+          context: context,
+          fileList: fileList);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
@@ -264,8 +301,8 @@ class ReviewComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              .replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

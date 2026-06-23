@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/ci/domain/bloc/view_ci_complaint_bloc.dart';
 
 class ViewCiTabBarWidget extends StatelessWidget {
   final FetchViewCiComplaintDataState dataState;
@@ -29,11 +28,11 @@ class ViewCiTabBarWidget extends StatelessWidget {
                 style: dataState.tabIndex == 0
                     ? ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        AppColor.themeColor),
+                        EnvironmentConfig.of(context)!.primaryTheme),
                     shape: WidgetStateProperty
                         .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: AppColor.themeColor))))
+                        side: BorderSide(color: EnvironmentConfig.of(context)!.primaryTheme))))
                     : null,
                 onPressed: () {
                   BlocProvider.of<ViewCiComplaintBloc>(context).add(
@@ -56,11 +55,11 @@ class ViewCiTabBarWidget extends StatelessWidget {
                 style: dataState.tabIndex == 1
                     ? ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        AppColor.themeColor),
+                        EnvironmentConfig.of(context)!.primaryTheme),
                     shape: WidgetStateProperty
                         .all<RoundedRectangleBorder>(RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: AppColor.themeColor))))
+                        side: BorderSide(color: EnvironmentConfig.of(context)!.primaryTheme))))
                     : null,
                 onPressed: () {
                   BlocProvider.of<ViewCiComplaintBloc>(context).add(

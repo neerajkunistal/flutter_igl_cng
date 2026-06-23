@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/cngScmInfo/viewCngScm/domain/model/cng_scm_model.dart';
 
 class ViewCngScmHelper {
   static Future<dynamic> fetchCngScmData(

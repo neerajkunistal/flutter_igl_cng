@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/lcv/overSpeedAlert/domain/bloc/over_speed_alert_bloc.dart';
-import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/background_widget.dart';
 
 class OverSpeedAlertPage extends StatefulWidget {
   const OverSpeedAlertPage({super.key});
@@ -16,8 +16,7 @@ class _OverSpeedAlertPageState extends State<OverSpeedAlertPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        body: appBackGround(
-          context: context,
+        body: AppBackgroundWidget(
           child: Column(
             children: [
               _appBar(),

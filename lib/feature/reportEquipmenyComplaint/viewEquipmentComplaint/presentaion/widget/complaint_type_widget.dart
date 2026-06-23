@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/presentation/page/lcv_dashboard_page.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
-import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
-import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
-import 'package:vibration/vibration.dart';
 
 class ComplaintTypeWidget extends StatefulWidget {
   const ComplaintTypeWidget({super.key});
@@ -34,12 +27,14 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
               Column(
                 children: [
                   TextWidget(
-                    AppConfig.instanceInit()!.client == Client.iglcng
+                    AppConfig.instanceInit()!.client == Client.igl
                         ? "IGL CNG Automation"
-                        : AppConfig.instanceInit()!.client == Client.pbgplCNG
+                        : AppConfig.instanceInit()!.client == Client.pbgpl
                         ? "PBGPL CNG Automation"
                         : AppConfig.instanceInit()!.client == Client.mahanagar
                         ? "MGL CNG Automation"
+                        : AppConfig.instanceInit()!.client == Client.hpcl
+                        ? "HPCL CNG Automation"
                         : "IGL CNG Automation",
                     fontSize: AppFont.font_18,
                     color: AppColor.white,
@@ -92,7 +87,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
       padding: const EdgeInsets.all(8),
       child: Card(
         elevation: 2,
-        shadowColor: AppColor.themeColor,
+        shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
         child: InkWell(
           onTap: () async {
             if (await Vibration.hasAmplitudeControl() != null) {
@@ -114,7 +109,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                 const SizedBox(height: 10),
                 TextWidget(
                   "Civil Complaint",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                   fontWeight: FontWeight.w700,
                 ),
               ],
@@ -130,7 +125,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
       padding: const EdgeInsets.all(8),
       child: Card(
         elevation: 2,
-        shadowColor: AppColor.themeColor,
+        shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
         child: InkWell(
           onTap: () async {
             if (await Vibration.hasAmplitudeControl() != null) {
@@ -157,7 +152,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                 TextWidget(
                   "CNG O&M Complaints",
                   textAlign: TextAlign.center,
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                   fontWeight: FontWeight.w700,
                 ),
               ],
@@ -173,7 +168,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
       padding: const EdgeInsets.all(8),
       child: Card(
         elevation: 2,
-        shadowColor: AppColor.themeColor,
+        shadowColor: EnvironmentConfig.of(context)!.primaryTheme,
         child: InkWell(
           onTap: () async {
             if (await Vibration.hasAmplitudeControl() != null) {
@@ -199,7 +194,7 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                 const SizedBox(height: 10),
                 TextWidget(
                   "LCV",
-                  color: AppColor.themeColor,
+                  color: EnvironmentConfig.of(context)!.primaryTheme,
                   fontWeight: FontWeight.w700,
                 ),
               ],

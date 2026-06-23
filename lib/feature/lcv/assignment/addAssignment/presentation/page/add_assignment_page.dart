@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/bloc/add_assignment_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/addAssignment/domain/model/station_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/domain/model/cng_station_route_model.dart';
 
 class AddAssignmentPage extends StatefulWidget {
   const AddAssignmentPage({super.key});
@@ -502,7 +500,7 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
                       TextWidget(
                         AppString.cngStations,
                         fontSize: AppFont.font_16,
-                        color: AppColor.themeColor,
+                        color: EnvironmentConfig.of(context)!.primaryTheme,
                       ),
                       _addMoreButton(dataState: dataState),
                     ],
@@ -724,7 +722,7 @@ class _AddAssignmentPageState extends State<AddAssignmentPage> {
                       ? TextWidget(
                     file.path.split('.').last.toString(),
                     maxLines: 1,
-                    color: AppColor.themeColor,
+                    color: EnvironmentConfig.of(context)!.primaryTheme,
                     fontSize: AppFont.font_12,
                   ) : const SizedBox.shrink(),
                 ],

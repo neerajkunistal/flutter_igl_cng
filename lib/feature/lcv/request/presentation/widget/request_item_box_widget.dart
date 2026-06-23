@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/domain/model/assginment_model.dart';
-import 'package:flutter_igl_cng/feature/lcv/navigationRoute/domain/bloc/navigation_route_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/navigationRoute/presentation/pages/navigation_route_page.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/domain/bloc/request_bloc.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/presentation/widget/complete_task_widget.dart';
-import 'package:flutter_igl_cng/feature/lcv/request/presentation/widget/start_route_widget.dart';
-import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class RequestItemBoxWidget extends StatelessWidget {
   final List<AssignmentModel> assignmentList;
@@ -41,7 +33,7 @@ class RequestItemBoxWidget extends StatelessWidget {
                 maxLines: 1,
                 fontSize: AppFont.font_16,
                 fontWeight: FontWeight.w600,
-                color: AppColor.themeColor,
+                color: EnvironmentConfig.of(context)!.primaryTheme,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.02,
@@ -141,7 +133,7 @@ class RequestItemBoxWidget extends StatelessWidget {
                                     ));
                           },
                           child: TextWidget(AppString.startRoute,
-                              color: AppColor.themeColor))
+                              color: EnvironmentConfig.of(context)!.primaryTheme))
                       : assignmentData.assignmentStatus ==
                               AssignmentStatus.startRoute
                           ? Row(
@@ -160,7 +152,7 @@ class RequestItemBoxWidget extends StatelessWidget {
                                       );
                                     },
                                     child: TextWidget("View Route",
-                                        color: AppColor.themeColor)),
+                                        color: EnvironmentConfig.of(context)!.primaryTheme)),
                                 TextButton(
                                     onPressed: () async {
                                       BlocProvider.of<RequestBloc>(context).add(
