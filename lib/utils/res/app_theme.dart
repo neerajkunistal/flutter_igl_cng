@@ -44,13 +44,13 @@ ThemeData appTheme() {
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.white,
     cardTheme:
-        const CardTheme(color: Colors.white, surfaceTintColor: Colors.white),
+        const CardThemeData(color: Colors.white, surfaceTintColor: Colors.white),
     dialogBackgroundColor: AppColor.white,
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: AppColor.white,
       surfaceTintColor: AppColor.white,
     ),
-    bottomAppBarTheme: const BottomAppBarTheme(
+    bottomAppBarTheme: const BottomAppBarThemeData(
         color: Colors.white, surfaceTintColor: Colors.white),
     navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: Colors.white, surfaceTintColor: Colors.white),
