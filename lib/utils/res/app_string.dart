@@ -197,6 +197,8 @@ class AppString {
 
   static get selectGeneral => "Select General";
 
+  static get selectDescription => "Select Description";
+
   static get editEquipment => "Edit Equipment";
 
   static get description => "Description";

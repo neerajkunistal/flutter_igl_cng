@@ -8,11 +8,13 @@ import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widg
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 
 class ComplaintAssignWidget extends StatefulWidget {
+  final EquipmentComplaintType equipmentComplaintType;
   final AcknowledgeModel acknowledgeData;
 
   const ComplaintAssignWidget({
     super.key,
     required this.acknowledgeData,
+    required this.equipmentComplaintType,
   });
 
   @override
@@ -62,7 +64,7 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           ),
                           _assignTypeDropDown(
                               dataState: state, context: context),
-                    /*      SizedBox(
+                          /*      SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
                           _departmentDropDown(
@@ -107,12 +109,27 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),*/
-                          _remarkController(dataState: state),
+
+
+                          widget.equipmentComplaintType ==
+                              EquipmentComplaintType.normal
+                          ? _remarkController(dataState: state)
+                              : const SizedBox.shrink(),
+
+                          widget.equipmentComplaintType ==
+                              EquipmentComplaintType.normal?
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          AddSparePartWidget(),
-                          _addPartButton( context: context),
+                          )  : const SizedBox.shrink(),
+
+                          widget.equipmentComplaintType ==
+                                  EquipmentComplaintType.normal
+                              ? AddSparePartWidget()
+                              : const SizedBox.shrink(),
+                          widget.equipmentComplaintType ==
+                                  EquipmentComplaintType.normal
+                              ? _addPartButton(context: context)
+                              : const SizedBox.shrink(),
                           SizedBox(
                             height: MediaQuery.of(context).size.width * 0.04,
                           ),
@@ -245,11 +262,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
 
   Widget _plannerTypeDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
-      dataState.plannerData.id != null ? dataState.plannerData : null,
+          dataState.plannerData.id != null ? dataState.plannerData : null,
       hint: AppString.plannerGroup,
       items: dataState.plannerList,
       itemAsString: (plannerData) => plannerData.plannerGroup.toString(),
@@ -262,22 +279,23 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
 
   Widget _workCenterTypeDropDown(
       {required FetchAcknowledgeDataState dataState,
-        required BuildContext context}) {
+      required BuildContext context}) {
     return DropDownSearchWidget(
       isRequired: true,
       selectedItem:
-      dataState.workCenterData.id != null ? dataState.workCenterData : null,
+          dataState.workCenterData.id != null ? dataState.workCenterData : null,
       hint: AppString.mainWorkCenter,
       items: dataState.workCenterList,
       itemAsString: (workCenterData) => workCenterData.workCenter.toString(),
       onChanged: (value) {
-        BlocProvider.of<AcknowledgeBloc>(context)
-            .add(AcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
+        BlocProvider.of<AcknowledgeBloc>(context).add(
+            AcknowledgeComplaintSelectedWorkCenterEvent(workCenterData: value));
       },
     );
   }
 
-  Widget _personResponsibleController({required FetchAcknowledgeDataState dataState}) {
+  Widget _personResponsibleController(
+      {required FetchAcknowledgeDataState dataState}) {
     return Padding(
       padding: const EdgeInsets.all(0.0),
       child: TextFieldWidget(
@@ -299,12 +317,11 @@ class _ComplaintAssignWidgetState extends State<ComplaintAssignWidget> {
     );
   }
 
-  Widget _addPartButton(
-      {required BuildContext context}) {
+  Widget _addPartButton({required BuildContext context}) {
     return Align(
       alignment: Alignment.centerRight,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width/2.6,
+        width: MediaQuery.of(context).size.width / 2.6,
         child: ButtonWidget(
             text: AppString.addPart,
             onPressed: () {

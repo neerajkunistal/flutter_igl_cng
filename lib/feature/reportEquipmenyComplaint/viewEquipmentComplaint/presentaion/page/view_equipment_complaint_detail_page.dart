@@ -13,7 +13,8 @@ import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewEquipmentComplaintDetailPage extends StatefulWidget {
-  const ViewEquipmentComplaintDetailPage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+  const ViewEquipmentComplaintDetailPage({super.key, required this.equipmentComplaintType});
 
   @override
   State<ViewEquipmentComplaintDetailPage> createState() =>
@@ -48,6 +49,7 @@ class _ViewEquipmentComplaintDetailPageState
                               index: state.index,
                               isDetailPage: true,
                               reviewComplaintData: state.reviewComplaintList[state.index],
+                              equipmentComplaintType: widget.equipmentComplaintType,
                             ),
                             _scrapList(dataState: state),
                             _sparePartList(dataState: state),
@@ -55,10 +57,14 @@ class _ViewEquipmentComplaintDetailPageState
                             _verticalSpace(),
                             ScrapItemWidget(),
                             _verticalSpace(),
-                            _addScarpButton(),
-                            _verticalSpace(),
+
+                           widget.equipmentComplaintType == EquipmentComplaintType.normal
+                               ? _addScarpButton() : const SizedBox.shrink(),
+                            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                                ?  _verticalSpace() : const SizedBox.shrink(),
                             AddSparePartWidget(),
-                            _addPartButton( context: context),
+                            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                                ? _addPartButton( context: context) : const SizedBox.shrink(),
                             CloserWidget(dataState: state),
                             _verticalSpace(),
                           ],

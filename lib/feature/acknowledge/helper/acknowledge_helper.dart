@@ -81,12 +81,14 @@ class AcknowledgeHelper {
       required WorkCenterModel workCenterData,
       required List<PartModel> sparesPartList,
       required List<ScrapModel> scrapList,
+      required EquipmentComplaintType equipmentComplaintType,
       required String remark}) async {
     try {
 
       LoginDataModel loginData =  UserInfo.instanceInit()!.userData!;
 
-      String url = APIs.assignComplaintApi;
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.assignComplaintApi : APIs.assignComplaintITApi;
       var json = {
         "complaintId": acknowledgeData.id.toString(),
         "assignType": assignTypeData.id.toString(),

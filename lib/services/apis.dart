@@ -25,9 +25,15 @@ class APIs {
 
   static get getComplaintTypeApi => "api/onm/complaint-types";
 
+  static get getComplaintITTypeApi => "api/it/onm/complaint-types";
+
   static get getEquipmentApi => "api/onm/equipments";
 
+  static get getEquipmentITApi => "api/it/onm/equipments";
+
   static get addComplaintApi => "api/cng/complaint";
+
+  static get addComplaintITApi => "api/it/cng/complaint";
 
   static get getDepartmentApi => "api/cr/departments";
 
@@ -37,9 +43,15 @@ class APIs {
 
   static get getAcknolegeApi => "api/cr/acknowledge";
 
+  static get getAcknolegeITApi => "api/it/cr/acknowledge";
+
   static get getReviewComplaintApi => "api/cng/review-complaints";
 
+  static get getReviewComplaintITApi => "api/it/cng/review-complaints";
+
   static get addReviewComplaintApi => "api/cr/review-complaints";
+
+  static get addReviewComplaintITApi => "api/it/cr/review-complaints";
 
   static get getCodeGroupApi => "api/cr/sap-codes-group";
 
@@ -53,13 +65,19 @@ class APIs {
 
   static get addAcknowlegeApi => "api/cr/se-ack-complaints";
 
+  static get addAcknowlegeITApi => "api/it/cr/se-ack-complaints";
+
   static get getGeneralComplaintApi => "api/cr/general-complain";
+
+  static get getDescriptionComplaintApi => "api/it/onm/complaint-desc-master";
 
   static get getUomApi => "api/onm/uom";
 
   static get getVendorApi => "api/onm/vendors";
 
   static get assignComplaintApi => "api/cr/shift-eng-complaint";
+
+  static get assignComplaintITApi => "api/it/cr/shift-eng-complaint";
 
   static get getFirebaseDeviceApi => "api/onm/device-lists";
 
@@ -92,6 +110,8 @@ class APIs {
   static get addMeasurementApi => "api/cv/measurement";
 
   static get closureComplaintApi => "api/cng/closure";
+
+  static get closureComplaintITApi => "api/it/cng/closure";
 
   static get getUnitTypeApi => "api/onm/unit-type";
 

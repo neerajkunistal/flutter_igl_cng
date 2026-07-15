@@ -62,10 +62,14 @@ class ViewEquipmentComplaintHelper {
     required String rectifiedBy,
     required List<ScrapModel> scrapList,
     required List<PartModel> partList,
-    required String remark}) async {
+    required String remark,
+    required EquipmentComplaintType equipmentComplaintType,
+  }) async {
     try{
         LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-         String url =  APIs.closureComplaintApi;
+         String url =  equipmentComplaintType == EquipmentComplaintType.normal
+              ? APIs.closureComplaintApi
+              : APIs.closureComplaintITApi;
          var json = {
            "complaintId" : reviewComplaintData.id.toString(),
            "stationRemarks" : remark.toString().isEmpty ? "remark" : remark,

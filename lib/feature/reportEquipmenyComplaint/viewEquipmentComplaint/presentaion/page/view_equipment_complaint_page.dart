@@ -7,8 +7,9 @@ import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class ViewEquipmentComplaintPage extends StatefulWidget {
   final String? title;
+  final EquipmentComplaintType equipmentComplaintType;
 
-  const ViewEquipmentComplaintPage({super.key, this.title});
+  const ViewEquipmentComplaintPage({super.key, this.title, required this.equipmentComplaintType});
 
   @override
   State<ViewEquipmentComplaintPage> createState() =>
@@ -20,7 +21,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
   @override
   void initState() {
     BlocProvider.of<ViewEquipmentComplaintBloc>(context)
-        .add(ViewEquipmentComplaintPageLoadEvent(context: context));
+        .add(ViewEquipmentComplaintPageLoadEvent(context: context, equipmentComplaintType: widget.equipmentComplaintType));
     super.initState();
   }
 
@@ -29,7 +30,8 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
     return userData.roleType == RoleType.shiftEngineer ||
         userData.roleType == RoleType.mi
-        ? const ViewEquipmentWidget()
+        || userData.roleType == RoleType.it
+        ?  ViewEquipmentWidget(equipmentComplaintType: widget.equipmentComplaintType)
         : Scaffold(
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
@@ -46,7 +48,7 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            const Expanded(child: ViewEquipmentWidget()),
+            Expanded(child: ViewEquipmentWidget(equipmentComplaintType: widget.equipmentComplaintType)),
           ]
         ),
       ),
@@ -85,14 +87,14 @@ class _ViewEquipmentComplaintPageState extends State<ViewEquipmentComplaintPage>
         var res = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const AddEquipmentComplaintPage()),
+              builder: (context) =>  AddEquipmentComplaintPage(equipmentComplaintType: widget.equipmentComplaintType)),
         );
         if (res != null && res.toString() == "complete") {
           if (!context.mounted) return;
           BlocProvider.of<ViewEquipmentComplaintBloc>(
                   !context.mounted ? context : context)
               .add(ViewEquipmentComplaintPageLoadEvent(
-                  context: !context.mounted ? context : context));
+                  context: !context.mounted ? context : context, equipmentComplaintType: widget.equipmentComplaintType));
         }
       },
       child: Icon(

@@ -58,6 +58,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
   WorkCenterModel workCenterData =  WorkCenterModel();
 
   bool isComplaintNumberLoader =  false;
+  EquipmentComplaintType equipmentComplaintType =  EquipmentComplaintType.normal;
 
   AcknowledgeBloc() : super(AcknowledgeInitial()) {
     on<AcknowledgePageLoadEvent>(_pageLoad);
@@ -95,17 +96,19 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     mainWorkCenterController.text = "";
     personResponsibleController.text = "";
     assignTypeData = AssignTypeModel();
-    assignTypeList = AssignTypeModel().fetchData();
     _selectTabIndex = event.selectTabIndex;
     plannerData =  PlannerModel();
     workCenterData =  WorkCenterModel();
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     closeDateController.text = formattedDate;
+    equipmentComplaintType =  event.equipmentComplaintType;
+    assignTypeList = AssignTypeModel().fetchData(equipmentComplaintType);
 
 
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
       fromDate: startDate.toString(),
       toDate: endDate.toString(),
+      equipmentComplaintType: equipmentComplaintType
     );
     if (resAckow != null) {
       acknowledgeList = resAckow;
@@ -447,6 +450,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
     var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
       fromDate: event.fromDate.toString(),
       toDate: event.toDate.toString(),
+      equipmentComplaintType: equipmentComplaintType
     );
     if (resAckow != null) {
       acknowledgeList = resAckow;
@@ -738,6 +742,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
           ? event.context : event.context).partList,
       scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted
           ? event.context : event.context).scrapList,
+      equipmentComplaintType: equipmentComplaintType
     );
     isLoader = false;
     _eventComplete(emit);
@@ -762,6 +767,7 @@ class AcknowledgeBloc extends Bloc<AcknowledgeEvent, AcknowledgeState> {
       var resAckow = await AddAcknowledgeComplaintHelper.fetchAcknowledgeData(
         fromDate: startDate.toString(),
         toDate: endDate.toString(),
+        equipmentComplaintType: equipmentComplaintType
       );
       if (resAckow != null) {
         acknowledgeList = resAckow;

@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/helper/acknowledge_helper.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 
 part 'add_acknowledge_complaint_state.dart';
@@ -43,9 +44,13 @@ class AddAcknowledgeComplaintBloc
   String complaintStatus = "0";
 
   List<PlannerModel> plannerList = [];
-  PlannerModel plannerData =  PlannerModel();
+  PlannerModel plannerData = PlannerModel();
   List<WorkCenterModel> workCenterList = [];
-  WorkCenterModel workCenterData =  WorkCenterModel();
+  WorkCenterModel workCenterData = WorkCenterModel();
+  EquipmentComplaintType equipmentComplaintType = EquipmentComplaintType.normal;
+  List<ComplaintDescriptionModel> complaintDescriptionList = [];
+  ComplaintDescriptionModel complaintDescriptionData =
+      ComplaintDescriptionModel();
 
   AddAcknowledgeComplaintBloc() : super(AddAcknowledgeComplaintInitial()) {
     on<AddAcknowledgeComplaintPageLoadEvent>(_pageLoad);
@@ -60,6 +65,8 @@ class AddAcknowledgeComplaintBloc
     on<AddAcknowledgeComplaintSelectAcknowledgeComplaintEvent>(
         _selectAcknowledget);
     on<AddAcknowledgeComplaintSelectGeneralDataEvent>(_selectGeneral);
+    on<AddAcknowledgeComplaintSelectDescriptionDataEvent>(
+        _selectComplaintDescription);
     on<AddAcknowledgeComplaintSelectDateData>(_selectDate);
     on<AddAcknowledgeComplaintSelectTimeData>(_selectTime);
     on<AddAcknowledgeComplaintAddImageEvent>(_selectFile);
@@ -98,15 +105,18 @@ class AddAcknowledgeComplaintBloc
     generalComplaintList = [];
     generalComplaintData = GeneralComplaintModel();
     complaintStatus = "0";
-    plannerData =  PlannerModel();
-    workCenterData =  WorkCenterModel();
+    plannerData = PlannerModel();
+    workCenterData = WorkCenterModel();
+    complaintDescriptionList = [];
+    complaintDescriptionData = ComplaintDescriptionModel();
+    equipmentComplaintType = event.equipmentComplaintType;
 
     acknowledgeData = event.acknowledgeData;
     acknowledgeList =
         BlocProvider.of<AcknowledgeBloc>(event.context).acknowledgeList;
 
-    var resComplaint =
-        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+    var resComplaint = await AddEquipmentComplaintHelper.fetchComplaintTypeData(
+        equipmentComplaintType: equipmentComplaintType);
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
       for (var complaint in complaintTypeList) {
@@ -117,12 +127,14 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-    var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData(
-            complaintId: acknowledgeData.id.toString());
+    var resEquipment = await AddEquipmentComplaintHelper.fetchEquipmentTypeData(
+        complaintId: acknowledgeData.id.toString(),
+        equipmentComplaintType: equipmentComplaintType);
     if (resEquipment != null) {
       equipmentList = resEquipment;
-      equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
+      equipmentTypeList =
+          equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
+
       for (var equipment in equipmentTypeList) {
         if (equipment.id.toString() ==
             event.acknowledgeData.equipmentId.toString()) {
@@ -137,7 +149,7 @@ class AddAcknowledgeComplaintBloc
       departmentList = resDepartment;
     }
 
-    for(var data in departmentList){
+    for (var data in departmentList) {
       if (data.id.toString() == event.acknowledgeData.departmentId.toString()) {
         departmentData = data;
       }
@@ -167,7 +179,6 @@ class AddAcknowledgeComplaintBloc
       }
     }
 
-
     String complaintDate = "";
     if (acknowledgeData.complaintDateTime.toString().isNotEmpty) {
       complaintDate = DateFormat('dd-MM-yyyy')
@@ -179,10 +190,13 @@ class AddAcknowledgeComplaintBloc
               ? DateFormat('yyyy-dd-MM HH:mm:ss')
                   .parse(acknowledgeData.complaintDateTime.toString())
               : DateTime.now();
-      timeController.text = DateFormat('HH:mm:ss').format(initialDate).toString();
+      timeController.text =
+          DateFormat('HH:mm:ss').format(initialDate).toString();
     }
 
-    breakDownvalue = event.acknowledgeData.crBreakdown.toString() == "0" ? "2" : event.acknowledgeData.crBreakdown.toString();
+    breakDownvalue = event.acknowledgeData.crBreakdown.toString() == "0"
+        ? "2"
+        : event.acknowledgeData.crBreakdown.toString();
 
     descriptionController.text =
         acknowledgeData.complaintDescription.toString();
@@ -190,27 +204,40 @@ class AddAcknowledgeComplaintBloc
 
     complaintStatus = acknowledgeData.ackStatus.toString();
 
-    personResponsibleController.text =  acknowledgeData.personResponsible.toString();
+    personResponsibleController.text =
+        acknowledgeData.personResponsible.toString();
 
-    if(plannerList.isEmpty && departmentData.plannerList != null){
+    if (plannerList.isEmpty && departmentData.plannerList != null) {
       plannerList = departmentData.plannerList!;
     }
 
-    for(var data in plannerList){
-      if(data.plannerGroup.toString().toLowerCase()
-          == event.acknowledgeData.plannerGroup.toString().toLowerCase()){
-        plannerData =  data;
+    for (var data in plannerList) {
+      if (data.plannerGroup.toString().toLowerCase() ==
+          event.acknowledgeData.plannerGroup.toString().toLowerCase()) {
+        plannerData = data;
       }
     }
 
-    if(workCenterList.isEmpty && plannerData.workCenterList != null){
-      workCenterList =  plannerData.workCenterList!;
+    if (workCenterList.isEmpty && plannerData.workCenterList != null) {
+      workCenterList = plannerData.workCenterList!;
     }
 
-    for(var data in workCenterList){
-      if(data.workCenter.toString().toLowerCase()
-          == event.acknowledgeData.mainWorkCenter.toString().toLowerCase()){
-        workCenterData =  data;
+    for (var data in workCenterList) {
+      if (data.workCenter.toString().toLowerCase() ==
+          event.acknowledgeData.mainWorkCenter.toString().toLowerCase()) {
+        workCenterData = data;
+      }
+    }
+
+    var resDescription =
+        await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
+    if (resDescription != null) {
+      complaintDescriptionList = resDescription;
+      for (var data in complaintDescriptionList) {
+        if (data.description.toString().toLowerCase() ==
+            acknowledgeData.complaintDescription.toString().toLowerCase()) {
+          complaintDescriptionData = data;
+        }
       }
     }
 
@@ -242,22 +269,24 @@ class AddAcknowledgeComplaintBloc
 
   _selectDepartment(AddAcknowledgeComplaintSelectDepartmentEvent event, emit) {
     departmentData = event.departmentData;
-    plannerList = departmentData.plannerList!;;
-    plannerData =  PlannerModel();
+    plannerList = departmentData.plannerList!;
+    ;
+    plannerData = PlannerModel();
     workCenterList = [];
-    workCenterData =  WorkCenterModel();
+    workCenterData = WorkCenterModel();
     _eventComplete(emit);
   }
 
   _selectPlanner(AddAcknowledgeComplaintSelectedPlannerEvent event, emit) {
-    plannerData  =  event.plannerData;
+    plannerData = event.plannerData;
     workCenterList = plannerData.workCenterList!;
-    workCenterData =  WorkCenterModel();
+    workCenterData = WorkCenterModel();
     _eventComplete(emit);
   }
 
-  _selectWorkCenter(AddAcknowledgeComplaintSelectedWorkCenterEvent event, emit) {
-    workCenterData =  event.workCenterData;
+  _selectWorkCenter(
+      AddAcknowledgeComplaintSelectedWorkCenterEvent event, emit) {
+    workCenterData = event.workCenterData;
     _eventComplete(emit);
   }
 
@@ -277,6 +306,12 @@ class AddAcknowledgeComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectComplaintDescription(
+      AddAcknowledgeComplaintSelectDescriptionDataEvent event, emit) {
+    complaintDescriptionData = event.complaintDescriptionData;
+    _eventComplete(emit);
+  }
+
   _selectDate(AddAcknowledgeComplaintSelectDateData event, emit) async {
     try {
       DateTime initialDate = dateController.text.toString().isNotEmpty
@@ -287,8 +322,7 @@ class AddAcknowledgeComplaintBloc
           context: event.context,
           initialDate: initialDate,
           firstDate: DateTime.now().subtract(const Duration(days: 1)),
-          lastDate: DateTime.now()
-      );
+          lastDate: DateTime.now());
       if (picked != null) {
         String formattedDate = DateFormat('dd-MM-yyyy').format(picked);
         dateController.text = formattedDate;
@@ -360,8 +394,16 @@ class AddAcknowledgeComplaintBloc
 
   _submit(AddAcknowledgeComplaintSubmitEvent event, emit) async {
     if (remarkController.text.toString().isEmpty) {
-      SnackBarErrorWidget(event.context).show(message: "Please ${complaintStatus.toString() == "1"
-          ? AppString.enterSapComplaintDescription : AppString.enterRemarkForComplaintRejection}");
+      SnackBarErrorWidget(event.context).show(
+          message:
+              "Please ${complaintStatus.toString() == "1" ? AppString.enterSapComplaintDescription : AppString.enterRemarkForComplaintRejection}");
+      return;
+    }
+
+    if (equipmentComplaintType == EquipmentComplaintType.it &&
+        complaintDescriptionData.description == null) {
+      SnackBarErrorWidget(event.context)
+          .show(message: "Please select description");
       return;
     }
 
@@ -370,23 +412,29 @@ class AddAcknowledgeComplaintBloc
 
     DateTime initialDate1 = DateTime.now();
     String time = "";
-    if(timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("am")){
+    if (timeController.text.toString().isNotEmpty &&
+        timeController.text.toString().toLowerCase().contains("am")) {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
-    } else if (timeController.text.toString().isNotEmpty
-        && timeController.text.toString().toLowerCase().contains("pm")){
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
+    } else if (timeController.text.toString().isNotEmpty &&
+        timeController.text.toString().toLowerCase().contains("pm")) {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('h:mm a').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
     } else {
       initialDate1 = timeController.text.toString().isNotEmpty
           ? DateFormat('HH:mm').parse(timeController.text.toString())
           : DateTime.now();
-      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+      time = timeController.text.toString().isNotEmpty
+          ? "${initialDate1.hour}:${initialDate1.minute}:00"
+          : "";
     }
 
     var res = await AddAcknowledgeComplaintHelper.submitData(
@@ -408,6 +456,8 @@ class AddAcknowledgeComplaintBloc
         plannerData: plannerData,
         workCenterData: workCenterData,
         personResponsible: personResponsibleController.text.toString(),
+        equipmentComplaintType: equipmentComplaintType,
+        complaintDescriptionData: complaintDescriptionData,
         file: file);
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
@@ -438,36 +488,37 @@ class AddAcknowledgeComplaintBloc
 
   _eventComplete(Emitter<AddAcknowledgeComplaintState> emit) {
     emit(FetchAddAcknowledgeComplaintState(
-      file: file,
-      isLoader: isLoader,
-      descriptionController: descriptionController,
-      complaintTypeData: complaintTypeData,
-      complaintTypeList: complaintTypeList,
-      equipmentTypeData: equipmentTypeData,
-      equipmentTypeList: equipmentTypeList,
-      remarkController: remarkController,
-      acknowledgeData: acknowledgeData,
-      acknowledgeList: acknowledgeList,
-      departmentData: departmentData,
-      departmentList: departmentList,
-      complaintData: complaintData,
-      complaintList: complaintList,
-      breakDownvalue: breakDownvalue,
-      reviewComplaintData: reviewComplaintData,
-      isComplaintLoader: isComplaintLoader,
-      acknowledgeUserData: acknowledgeUserData,
-      acknowledgeUserList: acknowledgeUserList,
-      dateController: dateController,
-      timeController: timeController,
-      generalComplaintData: generalComplaintData,
-      generalComplaintList: generalComplaintList,
-      generalDescriptionController: generalDescriptionController,
-      complaintStatus: complaintStatus,
-      workCenterData: workCenterData,
-      plannerData: plannerData,
-      workCenterList: workCenterList,
-      plannerList: plannerList,
-      personResponsibleController: personResponsibleController,
-    ));
+        file: file,
+        isLoader: isLoader,
+        descriptionController: descriptionController,
+        complaintTypeData: complaintTypeData,
+        complaintTypeList: complaintTypeList,
+        equipmentTypeData: equipmentTypeData,
+        equipmentTypeList: equipmentTypeList,
+        remarkController: remarkController,
+        acknowledgeData: acknowledgeData,
+        acknowledgeList: acknowledgeList,
+        departmentData: departmentData,
+        departmentList: departmentList,
+        complaintData: complaintData,
+        complaintList: complaintList,
+        breakDownvalue: breakDownvalue,
+        reviewComplaintData: reviewComplaintData,
+        isComplaintLoader: isComplaintLoader,
+        acknowledgeUserData: acknowledgeUserData,
+        acknowledgeUserList: acknowledgeUserList,
+        dateController: dateController,
+        timeController: timeController,
+        generalComplaintData: generalComplaintData,
+        generalComplaintList: generalComplaintList,
+        generalDescriptionController: generalDescriptionController,
+        complaintStatus: complaintStatus,
+        workCenterData: workCenterData,
+        plannerData: plannerData,
+        workCenterList: workCenterList,
+        plannerList: plannerList,
+        personResponsibleController: personResponsibleController,
+        complaintDescriptionData: complaintDescriptionData,
+        complaintDescriptionList: complaintDescriptionList));
   }
 }

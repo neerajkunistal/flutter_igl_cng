@@ -104,7 +104,8 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
           children: [
             ReviewComplaintItemBox(
                 index: 0,
-                reviewComplaintData: dataState.reviewComplaintData),
+                reviewComplaintData: dataState.reviewComplaintData,
+              equipmentComplaintType: EquipmentComplaintType.normal,),
             _scrapList(dataState: dataState),
             _sparePartList(dataState: dataState),
 

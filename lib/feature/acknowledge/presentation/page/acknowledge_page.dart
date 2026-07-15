@@ -7,7 +7,8 @@ import 'package:flutter_igl_cng/utils/commonWidgets/tab_bar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/tab_item_widget.dart';
 
 class AcknowledgePage extends StatefulWidget {
-  const AcknowledgePage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+  const AcknowledgePage({super.key, required this.equipmentComplaintType});
 
   @override
   State<AcknowledgePage> createState() => _AcknowledgePageState();
@@ -21,7 +22,8 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
     BlocProvider.of<AcknowledgeBloc>(context)
-        .add(AcknowledgePageLoadEvent(context: context, selectTabIndex:  0));
+        .add(AcknowledgePageLoadEvent(context: context, selectTabIndex:  0,
+           equipmentComplaintType: widget.equipmentComplaintType));
     fetchData();
     super.initState();
   }
@@ -166,23 +168,27 @@ class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProv
                           AddAcknowledgeComplaintPageLoadEvent(
                               context: context,
                               acknowledgeData:
-                                  dataState.acknowledgeList[index]));
+                                  dataState.acknowledgeList[index],
+                              equipmentComplaintType: widget.equipmentComplaintType
+                          ));
 
                       final result = await Navigator.push(
                         context,
-                        FadeRoute(page: const AddAcknowledgePage()),
+                        FadeRoute(page:  AddAcknowledgePage(equipmentComplaintType: widget.equipmentComplaintType)),
                       );
                       if (!context.mounted) return;
                       if (result.toString() == "Completed") {
                         BlocProvider.of<AcknowledgeBloc>(context)
                             .add(AcknowledgePageLoadEvent(context: context,
-                            selectTabIndex : dataState.selectTabIndex));
+                            selectTabIndex : dataState.selectTabIndex,
+                             equipmentComplaintType: widget.equipmentComplaintType));
                       }
                     }
                   },
                   child: AcknowledgeItemBoxWidget(
                     index: index,
                     acknowledgeData: dataState.acknowledgeList[index],
+                    equipmentComplaintType: widget.equipmentComplaintType,
                   ),
                 );
               })

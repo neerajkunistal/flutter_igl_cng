@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
@@ -52,7 +53,7 @@ class AddAcknowledgeComplaintHelper {
   static Future<dynamic> fetchSapCodeData(
       {required CodeGroupModel codeGroupData}) async {
     try {
-      String url = APIs.getSapCodeApi+"?code_group=${codeGroupData.code}";
+      String url = APIs.getSapCodeApi + "?code_group=${codeGroupData.code}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return sapCodeListResponse(res['data']);
@@ -64,10 +65,14 @@ class AddAcknowledgeComplaintHelper {
   }
 
   static Future<dynamic> fetchAcknowledgeData(
-      {String? fromDate, String? toDate}) async {
+      {String? fromDate,
+      String? toDate,
+      required EquipmentComplaintType equipmentComplaintType}) async {
     try {
-      String url = APIs.getAcknolegeApi +
-          "?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.getAcknolegeApi
+          : APIs.getAcknolegeITApi +
+              "?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return acknowledgeListResponse(res['data']);
@@ -98,11 +103,15 @@ class AddAcknowledgeComplaintHelper {
     required PlannerModel plannerData,
     required WorkCenterModel workCenterData,
     required String personResponsible,
+    required EquipmentComplaintType equipmentComplaintType,
+    required ComplaintDescriptionModel complaintDescriptionData,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
-      String url = APIs.addAcknowlegeApi;
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.addAcknowlegeApi
+          : APIs.addAcknowlegeITApi;
       var json = {
         "complaintId": acknowledgeData.id.toString(),
         "complaintTypeId": complaintTypeData.id != null
@@ -115,16 +124,21 @@ class AddAcknowledgeComplaintHelper {
         "equipmentId": equipmentTypeData.id != null
             ? equipmentTypeData.id.toString()
             : "0",
-        "description": description,
+        "description": equipmentComplaintType == EquipmentComplaintType.normal
+            ? description
+            : complaintDescriptionData.id.toString(),
         "complaintDateTime": "$date $time",
         "departmentId":
             departmentData.id != null ? departmentData.id.toString() : "0",
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
         "ackRemarks": remark,
-        "planner_group" : plannerData.id != null ? plannerData.plannerGroup.toString() : "",
-        "main_work_center" :workCenterData.id != null ? workCenterData.workCenter.toString() : "",
-        "person_responsible" : personResponsible,
+        "planner_group":
+            plannerData.id != null ? plannerData.plannerGroup.toString() : "",
+        "main_work_center": workCenterData.id != null
+            ? workCenterData.workCenter.toString()
+            : "",
+        "person_responsible": personResponsible,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
@@ -164,8 +178,8 @@ class AddAcknowledgeComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              .replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

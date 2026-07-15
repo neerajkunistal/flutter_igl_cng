@@ -30,7 +30,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
     LoginDataModel userData = UserInfo.instanceInit()!.userData!;
 
     return userData.roleType == RoleType.mi
-        ? const ViewEquipmentComplaintPage()
+        ? const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)
         : Container(
             margin: const EdgeInsets.all(10.0),
             child: Column(
@@ -54,7 +54,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const AddEquipmentComplaintPage()),
+                                        const AddEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)),
                               );
                             },
                             child: Padding(
@@ -94,7 +94,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const ViewEquipmentComplaintPage()),
+                                        const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)),
                               );
                             },
                             child: Padding(
@@ -132,7 +132,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                FadeRoute(page: const AcknowledgePage()),
+                                FadeRoute(page: const AcknowledgePage(equipmentComplaintType: EquipmentComplaintType.normal)),
                               );
                             },
                             child: Padding(
@@ -171,7 +171,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                               Navigator.push(
                                 context,
                                 FadeRoute(
-                                    page: const ViewEquipmentComplaintPage()),
+                                    page: const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)),
                               );
                             },
                             child: Padding(
@@ -210,7 +210,7 @@ class _PhoneDashboardWidgetState extends State<PhoneDashboardWidget> {
                               Navigator.push(
                                 context,
                                 FadeRoute(
-                                    page: const ViewEquipmentComplaintPage()),
+                                    page: const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)),
                               );
                             },
                             child: Padding(

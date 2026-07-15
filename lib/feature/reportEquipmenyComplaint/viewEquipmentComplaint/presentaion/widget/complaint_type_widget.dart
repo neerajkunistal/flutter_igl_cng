@@ -16,184 +16,196 @@ class ComplaintTypeWidget extends StatefulWidget {
 }
 
 class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
+  LoginDataModel userData = UserInfo.instance!.userData!;
 
-  LoginDataModel userData =  UserInfo.instance!.userData!;
+  void _navigate(BuildContext context, Widget page) async {
+    if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 100);
+    }
+    if (context.mounted) {
+      Navigator.push(context, FadeRoute(page: page));
+    }
+  }
+
+  Widget _buildCard({
+    required String icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      shadowColor: AppColor.themeColor,
+      elevation: 2,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                icon,
+                height: MediaQuery.of(context).size.width * 0.20,
+              ),
+              SizedBox(height: MediaQuery.of(context).size.width * 0.02),
+              TextWidget(
+                label,
+                textAlign: TextAlign.center,
+                color: AppColor.themeColor,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Column(
-                children: [
-                  TextWidget(
-                    "IGL CNG Automation",
-                    fontSize: AppFont.font_18,
-                    color: AppColor.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  TextWidget(
-                    "Complaint App",
-                    fontSize: AppFont.font_16,
-                    color: AppColor.white,
-                    fontWeight: FontWeight.w700,
-                  )
-                ],
-              ),
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(height: 30),
 
-            Column(
+          // Header
+          Align(
+            alignment: Alignment.topCenter,
+            child: Column(
               children: [
-                Row(
-                  children: [
-                    userData.showCivil.toString() == "1" ?
-                    Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            shadowColor: AppColor.themeColor,
-                            elevation: 2,
-                            child: InkWell(
-                              onTap: () async {
-                                if (await Vibration.hasAmplitudeControl() != null) {
-                                  Vibration.vibrate(duration: 100);
-                                }
-                                Navigator.push(
-                                  !context.mounted ? context : context,
-                                  FadeRoute(page: const ViewCngPage()),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(AppIcon.maintenanceIcon,
-                                        height: MediaQuery.of(context).size.width * 0.20),
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.width * 0.02,
-                                    ),
-                                    TextWidget(
-                                      "Civil Complaint",
-                                      color: AppColor.themeColor,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                    ) : const SizedBox.shrink(),
-
-                   Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                            shadowColor: AppColor.themeColor,
-                            elevation: 2,
-                            child: InkWell(
-                              onTap: () async {
-                                if (await Vibration.hasAmplitudeControl() != null) {
-                                  Vibration.vibrate(duration: 100);
-                                }
-                                Navigator.push(
-                                  !context.mounted ? context : context,
-                                  FadeRoute(
-                                      page: const ViewEquipmentComplaintPage(
-                                        title: "CNG O&M Complaints",
-                                      )),
-                                );
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(AppIcon.equipmentIcon,
-                                        height: MediaQuery.of(context).size.width * 0.20),
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.width * 0.02,
-                                    ),
-                                    TextWidget(
-                                      "CNG O&M Complaints",
-                                      textAlign: TextAlign.center,
-                                      color: AppColor.themeColor,
-                                      fontWeight: FontWeight.w700,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )),
-                    ),
-                  ],
+                TextWidget(
+                  "IGL CNG Automation",
+                  fontSize: AppFont.font_18,
+                  color: AppColor.white,
+                  fontWeight: FontWeight.w700,
                 ),
-
-                userData.mDbStatus.toString() != "0" &&
-                    userData.mDbStatus.toString().isNotEmpty ?
-                 Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      shadowColor: AppColor.themeColor,
-                      elevation: 2,
-                      child: InkWell(
-                        onTap: () async {
-                          if (await Vibration.hasAmplitudeControl() != null) {
-                            Vibration.vibrate(duration: 100);
-                          }
-                          Navigator.push(
-                            !context.mounted ? context : context,
-                            FadeRoute(page: userData.mDbStatus.toString() == "1"
-                                  ? const LcvDashboardPage()
-                                  : const ViewAssignmentPage() ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(AppIcon.lcvTruckIcon,
-                                  height: MediaQuery.of(context).size.width * 0.20),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.width * 0.02,
-                              ),
-                              TextWidget(
-                                "LCV",
-                                color: AppColor.themeColor,
-                                fontWeight: FontWeight.w700,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )) : const SizedBox.shrink(),
+                TextWidget(
+                  "Complaint App",
+                  fontSize: AppFont.font_16,
+                  color: AppColor.white,
+                  fontWeight: FontWeight.w700,
+                ),
               ],
             ),
+          ),
 
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: TextWidget(
-                "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
-                fontSize: AppFont.font_12,
-                color: AppColor.white,
-                fontWeight: FontWeight.w700,
+          const SizedBox(height: 30),
+
+          // Civil + CNG O&M Row
+          Row(
+            children: [
+              userData.showCivil.toString() == "1"
+                  ? Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildCard(
+                          icon: AppIcon.maintenanceIcon,
+                          label: "Civil Complaint",
+                          onTap: () => _navigate(context, const ViewCngPage()),
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildCard(
+                    icon: AppIcon.equipmentIcon,
+                    label: "CNG O&M Complaints",
+                    onTap: () => _navigate(
+                      context,
+                      const ViewEquipmentComplaintPage(
+                        title: "CNG O&M Complaints",
+                        equipmentComplaintType: EquipmentComplaintType.normal,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
-            ),
-          ],
-        ),
+            ],
+          ),
+
+          // LCV Card
+          userData.mDbStatus.toString() != "0" &&
+                  userData.mDbStatus.toString().isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildCard(
+                    icon: AppIcon.lcvTruckIcon,
+                    label: "LCV",
+                    onTap: () => _navigate(
+                      context,
+                      userData.mDbStatus.toString() == "1"
+                          ? const LcvDashboardPage()
+                          : const ViewAssignmentPage(),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
+
+          // IT Card
+          userData.showIt.toString() == "1"
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _buildCard(
+                    icon: AppIcon.equipmentIcon,
+                    label: "IT",
+                    onTap: () => _navigate(
+                        context,
+                        const ViewEquipmentComplaintPage(
+                          title: "IT",
+                          equipmentComplaintType: EquipmentComplaintType.it,
+                        )),
+                  ),
+                )
+              : const SizedBox.shrink(),
+
+          Row(
+            children: [
+              // Fire & Safety complaints Card
+              userData.showFS.toString() == "1"
+                  ? Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildCard(
+                          icon: AppIcon.fireSafeyIcon,
+                          label: "Fire & Safety complaints",
+                          onTap: () {},
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+
+              // Marketing Card
+              userData.showMKT.toString() == "1"
+                  ? Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: _buildCard(
+                          icon: AppIcon.marketingIcon,
+                          label: "Marketing",
+                          onTap: () {},
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ],
+          ),
+
+          const SizedBox(height: 30),
+
+          // Footer
+          TextWidget(
+            "Unistal Systems Pvt Ltd. Version - ${AppConfig.instanceInit()!.appVersion}",
+            fontSize: AppFont.font_12,
+            color: AppColor.white,
+            fontWeight: FontWeight.w700,
+          ),
+
+          const SizedBox(height: 40),
+        ],
       ),
     );
   }

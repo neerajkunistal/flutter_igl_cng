@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 
 part 'add_equipment_complaint_event.dart';
@@ -25,6 +26,9 @@ class AddEquipmentComplaintBloc
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
   List<File> videoFiles = [];
+  EquipmentComplaintType equipmentComplaintType =  EquipmentComplaintType.normal;
+  List<ComplaintDescriptionModel> complaintDescriptionList = [];
+  ComplaintDescriptionModel complaintDescriptionData =  ComplaintDescriptionModel();
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
@@ -32,6 +36,7 @@ class AddEquipmentComplaintBloc
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
     on<AddEquipmentComplaintSelectEquipmentTypeDataEvent>(_selectEquipmentType);
     on<AddEquipmentComplaintSelectGeneralDataEvent>(_selectGeneral);
+    on<AddEquipmentComplaintSelectDescriptionDataEvent>(_selectComplaintDescription);
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
@@ -64,28 +69,43 @@ class AddEquipmentComplaintBloc
     files.add(File(""));
     files.add(File(""));
     videoFiles.add(File(""));
+    equipmentComplaintType =  event.equipmentComplaintType;
+    complaintDescriptionData =  ComplaintDescriptionModel();
 
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.text = formattedDate;
 
     var resComplaint =
-        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+        await AddEquipmentComplaintHelper.fetchComplaintTypeData(equipmentComplaintType: equipmentComplaintType);
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
     }
 
     var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+        await AddEquipmentComplaintHelper.fetchEquipmentTypeData(equipmentComplaintType: equipmentComplaintType);
     if (resEquipment != null) {
       equipmentList = resEquipment;
+      if(equipmentList.length == 1){
+        equipmentData =  equipmentList.first;
+      }
       equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
     }
 
-    var resGeneral =
-        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
-    if (resGeneral != null) {
-      generalComplaintList = resGeneral;
+    if(equipmentComplaintType == EquipmentComplaintType.normal){
+      var resGeneral =
+      await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+      if (resGeneral != null) {
+        generalComplaintList = resGeneral;
+      }
     }
+    else {
+      var resDescription =
+      await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
+      if (resDescription != null) {
+        complaintDescriptionList = resDescription;
+      }
+    }
+
 
     _eventComplete(emit);
   }
@@ -127,6 +147,11 @@ class AddEquipmentComplaintBloc
     generalComplaintData = event.generalComplaintData;
     generalDescriptionController.text = "";
     _eventComplete(emit);
+  }
+
+  _selectComplaintDescription(AddEquipmentComplaintSelectDescriptionDataEvent event, emit) {
+     complaintDescriptionData =  event.complaintDescriptionData;
+     _eventComplete(emit);
   }
 
   _selectFile(AddEquipmentComplaintAddImageEvent event, emit) async {
@@ -218,27 +243,44 @@ class AddEquipmentComplaintBloc
 
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
     try {
-      DateTime initialDate = timeController.text.toString().isNotEmpty
-          ? DateFormat('HH:mm:ss').parse(timeController.text.toString())
+      DateTime _parseTime(String timeStr) {
+        try {
+          return DateFormat('HH:mm:ss').parse(timeStr);
+        } catch (_) {
+          return DateFormat('HH:mm').parse(timeStr);
+        }
+      }
+
+      DateTime initialDate = timeController.text.isNotEmpty
+          ? _parseTime(timeController.text)
           : DateTime.now();
 
       final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
         initialDateTime: initialDate,
       );
+
       if (time != null) {
         var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
             .format(!event.context.mounted ? event.context : event.context);
 
-        final selectedTime =  DateTime(DateTime.now().year, DateTime.now().month,
-            DateTime.now().day,  time.hour, time.minute);
+        final selectedTime = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          time.hour,
+          time.minute,
+        );
+
         final currentTime = DateTime.now();
         final diffMn = currentTime.difference(selectedTime).inMinutes;
-        if(diffMn < 30 && diffMn >= 0){
+
+        if (diffMn < 30 && diffMn >= 0) {
           timeController.text = timeFormat;
           _eventComplete(emit);
         } else {
-          SnackBarErrorWidget(!event.context.mounted ? event.context : event.context)
+          SnackBarErrorWidget(
+              !event.context.mounted ? event.context : event.context)
               .show(message: "Not Before 30 Mins To Current Time.");
         }
       }
@@ -263,6 +305,8 @@ class AddEquipmentComplaintBloc
       generalDescription: generalDescriptionController.text.toString(),
       file: files,
       videoFiles: videoFiles,
+      complaintDescriptionData: complaintDescriptionData,
+      equipmentComplaintType: equipmentComplaintType,
     );
 
     if(textFiledValidation == false){
@@ -304,6 +348,8 @@ class AddEquipmentComplaintBloc
       generalDescription: generalDescriptionController.text.toString(),
       file: files,
       videoFiles: videoFiles,
+      complaintDescriptionData: complaintDescriptionData,
+      equipmentComplaintType: equipmentComplaintType
     );
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
@@ -315,6 +361,7 @@ class AddEquipmentComplaintBloc
       dateController.text = "";
       timeController.text = "";
       generalDescriptionController.text = "";
+      complaintDescriptionData =  ComplaintDescriptionModel();
       isLoader = false;
       files.add(File(""));
       files.add(File(""));
@@ -347,6 +394,8 @@ class AddEquipmentComplaintBloc
       isFileLoader: isFileLoader,
       equipmentData: equipmentData,
       equipmentList: equipmentList,
+      complaintDescriptionData: complaintDescriptionData,
+      complaintDescriptionList: complaintDescriptionList
     ));
   }
 }

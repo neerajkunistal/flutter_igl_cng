@@ -6,11 +6,12 @@ abstract class AddEquipmentComplaintEvent extends Equatable {
 
 class AddEquipmentComplaintPageLoadEvent extends AddEquipmentComplaintEvent {
   final BuildContext context;
+  final EquipmentComplaintType equipmentComplaintType;
 
-  const AddEquipmentComplaintPageLoadEvent({required this.context});
+  const AddEquipmentComplaintPageLoadEvent({required this.context, required this.equipmentComplaintType});
 
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, equipmentComplaintType];
 }
 
 class AddEquipmentComplaintSelectComplaintDataEvent
@@ -33,6 +34,17 @@ class AddEquipmentComplaintSelectGeneralDataEvent
 
   @override
   List<Object?> get props => [generalComplaintData];
+}
+
+class AddEquipmentComplaintSelectDescriptionDataEvent
+    extends AddEquipmentComplaintEvent {
+  final ComplaintDescriptionModel complaintDescriptionData;
+
+  const AddEquipmentComplaintSelectDescriptionDataEvent(
+      {required this.complaintDescriptionData});
+
+  @override
+  List<Object?> get props => [complaintDescriptionData];
 }
 
 class AddEquipmentComplaintSelectEquipmentTypeDataEvent

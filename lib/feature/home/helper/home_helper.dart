@@ -73,6 +73,22 @@ class HomeHelper {
           label: AppString.review,
         ));
       }
+      if (userData.roleType == RoleType.it) {
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: Image.asset(
+            AppIcon.equipmentIcon,
+            height: 20.0,
+          ),
+          label: AppString.acknowledge,
+        ));
+        bottomNavigationBarItemList.add(BottomNavigationBarItem(
+          icon: Image.asset(
+            AppIcon.reviewIcon,
+            height: 20.0,
+          ),
+          label: AppString.review,
+        ));
+      }
       else if (userData.roleType == RoleType.lcvManager) {
         bottomNavigationBarItemList.add(BottomNavigationBarItem(
           icon: const Icon(
@@ -103,12 +119,12 @@ class HomeHelper {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       if (userData.roleType == RoleType.shiftEngineer) {
-        pageList.add(const AcknowledgePage());
-        pageList.add(const ViewEquipmentComplaintPage());
+        pageList.add(const AcknowledgePage(equipmentComplaintType: EquipmentComplaintType.normal));
+        pageList.add(const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal));
       } else if (userData.roleType == RoleType.stationUser) {
         pageList.add(const ComplaintTypeWidget());
       } else if (userData.roleType == RoleType.mi) {
-        pageList.add(const ViewEquipmentComplaintPage());
+        pageList.add(const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal));
       } else if (userData.roleType == RoleType.amo) {
         pageList.add(const ViewAmoComplaintPage());
       } else if (userData.roleType == RoleType.ci) {
@@ -119,6 +135,9 @@ class HomeHelper {
         pageList.add(const RunningTruckPage());
         pageList.add(const AddAssignmentPage());
         pageList.add(const ViewAssignmentPage());
+      } else if(userData.roleType == RoleType.it){
+        pageList.add(const AcknowledgePage(equipmentComplaintType: EquipmentComplaintType.it));
+        pageList.add(const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.it));
       }
     } catch (_) {}
     return pageList;

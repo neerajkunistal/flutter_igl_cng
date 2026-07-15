@@ -2,56 +2,64 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AddEquipmentComplaintHelper {
-
-  static Future<dynamic> textFieldValidation({
-    required BuildContext context,
-    required ComplaintTypeModel complaintTypeData,
-    required EquipmentTypeModel equipmentTypeData,
-    required String description,
-    required String name,
-    required List<File> file,
-    required List<File> videoFiles,
-    required String date,
-    required String time,
-    required String generalDescription,
-    required GeneralComplaintModel generalComplaintData,
-  }) async {
-
-    try{
-      if(complaintTypeData.id == null){
-        SnackBarErrorWidget(context).show(message: "Please select complaint type");
+  static Future<dynamic> textFieldValidation(
+      {required BuildContext context,
+      required ComplaintTypeModel complaintTypeData,
+      required EquipmentTypeModel equipmentTypeData,
+      required String description,
+      required String name,
+      required List<File> file,
+      required List<File> videoFiles,
+      required String date,
+      required String time,
+      required String generalDescription,
+      required GeneralComplaintModel generalComplaintData,
+      required ComplaintDescriptionModel complaintDescriptionData,
+      required EquipmentComplaintType equipmentComplaintType,
+      re}) async {
+    try {
+      if (complaintTypeData.id == null) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please select complaint type");
         return false;
-      }
-      else if(complaintTypeData.id.toString() == "2" && equipmentTypeData.id == null){
+      } else if (complaintTypeData.id.toString() == "2" &&
+          equipmentTypeData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select equipment");
         return false;
-      }
-      else if(complaintTypeData.id.toString() == "1" && generalComplaintData.id == null){
+      } else if (complaintTypeData.id.toString() == "1" &&
+          generalComplaintData.id == null) {
         SnackBarErrorWidget(context).show(message: "Please select general");
         return false;
-      }
-      else if(time.isEmpty){
+      } else if (time.isEmpty) {
         SnackBarErrorWidget(context).show(message: "Please enter time");
         return false;
-      }
-      else if(name.isEmpty){
-        SnackBarErrorWidget(context).show(message: "Please enter reported by name");
+      } else if (complaintDescriptionData.description == null &&
+          equipmentComplaintType == EquipmentComplaintType.it) {
+        SnackBarErrorWidget(context).show(message: "Please select description");
+        return false;
+      } else if (name.isEmpty) {
+        SnackBarErrorWidget(context)
+            .show(message: "Please enter reported by name");
         return false;
       }
       return true;
-    }catch(_){}
+    } catch (_) {}
     return false;
   }
 
-  static Future<dynamic> fetchComplaintTypeData() async {
+  static Future<dynamic> fetchComplaintTypeData(
+      {required EquipmentComplaintType equipmentComplaintType}) async {
     try {
-      String url = APIs.getComplaintTypeApi;
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.getComplaintTypeApi
+          : APIs.getComplaintITTypeApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return complaintTypeListResponse(res['data']);
@@ -65,17 +73,29 @@ class AddEquipmentComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchEquipmentTypeData({String? complaintId}) async {
+  static Future<dynamic> fetchEquipmentTypeData(
+      {String? complaintId,
+      required EquipmentComplaintType equipmentComplaintType}) async {
     try {
-      String url = APIs.getEquipmentApi +"/$complaintId";
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.getEquipmentApi + "/$complaintId"
+          : APIs.getEquipmentITApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null && res['status'] != null && res["status"] == true && res['EqpRecord']  != null) {
-        List<EquipmentModel> equipmentList = equipmentListResponse(res['EqpRecord']);
-        List<EquipmentTypeModel> equipmentTypeList = equipmentTypeListResponse(res['data']);
-        for(var equipmentData in equipmentList)
-        {
-          equipmentData.equipmentTypeList!.addAll(equipmentTypeList);
+      if (res != null &&
+          res['status'] != null &&
+          res["status"] == true &&
+          res['EqpRecord'] != null) {
+        List<EquipmentModel> equipmentList =
+            equipmentListResponse(res['EqpRecord']);
+
+        if (res['data'] != null) {
+          List<EquipmentTypeModel> equipmentTypeList =
+              equipmentTypeListResponse(res['data']);
+          for (var equipmentData in equipmentList) {
+            equipmentData.equipmentTypeList!.addAll(equipmentTypeList);
+          }
         }
+
         return equipmentList;
       }
       return null;
@@ -103,6 +123,22 @@ class AddEquipmentComplaintHelper {
     }
   }
 
+  static Future<dynamic> fetchDescriptionComplaintData() async {
+    try {
+      String url = APIs.getDescriptionComplaintApi;
+      var res = await ServerRequest.getData(urlEndPoint: url);
+      if (res != null && res['status'] != null && res["status"] == true) {
+        return complaintDescriptionList(res['data']);
+      }
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print("fetch general complaint type data : - ---- ${e.toString()}");
+      }
+      return null;
+    }
+  }
+
   static Future<dynamic> submitData({
     required BuildContext context,
     required ComplaintTypeModel complaintTypeData,
@@ -115,10 +151,14 @@ class AddEquipmentComplaintHelper {
     required String time,
     required String generalDescription,
     required GeneralComplaintModel generalComplaintData,
+    required ComplaintDescriptionModel complaintDescriptionData,
+    required EquipmentComplaintType equipmentComplaintType,
   }) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-      String url = APIs.addComplaintApi;
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.addComplaintApi
+          : APIs.addComplaintITApi;
 
       var json = {
         "complaintTypeId": complaintTypeData.id != null
@@ -127,7 +167,9 @@ class AddEquipmentComplaintHelper {
         "equipmentId": equipmentTypeData.id != null
             ? equipmentTypeData.id.toString()
             : "0",
-        "description": description,
+        "description": equipmentComplaintType == EquipmentComplaintType.normal
+            ? description
+            : complaintDescriptionData.id.toString(),
         "reportBy": name,
         "complaintDateTime": "$date $time",
         "generalComplaintDesc": generalDescription,
@@ -186,8 +228,8 @@ class AddEquipmentComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              .replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

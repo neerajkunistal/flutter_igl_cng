@@ -3,12 +3,15 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/add_sap_widget.dart';
 import 'package:flutter_igl_cng/feature/complaintNumber/domain/bloc/complaint_number_bloc.dart';
 import 'package:flutter_igl_cng/feature/complaintNumber/presentation/page/add_complaint_number_page.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddAcknowledgePage extends StatefulWidget {
-  const AddAcknowledgePage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+
+  const AddAcknowledgePage({super.key, required this.equipmentComplaintType});
 
   @override
   State<AddAcknowledgePage> createState() => _AddAcknowledgePageState();
@@ -51,7 +54,10 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
         child: Column(
           children: [
             AcknowledgeItemBoxWidget(
-                acknowledgeData: dataState.acknowledgeData, index: 0),
+              acknowledgeData: dataState.acknowledgeData,
+              index: 0,
+              equipmentComplaintType: widget.equipmentComplaintType,
+            ),
             _verticalSpace(),
             _complaintTypeDropDown(dataState: dataState),
             _scrapList(dataState: dataState),
@@ -78,19 +84,33 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
                 Expanded(child: _timeController(dataState: dataState)),
               ],
             ),
-            _verticalSpace(),
-            _descriptionRemark(dataState: dataState),
-            _radioButton(dataState: dataState),
-            _verticalSpace(),
+
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? _descriptionRemark(dataState: dataState)
+                : const SizedBox.shrink(),
+
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? _radioButton(dataState: dataState)
+                : const SizedBox.shrink(),
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             _complaintStatusRadioButton(dataState: dataState),
             _verticalSpace(),
-            AddSapWidget(dataState: dataState),
-            _verticalSpace(),
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? AddSapWidget(dataState: dataState)
+                : const SizedBox.shrink(),
+            widget.equipmentComplaintType == EquipmentComplaintType.normal
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
             _remark(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
-            dataState.acknowledgeData.ackStatus != "0"
-                && dataState.acknowledgeData.assignType.toString() == "3"
+            dataState.acknowledgeData.ackStatus != "0" &&
+                    dataState.acknowledgeData.assignType.toString() == "3"
                 ? _addComplaintNumberWidget(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.acknowledgeData.ackStatus == "0"
@@ -130,53 +150,62 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
   }
 
   Widget _scrapList({required FetchAddAcknowledgeComplaintState dataState}) {
-    return  dataState.acknowledgeData.scrapList!.isNotEmpty
+    return dataState.acknowledgeData.scrapList!.isNotEmpty
         ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const DottedDividerLine(),
-        TextWidget("Scarp", fontWeight: FontWeight.w700,),
-        ListView.builder(
-            itemCount: dataState.acknowledgeData.scrapList!.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ScrapCommonItemWidget(
-                index: index,
-                scrapData: dataState.acknowledgeData.scrapList![index],
-              );
-            }),
-        _verticalSpace(),
-        const DottedDividerLine(),
-        _verticalSpace(),
-      ],
-    ) : const SizedBox.shrink();
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const DottedDividerLine(),
+              TextWidget(
+                "Scarp",
+                fontWeight: FontWeight.w700,
+              ),
+              ListView.builder(
+                  itemCount: dataState.acknowledgeData.scrapList!.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ScrapCommonItemWidget(
+                      index: index,
+                      scrapData: dataState.acknowledgeData.scrapList![index],
+                    );
+                  }),
+              _verticalSpace(),
+              const DottedDividerLine(),
+              _verticalSpace(),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 
-  Widget _sparePartList({required FetchAddAcknowledgeComplaintState dataState}) {
-    return  dataState.acknowledgeData.partList!.isNotEmpty
+  Widget _sparePartList(
+      {required FetchAddAcknowledgeComplaintState dataState}) {
+    return dataState.acknowledgeData.partList!.isNotEmpty
         ? Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const DottedDividerLine(),
-        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
-        ListView.builder(
-            itemCount: dataState.acknowledgeData.partList!.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return SparePartCommonItemWidget(
-                index: index,
-                partModel: dataState.acknowledgeData.partList![index],
-              );
-            }),
-        _verticalSpace(),
-        const DottedDividerLine(),
-        _verticalSpace(),
-      ],
-    ) : const SizedBox.shrink();
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const DottedDividerLine(),
+              TextWidget(
+                "Spare Part",
+                fontWeight: FontWeight.w700,
+              ),
+              ListView.builder(
+                  itemCount: dataState.acknowledgeData.partList!.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return SparePartCommonItemWidget(
+                      index: index,
+                      partModel: dataState.acknowledgeData.partList![index],
+                    );
+                  }),
+              _verticalSpace(),
+              const DottedDividerLine(),
+              _verticalSpace(),
+            ],
+          )
+        : const SizedBox.shrink();
   }
 
   Widget _equipmentDropDown(
@@ -200,7 +229,9 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
               (EquipmentTypeModel equipmentTypeData) {
         return DropdownMenuItem<EquipmentTypeModel>(
           value: equipmentTypeData,
-          child: Text("${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",),
+          child: Text(
+            "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
+          ),
         );
       }).toList(),
     );
@@ -317,7 +348,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
     );
   }
 
-
   Widget _dateController(
       {required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(
@@ -352,18 +382,47 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
 
   Widget _descriptionRemark(
       {required FetchAddAcknowledgeComplaintState dataState}) {
-    return TextFieldWidget(
+    return widget.equipmentComplaintType == EquipmentComplaintType.normal
+        ? TextFieldWidget(
+            enabled: dataState.acknowledgeData.ackStatus.toString() == "0"
+                ? true
+                : false,
+            labelText: AppString.editDescription,
+            controller: dataState.descriptionController,
+          )
+        : _descriptionDropDown(dataState: dataState);
+  }
+
+  Widget _descriptionDropDown(
+      {required FetchAddAcknowledgeComplaintState dataState}) {
+    return DropDownSearchWidget(
+      isRequired: true,
       enabled:
           dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
-      labelText: AppString.editDescription,
-      controller: dataState.descriptionController,
+      selectedItem: dataState.complaintDescriptionData.description != null
+          ? dataState.complaintDescriptionData
+          : null,
+      hint: AppString.selectDescription,
+      items: dataState.complaintDescriptionList,
+      itemAsString: (complaintDescriptionData) =>
+          complaintDescriptionData.description.toString(),
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+              if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+                BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+                    AddAcknowledgeComplaintSelectDescriptionDataEvent(
+                        complaintDescriptionData: value));
+              }
+            }
+          : null,
     );
   }
 
   Widget _remark({required FetchAddAcknowledgeComplaintState dataState}) {
     return TextFieldWidget(
       isRequired: true,
-      enabled: dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
+      enabled:
+          dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
       labelText: dataState.complaintStatus.toString() == "1"
           ? AppString.enterSapComplaintDescription
           : AppString.enterRemarkForComplaintRejection,
@@ -427,13 +486,15 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
         : const DottedLoaderWidget();
   }
 
-  Widget _addComplaintNumberWidget({required FetchAddAcknowledgeComplaintState dataState}) {
+  Widget _addComplaintNumberWidget(
+      {required FetchAddAcknowledgeComplaintState dataState}) {
     return AddComplaintNumberPage(
       assignType: dataState.acknowledgeData.assignType.toString(),
       complaintId: dataState.acknowledgeData.id.toString(),
-      vendorComplaintNumber: dataState.acknowledgeData.vendorComplaintNumber.toString(),
+      vendorComplaintNumber:
+          dataState.acknowledgeData.vendorComplaintNumber.toString(),
       onChanged: (value) {
-        if(value.toString().isNotEmpty){
+        if (value.toString().isNotEmpty) {
           Navigator.pop(context, "Completed");
         }
       },

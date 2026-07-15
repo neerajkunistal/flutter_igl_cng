@@ -38,7 +38,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AcknowledgePage()),
+                            builder: (context) => const AcknowledgePage(equipmentComplaintType: EquipmentComplaintType.normal)),
                       );
                     },
                     icon: Icon(
@@ -62,7 +62,7 @@ class _StationEngineerPageState extends State<StationEngineerPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const ViewEquipmentComplaintPage()),
+                                const ViewEquipmentComplaintPage(equipmentComplaintType: EquipmentComplaintType.normal)),
                       );
                     },
                     icon: Icon(

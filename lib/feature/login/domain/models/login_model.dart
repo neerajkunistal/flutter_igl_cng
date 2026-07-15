@@ -30,6 +30,9 @@ class LoginDataModel {
   dynamic mDbStatus;
   dynamic stationName;
   dynamic showCivil;
+  dynamic showIt;
+  dynamic showMKT;
+  dynamic showFS;
   List<MenuModel>? menuPage;
 
   LoginDataModel({
@@ -53,6 +56,9 @@ class LoginDataModel {
     this.mDbStatus,
     this.stationName,
     this.showCivil,
+    this.showIt,
+    this.showMKT,
+    this.showFS,
     this.menuPage,
   });
 
@@ -75,6 +81,9 @@ class LoginDataModel {
     mDbStatus = json['mdb_status'] ?? "0";
     stationName = json['station_name'] ?? "";
     showCivil = json['show_civil'] ?? "";
+    showIt = json['show_it'] ?? "";
+    showMKT = json['show_mkt'] ?? "";
+    showFS = json['show_fs'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
@@ -97,6 +106,8 @@ class LoginDataModel {
         return RoleType.ci;
       case "LCVM":
         return RoleType.lcvManager;
+      case "IT":
+        return RoleType.it;
       default:
         return RoleType.noRole;
     }

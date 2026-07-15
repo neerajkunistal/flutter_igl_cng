@@ -8,14 +8,16 @@ class ReviewComplaintPageLoadEvent extends ReviewComplaintEvent {
   final BuildContext context;
   final String? complaintId;
   final ReviewComplaintModel reviewComplaintData;
+  final EquipmentComplaintType equipmentComplaintType;
 
   const ReviewComplaintPageLoadEvent(
       {required this.context,
       required this.reviewComplaintData,
+      required this.equipmentComplaintType,
       this.complaintId});
 
   @override
-  List<Object?> get props => [context, reviewComplaintData];
+  List<Object?> get props => [context, reviewComplaintData, equipmentComplaintType];
 }
 
 class ReviewComplaintSelectComplaintEvent extends ReviewComplaintEvent {

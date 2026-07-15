@@ -46,6 +46,8 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final PlannerModel plannerData;
   final List<WorkCenterModel> workCenterList;
   final WorkCenterModel workCenterData;
+  final List<ComplaintDescriptionModel> complaintDescriptionList;
+  final ComplaintDescriptionModel complaintDescriptionData;
 
   FetchAddAcknowledgeComplaintState({
     required this.file,
@@ -78,6 +80,8 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.workCenterData,
     required this.plannerData,
     required this.plannerList,
+    required this.complaintDescriptionList,
+    required this.complaintDescriptionData,
   });
 
   @override
@@ -112,5 +116,7 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
         workCenterData,
         plannerData,
         plannerList,
+        complaintDescriptionList,
+        complaintDescriptionData,
       ];
 }

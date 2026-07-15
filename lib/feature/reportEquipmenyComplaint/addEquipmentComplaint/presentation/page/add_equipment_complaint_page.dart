@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
-  const AddEquipmentComplaintPage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+
+  const AddEquipmentComplaintPage(
+      {super.key, required this.equipmentComplaintType});
 
   @override
   State<AddEquipmentComplaintPage> createState() =>
@@ -14,8 +18,10 @@ class AddEquipmentComplaintPage extends StatefulWidget {
 class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   @override
   void initState() {
-    BlocProvider.of<AddEquipmentComplaintBloc>(context)
-        .add(AddEquipmentComplaintPageLoadEvent(context: context));
+    BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+        AddEquipmentComplaintPageLoadEvent(
+            context: context,
+            equipmentComplaintType: widget.equipmentComplaintType));
     super.initState();
   }
 
@@ -92,21 +98,20 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _complaintDropDown(dataState: dataState),
             _verticalSpace(),
-
-            dataState.complaintTypeData.id.toString() == "2"
+            dataState.complaintTypeData.id.toString() == "2" ||
+                    dataState.complaintTypeData.id.toString() == "3"
                 ? _equipmentDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
-            dataState.complaintTypeData.id.toString() == "2"
+            dataState.complaintTypeData.id.toString() == "2" ||
+                    dataState.complaintTypeData.id.toString() == "3"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
             dataState.complaintTypeData.id.toString() == "2"
                 ? _equipmentTypeDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-
             dataState.complaintTypeData.id.toString() == "1"
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -189,22 +194,20 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       {required FetchAddEquipmentComplaintState dataState}) {
     return DropdownWidget(
       hint: AppString.selectEquipment,
-      dropdownValue: dataState.equipmentData.name != null
-          ? dataState.equipmentData
-          : null,
+      dropdownValue:
+          dataState.equipmentData.name != null ? dataState.equipmentData : null,
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentDataEvent(
                 equipmentData: value));
       },
-      items: dataState.equipmentList
-          .map<DropdownMenuItem<EquipmentModel>>(
-              (EquipmentModel equipmentData) {
-            return DropdownMenuItem<EquipmentModel>(
-              value: equipmentData,
-              child: Text(equipmentData.name.toString()),
-            );
-          }).toList(),
+      items: dataState.equipmentList.map<DropdownMenuItem<EquipmentModel>>(
+          (EquipmentModel equipmentData) {
+        return DropdownMenuItem<EquipmentModel>(
+          value: equipmentData,
+          child: Text(equipmentData.name.toString()),
+        );
+      }).toList(),
     );
   }
 
@@ -217,7 +220,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       hint: AppString.selectEquipmentType,
       items: dataState.equipmentTypeList,
       itemAsString: (equipmentTypeData) =>
-      "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
+          "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentTypeDataEvent(
@@ -226,8 +229,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-
-
   Widget _dateController({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
       enabled: false,
@@ -235,7 +236,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-    /*    BlocProvider.of<AddEquipmentComplaintBloc>(context)
+        /*    BlocProvider.of<AddEquipmentComplaintBloc>(context)
             .add(AddEquipmentComplaintSelectDateData(context: context));*/
       },
     );
@@ -254,12 +255,30 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-
   Widget _descriptionRemark(
       {required FetchAddEquipmentComplaintState dataState}) {
-    return TextFieldWidget(
-      labelText: AppString.description,
-      controller: dataState.descriptionController,
+    return widget.equipmentComplaintType == EquipmentComplaintType.normal
+        ? TextFieldWidget(
+            labelText: AppString.description,
+            controller: dataState.descriptionController,
+          )
+        : _descriptionDropDown(dataState: dataState);
+  }
+
+  Widget _descriptionDropDown(
+      {required FetchAddEquipmentComplaintState dataState}) {
+    return DropDownSearchWidget(
+      isRequired: true,
+      selectedItem:
+      dataState.complaintDescriptionData.description != null ? dataState.complaintDescriptionData : null,
+      hint: AppString.selectDescription,
+      items: dataState.complaintDescriptionList,
+      itemAsString: (complaintDescriptionData) => complaintDescriptionData.description.toString(),
+      onChanged: (value) {
+            BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+                AddEquipmentComplaintSelectDescriptionDataEvent(
+                    complaintDescriptionData: value));
+      },
     );
   }
 
@@ -373,13 +392,13 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                           Icons.refresh,
                           color: AppColor.themeColor,
                         ))),
-
                     Align(
                       alignment: Alignment.topRight,
                       child: InkWell(
                         onTap: () {
                           BlocProvider.of<AddEquipmentComplaintBloc>(context)
-                              .add(AddEquipmentComplaintRemoveImageEvent(index: index));
+                              .add(AddEquipmentComplaintRemoveImageEvent(
+                                  index: index));
                         },
                         child: Icon(
                           Icons.close,
@@ -498,13 +517,14 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                                 Icons.refresh,
                                 color: AppColor.themeColor,
                               ))),
-
                           Align(
                             alignment: Alignment.topRight,
                             child: InkWell(
                               onTap: () {
-                                BlocProvider.of<AddEquipmentComplaintBloc>(context)
-                                    .add(AddEquipmentComplaintRemoveVideoEvent(index: index));
+                                BlocProvider.of<AddEquipmentComplaintBloc>(
+                                        context)
+                                    .add(AddEquipmentComplaintRemoveVideoEvent(
+                                        index: index));
                               },
                               child: Icon(
                                 Icons.close,

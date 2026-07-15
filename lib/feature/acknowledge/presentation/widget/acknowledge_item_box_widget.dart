@@ -5,10 +5,11 @@ import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_s
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
+  final EquipmentComplaintType equipmentComplaintType;
   final AcknowledgeModel acknowledgeData;
 
   const AcknowledgeItemBoxWidget(
-      {super.key, required this.acknowledgeData, required this.index});
+      {super.key, required this.acknowledgeData, required this.index, required this.equipmentComplaintType});
 
   @override
   Widget build(BuildContext context) {
@@ -280,7 +281,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (_) => ComplaintAssignWidget(
-                            acknowledgeData: acknowledgeData)));
+                            acknowledgeData: acknowledgeData, equipmentComplaintType: equipmentComplaintType,)));
             }),
       ),
     );

@@ -40,6 +40,7 @@ class ReviewComplaintBloc
 
   List<ScrapModel> deleteScrapList = [];
   List<PartModel> deletePartList = [];
+  EquipmentComplaintType equipmentComplaintType =  EquipmentComplaintType.normal;
 
   ReviewComplaintBloc() : super(ReviewComplaintInitial()) {
     on<ReviewComplaintPageLoadEvent>(_pageLoadEvent);
@@ -76,6 +77,7 @@ class ReviewComplaintBloc
     isNoScrap =  false;
     sapCodeLoader =  false;
     codeGroupData =  CodeGroupModel();
+    equipmentComplaintType =  event.equipmentComplaintType;
 
     String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     closeDateController.text = formattedDate;
@@ -275,6 +277,7 @@ class ReviewComplaintBloc
 
 
     var res = userData.roleType == RoleType.shiftEngineer
+          || userData.roleType == RoleType.it
         ? await ReviewComplaintHelper.submit(
             context: !event.context.mounted ? event.context : event.context,
             reviewComplaintData: reviewComplaintData,
@@ -290,6 +293,7 @@ class ReviewComplaintBloc
             codeGroupData: codeGroupData,
             deletePartList: deletePartList,
             deletesScrapList: deleteScrapList,
+            equipmentComplaintType: equipmentComplaintType,
             scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
             partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
     )
@@ -305,6 +309,7 @@ class ReviewComplaintBloc
           isNoScrap: isNoScrap,
           deletePartList: deletePartList,
           deletesScrapList: deleteScrapList,
+          equipmentComplaintType: equipmentComplaintType,
           scrapList: BlocProvider.of<AddScrapBloc>(!event.context.mounted ? event.context : event.context).scrapList,
           partList: BlocProvider.of<AddSparePartBloc>(!event.context.mounted ? event.context : event.context).partList,
 

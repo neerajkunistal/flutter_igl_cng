@@ -32,6 +32,8 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
   final TextEditingController generalDescriptionController;
   final EquipmentModel equipmentData;
   final List<EquipmentModel> equipmentList;
+  final List<ComplaintDescriptionModel> complaintDescriptionList;
+  final ComplaintDescriptionModel complaintDescriptionData;
 
   FetchAddEquipmentComplaintState({
     required this.files,
@@ -51,6 +53,8 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
     required this.videoFiles,
     required this.equipmentData,
     required this.equipmentList,
+    required this.complaintDescriptionList,
+    required this.complaintDescriptionData,
   });
 
   @override
@@ -72,5 +76,7 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
         videoFiles,
         equipmentList,
         equipmentData,
+        complaintDescriptionList,
+        complaintDescriptionData,
       ];
 }

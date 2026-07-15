@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/acknowledge_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/acknowledge_user_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/complaint_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/department_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
@@ -19,12 +21,13 @@ class AddAcknowledgeComplaintPageLoadEvent
     extends AddAcknowledgeComplaintEvent {
   final BuildContext context;
   final AcknowledgeModel acknowledgeData;
+  final EquipmentComplaintType equipmentComplaintType;
 
   const AddAcknowledgeComplaintPageLoadEvent(
-      {required this.context, required this.acknowledgeData});
+      {required this.context, required this.acknowledgeData, required this.equipmentComplaintType});
 
   @override
-  List<Object?> get props => [context, acknowledgeData];
+  List<Object?> get props => [context, acknowledgeData, equipmentComplaintType];
 }
 
 class AddAcknowledgeComplaintSelectDataEvent
@@ -195,6 +198,17 @@ class AddAcknowledgeComplaintSelectGeneralDataEvent
 
   @override
   List<Object?> get props => [generalComplaintData];
+}
+
+class AddAcknowledgeComplaintSelectDescriptionDataEvent
+    extends AddAcknowledgeComplaintEvent {
+  final ComplaintDescriptionModel complaintDescriptionData;
+
+  const AddAcknowledgeComplaintSelectDescriptionDataEvent(
+      {required this.complaintDescriptionData});
+
+  @override
+  List<Object?> get props => [complaintDescriptionData];
 }
 
 class AddAcknowledgeComplaintSubmitEvent extends AddAcknowledgeComplaintEvent {

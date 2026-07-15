@@ -11,10 +11,12 @@ class ReviewComplaintItemBox extends StatelessWidget {
   final ReviewComplaintModel reviewComplaintData;
   final int index;
   final bool? isDetailPage;
+  final EquipmentComplaintType equipmentComplaintType;
 
   const ReviewComplaintItemBox({super.key,
     required this.reviewComplaintData,
     required this.index,
+    required this.equipmentComplaintType,
     this.isDetailPage
   });
 
@@ -285,7 +287,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
      required ReviewComplaintModel reviewComplaintData})  {
     LoginDataModel userData =  UserInfo.instance!.userData!;
     return
-      (reviewComplaintData.rejectStatus.toString() == "1" &&userData.roleType == RoleType.stationUser)
+      (reviewComplaintData.rejectStatus.toString() == "1" && userData.roleType == RoleType.stationUser)
           || ((reviewComplaintData.seAssignStatus.toString() == "0"
           && reviewComplaintData.ackStatus.toString() == "0")
           || (reviewComplaintData.seAssignStatus.toString() == "1"
@@ -308,13 +310,14 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 BlocProvider.of<ViewEquipmentComplaintBloc>(context).add(
                     ViewEquipmentComplaintSelectedComplaintEvent(index: index));
                 var result = await Navigator.push(context,
-                    FadeRoute(page: const ViewEquipmentComplaintDetailPage()));
+                    FadeRoute(page:  ViewEquipmentComplaintDetailPage(equipmentComplaintType: equipmentComplaintType,)));
                 if (result.toString() == "Completed") {
                   BlocProvider.of<ViewEquipmentComplaintBloc>(
                       !context.mounted ? context : context)
                       .add(ViewEquipmentComplaintPageLoadEvent(
                       context:
-                      !context.mounted ? context : context));
+                      !context.mounted ? context : context,
+                      equipmentComplaintType: equipmentComplaintType));
                 }
 
 /*                if(await _onClosureComplaintPop(context: context) == true){
