@@ -91,7 +91,6 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             widget.equipmentComplaintType == EquipmentComplaintType.normal
                 ? _descriptionRemark(dataState: dataState)
                 : const SizedBox.shrink(),
-
             widget.equipmentComplaintType == EquipmentComplaintType.normal
                 ? _radioButton(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -106,7 +105,8 @@ class _AddAcknowledgePageState extends State<AddAcknowledgePage> {
             widget.equipmentComplaintType == EquipmentComplaintType.normal
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            _remark(dataState: dataState),
+           // _remark(dataState: dataState),
+            _descriptionRemark(dataState: dataState),
             _verticalSpace(),
             _verticalSpace(),
             dataState.acknowledgeData.ackStatus != "0" &&

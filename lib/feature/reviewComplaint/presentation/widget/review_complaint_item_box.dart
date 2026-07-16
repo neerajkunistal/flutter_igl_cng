@@ -100,19 +100,19 @@ class ReviewComplaintItemBox extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(
-                    name:
-                        reviewComplaintData.equipmentCode.toString().isNotEmpty
-                            ? "Equipment"
-                            : "General",
-                    value: reviewComplaintData.equipmentCode
-                            .toString()
-                            .isNotEmpty
+                if (!(userData.roleType == RoleType.it || userData.role == "IT" || userData.showIt.toString() == "1")) ...[
+                  _rowWidget(
+                    name: reviewComplaintData.equipmentCode.toString().isNotEmpty
+                        ? "Equipment"
+                        : "General",
+                    value: reviewComplaintData.equipmentCode.toString().isNotEmpty
                         ? reviewComplaintData.descriptionKva.toString()
-                        : reviewComplaintData.generalComplaintName.toString()),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
+                        : reviewComplaintData.generalComplaintName.toString(),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  ),
+                ],
                 reviewComplaintData.equipmentCode.toString().isNotEmpty &&
                         userData.roleType != RoleType.stationUser
                     ? _rowWidget(
@@ -144,15 +144,18 @@ class ReviewComplaintItemBox extends StatelessWidget {
                         name: "Assign To",
                         value: reviewComplaintData.miAssignToUser.toString())
                     : const SizedBox.shrink(),
-                reviewComplaintData.miAssignToUser.toString().isNotEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.02,
-                      )
-                    : const SizedBox.shrink(),
-                _rowWidget(name: "MI Status", value: maintenanceStatus),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ),
+                if (!(userData.roleType == RoleType.it || userData.role == "IT" || userData.showIt.toString() == "1")) ...[
+                  reviewComplaintData.miAssignToUser.toString().isNotEmpty
+                      ? SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  )
+                      : const SizedBox.shrink(),
+                  _rowWidget(name: "MI Status", value: maintenanceStatus),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.02,
+                  ),
+                ],
+
     /*            _rowWidget(name: "Start Date Time", value: maintinaceStartDate),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
@@ -195,6 +198,7 @@ class ReviewComplaintItemBox extends StatelessWidget {
                     height: 1,
                     color: AppColor.lightGrey,
                     width: MediaQuery.of(context).size.width),
+
                 _rowBottomWidget(
                     name: "Description",
                     value: reviewComplaintData.crComplaintDescription.toString().isNotEmpty ? reviewComplaintData.crComplaintDescription.toString() : reviewComplaintData.complaintDescription.toString()),
@@ -330,6 +334,31 @@ class ReviewComplaintItemBox extends StatelessWidget {
           ),
         ) : const SizedBox.shrink();
    }
+
+  Widget _descriptionDropDown(
+      {required FetchAddAcknowledgeComplaintState dataState, required BuildContext context}) {
+    return DropDownSearchWidget(
+      isRequired: true,
+      enabled:
+      dataState.acknowledgeData.ackStatus.toString() == "0" ? true : false,
+      selectedItem: dataState.complaintDescriptionData.description != null
+          ? dataState.complaintDescriptionData
+          : null,
+      hint: AppString.selectDescription,
+      items: dataState.complaintDescriptionList,
+      itemAsString: (complaintDescriptionData) =>
+          complaintDescriptionData.description.toString(),
+      onChanged: dataState.acknowledgeData.ackStatus.toString() == "0"
+          ? (value) {
+        if (dataState.acknowledgeData.ackStatus.toString() == "0") {
+          BlocProvider.of<AddAcknowledgeComplaintBloc>(context).add(
+              AddAcknowledgeComplaintSelectDescriptionDataEvent(
+                  complaintDescriptionData: value));
+        }
+      }
+          : null,
+    );
+  }
 
   Future<bool> _onClosureComplaintPop({required BuildContext context}) async {
     return (await showDialog(

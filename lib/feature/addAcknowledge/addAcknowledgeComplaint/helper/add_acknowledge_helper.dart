@@ -132,7 +132,8 @@ class AddAcknowledgeComplaintHelper {
             departmentData.id != null ? departmentData.id.toString() : "0",
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
-        "ackRemarks": remark,
+       // "ackRemarks": remark,
+        "ackRemarks": complaintDescriptionData.id.toString(),
         "planner_group":
             plannerData.id != null ? plannerData.plannerGroup.toString() : "",
         "main_work_center": workCenterData.id != null

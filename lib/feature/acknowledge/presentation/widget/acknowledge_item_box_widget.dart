@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/presentation/widget/complaint_assign_widget.dart';
 import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AcknowledgeItemBoxWidget extends StatelessWidget {
   final int index;
@@ -13,6 +14,7 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginDataModel userData = UserInfo.instance!.userData!;
 
     return Card(
       shape: acknowledgeData.assignType.toString() == "1"  // self
@@ -52,18 +54,20 @@ class AcknowledgeItemBoxWidget extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(
-                    name: acknowledgeData.equipmentCode.toString().isNotEmpty
-                        ? "Equipment"
-                        : "General",
-                    value: acknowledgeData.equipmentCode.toString().isNotEmpty
-                        ? acknowledgeData.descriptionKva.toString()
-                        : acknowledgeData.generalComplaintName.toString()),
+        if (!(userData.roleType == RoleType.it || userData.role == "IT" || userData.showIt.toString() == "1")) ...[
+          _rowWidget(
+            name: acknowledgeData.equipmentCode.toString().isNotEmpty
+                ? "Equipment"
+                : "General",
+            value: acknowledgeData.equipmentCode.toString().isNotEmpty
+                ? acknowledgeData.descriptionKva.toString()
+                : acknowledgeData.generalComplaintName.toString()),
 
-                acknowledgeData.equipmentCode.toString().isNotEmpty?
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.02,
-                ) : const SizedBox(),
+          acknowledgeData.equipmentCode.toString().isNotEmpty?
+          SizedBox(
+            height: MediaQuery.of(context).size.width * 0.02,
+          ) : const SizedBox(),
+        ],
 
                 acknowledgeData.equipmentCode.toString().isNotEmpty
                     ? _rowWidget(

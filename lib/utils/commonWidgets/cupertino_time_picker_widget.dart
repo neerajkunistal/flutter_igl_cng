@@ -6,12 +6,14 @@ import 'package:vibration/vibration.dart';
 Future<DateTime?> showCupertinoDatePicker({
   required BuildContext context,
   required DateTime initialDateTime,
+  CupertinoDatePickerMode mode = CupertinoDatePickerMode.dateAndTime,
 }) async {
-  DateTime selectDateTime = initialDateTime;
+  DateTime selectedDateTime = initialDateTime;
+
   return await showCupertinoModalPopup<DateTime>(
     context: context,
     builder: (BuildContext context) => Container(
-      height: 230,
+      height: 260,
       padding: const EdgeInsets.only(top: 6.0),
       margin: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -25,29 +27,39 @@ Future<DateTime?> showCupertinoDatePicker({
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                    onPressed: () {
-                  Navigator.of(context).pop();
-                }, child: TextWidget("Cancel", color: Colors.red[900],)),
-
-                TextButton( onPressed: () {
-                  Navigator.of(context).pop(selectDateTime);
-                }, child: TextWidget("Done",
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.themeColor,)),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: TextWidget(
+                    "Cancel",
+                    color: Colors.red[900],
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(selectedDateTime);
+                  },
+                  child: TextWidget(
+                    "Done",
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.themeColor,
+                  ),
+                ),
               ],
             ),
+
             Flexible(
               child: CupertinoDatePicker(
+                mode: mode,
                 initialDateTime: initialDateTime,
+                use24hFormat: true,
+                minuteInterval: 1,
+                showDayOfWeek: mode == CupertinoDatePickerMode.date,
                 onDateTimeChanged: (DateTime newDateTime) async {
-                  selectDateTime =  newDateTime;
-                  if (await Vibration.hasAmplitudeControl() != null) {
-                  Vibration.vibrate(duration: 2);
+                  selectedDateTime = newDateTime;
+
+                  if (await Vibration.hasVibrator() ?? false) {
+                    Vibration.vibrate(duration: 10);
                   }
                 },
-                mode: CupertinoDatePickerMode.time,
-                showDayOfWeek: true,
-                use24hFormat: true,
               ),
             ),
           ],
@@ -56,4 +68,3 @@ Future<DateTime?> showCupertinoDatePicker({
     ),
   );
 }
-
