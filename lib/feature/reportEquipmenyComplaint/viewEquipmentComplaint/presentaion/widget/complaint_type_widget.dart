@@ -3,6 +3,7 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/cng/viewCng/presentation/page/view_cng_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/assignment/viewAssignment/presntation/page/view_assignment_page.dart';
 import 'package:flutter_igl_cng/feature/lcv/lcvDashboard/presentation/page/lcv_dashboard_page.dart';
+import 'package:flutter_igl_cng/feature/marketing/reportEquipmentComplaintMarket/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_market_page.dart';
 import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/viewEquipmentComplaint/presentaion/page/view_equipment_complaint_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -186,7 +187,12 @@ class _ComplaintTypeWidgetState extends State<ComplaintTypeWidget> {
                         child: _buildCard(
                           icon: AppIcon.marketingIcon,
                           label: "Marketing",
-                          onTap: () {},
+                          onTap: () => _navigate(
+                              context,
+                              const ViewEquipmentComplaintMarketPage(
+                                title: "Marketing",
+                                equipmentComplaintType: EquipmentComplaintType.marketing,
+                              )),
                         ),
                       ),
                     )

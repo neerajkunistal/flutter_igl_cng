@@ -24,6 +24,8 @@ class TabBarWidget extends StatelessWidget {
       ),
       height: 40,
       child: TabBar(
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
         controller: controller,
         indicatorSize: TabBarIndicatorSize.tab,
         dividerColor: Colors.transparent,

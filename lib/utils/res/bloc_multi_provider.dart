@@ -29,6 +29,11 @@ import 'package:flutter_igl_cng/feature/lcv/request/domain/bloc/request_bloc.dar
 import 'package:flutter_igl_cng/feature/lcv/runningTruck/domain/bloc/running_truck_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/user/addUser/domain/bloc/add_user_bloc.dart';
 import 'package:flutter_igl_cng/feature/lcv/user/viewUser/domain/bloc/view_user_bloc.dart';
+import 'package:flutter_igl_cng/feature/marketing/acknowledgeMarketing/domain/bloc/acknowledge_market_bloc.dart';
+import 'package:flutter_igl_cng/feature/marketing/addAcknowledgeMarket/addAcknowledgeMarketComplaint/domain/bloc/add_acknowledge_market_complaint_bloc.dart';
+import 'package:flutter_igl_cng/feature/marketing/reportEquipmentComplaintMarket/addEquipmentComplaint/domain/bloc/add_equipment_complaint_market_bloc.dart';
+import 'package:flutter_igl_cng/feature/marketing/reportEquipmentComplaintMarket/viewEquipmentComplaint/domain/bloc/view_equipment_complaint_market_bloc.dart';
+import 'package:flutter_igl_cng/feature/marketing/reviewComplaintMarket/domain/bloc/review_complaint_market_bloc.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/domain/bloc/material_detail_bloc.dart';
 import 'package:flutter_igl_cng/feature/podDetail/domain/bloc/pod_detail_bloc.dart';
 import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/bloc/add_scrap_bloc.dart';
@@ -40,15 +45,12 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => LoginBloc()),
       BlocProvider(create: (BuildContext context) => DashboardBloc()),
       BlocProvider(create: (BuildContext context) => HomeBloc()),
-      BlocProvider(
-          create: (BuildContext context) => AddEquipmentComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => AddEquipmentComplaintBloc()),
       BlocProvider(create: (BuildContext context) => AcknowledgeBloc()),
       BlocProvider(create: (BuildContext context) => ReviewComplaintBloc()),
       BlocProvider(create: (BuildContext context) => MiComplaintBloc()),
-      BlocProvider(
-          create: (BuildContext context) => ViewEquipmentComplaintBloc()),
-      BlocProvider(
-          create: (BuildContext context) => AddAcknowledgeComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => ViewEquipmentComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => AddAcknowledgeComplaintBloc()),
       BlocProvider(create: (BuildContext context) => AddCngBloc()),
       BlocProvider(create: (BuildContext context) => ViewCngBloc()),
       BlocProvider(create: (BuildContext context) => ViewAmoComplaintBloc()),
@@ -80,6 +82,11 @@ MultiProvider blocMultiProvider({required Widget child}) {
       BlocProvider(create: (BuildContext context) => OverSpeedAlertBloc()),
       BlocProvider(create: (BuildContext context) => AddSparePartBloc()),
       BlocProvider(create: (BuildContext context) => ChangePasswordBloc()),
+      BlocProvider(create: (BuildContext context) => AcknowledgeMarketBloc()),
+      BlocProvider(create: (BuildContext context) => AddAcknowledgeMarketComplaintBloc()),
+      BlocProvider(create: (BuildContext context) => AddEquipmentComplaintMarketBloc()),
+      BlocProvider(create: (BuildContext context) => ViewEquipmentComplaintMarketBloc()),
+      BlocProvider(create: (BuildContext context) => ReviewComplaintMarketBloc()),
    /*   BlocProvider(create: (BuildContext context) => ComplaintNumberBloc()),*/
 
     ],

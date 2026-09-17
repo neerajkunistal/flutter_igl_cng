@@ -182,6 +182,22 @@ class APIs {
   static get getWorkCenterApi => "api/cr/work_center";
 
   static get addComplaintNumberApi => "api/cr/complaintUpdateVCN";
+  static get facilityListApi => "api/onm/marketing/facility-lists";
+  static get categoryListApi => "api/onm/marketing/category-lists";
+  static get subcategoryListApi => "api/onm/marketing/subcategory-lists";
+  static get marketingSubmitComplainApi => "api/onm/marketing/submit-complaint";
+
+  static get vendorListsApi => "api/onm/marketing/vendor-lists";
+  static get getComplaintMarketingTypeApi => "api/onm/marketing/complaint-types";
+  static get complaintTypesApi => "api/onm/marketing/complaint-types";
+  static get pendingAcknowledgeApi => "api/onm/marketing/pending-acknowledge";
+  static get assignedListsApi => "api/onm/marketing/assigned-lists";
+  static get pendingFinalClosureApi => "api/onm/marketing/pending-final-closure";
+  static get complaintDetailApi => "api/onm/marketing/complaint-detail";
+  static get reportListApi => "api/onm/marketing/report-list";
+  static get ackAssignApi => "api/onm/marketing/acknowledge-assign";
+  static get stationCloseApi => "api/onm/marketing/station-close";
+  static get amoFinalCloseApi => "api/onm/marketing/amo-final-close";
 
   static get forgotPasswordApi => "";
 }

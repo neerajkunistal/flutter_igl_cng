@@ -33,4 +33,10 @@ enum PopRouteName { completeTask, startRoute, notification }
 
 enum MenuUrlMethodType { get, post }
 
-enum EquipmentComplaintType { fs, normal, it }
+enum EquipmentComplaintType { fs, normal, it, marketing}
+
+enum MarketComplaintTab {
+  newComplaint,
+  ack,
+  close,
+  complete}
