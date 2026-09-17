@@ -127,61 +127,59 @@ class AddAcknowledgeMarketComplaintBloc extends Bloc<
       vendorMarketData = VendorMarketModel();
       selectedTabIndex = event.selectedTabIndex;
       acknowledgeData = event.acknowledgeData;
+      await _loadAllTabsData();
       // acknowledgeList =
       //     BlocProvider.of<AcknowledgeBloc>(event.context).acknowledgeList;
 
-      var resVendor =
-          await AddEquipmentComplaintMarkerHelper.fetchVendorTypeData();
-      if (resVendor != null) {
-        listOfVendorMarketData = resVendor;
-      }
-
-      var resComplaint =
-          await AddEquipmentComplaintMarkerHelper.fetchComplaintTypeData(
-              equipmentComplaintType: equipmentComplaintType);
-      if (resComplaint != null) {
-        complaintTypeList = resComplaint;
-        for (var complaint in complaintTypeList) {
-          if (complaint.id.toString() ==
-              event.acknowledgeData.ticketNo.toString()) {
-            complaintTypeData = complaint;
-          }
-        }
-      }
-
-      var resUser = await AddAcknowledgeMarketComplaintHelper.fetchUserList();
-      if (resUser != null) {
-        acknowledgeUserList = resUser;
-        for (var user in acknowledgeUserList) {
-          if (user.id.toString() == event.acknowledgeData.ackBy.toString()) {
-            acknowledgeUserData = user;
-          }
-        }
-      }
+      // var resVendor =
+      //     await AddEquipmentComplaintMarkerHelper.fetchVendorTypeData();
+      // if (resVendor != null) {
+      //   listOfVendorMarketData = resVendor;
+      // }
+      //
+      // var resComplaint =
+      //     await AddEquipmentComplaintMarkerHelper.fetchComplaintTypeData(
+      //         equipmentComplaintType: equipmentComplaintType);
+      // if (resComplaint != null) {
+      //   complaintTypeList = resComplaint;
+      //   for (var complaint in complaintTypeList) {
+      //     if (complaint.id.toString() ==
+      //         event.acknowledgeData.ticketNo.toString()) {
+      //       complaintTypeData = complaint;
+      //     }
+      //   }
+      // }
+      //
+      // var resUser = await AddAcknowledgeMarketComplaintHelper.fetchUserList();
+      // if (resUser != null) {
+      //   acknowledgeUserList = resUser;
+      //   for (var user in acknowledgeUserList) {
+      //     if (user.id.toString() == event.acknowledgeData.ackBy.toString()) {
+      //       acknowledgeUserData = user;
+      //     }
+      //   }
+      // }
 
       String complaintDate = "";
       if (acknowledgeData.incidentDateTime.toString().isNotEmpty) {
-        complaintDate = DateFormat('dd-MM-yyyy').format(
-            DateTime.parse(acknowledgeData.incidentDateTime.toString()));
+        complaintDate = DateFormat('dd-MM-yyyy').format(DateTime.parse(acknowledgeData.incidentDateTime.toString()));
         dateController.text = complaintDate;
 
         DateTime initialDate = acknowledgeData.incidentDateTime.toString().isNotEmpty
-                ? DateFormat('yyyy-dd-MM HH:mm:ss')
-                    .parse(acknowledgeData.incidentDateTime.toString())
+                ? DateFormat('yyyy-dd-MM HH:mm:ss').parse(acknowledgeData.incidentDateTime.toString())
                 : DateTime.now();
-        timeController.text =
-            DateFormat('HH:mm:ss').format(initialDate).toString();
+        timeController.text = DateFormat('HH:mm:ss').format(initialDate).toString();
       }
 
       // breakDownvalue = event.acknowledgeData.crBreakdown.toString() == "0"
       //     ? "2"
       //     : event.acknowledgeData.crBreakdown.toString();
 
-      descriptionController.text = acknowledgeData.ackRemarks.toString().isNotEmpty ? acknowledgeData.ackRemarks.toString() :acknowledgeData.complaintDescription.toString();
+      descriptionController.text = acknowledgeData.ackRemarks.toString().isNotEmpty
+              ? acknowledgeData.ackRemarks.toString()
+              : acknowledgeData.complaintDescription.toString();
       remarkController.text = acknowledgeData.complaintDescription.toString();
-
       complaintStatus = acknowledgeData.ackStatus.toString();
-
       personResponsibleController.text = acknowledgeData.ackResponse.toString();
 
       if (plannerList.isEmpty && departmentData.plannerList != null) {
@@ -206,21 +204,60 @@ class AddAcknowledgeMarketComplaintBloc extends Bloc<
       //   }
       // }
 
-      var resDescription =
-          await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
-      if (resDescription != null) {
-        complaintDescriptionList = resDescription;
-        for (var data in complaintDescriptionList) {
-          if (data.description.toString().toLowerCase() ==
-              acknowledgeData.complaintDescription.toString().toLowerCase()) {
-            complaintDescriptionData = data;
-          }
-        }
-      }
+      // var resDescription = await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
+      // if (resDescription != null) {
+      //   complaintDescriptionList = resDescription;
+      //   for (var data in complaintDescriptionList) {
+      //     if (data.description.toString().toLowerCase() ==
+      //         acknowledgeData.complaintDescription.toString().toLowerCase()) {
+      //       complaintDescriptionData = data;
+      //     }
+      //   }
+      // }
     } catch (e) {
       if (kDebugMode) print("market pageLoad error: $e");
     }
     _eventComplete(emit);
+  }
+
+  Future<void> _loadAllTabsData() async {
+// Load Vendor Data
+    var resVendor = await AddEquipmentComplaintMarkerHelper.fetchVendorTypeData();
+    if (resVendor != null) {
+      listOfVendorMarketData = resVendor;
+    }
+
+// Load Complaint Type Data
+    var resComplaint = await AddEquipmentComplaintMarkerHelper.fetchComplaintTypeData(equipmentComplaintType: equipmentComplaintType);
+    if (resComplaint != null) {
+      complaintTypeList = resComplaint;
+      for (var complaint in complaintTypeList) {
+        if (complaint.id.toString() == acknowledgeData.ticketNo.toString()) {
+          complaintTypeData = complaint;
+        }
+      }
+    }
+
+// Load User List
+    var resUser = await AddAcknowledgeMarketComplaintHelper.fetchUserList();
+    if (resUser != null) {acknowledgeUserList = resUser;
+    for (var user in acknowledgeUserList) {
+      if (user.id.toString() == acknowledgeData.ackBy.toString()) {
+        acknowledgeUserData = user;
+      }
+    }
+    }
+
+// Load Description Data
+    var resDescription = await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
+    if (resDescription != null) {
+      complaintDescriptionList = resDescription;
+      for (var data in complaintDescriptionList) {
+        if (data.description.toString().toLowerCase() == acknowledgeData.complaintDescription.toString().toLowerCase()) {
+          complaintDescriptionData = data;
+        }
+      }
+    }
   }
 
   _selectComplaintType(
@@ -440,8 +477,8 @@ class AddAcknowledgeMarketComplaintBloc extends Bloc<
             ackRemarks: descriptionController.text.toString(),
             breakDownvalue: breakDownvalue,
             complaintStatus: complaintStatus,
-      date: dateController.text.toString(),
-      time: time,
+            date: dateController.text.toString(),
+            time: time,
           )
         : await AddAcknowledgeMarketComplaintHelper.submitAmoFinalCloseData(
             context: event.context,
@@ -449,6 +486,7 @@ class AddAcknowledgeMarketComplaintBloc extends Bloc<
             remarks: descriptionController.text.toString(),
           );
     if (res != null) {
+      await _loadAllTabsData();
       complaintTypeData = ComplaintTypeModel();
       equipmentTypeData = EquipmentTypeModel();
       departmentData = DepartmentModel();
@@ -474,6 +512,7 @@ class AddAcknowledgeMarketComplaintBloc extends Bloc<
     isLoader = false;
     _eventComplete(emit);
   }
+
 
   _eventComplete(Emitter<AddAcknowledgeMarketComplaintState> emit) {
     emit(FetchAddAcknowledgeMarketComplaintState(
