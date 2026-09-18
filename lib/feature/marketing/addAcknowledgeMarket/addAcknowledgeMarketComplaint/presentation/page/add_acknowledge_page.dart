@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/marketing/acknowledgeMarketing/domain/bloc/acknowledge_market_bloc.dart';
 import 'package:flutter_igl_cng/feature/marketing/acknowledgeMarketing/presentation/widget/acknowledge_market_item_box_widget.dart';
 import 'package:flutter_igl_cng/feature/marketing/addAcknowledgeMarket/addAcknowledgeMarketComplaint/domain/bloc/add_acknowledge_market_complaint_bloc.dart';
 import 'package:flutter_igl_cng/feature/marketing/addAcknowledgeMarket/addAcknowledgeMarketComplaint/domain/model/vendor_model.dart';
@@ -350,15 +351,35 @@ class _AddAcknowledgeMarketPageState extends State<AddAcknowledgeMarketPage> {
   Widget _button({required FetchAddAcknowledgeMarketComplaintState dataState}) {
     return dataState.isLoader == false
         ? ButtonWidget(
-            text: AppString.submit,
-            height:
-                AppConfig.getDeviceType(context: context) == DeviceType.tablet
-                    ? MediaQuery.of(context).size.height * 0.13
-                    : null,
-            onPressed: () {
-              BlocProvider.of<AddAcknowledgeMarketComplaintBloc>(context).add(
-                  AddAcknowledgeMarketComplaintSubmitEvent(context: context));
-            })
+        text: AppString.submit,
+        height:
+        AppConfig.getDeviceType(context: context) == DeviceType.tablet
+            ? MediaQuery.of(context).size.height * 0.13
+            : null,
+        onPressed: () async {
+          print("🔘 Submit button clicked...");
+
+          // 1️⃣ Submit event trigger karo
+          BlocProvider.of<AddAcknowledgeMarketComplaintBloc>(context).add(
+              AddAcknowledgeMarketComplaintSubmitEvent(context: context));
+
+          // 2️⃣ Submit complete hone ka wait karo
+          await Future.delayed(const Duration(seconds: 2));
+
+          if (!mounted) return;
+
+          // 3️⃣ Refresh parent list
+          print("✅ Submit complete - refreshing parent list...");
+          BlocProvider.of<AcknowledgeMarketBloc>(context).add(
+              AcknowledgeMarketPageLoadEvent(
+                  context: context,
+                  selectTabIndex: widget.selectTabIndex,
+                  equipmentComplaintType: widget.equipmentComplaintType
+              ));
+
+          // 4️⃣ Back ja with result
+          Navigator.pop(context, "Completed");
+        })
         : const DottedLoaderWidget();
   }
 

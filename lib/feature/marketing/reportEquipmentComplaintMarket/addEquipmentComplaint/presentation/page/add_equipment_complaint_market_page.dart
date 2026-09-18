@@ -496,7 +496,7 @@ class _AddEquipmentComplaintMarketPageState extends State<AddEquipmentComplaintM
       isRequired: true,
       labelText: "Mobile Number",
       controller: dataState.mobileController,
-      // keyboardType: TextInputType.phone, maxLength: 10 — if TextFieldWidget exposes them
+        textInputType: TextInputType.phone, maxLength: 10
     );
   }
 

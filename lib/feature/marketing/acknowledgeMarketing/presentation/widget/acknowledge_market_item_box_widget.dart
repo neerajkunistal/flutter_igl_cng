@@ -61,7 +61,7 @@ class AcknowledgeMarketItemBoxWidget extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
-                _rowWidget(name: "Report Date Time", value: acknowledgeData.incidentDateTime.toString()),
+                _rowWidget(name: "Report Date Time", value: acknowledgeData.complainDateTime.toString()),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.02,
                 ),
