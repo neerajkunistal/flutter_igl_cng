@@ -4,9 +4,10 @@ import 'package:flutter_igl_cng/feature/dashboard/presentation/page/dashboard_pa
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/domain/model/firebase_device_model.dart';
 import 'package:flutter_igl_cng/feature/home/helper/home_helper.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/login/helper/login_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_service.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
+import 'package:vibration/vibration.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -59,11 +60,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   List<FirebaseDeviceModel> firebaseDeviceList = [];
 
+  bool isNotificationSilent =  false;
+
   HomeBloc() : super(HomeInitial()) {
     on<HomePageLoadEvent>(_pageLoad);
     on<HomeDrawerItemSelectedEvent>(_drawerItemSelected);
     on<HomeDrawerItemSubListSelectedEvent>(_drawerSublistSelected);
     on<HomeChangeBottomNavigationItemEvent>(_changeBottomNavigationBarIndex);
+    on<HomePageNotificationSilentEvent>(_notificationSilent);
   }
 
   _pageLoad(HomePageLoadEvent event, emit) async {
@@ -75,17 +79,45 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     _restaurantMenu = [];
     _pageWidgetList = [];
     FirebaseService.instance.setupInteractedMessage();
-    _title = "Complaint ( ${userData.roleName} )";
+    _title = "Complaint ( ${userData.roleName} ${userData.stationName.toString().isNotEmpty ? " - ${userData.stationName.toString()}": ""})";
     _childWidget = const DashboardPage();
     _actionButtonWidget = const SizedBox.shrink();
-    _drawerList = await HomeHelper.fetchDrawerList(context: event.context);
-    // _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems();
+
+    String notificationSilent = await SharedPreferencesUtils.getString(key: PreferencesName.notificationSilent);
+    if(notificationSilent == "1"){
+      isNotificationSilent =  true;
+    } else {
+      isNotificationSilent =  false;
+    }
+
+    _drawerList = await HomeHelper.fetchDrawerList(
+        context: !event.context.mounted ? event.context : event.context);
+    _bottomNavigationBarItemList = await HomeHelper.fetchAppBottomBarItems(
+        context: !event.context.mounted ? event.context : event.context);
+    List<Widget> pageList = await HomeHelper.fetchPageList();
+    if (pageList.isNotEmpty) {
+      _childWidget = pageList[bottomTabIndex];
+    }
     _eventCompleted(emit);
 
-    var resFirebaseDevice =  await HomeHelper.fetchFirebaseDeviceData();
-    if(resFirebaseDevice != null){
-      firebaseDeviceList =  resFirebaseDevice;
+    var resFirebaseDevice = await HomeHelper.fetchFirebaseDeviceData();
+    if (resFirebaseDevice != null) {
+      firebaseDeviceList = resFirebaseDevice;
+      var seen = <String>{};
+      List<FirebaseDeviceModel> _firebaseDeviceList = firebaseDeviceList
+          .where((firebaseDeviceList) =>
+              seen.add(firebaseDeviceList.deviceId.toString()))
+          .toList();
+      firebaseDeviceList = [];
+      var deviceId = await LoginHelper.getUniqueDeviceId();
+      for (var firebaseDevices in _firebaseDeviceList) {
+        if (firebaseDevices.deviceId.toString() != deviceId &&
+            firebaseDevices.firebaseId.toString().isNotEmpty) {
+          firebaseDeviceList.add(firebaseDevices);
+        }
+      }
     }
+
     _eventCompleted(emit);
   }
 
@@ -146,7 +178,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _changeBottomNavigationBarIndex(
       HomeChangeBottomNavigationItemEvent event, emit) async {
+    if (await Vibration.hasAmplitudeControl() != null) {
+      Vibration.vibrate(duration: 100);
+    }
     _bottomTabIndex = event.index;
+    List<Widget> pageList = await HomeHelper.fetchPageList();
+    print(pageList.length);
+    _childWidget = pageList[bottomTabIndex];
+    _eventCompleted(emit);
+  }
+
+  _notificationSilent(HomePageNotificationSilentEvent event, emit) async {
+    String notificationSilent = await SharedPreferencesUtils.getString(key: PreferencesName.notificationSilent);
+    if(notificationSilent == "1"){
+      isNotificationSilent =  false;
+      SharedPreferencesUtils.setString(key: PreferencesName.notificationSilent, value: "0");
+    } else {
+      isNotificationSilent =  true;
+      SharedPreferencesUtils.setString(key: PreferencesName.notificationSilent, value: "1");
+    }
     _eventCompleted(emit);
   }
 
@@ -161,6 +211,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       childWidget: childWidget,
       title: title,
       actionButtonWidget: actionButtonWidget,
+      isNotificationSilent: isNotificationSilent,
     ));
   }
 }

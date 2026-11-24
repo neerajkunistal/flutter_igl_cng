@@ -41,6 +41,13 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
   final GeneralComplaintModel generalComplaintData;
   final TextEditingController generalDescriptionController;
   final String complaintStatus;
+  final TextEditingController personResponsibleController;
+  final List<PlannerModel> plannerList;
+  final PlannerModel plannerData;
+  final List<WorkCenterModel> workCenterList;
+  final WorkCenterModel workCenterData;
+  final List<ComplaintDescriptionModel> complaintDescriptionList;
+  final ComplaintDescriptionModel complaintDescriptionData;
 
   FetchAddAcknowledgeComplaintState({
     required this.file,
@@ -68,6 +75,13 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
     required this.generalComplaintList,
     required this.generalDescriptionController,
     required this.complaintStatus,
+    required this.personResponsibleController,
+    required this.workCenterList,
+    required this.workCenterData,
+    required this.plannerData,
+    required this.plannerList,
+    required this.complaintDescriptionList,
+    required this.complaintDescriptionData,
   });
 
   @override
@@ -97,5 +111,12 @@ class FetchAddAcknowledgeComplaintState extends AddAcknowledgeComplaintInitial {
         generalComplaintList,
         generalDescriptionController,
         complaintStatus,
+        personResponsibleController,
+        workCenterList,
+        workCenterData,
+        plannerData,
+        plannerList,
+        complaintDescriptionList,
+        complaintDescriptionData,
       ];
 }

@@ -24,14 +24,21 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
   final TextEditingController dateController;
   final TextEditingController timeController;
   final bool isLoader;
-  final File file;
+  final bool isFileLoader;
+  final List<File> files;
+  final List<File> videoFiles;
   final List<GeneralComplaintModel> generalComplaintList;
   final GeneralComplaintModel generalComplaintData;
   final TextEditingController generalDescriptionController;
+  final EquipmentModel equipmentData;
+  final List<EquipmentModel> equipmentList;
+  final List<ComplaintDescriptionModel> complaintDescriptionList;
+  final ComplaintDescriptionModel complaintDescriptionData;
 
   FetchAddEquipmentComplaintState({
-    required this.file,
+    required this.files,
     required this.isLoader,
+    required this.isFileLoader,
     required this.descriptionController,
     required this.complaintTypeData,
     required this.complaintTypeList,
@@ -43,12 +50,18 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
     required this.generalComplaintData,
     required this.generalComplaintList,
     required this.generalDescriptionController,
+    required this.videoFiles,
+    required this.equipmentData,
+    required this.equipmentList,
+    required this.complaintDescriptionList,
+    required this.complaintDescriptionData,
   });
 
   @override
   List<Object> get props => [
-        file,
+        files,
         isLoader,
+        isFileLoader,
         descriptionController,
         complaintTypeData,
         complaintTypeList,
@@ -60,5 +73,10 @@ class FetchAddEquipmentComplaintState extends AddEquipmentComplaintInitial {
         generalComplaintData,
         generalComplaintList,
         generalDescriptionController,
+        videoFiles,
+        equipmentList,
+        equipmentData,
+        complaintDescriptionList,
+        complaintDescriptionData,
       ];
 }

@@ -1,15 +1,8 @@
-import 'dart:io';
-
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/feature/dashboard/helper/dashboard_helper.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_type_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/general_complaint_model.dart';
-import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/helper/add_equipment_complaint_helper.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
 
 part 'add_equipment_complaint_event.dart';
 part 'add_equipment_complaint_state.dart';
@@ -20,24 +13,36 @@ class AddEquipmentComplaintBloc
   ComplaintTypeModel complaintTypeData = ComplaintTypeModel();
   EquipmentTypeModel equipmentTypeData = EquipmentTypeModel();
   List<EquipmentTypeModel> equipmentTypeList = [];
+  EquipmentModel equipmentData =  EquipmentModel();
+  List<EquipmentModel> equipmentList = [];
   TextEditingController descriptionController = TextEditingController();
   TextEditingController reportByController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
   TextEditingController generalDescriptionController = TextEditingController();
   bool isLoader = false;
-  File file = File("");
+  bool isFileLoader = false;
+  List<File> files = [];
   List<GeneralComplaintModel> generalComplaintList = [];
   GeneralComplaintModel generalComplaintData = GeneralComplaintModel();
+  List<File> videoFiles = [];
+  EquipmentComplaintType equipmentComplaintType =  EquipmentComplaintType.normal;
+  List<ComplaintDescriptionModel> complaintDescriptionList = [];
+  ComplaintDescriptionModel complaintDescriptionData =  ComplaintDescriptionModel();
 
   AddEquipmentComplaintBloc() : super(AddEquipmentComplaintInitial()) {
     on<AddEquipmentComplaintPageLoadEvent>(_pageLoad);
     on<AddEquipmentComplaintSelectComplaintDataEvent>(_selectComplaintType);
     on<AddEquipmentComplaintSelectEquipmentDataEvent>(_selectEquipment);
+    on<AddEquipmentComplaintSelectEquipmentTypeDataEvent>(_selectEquipmentType);
     on<AddEquipmentComplaintSelectGeneralDataEvent>(_selectGeneral);
+    on<AddEquipmentComplaintSelectDescriptionDataEvent>(_selectComplaintDescription);
     on<AddEquipmentComplaintSelectDateData>(_selectDate);
     on<AddEquipmentComplaintSelectTimeData>(_selectTime);
     on<AddEquipmentComplaintAddImageEvent>(_selectFile);
+    on<AddEquipmentComplaintAddVideoEvent>(_selectVideo);
+    on<AddEquipmentComplaintRemoveImageEvent>(_removeImage);
+    on<AddEquipmentComplaintRemoveVideoEvent>(_removeVideo);
     on<AddEquipmentComplaintSubmitEvent>(_submit);
   }
 
@@ -48,6 +53,9 @@ class AddEquipmentComplaintBloc
     equipmentTypeData = EquipmentTypeModel();
     equipmentTypeList = [];
     generalComplaintList = [];
+    videoFiles = [];
+    equipmentList = [];
+    equipmentData =  EquipmentModel();
     generalComplaintData = GeneralComplaintModel();
     descriptionController.text = "";
     reportByController.text = "";
@@ -55,25 +63,49 @@ class AddEquipmentComplaintBloc
     timeController.text = "";
     generalDescriptionController.text = "";
     isLoader = false;
-    file = File("");
+    isFileLoader = false;
+    files = [];
+    files.add(File(""));
+    files.add(File(""));
+    files.add(File(""));
+    videoFiles.add(File(""));
+    equipmentComplaintType =  event.equipmentComplaintType;
+    complaintDescriptionData =  ComplaintDescriptionModel();
+
+    String formattedDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    dateController.text = formattedDate;
 
     var resComplaint =
-        await AddEquipmentComplaintHelper.fetchComplaintTypeData();
+        await AddEquipmentComplaintHelper.fetchComplaintTypeData(equipmentComplaintType: equipmentComplaintType);
     if (resComplaint != null) {
       complaintTypeList = resComplaint;
     }
 
     var resEquipment =
-        await AddEquipmentComplaintHelper.fetchEquipmentTypeData();
+        await AddEquipmentComplaintHelper.fetchEquipmentTypeData(equipmentComplaintType: equipmentComplaintType);
     if (resEquipment != null) {
-      equipmentTypeList = resEquipment;
+      equipmentList = resEquipment;
+      if(equipmentList.length == 1){
+        equipmentData =  equipmentList.first;
+      }
+      equipmentTypeList = equipmentList.isNotEmpty ? equipmentList[0].equipmentTypeList! : [];
     }
 
-    var resGeneral =
-        await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
-    if (resGeneral != null) {
-      generalComplaintList = resGeneral;
+    if(equipmentComplaintType == EquipmentComplaintType.normal){
+      var resGeneral =
+      await AddEquipmentComplaintHelper.fetchGeneralComplaintData();
+      if (resGeneral != null) {
+        generalComplaintList = resGeneral;
+      }
     }
+    else {
+      var resDescription =
+      await AddEquipmentComplaintHelper.fetchDescriptionComplaintData();
+      if (resDescription != null) {
+        complaintDescriptionList = resDescription;
+      }
+    }
+
 
     _eventComplete(emit);
   }
@@ -88,9 +120,28 @@ class AddEquipmentComplaintBloc
   }
 
   _selectEquipment(AddEquipmentComplaintSelectEquipmentDataEvent event, emit) {
+    equipmentData = event.equipmentData;
+    equipmentTypeData =  EquipmentTypeModel();
+    equipmentTypeList = [];
+    _eventComplete(emit);
+    if(equipmentData.equipmentTypeList != null){
+      for(var equipmentTypeData in equipmentData.equipmentTypeList!) {
+        if(equipmentData.id.toString() == equipmentTypeData.equipmentId.toString())
+        {
+          equipmentTypeList.add(equipmentTypeData);
+        }
+      }
+    }
+
+    _eventComplete(emit);
+  }
+
+  _selectEquipmentType(AddEquipmentComplaintSelectEquipmentTypeDataEvent event, emit) {
     equipmentTypeData = event.equipmentTypeData;
     _eventComplete(emit);
   }
+
+
 
   _selectGeneral(AddEquipmentComplaintSelectGeneralDataEvent event, emit) {
     generalComplaintData = event.generalComplaintData;
@@ -98,19 +149,77 @@ class AddEquipmentComplaintBloc
     _eventComplete(emit);
   }
 
+  _selectComplaintDescription(AddEquipmentComplaintSelectDescriptionDataEvent event, emit) {
+     complaintDescriptionData =  event.complaintDescriptionData;
+     _eventComplete(emit);
+  }
+
   _selectFile(AddEquipmentComplaintAddImageEvent event, emit) async {
     if (event.mediaType == 1) {
       var photo = await DashboardHelper.imagePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader = true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     } else {
       var photo = await DashboardHelper.filePiker(context: event.context);
       if (photo != null) {
-        file = photo;
+        isLoader = true;
+        _eventComplete(emit);
+        files[event.index] = photo;
       }
     }
-    Navigator.pop(event.context.mounted ? event.context : event.context);
+
+    isLoader = false;
+    _eventComplete(emit);
+  }
+
+  _removeImage(AddEquipmentComplaintRemoveImageEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    files[event.index] =  File("");
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _removeVideo(AddEquipmentComplaintRemoveVideoEvent event, emit) {
+    isLoader =  true;
+    _eventComplete(emit);
+    videoFiles[event.index] =  File("");
+    isLoader =  false;
+    _eventComplete(emit);
+  }
+
+  _selectVideo(AddEquipmentComplaintAddVideoEvent event, emit) async {
+    if (event.mediaType == 1) {
+      var video = await DashboardHelper.videoPiker(context: event.context);
+      if (video != null) {
+        isLoader = true;
+        isFileLoader = true;
+        _eventComplete(emit);
+        videoFiles[event.index] = video;
+/*        print("Get Video Player ${videoFiles[event.index].path.toString()}");
+        MediaInfo? mediaInfo = await VideoCompress.compressVideo(
+          videoFiles[event.index].path.toString(),
+          quality: VideoQuality.Res640x480Quality,
+          deleteOrigin: false, // It's false by default
+        );
+        if(mediaInfo != null){
+          videoFiles[event.index] = mediaInfo.file!;
+        }*/
+      }
+    } else {
+      var video = await DashboardHelper.filePiker(context: event.context);
+      if (video != null) {
+        isLoader = true;
+        isFileLoader = true;
+        _eventComplete(emit);
+        videoFiles[event.index] = video;
+      }
+    }
+    isLoader = false;
+    isFileLoader = false;
     _eventComplete(emit);
   }
 
@@ -134,20 +243,46 @@ class AddEquipmentComplaintBloc
 
   _selectTime(AddEquipmentComplaintSelectTimeData event, emit) async {
     try {
-      DateTime initialDate =  timeController.text.toString().isNotEmpty ?
-      DateFormat('h:mm').parse(timeController.text.toString())
+      DateTime _parseTime(String timeStr) {
+        try {
+          return DateFormat('HH:mm:ss').parse(timeStr);
+        } catch (_) {
+          return DateFormat('HH:mm').parse(timeStr);
+        }
+      }
+
+      DateTime initialDate = timeController.text.isNotEmpty
+          ? _parseTime(timeController.text)
           : DateTime.now();
 
-      TimeOfDay initialTime =  TimeOfDay.fromDateTime(initialDate);
-      final TimeOfDay? time = await showTimePicker(
+      final DateTime? time = await showCupertinoDatePicker(
         context: event.context,
-        initialTime: initialTime,
+        initialDateTime: initialDate,
       );
+
       if (time != null) {
-        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute).format(
-            event.context);
-        timeController.text = timeFormat;
-        _eventComplete(emit);
+        var timeFormat = TimeOfDay(hour: time.hour, minute: time.minute)
+            .format(!event.context.mounted ? event.context : event.context);
+
+        final selectedTime = DateTime(
+          DateTime.now().year,
+          DateTime.now().month,
+          DateTime.now().day,
+          time.hour,
+          time.minute,
+        );
+
+        final currentTime = DateTime.now();
+        final diffMn = currentTime.difference(selectedTime).inMinutes;
+
+        if (diffMn < 30 && diffMn >= 0) {
+          timeController.text = timeFormat;
+          _eventComplete(emit);
+        } else {
+          SnackBarErrorWidget(
+              !event.context.mounted ? event.context : event.context)
+              .show(message: "Not Before 30 Mins To Current Time.");
+        }
       }
     } catch (e) {
       if (kDebugMode) {
@@ -157,37 +292,84 @@ class AddEquipmentComplaintBloc
   }
 
   _submit(AddEquipmentComplaintSubmitEvent event, emit) async {
+
+    var textFiledValidation = await AddEquipmentComplaintHelper.textFieldValidation(
+      context: event.context,
+      complaintTypeData: complaintTypeData,
+      equipmentTypeData: equipmentTypeData,
+      description: descriptionController.text.toString(),
+      name: reportByController.text.toString(),
+      date: dateController.text.toString(),
+      time: timeController.text.toString(),
+      generalComplaintData: generalComplaintData,
+      generalDescription: generalDescriptionController.text.toString(),
+      file: files,
+      videoFiles: videoFiles,
+      complaintDescriptionData: complaintDescriptionData,
+      equipmentComplaintType: equipmentComplaintType,
+    );
+
+    if(textFiledValidation == false){
+      return;
+    }
+
     isLoader = true;
     _eventComplete(emit);
 
-    DateTime initialDate1 =  timeController.text.toString().isNotEmpty ?
-    DateFormat('h:mm a').parse(timeController.text.toString())
-        : DateTime.now();
-    String time = "${initialDate1.hour}:${initialDate1.minute}";
+    DateTime initialDate1 = DateTime.now();
+    String time = "";
+    if(timeController.text.toString().isNotEmpty
+        && timeController.text.toString().toLowerCase().contains("am")){
+      initialDate1 = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+    } else if (timeController.text.toString().isNotEmpty
+        && timeController.text.toString().toLowerCase().contains("pm")){
+      initialDate1 = timeController.text.toString().isNotEmpty
+          ? DateFormat('h:mm a').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+    } else {
+      initialDate1 = timeController.text.toString().isNotEmpty
+          ? DateFormat('HH:mm').parse(timeController.text.toString())
+          : DateTime.now();
+      time = timeController.text.toString().isNotEmpty ? "${initialDate1.hour}:${initialDate1.minute}:00" : "";
+    }
     var res = await AddEquipmentComplaintHelper.submitData(
-        context: event.context,
-        complaintTypeData: complaintTypeData,
-        equipmentTypeData: equipmentTypeData,
-        description: descriptionController.text.toString(),
-        name: reportByController.text.toString(),
-        date: dateController.text.toString(),
-        time: time,
-        generalComplaintData: generalComplaintData,
-        generalDescription: generalDescriptionController.text.toString(),
-        file: file);
+      context: event.context,
+      complaintTypeData: complaintTypeData,
+      equipmentTypeData: equipmentTypeData,
+      description: descriptionController.text.toString(),
+      name: reportByController.text.toString(),
+      date: dateController.text.toString(),
+      time: time,
+      generalComplaintData: generalComplaintData,
+      generalDescription: generalDescriptionController.text.toString(),
+      file: files,
+      videoFiles: videoFiles,
+      complaintDescriptionData: complaintDescriptionData,
+      equipmentComplaintType: equipmentComplaintType
+    );
     if (res != null) {
       complaintTypeData = ComplaintTypeModel();
       equipmentTypeData = EquipmentTypeModel();
+      equipmentTypeList = [];
       generalComplaintData = GeneralComplaintModel();
       descriptionController.text = "";
       reportByController.text = "";
       dateController.text = "";
       timeController.text = "";
       generalDescriptionController.text = "";
+      complaintDescriptionData =  ComplaintDescriptionModel();
       isLoader = false;
-      file = File("");
-      if(!event.context.mounted) return;
-      Navigator.of(event.context).pop();
+      files.add(File(""));
+      files.add(File(""));
+      files.add(File(""));
+      videoFiles = [];
+      videoFiles.add(File(""));
+      if (!event.context.mounted) return;
+      Navigator.of(event.context).pop("complete");
     }
     isLoader = false;
     _eventComplete(emit);
@@ -195,7 +377,7 @@ class AddEquipmentComplaintBloc
 
   _eventComplete(Emitter<AddEquipmentComplaintState> emit) {
     emit(FetchAddEquipmentComplaintState(
-      file: file,
+      files: files,
       isLoader: isLoader,
       descriptionController: descriptionController,
       complaintTypeData: complaintTypeData,
@@ -208,6 +390,12 @@ class AddEquipmentComplaintBloc
       generalComplaintData: generalComplaintData,
       generalComplaintList: generalComplaintList,
       generalDescriptionController: generalDescriptionController,
+      videoFiles: videoFiles,
+      isFileLoader: isFileLoader,
+      equipmentData: equipmentData,
+      equipmentList: equipmentList,
+      complaintDescriptionData: complaintDescriptionData,
+      complaintDescriptionList: complaintDescriptionList
     ));
   }
 }

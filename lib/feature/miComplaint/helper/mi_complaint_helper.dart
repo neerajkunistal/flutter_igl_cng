@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
-import 'package:flutter_igl_cng/feature/login/domain/models/login_model.dart';
+import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_part_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/uom_type_model.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -39,10 +41,12 @@ class MiComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchMiComplaint() async {
+  static Future<dynamic> fetchMiComplaint(
+      {String? fromDate, String? toDate}) async {
     try {
       LoginDataModel userData = UserInfo.instanceInit()!.userData!;
-      String url = APIs.getMiComplaintApi + "?userId=${userData.userId}";
+      String url = APIs.getMiComplaintApi +
+          "?userId=${userData.userId}&sort=&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return reviewComplaintListResponse(res['data']);
@@ -66,10 +70,14 @@ class MiComplaintHelper {
     required String time,
     required UomTypeModel uomTypeData,
     required String qty,
-    required List<SparesPartModel> sparesPartList,
+    required List<PartModel> sparesPartList,
+    required List<ScrapModel> scrapList,
     required VendorModel vendorData,
+    required String rectifyBy,
+    required bool isNoScrap,
   }) async {
     try {
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
       String url = APIs.addMiComplaintApi;
       var json = {
         "complaintId": reviewComplaintData.id != null
@@ -82,7 +90,7 @@ class MiComplaintHelper {
         "amcTillDate": reviewComplaintData.amcDate != null
             ? reviewComplaintData.amcDate.toString()
             : "",
-        "assignTo" : vendorData.id != null
+        "assignTo": vendorData.id != null
             ? vendorData.id.toString()
             : reviewComplaintData.assignTo.toString(),
         "approval": approvalValue.isEmpty ? "0" : approvalValue,
@@ -90,29 +98,68 @@ class MiComplaintHelper {
         "startDateTime": action.id.toString() == "1"
             ? "$date $time"
             : reviewComplaintData.maintenanceStartDate.toString(),
-        "endDateTime":
-        action.id.toString() == "3" ? "$date $time" : "",
+        "endDateTime": action.id.toString() == "3" ? "$date $time" : "",
         "maintenanceHoldDateTime":
-        action.id.toString() == "2" ? "$date $time" : "",
+            action.id.toString() == "2" ? "$date $time" : "",
         "remarks": description,
         "spares": sparesPartList.isNotEmpty
-            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList()).toString()
+            ? jsonEncode(sparesPartList.map((e) => e.toJson()).toList())
+                .toString()
             : "0",
+        "vendorAssignDatetime":
+            action.id.toString() == "4" ? "$date $time" : "",
+        "rectifyPerson": rectifyBy,
+        "scrap" : isNoScrap == true ? "0" : "1"
       };
+
+      Map<String, String> scrapData = {};
+      List<FileModel> filesList = [];
+      if(isNoScrap == false){
+        for(int i = 0;  i < scrapList.length; i++ ){
+          var jsonData = {
+            "scrapDetails[$i][serial]" : scrapList[i].srNumber.toString(),
+            "scrapDetails[$i][description]" : scrapList[i].description.toString(),
+            "scrapDetails[$i][remark]" : scrapList[i].remark.toString(),
+            "scrapDetails[$i][destroy_reusable]" : scrapList[i].destroyReusable.toString(),
+            "scrapDetails[$i][unit]" : scrapList[i].scrapUnitTypeData!.unit.toString(),
+            "scrapDetails[$i][unitType]" : scrapList[i].scrapUnitTypeData!.id.toString(),
+          };
+          if(scrapList[i].filesList != null){
+            for(int j = 0;  j < scrapList[i].filesList!.length; j++ ){
+              if(scrapList[i].filesList![j].path.isNotEmpty){
+                filesList.add(FileModel(
+                    name: "file", file: scrapList[i].filesList![j], keyName: "scrapDetails[$i][attachFile][$j]"));
+              }
+            }
+          }
+          scrapData.addAll(jsonData);
+        }
+      }
+
+      scrapData.addAll(json);
+      log(jsonEncode(scrapData).toString());
+
+      if(file.path.isNotEmpty){
+        filesList.add(FileModel(
+            name: "file", file: file, keyName: "attachFile"));
+      }
+
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
           urlEndPoint: url,
-          body: json,
+          body: scrapData,
           context: context,
-          keyWord: "attachFile",
-          filePath: file.path.toString());
+          fileList: filesList,);
       if (res != null &&
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
-            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
-            title: "MI ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} Complaint",
+        NotificationHelper.sendNotification(
+            firebaseDeviceList:
+                BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                    .firebaseDeviceList,
+            title:
+                "Complain ${action.id == "1" ? "Start" : action.id == "2" ? "Hold" : action.id == "3" ? "Closed" : "Vendor"} ${userData.name}",
             body: description.isNotEmpty ? description : observation,
             pageId: PageId.miComplaint,
             complaintId: reviewComplaintData.id.toString(),
@@ -135,7 +182,7 @@ class MiComplaintHelper {
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
             message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+              .replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

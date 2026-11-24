@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/equipment_model.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class AddEquipmentComplaintPage extends StatefulWidget {
-  const AddEquipmentComplaintPage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+
+  const AddEquipmentComplaintPage(
+      {super.key, required this.equipmentComplaintType});
 
   @override
   State<AddEquipmentComplaintPage> createState() =>
@@ -12,31 +18,74 @@ class AddEquipmentComplaintPage extends StatefulWidget {
 class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
   @override
   void initState() {
-    BlocProvider.of<AddEquipmentComplaintBloc>(context)
-        .add(AddEquipmentComplaintPageLoadEvent(context: context));
+    BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+        AddEquipmentComplaintPageLoadEvent(
+            context: context,
+            equipmentComplaintType: widget.equipmentComplaintType));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          "Add Complaint",
-          color: AppColor.white,
+      extendBodyBehindAppBar: true,
+      body: appBackGround(
+        context: context,
+        child: Column(
+          children: [
+            _appBar(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: BlocBuilder<AddEquipmentComplaintBloc,
+                  AddEquipmentComplaintState>(
+                builder: (context, state) {
+                  if (state is FetchAddEquipmentComplaintState) {
+                    return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        child: _itemWWidget(dataState: state));
+                  } else {
+                    return const Center(
+                      child: CenterLoaderWidget(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
-      body: BlocBuilder<AddEquipmentComplaintBloc, AddEquipmentComplaintState>(
-        builder: (context, state) {
-          if (state is FetchAddEquipmentComplaintState) {
-            return _itemWWidget(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
+    );
+  }
+
+  Widget _appBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
+          "Add Complaint",
+          color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
+        ),
       ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        )
+      ],
     );
   }
 
@@ -49,8 +98,16 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _complaintDropDown(dataState: dataState),
             _verticalSpace(),
-            dataState.complaintTypeData.id.toString() == "2"
+            dataState.complaintTypeData.id.toString() == "2" ||
+                    dataState.complaintTypeData.id.toString() == "3"
                 ? _equipmentDropDown(dataState: dataState)
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "2" ||
+                    dataState.complaintTypeData.id.toString() == "3"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.complaintTypeData.id.toString() == "2"
+                ? _equipmentTypeDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "2"
                 ? _verticalSpace()
@@ -59,20 +116,6 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                 ? _generalDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
             dataState.complaintTypeData.id.toString() == "1"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
-            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
-                ? _generalDescriptionController(dataState: dataState)
-                : const SizedBox.shrink(),
-            dataState.generalComplaintData.name != null &&
-                    dataState.generalComplaintData.name
-                            .toString()
-                            .toLowerCase() ==
-                        "others"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
             Row(
@@ -89,7 +132,9 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
             _verticalSpace(),
             _nameRemark(dataState: dataState),
             _verticalSpace(),
-            _photo(dataState: dataState),
+            _imageList(dataState: dataState),
+            _verticalSpace(),
+            _video(dataState: dataState, index: 0),
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
@@ -149,22 +194,38 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       {required FetchAddEquipmentComplaintState dataState}) {
     return DropdownWidget(
       hint: AppString.selectEquipment,
-      dropdownValue: dataState.equipmentTypeData.description != null
-          ? dataState.equipmentTypeData
-          : null,
+      dropdownValue:
+          dataState.equipmentData.name != null ? dataState.equipmentData : null,
       onChanged: (value) {
         BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
             AddEquipmentComplaintSelectEquipmentDataEvent(
-                equipmentTypeData: value));
+                equipmentData: value));
       },
-      items: dataState.equipmentTypeList
-          .map<DropdownMenuItem<EquipmentTypeModel>>(
-              (EquipmentTypeModel equipmentTypeData) {
-        return DropdownMenuItem<EquipmentTypeModel>(
-          value: equipmentTypeData,
-          child: Text(equipmentTypeData.description.toString()),
+      items: dataState.equipmentList.map<DropdownMenuItem<EquipmentModel>>(
+          (EquipmentModel equipmentData) {
+        return DropdownMenuItem<EquipmentModel>(
+          value: equipmentData,
+          child: Text(equipmentData.name.toString()),
         );
       }).toList(),
+    );
+  }
+
+  Widget _equipmentTypeDropDown(
+      {required FetchAddEquipmentComplaintState dataState}) {
+    return DropDownSearchWidget(
+      selectedItem: dataState.equipmentTypeData.equipmentCode != null
+          ? dataState.equipmentTypeData
+          : null,
+      hint: AppString.selectEquipmentType,
+      items: dataState.equipmentTypeList,
+      itemAsString: (equipmentTypeData) =>
+          "${equipmentTypeData.descriptionKva.toString()} (${equipmentTypeData.equipmentCode.toString()})",
+      onChanged: (value) {
+        BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+            AddEquipmentComplaintSelectEquipmentTypeDataEvent(
+                equipmentTypeData: value));
+      },
     );
   }
 
@@ -175,8 +236,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
       labelText: AppString.date,
       controller: dataState.dateController,
       onTap: () {
-        BlocProvider.of<AddEquipmentComplaintBloc>(context)
-            .add(AddEquipmentComplaintSelectDateData(context: context));
+        /*    BlocProvider.of<AddEquipmentComplaintBloc>(context)
+            .add(AddEquipmentComplaintSelectDateData(context: context));*/
       },
     );
   }
@@ -194,41 +255,71 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  Widget _generalDescriptionController(
-      {required FetchAddEquipmentComplaintState dataState}) {
-    return TextFieldWidget(
-      labelText: AppString.otherDescription,
-      controller: dataState.generalDescriptionController,
-    );
-  }
-
   Widget _descriptionRemark(
       {required FetchAddEquipmentComplaintState dataState}) {
-    return TextFieldWidget(
-      labelText: AppString.description,
-      controller: dataState.descriptionController,
+    return widget.equipmentComplaintType == EquipmentComplaintType.normal
+        ? TextFieldWidget(
+            labelText: AppString.description,
+            controller: dataState.descriptionController,
+          )
+        : _descriptionDropDown(dataState: dataState);
+  }
+
+  Widget _descriptionDropDown(
+      {required FetchAddEquipmentComplaintState dataState}) {
+    return DropDownSearchWidget(
+      isRequired: true,
+      selectedItem:
+      dataState.complaintDescriptionData.description != null ? dataState.complaintDescriptionData : null,
+      hint: AppString.selectDescription,
+      items: dataState.complaintDescriptionList,
+      itemAsString: (complaintDescriptionData) => complaintDescriptionData.description.toString(),
+      onChanged: (value) {
+            BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+                AddEquipmentComplaintSelectDescriptionDataEvent(
+                    complaintDescriptionData: value));
+      },
     );
   }
 
   Widget _nameRemark({required FetchAddEquipmentComplaintState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: AppString.reportedByName,
       controller: dataState.reportByController,
     );
   }
 
-  Widget _photo({required FetchAddEquipmentComplaintState dataState}) {
+  Widget _imageList({required FetchAddEquipmentComplaintState dataState}) {
+    return GridView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: dataState.files.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) =>
+          _photo(dataState: dataState, index: index),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+      ),
+    );
+  }
+
+  Widget _photo(
+      {required FetchAddEquipmentComplaintState dataState,
+      required int index}) {
     return SizedBox(
       width: MediaQuery.of(context).size.width / 3,
       height: MediaQuery.of(context).size.width / 3,
       child: InkWell(
-        onTap: () {
-          mediaType(context: context);
+        onTap: () async {
+          mediaType(context: context, index: index);
         },
         child: DottedBorder(
           color: AppColor.grey,
           strokeWidth: 1,
-          child: dataState.file.path.isEmpty
+          child: dataState.files[index].path.isEmpty
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -240,7 +331,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                       padding: EdgeInsets.all(
                           MediaQuery.of(context).size.width * 0.02),
                       child: TextWidget(
-                        "Photo",
+                        "${AppString.photo} ${1 + index}",
                         fontSize: AppFont.font_12,
                         color: AppColor.grey,
                       ),
@@ -253,36 +344,39 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        dataState.file.path
+                        dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpg") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".png") ||
-                                dataState.file.path
+                                dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".jpeg")
                             ? Image.file(
-                                dataState.file,
+                                dataState.files[index],
                                 fit: BoxFit.fill,
                                 width: MediaQuery.of(context).size.width / 3,
                                 height: MediaQuery.of(context).size.width / 4.5,
                               )
-                            : dataState.file.path
+                            : dataState.files[index].path
                                     .toString()
                                     .toLowerCase()
                                     .contains(".pdf")
                                 ? const Icon(Icons.picture_as_pdf_outlined)
                                 : const Icon(Icons.document_scanner_outlined),
-                        dataState.file.path
+                        dataState.files[index].path
                                 .toString()
                                 .toLowerCase()
                                 .contains(".pdf")
                             ? TextWidget(
-                                dataState.file.path.split('/').last.toString(),
+                                dataState.files[index].path
+                                    .split('/')
+                                    .last
+                                    .toString(),
                                 color: AppColor.themeColor,
                                 fontSize: AppFont.font_12,
                               )
@@ -298,6 +392,20 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                           Icons.refresh,
                           color: AppColor.themeColor,
                         ))),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          BlocProvider.of<AddEquipmentComplaintBloc>(context)
+                              .add(AddEquipmentComplaintRemoveImageEvent(
+                                  index: index));
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColor.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
         ),
@@ -305,7 +413,7 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
     );
   }
 
-  void mediaType({required BuildContext context}) {
+  void mediaType({required BuildContext context, required int index}) {
     showModalBottomSheet(
       context: context, // Also default
       builder: (context) {
@@ -318,7 +426,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                   onPressed: () {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
-                            context: context, mediaType: 1));
+                            context: context, mediaType: 1, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -329,7 +438,8 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
                   onPressed: () {
                     BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
                         AddEquipmentComplaintAddImageEvent(
-                            context: context, mediaType: 2));
+                            context: context, mediaType: 2, index: index));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",
@@ -339,6 +449,94 @@ class _AddEquipmentComplaintPageState extends State<AddEquipmentComplaintPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _video(
+      {required FetchAddEquipmentComplaintState dataState,
+      required int index}) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width / 3,
+      height: MediaQuery.of(context).size.width / 3,
+      child: dataState.isFileLoader == false
+          ? InkWell(
+              onTap: () async {
+                BlocProvider.of<AddEquipmentComplaintBloc>(context).add(
+                    AddEquipmentComplaintAddVideoEvent(
+                        context: context, mediaType: 1, index: index));
+              },
+              child: DottedBorder(
+                color: AppColor.grey,
+                strokeWidth: 1,
+                child: dataState.videoFiles[index].path.isEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Center(
+                            child: Icon(Icons.video_collection_outlined),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
+                            child: TextWidget(
+                              AppString.video,
+                              fontSize: AppFont.font_12,
+                              color: AppColor.grey,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Stack(
+                        children: [
+                          Center(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.video_collection_outlined,
+                                  color: AppColor.themeColor,
+                                  size:
+                                      MediaQuery.of(context).size.width * 0.20,
+                                ),
+                                TextWidget(
+                                  "video.${dataState.videoFiles[index].path.toString().split(".").last}",
+                                  maxLines: 1,
+                                  fontSize: AppFont.font_11,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: MediaQuery.of(context).size.width / 3,
+                              color: Colors.white.withOpacity(0.6),
+                              child: Center(
+                                  child: Icon(
+                                Icons.refresh,
+                                color: AppColor.themeColor,
+                              ))),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: InkWell(
+                              onTap: () {
+                                BlocProvider.of<AddEquipmentComplaintBloc>(
+                                        context)
+                                    .add(AddEquipmentComplaintRemoveVideoEvent(
+                                        index: index));
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: AppColor.red,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            )
+          : const DottedLoaderWidget(),
     );
   }
 

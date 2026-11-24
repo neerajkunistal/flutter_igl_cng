@@ -5,8 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
-
-import '../domain/models/login_model.dart';
+import 'package:path_provider/path_provider.dart';
 
 class LoginHelper {
   static Future<dynamic> textFieldValidation(
@@ -45,10 +44,16 @@ class LoginHelper {
       required String password,
       required BuildContext context}) async {
     var deviceId = await getUniqueDeviceId();
-    var firebaseToken = await FirebaseMessaging.instance.getToken();
-    if (kDebugMode) {
-      print(firebaseToken.toString());
+    String? firebaseToken;
+    try {
+      firebaseToken = await FirebaseMessaging.instance.getToken();
+      if (kDebugMode) {
+        print(firebaseToken.toString());
+      }
+    } catch (_) {
+      firebaseToken = "";
     }
+
     try {
       if (await isInternetConnected() == true) {
         var json = LoginScreenRequestModel(
@@ -64,13 +69,17 @@ class LoginHelper {
             res["status"] != null &&
             res['status'] == 200 &&
             res['user'] != null) {
+          if (Platform.isAndroid) {
+            await deleteCacheDir();
+            await deleteAppDir();
+          }
           return res;
         } else if (res != null &&
             res["status"] != null &&
             res['status'] == 401 &&
             res['messages'] != null) {
           if (!context.mounted) return null;
-          SnackBarErrorWidget(context).show(message: res['messages']);
+          SnackBarErrorWidget(context).show(message: res['messages'].toString().replaceAll("{", "").toString().replaceAll("}", ""));
           return null;
         } else {
           if (!context.mounted) return null;
@@ -82,6 +91,7 @@ class LoginHelper {
       SnackBarErrorWidget(context).show(message: "No internet Connection");
       return null;
     } catch (e) {
+      print(e.toString());
       if (!context.mounted) return null;
       SnackBarErrorWidget(context).show(message: "Internal server error");
       return null;
@@ -98,5 +108,19 @@ class LoginHelper {
     } on SocketException catch (_) {}
 
     return isConnect;
+  }
+
+  static Future<void> deleteCacheDir() async {
+    var tempDir = await getTemporaryDirectory();
+    if (tempDir.existsSync()) {
+      tempDir.deleteSync(recursive: true);
+    }
+  }
+
+  static Future<void> deleteAppDir() async {
+    var appDocDir = await getApplicationDocumentsDirectory();
+    if (appDocDir.existsSync()) {
+      appDocDir.deleteSync(recursive: true);
+    }
   }
 }

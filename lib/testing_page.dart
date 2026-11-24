@@ -1,5 +1,6 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class TestPage extends StatefulWidget {
   const TestPage({super.key});
@@ -11,8 +12,29 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const TextWidget("Demo Page"),),
-    );
+    return const Placeholder();
+  }
+}
+
+void main() {
+
+  final linkedList = LinkedList<DataEntry>();
+  linkedList.add(DataEntry('Item 1'));
+  linkedList.add(DataEntry('Item 2'));
+  linkedList.add(DataEntry('Item 3'));
+  for (final entry in linkedList) {
+    print(entry);
+  }
+  linkedList.map((element) {
+     print(element);
+  }).toString();
+}
+
+final class DataEntry extends LinkedListEntry<DataEntry> {
+  final String data;
+  DataEntry(this.data);
+  @override
+  String toString() {
+    return 'DataEntry{data: $data}';
   }
 }

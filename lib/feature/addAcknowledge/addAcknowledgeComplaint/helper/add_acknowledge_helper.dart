@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/planner_model.dart';
+import 'package:flutter_igl_cng/feature/acknowledge/domain/model/work_center_model.dart';
 import 'package:flutter_igl_cng/feature/addAcknowledge/addAcknowledgeComplaint/domain/model/sap_code_model.dart';
+import 'package:flutter_igl_cng/feature/reportEquipmenyComplaint/addEquipmentComplaint/domain/model/complaint_description_model.dart';
+import 'package:flutter_igl_cng/feature/reviewComplaint/domain/model/code_group_model.dart';
 import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/services/firebase/page_id.dart';
+import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 
 class AddAcknowledgeComplaintHelper {
   static Future<dynamic> fetchComplaintData(
@@ -34,10 +39,10 @@ class AddAcknowledgeComplaintHelper {
 
   static Future<dynamic> fetchDepartmentData() async {
     try {
-      String url = APIs.getDepartmentApi;
+      String url = APIs.getDepartmentPGWCApi;
       var res = await ServerRequest.getData(urlEndPoint: url);
-      if (res != null && res['status'] != null && res["status"] == true) {
-        return departmentListResponse(res['data']);
+      if (res != null) {
+        return departmentListResponse(res);
       }
       return null;
     } catch (e) {
@@ -45,9 +50,10 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchSapCodeData() async {
+  static Future<dynamic> fetchSapCodeData(
+      {required CodeGroupModel codeGroupData}) async {
     try {
-      String url = APIs.getSapCodeApi;
+      String url = APIs.getSapCodeApi + "?code_group=${codeGroupData.code}";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return sapCodeListResponse(res['data']);
@@ -58,9 +64,15 @@ class AddAcknowledgeComplaintHelper {
     }
   }
 
-  static Future<dynamic> fetchAcknowledgeData() async {
+  static Future<dynamic> fetchAcknowledgeData(
+      {String? fromDate,
+      String? toDate,
+      required EquipmentComplaintType equipmentComplaintType}) async {
     try {
-      String url = APIs.getAcknolegeApi;
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.getAcknolegeApi
+          : APIs.getAcknolegeITApi +
+              "?&sort=id&order=&fromDate=$fromDate&toDate=$toDate";
       var res = await ServerRequest.getData(urlEndPoint: url);
       if (res != null && res['status'] != null && res["status"] == true) {
         return acknowledgeListResponse(res['data']);
@@ -88,9 +100,18 @@ class AddAcknowledgeComplaintHelper {
     required String generalDescription,
     required String complaintStatus,
     required GeneralComplaintModel generalComplaintData,
+    required PlannerModel plannerData,
+    required WorkCenterModel workCenterData,
+    required String personResponsible,
+    required EquipmentComplaintType equipmentComplaintType,
+    required ComplaintDescriptionModel complaintDescriptionData,
   }) async {
     try {
-      String url = APIs.addAcknowlegeApi;
+      LoginDataModel userData = UserInfo.instanceInit()!.userData!;
+
+      String url = equipmentComplaintType == EquipmentComplaintType.normal
+          ? APIs.addAcknowlegeApi
+          : APIs.addAcknowlegeITApi;
       var json = {
         "complaintId": acknowledgeData.id.toString(),
         "complaintTypeId": complaintTypeData.id != null
@@ -103,14 +124,22 @@ class AddAcknowledgeComplaintHelper {
         "equipmentId": equipmentTypeData.id != null
             ? equipmentTypeData.id.toString()
             : "0",
-        "description": description,
+        "description": equipmentComplaintType == EquipmentComplaintType.normal
+            ? description
+            : complaintDescriptionData.id.toString(),
         "complaintDateTime": "$date $time",
-        "departmentId": departmentData.id != null
-            ? departmentData.id.toString()
-            : "0",
+        "departmentId":
+            departmentData.id != null ? departmentData.id.toString() : "0",
         "breakdown": breakDownvalue,
         "isAcknowledge": complaintStatus,
-        "ackRemarks": remark,
+       // "ackRemarks": remark,
+        "ackRemarks": complaintDescriptionData.id.toString(),
+        "planner_group":
+            plannerData.id != null ? plannerData.plannerGroup.toString() : "",
+        "main_work_center": workCenterData.id != null
+            ? workCenterData.workCenter.toString()
+            : "",
+        "person_responsible": personResponsible,
       };
       if (!context.mounted) return null;
       var res = await ServerRequest.postDataWithFile(
@@ -123,9 +152,12 @@ class AddAcknowledgeComplaintHelper {
           res['status'] != null &&
           res['status'] == true &&
           res['message'] != null) {
-        await NotificationHelper.sendNotification(
-            firebaseDeviceList:  BlocProvider.of<HomeBloc>(!context.mounted ?  context :context).firebaseDeviceList,
-            title: "${complaintStatus == "1" ? "Acknowledge" : "Not acknowledge"} complaint.",
+        NotificationHelper.sendNotification(
+            firebaseDeviceList:
+                BlocProvider.of<HomeBloc>(!context.mounted ? context : context)
+                    .firebaseDeviceList,
+            title:
+                "Complain ${breakDownvalue == "1" ? "Breakdown" : "NoBreakdown"} ${userData.name}",
             body: description,
             pageId: PageId.ackComplaint,
             complaintId: acknowledgeData.id.toString(),
@@ -147,8 +179,8 @@ class AddAcknowledgeComplaintHelper {
         String response = res['errors'].toString();
         if (!context.mounted) return null;
         SnackBarErrorWidget(context).show(
-            message: response.replaceAll("[{", "").toString()
-              ..replaceAll("}]", ""));
+            message:
+                response.replaceAll("[{", "").toString().replaceAll("}]", ""));
         return null;
       } else {
         if (!context.mounted) return null;

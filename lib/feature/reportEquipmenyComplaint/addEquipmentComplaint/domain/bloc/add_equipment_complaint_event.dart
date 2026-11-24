@@ -6,11 +6,12 @@ abstract class AddEquipmentComplaintEvent extends Equatable {
 
 class AddEquipmentComplaintPageLoadEvent extends AddEquipmentComplaintEvent {
   final BuildContext context;
+  final EquipmentComplaintType equipmentComplaintType;
 
-  const AddEquipmentComplaintPageLoadEvent({required this.context});
+  const AddEquipmentComplaintPageLoadEvent({required this.context, required this.equipmentComplaintType});
 
   @override
-  List<Object?> get props => [context];
+  List<Object?> get props => [context, equipmentComplaintType];
 }
 
 class AddEquipmentComplaintSelectComplaintDataEvent
@@ -35,26 +36,81 @@ class AddEquipmentComplaintSelectGeneralDataEvent
   List<Object?> get props => [generalComplaintData];
 }
 
-class AddEquipmentComplaintSelectEquipmentDataEvent
+class AddEquipmentComplaintSelectDescriptionDataEvent
+    extends AddEquipmentComplaintEvent {
+  final ComplaintDescriptionModel complaintDescriptionData;
+
+  const AddEquipmentComplaintSelectDescriptionDataEvent(
+      {required this.complaintDescriptionData});
+
+  @override
+  List<Object?> get props => [complaintDescriptionData];
+}
+
+class AddEquipmentComplaintSelectEquipmentTypeDataEvent
     extends AddEquipmentComplaintEvent {
   final EquipmentTypeModel equipmentTypeData;
 
-  const AddEquipmentComplaintSelectEquipmentDataEvent(
+  const AddEquipmentComplaintSelectEquipmentTypeDataEvent(
       {required this.equipmentTypeData});
 
   @override
   List<Object?> get props => [equipmentTypeData];
 }
 
+class AddEquipmentComplaintSelectEquipmentDataEvent
+    extends AddEquipmentComplaintEvent {
+  final EquipmentModel equipmentData;
+
+  const AddEquipmentComplaintSelectEquipmentDataEvent(
+      {required this.equipmentData});
+
+  @override
+  List<Object?> get props => [equipmentData];
+}
+
 class AddEquipmentComplaintAddImageEvent extends AddEquipmentComplaintEvent {
   final BuildContext context;
   final int mediaType;
+  final int index;
 
   const AddEquipmentComplaintAddImageEvent(
-      {required this.context, required this.mediaType});
+      {required this.context, required this.mediaType, required this.index});
 
   @override
-  List<Object?> get props => [context, mediaType];
+  List<Object?> get props => [context, mediaType, index];
+}
+
+class AddEquipmentComplaintAddVideoEvent extends AddEquipmentComplaintEvent {
+  final BuildContext context;
+  final int mediaType;
+  final int index;
+
+  const AddEquipmentComplaintAddVideoEvent(
+      {required this.context, required this.mediaType, required this.index});
+
+  @override
+  List<Object?> get props => [context, mediaType, index];
+}
+
+class AddEquipmentComplaintRemoveImageEvent extends AddEquipmentComplaintEvent {
+  final int index;
+
+  const AddEquipmentComplaintRemoveImageEvent(
+      { required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class AddEquipmentComplaintRemoveVideoEvent extends AddEquipmentComplaintEvent {
+  final int index;
+
+  const AddEquipmentComplaintRemoveVideoEvent(
+      { required this.index});
+
+  @override
+  List<Object?> get props => [index];
 }
 
 class AddEquipmentComplaintSelectTimeData extends AddEquipmentComplaintEvent {

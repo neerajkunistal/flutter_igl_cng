@@ -1,9 +1,42 @@
 enum FieldStyle { underline, box }
 
-enum RoleType { stationUser, shiftEngineer, mi, noRole } // CRIC
+enum DataType { number, string }
+
+enum RoleType {
+  stationUser,
+  shiftEngineer,
+  mi,
+  amo,
+  cv,
+  ci,
+  noRole,
+  driver,
+  admin,
+  lcvManager,
+  cngStation,
+  it
+} // CRIC
 
 enum OrderStatus { pending, confirm, complete, cancel }
 
 enum DeviceType { phone, tablet }
 
 enum Client { iglcng }
+
+enum MeasurementType { pre, post, sheet, non }
+
+enum AssignmentStatus { pending, confirm, startRoute, complete, cancel }
+
+enum PageRoute { addAcknowledge, complaintDetail }
+
+enum PopRouteName { completeTask, startRoute, notification }
+
+enum MenuUrlMethodType { get, post }
+
+enum EquipmentComplaintType { fs, normal, it, marketing}
+
+enum MarketComplaintTab {
+  newComplaint,
+  ack,
+  close,
+  complete}

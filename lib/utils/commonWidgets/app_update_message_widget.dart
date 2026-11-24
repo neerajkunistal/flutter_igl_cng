@@ -3,12 +3,20 @@ import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppUpdateMessage {
-  static showAlertDialog({required BuildContext context}) {
+  static showAlertDialog(
+      {required BuildContext context, required String url, bool? isLater}) {
     Widget cancelButton = TextButton(
-      child: TextWidget(
-        "Update Later",
-        fontSize: AppFont.font_14,
-      ),
+      child: isLater == null
+          ? TextWidget(
+              "Update Later",
+              fontSize: AppFont.font_14,
+            )
+          : isLater == true
+              ? const SizedBox.shrink()
+              : TextWidget(
+                  "Update Later",
+                  fontSize: AppFont.font_14,
+                ),
       onPressed: () {
         Navigator.pop(context);
       },
@@ -22,8 +30,7 @@ class AppUpdateMessage {
       ),
       onPressed: () async {
         if (!await launchUrl(
-          Uri.parse(
-              "https://play.google.com/store/apps/details?id=com.purvabhartisteel.app"),
+          Uri.parse(url),
           mode: LaunchMode.externalApplication,
         )) {
           throw Exception('Could not launch ');
@@ -48,6 +55,7 @@ class AppUpdateMessage {
       ],
     );
     showDialog(
+      barrierDismissible: isLater ?? false,
       context: context,
       builder: (BuildContext context) {
         return alert;

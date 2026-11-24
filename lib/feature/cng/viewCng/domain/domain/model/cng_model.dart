@@ -1,0 +1,216 @@
+import 'dart:convert';
+
+import 'package:flutter_igl_cng/feature/cng/viewCng/domain/domain/model/estimate_model.dart';
+import 'package:flutter_igl_cng/feature/cv/domain/model/particular_model.dart';
+
+List<CngModel> cngListResponse(var json) {
+  return List<CngModel>.from(json.map((x) => CngModel.fromJson(x)));
+}
+
+class CngModel {
+  String? id;
+  String? controlRoomId;
+  String? cngStationId;
+  String? categoryId;
+  String? complaintDescription;
+  String? incidentDateTime;
+  String? reportDateTime;
+  String? reportByName;
+  String? reportByPhone;
+  String? approveBy;
+  String? approveStatus;
+  dynamic approveDataTime;
+  dynamic complaintNumber;
+  String? assignBy;
+  String? assignByUser;
+  String? assignTo;
+  dynamic assignDataTime;
+  dynamic estimateCost;
+  List<dynamic>? estimateAttachment;
+  dynamic estimateCostDataTime;
+  String? estimateApproveBy;
+  String? estimateStatus;
+  dynamic estimateApproveDataTime;
+  String? measurementSheetBy;
+  dynamic measurementSheetDataTime;
+  String? complaintStatus;
+  String? complaintCloseBy;
+  dynamic complaintClosedOn;
+  dynamic anyRemarks;
+  String? createdBy;
+  String? createdAt;
+  String? updatedAt;
+  String? assignToVendor;
+  String? categoryName;
+  String? cngStation;
+  String? controlRoom;
+  List<dynamic>? createdComplaintImagesList;
+  List<dynamic>? measurementPreImageList;
+  List<dynamic>? measurementPostImageList;
+  String? measurementSheet;
+  String? measurementSheetStatus;
+  String? estimateRemark;
+  List<EstimateModel>? estimateList;
+  bool? isSelected;
+  List<String>? assignmentList;
+  String? particulars;
+  dynamic measurementUnitId;
+  dynamic measurementValue;
+  String? measurementName;
+  String? unit;
+  List<ParticularModel>?  particularList;
+  String? reasonForRejection;
+
+  CngModel(
+      {this.id,
+      this.controlRoomId,
+      this.cngStationId,
+      this.categoryId,
+      this.complaintDescription,
+      this.incidentDateTime,
+      this.reportDateTime,
+      this.reportByName,
+      this.reportByPhone,
+      this.approveBy,
+      this.approveStatus,
+      this.approveDataTime,
+      this.complaintNumber,
+      this.assignBy,
+      this.assignTo,
+      this.assignDataTime,
+      this.estimateCost,
+      this.estimateAttachment,
+      this.estimateCostDataTime,
+      this.estimateApproveBy,
+      this.estimateStatus,
+      this.estimateApproveDataTime,
+      this.measurementSheetBy,
+      this.measurementSheetDataTime,
+      this.complaintStatus,
+      this.complaintCloseBy,
+      this.complaintClosedOn,
+      this.anyRemarks,
+      this.createdBy,
+      this.createdAt,
+      this.updatedAt,
+      this.assignToVendor,
+      this.categoryName,
+      this.cngStation,
+      this.controlRoom,
+      this.createdComplaintImagesList,
+      this.assignByUser,
+      this.measurementPreImageList,
+      this.measurementPostImageList,
+      this.measurementSheet,
+      this.measurementSheetStatus,
+      this.estimateRemark,
+      this.estimateList,
+      this.assignmentList,
+      this.unit,
+      this.measurementName,
+      this.measurementUnitId,
+      this.measurementValue,
+      this.isSelected,
+      this.particulars,
+      this.particularList,
+      this.reasonForRejection,
+      });
+
+  CngModel.fromJson(Map<String, dynamic> json) {
+    isSelected =  false;
+    id = json['id'] ?? "";
+    controlRoomId = json['control_room_id'] ?? "";
+    cngStationId = json['cng_station_id'] ?? "";
+    categoryId = json['category_id'] ?? "";
+    complaintDescription = json['complaint_description'] ?? "";
+    incidentDateTime = json['incident_date_time'] ?? "";
+    reportDateTime = json['report_date_time'] ?? "";
+    reportByName = json['report_by'] ?? "";
+    reportByPhone = json['report_by_phone'] ?? "";
+    approveBy = json['approve_by'] ?? "";
+    approveStatus = json['approve_status'] ?? "";
+    approveDataTime = json['approve_data_time'] ?? "";
+    complaintNumber = json['complaint_number'] ?? "";
+    assignBy = json['assign_by'] ?? "";
+    assignTo = json['assign_to'] ?? "";
+    assignDataTime = json['assign_data_time'] ?? "";
+    estimateCost = json['estimate_cost'] ?? "0";
+    estimateAttachment = json['estimate_document'] !=  null
+        ? json['estimate_document'].cast<dynamic>() : [];
+    estimateCostDataTime = json['estimate_cost_data_time'] ?? "";
+    estimateApproveBy = json['estimate_approve_by'] ?? "";
+    estimateStatus = json['estimate_status'] ?? "";
+    estimateApproveDataTime = json['estimate_approve_data_time'] ?? "";
+    measurementSheetBy = json['measurement_sheet_by'] ?? "";
+    measurementSheetDataTime = json['measurement_sheet_data_time'] ?? "";
+    complaintStatus = json['complaint_status'] ?? "";
+    complaintCloseBy = json['complaint_close_by'] ?? "";
+    complaintClosedOn = json['complaint_closed_on'] ?? "";
+    anyRemarks = json['any_remarks'] ?? "";
+    createdBy = json['created_by'] ?? "";
+    createdAt = json['created_at'] ?? "";
+    updatedAt = json['updated_at'] ?? "";
+    assignToVendor = json['assign_to_vendor'] ?? "";
+    categoryName = json['category_name'] ?? "";
+    cngStation = json['cng_station'] ?? "";
+    controlRoom = json['control_room'] ?? "";
+    assignByUser = json['assign_by_user'] ?? "";
+    reasonForRejection = json['reasonForRejection'] ?? "";
+    measurementSheet = json['measurement_sheet'] ?? "";
+    estimateRemark = json['estimate_remark'] ?? "";
+    measurementSheetStatus = json['measurement_sheet_status'] ?? "0";
+    createdComplaintImagesList = json['created_time_images'] !=  null
+        ? json['created_time_images'].cast<dynamic>() : [];
+    measurementPreImageList = json['measurement_sheet_pre'] !=  null
+        ? json['measurement_sheet_pre'].cast<dynamic>() : [];
+    measurementPostImageList = json['measurement_sheet_post'] !=  null
+        ? json['measurement_sheet_post'].cast<dynamic>() : [];
+    estimateList =  json['civil_complaint_history'] != null ?
+    estimateListResponse(jsonDecode(json['civil_complaint_history'])) : [];
+    assignmentList = json['assignment_list'] !=  null
+        ? json['assignment_list'].cast<String>() : [];
+    particulars  =  json['particulars'] ?? "";
+    measurementValue = json['measurement_value'] ?? "";
+    measurementName = json['measurement_name'] ?? "";
+    unit =  json['unit'] ?? "";
+    measurementUnitId =  json['measurement_unit_id'] ?? "";
+    isSelected =  false;
+    particularList = json['particulars_details'] != null
+        ? particularModelListResponse(jsonDecode(json['particulars_details'])) : [];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['control_room_id'] = controlRoomId;
+    data['cng_station_id'] = cngStationId;
+    data['category_id'] = categoryId;
+    data['complaint_description'] = complaintDescription;
+    data['incident_date_time'] = incidentDateTime;
+    data['report_date_time'] = reportDateTime;
+    data['report_by'] = reportByName;
+    data['approve_by'] = approveBy;
+    data['approve_status'] = approveStatus;
+    data['approve_data_time'] = approveDataTime;
+    data['complaint_number'] = complaintNumber;
+    data['assign_by'] = assignBy;
+    data['assign_to'] = assignTo;
+    data['assign_data_time'] = assignDataTime;
+    data['estimate_cost'] = estimateCost;
+    data['estimate_attachment'] = estimateAttachment;
+    data['estimate_cost_data_time'] = estimateCostDataTime;
+    data['estimate_approve_by'] = estimateApproveBy;
+    data['estimate_status'] = estimateStatus;
+    data['estimate_approve_data_time'] = estimateApproveDataTime;
+    data['measurement_sheet_by'] = measurementSheetBy;
+    data['measurement_sheet_data_time'] = measurementSheetDataTime;
+    data['complaint_status'] = complaintStatus;
+    data['complaint_close_by'] = complaintCloseBy;
+    data['complaint_closed_on'] = complaintClosedOn;
+    data['any_remarks'] = anyRemarks;
+    data['created_by'] = createdBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}

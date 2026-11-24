@@ -1,41 +1,151 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/commonWidget/search_bar_widget.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/date_range_pop_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/tab_bar_widget.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/tab_item_widget.dart';
 
 class AcknowledgePage extends StatefulWidget {
-  const AcknowledgePage({super.key});
+  final EquipmentComplaintType equipmentComplaintType;
+  const AcknowledgePage({super.key, required this.equipmentComplaintType});
 
   @override
   State<AcknowledgePage> createState() => _AcknowledgePageState();
 }
 
-class _AcknowledgePageState extends State<AcknowledgePage> {
+class _AcknowledgePageState extends State<AcknowledgePage> with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+
   @override
   void initState() {
+    _tabController = TabController(length: 3, vsync: this);
     BlocProvider.of<AcknowledgeBloc>(context)
-        .add(AcknowledgePageLoadEvent(context: context));
+        .add(AcknowledgePageLoadEvent(context: context, selectTabIndex:  0,
+           equipmentComplaintType: widget.equipmentComplaintType));
+    fetchData();
     super.initState();
+  }
+
+  void fetchData () async {
+    bool flag = true;
+    var futureWithTheLoop = () async {
+      while (flag){
+        await Future.delayed(Duration(minutes: 15));
+        _pageRefresh(isTimerCondition: true);
+      }
+    }();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
-          "Acknowledge",
-          color: AppColor.white,
+    return Column(
+      children: [
+        _searchWidget(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
         ),
-      ),
-      body: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
-        builder: (context, state) {
-          if (state is FetchAcknowledgeDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20)),
+              color: Colors.white.withOpacity(.4),
+            ),
+            child: BlocBuilder<AcknowledgeBloc, AcknowledgeState>(
+              builder: (context, state) {
+                if (state is FetchAcknowledgeDataState) {
+                  return RefreshIndicator(
+                    onRefresh: _handleRefresh,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
+                        ),
+                        // _tabWidget(dataState: state),
+                        _tabWidget(dataState:state),
+                        Expanded(child: _itemBuilder(dataState: state)),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CenterLoaderWidget(),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _searchWidget() {
+    DateTime startDate =  BlocProvider.of<AcknowledgeBloc>(context).startDate;
+    DateTime endDate =  BlocProvider.of<AcknowledgeBloc>(context).endDate;
+    return SearchBarWidget(
+      onPressed: () async {
+        var selectedDate = await DateRangeWidget.showDateRange(
+            startDate:startDate,
+            endDate: endDate,
+            context: context);
+        if (selectedDate != null) {
+          BlocProvider.of<AcknowledgeBloc>(
+              !context.mounted ? context : context)
+              .add(AcknowledgeSelectDateRangeEvent(
+              fromDate: selectedDate.start,
+              toDate: selectedDate.end,
+              context: !context.mounted ? context : context,
+             isTimerCondition: false
+          ));
+        }
+      },
+      onChanged: (keyword) {
+        BlocProvider.of<AcknowledgeBloc>(context)
+            .add(AcknowledgeComplaintSearchEvent(keyword: keyword));
+      },
+    );
+  }
+
+  Future<void> _handleRefresh() async {
+    _pageRefresh(isTimerCondition: false);
+  }
+
+  Future<void> _pageRefresh({required bool isTimerCondition}) async {
+    await Future.delayed(const Duration(seconds: 1));
+    DateTime startDate =
+        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+            .startDate;
+    DateTime endDate =
+        BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context)
+            .endDate;
+    BlocProvider.of<AcknowledgeBloc>(!context.mounted ? context : context).add(
+        AcknowledgeSelectDateRangeEvent(
+            fromDate: startDate,
+            toDate: endDate,
+            context: !context.mounted ? context : context,
+           isTimerCondition: isTimerCondition,
+        ));
+  }
+
+  Widget _tabWidget({required FetchAcknowledgeDataState dataState}) {
+    return Padding(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: TabBarWidget(
+        controller: _tabController,
+        onTap: (index) {
+          BlocProvider.of<AcknowledgeBloc>(context).add(
+              AcknowledgeComplaintSelectedTabIndexEvent(
+                  selectedTabIndex: index));
         },
+        tabs: [
+          TabItemWidget(title: "New", count: dataState.complaintCount[0]),
+          TabItemWidget(title: "Ack", count: dataState.complaintCount[1]),
+          TabItemWidget(title: "Assign", count: dataState.complaintCount[2]),
+        ],
       ),
     );
   }
@@ -45,6 +155,7 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
       margin: const EdgeInsets.all(10.0),
       child: dataState.acknowledgeList.isNotEmpty
           ? ListView.builder(
+              padding: EdgeInsets.zero,
               itemCount: dataState.acknowledgeList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -57,25 +168,60 @@ class _AcknowledgePageState extends State<AcknowledgePage> {
                           AddAcknowledgeComplaintPageLoadEvent(
                               context: context,
                               acknowledgeData:
-                                  dataState.acknowledgeList[index]));
+                                  dataState.acknowledgeList[index],
+                              equipmentComplaintType: widget.equipmentComplaintType
+                          ));
+
                       final result = await Navigator.push(
                         context,
-                        FadeRoute(page: const AddAcknowledgePage()),
+                        FadeRoute(page:  AddAcknowledgePage(equipmentComplaintType: widget.equipmentComplaintType)),
                       );
                       if (!context.mounted) return;
                       if (result.toString() == "Completed") {
                         BlocProvider.of<AcknowledgeBloc>(context)
-                            .add(AcknowledgePageLoadEvent(context: context));
+                            .add(AcknowledgePageLoadEvent(context: context,
+                            selectTabIndex : dataState.selectTabIndex,
+                             equipmentComplaintType: widget.equipmentComplaintType));
                       }
                     }
                   },
                   child: AcknowledgeItemBoxWidget(
                     index: index,
                     acknowledgeData: dataState.acknowledgeList[index],
+                    equipmentComplaintType: widget.equipmentComplaintType,
                   ),
                 );
               })
-          : const Center(child: TextWidget("No Data")),
+          : Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.10,
+                child: GestureDetector(
+                    onTap: () async {
+                      BlocProvider.of<AcknowledgeBloc>(
+                              !context.mounted ? context : context)
+                          .add(AcknowledgeSelectDateRangeEvent(
+                              fromDate: dataState.startDate,
+                              toDate: dataState.endDate,
+                              context: !context.mounted ? context : context,
+                              isTimerCondition: false));
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.refresh,
+                          color: AppColor.white,
+                        ),
+                        TextWidget(
+                          "No Data\nTab to refresh",
+                          color: AppColor.white,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )),
+              ),
+            ),
     );
   }
 }

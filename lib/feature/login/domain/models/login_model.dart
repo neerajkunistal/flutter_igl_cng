@@ -1,4 +1,5 @@
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
+import 'package:flutter_igl_cng/feature/login/domain/models/menu_model.dart';
 
 List<LoginDataModel> loginScreenResponseData(var json) {
   return List<LoginDataModel>.from(json.map((x) => LoginDataModel.fromJson(x)));
@@ -24,6 +25,15 @@ class LoginDataModel {
   RoleType? roleType;
   String? role;
   String? roleName;
+  String? roleId;
+  String? stationId;
+  dynamic mDbStatus;
+  dynamic stationName;
+  dynamic showCivil;
+  dynamic showIt;
+  dynamic showMKT;
+  dynamic showFS;
+  List<MenuModel>? menuPage;
 
   LoginDataModel({
     this.userId,
@@ -41,6 +51,15 @@ class LoginDataModel {
     this.password,
     this.role,
     this.roleName,
+    this.roleId,
+    this.stationId,
+    this.mDbStatus,
+    this.stationName,
+    this.showCivil,
+    this.showIt,
+    this.showMKT,
+    this.showFS,
+    this.menuPage,
   });
 
   LoginDataModel.fromJson(Map<String, dynamic> json) {
@@ -57,9 +76,18 @@ class LoginDataModel {
     sectionId = json['section_id'];
     role = json['user_type'] ?? "";
     roleName = json['role'] ?? "";
+    roleId = json['role_id'] ?? "";
+    stationId = json['station_id'] ?? "";
+    mDbStatus = json['mdb_status'] ?? "0";
+    stationName = json['station_name'] ?? "";
+    showCivil = json['show_civil'] ?? "";
+    showIt = json['show_it'] ?? "";
+    showMKT = json['show_mkt'] ?? "";
+    showFS = json['show_fs'] ?? "";
     roleType = json['user_type'] != null
         ? getRole(role: json['user_type'])
         : RoleType.stationUser;
+    menuPage =  json['dashboard_urls'] == null ? [] : menuListResponse(json['dashboard_urls']);
   }
 
   getRole({required String role}) {
@@ -70,6 +98,16 @@ class LoginDataModel {
         return RoleType.shiftEngineer;
       case "MI":
         return RoleType.mi;
+      case "AMO":
+        return RoleType.amo;
+      case "CV":
+        return RoleType.cv;
+      case "CI":
+        return RoleType.ci;
+      case "LCVM":
+        return RoleType.lcvManager;
+      case "IT":
+        return RoleType.it;
       default:
         return RoleType.noRole;
     }

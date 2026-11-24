@@ -52,7 +52,7 @@ class MessageBoxPopButtonWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.all(
-                          MediaQuery.of(context).size.width * 0.015),
+                          MediaQuery.of(context).size.width * 0.008),
                       child: TextButton(
                         onPressed: onPressed,
                         child: TextWidget(

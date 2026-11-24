@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 
 class DashboardHelper {
-  static Future<dynamic> imagePiker({required BuildContext context}) async {
+   static Future<dynamic> imagePiker({required BuildContext context}) async {
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? photo = await picker.pickImage(
@@ -21,11 +21,28 @@ class DashboardHelper {
     }
   }
 
+  static Future<dynamic> videoPiker({required BuildContext context}) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? photo = await picker.pickVideo(
+          source: ImageSource.camera,
+          maxDuration: const Duration(seconds: 10),
+          preferredCameraDevice: CameraDevice.rear);
+      if (photo != null) {
+        return File(photo.path);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<dynamic> filePiker({required BuildContext context}) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'pdf', 'doc'],
+        allowedExtensions: ['jpg', 'pdf', 'doc', "png"],
       );
       if (result != null) {
         List<File> files = result.paths.map((path) => File(path!)).toList();
@@ -65,5 +82,11 @@ class DashboardHelper {
         );
       },
     );
+  }
+
+  static getFileSize(File file) {
+    int sizeInBytes = file.lengthSync();
+    double sizeInMb = sizeInBytes / (1024 * 1024);
+    return sizeInMb;
   }
 }

@@ -1,3 +1,6 @@
+import 'package:flutter_igl_cng/feature/scrap/addScrap/domain/model/scrap_model.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/model/part_%20model.dart';
+
 List<AcknowledgeModel> acknowledgeListResponse(var json) {
   return List<AcknowledgeModel>.from(
       json.map((x) => AcknowledgeModel.fromJson(x)));
@@ -55,6 +58,21 @@ class AcknowledgeModel {
   String? assignTo;
   String? assignType;
   String? createdByUser;
+  String? generalComplaintName;
+  String? vendorCode;
+  String? miAssignType;
+  String? miAssignToUser;
+  String? assignedByVendorName;
+  String? cngStationName;
+  String? descriptionKva;
+  String? plannerGroup;
+  String? mainWorkCenter;
+  String? personResponsible;
+  dynamic rejectStatus;
+  List<ScrapModel>? scrapList;
+  List<PartModel>? partList;
+  dynamic sapRejectError;
+  dynamic vendorComplaintNumber;
 
   AcknowledgeModel({
     this.id,
@@ -108,6 +126,21 @@ class AcknowledgeModel {
     this.assignTo,
     this.assignType,
     this.createdByUser,
+    this.generalComplaintName,
+    this.vendorCode,
+    this.miAssignType,
+    this.miAssignToUser,
+    this.assignedByVendorName,
+    this.cngStationName,
+    this.descriptionKva,
+    this.plannerGroup,
+    this.mainWorkCenter,
+    this.personResponsible,
+    this.scrapList,
+    this.partList,
+    this.rejectStatus,
+    this.sapRejectError,
+    this.vendorComplaintNumber,
   });
 
   AcknowledgeModel.fromJson(Map<String, dynamic> json) {
@@ -154,14 +187,28 @@ class AcknowledgeModel {
     equipmentCode = json['equipment_code'] ?? "";
     assignUser = json['assign_user'] ?? "";
     complaintDateTime = json['complain_date_time'] ?? "";
-    ackStatus = json['ack_response'] ?? "";
+    ackStatus = json['ack_status'] ?? "0";
     ackRemark = json['ack_remarks'] ?? "";
     ackBy = json['ack_by'] ?? "";
     generalComplaintId = json['general_complain_id'] ?? "";
     generalComplaintRemark = json['general_complain_remarks'] ?? "";
     assignTo = json['se_assign_to'] ?? "";
-    assignType = json['se_assign_type'] ?? "";
+    assignType = json['se_assign_type'] ?? "0";
     createdByUser = json['created_by_user'] ?? "";
+    generalComplaintName = json['general_complain_name'] ?? "";
+    vendorCode = json['vendor_code'] ?? "";
+    miAssignType = json['mi_assign_type'] ?? "0";
+    miAssignToUser = json['assigned_vendor_name'] ?? "";
+    cngStationName = json['cng_station_name'] ?? "";
+    descriptionKva = json['description_kva'] ?? "";
+    plannerGroup = json['planner_group'] ?? "";
+    mainWorkCenter = json['main_work_center'] ?? "";
+    personResponsible = json['person_responsible'] ?? "";
+    rejectStatus = json['reject_status'] ?? "0";
+    sapRejectError = json['sap_reject_error'] ?? "";
+    vendorComplaintNumber = json['vendorComplaintNumber'] ?? "";
+    scrapList =  json['scraps'] != null ? scrapListResponse(json['scraps']) : [];
+    partList =  json['spares'] != null ? partListResponse(json['spares']) : [];
   }
 
   Map<String, dynamic> toJson() {

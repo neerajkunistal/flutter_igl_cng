@@ -17,7 +17,37 @@ class AppIcon {
 
   static get reviewIcon => "assets/review_icon.png";
 
-  static get maintinaceIcon => "assets/maintinace_icon.png";
+  static get maintenanceIcon => "assets/maintinace_icon.png";
 
   static get complaintBackground => "assets/complaint_background.png";
+
+  static get transperentBackground => "assets/transperent_background.png";
+
+  static get loginBackground => "assets/login_background.png";
+
+  static get menuIcon => "assets/menu.png";
+
+  static get pumpIcon => "assets/pump.png";
+
+  static get ghungaruIcon => "assets/ghungaru.png";
+
+  static get filterIcon => "assets/ic_fillter.png";
+
+  static get truckMarker => "assets/ic_truck.png";
+
+  static get mapIcon => "assets/ic_map.png";
+
+  static get cngStationIcon => "assets/ic_cng_station.png";
+
+  static get motherStationIcon => "assets/ic_mother_station.png";
+
+  static get notRunningIcon => "assets/ic_truck_notrunning.png";
+
+  static get runningIcon => "assets/ic_truck_running.png";
+
+  static get lcvTruckIcon => "assets/lcv_truck.png";
+
+  static get marketingIcon => "assets/ic_marketing.png";
+
+  static get fireSafeyIcon => "assets/ic_fire_safey.png";
 }

@@ -14,4 +14,6 @@ class PreferencesName {
   static get firebaseId => "firebaseID";
 
   static get routeId => "routeId";
+
+  static get notificationSilent => "notificationSilent";
 }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/dashboard/domain/model/file_model.dart';
+import 'package:flutter_igl_cng/services/firebase/notification_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/connectivity_helper.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -11,7 +12,7 @@ import 'package:http/http.dart';
 import 'package:http_parser/http_parser.dart';
 
 class ServerRequest {
-  static BuildContext? context = Singleton.instanceInit()?.context;
+  static BuildContext? context = Singleton.instance.context;
   static var header = {"Content-Type": "application/x-www-form-urlencoded"};
 
   static Future<dynamic> getData({required var urlEndPoint}) async {
@@ -23,6 +24,7 @@ class ServerRequest {
       addToken();
       String url = APIs.baseUrl + urlEndPoint;
       log(Uri.parse(url.toString()).toString());
+      log(header.toString());
       final response = await get(Uri.parse(url.toString()), headers: header)
           .timeout(const Duration(minutes: 1));
       log(response.body);
@@ -192,9 +194,9 @@ class ServerRequest {
 
   static Future<dynamic> firebasePushNotification({var url, var body}) async {
     try {
+      var token =  await NotificationHelper.obtainAuthenticatedClient();
       var headerData = {
-        HttpHeaders.authorizationHeader:
-            "key=AAAAvUcSq7Y:APA91bHC67iO0x0DER3_DU37-ZoaVq7CgKqpi3P2GhBxAMSu2Thhv93MydFigrXDuhf-Tx8OsfEtywE0pVxdA2TBa_JsQG8ZTHQ2lTzha1D0M63ZdljYYq0cD2db6Ll5LAB-ZZtbRzOc",
+        HttpHeaders.authorizationHeader: "Bearer $token",
         "Content-Type": "application/json; charset=UTF-8"
       };
       log(url);
@@ -235,14 +237,26 @@ class ServerRequest {
       var request = MultipartRequest("POST", uri);
       if (fileList != null && fileList.isNotEmpty) {
         for (var fileData in fileList) {
-          String fileExtention = fileData.file.path.split(".").last;
-          String filePath0 = fileExtention.toString().toLowerCase() != "pdf"
-              ? await fileCompress(file: fileData.file)
-              : fileData.file.path.toString();
-          if (fileData.file.toString().isNotEmpty) {
-            var uploadFile = await MultipartFile.fromPath(
-                fileData.keyName, filePath0,
-                contentType: MediaType("file", fileExtention));
+          if (fileData.file.path.isNotEmpty) {
+            String fileExtention = fileData.file.path.split(".").last;
+            String filePath0 =
+                (fileExtention.toString().toLowerCase() == "pdf"
+                    || fileExtention.toString().toLowerCase() == "mp4"
+                    || fileExtention.toString().toLowerCase() == "xls"
+                    || fileExtention.toString().toLowerCase() == "xlsx"
+                    || fileExtention.toString().toLowerCase() == "csv"
+                    || fileExtention.toString().toLowerCase() == "mov")
+                    ? fileData.file.path.toString()
+                    : fileData.file.path.toString();
+            if (fileData.file.toString().isNotEmpty) {
+              var uploadFile = await MultipartFile.fromPath(
+                  fileData.keyName, filePath0,
+                  contentType: MediaType("file", fileExtention));
+              request.files.add(uploadFile);
+            }
+          } else if (fileData.keyName.isNotEmpty) {
+            var uploadFile = await MultipartFile.fromPath(fileData.keyName, "",
+                contentType: MediaType("file", ""));
             request.files.add(uploadFile);
           }
         }
@@ -252,7 +266,12 @@ class ServerRequest {
             File file = File(filePath);
             String fileExtention = filePath.split(".").last;
             String filePath1 = fileExtention.toString().toLowerCase() != "pdf"
-                ? await fileCompress(file: file)
+                || fileExtention.toString().toLowerCase() != "mp4"
+                || fileExtention.toString().toLowerCase() != "mov"
+                || fileExtention.toString().toLowerCase() != "xls"
+                || fileExtention.toString().toLowerCase() != "xlsx"
+                || fileExtention.toString().toLowerCase() != "csv"
+                ? file.path.toString()
                 : file.path.toString();
             var uploadFile = await MultipartFile.fromPath(keyWord, filePath1,
                 contentType: MediaType("file", fileExtention));
@@ -260,7 +279,6 @@ class ServerRequest {
           }
         }
       }
-
       request.fields.addAll(body);
       request.headers.addAll(header);
       var response = await request.send();
@@ -313,15 +331,76 @@ class ServerRequest {
   }
 
   static Future<String> fileCompress({required File file}) async {
-    final filePath = file.path;
-    final lastIndex = filePath.lastIndexOf(RegExp(r'.jp'));
+    final filePath = file.absolute.path;
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.png|.jp'));
     final splitted = filePath.substring(0, (lastIndex));
-    final outPath = '${splitted}_out${filePath.substring(lastIndex)}';
-    var result = await FlutterImageCompress.compressAndGetFile(
-      file.path,
-      outPath,
-      quality: 70,
-    );
-    return result!.path.toString();
+    final outPath = "${splitted}_out${filePath.substring(lastIndex)}";
+
+    if (lastIndex == filePath.lastIndexOf(RegExp(r'.png'))) {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+          filePath, outPath,
+          quality: 50,
+          format: CompressFormat.png);
+      return compressedImage!.path.toString();
+    } else {
+      final compressedImage = await FlutterImageCompress.compressAndGetFile(
+        filePath,
+        outPath,
+        quality: 50,
+      );
+      return compressedImage!.path.toString();
+    }
+  }
+
+  static Future<dynamic> imageUrlConvertToByte64({required var url}) async {
+    try {
+      if (await ConnectivityHelper.allConnectivityCheck(context: context!) ==
+          false) {
+        return null;
+      }
+      log(url);
+      final response = await get(Uri.parse(url.toString()), headers: header)
+          .timeout(const Duration(minutes: 1));
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        return base64Encode(bytes);
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        log("SocketException : ${e.toString()}");
+      } else if (e is TimeoutException) {
+        log("TimeoutException : ${e.toString()}");
+      } else {
+        log("Unhandled exception : ${e.toString()}");
+      }
+    }
+    return null;
+  }
+
+  static Future<dynamic> iglPost({var url, var body,
+         required String userName, required String password}) async {
+    try {
+      var headerData = {
+      "Authorization" : 'Basic ${base64.encode(utf8.encode('$userName:$password'))}',
+      "Content-Type": "application/json; charset=UTF-8"
+      };
+      log(url);
+      log(jsonEncode(body));
+      final response = await post(Uri.parse(url),
+          headers: headerData, body: jsonEncode(body));
+      log(response.body);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        log("SocketException : ${e.toString()}");
+      } else if (e is TimeoutException) {
+        log("TimeoutException : ${e.toString()}");
+      } else {
+        log("Unhandled exception : ${e.toString()}");
+      }
+    }
+    return null;
   }
 }

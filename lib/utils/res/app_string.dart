@@ -21,15 +21,19 @@ class AppString {
 
   static get password => "Password";
 
+  static get oldPassword => "Old Password";
+
+  static get newPassword => "New Password";
+
   static get confirmPassword => "Confirm Password";
 
   static get signup => "signup";
 
   static get signIn => "Sign in";
 
-  static get doesNotHaveAccount => "Does not have account?";
+  static get doesNotHaveAccount => "Does Not Have Account?";
 
-  static get continueToSignup => "Continue To Sign up";
+  static get continueToSignup => "Continue To Sign Up";
 
   static get enterOtp => "Enter OTP";
 
@@ -40,6 +44,8 @@ class AppString {
   static get submit => "Submit";
 
   static get addItem => "Add Item";
+
+  static get addScrap => "Add Scarp";
 
   static get ok => "Ok";
 
@@ -53,9 +59,13 @@ class AppString {
 
   static get logout => "Logout";
 
+  static get silentNotification => "Notification";
+
   static get acknowledge => "Acknowledge";
 
   static get dashboard => "Dashboard";
+
+  static get home => "Home";
 
   static get systemAdmin => "System Admin";
 
@@ -81,11 +91,13 @@ class AppString {
 
   static get serviceUndertaken => "Service  Undertaken At";
 
-  static get complaintReceivedMode => "Complaint received mode";
+  static get complaintReceivedMode => "Complaint Received Mode";
 
   static get customerEmailId => "Customer Email Id";
 
   static get date => "Date";
+
+  static get vendorCode => "Vendor Code";
 
   static get time => "Time";
 
@@ -111,7 +123,7 @@ class AppString {
 
   static get phoneCall => "Phone Call";
 
-  static get walkin => "Walkin";
+  static get walking => "Walking";
 
   static get byPost => "By Post";
 
@@ -181,7 +193,11 @@ class AppString {
 
   static get selectEquipment => "Select Equipment";
 
+  static get selectEquipmentType => "Select Equipment Type";
+
   static get selectGeneral => "Select General";
+
+  static get selectDescription => "Select Description";
 
   static get editEquipment => "Edit Equipment";
 
@@ -191,6 +207,8 @@ class AppString {
 
   static get qty => "Qty";
 
+  static get materialCode => "Material Code";
+
   static get editDescription => "Edit Description";
 
   static get selectDepartment => "Select Department";
@@ -199,9 +217,13 @@ class AppString {
 
   static get remark => "Remark";
 
+  static get workDescription => "Work Description";
+
   static get observation => "Observation";
 
   static get reviewComplaint => "Review Complaint";
+
+  static get review => "Review";
 
   static get viewEquipmentComplaint => "View Equipment Complaint";
 
@@ -215,7 +237,7 @@ class AppString {
 
   static get selectUserForAssign => "Select User For Assign";
 
-  static get assignUSer => "Assign user";
+  static get assignUSer => "Assign User";
 
   static get assignType => "Assign Type";
 
@@ -233,6 +255,12 @@ class AppString {
 
   static get assign => "Assign";
 
+  static get changeStatus => "Change Status";
+
+  static get change => "Change";
+
+  static get status => "Status";
+
   static get reAssign => "Re Assign";
 
   static get vendor => "Vendor";
@@ -241,7 +269,282 @@ class AppString {
 
   static get sapCode => "Sap Code";
 
+  static get codeGroup => "Code Group";
+
   static get reportedByName => "Reported By Name";
+
+  static get search => "Search...";
+
+  static get photo => "Photo";
+
+  static get video => "Video";
+
+  static get rectifiedBy => "Rectified By";
+
+  static get category => "Category";
+
+  static get cngStation => "Cng Station";
+
+  static get controlRoom => "Control Room";
+
+  static get reportedBy => "Reported By";
+
+  static get reportedPhone => "Reported Phone";
+
+  static get estimateApprove => "Estimate Approve";
+
+  static get update => "Update";
+
+  static get updateStatus => "Update Status";
+
+  static get add => "Add";
+
+  static get addAssign => "Add Assign";
+
+  static get addMeasurement => "Add Measurement";
+
+  static get amount => "Amount";
+
+  static get srNumber => "SR.Number";
+
+  static get unitType => "Unit Type";
+
+  static get unit => "Unit";
+
+  static get mobileNumber => "Mobile Number";
+
+  static get history => "History";
+
+  static get profile => "Profile";
+
+  static get editProfile => "Edit Profile";
+
+  static get pending => "Pending";
+
+  static get confirm => "Confirm";
+
+  static get complete => "Complete";
+
+  static get startRoute => "Start Route";
+
+  static get qrCode => "Qr Code";
+
+  static get qrScan => "Qr Scan";
+
+  static get addMore => "Add More";
+
+  static get manualEntry => "Manual Entry";
+
+  static get addCngFillingStation => "Add Cng Filling Station";
+
+  static get updateCngFilling => "Update Cng Filling";
+
+  static get selectCngStation => "Select Cng Station";
+
+  static get enterCngQuantity => "Enter Cng Quantity";
+
+  static get scmQuantity => "Scm Quantity";
+
+  static get enterCurrentScmQuantity => "Enter Current Scm Quantity";
+
+  static get receivedScmQuantity => "Received Scm Quantity";
+
+  static get totalCngQuantity => "Total Cng Quantity";
+
+  static get yourSignupWasSuccessful => "Your Sign Up Was Successful";
+
+  static get settings => "Settings";
+
+  static get logOut => "Logout";
+
+  static get routes => "Routes";
+
+  static get addAssignment => "Add Assignment";
+
+  static get assignmentList => "Assignment List";
+
+  static get registration => "Registration";
+
+  static get fullName => "Full Name";
+
+  static get drivingLicenceNumber => "Driving License Number";
+
+  static get enterDrivingLicenceNumber => "Enter Driving License Number";
+
+  static get address => "Address";
+
+  static get cityTown => "City/Town";
+
+  static get district => "District";
+
+  static get pincode => "Pincode";
+
+  static get state => "State";
+
+  static get liveTracking => "Live Traking";
+
+  static get addDriver => "Add Driver";
+
+  static get lcvDriver => "LCV Driver";
+
+  static get driverName => "Driver Name";
+
+  static get selectDriver => "Select Driver";
+
+  static get selectMotherStation => "Select Mother Station";
+
+  static get selectLCVTruck => "Select LCV Truck";
+
+  static get lcvTruck => "LCV Truck";
+
+  static get navigationRoute => "Navigation Route";
+
+  static get addLcvTruck => "Add LCV Truck";
+
+  static get selectCNGStation => "Select CNG Station";
+
+  static get cngStations => "CNG Stations";
+
+  static get addCngStation => "Add CNG Station";
+
+  static get notification => "Notification";
+
+  static get enterStationCode => "Enter Station Code";
+
+  static get enterStationName => "Enter Station Name";
+
+  static get enterOfficerName => "Enter Officer Name";
+
+  static get enterEmail => "Enter Email";
+
+  static get vehicleCompany => "Vehicle Company";
+
+  static get vehicleName => "Vehicle Name";
+
+  static get vehicleNumber => "Vehicle Number";
+
+  static get enterVehicleNumber => "Eneter Vehicle Number";
+
+  static get engineNumber => "Engine Number";
+
+  static get chassisNumber => "Chassis Number";
+
+  static get selectFuelType => "select Fuel Type";
+
+  static get average => "Vehicle Average";
+
+  static get cngUser => "CNG User";
+
+  static get addCngUser => "Add CNG User";
+
+  static get addScmInfo => "Add Cng Scm Info";
+
+  static get cngScmInfo => "Cng Scm Info";
+
+  static get currentScmQuantity => "Current Scm Quantity";
+
+  static get sellScmQuantity => "Sell Scm Quantity";
+
+  static get remainScmQuantity => "Remain Scm Quantity";
+
+  static get requiredScmQuantity => "Required Scm Quantity";
+
+  static get createDate => "Create Date";
+
+  static get selectStatus => "Select Status";
+
+  static get selectDateTime => "Select Date Time";
+
+  static get selectRoute => "Select Route";
+
+  static get materialDetail => "Material Detail";
+
+  static get podDetail => "PO Detail";
+
+  static get lcvEntryTime => "LCV Entry Time";
+
+  static get fillStartTime => "Fill Start Time";
+
+  static get flowMeterReadingOpen => "Flow Meter Reading Open";
+
+  static get flowMeterReadingClosed => "Flow Meter Reading Closed";
+
+  static get fillEndTime => "Fill End Time";
+
+  static get outPressure => "Out Pressure";
+
+  static get checklist => "Checklist";
+
+  static get lcvCondition => "Lcv Condition";
+
+  static get notOk => "Not Ok";
+
+  static get yes => "Yes";
+
+  static get no => "No";
+
+  static get driverFitToDrive => "Driver Fit To Drive";
+
+  static get improperLCVLogBooKCorrections =>
+      "Improper LCV logbook / Corrections";
+
+  static get availabilityOfMobilWithDriver =>
+      "Availability of Mobile with Driver";
+
+  static get unscheduledMaintenancePenaltyHours =>
+      "Unscheduled Maintenance Penalty Hours";
+
+  static get scheduledMaintenancePenaltyHours =>
+      "Scheduled Maintenance Penalty Hours";
+
+  static get arrivalTime => "Arrival Time";
+  static get lcvPointTime => "Lcv Point Time";
+  static get inPressure => "In Pressure";
+  static get driverNotWearingUniform => "Driver Not Wearing Uniform";
+
+  static get plannerGroup => "Planner Group";
+
+  static get mainWorkCenter => "Main Work center";
+
+  static get personResponsible => "Person Responsible";
+
+  static get note => "Note : ";
+
+  static get selectMeasure => "Select Measure";
+
+  static get selectUnit => "Select Unit";
+
+  static get enterParticular => "Enter Particular";
+
+  static get estimateAmount => "Estimate Amount";
+
+  static get estimateComment => "Estimate Comment";
+
+  static get particular => "Particular";
+
+  static get measure => "Measure";
+
+  static get sendToReview => "Send To Review";
+
+  static get reject => "Reject";
+
+  static get destroy => "Destroy";
+
+  static get reusable => "Reusable";
+
+  static get provisionallyApproved => "Provisionally Approved";
+
+  static get searchVehicleNo => "Search Vehicle No";
+
+  static get enterSapComplaintDescription => "Enter Sap Complaint Description";
+
+  static get enterRemarkForComplaintRejection => "Enter Remarks For Complaint Rejection";
+
+  static get closure => "Closure";
+
+  static get addPart => "Add Part";
+
+  static get reasonForRejection => "Reason for Rejection";
 
   static get logoutMessage =>
       "Are you sure you want to logout? Once you logout, you will be return to login screen";

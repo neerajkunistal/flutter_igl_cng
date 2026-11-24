@@ -34,8 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
           .add(LoginSetPasswordEvent(password: password));
       BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
           .add(LoginSetEmailEvent(emailId: userName));
-      BlocProvider.of<LoginBloc>(!context.mounted ? context : context)
-          .add(LoginSubmitDataEvent(context: !context.mounted ? context : context, isLoginPage: false));
+      BlocProvider.of<LoginBloc>(!context.mounted ? context : context).add(
+          LoginSubmitDataEvent(
+              context: !context.mounted ? context : context,
+              isLoginPage: false));
     }
   }
 
@@ -43,25 +45,67 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.white,
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Image.asset(
-              AppConfig.instanceInit()!.client == Client.iglcng
-                  ? AppIcon.appLogoIgl
-                  : AppIcon.appLogoIgl,
-              height: MediaQuery.of(context).size.width * 0.30,
-              width: MediaQuery.of(context).size.width * 0.30,
+      body: appBackGround(
+        isGradientChange: true,
+        context: context,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 20.0,
+              left: MediaQuery.of(context).size.width * 0.18,
+              right: 0.0,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2.5,
+                child: Image.asset(
+                  AppIcon.pumpIcon,
+                  opacity: const AlwaysStoppedAnimation(.9),
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
-          ),
-          Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.10,
-            left: 0.0,
-            right: 0.0,
-            child: const CenterLoaderWidget(),
-          )
-        ],
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    AppConfig.instanceInit()!.client == Client.iglcng
+                        ? AppIcon.appLogoIgl
+                        : AppIcon.appLogoIgl,
+                    height: MediaQuery.of(context).size.width * 0.40,
+                    width: MediaQuery.of(context).size.width * 0.40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextWidget(
+                      "समाधान",
+                      color: AppColor.white,
+                      fontWeight: FontWeight.w700,
+                      textAlign: TextAlign.center,
+                      fontSize: AppFont.font_18,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: TextWidget(
+                      "CNG is a fossil fuel substitute for other auto fuels such as petrol, diesel, Auto LPG etc. For use in Automobiles as fuel, Natural Gas is compressed & dispensed to vehicles at high pressure of 200-250 Kg/cm² enhance the vehicle on board storage capacity.",
+                      color: AppColor.white,
+                      textAlign: TextAlign.center,
+                      fontSize: AppFont.font_13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.10,
+              left: 0.0,
+              right: 0.0,
+              child: const CenterLoaderWidget(),
+            )
+          ],
+        ),
       ),
     );
   }

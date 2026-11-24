@@ -57,12 +57,11 @@ class MiComplaintSelectActionData extends MiComplaintEvent {
   final ActionModel actionData;
   final BuildContext context;
 
-  const MiComplaintSelectActionData({
-    required this.actionData,
-    required this.context});
+  const MiComplaintSelectActionData(
+      {required this.actionData, required this.context});
 
   @override
-  List<Object?> get props => [actionData,context];
+  List<Object?> get props => [actionData, context];
 }
 
 class MiComplaintSelectUomData extends MiComplaintEvent {
@@ -121,6 +120,15 @@ class MiComplaintDeleteSparesPartData extends MiComplaintEvent {
 
   @override
   List<Object?> get props => [index];
+}
+
+class MiComplaintSelectScrapData extends MiComplaintEvent {
+  final bool isNoScrap;
+
+  const MiComplaintSelectScrapData({required this.isNoScrap});
+
+  @override
+  List<Object?> get props => [isNoScrap];
 }
 
 class MiComplaintSubmitData extends MiComplaintEvent {

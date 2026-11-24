@@ -39,7 +39,7 @@ class LocationHelper {
         return true;
       }
     } else {
-      if(!context.mounted) return false;
+      if (!context.mounted) return false;
       showDialog(
           context: context,
           builder: (BuildContext mContext) => const GPSAlertPopWidget());
@@ -71,9 +71,6 @@ class LocationHelper {
 
   static Future<dynamic> getLocationOfflineMode(
       {required BuildContext context}) async {
-    if (await checkGps(context: context) == false) {
-      return null;
-    } else {
       try {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission != LocationPermission.denied) {
@@ -97,7 +94,6 @@ class LocationHelper {
       } catch (e) {
         return null;
       }
-    }
   }
 
   static Future<dynamic> _getAddressFromLatLng(Position position) async {
@@ -149,7 +145,7 @@ class LocationHelper {
     if (Platform.isAndroid) {
       final status = await Permission.locationAlways.status;
       if (status == PermissionStatus.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>
@@ -157,7 +153,7 @@ class LocationHelper {
         return false;
       }
       if (status == PermissionStatus.permanentlyDenied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>
@@ -167,7 +163,7 @@ class LocationHelper {
     } else if (Platform.isIOS) {
       LocationPermission permission = await Geolocator.checkPermission();
       if (permission == LocationPermission.denied) {
-        if(!context.mounted) return false;
+        if (!context.mounted) return false;
         showDialog(
             context: context,
             builder: (BuildContext context) =>

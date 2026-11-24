@@ -34,9 +34,9 @@ class AppConfig {
       isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
     }
 
-    final MediaQueryData data = MediaQueryData.fromView(
+  /*  final MediaQueryData data = MediaQueryData.fromView(
         WidgetsBinding.instance.platformDispatcher.views.single);
-    /*   return data.size.shortestSide <= 600
+       return data.size.shortestSide <= 600
         ? DeviceType.phone
         : DeviceType.tablet;*/
 

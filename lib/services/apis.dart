@@ -3,32 +3,57 @@ import 'package:flutter_igl_cng/utils/commonClass/singleton.dart';
 import 'package:flutter_igl_cng/utils/res/environment_config.dart';
 
 class APIs {
-  static BuildContext? context = Singleton.instanceInit()?.context;
+  static BuildContext? context = Singleton.instance.context;
 
   static final String baseUrl =
       EnvironmentConfig.of(context!)!.generalUrlBaseOnFlavour;
 
-  static get sendNotificationApi => "https://fcm.googleapis.com/fcm/send";
+  static get sendNotificationApi => "https://fcm.googleapis.com/v1/projects/igl-cng/messages:send";
+
+  static get googlePlaceAPI =>
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?";
+
+  static get googlePlaceDetailsAPI =>
+      "https://maps.googleapis.com/maps/api/place/details/json?";
+
+  static get googleLatLongAPI =>
+      "https://maps.googleapis.com/maps/api/geocode/json?";
 
   static get login => "api/auth";
 
+  static get changePassword => "api/changePassword";
+
   static get getComplaintTypeApi => "api/onm/complaint-types";
+
+  static get getComplaintITTypeApi => "api/it/onm/complaint-types";
 
   static get getEquipmentApi => "api/onm/equipments";
 
+  static get getEquipmentITApi => "api/it/onm/equipments";
+
   static get addComplaintApi => "api/cng/complaint";
 
+  static get addComplaintITApi => "api/it/cng/complaint";
+
   static get getDepartmentApi => "api/cr/departments";
+
+  static get getDepartmentPGWCApi => "api/cr/getDepartmentPGWC";
 
   static get getComplaintApi => "api/cr/complaint";
 
   static get getAcknolegeApi => "api/cr/acknowledge";
 
-  static get addCivilComplaintApi => "api/cr/shift-eng-complaint";
+  static get getAcknolegeITApi => "api/it/cr/acknowledge";
 
   static get getReviewComplaintApi => "api/cng/review-complaints";
 
+  static get getReviewComplaintITApi => "api/it/cng/review-complaints";
+
   static get addReviewComplaintApi => "api/cr/review-complaints";
+
+  static get addReviewComplaintITApi => "api/it/cr/review-complaints";
+
+  static get getCodeGroupApi => "api/cr/sap-codes-group";
 
   static get getMiComplaintApi => "api/cr/mi-complaint";
 
@@ -40,7 +65,11 @@ class APIs {
 
   static get addAcknowlegeApi => "api/cr/se-ack-complaints";
 
+  static get addAcknowlegeITApi => "api/it/cr/se-ack-complaints";
+
   static get getGeneralComplaintApi => "api/cr/general-complain";
+
+  static get getDescriptionComplaintApi => "api/it/onm/complaint-desc-master";
 
   static get getUomApi => "api/onm/uom";
 
@@ -48,9 +77,127 @@ class APIs {
 
   static get assignComplaintApi => "api/cr/shift-eng-complaint";
 
+  static get assignComplaintITApi => "api/it/cr/shift-eng-complaint";
+
   static get getFirebaseDeviceApi => "api/onm/device-lists";
 
   static get getSapCodeApi => "api/cr/sap-codes";
+
+  static get getReviewSelfComplaintApi => "api/cr/reviewed-self";
+
+  static get getCivilCategoryApi => "api/onm/civil-categories";
+
+  static get getCrStationApi => "api/cng/cr-station";
+
+  static get addCivilComplaintApi => "api/cng/civil-complaints";
+
+  static get addCivilVendorComplaintApi => "api/cv/civil-complaints";
+
+  static get getCivilApproveApi => "api/cr/civil-approve";
+
+  static get getVendorListApi => "api/cr/vendors";
+
+  static get assignVendorApi => "api/cr/civil-assign";
+
+  static get civilComplaintApproveApi => "api/cr/civil-approve";
+
+  static get estimateComplaintApproveApi => "api/cr/estimate";
+
+  static get civilFinalComplaintApproveApi => "api/cr/final-status";
+
+  static get addEstimateApi => "api/cv/estimate";
+
+  static get addMeasurementApi => "api/cv/measurement";
+
+  static get closureComplaintApi => "api/cng/closure";
+
+  static get closureComplaintITApi => "api/it/cng/closure";
+
+  static get getUnitTypeApi => "api/onm/unit-type";
+
+  static get getCNGStationListApi => "api/onm/cng-stations";
+
+  static get getControlRoomDataForCiApi => "api/cr/assigned-control-room?";
+
+  static get civilCloserComplaintApi => "api/cr/closure";
+
+  static get registrationApi => "api/saveLCVDriver";
+
+  static get getDriverApi => "api/lcv/getDriver";
+
+  static get getLCVDetailApi => "api/lcv/getLcvDetails";
+
+  static get getCNFStationApi => "api/lcv/getCngStation";
+
+  static get addAssignmentApi => "api/lcv/saveMBmanagerEntries";
+
+  static get updateAssignmentStatus => "api/updateStatus";
+
+  static get getAssignmentApi => "api/lcv/getCheckListEntries";
+
+  static get getUserRolesApi => "api/getUserRole";
+
+  static get cngStationRegistrationApi => "api/saveCngStation";
+
+  static get addLcvTruckApi => "api/saveLcv";
+
+  static get addCngStationUser => "api/saveCngUser";
+
+  static get getUserApi => "api/getUsers";
+
+  static get insertLiveLocationApi => "api/insert_location";
+
+  static get updateScmApi => "api/lcv/saveDBCNGmanagerEntries";
+
+  static get getLocationApi => "api/getLocation";
+
+  static get getCngScmInfoApi => "api/getCngScmInfo";
+
+  static get addCngScmInfoApi => "api/addCngScmInfo";
+
+  static get getRouteApi => "api/getRoute";
+
+  static get getMotherStationsApi => "api/lcv/getMBStation";
+
+  static get getDBStationApi => "api/lcv/getDBStation";
+
+  static get deleteCngUserApi => "api/delete_user";
+
+  static get deleteCngStationTruckApi => "api/delete_lcv";
+
+  static get getIglApi => "api/cr/getExtApiURl";
+
+  static get cancelAssignmentApi => "api/lcv/cancelMBmanagerEntries";
+
+  static get getOverSpeedApi => "api/lcv/getOverspeedAlert";
+
+  static get markOverSpeedApi => "api/lcv/markAlertAsShown";
+
+  static get getMeasurementsApi => "api/cv/getMeasurements";
+
+  static get getMotherStationAndDougthStationPointsApi => "lcv/getCngStationData";
+
+  static get getPlannerGroupApi => "api/cr/planner_group";
+
+  static get getWorkCenterApi => "api/cr/work_center";
+
+  static get addComplaintNumberApi => "api/cr/complaintUpdateVCN";
+  static get facilityListApi => "api/onm/marketing/facility-lists";
+  static get categoryListApi => "api/onm/marketing/category-lists";
+  static get subcategoryListApi => "api/onm/marketing/subcategory-lists";
+  static get marketingSubmitComplainApi => "api/onm/marketing/submit-complaint";
+
+  static get vendorListsApi => "api/onm/marketing/vendor-lists";
+  static get getComplaintMarketingTypeApi => "api/onm/marketing/complaint-types";
+  static get complaintTypesApi => "api/onm/marketing/complaint-types";
+  static get pendingAcknowledgeApi => "api/onm/marketing/pending-acknowledge";
+  static get assignedListsApi => "api/onm/marketing/assigned-lists";
+  static get pendingFinalClosureApi => "api/onm/marketing/pending-final-closure";
+  static get complaintDetailApi => "api/onm/marketing/complaint-detail";
+  static get reportListApi => "api/onm/marketing/report-list";
+  static get ackAssignApi => "api/onm/marketing/acknowledge-assign";
+  static get stationCloseApi => "api/onm/marketing/station-close";
+  static get amoFinalCloseApi => "api/onm/marketing/amo-final-close";
 
   static get forgotPasswordApi => "";
 }

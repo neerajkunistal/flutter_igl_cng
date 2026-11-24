@@ -6,13 +6,18 @@ abstract class ReviewComplaintEvent extends Equatable {
 
 class ReviewComplaintPageLoadEvent extends ReviewComplaintEvent {
   final BuildContext context;
+  final String? complaintId;
   final ReviewComplaintModel reviewComplaintData;
+  final EquipmentComplaintType equipmentComplaintType;
 
   const ReviewComplaintPageLoadEvent(
-      {required this.context, required this.reviewComplaintData});
+      {required this.context,
+      required this.reviewComplaintData,
+      required this.equipmentComplaintType,
+      this.complaintId});
 
   @override
-  List<Object?> get props => [context, reviewComplaintData];
+  List<Object?> get props => [context, reviewComplaintData, equipmentComplaintType];
 }
 
 class ReviewComplaintSelectComplaintEvent extends ReviewComplaintEvent {
@@ -37,12 +42,91 @@ class ReviewComplaintSelectApprovalEvent extends ReviewComplaintEvent {
 class ReviewComplaintAddImageEvent extends ReviewComplaintEvent {
   final BuildContext context;
   final int mediaType;
+  final int index;
 
   const ReviewComplaintAddImageEvent(
-      {required this.context, required this.mediaType});
+      {required this.context, required this.mediaType, required this.index});
 
   @override
   List<Object?> get props => [context, mediaType];
+}
+
+class ReviewComplaintRemoveImageEvent extends ReviewComplaintEvent {
+  final int index;
+  const ReviewComplaintRemoveImageEvent({required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class ReviewComplaintSelectTimeData extends ReviewComplaintEvent {
+  final BuildContext context;
+
+  const ReviewComplaintSelectTimeData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class ReviewComplaintSelectDateData extends ReviewComplaintEvent {
+  final BuildContext context;
+
+  const ReviewComplaintSelectDateData({required this.context});
+
+  @override
+  List<Object?> get props => [context];
+}
+
+class ReviewComplaintSelectScrapData extends ReviewComplaintEvent {
+  final bool isNoScrap;
+
+  const ReviewComplaintSelectScrapData({required this.isNoScrap});
+
+  @override
+  List<Object?> get props => [isNoScrap];
+}
+
+class ReviewComplaintSelectSapCodeEvent extends ReviewComplaintEvent {
+  final SapCodeModel sapCodeData;
+
+  const ReviewComplaintSelectSapCodeEvent({required this.sapCodeData});
+
+  @override
+  List<Object?> get props => [sapCodeData];
+}
+
+class ReviewComplaintSelectCodeGroupEvent extends ReviewComplaintEvent {
+  final CodeGroupModel codeGroupData;
+
+  const ReviewComplaintSelectCodeGroupEvent({required this.codeGroupData});
+
+  @override
+  List<Object?> get props => [codeGroupData];
+}
+
+class ReviewComplaintDeleteScarpEvent extends ReviewComplaintEvent {
+  final int index;
+
+  const ReviewComplaintDeleteScarpEvent({required this.index});
+
+  @override
+  List<Object?> get props => [index];
+}
+
+class ReviewComplaintClearDeleteEvent extends ReviewComplaintEvent {
+
+  @override
+  List<Object?> get props => [];
+}
+
+
+class ReviewComplaintDeletePartEvent extends ReviewComplaintEvent {
+  final int index;
+
+  const ReviewComplaintDeletePartEvent({required this.index});
+
+  @override
+  List<Object?> get props => [index];
 }
 
 class ReviewComplaintSubmitEvent extends ReviewComplaintEvent {

@@ -32,7 +32,7 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
                   onPressed: () {},
                   icon: Icon(
@@ -49,7 +49,7 @@ class _TabletDashboardWidgetState extends State<TabletDashboardWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                    backgroundColor: WidgetStateProperty.all(Colors.white),
                   ),
                   onPressed: () {},
                   icon: Icon(

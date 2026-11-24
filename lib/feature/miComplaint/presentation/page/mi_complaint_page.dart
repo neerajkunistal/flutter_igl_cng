@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_igl_cng/ExportFile/app_export_file.dart';
 import 'package:flutter_igl_cng/feature/acknowledge/domain/model/vendor_model.dart';
+import 'package:flutter_igl_cng/feature/complaintNumber/presentation/page/add_complaint_number_page.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/action_model.dart';
 import 'package:flutter_igl_cng/feature/miComplaint/domain/model/spares_model.dart';
 import 'package:flutter_igl_cng/feature/reviewComplaint/presentation/widget/review_complaint_item_box.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/page/add_scrap_page.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_common_item_widget.dart';
+import 'package:flutter_igl_cng/feature/scrap/addScrap/presentation/widget/scrap_item_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/domain/bloc/add_spare_part_bloc.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/page/add_spare_part_page.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/add_spare_part_widget.dart';
+import 'package:flutter_igl_cng/feature/sparePart/addSparePart/presentation/widget/spare_part_common_item_widget.dart';
+import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
+import 'package:flutter_igl_cng/utils/commonWidgets/dotted_line_widget.dart';
 
 class MiComplaintPage extends StatefulWidget {
   const MiComplaintPage({super.key});
@@ -21,23 +31,68 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: TextWidget(
+      extendBodyBehindAppBar: true,
+      body: _widgetBuilder(),
+    );
+  }
+
+  Widget _widgetBuilder() {
+    return appBackGround(
+        child:Column(
+          children: [
+            _appBar(),
+            const DottedDividerLine(color: Colors.white),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.white,
+                ),
+                child: BlocBuilder<MiComplaintBloc, MiComplaintState>(
+                  builder: (context, state) {
+                    if (state is FetchMiComplaintDataState) {
+                      return _itemBuilder(dataState: state);
+                    } else {
+                      return const Center(
+                        child: CenterLoaderWidget(),
+                      );
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        context: context
+    );
+  }
+
+  Widget _appBar() {
+    return AppBar(
+      backgroundColor: Colors.transparent,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: TextWidget(
           "MI Complaint",
           color: AppColor.white,
+          fontSize: AppFont.font_15,
+          fontWeight: FontWeight.w600,
         ),
       ),
-      body: BlocBuilder<MiComplaintBloc, MiComplaintState>(
-        builder: (context, state) {
-          if (state is FetchMiComplaintDataState) {
-            return _itemBuilder(dataState: state);
-          } else {
-            return const Center(
-              child: CenterLoaderWidget(),
-            );
-          }
-        },
-      ),
+      actions: [
+        Image.asset(
+          AppConfig.instanceInit()!.client == Client.iglcng
+              ? AppIcon.appLogoIgl
+              : AppIcon.appLogoIgl,
+          height: MediaQuery.of(context).size.width * 0.13,
+          width: MediaQuery.of(context).size.width * 0.13,
+        ),
+      ],
     );
   }
 
@@ -48,38 +103,45 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
         child: Column(
           children: [
             ReviewComplaintItemBox(
-                reviewComplaintData: dataState.reviewComplaintData),
+                index: 0,
+                reviewComplaintData: dataState.reviewComplaintData,
+              equipmentComplaintType: EquipmentComplaintType.normal,),
+            _scrapList(dataState: dataState),
+            _sparePartList(dataState: dataState),
+
             _verticalSpace(),
             _amcStatusDate(dataState: dataState),
             _verticalSpace(),
             _actionDropDown(dataState: dataState),
             _verticalSpace(),
-            dataState.actionData.id.toString() == "3"
-                ? _sparesPartList(dataState: dataState)
+
+            dataState.actionData.id.toString() == "3" ||
+             dataState.actionData.id.toString() == "4"
+                ? AddSparePartWidget()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _addSparesPartButton(dataState: dataState)
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() == "3"
+            dataState.actionData.id.toString() == "3"||
+                dataState.actionData.id.toString() == "4"
                 ? _verticalSpace()
                 : const SizedBox.shrink(),
-            dataState.actionData.id.toString() != "4"
-                ? Row(
-                    children: [
-                      Expanded(child: _dateController(dataState: dataState)),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      Expanded(child: _timeController(dataState: dataState)),
-                    ],
-                  )
-                : const SizedBox.shrink(),
-            dataState.actionData.id.toString() != "4"
-                ? _verticalSpace()
-                : const SizedBox.shrink(),
+
+            Row(
+              children: [
+                Expanded(child: _dateController(dataState: dataState)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02,
+                ),
+                Expanded(child: _timeController(dataState: dataState)),
+              ],
+            ),
+            _verticalSpace(),
             dataState.actionData.id.toString() == "4"
                 ? _vendorDropDown(dataState: dataState)
                 : const SizedBox.shrink(),
@@ -88,16 +150,102 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                 : const SizedBox.shrink(),
             _descriptionController(dataState: dataState),
             _verticalSpace(),
+            _rectifyByController(dataState: dataState),
+            _verticalSpace(),
             _observationController(dataState: dataState),
             _verticalSpace(),
             _photo(dataState: dataState),
+
+            dataState.actionData.id.toString() == "3"
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.actionData.id.toString() == "3"
+                ?_scrapCheckBoxWidget(dataState: dataState)
+                : const SizedBox.shrink(),
+
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ? const ScrapItemWidget()
+                : const SizedBox.shrink(),
+
+            dataState.isNoScrap == false
+                ? _verticalSpace()
+                : const SizedBox.shrink(),
+            dataState.isNoScrap == false
+                ?_addScarpButton(dataState: dataState)
+                : const SizedBox.shrink(),
+
+            dataState.reviewComplaintData.miAssignType.toString() == "3"
+                ?  _verticalSpace()
+                : const SizedBox.shrink(),
+
+            dataState.reviewComplaintData.miAssignType.toString() == "3"
+             ? _addComplaintNumberWidget(dataState: dataState)
+                : const SizedBox.shrink(),
+
             _verticalSpace(),
             _verticalSpace(),
             _button(dataState: dataState),
+            _verticalSpace(),
+            _verticalSpace(),
+
           ],
         ),
       ),
     );
+  }
+
+  Widget _scrapList({required FetchMiComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.scrapList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Scarp", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintData.scrapList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ScrapCommonItemWidget(
+                index: index,
+                scrapData: dataState.reviewComplaintData.scrapList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
+  }
+
+  Widget _sparePartList({required FetchMiComplaintDataState dataState}) {
+    return  dataState.reviewComplaintData.partList!.isNotEmpty
+        ? Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const DottedDividerLine(),
+        TextWidget("Spare Part", fontWeight: FontWeight.w700,),
+        ListView.builder(
+            itemCount: dataState.reviewComplaintData.partList!.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return SparePartCommonItemWidget(
+                index: index,
+                partModel: dataState.reviewComplaintData.partList![index],
+              );
+            }),
+        _verticalSpace(),
+        const DottedDividerLine(),
+        _verticalSpace(),
+      ],
+    ) : const SizedBox.shrink();
   }
 
   Widget _amcStatusDate({required FetchMiComplaintDataState dataState}) {
@@ -160,6 +308,14 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                         dataState.sparesPartList[index].qtyController!,
                     sparesData: dataState.sparesPartList[index].sparesData!,
                   ),
+                  _verticalSpace(),
+/*                  _vendorDropDown(dataState: dataState),
+                  _verticalSpace(),*/
+                  _materialCodeController(dataState: dataState, index: index,
+                      materialCodeController: dataState.sparesPartList[index].materialCodeController!),
+                  _verticalSpace(),
+                  _remarkController(dataState: dataState, index: index,
+                      remarkController: dataState.sparesPartList[index].remarkCodeController!),
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
@@ -180,21 +336,15 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       {required FetchMiComplaintDataState dataState,
       required SparesModel sparesData,
       required int index}) {
-    return DropdownWidget(
-      isRequired: false,
+    return DropDownSearchWidget(
+      selectedItem: sparesData.id != null ? sparesData : null,
       hint: AppString.selectSpares,
-      dropdownValue: sparesData.id != null ? sparesData : null,
+      items:dataState.sparesList,
+      itemAsString: (sparesData) => sparesData.spareName.toString(),
       onChanged: (value) {
         BlocProvider.of<MiComplaintBloc>(context)
             .add(MiComplaintSelectSpareData(sparesData: value, index: index));
       },
-      items: dataState.sparesList
-          .map<DropdownMenuItem<SparesModel>>((SparesModel sparesData) {
-        return DropdownMenuItem<SparesModel>(
-          value: sparesData,
-          child: Text(sparesData.spareName.toString()),
-        );
-      }).toList(),
     );
   }
 
@@ -213,9 +363,40 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
     );
   }
 
+  Widget _materialCodeController(
+      {required FetchMiComplaintDataState dataState,
+        required int index,
+        required TextEditingController materialCodeController}) {
+    return TextFieldWidget(
+      textInputType: TextInputType.text,
+      isRequired: false,
+      labelText: AppString.materialCode,
+      controller: materialCodeController,
+    );
+  }
+
+  Widget _remarkController(
+      {required FetchMiComplaintDataState dataState,
+        required int index,
+        required TextEditingController remarkController}) {
+    return TextFieldWidget(
+      labelText: AppString.remark,
+      controller: remarkController,
+    );
+  }
+
+  Widget _rectifyByController({required FetchMiComplaintDataState dataState}) {
+    return TextFieldWidget(
+      isRequired: true,
+      labelText: AppString.rectifiedBy,
+      controller: dataState.rectifyByController,
+    );
+  }
+
   Widget _descriptionController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
+      isRequired: true,
       labelText: "Description",
       controller: dataState.descriptionController,
     );
@@ -227,8 +408,9 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       dropdownValue:
           dataState.actionData.id != null ? dataState.actionData : null,
       onChanged: (value) {
-        BlocProvider.of<MiComplaintBloc>(context)
-            .add(MiComplaintSelectActionData(actionData: value, context: context));
+        BlocProvider.of<AddSparePartBloc>(context).add(AddSparePartClearSparePartEvent());
+        BlocProvider.of<MiComplaintBloc>(context).add(
+            MiComplaintSelectActionData(actionData: value, context: context));
       },
       items: dataState.actionList
           .map<DropdownMenuItem<ActionModel>>((ActionModel actionData) {
@@ -243,9 +425,14 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
   Widget _observationController(
       {required FetchMiComplaintDataState dataState}) {
     return TextFieldWidget(
-      labelText: dataState.actionData.id == "1" ? "Description of Job Start"
-          : dataState.actionData.id == "2" ? "Description of Job Hold"
-          : dataState.actionData.id == "3" ? "Description of Job Done" : "Description",
+      isRequired: true,
+      labelText: dataState.actionData.id == "1"
+          ? "Description of Job Start"
+          : dataState.actionData.id == "2"
+              ? "Description of Job Hold"
+              : dataState.actionData.id == "3"
+                  ? "Description of Job Done"
+                  : "Remark",
       controller: dataState.observationController,
     );
   }
@@ -410,6 +597,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintAddImageEvent(
                             context: context, mediaType: 1));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Camera",
@@ -421,6 +609,7 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
                     BlocProvider.of<MiComplaintBloc>(context).add(
                         MiComplaintAddImageEvent(
                             context: context, mediaType: 2));
+                    Navigator.pop(context);
                   },
                   child: TextWidget(
                     "Gallery",
@@ -439,16 +628,83 @@ class _MiComplaintPageState extends State<MiComplaintPage> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width / 2.5,
         child: ButtonWidget(
-            text: AppString.addItem,
+            text: AppString.addPart,
             height:
                 AppConfig.getDeviceType(context: context) == DeviceType.tablet
                     ? MediaQuery.of(context).size.height * 0.13
                     : null,
-            onPressed: () {
-              BlocProvider.of<MiComplaintBloc>(context)
-                  .add(MiComplaintAddSparesPartData(context: context));
+            onPressed: () async {
+              BlocProvider.of<AddSparePartBloc>(context)
+                  .add(AddSparePartPageLoadEvent(context: context));
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddSparePartPage()));
             }),
       ),
+    );
+  }
+
+  Widget _scrapCheckBoxWidget({required FetchMiComplaintDataState dataState}) {
+    return Row(
+      children: [
+        Checkbox(
+          value: dataState.isNoScrap,
+          onChanged: (bool? value) async {
+            BlocProvider.of<MiComplaintBloc>(context).add(
+              MiComplaintSelectScrapData(isNoScrap: value!)
+            );
+            if(value == false){
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
+            }
+          },
+          activeColor: Colors.green,
+          checkColor: Colors.white,
+        ),
+        const TextWidget("No Scrap"),
+      ],
+    );
+  }
+
+
+  Widget _addScarpButton({required FetchMiComplaintDataState dataState}) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 2.5,
+        child: ButtonWidget(
+            text: AppString.addScrap,
+            height:
+            AppConfig.getDeviceType(context: context) == DeviceType.tablet
+                ? MediaQuery.of(context).size.height * 0.13
+                : null,
+            onPressed: () async {
+              var result = await Navigator.push(context,
+                  FadeRoute(page: const AddScrapPage()));
+              if (!context.mounted) result;
+              if (result.toString() == "Completed") {
+
+              }
+            }),
+      ),
+    );
+  }
+
+  Widget _addComplaintNumberWidget({required FetchMiComplaintDataState dataState}) {
+    return AddComplaintNumberPage(
+      assignType: dataState.reviewComplaintData.miAssignType.toString(),
+      complaintId: dataState.reviewComplaintData.id.toString(),
+      vendorComplaintNumber: dataState.reviewComplaintData.vendorComplaintNumber.toString(),
+      onChanged: (value) {
+        if(value.toString().isNotEmpty){
+          int index  =  BlocProvider.of<ViewEquipmentComplaintBloc>(context).index;
+          BlocProvider.of<ViewEquipmentComplaintBloc>(context)
+              .reviewComplaintList[index].vendorComplaintNumber = value.toString();
+        }
+      },
     );
   }
 

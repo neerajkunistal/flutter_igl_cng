@@ -17,12 +17,12 @@ ThemeData appTheme() {
           return Colors.white; //the color when checkbox is unselected;
         },
       ),
-      checkColor: MaterialStateProperty.all<Color>(AppColor.white),
+      checkColor: WidgetStateProperty.all<Color>(AppColor.white),
       side: const BorderSide(color: Color(0xff585858)),
     ),
     textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(AppColor.black))),
+            foregroundColor: WidgetStateProperty.all<Color>(AppColor.black))),
     primaryColor: AppColor.themeColor,
     appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: AppColor.white),
@@ -33,9 +33,9 @@ ThemeData appTheme() {
       backgroundColor: Colors.white,
       confirmButtonStyle: ButtonStyle(
           foregroundColor:
-              MaterialStateProperty.all<Color>(AppColor.themeColor)),
+              WidgetStateProperty.all<Color>(AppColor.themeColor)),
       cancelButtonStyle: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(AppColor.grey)),
+          foregroundColor: WidgetStateProperty.all<Color>(AppColor.grey)),
       surfaceTintColor: Colors.white,
       dayStyle: TextStyle(color: AppColor.themeColor),
       weekdayStyle:
@@ -44,17 +44,71 @@ ThemeData appTheme() {
     scaffoldBackgroundColor: Colors.white,
     cardColor: Colors.white,
     cardTheme:
-        const CardTheme(color: Colors.white, surfaceTintColor: Colors.white),
+        const CardThemeData(color: Colors.white, surfaceTintColor: Colors.white),
     dialogBackgroundColor: AppColor.white,
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: AppColor.white,
       surfaceTintColor: AppColor.white,
     ),
-    bottomAppBarTheme: const BottomAppBarTheme(
+    bottomAppBarTheme: const BottomAppBarThemeData(
         color: Colors.white, surfaceTintColor: Colors.white),
     navigationBarTheme: const NavigationBarThemeData(
         backgroundColor: Colors.white, surfaceTintColor: Colors.white),
     primarySwatch: Colors.lightBlue,
     fontFamily: AppFont.rubik,
+  );
+}
+
+Widget appBackGround(
+    {required Widget child,
+    required BuildContext context,
+    bool? isGradientChange,
+    bool? isRemoveBackground}) {
+  return Container(
+    decoration: BoxDecoration(
+      gradient: isRemoveBackground == true
+          ? null
+          : LinearGradient(
+              begin: isGradientChange == null
+                  ? Alignment.topLeft
+                  : Alignment.topRight,
+              end: isGradientChange == null
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
+              colors: const [
+                Color.fromRGBO(239, 190, 17, 1.0),
+                Color.fromARGB(230, 131, 168, 30),
+                Color.fromARGB(230, 87, 163, 37),
+              ],
+            ),
+    ),
+    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    child: Stack(
+      children: [
+        isRemoveBackground == true
+            ? const SizedBox.shrink()
+            : Positioned(
+                top: 20.0,
+                left: MediaQuery.of(context).size.width * 0.18,
+                right: 0.0,
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 2.5,
+                  child: Image.asset(
+                    AppIcon.pumpIcon,
+                    opacity: const AlwaysStoppedAnimation(.9),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+        isRemoveBackground == true
+            ? const SizedBox.shrink()
+            : Image.asset(
+                AppIcon.transperentBackground,
+                fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width,
+              ),
+        child,
+      ],
+    ),
   );
 }
