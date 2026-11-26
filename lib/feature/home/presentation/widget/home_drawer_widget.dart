@@ -4,6 +4,7 @@ import 'package:flutter_igl_cng/feature/changePassword/presentation/pages/change
 import 'package:flutter_igl_cng/feature/home/domain/model/drawer_model.dart';
 import 'package:flutter_igl_cng/feature/home/presentation/widget/logout_widget.dart';
 import 'package:flutter_igl_cng/feature/materialDetail/presentation/page/material_detail_page.dart';
+import 'package:flutter_igl_cng/feature/numberPlateScanner/presentation/pages/number_plate_scanner_page.dart';
 import 'package:flutter_igl_cng/feature/podDetail/presentation/page/pod_detail_page.dart';
 import 'package:flutter_igl_cng/utils/commonClass/fade_route.dart';
 import 'package:flutter_igl_cng/utils/commonClass/user_info.dart';
@@ -51,6 +52,8 @@ class HomeDrawerWidget extends StatelessWidget {
 
                   state.roleType != RoleType.stationUser ?
                   _podDetail(context: context) : const SizedBox.shrink(),
+
+                  _numberPlateScanner(context: context),
 
                   _notificationSetting(context: context, dataState: state),
 
@@ -326,6 +329,45 @@ class HomeDrawerWidget extends StatelessWidget {
             ),
             TextWidget(
               AppString.podDetail,
+              fontSize: AppFont.font_14,
+              color: AppColor.white,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _numberPlateScanner({required BuildContext context}) {
+    return Padding(
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.width * 0.02,
+          bottom: MediaQuery.of(context).size.width * 0.02),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(context,
+              FadeRoute(page: const NumberPlateScannerPage()));
+        },
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(7.0),
+                child: Icon(
+                  Icons.document_scanner_outlined,
+                  color: AppColor.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+            ),
+            TextWidget(
+              'Number Plate Scanner',
               fontSize: AppFont.font_14,
               color: AppColor.white,
             ),

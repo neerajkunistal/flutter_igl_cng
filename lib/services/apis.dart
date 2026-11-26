@@ -199,5 +199,9 @@ class APIs {
   static get stationCloseApi => "api/onm/marketing/station-close";
   static get amoFinalCloseApi => "api/onm/marketing/amo-final-close";
 
+  static get vehicleDetailsApi => "api/vehicle/details";
+
+  static get vehiclePesoApi => "api/vehicle/peso";
+
   static get forgotPasswordApi => "";
 }
